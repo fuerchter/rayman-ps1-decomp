@@ -1,0 +1,63 @@
+name: SLUS-000.05
+sha1: 4ac1789e118933762cd0ebcb9a970f63dfe2c72f
+options:
+  basename: slus-000.05
+  target_path: SLUS-000.05
+  base_path: .
+  platform: psx
+  compiler: GCC
+
+  asm_path: asm
+  src_path: src
+  build_path: build
+  # create_asm_dependencies: True
+
+  ld_script_path: slus-000.05.ld
+
+  find_file_boundaries: False
+  gp_value: 0x00000000
+
+  o_as_suffix: False
+  use_legacy_include_asm: False
+
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+
+  section_order: [".rodata", ".text", ".data", ".bss"]
+  # auto_all_sections: [".data", ".rodata", ".bss"]
+
+  symbol_addrs_path:
+    - addrs-u.txt
+    - funcs-u.txt
+  undefined_funcs_auto_path: undefined_funcs_auto.txt
+  undefined_syms_auto_path: undefined_syms_auto.txt
+  reloc_addrs_path:
+    - reloc_addrs.txt
+
+  extensions_path: tools/splat_ext
+
+  subalign: 2
+
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: header
+    type: header
+    start: 0x0
+
+  - name: main
+    type: code
+    start: 0x800
+    vram: 0x80125000
+    bss_size: 0x0
+    subsegments:
+      - [0x800, rodata, 800]
+      - [0x8830, asm]
+      #- [0x8331C, asm, libapi]
+      #- [0x8332C, asm, libc2] #should this be libc or libc2?
+      #- [0x8417C, asm, libcd]
+      - [0x9CA5C, data]
+  - [0xAB000]
