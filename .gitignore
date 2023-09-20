@@ -1,0 +1,6 @@
+.dosemu/
+asm/
+build/
+tools/
+SLUS-000.05*
+slus-000.05*

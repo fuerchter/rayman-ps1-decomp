@@ -2,7 +2,8 @@
 
 #include "common.h"
 
+/* ED20 80133520 */
 s16 readinput(void) {
-    return TOUCHE(0xFF);
+    return TOUCHE(0xFF); //TODO: param is enum
 }
 

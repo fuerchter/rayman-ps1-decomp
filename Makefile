@@ -1,11 +1,14 @@
+#TODO:
+#clean rule
+
 EXE			:= slus-000.05
 
 ASM_DIRS	:= asm asm/data
 SRC_DIRS	:= src
 BUILD_DIR	:= build
 TOOLS_DIR	:= tools
-PSYQ_DIR	:= $(TOOLS_DIR)\psyq3.6
-DOSEMURC	:= $(TOOLS_DIR)/psyq3.6/dosemurc
+PSYQ_DIR	:= $(TOOLS_DIR)\psyq3.0
+DOSEMURC	:= $(TOOLS_DIR)/psyq3.0/dosemurc
 
 PYTHON		:= python3
 SPLAT		:= $(PYTHON) $(TOOLS_DIR)/splat/split.py
