@@ -56,6 +56,10 @@ segments:
     subsegments:
       - [0x800, rodata, 800]
       - [0x8830, asm]
+      - [0xED20, c, readinput]
+      - [0xED44, asm]
+      - [0x3F170, c, initGameSave]
+      - [0x3F180, asm]
       #- [0x8331C, asm, libapi]
       #- [0x8332C, asm, libc2] #should this be libc or libc2?
       #- [0x8417C, asm, libcd]
