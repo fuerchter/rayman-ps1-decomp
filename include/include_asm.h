@@ -12,4 +12,11 @@ __asm__( \
     "\t.set at\n" \
 )
 
+#define INCLUDE_RODATA(FOLDER, NAME) \
+__asm__( \
+    ".section .rodata\n" \
+    "\t.include \""FOLDER"/"#NAME".s\"\n" \
+    ".section .text" \
+)
+
 #endif

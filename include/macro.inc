@@ -15,8 +15,8 @@
     \label:
 .endm
 
-.macro move a, b
-    addu \a, \b, $zero
+.macro li d,v
+    ori \d,$zero,\v
 .endm
 
 .include "gte.inc"

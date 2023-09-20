@@ -2,7 +2,7 @@ name: SLUS-000.05
 sha1: 4ac1789e118933762cd0ebcb9a970f63dfe2c72f
 options:
   basename: slus-000.05
-  target_path: SLUS-000.05
+  target_path: slus-000.05
   base_path: .
   platform: psx
   compiler: GCC
