@@ -1,5 +1,6 @@
 #TODO:
 #clean rule
+#can psyq cc1psx and maspsx be run together somehow?
 
 EXE			:= slus-000.05
 
@@ -46,6 +47,8 @@ $(BUILD_DIR)/%.s.o: %.s
 $(BUILD_DIR)/%.c.o: %.c
 	cpp -P -Iinclude "$<" | unix2dos > object.oc
 	(HOME="." dosemu -quiet -dumb -f $(DOSEMURC) -K . -E "$(CC1PSX) -quiet $(CC1PSX_FLAGS) -o object.os object.oc")
+	#$(PYTHON) $(TOOLS_DIR)/maspsx/maspsx.py object.os > object.os_
+	#$(AS) $(AS_FLAGS) -o $@ object.os_
 	(HOME="." dosemu -quiet -dumb -f $(DOSEMURC) -K . -E "$(ASPSX) -quiet -o object.oo object.os")
 	./tools/psyq-obj-parser -o $@ object.oo
 
