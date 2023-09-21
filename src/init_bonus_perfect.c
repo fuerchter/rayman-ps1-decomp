@@ -8,7 +8,7 @@ void init_bonus_perfect(void) {
     s8* cur;
 
     cnt = 0x17;
-    cur = &bonus_perfect + 0x17;
+    cur = &bonus_perfect + cnt;
     do {
         *cur = 0;
         cnt -= 1;
