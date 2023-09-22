@@ -15,6 +15,10 @@
     \label:
 .endm
 
+.macro li d,v
+    ori \d,$zero,\v
+.endm
+
 .macro move a, b
     addu \a, \b, $zero
 .endm

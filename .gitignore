@@ -1,6 +1,8 @@
-.dosemu/
+__pycache__/
 asm/
 build/
+expected/
 tools/
-SLUS-000.05*
-slus-000.05*
+SLUS-000.05
+slus-000.05.ld
+*_auto.txt
