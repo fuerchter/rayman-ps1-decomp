@@ -11,6 +11,8 @@ TOOLS_DIR	:= tools
 PSYQ_DIR	:= $(TOOLS_DIR)\psyq3.0
 DOSEMURC	:= $(TOOLS_DIR)/psyq3.0/dosemurc
 
+BUILD_EXE	:= $(BUILD_DIR)/$(EXE)
+
 PYTHON		:= python3
 SPLAT		:= $(PYTHON) $(TOOLS_DIR)/splat/split.py
 
@@ -21,23 +23,23 @@ CC1PSX		:= $(PSYQ_DIR)\CC1PSX.EXE
 CC1PSX_FLAGS:= -O1
 ASPSX		:= $(PSYQ_DIR)\ASPSX.EXE
 LD			:= $(CROSS)ld
-LD_FLAGS	:= -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Map $(EXE).map
+LD_FLAGS	:= -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Map $(BUILD_EXE).map
 
 ASM_FILES := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
 SRC_FILES := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 
-default: $(EXE).exe check
+default: $(BUILD_EXE) check
+
+extract: dirs
+	$(SPLAT) $(EXE).yaml
 
 dirs:
 	$(foreach dir,$(ASM_DIRS) $(SRC_DIRS),$(shell mkdir -p $(BUILD_DIR)/$(dir)))
 
-extract:
-	$(SPLAT) $(EXE).yaml
+$(BUILD_EXE): $(BUILD_EXE).elf
+	$(CROSS)objcopy -O binary $< $@
 
-$(EXE).exe: $(EXE).elf
-	$(CROSS)objcopy -O binary $(EXE).elf $@
-
-$(EXE).elf: $(foreach file,$(ASM_FILES) $(SRC_FILES),$(BUILD_DIR)/$(file).o)
+$(BUILD_EXE).elf: $(foreach file,$(ASM_FILES) $(SRC_FILES),$(BUILD_DIR)/$(file).o)
 	$(LD) $(LD_FLAGS) -o $@
 
 $(BUILD_DIR)/%.s.o: %.s

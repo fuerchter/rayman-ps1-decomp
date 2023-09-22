@@ -67,6 +67,8 @@ segments:
       - [0xED44, asm]
       - [0x14C24, c, PS1_LoadAllFixTextures]
       - [0x14C8C, asm]
+      #- [0x18A1C, c, DISPLAY_BLACKBOX] #requires -O2 ?
+      #- [0x18A88, asm]
       - [0x3617C, c, init_bonus_perfect]
       - [0x361A0, asm]
       - [0x3F170, c, initGameSave]
