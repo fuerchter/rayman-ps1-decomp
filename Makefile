@@ -1,9 +1,15 @@
+#TODO:
+#structs: ActiveObjects next
+#forgot to add diff_settings.py
+#ask about cd_cw, cd_read case issue
+#rename duplicate memcpy, set_alarm in ghidra
+
 EXE         := slus-000.05
 
-ASM_DIRS    := asm asm/data
+ASM_DIR     := asm
 BUILD_DIR   := build
 EXP_DIR     := expected
-SRC_DIRS    := src
+SRC_DIR     := src
 TOOLS_DIR   := tools
 
 BUILD_EXE   := $(BUILD_DIR)/$(EXE)
@@ -18,16 +24,20 @@ CC1_FLAGS   := -mgas -msoft-float -O1
 LD          := $(CROSS)ld
 LD_FLAGS    := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Map $(BUILD_EXE).map
 
-ASM_FILES   := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
-SRC_FILES   := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
+ASM_FILES   := $(wildcard $(ASM_DIR)/**.s) $(wildcard $(ASM_DIR)/**/**.s)
+SRC_FILES   := $(wildcard $(SRC_DIR)/**.c) $(wildcard $(SRC_DIR)/**/**.c)
 
 default: $(BUILD_EXE) check
 
-extract: dirs
+extract: splat dirs
+
+splat: 
+	mkdir -p $(ASM_DIR)
 	$(PYTHON) $(TOOLS_DIR)/splat/split.py $(EXE).yaml
 
+#also creates nonmatchings directory that is not needed
 dirs:
-	$(foreach dir,$(ASM_DIRS) $(SRC_DIRS),$(shell mkdir -p $(BUILD_DIR)/$(dir)))
+	$(foreach dir,$(shell find $(ASM_DIR) -type d) $(shell find $(SRC_DIR) -type d),$(shell mkdir -p $(BUILD_DIR)/$(dir)))
 	mkdir -p $(EXP_DIR)
 
 $(BUILD_EXE): $(BUILD_EXE).elf
@@ -50,4 +60,4 @@ check:
 	sha1sum --check $(EXE).sha1
 
 clean:
-	rm -rf build/ asm/ $(EXE).ld undefined_funcs_auto.txt undefined_syms_auto.txt
+	rm -rf $(ASM_DIR) $(BUILD_DIR) $(EXE).ld undefined_funcs_auto.txt undefined_syms_auto.txt
