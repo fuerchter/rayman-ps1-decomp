@@ -128,7 +128,7 @@ segments:
       - [0x3C6E4, c, obj/mite2_badguy3] #80160EE4
       - [0x3CB5C, c, unknown/3CB5C] #8016135c
       - [0x3CE78, c, obj/cymbal2] #80161678
-      - [0x3CF08, c, obj/cage2] #80161708
+      - [0x3CF08, c, obj/cage] #80161708
       - [0x3CFA0, c, obj/medaillon_toon] #801617A0
       - [0x3D384, c, unknown/3D384] #80161B84
       - [0x3D738, c, num_level_3D738] #80161F38

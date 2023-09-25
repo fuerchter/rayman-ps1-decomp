@@ -3,6 +3,7 @@
 
 #include "common.h"
 
+//TODO: bitfields?
 typedef enum {
     BLOCK_NONE=0,
     BLOCK_FULLY_SOLID=1,

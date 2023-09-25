@@ -3,6 +3,7 @@
 
 #include "common.h"
 
+//TODO: bitfields?
 typedef enum {
     OBJ0_NONE=0,
     OBJ0_ALWAYS=1,
@@ -57,5 +58,34 @@ typedef struct {
     ObjTypeFlags_2 flags2;
     ObjTypeFlags_3 flags3;
 } ObjTypeFlags;
+
+typedef struct {
+    s16 objects[100];
+    s16 num_active_objects;
+} ActiveObjects;
+
+typedef enum {
+    ACTIVE_ALIVE=0,
+    ACTIVE_DEAD=1,
+    ACTIVE_REINIT=2,
+    ACTIVE_SPECIAL=4
+} ObjActiveFlag;
+
+typedef enum {
+    OBJ_NONE=0,
+    OBJ_ANIM_COUNT_MASK=255,
+    OBJ_FLAG_0=256,
+    OBJ_CMD_TEST=512,
+    OBJ_ALIVE=1024,
+    OBJ_ACTIVE=2048,
+    OBJ_LINKED=4096,
+    OBJ_FLAG_5=8192,
+    OBJ_FLIP_X=16384,
+    OBJ_READ_CMDS=32768,
+    OBJ_FOLLOW_ENABLED=65536,
+    OBJ_FLAG_9=131072,
+    OBJ_FLAG_A=262144,
+    OBJ_FLAG_B=524288
+} ObjFlags;
 
 #endif

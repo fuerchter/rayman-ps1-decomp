@@ -1,8 +1,9 @@
 #TODO:
-#structs: ActiveObjects next
-#forgot to add diff_settings.py
+#will -fshort-enums be needed?
+#missing structs: PS1/Display, PS1/DRENVAndTile, PS1/FileInfo, psyq/DIRENTRY, psyq/EvDesc, psyq/EvMode, psyq/EvSpec
 #ask about cd_cw, cd_read case issue
 #rename duplicate memcpy, set_alarm in ghidra
+#how to decompile ghidra_psx_ldr generated obj labels/functions in psyq?
 
 EXE         := slus-000.05
 

@@ -2,6 +2,7 @@
 #define COMMAND_56AF0_H
 
 #include "common.h"
+typedef struct Obj Obj;
 
 typedef struct {
     s16 cmd_offset;
@@ -44,5 +45,11 @@ typedef enum {
     GO_SKIPFALSE=32,
     INVALID_CMD=33
 } ObjCommand;
+
+typedef struct {
+    u8 (* read)(Obj *);
+    u8 (* skip)(Obj *);
+    u8 (* handle)(Obj *);
+} CommandTableEntry;
 
 #endif
