@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-struct Record {
+typedef struct {
     s32 current_offset;
     s32 repeat_length;
     s32 repeat_index;
@@ -12,6 +12,8 @@ struct Record {
     u8 is_recording;
     u8 is_playing;
     u8 is_finished;
-};
+} Record;
+
+extern Record record;
 
 #endif

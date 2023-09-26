@@ -4,6 +4,7 @@
 #ask about cd_cw, cd_read case issue
 #rename duplicate memcpy, set_alarm in ghidra
 #how to decompile ghidra_psx_ldr generated obj labels/functions in psyq?
+#should we be adding function signature to a header the first time it is called from decompiled function?
 
 EXE         := slus-000.05
 
@@ -52,10 +53,10 @@ $(BUILD_DIR)/%.s.o: %.s
 
 #see https://github.com/decompme/decomp.me/blob/45e8a9078424154a3177a4db5fa08aa930445295/backend/coreapp/compilers.py#L352
 $(BUILD_DIR)/%.c.o: %.c
-	cpp -P -Iinclude "$<" > $@.i
+	@cpp -P -Iinclude "$<" > $@.i
 	$(CC1) -quiet $(CC1_FLAGS) -o $@1.s $@.i
-	$(PYTHON) $(TOOLS_DIR)/maspsx/maspsx.py $@1.s > $@2.s
-	$(AS) $(AS_FLAGS) -o $@ $@2.s
+	@$(PYTHON) $(TOOLS_DIR)/maspsx/maspsx.py $@1.s > $@2.s
+	@$(AS) $(AS_FLAGS) -o $@ $@2.s
 
 check:
 	sha1sum --check $(EXE).sha1
