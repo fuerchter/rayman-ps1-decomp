@@ -1,6 +1,9 @@
 #ifndef INCLUDE_ASM_H
 #define INCLUDE_ASM_H
 
+#ifdef IGNORE_ASM
+#define INCLUDE_ASM(FOLDER, NAME)
+#else
 #define INCLUDE_ASM(FOLDER, NAME) \
 __asm__( \
     ".text\n" \
@@ -11,5 +14,6 @@ __asm__( \
     "\t.set reorder\n" \
     "\t.set at\n" \
 )
+#endif
 
 #endif
