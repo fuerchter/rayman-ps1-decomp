@@ -71,6 +71,30 @@ typedef enum {
     ACTIVE_SPECIAL=4
 } ObjActiveFlag;
 
+/* TODO: can't get 6A180 8018E980 FIN_WORLD_CHOICE to match with these */
+/*typedef struct {
+    u8 none: 1;
+    u8 padding1: 1;
+    u8 padding2: 1;
+    u8 padding3: 1;
+    u8 padding4: 1;
+    u8 padding5: 1;
+    u8 padding6: 1;
+    u8 padding7: 1;
+    u8 flag_0: 1;
+    u8 cmd_test: 1;
+    u8 alive: 1;
+    u8 active: 1;
+    u8 linked: 1;
+    u8 flag_5: 1;
+    u8 flip_x: 1;
+    u8 read_cmds: 1;
+    u8 follow_enabled: 1;
+    u8 flag_9: 1;
+    u8 flag_a: 1;
+    u8 flag_b: 1;
+} ObjFlags;*/
+
 typedef enum {
     OBJ_NONE=0,
     OBJ_ANIM_COUNT_MASK=255,

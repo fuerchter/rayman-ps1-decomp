@@ -4,8 +4,13 @@
 #include "common.h"
 #include "obj_update.h"
 #include "text_24E10.h"
+#include "ray/ray_32398.h"
+#include "ray/ray_5D190.h"
+#include "moteur_update.h"
+#include "cam_scroll.h"
 
-struct WorldInfo {
+/* TODO: does padding (between color, level_name) matter? */
+typedef struct {
     s16 x_pos;
     s16 y_pos;
     u8 index_up;
@@ -18,9 +23,15 @@ struct WorldInfo {
     u8 level;
     u8 color;
     u8 * level_name;
-};
+} WorldInfo;
+
+extern u16 xmap;
+extern u16 ymap;
 
 void CalcObjPosInWorldMap(Obj *obj);
 void INIT_STAGE_NAME();
+void RESTORE_RAY();
+void MoveRayInWorldMap();
+void DO_CHEMIN();
 
 #endif

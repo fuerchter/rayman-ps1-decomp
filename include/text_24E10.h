@@ -17,4 +17,6 @@ typedef struct {
     u8 color;
 } TextToDisplay;
 
+extern TextToDisplay text_to_display[10];
+
 #endif

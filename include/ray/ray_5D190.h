@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-//TODO: bitfields?
+/* TODO: bitfields? */
 typedef enum {
     RAYEVTS0_NONE=0,
     RAYEVTS0_POING=1,
@@ -40,5 +40,7 @@ typedef enum {
     MODE_MORT_DE_RAYMAN=3,
     MODE_MORT_DE_RAYMAN_ON_MS=4
 } RayMode;
+
+extern s16 decalage_en_cours;
 
 #endif
