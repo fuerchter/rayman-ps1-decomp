@@ -4,7 +4,6 @@ asm/
 build/
 expected/
 nonmatchings/
-tools/
 SLUS-000.05
 slus-000.05.ld
 *_auto.txt
