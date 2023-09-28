@@ -4,7 +4,7 @@
 #include "text_18118.h"
 #include "demo_7F2BC.h"
 
-/* 7F2BC 801A3ABC */
+/* 7F2BC 801A3ABC -O1 */
 /*? display_text(? *, ?, ?, ?, s32);*/                  /* extern */
 
 void PS1_ShowDemoText() {
@@ -15,14 +15,14 @@ void PS1_ShowDemoText() {
 INCLUDE_ASM("asm/nonmatchings/demo_7F2BC", PS1_DemoLoop);
 /* 7F314 801A3B14 */
 
-/* 7F450 801A3C50 */
+/* 7F450 801A3C50 -O1 */
 /*? DO_FADE_OUT();
 ? PS1_LoadSplash();
 ? INIT_FADE_IN();
 ? PS1_PlayCDTrack_0_3();
 ? SYNCHRO_LOOP(? *);*/
 
-void PS1_PlayDemo(void) {
+void PS1_PlayDemo() {
     PS1_LoadSplash();
     PS1_PlayCDTrack_0_3();
     INIT_FADE_IN();

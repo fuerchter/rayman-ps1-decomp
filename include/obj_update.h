@@ -325,7 +325,7 @@ struct Obj {
     u16 nb_sprites;
     s16 cmd_offset;
     s16 nb_cmd;
-    s16 field20_0x36; // For Rayman this is the current follow obj id
+    s16 field20_0x36; /*For Rayman this is the current follow obj id*/
     s16 follow_y;
     s16 follow_x;
     s16 field23_0x3c;

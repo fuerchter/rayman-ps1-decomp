@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-//TODO: bitfields?
+/*TODO: bitfields?*/
 typedef enum {
     OBJ0_NONE=0,
     OBJ0_ALWAYS=1,
