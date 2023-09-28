@@ -3,6 +3,9 @@
 
 #include "include_asm.h"
 
+#define TRUE 1
+#define FALSE 0
+
 typedef unsigned char			u8;	/* unsigned  8-bit */
 typedef unsigned short			u16;	/* unsigned 16-bit */
 typedef unsigned long			u32;	/* unsigned 32-bit */

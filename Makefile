@@ -1,4 +1,5 @@
 #TODO:
+#fix up .c.o nicer
 #will -fshort-enums be needed?
 #missing structs: PS1/Display, PS1/DRENVAndTile, PS1/FileInfo, psyq/DIRENTRY, psyq/EvDesc, psyq/EvMode, psyq/EvSpec
 #ask about cd_cw, cd_read case issue
@@ -6,28 +7,37 @@
 #how to decompile ghidra_psx_ldr generated obj labels/functions in psyq?
 #should we be adding function signature to a header the first time it is called from decompiled function?
 
-EXE         := slus-000.05
+EXE          := slus-000.05
 
-ASM_DIR     := asm
-BUILD_DIR   := build
-EXP_DIR     := expected
-SRC_DIR     := src
-TOOLS_DIR   := tools
+ASM_DIR           := asm
+BUILD_DIR         := build
+EXP_DIR           := expected
+SRC_DIR           := src
+TOOLS_DIR         := tools
 
-BUILD_EXE   := $(BUILD_DIR)/$(EXE)
+BUILD_EXE         := $(BUILD_DIR)/$(EXE)
 
-PYTHON      := python3
+PYTHON            := python3
 
-CROSS       := mips-linux-gnu-
-AS          := $(CROSS)as
-AS_FLAGS    := -EL -mips2 -msoft-float -no-pad-sections -Iinclude
-CC1         := $(TOOLS_DIR)/gcc-2.5.7/cc1
-CC1_FLAGS   := -mgas -msoft-float -O1
-LD          := $(CROSS)ld
-LD_FLAGS    := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Map $(BUILD_EXE).map
+CROSS             := mips-linux-gnu-
+AS                := $(CROSS)as
+AS_FLAGS          := -EL -mips2 -msoft-float -no-pad-sections -Iinclude
+GCC   		      := $(TOOLS_DIR)/gcc-2.5.7/gcc
+GCC_FLAGS	      := -c -mgas -B$(TOOLS_DIR)/gcc-2.5.7/ -pipe -Iinclude
+GCC_AS_FLAGS      := -Wa,-EL,-mips2,-msoft-float,-no-pad-sections,-Iinclude
+LD                := $(CROSS)ld
+LD_FLAGS          := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Map $(BUILD_EXE).map
 
-ASM_FILES   := $(wildcard $(ASM_DIR)/**.s) $(wildcard $(ASM_DIR)/**/**.s)
-SRC_FILES   := $(wildcard $(SRC_DIR)/**.c) $(wildcard $(SRC_DIR)/**/**.c)
+ASM_FILES         := $(wildcard $(ASM_DIR)/**.s) $(wildcard $(ASM_DIR)/**/**.s)
+SRC_FILES_O1      := $(wildcard $(SRC_DIR)/**.c) $(wildcard $(SRC_DIR)/**/**.c)
+SRC_FILES_O2      := src/demo_B3F8.c
+SRC_FILES_SCRATCH := 
+SRC_FILES_O1 	  := $(filter-out $(SRC_FILES_O2) $(SRC_FILES_SCRATCH), $(SRC_FILES_O1))
+
+O_ASM             := $(foreach file,$(ASM_FILES),$(BUILD_DIR)/$(file).o)
+O_SRC_O1          := $(foreach file,$(SRC_FILES_O1),$(BUILD_DIR)/$(file).o)
+O_SRC_O2          := $(foreach file,$(SRC_FILES_O2),$(BUILD_DIR)/$(file).o)
+O_SRC_SCRATCH     := $(foreach file,$(SRC_FILES_SCRATCH),$(BUILD_DIR)/$(file).o)
 
 default: $(BUILD_EXE) check
 
@@ -45,18 +55,23 @@ dirs:
 $(BUILD_EXE): $(BUILD_EXE).elf
 	$(CROSS)objcopy -O binary $< $@
 
-$(BUILD_EXE).elf: $(foreach file,$(ASM_FILES) $(SRC_FILES),$(BUILD_DIR)/$(file).o)
+$(BUILD_EXE).elf: $(O_ASM) $(O_SRC_O1) $(O_SRC_O2) $(O_SRC_SCRATCH)
 	$(LD) $(LD_FLAGS) -o $@
 
 $(BUILD_DIR)/%.s.o: %.s
 	$(AS) $(AS_FLAGS) -o $@ $<
 
 #see https://github.com/decompme/decomp.me/blob/45e8a9078424154a3177a4db5fa08aa930445295/backend/coreapp/compilers.py#L352
-$(BUILD_DIR)/%.c.o: %.c
-	@cpp -P -Iinclude "$<" > $@.i
-	$(CC1) -quiet $(CC1_FLAGS) -o $@1.s $@.i
-	@$(PYTHON) $(TOOLS_DIR)/maspsx/maspsx.py $@1.s > $@2.s
-	@$(AS) $(AS_FLAGS) -o $@ $@2.s
+#-v for verbose output
+$(O_SRC_O1) : $(BUILD_DIR)/%.o : %
+	$(GCC) $(GCC_FLAGS) -G0 -O1 $(GCC_AS_FLAGS) -o $@ $<
+
+$(O_SRC_O2) : $(BUILD_DIR)/%.o : %
+	$(GCC) $(GCC_FLAGS) -G0 -O2 $(GCC_AS_FLAGS) -o $@ $<
+
+GCC_SCR := $(TOOLS_DIR)/gcc-2.5.7/
+$(O_SRC_SCRATCH) : $(BUILD_DIR)/%.o : %
+	$(GCC_SCR)gcc -c -mgas -B$(GCC_SCR) -pipe -Iinclude -g -G0 -O1 $(GCC_AS_FLAGS) -o $@ $<
 
 check:
 	sha1sum --check $(EXE).sha1
