@@ -5,6 +5,7 @@
 
 #define TRUE 1
 #define FALSE 0
+#define NULL 0
 
 typedef unsigned char			u8;	/* unsigned  8-bit */
 typedef unsigned short			u16;	/* unsigned 16-bit */

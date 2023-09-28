@@ -1,4 +1,3 @@
-#include "common.h"
 #include "world_map_677C0.h"
 
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", FUN_8018d9e0);*/

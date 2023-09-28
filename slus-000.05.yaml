@@ -58,7 +58,7 @@ segments:
       - [0x800, rodata, 800]
       - [0x8830, asm, unknown/8830] #8012D030
       - [0x9424, asm, continue] #8012DC24
-      - [0x95CC, asm, world_map_95CC] #8012ddcc
+      - [0x95CC, c, world_map_95CC] #8012ddcc
       - [0x9A14, asm, vignet] #8012E214
       - [0x9C90, asm, victoire] #8012E490
       - [0x9FD4, asm, demo_9FD4] #8012e7d4
