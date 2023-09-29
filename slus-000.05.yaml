@@ -61,7 +61,7 @@ segments:
       - [0x95CC, c, world_map_95CC] #8012ddcc
       - [0x9A14, asm, vignet] #8012E214
       - [0x9C90, asm, victoire] #8012E490
-      - [0x9FD4, asm, demo_9FD4] #8012e7d4
+      - [0x9FD4, c, demo_9FD4] #8012e7d4
       - [0xA3B0, asm, unknown/A3B0] #8012ebb0
       - [0xA5F0, asm, vram] #8012EDF0
       - [0xAACC, asm, unknown/AACC] #8012F2CC

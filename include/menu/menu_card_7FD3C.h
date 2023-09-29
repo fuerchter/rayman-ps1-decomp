@@ -3,8 +3,8 @@
 
 #include "common.h"
 
-//but0pressed etc. return int in ghidra
-struct OptionsJeu {
+/* but0pressed etc. return int in ghidra */
+typedef struct {
     u8 * Fire1ButtonFunc;
     u8 * Fire0ButtonFunc;
     u8 * Button4Func;
@@ -20,6 +20,6 @@ struct OptionsJeu {
     s16 field12_0x20;
     s16 field13_0x22;
     s16 field14_0x24;
-};
+} OptionsJeu;
 
 #endif

@@ -2,6 +2,8 @@
 #define DEMO_9FD4_H
 
 #include "common.h"
+#include "ray/ray_5D190.h"
+#include "menu/menu_card_7FD3C.h"
 
 typedef struct {
     s32 current_offset;

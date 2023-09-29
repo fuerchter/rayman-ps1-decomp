@@ -15,5 +15,4 @@ INCLUDE_ASM("asm/nonmatchings/world_map_95CC", DISPLAY_STAGE_NAMES);
 
 INCLUDE_ASM("asm/nonmatchings/world_map_95CC", WORLD_CHOICE);
 
-/* next */
 INCLUDE_ASM("asm/nonmatchings/world_map_95CC", DO_WORLD_MAP);
