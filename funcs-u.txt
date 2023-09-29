@@ -1,5 +1,5 @@
-PS1_WldMapMoveText = 0x8018d9e0;
-PS1_WldMapGraphEdges = 0x8018d9e0;
+PS1_WorldMapMoveText = 0x8018d9e0;
+PS1_DisplayWorldMapGraphEdges = 0x8013af14;
 
 gte_ldv0 = 0x20000000;
 gte_ldv1 = 0x20000004;
@@ -240,7 +240,6 @@ display_bar_boss = 0x8013a880;
 DISPLAY_FIXE = 0x8013ab14;
 FUN_8013ad54 = 0x8013ad54;
 DrawWldPointPlan2Normal = 0x8013aeac;
-FUN_8013af14 = 0x8013af14;
 DISPLAY_POINT = 0x8013af40;
 DISPLAY_PTS_TO_PLAN2 = 0x8013af90;
 DISPLAY_PLATEAU = 0x8013b020;

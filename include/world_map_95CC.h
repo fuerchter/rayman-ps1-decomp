@@ -3,6 +3,8 @@
 
 #include "common.h"
 #include "text_24E10.h"
+#include "text_18118.h"
+#include "menu/menu_7EEE4.h"
 #include "ray/ray_32398.h"
 #include "world_map_677C0.h"
 

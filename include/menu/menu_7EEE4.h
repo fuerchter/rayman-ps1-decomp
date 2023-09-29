@@ -5,5 +5,6 @@
 
 extern u8 MENU_RETURN;
 extern u8 PS1_MENU_RETURN2;
+extern u8 PROC_EXIT;
 
 #endif

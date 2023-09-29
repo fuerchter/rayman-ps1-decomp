@@ -71,7 +71,7 @@ $(O_SRC_O2) : $(BUILD_DIR)/%.o : %
 
 GCC_SCR := $(TOOLS_DIR)/gcc-2.5.7/
 $(O_SRC_SCRATCH) : $(BUILD_DIR)/%.o : %
-	$(GCC_SCR)gcc -c -mgas -B$(GCC_SCR) -pipe -Iinclude -G0 -O2 $(GCC_AS_FLAGS) -o $@ $<
+	$(GCC_SCR)gcc -c -mgas -B$(GCC_SCR) -pipe -Iinclude -G0 -O1 $(GCC_AS_FLAGS) -o $@ $<
 
 check:
 	sha1sum --check $(EXE).sha1

@@ -25,8 +25,11 @@ typedef struct {
     u8 * level_name;
 } WorldInfo;
 
+extern WorldInfo t_world_info[24];
+
 extern s16 xmap;
 extern s16 ymap;
+extern s16 new_world;
 
 void CalcObjPosInWorldMap(Obj *obj);
 void INIT_STAGE_NAME();

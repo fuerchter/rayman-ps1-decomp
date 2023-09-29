@@ -101,3 +101,34 @@ void FIN_WORLD_CHOICE(void) {
         D_801F6200 = 0; /* this is also ray.hit_points */
     }
 }
+
+/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DoScrollInWorldMap);*/
+
+/* 677F4 8018BFF4 -O2 */
+extern s16 dhspeed;
+extern s16 dvspeed;
+extern s16 scroll_end_x;
+extern s16 scroll_end_y;
+extern s16 scroll_start_x;
+extern s16 scroll_start_y;
+
+void DoScrollInWorldMap(s32 arg0, s32 arg1) {
+    /* ??? */
+    u8 test[16];
+    s16 temp_v1;
+    s16 var_a0;
+    s16 var_v1;
+
+    ymap = (u16) ymap + arg1;
+    temp_v1 = (u16) xmap + arg0;
+    xmap = temp_v1;
+    if ((temp_v1 < scroll_start_x) || (var_a0 = scroll_end_x, ((scroll_end_x < temp_v1) != 0))) {
+        xmap = var_a0;
+        dhspeed = 0;
+    }
+    if ((scroll_start_y > ymap) || (var_v1 = scroll_end_y, ((scroll_end_y < ymap) != 0))) {
+        ymap = var_v1;
+        dvspeed = 0;
+    }
+    CalcObjPosInWorldMap(&ray);
+}

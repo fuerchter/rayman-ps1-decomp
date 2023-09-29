@@ -16,14 +16,14 @@ INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_DisplayWorldMapObjects);
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_MEDAILLONS);
 
+/* M2C_ERROR( Unable to handle lwr; missing a corresponding lwl ); */
+/* also on other functions in this file */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_LEVEL_STAGE_NAME);
 
+/* (search zelda decomp discord?) Found jr instruction at INIT_WORLD_STAGE_NAME.s line 29, but the corresponding jump table is not provided. */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_STAGE_NAME);
 
 /* 68CB8 8018D4B8 -O2 */
-/* TODO: decide one what's more readable */
-#define DEF_INIT_STAGE_NAME 0
-#if DEF_INIT_STAGE_NAME == 1
 void INIT_STAGE_NAME() {
     INIT_TEXT_TO_DISPLAY();
     INIT_LEVEL_STAGE_NAME();
@@ -39,34 +39,12 @@ void INIT_STAGE_NAME() {
     text_to_display[3].field8_0x3d = FALSE;
     text_to_display[3].is_fond = FALSE;
 }
-#else
-void INIT_STAGE_NAME() {
-    TextToDisplay *text1;
-    TextToDisplay *text3;
-
-    INIT_TEXT_TO_DISPLAY();
-    INIT_LEVEL_STAGE_NAME();
-    INIT_WORLD_STAGE_NAME();
-
-    text1 = &text_to_display[1];
-    text1->x_pos = 160;
-    text1->y_pos = 250;
-    text1->field8_0x3d = FALSE;
-    text1->is_fond = FALSE;
-
-    text3 = &text_to_display[3];
-    text3->x_pos = 160;
-    text3->y_pos = -50;
-    text3->field8_0x3d = FALSE;
-    text3->is_fond = FALSE;
-}
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", CHANGE_STAGE_NAMES);
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_CardDisplayPassword);
 
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_WldMapMoveText);
+INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_WorldMapMoveText);
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_INFO);
 
@@ -108,7 +86,7 @@ void DO_CHEMIN() {
     DO_MEDAILLONS();
     RecaleRayPosInJumelle();
     DoScrollInWorldMap(h_scroll_speed, v_scroll_speed);
-    PS1_WldMapMoveText();
+    PS1_WorldMapMoveText();
 }
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_PASTILLES_SAUVE);
