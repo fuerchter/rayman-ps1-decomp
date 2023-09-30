@@ -32,7 +32,7 @@ LD_FLAGS          := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Ma
 ASM_FILES         := $(wildcard $(ASM_DIR)/**.s) $(wildcard $(ASM_DIR)/**/**.s)
 SRC_FILES_O1      := $(wildcard $(SRC_DIR)/**.c) $(wildcard $(SRC_DIR)/**/**.c)
 SRC_FILES_O2      := src/demo_7F2BC.c src/demo_9FD4.c src/demo_B3F8.c src/world_map_95CC.c src/world_map_677C0.c
-SRC_FILES_SCRATCH := 
+SRC_FILES_SCRATCH := src/bonus_35FB4.c
 SRC_FILES_O1 	  := $(filter-out $(SRC_FILES_O2) $(SRC_FILES_SCRATCH), $(SRC_FILES_O1))
 
 O_ASM             := $(foreach file,$(ASM_FILES),$(BUILD_DIR)/$(file).o)

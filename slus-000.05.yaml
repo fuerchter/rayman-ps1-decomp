@@ -101,10 +101,10 @@ segments:
       - [0x340A4, asm, unknown/340A4] #801588a4
       - [0x347C4, asm, moteur_init_end] #80158fc4
       - [0x35314, asm, moteur_update] #80159b14
-      - [0x35FB4, asm, bonus_35FB4] #8015a7b4
+      - [0x35FB4, c, bonus_35FB4] #8015a7b4
       - [0x361A0, asm, obj/cage_init] #8015a9a0
       - [0x36260, asm, num_level_36260] #8015aa60
-      - [0x372E0, asm, bonus_372E0] #8015bae0
+      - [0x372E0, c, bonus_372E0] #8015bae0
       - [0x37A9C, asm, obj/fish] #8015c29c
       - [0x380A0, asm, obj/balle] #8015c8a0
       - [0x38118, asm, obj/stonechip] #8015c918
