@@ -102,7 +102,7 @@ segments:
       - [0x347C4, asm, moteur_init_end] #80158fc4
       - [0x35314, asm, moteur_update] #80159b14
       - [0x35FB4, asm, bonus_35FB4] #8015a7b4
-      - [0x361A0, asm, obj/cage2_init] #8015a9a0
+      - [0x361A0, asm, obj/cage_init] #8015a9a0
       - [0x36260, asm, num_level_36260] #8015aa60
       - [0x372E0, asm, bonus_372E0] #8015bae0
       - [0x37A9C, asm, obj/fish] #8015c29c

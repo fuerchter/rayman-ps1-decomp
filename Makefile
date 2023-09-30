@@ -1,4 +1,5 @@
 #TODO:
+#decide on whether to swap -O2 and -O1 rules
 #what does this macro do? https://github.com/Xeeynamo/sotn-decomp/blob/e1391f8858c52b344534a047383127c1c5c17410/include/macro.inc#L13
 #will -fshort-enums be needed?
 #missing structs: PS1/Display, PS1/DRENVAndTile, PS1/FileInfo, psyq/DIRENTRY, psyq/EvDesc, psyq/EvMode, psyq/EvSpec
@@ -30,8 +31,8 @@ LD_FLAGS          := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Ma
 
 ASM_FILES         := $(wildcard $(ASM_DIR)/**.s) $(wildcard $(ASM_DIR)/**/**.s)
 SRC_FILES_O1      := $(wildcard $(SRC_DIR)/**.c) $(wildcard $(SRC_DIR)/**/**.c)
-SRC_FILES_O2      := src/demo_7F2BC.c src/demo_9FD4.c src/demo_B3F8.c src/world_map_677C0.c
-SRC_FILES_SCRATCH := src/world_map_95CC.c
+SRC_FILES_O2      := src/demo_7F2BC.c src/demo_9FD4.c src/demo_B3F8.c src/world_map_95CC.c src/world_map_677C0.c
+SRC_FILES_SCRATCH := 
 SRC_FILES_O1 	  := $(filter-out $(SRC_FILES_O2) $(SRC_FILES_SCRATCH), $(SRC_FILES_O1))
 
 O_ASM             := $(foreach file,$(ASM_FILES),$(BUILD_DIR)/$(file).o)
@@ -71,7 +72,7 @@ $(O_SRC_O2) : $(BUILD_DIR)/%.o : %
 
 GCC_SCR := $(TOOLS_DIR)/gcc-2.5.7/
 $(O_SRC_SCRATCH) : $(BUILD_DIR)/%.o : %
-	$(GCC_SCR)gcc -c -mgas -B$(GCC_SCR) -pipe -Iinclude -G0 -O1 $(GCC_AS_FLAGS) -o $@ $<
+	$(GCC_SCR)gcc -c -mgas -B$(GCC_SCR) -pipe -Iinclude -G0 -O2 $(GCC_AS_FLAGS) -o $@ $<
 
 check:
 	sha1sum --check $(EXE).sha1

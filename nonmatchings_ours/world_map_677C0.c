@@ -71,6 +71,7 @@ void INIT_PASTILLES_SAUVE(void) {
     D_801C3538 = var_v0;
 }
 
+/* matching, but... */
 /* 6A180 8018E980 */
 void INIT_PASTILLES_SAUVE();
 extern s8 PROC_EXIT;
@@ -93,11 +94,11 @@ void FIN_WORLD_CHOICE(void) {
     tried ray.flags & OBJ_FLIP_X != 0
     and bitfield
     */
-    dir_on_wldmap = ray.flags >> 0xE & 1;
+    dir_on_wldmap = D_801F620C >> 0xE & 1;
     RESTORE_RAY();
     INIT_PASTILLES_SAUVE();
     PROC_EXIT = FALSE;
-    if (ray.hit_points == 0xFF) {
+    if (D_801F6200 == 0xFF) {
         D_801F6200 = 0; /* this is also ray.hit_points */
     }
 }
@@ -131,4 +132,147 @@ void DoScrollInWorldMap(s32 arg0, s32 arg1) {
         dvspeed = 0;
     }
     CalcObjPosInWorldMap(&ray);
+}
+
+/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_INFO);*/
+
+/* 692CC 8018DACC -O2 */
+/*? INIT_PASTILLES_SAUVE(s32, s16, s32);*/
+extern s8 D_801C3364;
+extern u8 D_801F3EA0;
+extern s8 You_Win;
+extern s8 dir_on_wldmap;
+extern s8 fin_du_jeu;
+extern s16 new_level;
+extern s16 num_level;
+extern s16 num_world;
+extern s8 world_index;
+extern s16 xwldmapsave;
+extern s16 ywldmapsave;
+
+void INIT_WORLD_INFO()
+{
+  s16 temp_v0;
+  s16 var_a1;
+  s32 var_a0;
+  s32 var_a2;
+  s32 var_v0;
+
+  if (D_801F3EA0 != 0)
+  {
+    var_v0 = 0;
+    var_a1 = 0;
+    do
+    {
+      var_a2 = var_a1;
+      var_a0 = var_a1 * 0x14;
+      temp_v0 = var_a2 + 1;
+      var_a1 = temp_v0;
+      *(&D_801C3364 + var_a0) = (*(&D_801C3364 + var_a0) | 1) & 0xfb;
+      var_v0 = var_a1 >> 0x10;
+    }
+    while (temp_v0 < 0x18);
+
+  }
+  num_world = 0;
+  num_level = 0;
+  new_world = 1;
+  new_level = 1;
+  world_index = 0;
+  xwldmapsave = 0;
+  ywldmapsave = 0x9E;
+  dir_on_wldmap = 1;
+  You_Win = 0;
+  fin_du_jeu = 0;
+  INIT_PASTILLES_SAUVE(var_a0);
+}
+
+/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_LITTLE_RAY);*/
+
+/* 693B4 8018DBB4 -O2 */
+extern s32 D_801F61A8;
+extern s16 D_801F61E6;
+extern s32 D_801FA6B0;
+extern Sprite *raylittle;
+
+void INIT_LITTLE_RAY(void) {
+    s32 *var_a2;
+    s32 *var_a3;
+    s32 *temp;
+
+    var_a3 = &raytmp;
+    var_a2 = &ray;
+    temp = var_a2 + 0x1c;
+    do {
+        var_a3[0] = var_a2[0];
+        var_a2 += 0x4;
+        var_a3 += 0x4;
+    } while (var_a2 != temp);
+    D_801F61E6 = 0x100;
+    ray.sprites = raylittle;
+    D_801F61A8 = D_801FA6B0;
+}
+
+/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PASTILLES_SAUVE_SAVED);*/
+
+/* 6A130 8018E930 -O2 */
+/*? INIT_PASTILLES_SAUVE();*/
+extern s32 D_801C336C;
+extern s32 D_801C3540;
+
+void PASTILLES_SAUVE_SAVED(s16 arg0) {
+    INIT_PASTILLES_SAUVE();
+    *(&D_801C336C + (arg0 * 5)) = D_801C3540;
+}
+
+/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DETER_WORLD_AND_LEVEL);*/
+
+/* 6A224 8018EA24 -O2 */
+extern u8 D_801C3366;
+extern u8 D_801C3367;
+extern u8 D_801F43D1;
+extern u8 D_801F4EE9;
+extern u8 ModeDemo;
+extern s8 You_Win;
+extern u8 finBosslevel;
+extern s8 fin_dark;
+extern s8 fin_du_jeu;
+extern s16 num_level_choice;
+extern s16 num_world_choice;
+extern u8 world_index;
+
+void DETER_WORLD_AND_LEVEL(void)
+{
+  s32 temp_v0;
+  world_index = num_world_choice;
+  if (ModeDemo == 0)
+  {
+    temp_v0 = num_world_choice * 0x14;
+    num_level_choice = *((&D_801C3367) + temp_v0);
+    num_world_choice = *((&D_801C3366) + temp_v0);
+  }
+  if (num_world_choice == 5)
+  {
+    if ((num_level_choice == 3) && (D_801F4EE9 & 2))
+    {
+      num_level_choice += 1;
+      D_801F43D1 |= 4;
+      return;
+    }
+    if (num_world_choice == 5)
+    {
+      if (((num_level_choice == 4) && (D_801F4EE9 & 2)) && (ModeDemo != 0))
+      {
+        D_801F43D1 |= 4;
+      }
+    }
+  }
+  if ((num_world_choice == 6) && (finBosslevel & 0x80))
+  {
+    You_Win = 1;
+    fin_du_jeu = 1;
+    fin_dark = 1;
+    new_world = 1;
+    return;
+  }
 }

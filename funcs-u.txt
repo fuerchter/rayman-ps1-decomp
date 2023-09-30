@@ -1,5 +1,6 @@
 PS1_WorldMapMoveText = 0x8018d9e0;
 PS1_DisplayWorldMapGraphEdges = 0x8013af14;
+PS1_DoGameOptionsLoop = 0x801a4d38;
 
 gte_ldv0 = 0x20000000;
 gte_ldv1 = 0x20000004;
