@@ -3,7 +3,8 @@
 /* 7F2BC 801A3ABC -O1, -O2 */
 /*? display_text(? *, ?, ?, ?, s32);*/                  /* extern */
 
-void PS1_ShowDemoText() {
+void PS1_ShowDemoText(void)
+{
     display_text(&s_start_801cf118, 160, 180, 1, 144);
     display_text(&s_press_start_or_x_button_8012c468, 160, 203, 2, 10);
 }
@@ -49,7 +50,8 @@ u8 PS1_DemoLoop(void)
 ? PS1_PlayCDTrack_0_3();
 ? SYNCHRO_LOOP(? *);*/
 
-void PS1_PlayDemo() {
+void PS1_PlayDemo(void)
+{
     PS1_LoadSplash();
     PS1_PlayCDTrack_0_3();
     INIT_FADE_IN();

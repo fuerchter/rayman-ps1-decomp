@@ -5,7 +5,8 @@
 #include "ray/ray_5D190.h"
 #include "menu/menu_card_7FD3C.h"
 
-typedef struct {
+typedef struct Record
+{
     s32 current_offset;
     s32 repeat_length;
     s32 repeat_index;

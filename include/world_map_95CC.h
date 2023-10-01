@@ -11,8 +11,8 @@
 extern s16 inter_select;
 extern s16 level_select;
 
-s32 select_level_prg();
+s32 select_level_prg(void);
 s16 SELECT_LEVEL(s16 sel);
-s32 WORLD_CHOICE();
+s32 WORLD_CHOICE(void);
 
 #endif

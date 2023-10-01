@@ -3,7 +3,8 @@
 
 #include "common.h"
 
-typedef struct {
+typedef struct CouteauxInfo
+{
     s16 x_pos;
     s16 y_pos;
     s16 field2_0x4;

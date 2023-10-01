@@ -3,7 +3,8 @@
 
 #include "common.h"
 
-typedef struct {
+typedef struct ZDC
+{
     s16 x_pos;
     s16 y_pos;
     u8 width;

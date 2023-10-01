@@ -13,20 +13,25 @@ extern s16 D_801E5010;
 extern u16 D_801E504A;
 extern s16 D_801E5052;
 
-void FUN_8018d9e0(void) {
-    if (text_to_display[0].x_pos >= 161) {
+void FUN_8018d9e0(void)
+{
+    if (text_to_display[0].x_pos >= 161)
+    {
         text_to_display[0].x_pos -= 6;
         text_to_display[0].centered_x_pos -= 6;
     }
-    if (D_801E5010 >= 161) {
+    if (D_801E5010 >= 161)
+    {
         D_801E5010 -= 6;
         text_to_display[2].centered_x_pos -= 6;
     }
-    if (D_801E4FD2 < 320) {
+    if (D_801E4FD2 < 320)
+    {
         D_801E4FD2 += 2;
         text_to_display[1].centered_y_pos += 2;
     }
-    if (D_801E5052 >= -59) {
+    if (D_801E5052 >= -59)
+    {
         D_801E5052 -= 2;
         text_to_display[3].centered_y_pos -= 2;
     }
@@ -38,7 +43,8 @@ void FUN_8018d9e0(void) {
 extern s16 num_world_choice;
 extern WorldInfo t_world_info[24];
 
-void RESPOND_TO_UP(void) {
+void RESPOND_TO_UP(void)
+{
     num_world_choice = t_world_info[num_world_choice].index_up;
 }
 
@@ -55,10 +61,12 @@ extern s32 D_801C353C;
 extern s32 D_801C3544;
 extern u8 NBRE_SAVE;
 
-void INIT_PASTILLES_SAUVE(void) {
+void INIT_PASTILLES_SAUVE(void)
+{
     s32 var_v0;
 
-    if (NBRE_SAVE != 0) {
+    if (NBRE_SAVE != 0)
+    {
         var_v0 = D_801C353C;
     } else {
         var_v0 = D_801C3544;
@@ -73,7 +81,7 @@ void INIT_PASTILLES_SAUVE(void) {
 
 /* matching, but... */
 /* 6A180 8018E980 */
-void INIT_PASTILLES_SAUVE();
+void INIT_PASTILLES_SAUVE(void);
 extern s8 PROC_EXIT;
 extern s8 dir_on_wldmap;
 extern u16 xmapinit;
@@ -84,7 +92,8 @@ extern u16 ywldmapsave;
 extern u8 D_801F6200;
 extern u32 D_801F620C;
 
-void FIN_WORLD_CHOICE(void) {
+void FIN_WORLD_CHOICE(void)
+{
     xwldmapsave = xmap;
     ywldmapsave = ymap;
     xmap = xmapinit;
@@ -98,7 +107,8 @@ void FIN_WORLD_CHOICE(void) {
     RESTORE_RAY();
     INIT_PASTILLES_SAUVE();
     PROC_EXIT = FALSE;
-    if (D_801F6200 == 0xFF) {
+    if (D_801F6200 == 0xFF)
+    {
         D_801F6200 = 0; /* this is also ray.hit_points */
     }
 }
@@ -113,7 +123,8 @@ extern s16 scroll_end_y;
 extern s16 scroll_start_x;
 extern s16 scroll_start_y;
 
-void DoScrollInWorldMap(s32 arg0, s32 arg1) {
+void DoScrollInWorldMap(s32 arg0, s32 arg1)
+{
     /* ??? */
     u8 test[16];
     s16 temp_v1;
@@ -123,11 +134,13 @@ void DoScrollInWorldMap(s32 arg0, s32 arg1) {
     ymap = (u16) ymap + arg1;
     temp_v1 = (u16) xmap + arg0;
     xmap = temp_v1;
-    if ((temp_v1 < scroll_start_x) || (var_a0 = scroll_end_x, ((scroll_end_x < temp_v1) != 0))) {
+    if ((temp_v1 < scroll_start_x) || (var_a0 = scroll_end_x, ((scroll_end_x < temp_v1) != 0)))
+    {
         xmap = var_a0;
         dhspeed = 0;
     }
-    if ((scroll_start_y > ymap) || (var_v1 = scroll_end_y, ((scroll_end_y < ymap) != 0))) {
+    if ((scroll_start_y > ymap) || (var_v1 = scroll_end_y, ((scroll_end_y < ymap) != 0)))
+    {
         ymap = var_v1;
         dvspeed = 0;
     }
@@ -150,7 +163,7 @@ extern s8 world_index;
 extern s16 xwldmapsave;
 extern s16 ywldmapsave;
 
-void INIT_WORLD_INFO()
+void INIT_WORLD_INFO(void)
 {
   s16 temp_v0;
   s16 var_a1;
@@ -195,7 +208,8 @@ extern s16 D_801F61E6;
 extern s32 D_801FA6B0;
 extern Sprite *raylittle;
 
-void INIT_LITTLE_RAY(void) {
+void INIT_LITTLE_RAY(void)
+{
     s32 *var_a2;
     s32 *var_a3;
     s32 *temp;
@@ -220,7 +234,8 @@ void INIT_LITTLE_RAY(void) {
 extern s32 D_801C336C;
 extern s32 D_801C3540;
 
-void PASTILLES_SAUVE_SAVED(s16 arg0) {
+void PASTILLES_SAUVE_SAVED(s16 arg0)
+{
     INIT_PASTILLES_SAUVE();
     *(&D_801C336C + (arg0 * 5)) = D_801C3540;
 }

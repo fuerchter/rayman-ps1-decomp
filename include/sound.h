@@ -3,7 +3,8 @@
 
 #include "common.h"
 
-typedef struct {
+typedef struct SoundTableEntry
+{
     u8 note;
     u8 prog;
     u8 tone;
@@ -11,7 +12,8 @@ typedef struct {
     u8 flags;
 } SoundTableEntry;
 
-typedef struct {
+typedef struct VoiceTableEntry
+{
     s16 field0_0x0;
     s16 field1_0x2;
     s16 field2_0x4;

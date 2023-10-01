@@ -3,7 +3,8 @@
 
 #include "common.h"
 
-typedef struct {
+typedef struct RayStack
+{
     s16 x_pos;
     s16 y_pos;
     s16 poing_x_pos;

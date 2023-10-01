@@ -4,7 +4,8 @@
 #include "common.h"
 #include "collision/collision_block.h"
 
-typedef struct {
+typedef struct SaveState
+{
     u16 triggered_objects[8];
     s16 nb_floc[8];
     s16 vent_x;

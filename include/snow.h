@@ -3,7 +3,8 @@
 
 #include "common.h"
 
-typedef struct {
+typedef struct FloconTableEntry
+{
     s16 field0_0x0;
     s16 field1_0x2;
     s16 field2_0x4;

@@ -3,7 +3,8 @@
 
 #include "common.h"
 
-typedef struct {
+typedef struct TextToDisplay
+{
     u8 text[48];
     s16 centered_x_pos;
     s16 centered_y_pos;

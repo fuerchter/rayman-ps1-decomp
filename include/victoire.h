@@ -3,7 +3,8 @@
 
 #include "common.h"
 
-typedef struct {
+typedef struct Credit
+{
     u8 * text;
     s16 x_pos;
     s16 y_pos;

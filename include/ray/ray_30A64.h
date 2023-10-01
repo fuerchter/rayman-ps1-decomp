@@ -3,7 +3,8 @@
 
 #include "common.h"
 
-typedef struct {
+typedef struct StatusBar
+{
     s16 num_lives;
     u8 lives_digits[2];
     u8 hp_sprites[2];

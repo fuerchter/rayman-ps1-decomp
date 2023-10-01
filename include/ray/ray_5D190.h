@@ -4,7 +4,8 @@
 #include "common.h"
 
 /* TODO: bitfields? */
-typedef enum {
+typedef enum RayEvts_0
+{
     RAYEVTS0_NONE=0,
     RAYEVTS0_POING=1,
     RAYEVTS0_HANG=2,
@@ -16,7 +17,8 @@ typedef enum {
     RAYEVTS0_GRAP=128
 } RayEvts_0;
 
-typedef enum {
+typedef enum RayEvts_1
+{
     RAYEVTS1_NONE=0,
     RAYEVTS1_RUN=1,
     RAYEVTS1_DEMI=2,
@@ -28,12 +30,14 @@ typedef enum {
     RAYEVTS1_UNUSED_DEATH=128
 } RayEvts_1;
 
-typedef struct {
+typedef struct RaymanEvents
+{
     RayEvts_0 flags0;
     RayEvts_1 flags1;
 } RaymanEvents;
 
-typedef enum {
+typedef enum RayMode
+{
     MODE_NONE=0,
     MODE_RAYMAN=1,
     MODE_RAY_ON_MS=2,

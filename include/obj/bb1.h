@@ -3,7 +3,8 @@
 
 #include "common.h"
 
-typedef struct {
+typedef struct BB1Data
+{
     s16 speed_x;
     s16 field1_0x2;
     u8 field2_0x4;
@@ -15,7 +16,8 @@ typedef struct {
     u8 field8_0xe;
 } BB1Data;
 
-typedef struct {
+typedef struct BBAttackEntry
+{
     s16 attack;
     u8 wait_for_fin_atan;
 } BBAttackEntry;

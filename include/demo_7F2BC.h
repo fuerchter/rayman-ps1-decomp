@@ -13,8 +13,8 @@
 extern u8 *s_press_start_or_x_button_8012c468;
 extern s32 TempsDemo;
 
-void PS1_ShowDemoText();
-u8 PS1_DemoLoop();
+void PS1_ShowDemoText(void);
+u8 PS1_DemoLoop(void);
 void PS1_PlayDemo(void);
 
 #endif

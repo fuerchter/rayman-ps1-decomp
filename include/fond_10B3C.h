@@ -4,12 +4,14 @@
 #include "common.h"
 #include "display.h"
 
-typedef struct {
+typedef struct BackgroundPosition
+{
     s16 x;
     s16 y;
 } BackgroundPosition;
 
-typedef struct {
+typedef struct BackgroundData
+{
     BackgroundPosition sprite_positions[16];
     Sprite sprites[16];
 } BackgroundData;

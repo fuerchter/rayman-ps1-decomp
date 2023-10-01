@@ -4,12 +4,14 @@
 #include "common.h"
 typedef struct Obj Obj;
 
-typedef struct {
+typedef struct CmdContext
+{
     s16 cmd_offset;
     u16 count;
 } CmdContext;
 
-typedef enum {
+typedef enum ObjCommand
+{
     GO_LEFT=0,
     GO_RIGHT=1,
     GO_WAIT=2,
@@ -46,7 +48,8 @@ typedef enum {
     INVALID_CMD=33
 } ObjCommand;
 
-typedef struct {
+typedef struct CommandTableEntry
+{
     u8 (* read)(Obj *);
     u8 (* skip)(Obj *);
     u8 (* handle)(Obj *);

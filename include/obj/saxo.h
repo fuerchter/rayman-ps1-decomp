@@ -3,13 +3,15 @@
 
 #include "common.h"
 
-typedef struct {
+typedef struct SaxAttackEntry
+{
     u8 next_note;
     u8 time;
     s16 field2_0x2;
 } SaxAttackEntry;
 
-typedef struct {
+typedef struct SaxNoteEntry
+{
     u8 type;
     s16 speed_x;
     s16 speed_y;
@@ -17,7 +19,8 @@ typedef struct {
     s16 field4_0x8; // unused
 } SaxNoteEntry;
 
-typedef struct {
+typedef struct SaxData
+{
     s16 x_pos;
     s16 y_pos;
     s16 note_box_coll_x;

@@ -4,7 +4,8 @@
 #include "common.h"
 
 /* but0pressed etc. return int in ghidra */
-typedef struct {
+typedef struct OptionsJeu
+{
     u8 * Fire1ButtonFunc;
     u8 * Fire0ButtonFunc;
     u8 * Button4Func;

@@ -3,7 +3,8 @@
 
 #include "common.h"
 
-typedef struct {
+typedef struct Sprite
+{
     s32 img_buffer_offset; /*unused for final release*/
     u8 id;  /*0 is invalid*/
     u8 width;  /*full width*/

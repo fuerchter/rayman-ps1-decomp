@@ -5,8 +5,10 @@
 extern u8 D_801E5604;
 extern s8 D_801E5606;*/
 
-void PS1_FinishRecordingDemo() {
-    if (record.is_recording) {
+void PS1_FinishRecordingDemo(void)
+{
+    if (record.is_recording)
+    {
         record.is_finished = TRUE;
         PS1_DoDemo(&record);
     }

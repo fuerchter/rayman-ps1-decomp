@@ -3,7 +3,8 @@
 
 #include "common.h"
 
-typedef struct {
+typedef struct CardFrame0
+{
     u8 sc_magic[2];
     u8 icon_display_flag;
     u8 block_num;
@@ -11,11 +12,11 @@ typedef struct {
     u8 Maga[28];
 } CardFrame0;
 
-struct LoadInfoRay {
+typedef struct LoadInfoRay {
     u8 num_lives;
     u8 num_wiz;
     u8 num_cages;
     u8 num_continues;
-};
+} LoadInfoRay;
 
 #endif

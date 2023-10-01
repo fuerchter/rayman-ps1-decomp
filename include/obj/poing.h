@@ -3,7 +3,8 @@
 
 #include "common.h"
 
-struct Poing {
+typedef struct Poing
+{
     s32 field0_0x0;
     s16 field1_0x4;
     s16 speed_x;
@@ -15,6 +16,6 @@ struct Poing {
     u8 damage;
     u8 is_charging;
     u8 is_boum;
-};
+} Poing;
 
 #endif

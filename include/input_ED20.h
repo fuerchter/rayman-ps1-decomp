@@ -3,7 +3,8 @@
 
 #include "common.h"
 
-typedef enum {
+typedef enum Input
+{
     INPUT_NONE=0,
     INPUT_LEFT=1,
     INPUT_RIGHT=2,
@@ -35,7 +36,8 @@ typedef enum {
 } Input;
 
 //TODO: these are also defined in libetc.h
-typedef enum {
+typedef enum PsxPadButtonStates
+{
     PAD_NONE=0,
     PAD_L2=1,
     PAD_R2=2,

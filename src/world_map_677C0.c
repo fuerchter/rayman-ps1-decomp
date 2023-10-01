@@ -24,7 +24,7 @@ INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_LEVEL_STAGE_NAME);
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_STAGE_NAME);
 
 /* 68CB8 8018D4B8 -O2 */
-void INIT_STAGE_NAME() {
+void INIT_STAGE_NAME(void) {
     INIT_TEXT_TO_DISPLAY();
     INIT_LEVEL_STAGE_NAME();
     INIT_WORLD_STAGE_NAME();
@@ -51,7 +51,7 @@ INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_INFO);
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_LITTLE_RAY);
 
 /* 69428 8018DC28 -O2 */
-void RESTORE_RAY() {
+void RESTORE_RAY(void) {
     ray.scale = 0;
     ray.sprites = raytmp.sprites;
     ray.img_buffer = raytmp.img_buffer;
@@ -69,7 +69,7 @@ INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_RIGHT);
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_LEFT);
 
 /* 699A4 8018E1A4 -O2 */
-void MoveRayInWorldMap() {
+void MoveRayInWorldMap(void) {
     h_scroll_speed = ray.speed_x;
     v_scroll_speed = ray.speed_y;
     ray.x_pos += ray.speed_x;
@@ -80,7 +80,8 @@ void MoveRayInWorldMap() {
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_RAYMAN_IN_WLD_MAP);
 
 /* 6A070 8018E870 -O2 */
-void DO_CHEMIN() {
+void DO_CHEMIN(void)
+{
     horloges();
     DO_RAYMAN_IN_WLD_MAP();
     DO_MEDAILLONS();

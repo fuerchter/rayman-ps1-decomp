@@ -10,7 +10,8 @@
 #include "cam_scroll.h"
 
 /* TODO: does padding (between color, level_name) matter? */
-typedef struct {
+typedef struct WorldInfo
+{
     s16 x_pos;
     s16 y_pos;
     u8 index_up;
@@ -32,9 +33,9 @@ extern s16 ymap;
 extern s16 new_world;
 
 void CalcObjPosInWorldMap(Obj *obj);
-void INIT_STAGE_NAME();
-void RESTORE_RAY();
-void MoveRayInWorldMap();
-void DO_CHEMIN();
+void INIT_STAGE_NAME(void);
+void RESTORE_RAY(void);
+void MoveRayInWorldMap(void);
+void DO_CHEMIN(void);
 
 #endif

@@ -7,34 +7,39 @@
 #include "command_56AF0.h"
 #include "collision/collision_block.h"
 
-typedef struct {
+typedef struct AnimationLayer
+{
     u8 flip_x;
     u8 x_pos;
     u8 y_pos;
     u8 sprite;
 } AnimationLayer;
 
-typedef struct {
+typedef struct AnimationFrame
+{
     u8 x;
     u8 y;
     u8 width;
     u8 height;
 } AnimationFrame;
 
-typedef struct {
+typedef struct Animation
+{
     AnimationLayer * layers;
     AnimationFrame * frames;
     u16 layers_count;
     u16 frames_count;
 } Animation;
 
-typedef enum {
+typedef enum ChangeAnimMode
+{
     ANIMMODE_NONE=0,
     ANIMMODE_RESET_IF_NEW=1,
     ANIMMODE_RESET=2
 } ChangeAnimMode;
 
-typedef struct {
+typedef struct ObjState
+{
     u8 speed_x_right;
     u8 speed_x_left;
     u8 anim_index;
@@ -45,7 +50,8 @@ typedef struct {
     u8 flags;
 } ObjState;
 
-typedef enum {
+typedef enum ObjType
+{
     TYPE_BADGUY1=0,
     TYPE_PLATFORM=1,
     TYPE_POWERUP=2,
@@ -367,11 +373,13 @@ struct Obj {
     ObjFlags flags;
 };
 
-typedef struct {
+typedef struct ObjHandlers
+{
     void (* do_obj)(Obj *);
 } ObjHandlers;
 
-typedef struct {
+typedef struct LevelData
+{
     Obj * objects;
     u8 nb_objects;
 } LevelData;

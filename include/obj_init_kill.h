@@ -4,7 +4,8 @@
 #include "common.h"
 
 /*TODO: bitfields?*/
-typedef enum {
+typedef enum ObjTypeFlags_0
+{
     OBJ0_NONE=0,
     OBJ0_ALWAYS=1,
     OBJ0_BALLE=2,
@@ -16,7 +17,8 @@ typedef enum {
     OBJ0_BOSS=128
 } ObjTypeFlags_0;
 
-typedef enum {
+typedef enum ObjTypeFlags_1
+{
     OBJ1_NONE=0,
     OBJ1_KEEP_LINKED_OBJECTS_ACTIVE=1,
     OBJ1_BONUS=2,
@@ -28,7 +30,8 @@ typedef enum {
     OBJ1_READ_CMD=128
 } ObjTypeFlags_1;
 
-typedef enum {
+typedef enum ObjTypeFlags_2
+{
     OBJ2_NONE=0,
     OBJ2_MOVE_ON_BLOCK=1,
     OBJ2_FALL_IN_WATER=2,
@@ -40,7 +43,8 @@ typedef enum {
     OBJ2_INCREASE_SPEED_X=128
 } ObjTypeFlags_2;
 
-typedef enum {
+typedef enum ObjTypeFlags_3
+{
     OBJ3_NONE=0,
     OBJ3_POING_COLLISION_SND=1,
     OBJ3_DIE_IN_WATER=2,
@@ -52,19 +56,22 @@ typedef enum {
     OBJ3_FLAG7=128
 } ObjTypeFlags_3;
 
-typedef struct {
+typedef struct ObjTypeFlags
+{
     ObjTypeFlags_0 flags0;
     ObjTypeFlags_1 flags1;
     ObjTypeFlags_2 flags2;
     ObjTypeFlags_3 flags3;
 } ObjTypeFlags;
 
-typedef struct {
+typedef struct ActiveObjects
+{
     s16 objects[100];
     s16 num_active_objects;
 } ActiveObjects;
 
-typedef enum {
+typedef enum ObjActiveFlag
+{
     ACTIVE_ALIVE=0,
     ACTIVE_DEAD=1,
     ACTIVE_REINIT=2,
@@ -95,7 +102,8 @@ typedef enum {
     u8 flag_b: 1;
 } ObjFlags;*/
 
-typedef enum {
+typedef enum ObjFlags
+{
     OBJ_NONE=0,
     OBJ_ANIM_COUNT_MASK=255,
     OBJ_FLAG_0=256,

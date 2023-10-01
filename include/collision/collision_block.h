@@ -4,7 +4,8 @@
 #include "common.h"
 
 /*TODO: bitfields?*/
-typedef enum {
+typedef enum BlockFlags
+{
     BLOCK_NONE=0,
     BLOCK_FULLY_SOLID=1,
     BLOCK_SOLID=2,
@@ -16,7 +17,8 @@ typedef enum {
     BLOCK_FLAG_7=128
 } BlockFlags;
 
-typedef enum {
+typedef enum BlockType
+{
     BTYP_NONE=0,
     BTYP_CHDIR=1, /*reactionary,*/
     BTYP_SOLID_RIGHT_45=2,
@@ -42,7 +44,7 @@ typedef enum {
     BTYP_SLIPPERY=30
 } BlockType;
 
-typedef struct {
+typedef struct MapData {
     s16 width;
     s16 height;
     s32 length;
