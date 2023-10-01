@@ -1,5 +1,4 @@
 #TODO:
-#decide on whether to swap -O2 and -O1 rules
 #what does this macro do? https://github.com/Xeeynamo/sotn-decomp/blob/e1391f8858c52b344534a047383127c1c5c17410/include/macro.inc#L13
 #will -fshort-enums be needed?
 #missing structs: PS1/Display, PS1/DRENVAndTile, PS1/FileInfo, psyq/DIRENTRY, psyq/EvDesc, psyq/EvMode, psyq/EvSpec
@@ -30,14 +29,14 @@ LD                := $(CROSS)ld
 LD_FLAGS          := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Map $(BUILD_EXE).map
 
 ASM_FILES         := $(wildcard $(ASM_DIR)/**.s) $(wildcard $(ASM_DIR)/**/**.s)
-SRC_FILES_O1      := $(wildcard $(SRC_DIR)/**.c) $(wildcard $(SRC_DIR)/**/**.c)
-SRC_FILES_O2      := src/demo_7F2BC.c src/demo_9FD4.c src/demo_B3F8.c src/world_map_95CC.c src/world_map_677C0.c src/bonus_35FB4.c src/bonus_372E0.c
+SRC_FILES_O2      := $(wildcard $(SRC_DIR)/**.c) $(wildcard $(SRC_DIR)/**/**.c)
+SRC_FILES_O1      := 
 SRC_FILES_SCRATCH := 
-SRC_FILES_O1 	  := $(filter-out $(SRC_FILES_O2) $(SRC_FILES_SCRATCH), $(SRC_FILES_O1))
+SRC_FILES_O2 	  := $(filter-out $(SRC_FILES_O1) $(SRC_FILES_SCRATCH), $(SRC_FILES_O2))
 
 O_ASM             := $(foreach file,$(ASM_FILES),$(BUILD_DIR)/$(file).o)
-O_SRC_O1          := $(foreach file,$(SRC_FILES_O1),$(BUILD_DIR)/$(file).o)
 O_SRC_O2          := $(foreach file,$(SRC_FILES_O2),$(BUILD_DIR)/$(file).o)
+O_SRC_O1          := $(foreach file,$(SRC_FILES_O1),$(BUILD_DIR)/$(file).o)
 O_SRC_SCRATCH     := $(foreach file,$(SRC_FILES_SCRATCH),$(BUILD_DIR)/$(file).o)
 
 default: $(BUILD_EXE) check
@@ -56,7 +55,7 @@ dirs:
 $(BUILD_EXE): $(BUILD_EXE).elf
 	$(CROSS)objcopy -O binary $< $@
 
-$(BUILD_EXE).elf: $(O_ASM) $(O_SRC_O1) $(O_SRC_O2) $(O_SRC_SCRATCH)
+$(BUILD_EXE).elf: $(O_ASM) $(O_SRC_O2) $(O_SRC_O1) $(O_SRC_SCRATCH)
 	$(LD) $(LD_FLAGS) -o $@
 
 $(BUILD_DIR)/%.s.o: %.s
@@ -64,11 +63,11 @@ $(BUILD_DIR)/%.s.o: %.s
 
 #see https://github.com/decompme/decomp.me/blob/45e8a9078424154a3177a4db5fa08aa930445295/backend/coreapp/compilers.py#L352
 #-v for verbose output
-$(O_SRC_O1) : $(BUILD_DIR)/%.o : %
-	$(GCC) $(GCC_FLAGS) -G0 -O1 $(GCC_AS_FLAGS) -o $@ $<
-
 $(O_SRC_O2) : $(BUILD_DIR)/%.o : %
 	$(GCC) $(GCC_FLAGS) -G0 -O2 $(GCC_AS_FLAGS) -o $@ $<
+
+$(O_SRC_O1) : $(BUILD_DIR)/%.o : %
+	$(GCC) $(GCC_FLAGS) -G0 -O1 $(GCC_AS_FLAGS) -o $@ $<
 
 GCC_SCR := $(TOOLS_DIR)/gcc-2.5.7/
 $(O_SRC_SCRATCH) : $(BUILD_DIR)/%.o : %

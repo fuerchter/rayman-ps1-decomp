@@ -32,7 +32,7 @@ u8 PS1_DemoLoop(void)
     if (!fade && (ValidButPressed() || StartButPressed()))
         PS1_MENU_RETURN2 = TRUE;
 
-    TempsDemo = TempsDemo + 1;
+    TempsDemo++;
     if (TempsDemo >= RunTimeDemo && !fin_du_jeu && !PS1_MENU_RETURN2)
         InitDemoJeu();
 
