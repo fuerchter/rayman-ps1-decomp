@@ -1,3 +1,5 @@
+PS1_LoadImaWorld = 0x8019e770;
+PS1_LoadImaSplash = 0x8019ea10;
 PS1_WorldMapMoveText = 0x8018d9e0;
 PS1_DisplayWorldMapGraphEdges = 0x8013af14;
 PS1_DoGameOptionsLoop = 0x801a4d38;
@@ -1156,7 +1158,6 @@ PS1_LoadFont = 0x8019e824;
 LOAD_SCREEN = 0x8019e894;
 FUN_8019e914 = 0x8019e914;
 LOAD_CONTINUE_SCREEN = 0x8019e994;
-PS1_LoadSplash = 0x8019ea10;
 LOAD_SAVE_SCREEN = 0x8019eaa0;
 FUN_8019eb30 = 0x8019eb30;
 LOAD_CREDITS_VIGNET = 0x8019ee88;

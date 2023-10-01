@@ -43,14 +43,14 @@ u8 PS1_DemoLoop(void)
 
 /* 7F450 801A3C50 -O1, -O2 */
 /*? DO_FADE_OUT();
-? PS1_LoadSplash();
+? PS1_LoadImaSplash();
 ? INIT_FADE_IN();
 ? PS1_PlayCDTrack_0_3();
 ? SYNCHRO_LOOP(? *);*/
 
 void PS1_PlayDemo(void)
 {
-    PS1_LoadSplash();
+    PS1_LoadImaSplash();
     PS1_PlayCDTrack_0_3();
     INIT_FADE_IN();
     PS1_MENU_RETURN2 = FALSE;

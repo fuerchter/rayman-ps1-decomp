@@ -102,4 +102,61 @@ s32 WORLD_CHOICE(void)
     return new_world || PROC_EXIT;
 }
 
-INCLUDE_ASM("asm/nonmatchings/world_map_95CC", DO_WORLD_MAP);
+/* 98D4 8012E0D4 -O2 */
+/*? DETER_WORLD_AND_LEVEL();
+? FIN_WORLD_CHOICE();
+? PS1_LoadImaWorld();
+? INIT_CHEMIN();
+? INIT_FADE_IN();
+? INIT_FADE_OUT();
+? INIT_RAY(s16);
+? PS1_PlayCDTrack_0_3();
+? PlaySnd_old(?, u16, u16);
+? SYNCHRO_LOOP(? *);
+? readinput();
+? stop_cd();*/
+/*extern ? WORLD_CHOICE;*/
+
+void DO_WORLD_MAP(void)
+{
+    u16 world;
+    u16 lev;
+    u8 *nwc;
+
+    if (ModeDemo == 0)
+        PS1_LoadImaWorld();
+    
+    PS1_PlayCDTrack_0_3();
+    INIT_FADE_IN();
+    INIT_RAY(new_level);
+    INIT_CHEMIN();
+    if (ModeDemo == 0)
+    {
+        readinput();
+        if (ModeDemo == 0)
+            SYNCHRO_LOOP(&WORLD_CHOICE);
+    }
+    if (PROC_EXIT)
+    {
+        /* TODO: check out -psx patched old-gcc to possibly get rid of this temp */
+        nwc = &num_world_choice; 
+        world_index = *nwc;
+        fin_du_jeu = TRUE;
+        menuEtape = 4;
+        world = num_world;
+        num_world = 0;
+        num_world_choice = world;
+        lev = num_level;
+        num_level_choice = lev;
+        PlaySnd_old(0x4D, world, lev);
+    }
+    else
+    {
+        DETER_WORLD_AND_LEVEL();
+        if (ModeDemo == 0)
+            PlaySnd_old(0x45);
+    }
+    INIT_FADE_OUT();
+    FIN_WORLD_CHOICE();
+    stop_cd();
+}

@@ -1,4 +1,5 @@
 #TODO:
+#more enums, defines...
 #what does this macro do? https://github.com/Xeeynamo/sotn-decomp/blob/e1391f8858c52b344534a047383127c1c5c17410/include/macro.inc#L13
 #will -fshort-enums be needed?
 #missing structs: PS1/Display, PS1/DRENVAndTile, PS1/FileInfo, psyq/DIRENTRY, psyq/EvDesc, psyq/EvMode, psyq/EvSpec
