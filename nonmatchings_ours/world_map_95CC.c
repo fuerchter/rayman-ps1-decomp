@@ -1,40 +1,5 @@
 #include "world_map_95CC.h"
 
-/*INCLUDE_ASM("asm/nonmatchings/world_map_95CC", DISPLAY_STAGE_NAMES);*/
-
-/* 979C 8012DF9C -O2 */
-/* matches, but won't let me fill in text_to_display */
-/*? display_box_text(? *);*/
-extern TextToDisplay D_801E4F98;
-
-void DISPLAY_STAGE_NAMES(void)
-{
-  s32 *temp_a0;
-  s32 *temp_a0_2;
-  s32 *var_a0;
-
-  if ((&D_801E4F98) != 0)
-  {
-    display_box_text(&D_801E4F98);
-  }
-  var_a0 = (&D_801E4F98) - 1;
-
-  if (var_a0 != 0)
-  {
-    display_box_text(var_a0);
-  }
-  temp_a0 = (&D_801E4F98) + 2;
-  if (temp_a0)
-  {
-    display_box_text(temp_a0);
-  }
-  temp_a0_2 = (&D_801E4F98) + 1;
-  if (temp_a0_2 != 0)
-  {
-    display_box_text(temp_a0_2);
-  }
-}
-
 /*INCLUDE_ASM("asm/nonmatchings/world_map_95CC", DO_WORLD_MAP);*/
 
 /* 98D4 8012E0D4 */

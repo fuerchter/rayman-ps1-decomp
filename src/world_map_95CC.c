@@ -48,7 +48,28 @@ s16 SELECT_LEVEL(s16 sel)
     return level_select;
 }
 
-INCLUDE_ASM("asm/nonmatchings/world_map_95CC", DISPLAY_STAGE_NAMES);
+/* 979C 8012DF9C -O2 */
+/*? display_box_text(? *);*/
+
+void DISPLAY_STAGE_NAMES(void)
+{
+    TextToDisplay *cur;
+
+    if (&text_to_display[1])
+       display_box_text(&text_to_display[1]);
+
+    cur = &text_to_display[0];
+    if (cur)
+       display_box_text(cur);
+
+    cur = &text_to_display[3];
+    if (cur)
+       display_box_text(cur);
+
+    cur = &text_to_display[2];
+    if (cur)
+       display_box_text(cur);
+}
 
 /* 980C 8012E00C -O2 */
 /*? DISPLAY_PLAT_WAY();
