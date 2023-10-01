@@ -1,59 +1,5 @@
 #include "world_map_95CC.h"
 
-/* 95CC 8012DDCC -O2 */
-/* matching, but how to resolve goto block_6; */
-
-/*? DISPLAY_FOND_SELECT();
-? atoi(s16, ? *, ?);
-s32 but0pressed(?);
-s32 but1pressed(?);
-? display_text(? *, ?, ?, ?, s32);
-s32 leftjoy(?);
-? readinput();
-s32 rightjoy(?);*/
-
-extern u8 s_level_801cedf4;
-extern u8 colour;
-
-s32 select_level_prg(void)
-{
-  u8 sp18[16];
-  s16 temp_v0;
-  s16 var_v0_2;
-  u8 new_var;
-  u8 var_v0;
-
-  readinput();
-  DISPLAY_FOND_SELECT();
-  display_text(&s_level_801cedf4, 100, 100, 0, colour);
-  PS1_sprintf(level_select, &sp18, 10);
-  display_text(&sp18, 200, 100, 0, colour);
-  if (rightjoy(0) && !inter_select) /* do rightjoy/leftjoy take param? */
-  {
-    var_v0_2 = level_select + 1;
-    goto block_6;
-  }
-  if (leftjoy(0) && !inter_select)
-  {
-    var_v0_2 = level_select - 1;
-    block_6:
-    level_select = var_v0_2;
-  }
-  if (level_select >= 31){ level_select = 30; }
-  if (level_select <= 0){ level_select = 1; }
-  temp_v0 = inter_select + 1;
-  inter_select = temp_v0;
-
-  if (temp_v0 >= 4){ inter_select = 0; }
-  var_v0 = 0;
-  new_var = new_var;
-  if (((but0pressed(0) << 16) != 0) || ((new_var, (but1pressed(0) << 16) != 0)))
-  {
-    var_v0 = 1;
-  }
-  return var_v0;
-}
-
 /*INCLUDE_ASM("asm/nonmatchings/world_map_95CC", DISPLAY_STAGE_NAMES);*/
 
 /* 979C 8012DF9C -O2 */

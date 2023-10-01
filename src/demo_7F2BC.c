@@ -9,8 +9,6 @@ void PS1_ShowDemoText(void)
     display_text(&s_press_start_or_x_button_8012c468, 160, 203, 2, 10);
 }
 
-/* next: D_801F7FA8, then continue down demo/world_map again (short enums) */
-
 /* 7F314 801A3B14 -O1 -O2 */
 /*? DISPLAY_FOND3();
 ? DO_FADE();

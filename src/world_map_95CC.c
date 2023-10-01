@@ -1,6 +1,42 @@
 #include "world_map_95CC.h"
 
-INCLUDE_ASM("asm/nonmatchings/world_map_95CC", select_level_prg);
+/* 95CC 8012DDCC -O2 */
+/*? DISPLAY_FOND_SELECT();
+? atoi(s16, ? *, ?);
+s32 but0pressed(?);
+s32 but1pressed(?);
+? display_text(? *, ?, ?, ?, s32);
+s32 leftjoy(?);
+? readinput();
+s32 rightjoy(?);*/
+
+s32 select_level_prg(void)
+{
+    u8 num[16];
+
+    readinput();
+
+    DISPLAY_FOND_SELECT();
+    display_text(&s_level_801cedf4, 100, 100, 0, colour);
+    PS1_sprintf(level_select, &num, 10);
+    display_text(&num, 200, 100, 0, colour);
+
+    if (rightjoy(0) && !inter_select)
+        level_select++;
+    else if (leftjoy(0) && !inter_select)
+        level_select--;
+
+    if (level_select > 30)
+        level_select = 30;
+    if (level_select < 1)
+        level_select = 1;
+
+    inter_select++;
+    if (inter_select > 3)
+        inter_select = 0;
+
+    return but0pressed(0) << 16 || but1pressed(0) << 16;
+}
 
 /* 975C 8012DF5C -O2 */
 /*void SYNCHRO_LOOP(void *);*/

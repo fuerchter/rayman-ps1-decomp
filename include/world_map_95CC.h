@@ -10,6 +10,7 @@
 
 extern s16 inter_select;
 extern s16 level_select;
+extern u8 s_level_801cedf4;
 
 s32 select_level_prg(void);
 s16 SELECT_LEVEL(s16 sel);
