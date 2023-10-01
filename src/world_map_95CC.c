@@ -28,20 +28,20 @@ s32 SelectButPressed();
 
 s32 WORLD_CHOICE(void)
 {  
-  let_shadow = FALSE;
-  DO_FADE();
-  FUN_8013eb38(xmap, ymap, 0x2C, 0x37);
-  DISPLAY_PLAT_WAY();
-  PS1_DisplayWorldMapGraphEdges();
-  display2(&ray);
-  DO_CHEMIN();
-  PS1_DisplayWorldMapObjects();
-  DisplayJumellesNormal();
-  DISPLAY_STAGE_NAMES();
+    let_shadow = FALSE;
+    DO_FADE();
+    FUN_8013eb38(xmap, ymap, 0x2C, 0x37);
+    DISPLAY_PLAT_WAY();
+    PS1_DisplayWorldMapGraphEdges();
+    display2(&ray);
+    DO_CHEMIN();
+    PS1_DisplayWorldMapObjects();
+    DisplayJumellesNormal();
+    DISPLAY_STAGE_NAMES();
 
-  readinput();
-  PROC_EXIT = SelectButPressed() != 0;
-  return new_world || PROC_EXIT;
+    readinput();
+    PROC_EXIT = SelectButPressed() != 0;
+    return new_world || PROC_EXIT;
 }
 
 INCLUDE_ASM("asm/nonmatchings/world_map_95CC", DO_WORLD_MAP);

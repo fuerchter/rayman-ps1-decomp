@@ -1,4 +1,5 @@
 PS1_MENU_RETURN2 = 0x801f55a8;
+PS1_VideoState = 0x801f7fa8;
 s_start_801cf118 = 0x801CF118;
 s_press_start_or_x_button_8012c468 = 0x8012c468;
 s_level_801cedf4 = 0x801cedf4;

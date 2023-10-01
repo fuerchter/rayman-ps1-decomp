@@ -2,5 +2,6 @@
 #define BONUS_372E0_H
 
 #include "common.h"
+#include "obj_update.h"
 
 #endif

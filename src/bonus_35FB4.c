@@ -6,20 +6,14 @@
 
 u8 get_bonus_map_complete(s16 world, s16 level)
 {
-  s16 new_var;
-
-  new_var = 33;
-  return getbit(&bonus_perfect, (s16) (level + ((world << 5) - new_var)));
+    return getbit(&bonus_perfect, (s16) (level - 1 + ((world - 1) << 5)));
 }
 
 /* 35FEC 8015A7EC -O2 */
 /*? setbit(u8 *, s16);*/
 
 void set_bonus_map_complete(s16 world, s16 level) {
-    s16 new_var;
-
-    new_var = 33;
-    setbit(&bonus_perfect, (s16) (level + ((world << 5) - new_var)));
+    setbit(&bonus_perfect, (s16) (level - 1 + ((world - 1) << 5)));
 }
 
 INCLUDE_ASM("asm/nonmatchings/bonus_35FB4", DO_PERFECT_BONUS_MAP);
@@ -27,7 +21,7 @@ INCLUDE_ASM("asm/nonmatchings/bonus_35FB4", DO_PERFECT_BONUS_MAP);
 INCLUDE_ASM("asm/nonmatchings/bonus_35FB4", DO_WIZ_AFTER_BONUS_MAP);
 
 /* 3617C 8015A97C -O2 */
-void init_bonus_perfect(void) {
+void init_bonus_perfect() {
     s32 cnt;
     u8* cur;
 

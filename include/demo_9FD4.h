@@ -17,5 +17,7 @@ typedef struct {
 } Record;
 
 extern Record record;
+extern u8 ModeDemo; /* TODO: enum also? */
+extern u16 RunTimeDemo;
 
 #endif

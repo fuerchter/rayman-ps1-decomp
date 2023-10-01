@@ -24,15 +24,15 @@ CROSS             := mips-linux-gnu-
 AS                := $(CROSS)as
 AS_FLAGS          := -EL -mips2 -msoft-float -no-pad-sections -Iinclude
 GCC   		      := $(TOOLS_DIR)/gcc-2.5.7/gcc
-GCC_FLAGS	      := -c -mgas -B$(TOOLS_DIR)/gcc-2.5.7/ -pipe -Iinclude
+GCC_FLAGS	      := -c -mgas -B$(TOOLS_DIR)/gcc-2.5.7/ -pipe -Iinclude -fshort-enums
 GCC_AS_FLAGS      := -Wa,-EL,-mips2,-msoft-float,-no-pad-sections,-Iinclude
 LD                := $(CROSS)ld
 LD_FLAGS          := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Map $(BUILD_EXE).map
 
 ASM_FILES         := $(wildcard $(ASM_DIR)/**.s) $(wildcard $(ASM_DIR)/**/**.s)
 SRC_FILES_O1      := $(wildcard $(SRC_DIR)/**.c) $(wildcard $(SRC_DIR)/**/**.c)
-SRC_FILES_O2      := src/demo_7F2BC.c src/demo_9FD4.c src/demo_B3F8.c src/world_map_95CC.c src/world_map_677C0.c
-SRC_FILES_SCRATCH := src/bonus_35FB4.c
+SRC_FILES_O2      := src/demo_7F2BC.c src/demo_9FD4.c src/demo_B3F8.c src/world_map_95CC.c src/world_map_677C0.c src/bonus_35FB4.c src/bonus_372E0.c
+SRC_FILES_SCRATCH := 
 SRC_FILES_O1 	  := $(filter-out $(SRC_FILES_O2) $(SRC_FILES_SCRATCH), $(SRC_FILES_O1))
 
 O_ASM             := $(foreach file,$(ASM_FILES),$(BUILD_DIR)/$(file).o)
@@ -72,7 +72,7 @@ $(O_SRC_O2) : $(BUILD_DIR)/%.o : %
 
 GCC_SCR := $(TOOLS_DIR)/gcc-2.5.7/
 $(O_SRC_SCRATCH) : $(BUILD_DIR)/%.o : %
-	$(GCC_SCR)gcc -c -mgas -B$(GCC_SCR) -pipe -Iinclude -G0 -O2 $(GCC_AS_FLAGS) -o $@ $<
+	$(GCC_SCR)gcc -c -mgas -B$(GCC_SCR) -pipe -Iinclude -fshort-enums -G0 -O2 $(GCC_AS_FLAGS) -o $@ $<
 
 check:
 	sha1sum --check $(EXE).sha1

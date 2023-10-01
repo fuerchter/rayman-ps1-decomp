@@ -5,4 +5,8 @@
 
 extern u8 bonus_perfect[24];
 
+u8 get_bonus_map_complete(s16 world, s16 level);
+void set_bonus_map_complete(s16 world, s16 level);
+void init_bonus_perfect();
+
 #endif
