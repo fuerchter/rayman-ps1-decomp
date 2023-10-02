@@ -12,7 +12,7 @@ s32 rightjoy(?);*/
 
 s32 select_level_prg(void)
 {
-    u8 num[16];
+    u8 num[10];
 
     readinput();
 
@@ -21,9 +21,9 @@ s32 select_level_prg(void)
     PS1_sprintf(level_select, &num, 10);
     display_text(&num, 200, 100, 0, colour);
 
-    if (rightjoy(0) && !inter_select)
+    if (rightjoy(0) && inter_select == 0)
         level_select++;
-    else if (leftjoy(0) && !inter_select)
+    else if (leftjoy(0) && inter_select == 0)
         level_select--;
 
     if (level_select > 30)
@@ -119,10 +119,6 @@ s32 WORLD_CHOICE(void)
 
 void DO_WORLD_MAP(void)
 {
-    u16 world;
-    u16 lev;
-    u8 *nwc;
-
     if (ModeDemo == 0)
         PS1_LoadImaWorld();
     
@@ -138,17 +134,14 @@ void DO_WORLD_MAP(void)
     }
     if (PROC_EXIT)
     {
-        /* TODO: check out -psx patched old-gcc to possibly get rid of this temp */
-        nwc = &num_world_choice; 
-        world_index = *nwc;
+        /* TODO: check out -psx patched old-gcc to possibly clean this up */
+        world_index = *((u8*)&num_world_choice);
         fin_du_jeu = TRUE;
         menuEtape = 4;
-        world = num_world;
+        num_world_choice = num_world;
         num_world = 0;
-        num_world_choice = world;
-        lev = num_level;
-        num_level_choice = lev;
-        PlaySnd_old(0x4D, world, lev);
+        num_level_choice = num_level;
+        PlaySnd_old(0x4D);
     }
     else
     {

@@ -1,14 +1,14 @@
 #TODO:
 #more enums, defines...
+#use a bool type?
 #what does this macro do? https://github.com/Xeeynamo/sotn-decomp/blob/e1391f8858c52b344534a047383127c1c5c17410/include/macro.inc#L13
-#will -fshort-enums be needed?
 #missing structs: PS1/Display, PS1/DRENVAndTile, PS1/FileInfo, psyq/DIRENTRY, psyq/EvDesc, psyq/EvMode, psyq/EvSpec
 #ask about cd_cw, cd_read case issue
 #rename duplicate memcpy, set_alarm in ghidra
 #how to decompile ghidra_psx_ldr generated obj labels/functions in psyq?
 #should we be adding function signature to a header the first time it is called from decompiled function?
 
-EXE          := slus-000.05
+EXE               := slus-000.05
 
 ASM_DIR           := asm
 BUILD_DIR         := build
@@ -32,7 +32,7 @@ LD_FLAGS          := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Ma
 ASM_FILES         := $(wildcard $(ASM_DIR)/**.s) $(wildcard $(ASM_DIR)/**/**.s)
 SRC_FILES_O2      := $(wildcard $(SRC_DIR)/**.c) $(wildcard $(SRC_DIR)/**/**.c)
 SRC_FILES_O1      := 
-SRC_FILES_SCRATCH := 
+SRC_FILES_SCRATCH := src/world_map_677C0.c
 SRC_FILES_O2 	  := $(filter-out $(SRC_FILES_O1) $(SRC_FILES_SCRATCH), $(SRC_FILES_O2))
 
 O_ASM             := $(foreach file,$(ASM_FILES),$(BUILD_DIR)/$(file).o)

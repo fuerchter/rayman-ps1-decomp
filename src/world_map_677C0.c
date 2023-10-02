@@ -44,7 +44,30 @@ INCLUDE_ASM("asm/nonmatchings/world_map_677C0", CHANGE_STAGE_NAMES);
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_CardDisplayPassword);
 
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_WorldMapMoveText);
+/* 691E0 8018D9E0 -O2 */
+void PS1_WorldMapMoveText(void)
+{
+    if (text_to_display[0].x_pos > 160)
+    {
+        text_to_display[0].x_pos -= 6;
+        text_to_display[0].centered_x_pos -= 6;
+    }
+    if (text_to_display[2].x_pos > 160)
+    {
+        text_to_display[2].x_pos -= 6;
+        text_to_display[2].centered_x_pos -= 6;
+    }
+    if (text_to_display[1].y_pos < 320)
+    {
+        text_to_display[1].y_pos += 2;
+        text_to_display[1].centered_y_pos += 2;
+    }
+    if (text_to_display[3].y_pos > -60)
+    {
+        text_to_display[3].y_pos -= 2;
+        text_to_display[3].centered_y_pos -= 2;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_INFO);
 
