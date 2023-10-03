@@ -134,8 +134,7 @@ void DO_WORLD_MAP(void)
     }
     if (PROC_EXIT)
     {
-        /* TODO: check out -psx patched old-gcc to possibly clean this up */
-        world_index = *((u8*)&num_world_choice);
+        world_index = *(u8*)&num_world_choice;
         fin_du_jeu = TRUE;
         menuEtape = 4;
         num_world_choice = num_world;

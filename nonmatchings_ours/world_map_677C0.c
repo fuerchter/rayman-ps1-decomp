@@ -114,7 +114,7 @@ void DoScrollInWorldMap(s32 arg0, s32 arg1)
 
 /* 692CC 8018DACC -O2 */
 /*? INIT_PASTILLES_SAUVE(s32, s16, s32);*/
-extern s8 D_801C3364;
+extern u8 D_801C3364;
 extern u8 D_801F3EA0;
 extern s8 You_Win;
 extern s8 dir_on_wldmap;
@@ -128,26 +128,21 @@ extern s16 ywldmapsave;
 
 void INIT_WORLD_INFO(void)
 {
-  s16 temp_v0;
   s16 var_a1;
   s32 var_a0;
   s32 var_a2;
-  s32 var_v0;
-
   if (D_801F3EA0 != 0)
   {
-    var_v0 = 0;
     var_a1 = 0;
+    var_a2 = 0xfffffffb;
     do
     {
-      var_a2 = var_a1;
-      var_a0 = var_a1 * 0x14;
-      temp_v0 = var_a2 + 1;
-      var_a1 = temp_v0;
-      *(&D_801C3364 + var_a0) = (*(&D_801C3364 + var_a0) | 1) & 0xfb;
-      var_v0 = var_a1 >> 0x10;
+      var_a0 = var_a1;
+      var_a0 = var_a0 * 0x14;
+      *(s32 *) (&D_801C3364 + var_a0) = (*(s32 *) (&D_801C3364 + var_a0) | 1) & var_a2;
+      var_a1 = var_a1 + 1;
     }
-    while (temp_v0 < 0x18);
+    while (var_a1 < 0x18);
 
   }
   num_world = 0;
@@ -199,8 +194,11 @@ extern s32 D_801C3540;
 
 void PASTILLES_SAUVE_SAVED(s16 arg0)
 {
+    u8 *test;
+
     INIT_PASTILLES_SAUVE();
-    *(&D_801C336C + (arg0 * 5)) = D_801C3540;
+    test = &(t_world_info[0].level_name);
+    *(u32*)(test + arg0 * sizeof(WorldInfo)) = D_801C3540;
 }
 
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DETER_WORLD_AND_LEVEL);*/
@@ -221,17 +219,17 @@ extern u8 world_index;
 
 void DETER_WORLD_AND_LEVEL(void)
 {
-  s32 temp_v0;
-  world_index = num_world_choice;
+  s16 temp_v0;
+  world_index = *(u8*)&num_world_choice;
   if (ModeDemo == 0)
   {
-    temp_v0 = num_world_choice * 0x14;
-    num_level_choice = *((&D_801C3367) + temp_v0);
-    num_world_choice = *((&D_801C3366) + temp_v0);
+    temp_v0 = num_world_choice;
+    num_level_choice = t_world_info[temp_v0].level;
+    num_world_choice = t_world_info[temp_v0].world;
   }
   if (num_world_choice == 5)
   {
-    if ((num_level_choice == 3) && (D_801F4EE9 & 2))
+    if ((num_level_choice == 3) && (finBosslevel[1] & 2))
     {
       num_level_choice += 1;
       D_801F43D1 |= 4;
@@ -239,13 +237,14 @@ void DETER_WORLD_AND_LEVEL(void)
     }
     if (num_world_choice == 5)
     {
-      if (((num_level_choice == 4) && (D_801F4EE9 & 2)) && (ModeDemo != 0))
+      if (((num_level_choice == 4) && (finBosslevel[1] & 2)) && (ModeDemo != 0))
       {
         D_801F43D1 |= 4;
+        return;
       }
     }
   }
-  if ((num_world_choice == 6) && (finBosslevel & 0x80))
+  if ((num_world_choice == 6) && (finBosslevel[0] & 0x80))
   {
     You_Win = 1;
     fin_du_jeu = 1;
