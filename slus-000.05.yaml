@@ -151,7 +151,7 @@ segments:
       - [0x49090, asm, obj/stonedog_command] #8016d890
       - [0x49320, asm, obj/moving_platform_command] #8016DB20
       - [0x493E0, asm, obj/trompette_command] #8016dbe0
-      - [0x494FC, asm, command_494FC] #8016dcfc
+      - [0x494FC, c, command_494FC] #8016dcfc
       - [0x4995C, asm, obj/stonechip_command] #8016e15c
       - [0x49A74, asm, obj/stonebomb_command] #8016E274
       - [0x49B74, asm, obj/cymbale_command] #8016e374
@@ -198,7 +198,7 @@ segments:
       - [0x50CDC, asm, obj/saxo] #801754dc
       - [0x537C0, asm, obj/spider_plafond] #80177fc0
       - [0x548CC, asm, unknown/548CC] #801790cc 
-      - [0x56AF0, asm, command_56AF0] #8017b2f0
+      - [0x56AF0, c, command_56AF0] #8017b2f0
       - [0x5783C, asm, obj/totem] #8017c03c
       - [0x57EC4, asm, obj/bout_totem] #8017c6c4
       - [0x57F48, asm, obj/bbl] #8017c748

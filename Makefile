@@ -2,6 +2,7 @@
 #PS1_DisplayPts, DISPLAY_PLAT_WAY, INIT_WORLD_INFO. if we get one we might be able to get the others, too?
 #DETER_WORLD_AND_LEVEL and PASTILLES_SAUVE_SAVED also share issues
 #check out -psx patched old-gcc to possibly clean up DO_WORLD_MAP, DETER_WORLD_AND_LEVEL world_index assign
+#skipTestArgs, readTestArgs share issues
 #more enums, defines...
 #use a bool type?
 #what does this macro do? https://github.com/Xeeynamo/sotn-decomp/blob/e1391f8858c52b344534a047383127c1c5c17410/include/macro.inc#L13
@@ -35,7 +36,7 @@ LD_FLAGS          := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Ma
 ASM_FILES         := $(wildcard $(ASM_DIR)/**.s) $(wildcard $(ASM_DIR)/**/**.s)
 SRC_FILES_O2      := $(wildcard $(SRC_DIR)/**.c) $(wildcard $(SRC_DIR)/**/**.c)
 SRC_FILES_O1      := 
-SRC_FILES_SCRATCH := src/world_map_677C0.c
+SRC_FILES_SCRATCH := src/command_56AF0.c
 SRC_FILES_O2 	  := $(filter-out $(SRC_FILES_O1) $(SRC_FILES_SCRATCH), $(SRC_FILES_O2))
 
 O_ASM             := $(foreach file,$(ASM_FILES),$(BUILD_DIR)/$(file).o)

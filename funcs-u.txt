@@ -820,7 +820,6 @@ DISPLAY_FOND_MENU = 0x8017ab8c;
 FUN_8017b260 = 0x8017b260;
 popCmdContext = 0x8017b2f0;
 char2short = 0x8017b314;
-FUN_8017b330 = 0x8017b330;
 readNoArg = 0x8017b340;
 readOneArg = 0x8017b348;
 readTestArgs = 0x8017b378;
