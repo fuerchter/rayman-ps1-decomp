@@ -160,6 +160,7 @@ void INIT_WORLD_INFO(void)
 
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_LITTLE_RAY);*/
 
+/* small memcpy example */
 /* 693B4 8018DBB4 -O2 */
 extern s32 D_801F61A8;
 extern s16 D_801F61E6;

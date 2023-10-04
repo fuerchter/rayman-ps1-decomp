@@ -7,4 +7,4 @@ def apply(config, args):
     config["baseimg"] = f"{basename}"
     config["myimg"] = f"build/{basename}"
     config["mapfile"] = f"build/{basename}.map"
-    config["source_directories"] = [f"src/{basename}", "include"]
+    config["source_directories"] = ["src", "src/obj", "include"]

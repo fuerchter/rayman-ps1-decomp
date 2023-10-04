@@ -70,7 +70,7 @@ void DO_ONE_CMD_LR_ATTENTE(Obj *obj)
 
 /*INCLUDE_ASM("asm/nonmatchings/command_494FC", DO_ONE_CMD_UPDOWN);*/
 
-/* this should not be using switch */
+/* might not be using switch */
 /* 496EC 8016DEEC -O2 */
 void DO_ONE_CMD_UPDOWN(Obj *obj)
 {

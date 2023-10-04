@@ -334,8 +334,9 @@ u8 handle_GO_SETTEST(Obj *obj)
     return TRUE;
 }
 
-/* Found jr instruction at handle_GO_TEST.s line 21, but the corresponding jump table is not provided. */
 INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_TEST);
+/* 5736C 8017BB6C -O2 */
+/* m2c = 4285, ghidra = 9870 */
 
 INCLUDE_ASM("asm/nonmatchings/command_56AF0", readOneCommand);
 

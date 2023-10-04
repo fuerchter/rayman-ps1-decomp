@@ -102,7 +102,7 @@ segments:
       - [0x347C4, asm, moteur_init_end] #80158fc4
       - [0x35314, asm, moteur_update] #80159b14
       - [0x35FB4, c, bonus_35FB4] #8015a7b4
-      - [0x361A0, asm, obj/cage_init] #8015a9a0
+      - [0x361A0, c, obj/cage_init] #8015a9a0
       - [0x36260, asm, num_level_36260] #8015aa60
       - [0x372E0, c, bonus_372E0] #8015bae0
       - [0x37A9C, asm, obj/fish] #8015c29c
@@ -129,7 +129,7 @@ segments:
       - [0x3C6E4, asm, obj/mite2_badguy3] #80160EE4
       - [0x3CB5C, asm, unknown/3CB5C] #8016135c
       - [0x3CE78, asm, obj/cymbal2] #80161678
-      - [0x3CF08, asm, obj/cage] #80161708
+      - [0x3CF08, c, obj/cage] #80161708
       - [0x3CFA0, asm, obj/medaillon_toon] #801617A0
       - [0x3D384, asm, unknown/3D384] #80161B84
       - [0x3D738, asm, num_level_3D738] #80161F38

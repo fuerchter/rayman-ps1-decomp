@@ -11,10 +11,10 @@
 #include "main.h"
 
 extern s16 new_level;
-extern u16 num_level;
-extern u16 num_level_choice;
-extern u16 num_world;
-extern u16 num_world_choice;
+extern s16 num_level;
+extern s16 num_level_choice;
+extern s16 num_world;
+extern s16 num_world_choice;
 extern u8 world_index;
 
 extern s16 inter_select;

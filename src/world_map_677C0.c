@@ -20,7 +20,6 @@ INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_MEDAILLONS);
 /* also on other functions in this file */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_LEVEL_STAGE_NAME);
 
-/* (search zelda decomp discord?) Found jr instruction at INIT_WORLD_STAGE_NAME.s line 29, but the corresponding jump table is not provided. */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_STAGE_NAME);
 
 /* 68CB8 8018D4B8 -O2 */
