@@ -3,6 +3,8 @@
 #DETER_WORLD_AND_LEVEL and PASTILLES_SAUVE_SAVED also share issues
 #check out -psx patched old-gcc to possibly clean up DO_WORLD_MAP, DETER_WORLD_AND_LEVEL world_index assign
 #skipTestArgs, readTestArgs share issues
+#readOneCommand, skipOneCommand, GET_OBJ_CMD share issues
+
 #more enums, defines...
 #use a bool type?
 #what does this macro do? https://github.com/Xeeynamo/sotn-decomp/blob/e1391f8858c52b344534a047383127c1c5c17410/include/macro.inc#L13

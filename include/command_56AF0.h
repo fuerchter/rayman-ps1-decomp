@@ -13,28 +13,49 @@ typedef struct CommandTableEntry
 
 void popCmdContext(Obj *obj);
 s16 char2short(u8 in_char);
+u8 readNoArg(void);
+u8 readOneArg(Obj *obj);
 
-/* are return types correct? */
-s32 readNoArg(void);
-s32 readOneArg(Obj *obj);
+u8 readGoXYArgs(Obj *obj);
+u8 readSpeedArgs(Obj *obj);
+u8 readInvalidArg(Obj *obj);
+u8 skipNoArg(void);
+u8 skipOneArg(Obj *obj);
 
-s32 readGoXYArgs(Obj *obj);
-s32 readSpeedArgs(Obj *obj);
-s32 readInvalidArg(Obj *obj);
-s32 skipNoArg(void);
-s32 skipOneArg(Obj *obj);
+u8 skipGoXYArgs(Obj *obj);
+u8 skipSpeedArgs(Obj *obj);
+u8 skipInvalidArg(Obj *obj);
+u8 handle_GO_WAITSTATE(Obj *obj);
 
-s32 skipGoXYArgs(Obj *obj);
-s32 skipSpeedArgs(Obj *obj);
-s32 skipInvalidArg(Obj *obj);
-s32 handle_GO_WAITSTATE(Obj *obj);
+u8 handle_RESERVED_GO_SKIP_and_RESERVED_GO_GOTO(Obj *obj);
+u8 handle_RESERVED_GO_BRANCHTRUE(Obj *obj);
+u8 handle_RESERVED_GO_BRANCHFALSE(Obj *obj);
+u8 handle_RESERVED_GO_SKIPTRUE(Obj *obj);
+u8 handle_RESERVED_GO_SKIPFALSE(Obj *obj);
+u8 handle_SELF_HANDLED(void);
+u8 handle_GO_X(Obj *obj);
+u8 handle_GO_Y(Obj *obj);
+u8 handle_GO_GOTO(Obj *obj);
+u8 handle_GO_STATE(Obj *obj);
+u8 handle_GO_SUBSTATE(Obj *obj);
+u8 handle_GO_SKIP(Obj *obj);
+u8 handle_GO_LABEL(void);
+u8 handle_GO_PREPARELOOP(Obj *obj);
+u8 handle_GO_GOSUB(Obj *obj);
+u8 handle_GO_RETURN(Obj *obj);
+u8 handle_GO_DOLOOP(Obj *obj);
+u8 handle_INVALID_CMD(Obj *obj);
+u8 handle_GO_BRANCHTRUE(Obj *obj);
+u8 handle_GO_BRANCHFALSE(Obj *obj);
+u8 handle_GO_SKIPTRUE(Obj *obj);
+u8 handle_GO_SKIPFALSE(Obj *obj);
+u8 handle_GO_SETTEST(Obj *obj);
 
-s32 handle_RESERVED_GO_SKIP_and_RESERVED_GO_GOTO(Obj *obj);
-s32 handle_RESERVED_GO_BRANCHTRUE(Obj *obj);
-s32 handle_RESERVED_GO_BRANCHFALSE(Obj *obj);
-s32 handle_RESERVED_GO_SKIPTRUE(Obj *obj);
-s32 handle_RESERVED_GO_SKIPFALSE(Obj *obj);
-s32 handle_SELF_HANDLED(void);
-s32 handle_GO_X(Obj *obj);
+
+
+
+void pushCmdContext(Obj *obj,u16 count);
+void skipToLabel(Obj *obj, u8 label, u8 skip_label_cmd);
+void pushToLabel(Obj *obj, u8 label, u8 skip_label_cmd);
 
 #endif

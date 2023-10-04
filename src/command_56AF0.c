@@ -9,7 +9,7 @@ void popCmdContext(Obj *obj)
     cci = &obj->cmd_context_index;
     obj->cmd_offset = obj->cmd_contexts[*cci].cmd_offset;
     to_sub = 1;
-    *cci = *cci - to_sub;
+    *cci -= to_sub;
 }
 
 /* 56B14 8017B314 -O2 */
@@ -26,34 +26,34 @@ s16 char2short(u8 in_char)
 }
 
 /* 56B40 8017B340 -O2 */
-s32 readNoArg(void)
+u8 readNoArg(void)
 {
-    return 0;
+    return FALSE;
 }
 
 /* 56B48 8017B348 -O2 */
-s32 readOneArg(Obj *obj)
+u8 readOneArg(Obj *obj)
 {
     obj->cmd_offset++;
     obj->nb_cmd = obj->cmds[obj->cmd_offset];
-    return 0;
+    return FALSE;
 }
 
 INCLUDE_ASM("asm/nonmatchings/command_56AF0", readTestArgs);
 
 /* 56BE4 8017B3E4 -O2 */
-s32 readGoXYArgs(Obj *obj)
+u8 readGoXYArgs(Obj *obj)
 {   
     obj->cmd_offset++;
     obj->nb_cmd = char2short(obj->cmds[obj->cmd_offset]);
 
     obj->cmd_offset++;
     obj->field24_0x3e = char2short(obj->cmds[obj->cmd_offset]);
-    return 0;
+    return FALSE;
 }
 
 /* 56C60 8017B460 -O2 */
-s32 readSpeedArgs(Obj *obj)
+u8 readSpeedArgs(Obj *obj)
 {
     obj->cmd_offset++;
     obj->nb_cmd = obj->cmds[obj->cmd_offset];
@@ -63,154 +63,299 @@ s32 readSpeedArgs(Obj *obj)
 
     obj->cmd_offset++;
     obj->field20_0x36 = char2short(obj->cmds[obj->cmd_offset]);
-    return 0;
+    return FALSE;
 }
 
 /* 56D00 8017B500 -O2 */
-s32 readInvalidArg(Obj *obj)
+u8 readInvalidArg(Obj *obj)
 {
     obj->cmd_offset = -1;
     readOneCommand(obj);
-    return 1;
+    return TRUE;
 }
 
 /* 56D24 8017B524 -O2 */
-s32 skipNoArg(void)
+u8 skipNoArg(void)
 {
-    return 0;
+    return FALSE;
 }
 
 /* 56D2C 8017B52C -O2 */
-s32 skipOneArg(Obj *obj)
+u8 skipOneArg(Obj *obj)
 {
     obj->cmd_offset++;
-    return 0;
+    return FALSE;
 }
 
 INCLUDE_ASM("asm/nonmatchings/command_56AF0", skipTestArgs);
 
 /* 56D8C 8017B58C -O2 */
-s32 skipGoXYArgs(Obj *obj)
+u8 skipGoXYArgs(Obj *obj)
 {
     obj->cmd_offset += 2;
-    return 0;
+    return FALSE;
 }
 
 /* 56DA4 8017B5A4 -O2 */
-s32 skipSpeedArgs(Obj *obj)
+u8 skipSpeedArgs(Obj *obj)
 {
     obj->cmd_offset += 3;
-    return 0;
+    return FALSE;
 }
 
 /* 56DBC 8017B5BC -O2 */
-s32 skipInvalidArg(Obj *obj)
+u8 skipInvalidArg(Obj *obj)
 {
     obj->cmd_offset = -1;
     skipOneCommand(obj);
-    return 1;
+    return TRUE;
 }
 
 /* 56DE0 8017B5E0 -O2 */
-s32 handle_GO_WAITSTATE(Obj *obj)
+u8 handle_GO_WAITSTATE(Obj *obj)
 {
     obj->change_anim_mode = ANIMMODE_RESET_IF_NEW;
     obj->cmd = GO_WAIT;
     obj->nb_cmd = vblToEOA(obj, obj->nb_cmd) - 1;
-    return 0;
+    return FALSE;
 }
 
 INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_RESERVED_GO_GOSUB);
 
 /* 56E24 8017B624 -O1, -O2 */
-s32 handle_RESERVED_GO_SKIP_and_RESERVED_GO_GOTO(Obj *obj)
+u8 handle_RESERVED_GO_SKIP_and_RESERVED_GO_GOTO(Obj *obj)
 {
     obj->cmd_offset = obj->cmd_labels[obj->nb_cmd];
-    return 1;
+    return TRUE;
 }
 
 /* 56E90 8017B690 -O1, -O2 */
-s32 handle_RESERVED_GO_BRANCHTRUE(Obj *obj)
+u8 handle_RESERVED_GO_BRANCHTRUE(Obj *obj)
 {
-    if ((obj->flags & OBJ_CMD_TEST) != OBJ_NONE) {
+    if ((obj->flags & OBJ_CMD_TEST) != OBJ_NONE)
         obj->cmd_offset = obj->cmd_labels[obj->nb_cmd];
-    }
-    return 1;
+    return TRUE;
 }
 
 
 /* 56EC8 8017B6C8 -O1, -O2 */
-s32 handle_RESERVED_GO_BRANCHFALSE(Obj *obj)
+u8 handle_RESERVED_GO_BRANCHFALSE(Obj *obj)
 {
-    if ((obj->flags & OBJ_CMD_TEST) == OBJ_NONE) {
+    if ((obj->flags & OBJ_CMD_TEST) == OBJ_NONE)
         obj->cmd_offset = obj->cmd_labels[obj->nb_cmd];
-    }
-    return 1;
+    return TRUE;
 }
 
 /* 56F00 8017B700 -O1, -O2 */
-s32 handle_RESERVED_GO_SKIPTRUE(Obj *obj)
+u8 handle_RESERVED_GO_SKIPTRUE(Obj *obj)
 {
-    if ((obj->flags & OBJ_CMD_TEST) != OBJ_NONE) {
+    if ((obj->flags & OBJ_CMD_TEST) != OBJ_NONE)
         obj->cmd_offset = obj->cmd_labels[obj->nb_cmd];
-    }
-    return 1;
+    return TRUE;
 }
 
 /* 56F38 8017B738 -O1, -O2 */
-s32 handle_RESERVED_GO_SKIPFALSE(Obj *obj)
+u8 handle_RESERVED_GO_SKIPFALSE(Obj *obj)
 {
-    if ((obj->flags & OBJ_CMD_TEST) == OBJ_NONE) {
+    if ((obj->flags & OBJ_CMD_TEST) == OBJ_NONE)
         obj->cmd_offset = obj->cmd_labels[obj->nb_cmd];
-    }
-    return 1;
+    return TRUE;
 }
 
 /* 56F70 8017B770 -O1, -O2 */
-s32 handle_SELF_HANDLED(void)
+u8 handle_SELF_HANDLED(void)
 {
-    return 0;
+    return FALSE;
 }
 
 /* 56F78 8017B778 -O2 */
-s32 handle_GO_X(Obj *obj)
+u8 handle_GO_X(Obj *obj)
 {
     obj->x_pos = obj->nb_cmd * 100 + obj->field24_0x3e;
-    return 1;
+    return TRUE;
 }
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_Y);
+/* 56FA4 8017B7A4 -O2 */
+u8 handle_GO_Y(Obj *obj)
+{
+    obj->y_pos = obj->nb_cmd * 100 + obj->field24_0x3e;
+    return TRUE;
+}
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_GOTO);
+/* 56FD0 8017B7D0 -O2 */
+u8 handle_GO_GOTO(Obj *obj)
+{
+    skipToLabel(obj, obj->nb_cmd, TRUE);
+    return FALSE;
+}
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_STATE);
+/* 56FF4 8017B7F4 -O2 */
+u8 handle_GO_STATE(Obj *obj)
+{
+  set_main_etat(obj, obj->nb_cmd);
+  obj->speed_x = 0;
+  obj->speed_y = 0;
+  return TRUE;
+}
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_SUBSTATE);
+/* 5702C 8017B82C -O2 */
+u8 handle_GO_SUBSTATE(Obj *obj)
+{
+  set_sub_etat(obj, obj->nb_cmd);
+  obj->speed_x = 0;
+  obj->speed_y = 0;
+  return TRUE;
+}
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_SKIP);
+/* 57064 8017B864 -O2 */
+u8 handle_GO_SKIP(Obj *obj)
+{
+    s16 length;
+    s16 i;
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_LABEL);
+    length = obj->nb_cmd;
+    i = 0;
+    if (i < length)
+    {
+        do
+        {
+            skipOneCommand(obj);
+            i++;
+        } while (i < length);
+    }
+    return TRUE;
+}
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_PREPARELOOP);
+/* 570D0 8017B8D0 -O2 */
+u8 handle_GO_LABEL(void)
+{
+    return TRUE;
+}
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_GOSUB);
+/* 570D8 8017B8D8 -O2 */
+u8 handle_GO_PREPARELOOP(Obj *obj)
+{
+    pushCmdContext(obj, obj->nb_cmd);
+    return TRUE;
+}
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_RETURN);
+/* 570FC 8017B8FC -O2 */
+u8 handle_GO_GOSUB(Obj *obj)
+{
+    pushCmdContext(obj, 1);
+    skipToLabel(obj, obj->nb_cmd, TRUE);
+    return FALSE;
+}
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_DOLOOP);
+/* 57138 8017B938 -O2 */
+u8 handle_GO_RETURN(Obj *obj)
+{
+    popCmdContext(obj);
+    return TRUE;
+}
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_INVALID_CMD);
+/* 57158 8017B958 -O2 */
+u8 handle_GO_DOLOOP(Obj *obj)
+{
+    u8 *cci;
+    u16 count;
+    s16 to_sub;
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_BRANCHTRUE);
+    cci = &obj->cmd_context_index;
+    count = (obj->cmd_contexts[*cci].count -= 1);
+    to_sub = 1;
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_BRANCHFALSE);
+    if ((count << 16) > 0)
+        obj->cmd_offset = obj->cmd_contexts[*cci].cmd_offset;
+    else
+        *cci -= to_sub;
+    return TRUE;
+}
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_SKIPTRUE);
+/* 571B8 8017B9B8 -O2 */
+u8 handle_INVALID_CMD(Obj *obj)
+{
+  obj->cmd_offset = -1;
+  return TRUE;
+}
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_SKIPFALSE);
+/* 571C8 8017B9C8 -O2 */
+u8 handle_GO_BRANCHTRUE(Obj *obj)
+{
+    if ((obj->flags & OBJ_CMD_TEST) != OBJ_NONE)
+    {
+        skipToLabel(obj, obj->nb_cmd, TRUE);
+        return FALSE;
+    }
+    return TRUE;
+}
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_SETTEST);
+/* 57204 8017BA04 -O2 */
+u8 handle_GO_BRANCHFALSE(Obj *obj)
+{
+    if ((obj->flags & OBJ_CMD_TEST) == OBJ_NONE)
+    {
+        skipToLabel(obj, obj->nb_cmd, TRUE);
+        return FALSE;
+    }
+    return TRUE;
+}
 
+/* 57240 8017BA40 -O2 */
+u8 handle_GO_SKIPTRUE(Obj *obj)
+{
+  s16 length;
+  s16 i;
+  
+  if ((obj->flags & OBJ_CMD_TEST) != OBJ_NONE)
+  {
+    length = obj->nb_cmd;
+    i = 0;
+    if (i < length)
+    {
+      do
+      {
+        skipOneCommand(obj);
+        i++;
+      } while (i < length);
+    }
+  }
+  return TRUE;
+}
+
+/* 572C0 8017BAC0 -O2 */
+u8 handle_GO_SKIPFALSE(Obj *obj)
+{
+  s16 length;
+  s16 i;
+  
+  if ((obj->flags & OBJ_CMD_TEST) == OBJ_NONE)
+  {
+    length = obj->nb_cmd;
+    i = 0;
+    if (i < length)
+    {
+      do
+      {
+        skipOneCommand(obj);
+        i++;
+      } while (i < length);
+    }
+  }
+  return TRUE;
+}
+
+/* 57344 8017BB44 -O2 */
+u8 handle_GO_SETTEST(Obj *obj)
+{
+    u8 to_and;
+    
+    to_and = 1;
+    obj->flags = obj->flags & ~OBJ_CMD_TEST | (obj->nb_cmd & to_and) << 9;
+    return TRUE;
+}
+
+/* Found jr instruction at handle_GO_TEST.s line 21, but the corresponding jump table is not provided. */
 INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_TEST);
 
 INCLUDE_ASM("asm/nonmatchings/command_56AF0", readOneCommand);
@@ -219,8 +364,54 @@ INCLUDE_ASM("asm/nonmatchings/command_56AF0", skipOneCommand);
 
 INCLUDE_ASM("asm/nonmatchings/command_56AF0", GET_OBJ_CMD);
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", pushCmdContext);
+/* 576BC 8017BEBC -O2 */
+void pushCmdContext(Obj *obj, u16 count)
+{
+    u8 *cci;
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", skipToLabel);
+    obj->cmd_context_index++;
+    cci = &obj->cmd_context_index;
+    obj->cmd_contexts[*cci].cmd_offset = obj->cmd_offset;
+    obj->cmd_contexts[*cci].count = count & 0x00FF;
+}
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", pushToLabel);
+/* 576F8 8017BEF8 -O2 */
+void skipToLabel(Obj *obj, u8 label, u8 skip_label_cmd)
+{
+    u8 in_rd_cmd;
+    s32 to_and;
+    s16 in_offs;
+    s16 cur_offs;
+
+    in_rd_cmd = *((u8 *) &obj->flags + 1) >> 7;
+    to_and = 1;
+    in_offs = obj->cmd_offset;
+    do
+    {
+        skipOneCommand(obj);
+        cur_offs = obj->cmd_offset;
+        if (cur_offs == in_offs)
+            break;
+    } while (obj->cmd != GO_LABEL || obj->cmds[cur_offs] != label);
+    if (skip_label_cmd)
+    {
+        if (cur_offs != in_offs)
+        {
+            obj->nb_cmd = 0;
+            obj->flags |= OBJ_READ_CMDS;
+            GET_OBJ_CMD(obj);
+
+            /* restore in_rd_cmd */
+            obj->flags = obj->flags & ~OBJ_READ_CMDS | (in_rd_cmd & to_and) << 15;
+        }
+    }
+    else
+        obj->cmd = GO_NOP;
+}
+
+/* 577EC 8017BFEC -O2 */
+void pushToLabel(Obj *obj, u8 label, u8 skip_label_cmd)
+{
+    pushCmdContext(obj, 1);
+    skipToLabel(obj, label, skip_label_cmd);
+}
