@@ -3,7 +3,7 @@
 #DETER_WORLD_AND_LEVEL and PASTILLES_SAUVE_SAVED also share issues
 #check out -psx patched old-gcc to possibly clean up DO_WORLD_MAP, DETER_WORLD_AND_LEVEL world_index assign
 #skipTestArgs, readTestArgs share issues
-#readOneCommand, skipOneCommand, GET_OBJ_CMD share issues
+#readOneCommand, skipOneCommand, GET_OBJ_CMD, DO_ONE_CMD share issues
 
 #more enums, defines...
 #use a bool type?
@@ -38,7 +38,7 @@ LD_FLAGS          := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Ma
 ASM_FILES         := $(wildcard $(ASM_DIR)/**.s) $(wildcard $(ASM_DIR)/**/**.s)
 SRC_FILES_O2      := $(wildcard $(SRC_DIR)/**.c) $(wildcard $(SRC_DIR)/**/**.c)
 SRC_FILES_O1      := 
-SRC_FILES_SCRATCH := src/command_56AF0.c
+SRC_FILES_SCRATCH := src/command_494FC.c
 SRC_FILES_O2 	  := $(filter-out $(SRC_FILES_O1) $(SRC_FILES_SCRATCH), $(SRC_FILES_O2))
 
 O_ASM             := $(foreach file,$(ASM_FILES),$(BUILD_DIR)/$(file).o)

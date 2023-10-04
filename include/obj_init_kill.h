@@ -78,7 +78,7 @@ typedef enum ObjActiveFlag
     ACTIVE_SPECIAL=4
 } ObjActiveFlag;
 
-/* TODO: can't get 6A180 8018E980 FIN_WORLD_CHOICE to match with these */
+/* TODO: can't get 6A180 8018E980 FIN_WORLD_CHOICE, handle_RESERVED_GO_BRANCHTRUE or skipToLabel to match with these */
 /*typedef struct {
     u8 none: 1;
     u8 padding1: 1;

@@ -132,7 +132,7 @@ u8 handle_RESERVED_GO_SKIP_and_RESERVED_GO_GOTO(Obj *obj)
 /* 56E90 8017B690 -O1, -O2 */
 u8 handle_RESERVED_GO_BRANCHTRUE(Obj *obj)
 {
-    if ((obj->flags & OBJ_CMD_TEST) != OBJ_NONE)
+    if (obj->flags & OBJ_CMD_TEST)
         obj->cmd_offset = obj->cmd_labels[obj->nb_cmd];
     return TRUE;
 }
@@ -141,7 +141,7 @@ u8 handle_RESERVED_GO_BRANCHTRUE(Obj *obj)
 /* 56EC8 8017B6C8 -O1, -O2 */
 u8 handle_RESERVED_GO_BRANCHFALSE(Obj *obj)
 {
-    if ((obj->flags & OBJ_CMD_TEST) == OBJ_NONE)
+    if (!(obj->flags & OBJ_CMD_TEST))
         obj->cmd_offset = obj->cmd_labels[obj->nb_cmd];
     return TRUE;
 }
@@ -149,7 +149,7 @@ u8 handle_RESERVED_GO_BRANCHFALSE(Obj *obj)
 /* 56F00 8017B700 -O1, -O2 */
 u8 handle_RESERVED_GO_SKIPTRUE(Obj *obj)
 {
-    if ((obj->flags & OBJ_CMD_TEST) != OBJ_NONE)
+    if (obj->flags & OBJ_CMD_TEST)
         obj->cmd_offset = obj->cmd_labels[obj->nb_cmd];
     return TRUE;
 }
@@ -157,7 +157,7 @@ u8 handle_RESERVED_GO_SKIPTRUE(Obj *obj)
 /* 56F38 8017B738 -O1, -O2 */
 u8 handle_RESERVED_GO_SKIPFALSE(Obj *obj)
 {
-    if ((obj->flags & OBJ_CMD_TEST) == OBJ_NONE)
+    if (!(obj->flags & OBJ_CMD_TEST))
         obj->cmd_offset = obj->cmd_labels[obj->nb_cmd];
     return TRUE;
 }
@@ -214,15 +214,8 @@ u8 handle_GO_SKIP(Obj *obj)
     s16 i;
 
     length = obj->nb_cmd;
-    i = 0;
-    if (i < length)
-    {
-        do
-        {
-            skipOneCommand(obj);
-            i++;
-        } while (i < length);
-    }
+    for (i = 0; i < length; i++)
+        skipOneCommand(obj);
     return TRUE;
 }
 
@@ -282,7 +275,7 @@ u8 handle_INVALID_CMD(Obj *obj)
 /* 571C8 8017B9C8 -O2 */
 u8 handle_GO_BRANCHTRUE(Obj *obj)
 {
-    if ((obj->flags & OBJ_CMD_TEST) != OBJ_NONE)
+    if (obj->flags & OBJ_CMD_TEST)
     {
         skipToLabel(obj, obj->nb_cmd, TRUE);
         return FALSE;
@@ -293,7 +286,7 @@ u8 handle_GO_BRANCHTRUE(Obj *obj)
 /* 57204 8017BA04 -O2 */
 u8 handle_GO_BRANCHFALSE(Obj *obj)
 {
-    if ((obj->flags & OBJ_CMD_TEST) == OBJ_NONE)
+    if (!(obj->flags & OBJ_CMD_TEST))
     {
         skipToLabel(obj, obj->nb_cmd, TRUE);
         return FALSE;
@@ -307,18 +300,11 @@ u8 handle_GO_SKIPTRUE(Obj *obj)
   s16 length;
   s16 i;
   
-  if ((obj->flags & OBJ_CMD_TEST) != OBJ_NONE)
+  if (obj->flags & OBJ_CMD_TEST)
   {
     length = obj->nb_cmd;
-    i = 0;
-    if (i < length)
-    {
-      do
-      {
+    for (i = 0; i < length; i++)
         skipOneCommand(obj);
-        i++;
-      } while (i < length);
-    }
   }
   return TRUE;
 }
@@ -329,18 +315,11 @@ u8 handle_GO_SKIPFALSE(Obj *obj)
   s16 length;
   s16 i;
   
-  if ((obj->flags & OBJ_CMD_TEST) == OBJ_NONE)
+  if (!(obj->flags & OBJ_CMD_TEST))
   {
     length = obj->nb_cmd;
-    i = 0;
-    if (i < length)
-    {
-      do
-      {
+    for (i = 0; i < length; i++)
         skipOneCommand(obj);
-        i++;
-      } while (i < length);
-    }
   }
   return TRUE;
 }
