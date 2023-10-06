@@ -6,4 +6,24 @@ void DO_CAGE2(Obj *obj)
     obj->speed_y = -8;
 }
 
+/* 3CF18 80161718 -O2*/
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/obj/cage", DO_CAGE);
+#else
+extern u8 horloge[28];
+
+void DO_CAGE(Obj *obj)
+{
+  __asm__("nop");
+
+  if (
+    obj->main_etat == 0 &&
+    obj->sub_etat == 7 &&
+    obj->anim_frame == 0 &&
+    horloge[obj->eta[0][7].anim_speed & 0x0f] == 0
+    ) {
+    obj->display_prio = 5;
+    allocateGrille(obj);
+  }
+}
+#endif

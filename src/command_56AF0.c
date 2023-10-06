@@ -338,11 +338,56 @@ INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_TEST);
 /* 5736C 8017BB6C -O2 */
 /* m2c = 4285, ghidra = 9870 */
 
+/* 57528 8017BD28 -O2 */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/command_56AF0", readOneCommand);
+#else
+u8 readOneCommand(Obj *obj)
+{
+    __asm__("nop");
+    
+    obj->cmd_offset++;
+    obj->cmd = obj->cmds[obj->cmd_offset];
+    return cptr_tab[obj->cmd].read(obj);
+}
+#endif
 
+/* 57598 8017BD98 -O2 */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/command_56AF0", skipOneCommand);
+#else
+u8 skipOneCommand(Obj *obj)
+{
+    __asm__("nop");
 
+    obj->cmd_offset++;
+    obj->cmd = obj->cmds[obj->cmd_offset];
+    return cptr_tab[obj->cmd].skip(obj);
+}
+#endif
+
+/* 57608 8017BE08 -O2 */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/command_56AF0", GET_OBJ_CMD);
+#else
+void GET_OBJ_CMD(Obj *obj)
+{
+    /*__asm__("nop");*/
+
+    if (obj->cmds)
+    {
+        if ((obj->flags & OBJ_READ_CMDS) && --obj->nb_cmd == -1)
+        {
+            do
+            {
+                readOneCommand(obj);
+            } while (cptr_tab[obj->cmd].handle(obj));
+        }
+    }
+    else
+        obj->cmd = GO_NOP;
+}
+#endif
 
 /* 576BC 8017BEBC -O2 */
 void pushCmdContext(Obj *obj, u16 count)

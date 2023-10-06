@@ -11,6 +11,8 @@ typedef struct CommandTableEntry
     u8 (* handle)(Obj *);
 } CommandTableEntry;
 
+extern CommandTableEntry cptr_tab[34];
+
 void popCmdContext(Obj *obj);
 s16 char2short(u8 in_char);
 u8 readNoArg(void);
@@ -51,8 +53,8 @@ u8 handle_GO_SKIPTRUE(Obj *obj);
 u8 handle_GO_SKIPFALSE(Obj *obj);
 u8 handle_GO_SETTEST(Obj *obj);
 
-
-
+u8 readOneCommand(Obj *arg0);
+u8 skipOneCommand(Obj *obj);
 
 void pushCmdContext(Obj *obj,u16 count);
 void skipToLabel(Obj *obj, u8 label, u8 skip_label_cmd);

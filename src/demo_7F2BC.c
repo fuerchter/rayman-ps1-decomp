@@ -1,12 +1,12 @@
 #include "demo_7F2BC.h"
 
 /* 7F2BC 801A3ABC -O1, -O2 */
-/*? display_text(? *, ?, ?, ?, s32);*/                  /* extern */
+/*? display_text(? *, ?, ?, ?, s32);*/
 
 void PS1_ShowDemoText(void)
 {
     display_text(&s_start_801cf118, 160, 180, 1, 144);
-    display_text(&s_press_start_or_x_button_8012c468, 160, 203, 2, 10);
+    display_text("/press start or x button/", 160, 203, 2, 10);
 }
 
 /* 7F314 801A3B14 -O1 -O2 */

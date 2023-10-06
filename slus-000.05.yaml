@@ -44,6 +44,8 @@ options:
   data_string_encoding: ASCII
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
+  pair_rodata_to_text: True
+  migrate_rodata_to_functions: True
 segments:
   - name: header
     type: header
@@ -54,8 +56,13 @@ segments:
     start: 0x800
     vram: 0x80125000
     bss_size: 0x0
+    subalign: 4
     subsegments:
-      - [0x800, rodata, 800]
+      - [0x800, rodata]
+      - [0x6724, .rodata, command_494FC] #8012af24
+      - [0x67A4, rodata]
+      - [0x7C68, .rodata, demo_7F2BC] #8012c468
+      - [0x7C84, rodata]
       - [0x8830, asm, unknown/8830] #8012D030
       - [0x9424, asm, continue] #8012DC24
       - [0x95CC, c, world_map_95CC] #8012ddcc
@@ -243,7 +250,7 @@ segments:
       - [0x7CCA0, asm, password] #801a14a0
       - [0x7EEE4, asm, menu/menu_7EEE4] #801a36e4
       - [0x7F2BC, c, demo_7F2BC] #801a3abc
-      - [0x7F4B4, asm, menu/menu_7F4B4] #801a3cb4
+      - [0x7F4B4, c, menu/menu_7F4B4] #801a3cb4
       - [0x7FD3C, asm, menu/menu_card_7FD3C] #801a453c
       - [0x82008, asm, menu/menu_82008] #801A6808
       - [0x82268, asm, input_82268] #801a6a68
@@ -261,4 +268,8 @@ segments:
       - [0x98048, asm, psyq3.0/libgpu] #801bc848
       - [0x9BC24, asm, psyq3.0/libpress] #801c0424
       - [0x9CA5C, data]
+      - [0xAA5F4, .data, world_map_95CC] #801CEDF4
+      - [0xAA5FC, data]
+      - [0xAA918, .data, menu/menu_7F4B4] #801CF118
+      - [0xAA920, data]
   - [0xAB000]

@@ -24,4 +24,5 @@ void special_pour_liv(Obj *obj)
         obj->flags &= ~OBJ_READ_CMDS;
 }
 
+/* 49844 8016E044 -O2 */
 INCLUDE_ASM("asm/nonmatchings/command_494FC", DO_ONE_CMD);

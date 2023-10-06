@@ -5,9 +5,10 @@
 #skipTestArgs, readTestArgs share issues
 #readOneCommand, skipOneCommand, GET_OBJ_CMD, DO_ONE_CMD, get_next_bonus_level, handle_GO_TEST, DO_CAGE share issues
 
+#order splat yaml settings by wiki
 #more enums, defines...
 #use a bool type?
-#what does this macro do? https://github.com/Xeeynamo/sotn-decomp/blob/e1391f8858c52b344534a047383127c1c5c17410/include/macro.inc#L13
+#what does this macro do? https://github.com/Xeeynamo/sotn-decomp/blob/e1391f8858c52b344534a047383127c1c5c17410/include/macro.inc#L13 https://discord.com/channels/1079389589950705684/1079395108501331990/1156337589465387128
 #missing structs: PS1/Display, PS1/DRENVAndTile, PS1/FileInfo, psyq/DIRENTRY, psyq/EvDesc, psyq/EvMode, psyq/EvSpec
 #ask about cd_cw, cd_read case issue
 #rename duplicate memcpy, set_alarm in ghidra
@@ -38,7 +39,7 @@ LD_FLAGS          := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Ma
 ASM_FILES         := $(wildcard $(ASM_DIR)/**.s) $(wildcard $(ASM_DIR)/**/**.s)
 SRC_FILES_O2      := $(wildcard $(SRC_DIR)/**.c) $(wildcard $(SRC_DIR)/**/**.c)
 SRC_FILES_O1      := 
-SRC_FILES_SCRATCH := src/obj/cage_init.c src/obj/cage.c
+SRC_FILES_SCRATCH := src/obj/cage_init.c src/obj/cage.c src/command_56AF0.c
 SRC_FILES_O2 	  := $(filter-out $(SRC_FILES_O1) $(SRC_FILES_SCRATCH), $(SRC_FILES_O2))
 
 O_ASM             := $(foreach file,$(ASM_FILES),$(BUILD_DIR)/$(file).o)
@@ -78,7 +79,7 @@ $(O_SRC_O1) : $(BUILD_DIR)/%.o : %
 
 GCC_SCR := $(TOOLS_DIR)/gcc-2.5.7/
 $(O_SRC_SCRATCH) : $(BUILD_DIR)/%.o : %
-	$(GCC_SCR)gcc -v -c -mgas -B$(GCC_SCR) -pipe -Iinclude -fshort-enums -G0 -O2 $(GCC_AS_FLAGS) -o $@ $<
+	$(GCC_SCR)gcc -c -mgas -B$(GCC_SCR) -pipe -Iinclude -fshort-enums -G0 -O2 $(GCC_AS_FLAGS) -o $@ $<
 
 check:
 	sha1sum --check $(EXE).sha1
