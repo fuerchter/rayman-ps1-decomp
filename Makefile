@@ -39,7 +39,7 @@ LD_FLAGS          := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Ma
 ASM_FILES         := $(wildcard $(ASM_DIR)/**.s) $(wildcard $(ASM_DIR)/**/**.s)
 SRC_FILES_O2      := $(wildcard $(SRC_DIR)/**.c) $(wildcard $(SRC_DIR)/**/**.c)
 SRC_FILES_O1      := 
-SRC_FILES_SCRATCH := src/obj/cage_init.c src/obj/cage.c src/command_56AF0.c
+SRC_FILES_SCRATCH := src/command_494FC.c
 SRC_FILES_O2 	  := $(filter-out $(SRC_FILES_O1) $(SRC_FILES_SCRATCH), $(SRC_FILES_O2))
 
 O_ASM             := $(foreach file,$(ASM_FILES),$(BUILD_DIR)/$(file).o)
@@ -79,7 +79,7 @@ $(O_SRC_O1) : $(BUILD_DIR)/%.o : %
 
 GCC_SCR := $(TOOLS_DIR)/gcc-2.5.7/
 $(O_SRC_SCRATCH) : $(BUILD_DIR)/%.o : %
-	$(GCC_SCR)gcc -c -mgas -B$(GCC_SCR) -pipe -Iinclude -fshort-enums -G0 -O2 $(GCC_AS_FLAGS) -o $@ $<
+	$(GCC_SCR)gcc -c -mgas -B$(GCC_SCR) -pipe -Iinclude -fshort-enums -G0 -O2 -Wa,-EL,-mips2,-msoft-float,-Iinclude -o $@ $<
 
 check:
 	sha1sum --check $(EXE).sha1

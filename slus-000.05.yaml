@@ -59,7 +59,7 @@ segments:
     subalign: 4
     subsegments:
       - [0x800, rodata]
-      - [0x6724, .rodata, command_494FC] #8012af24
+      - [0x6724, .rodata, command_494FC] #8012af24, TODO: this needs to be built without -no-pad-sections for some reason
       - [0x67A4, rodata]
       - [0x7C68, .rodata, demo_7F2BC] #8012c468
       - [0x7C84, rodata]
