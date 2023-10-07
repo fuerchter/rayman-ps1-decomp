@@ -3,7 +3,7 @@
 
 #include "include_asm.h"
 
-#define MISSING_ADDIU
+/*#define MISSING_ADDIU*/
 
 #define TRUE 1
 #define FALSE 0

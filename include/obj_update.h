@@ -427,4 +427,6 @@ typedef struct LevelData
     u8 nb_objects;
 } LevelData;
 
+extern LevelData level;
+
 #endif

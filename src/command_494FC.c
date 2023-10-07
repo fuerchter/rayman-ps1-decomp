@@ -38,6 +38,8 @@ void DO_ONE_CMD(Obj *obj)
 {
   s16 etat;
 
+  __asm__("nop");
+  
   etat = obj->main_etat;
   special_pour_liv(obj);
   switch (obj->cmd)

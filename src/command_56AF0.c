@@ -372,7 +372,7 @@ INCLUDE_ASM("asm/nonmatchings/command_56AF0", GET_OBJ_CMD);
 #else
 void GET_OBJ_CMD(Obj *obj)
 {
-    /*__asm__("nop");*/
+    __asm__("nop");
 
     if (obj->cmds)
     {
