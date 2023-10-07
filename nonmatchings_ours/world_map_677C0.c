@@ -158,34 +158,6 @@ void INIT_WORLD_INFO(void)
   INIT_PASTILLES_SAUVE(var_a0);
 }
 
-/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_LITTLE_RAY);*/
-
-/* small memcpy example */
-/* 693B4 8018DBB4 -O2 */
-extern s32 D_801F61A8;
-extern s16 D_801F61E6;
-extern s32 D_801FA6B0;
-extern Sprite *raylittle;
-
-void INIT_LITTLE_RAY(void)
-{
-    s32 *var_a2;
-    s32 *var_a3;
-    s32 *temp;
-
-    var_a3 = &raytmp;
-    var_a2 = &ray;
-    temp = var_a2 + 0x1c;
-    do {
-        var_a3[0] = var_a2[0];
-        var_a2 += 0x4;
-        var_a3 += 0x4;
-    } while (var_a2 != temp);
-    D_801F61E6 = 0x100;
-    ray.sprites = raylittle;
-    D_801F61A8 = D_801FA6B0;
-}
-
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PASTILLES_SAUVE_SAVED);*/
 
 /* 6A130 8018E930 -O2 */

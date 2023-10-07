@@ -70,10 +70,21 @@ void PS1_WorldMapMoveText(void)
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_INFO);
 
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_LITTLE_RAY);
+/* small memcpy example, -psx compiler not needed */
+/* 693B4 8018DBB4 -O2 */
+extern Obj raylittle;
+
+void INIT_LITTLE_RAY(void)
+{
+    memcpy(&raytmp, &ray, sizeof(Obj));
+    ray.scale = 0x100;
+    ray.sprites = raylittle.sprites;
+    ray.img_buffer = raylittle.img_buffer;
+}
 
 /* 69428 8018DC28 -O2 */
-void RESTORE_RAY(void) {
+void RESTORE_RAY(void)
+{
     ray.scale = 0;
     ray.sprites = raytmp.sprites;
     ray.img_buffer = raytmp.img_buffer;

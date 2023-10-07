@@ -15,7 +15,7 @@ typedef enum Video {
 typedef enum VideoState {
     VIDEOST_NOT_PLAYING=0,
     VIDEOST_PLAYING=1,
-    VIDEOST_INTERRUPTED=2
+    VIDEOST_SKIPPED=2
 } VideoState;
 
 extern VideoState PS1_VideoState;

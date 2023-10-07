@@ -1,3 +1,4 @@
+PS1_SaveMode = 0x801E4C10;
 PS1_MENU_RETURN2 = 0x801f55a8;
 PS1_VideoState = 0x801f7fa8;
 s_start_801cf118 = 0x801CF118;
