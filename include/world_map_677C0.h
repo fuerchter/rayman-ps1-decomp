@@ -2,6 +2,7 @@
 #define WORLD_MAP_677C0_H
 
 #include "common.h"
+#include "world_map_95CC.h"
 #include "obj_update.h"
 #include "text_24E10.h"
 #include "ray/ray_32398.h"

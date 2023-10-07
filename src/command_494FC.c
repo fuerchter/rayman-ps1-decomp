@@ -24,6 +24,7 @@ void special_pour_liv(Obj *obj)
         obj->flags &= ~OBJ_READ_CMDS;
 }
 
+/* TODO: build without -no-pad-sections!!! */
 /* 49844 8016E044 -O2 */
 #ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/command_494FC", DO_ONE_CMD);
