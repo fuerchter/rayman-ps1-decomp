@@ -10,8 +10,6 @@ void DO_CAGE2(Obj *obj)
 #ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/obj/cage", DO_CAGE);
 #else
-extern u8 horloge[28];
-
 void DO_CAGE(Obj *obj)
 {
   __asm__("nop");

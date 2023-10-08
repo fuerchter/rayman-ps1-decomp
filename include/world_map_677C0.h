@@ -9,6 +9,7 @@
 #include "ray/ray_5D190.h"
 #include "moteur_update.h"
 #include "cam_scroll.h"
+#include "menu/menu_card_7C028.h"
 
 /* TODO: does padding (between color, level_name) matter? */
 typedef struct WorldInfo
@@ -32,6 +33,8 @@ extern WorldInfo t_world_info[24];
 extern s16 xmap;
 extern s16 ymap;
 extern s16 new_world;
+extern u8 old_num_world;
+extern Obj raylittle;
 
 void CalcObjPosInWorldMap(Obj *obj);
 void INIT_STAGE_NAME(void);

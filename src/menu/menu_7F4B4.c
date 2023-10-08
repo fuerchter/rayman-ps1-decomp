@@ -3,24 +3,15 @@
 u8 s_start_801cf118[] = "/start/";
 
 /* 7F4B4 801A3CB4 -O2 */
-/* might have to use -fno-builtin and __builtin_memcpy at some point? */
-extern s16 PS1_SaveMode;
-extern s8 button_released;
-extern s16 compteur;
-extern s16 delai_repetition;
-extern s16 max_compteur;
-extern s16 positiony;
-extern s16 repetition;
-
 void PS1_TextBoxCardOrPassword(void)
 {
   switch(menuEtape)
   {
     case 1:
-      strcpy(text_to_display[1].text, "/use memory card/");
+      __builtin_strcpy(text_to_display[1].text, "/use memory card/");
       break;
     case 2:
-      strcpy(text_to_display[1].text, "/enter password/");
+      __builtin_strcpy(text_to_display[1].text, "/enter password/");
       break;
   }
   text_to_display[1].x_pos = 160;
@@ -33,10 +24,10 @@ void PS1_TextBoxCardOrPassword(void)
   switch(menuEtape)
   {
     case 1:
-      strcpy(text_to_display[2].text, "/use password/");
+      __builtin_strcpy(text_to_display[2].text, "/use password/");
       break;
     case 2:
-      memcpy(text_to_display[2].text, s_start_801cf118, sizeof(s_start_801cf118));
+      __builtin_memcpy(text_to_display[2].text, s_start_801cf118, sizeof(s_start_801cf118));
       break;
   }
   text_to_display[2].x_pos = 160;

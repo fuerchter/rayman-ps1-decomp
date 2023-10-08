@@ -33,14 +33,13 @@ extern s8 D_801E4F94;
 extern s8 D_801E4F95;
 extern s8 D_801E4F96;
 extern u8 D_801E4F97;*/
-extern u8 NBRE_SAVE;
 
 void INIT_LEVEL_STAGE_NAME(void)
 {
   if (t_world_info[num_world_choice].world == 7 && NBRE_SAVE == 0)
     PS1_GenerateAndDisplayPassword();
   else
-    memcpy(&text_to_display[0], t_world_info[num_world_choice].level_name, 48);
+    __builtin_memcpy(&text_to_display[0], t_world_info[num_world_choice].level_name, 48);
 
   text_to_display[0].font_size = 2;
   text_to_display[0].x_pos = 450;
@@ -85,15 +84,14 @@ INCLUDE_ASM("asm/nonmatchings/world_map_677C0", CHANGE_STAGE_NAMES);
 extern ? D_801C3366;
 extern ? D_801E4F98;
 extern ? D_801E5018;*/
-extern u8 old_num_world;
 
 void CHANGE_STAGE_NAMES(void)
 {    
-    memcpy(&text_to_display[1], &text_to_display[0], sizeof(TextToDisplay));
+    __builtin_memcpy(&text_to_display[1], &text_to_display[0], sizeof(TextToDisplay));
     INIT_LEVEL_STAGE_NAME();
     if (t_world_info[num_world_choice].world != t_world_info[old_num_world].world)
     {
-        memcpy(&text_to_display[3], &text_to_display[2], sizeof(TextToDisplay));
+        __builtin_memcpy(&text_to_display[3], &text_to_display[2], sizeof(TextToDisplay));
         INIT_WORLD_STAGE_NAME();
     }
 
@@ -131,13 +129,10 @@ void PS1_WorldMapMoveText(void)
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_INFO);
 
-/* small memcpy example, -psx compiler not needed */
 /* 693B4 8018DBB4 -O2 */
-extern Obj raylittle;
-
 void INIT_LITTLE_RAY(void)
 {
-    memcpy(&raytmp, &ray, sizeof(Obj));
+    __builtin_memcpy(&raytmp, &ray, sizeof(Obj));
     ray.scale = 0x100;
     ray.sprites = raylittle.sprites;
     ray.img_buffer = raylittle.img_buffer;

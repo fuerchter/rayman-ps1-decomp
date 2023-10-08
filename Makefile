@@ -5,7 +5,6 @@
 #DETER_WORLD_AND_LEVEL and PASTILLES_SAUVE_SAVED also share issues
 #check out -psx patched old-gcc to possibly clean up DO_WORLD_MAP, DETER_WORLD_AND_LEVEL world_index assign
 #skipTestArgs, readTestArgs share issues
-#readOneCommand, skipOneCommand, GET_OBJ_CMD, DO_ONE_CMD, get_next_bonus_level, handle_GO_TEST, DO_CAGE share issues
 
 #order splat yaml settings by wiki
 #more enums, defines...
@@ -33,7 +32,7 @@ CROSS             := mips-linux-gnu-
 AS                := $(CROSS)as
 AS_FLAGS          := -EL -mips2 -msoft-float -no-pad-sections -Iinclude
 GCC   		      := $(TOOLS_DIR)/gcc-2.5.7-psx/gcc
-GCC_FLAGS	      := -c -mgas -B$(TOOLS_DIR)/gcc-2.5.7-psx/ -pipe -Iinclude -fshort-enums
+GCC_FLAGS	      := -c -mgas -B$(TOOLS_DIR)/gcc-2.5.7-psx/ -pipe -Iinclude -fshort-enums -fno-builtin
 GCC_AS_FLAGS      := -Wa,-EL,-mips2,-msoft-float,-no-pad-sections,-Iinclude
 LD                := $(CROSS)ld
 LD_FLAGS          := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Map $(BUILD_EXE).map
