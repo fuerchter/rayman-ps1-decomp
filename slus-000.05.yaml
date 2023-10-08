@@ -260,7 +260,6 @@ segments:
       - [0x7F4B4, c, menu/menu_7F4B4] #801a3cb4
       - [0x7FD3C, asm, menu/menu_card_7FD3C] #801a453c
       - [0x82008, asm, menu/menu_82008] #801A6808
-      - [0x82268, asm, input_82268] #801a6a68
       - [0x8308C, asm, psyq3.0/pad] #801a788c
       - [0x8331C, asm, psyq3.0/libapi_8331C] #801a7b1c
       - [0x8332C, asm, psyq3.0/libc] #801a7b2c

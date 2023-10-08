@@ -44,14 +44,57 @@ void PS1_TextBoxCardOrPassword(void)
   delai_repetition = 12;
   repetition = 6;
   PS1_SaveMode = 0;
-  MENU_RETURN = 0;
-  PS1_MENU_RETURN2 = 0;
+  MENU_RETURN = FALSE;
+  PS1_MENU_RETURN2 = FALSE;
 }
 
+/* 7F754 801A3F54 -O2 */
+/* m2c: 4602 ghidra: 9437 */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_InputCardOrPassword);
 
+/* 7FAE8 801A42E8 -O2 */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_DisplayCardOrPassword);
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_MenuCardOrPassword);
+/* 7FC58 801A4458 -O2 */
+/*? CLRSCR();
+? DISPLAY_FOND_MENU();
+? DO_FADE();
+? PS1_DisplayCardOrPassword();
+? PS1_InputCardOrPassword();
+? readinput();*/
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_InitCardOrPassword);
+u8 PS1_MenuCardOrPassword(void)
+{
+    u8 done;
+
+    if (fade == 0)
+        PS1_InputCardOrPassword();
+
+    CLRSCR();
+    DISPLAY_FOND_MENU();
+    DO_FADE();
+    PS1_DisplayCardOrPassword();
+    readinput();
+    done = FALSE;
+    if ((PS1_SaveMode != 0 || MENU_RETURN == TRUE) && button_released != 0)
+        done = TRUE;
+        
+    return done;
+}
+
+/* 7FCEC 801A44EC -O2 */
+/*? DO_FADE_OUT();
+? INIT_FADE_IN();
+? LOAD_SAVE_SCREEN();
+? PS1_PlayCDTrack_0_3();
+? SYNCHRO_LOOP(u8 (*)());*/
+
+void PS1_InitCardOrPassword(void)
+{
+    LOAD_SAVE_SCREEN();
+    PS1_TextBoxCardOrPassword();
+    PS1_PlayCDTrack_0_3();
+    INIT_FADE_IN();
+    SYNCHRO_LOOP(PS1_MenuCardOrPassword);
+    DO_FADE_OUT();
+}

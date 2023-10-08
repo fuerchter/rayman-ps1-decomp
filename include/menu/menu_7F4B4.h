@@ -4,10 +4,11 @@
 #include "common.h"
 #include "text_24E10.h"
 #include "menu/menu_7EEE4.h"
+#include "fade.h"
 
 extern u8 s_start_801cf118[8];
 extern s16 PS1_SaveMode;
-extern u8 button_released;
+extern u8 button_released; /* TODO: not a bool? */
 extern s16 compteur;
 extern s16 max_compteur;
 extern s16 repetition;
