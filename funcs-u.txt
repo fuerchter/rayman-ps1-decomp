@@ -1,3 +1,4 @@
+PS1_DisplayPlateau = 0x8018c30c;
 PS1_LoadImaWorld = 0x8019e770;
 PS1_LoadImaSplash = 0x8019ea10;
 PS1_WorldMapMoveText = 0x8018d9e0;
@@ -994,7 +995,6 @@ CalcObjPosInWorldMap = 0x8018bfc0;
 DoScrollInWorldMap = 0x8018bff4;
 PS1_DisplayPts = 0x8018c0dc;
 DISPLAY_PLAT_WAY = 0x8018c1d4;
-PS1_DisplayWorldMapObjects = 0x8018c30c;
 DO_MEDAILLONS = 0x8018c3e8;
 INIT_LEVEL_STAGE_NAME = 0x8018ca20;
 INIT_WORLD_STAGE_NAME = 0x8018cbfc;

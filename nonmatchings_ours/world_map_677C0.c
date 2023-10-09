@@ -239,7 +239,8 @@ void DISPLAY_PLAT_WAY(void)
   
   i = 0;
   cur = &t_world_info[i];
-  do {
+  do
+  {
     flag = 0xfd;
     *(u32*)&cur->state = *(u32*)&cur->state & flag;
     i++;
@@ -248,10 +249,12 @@ void DISPLAY_PLAT_WAY(void)
 
   i = 0;
   cur = &t_world_info[i];
-  do {
+  do
+  {
     x_pos = cur->x_pos;
     y_pos = cur->y_pos;
-    if (*(u32*)&cur->state & 1) {
+    if (*(u32*)&cur->state & 1)
+    {
       PS1_DisplayPts(i, cur->index_up, x_pos, y_pos);
       PS1_DisplayPts(i, cur->index_down, x_pos, y_pos);
       PS1_DisplayPts(i, cur->index_right, x_pos, y_pos);
@@ -261,4 +264,243 @@ void DISPLAY_PLAT_WAY(void)
     i++;
     cur++;
   } while (i < 24);
+}
+
+/* 67B0C 8018C30C -O2 */
+/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_DisplayPlateau);*/
+
+extern Obj *mapobj;
+
+void PS1_DisplayPlateau(void)
+{
+  Obj *obj;
+  WorldInfo *wi;
+  s16 i;
+  s16 test;
+  
+  i = 0;
+  wi = t_world_info;
+  obj = mapobj;
+  do
+  {
+    if ((*(u32*)&wi->state & 1 || (test = i == 17)) &&
+        ((obj->screen_x_pos + (u32)obj->offset_bx) - 0x25 < 0x101) &&
+       ((obj->screen_y_pos + (u32)obj->offset_by) - 0x2e < 0x97))
+    {
+      DISPLAY_PLATEAU(obj);
+    }
+    wi = wi + 1;
+    obj = obj + 1;
+    i = i + 1;
+  } while (i < 24);
+}
+
+/* only resolved struct fields so far. x < bVar1 block could be loop? tried a little bit to resolve gotos */
+/* 67BE8 8018C3E8 -O2 */
+/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_MEDAILLONS);*/
+
+extern Obj *mapobj;
+
+void DO_MEDAILLONS(void)
+{
+    s16 iVar3;
+    Obj *mapObj_0;
+    WorldInfo *pbVar2;
+    u8 bVar1;
+
+    if ((chemin_percent < 100) && (horloge[2] != 0)) {
+        chemin_percent = chemin_percent + 1;
+    }
+    iVar3 = 0;
+    mapObj_0 = mapobj;
+    pbVar2 = t_world_info;
+    do
+    {
+        CalcObjPosInWorldMap(mapObj_0);
+        if (((*(u32 *)(pbVar2->state) & 4) != 0) && (0x62 < chemin_percent))
+        {
+            *(u32 *)(pbVar2->state) = *(u32 *)(pbVar2->state) & 0xfffffffb | 1;
+            set_sub_etat(mapObj_0,0x2e);
+        }
+        if (
+            (s16)iVar3 == 0x11 &&
+            mapObj_0->sub_etat != 0x3b &&
+            mapObj_0->sub_etat != 0x2e &&
+            (*(u32 *)(pbVar2 + -1) & 1) != 0
+        )
+        {
+            set_sub_etat(mapObj_0,0x3b);
+        }
+        else if (
+            ((((iVar3 - 0x12U & 0xffff) < 2 ||
+            (iVar3 - 0x14U & 0xffff) < 2) ||
+            (iVar3 - 0x16U & 0xffff) < 2) &&
+            ((mapObj_0->sub_etat != 0x3a && (mapObj_0->sub_etat != 0x2e)))) &&
+            ((*(u32 *)(pbVar2->state) & 1) != 0)
+        )
+        {
+            set_sub_etat(mapObj_0,0x3a);
+        }
+        else
+        {
+            bVar1 = pbVar2->nb_cages;
+            if ((5 < bVar1) && (mapObj_0->sub_etat == 0x33))
+            {
+                if ((mapObj_0->eta[mapObj_0->main_etat][0x33].flags & 0x10) == 0) {
+                    if ((u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1) goto LAB_8018c5f8;
+                }
+                else if (mapObj_0->anim_frame == 0) {
+        LAB_8018c5f8:
+                    if (horloge[mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].anim_speed & 0xf] == 0) {
+                        set_sub_etat(mapObj_0,0x34);
+                        goto LAB_8018c9d8;
+                    }
+                }
+            }
+            if ((4 < bVar1) && (mapObj_0->sub_etat == 0x32)) {
+                if ((mapObj_0->eta[mapObj_0->main_etat][0x32].flags & 0x10) == 0) {
+                    if ((u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1) goto LAB_8018c6dc;
+                }
+                else if (mapObj_0->anim_frame == 0) {
+            LAB_8018c6dc:
+                    if (horloge[mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].anim_speed & 0xf] == 0) {
+                        set_sub_etat(mapObj_0,0x33);
+                        goto LAB_8018c9d8;
+                    }
+                }
+            }
+            if ((3 < bVar1) && (mapObj_0->sub_etat == 0x31)) {
+                if ((mapObj_0->eta[mapObj_0->main_etat][0x31].flags & 0x10) == 0) {
+                    if ((u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1) goto LAB_8018c7c0;
+                    }
+                else if (mapObj_0->anim_frame == 0) {
+            LAB_8018c7c0:
+                    if (horloge[mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].anim_speed & 0xf] == 0) {
+                        set_sub_etat(mapObj_0,0x32);
+                        goto LAB_8018c9d8;
+                    }
+                }
+            }
+            if ((2 < bVar1) && (mapObj_0->sub_etat == 0x30)) {
+                if ((mapObj_0->eta[mapObj_0->main_etat][0x30].flags & 0x10) == 0) {
+                    if ((u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1) goto LAB_8018c8a4;
+                    }
+                else if (mapObj_0->anim_frame == 0) {
+            LAB_8018c8a4:
+                    if (horloge[mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].anim_speed & 0xf] == 0) {
+                        set_sub_etat(mapObj_0,0x31);
+                        goto LAB_8018c9d8;
+                    }
+                }
+            }
+            if ((1 < bVar1) && (mapObj_0->sub_etat == 0x2f)) {
+                if ((mapObj_0->eta[mapObj_0->main_etat][0x2f].flags & 0x10) == 0) {
+                    if ((u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1) goto LAB_8018c988;
+                    }
+                else if (mapObj_0->anim_frame == 0) {
+            LAB_8018c988:
+                    if (horloge[mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].anim_speed & 0xf] == 0) {
+                        set_sub_etat(mapObj_0,0x30);
+                    }
+                }
+            }
+        }
+    LAB_8018c9d8:
+        DO_ANIM(mapObj_0);
+        mapObj_0 = mapObj_0 + 1;
+        iVar3 = iVar3 + 1;
+        pbVar2 = pbVar2 + 1;
+        if (0x17 < iVar3) {
+        return;
+        }
+    } while(TRUE);
+}
+
+/* based on ghidra */
+/* 683FC 8018CBFC -O2 */
+/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_STAGE_NAME);*/
+
+extern s16 fichier_selectionne;
+extern u8 s___801cf0a4[4];
+extern u8 s__801cf0a8[2];
+extern u8 save_ray[4][4];
+
+void INIT_WORLD_STAGE_NAME(void)
+{
+    u8 bVar1;
+    u8 local_60[48];
+
+    switch(t_world_info[num_world_choice].world) {
+        case 1:
+            __builtin_strcpy(text_to_display[2].text, "/the dream forest/");
+            bVar1 = 7;
+            break;
+        case 2:
+            __builtin_strcpy(text_to_display[2].text, "/band land/");
+            bVar1 = 4;
+            break;
+        case 3:
+            __builtin_strcpy(text_to_display[2].text, "/blue mountains/");
+            bVar1 = 0xd;
+            break;
+        case 4:
+            __builtin_strcpy(text_to_display[2].text, "/picture city/");
+            bVar1 = 0;
+            break;
+        case 5:
+            __builtin_strcpy(text_to_display[2].text, "/the cave of skops/");
+            bVar1 = 2;
+            break;
+        case 6:
+            __builtin_strcpy(text_to_display[2].text, "/candy chateau/");
+            bVar1 = 1;
+            break;
+        case 7:
+            bVar1 = t_world_info[num_world_choice].color;
+            if (fichier_selectionne == 1)
+            {
+                /*local_60._0_2_ = s_/_801cf0a8;*/
+                strcat(local_60, save_ray[1]);
+                strcat(local_60, s__801cf0a8);
+                __builtin_strcpy(text_to_display[2].text, local_60);
+            }
+            else if (fichier_selectionne < 2)
+            {
+                if (fichier_selectionne == 0)
+                {
+                    if (NBRE_SAVE == 0)
+                    {
+                        __builtin_strcpy(text_to_display[2].text, "/password/");
+                    }
+                    else
+                    {
+                        __builtin_strcpy(text_to_display[2].text, s___801cf0a4);
+                    }
+                }
+            }
+            else if (fichier_selectionne == 2)
+            {
+                /*local_60._0_2_ = s_/_801cf0a8;*/
+                strcat(local_60, save_ray[2]);
+                strcat(local_60, s__801cf0a8);
+                __builtin_strcpy(text_to_display[2].text, local_60);
+            }
+            else if (fichier_selectionne == 3)
+            {
+                /*local_60._0_2_ = s_/_801cf0a8;*/
+                strcat(local_60, save_ray[3]);
+                strcat(local_60, s__801cf0a8);
+                __builtin_strcpy(text_to_display[2].text, local_60);
+            }
+            break;
+    }
+    text_to_display[2].color = bVar1;
+    text_to_display[2].font_size = 1;
+    text_to_display[2].x_pos = 0x1c2;
+    text_to_display[2].y_pos = 0x28;
+    text_to_display[2].is_fond = FALSE;
+    text_to_display[2].field8_0x3d = TRUE;
+    INIT_TXT_BOX(text_to_display + 2);
+    text_to_display[2].width = text_to_display[2].width + 10;
+    text_to_display[2].height = text_to_display[2].height + 2;
 }

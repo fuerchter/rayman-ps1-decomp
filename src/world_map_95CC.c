@@ -95,7 +95,7 @@ s32 WORLD_CHOICE(void)
     PS1_DisplayWorldMapGraphEdges();
     display2(&ray);
     DO_CHEMIN();
-    PS1_DisplayWorldMapObjects();
+    PS1_DisplayPlateau();
     DisplayJumellesNormal();
     DISPLAY_STAGE_NAMES();
 

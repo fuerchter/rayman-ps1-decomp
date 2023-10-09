@@ -13,6 +13,8 @@ s_blue_mountains_8012ba48 = 0x8012ba48; // type:asciz force_migration:True
 s_picture_city_8012ba5c = 0x8012ba5c; // type:asciz force_migration:True
 s_the_cave_of_skops_8012ba6c = 0x8012ba6c; // type:asciz force_migration:True
 s_candy_chateau_8012ba80 = 0x8012ba80; // type:asciz force_migration:True
+s___801cf0a4 = 0x801cf0a4;
+s__801cf0a8 = 0x801cf0a8;
 
 EXP1_BASE_ADDR = 0x1f801000;
 EXP2_BASE_ADDR = 0x1f801004;

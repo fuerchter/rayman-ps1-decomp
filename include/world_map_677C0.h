@@ -10,6 +10,7 @@
 #include "moteur_update.h"
 #include "cam_scroll.h"
 #include "menu/menu_card_7C028.h"
+#include "timers.h"
 
 /* TODO: does padding (between color, level_name) matter? */
 typedef struct WorldInfo

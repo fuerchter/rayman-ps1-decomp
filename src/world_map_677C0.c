@@ -8,6 +8,7 @@ void CalcObjPosInWorldMap(Obj *obj) {
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DoScrollInWorldMap);
 
+/* 678DC 8018C0DC -O2 */
 #ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_DisplayPts);
 #else
@@ -45,8 +46,10 @@ void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y)
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DISPLAY_PLAT_WAY);
 
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_DisplayWorldMapObjects);
+/* 67B0C 8018C30C -O2 */
+INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_DisplayPlateau);
 
+/* 67BE8 8018C3E8 -O2 */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_MEDAILLONS);
 
 /* 68220 8018CA20 -O2 */
@@ -54,18 +57,7 @@ INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_MEDAILLONS);
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_LEVEL_STAGE_NAME);
 #else
 /*? INIT_TXT_BOX(s8 *);
-? PS1_GenerateAndDisplayPassword();
-extern ? D_801C3366;
-extern ? D_801C3368;
-extern ? D_801C336C;
-extern u16 D_801E4F8A;
-extern u16 D_801E4F8C;
-extern s16 D_801E4F90;
-extern s16 D_801E4F92;
-extern s8 D_801E4F94;
-extern s8 D_801E4F95;
-extern s8 D_801E4F96;
-extern u8 D_801E4F97;*/
+? PS1_GenerateAndDisplayPassword();*/
 
 void INIT_LEVEL_STAGE_NAME(void)
 {
@@ -89,6 +81,7 @@ void INIT_LEVEL_STAGE_NAME(void)
 }
 #endif
 
+/* 683FC 8018CBFC -O2 */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_STAGE_NAME);
 
 /* 68CB8 8018D4B8 -O2 */
@@ -113,10 +106,7 @@ void INIT_STAGE_NAME(void) {
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", CHANGE_STAGE_NAMES);
 #else
 /*? INIT_LEVEL_STAGE_NAME(s32, s32, ? *, void *);
-? INIT_WORLD_STAGE_NAME(s32, s32, ? *, void *);
-extern ? D_801C3366;
-extern ? D_801E4F98;
-extern ? D_801E5018;*/
+? INIT_WORLD_STAGE_NAME(s32, s32, ? *, void *);*/
 
 void CHANGE_STAGE_NAMES(void)
 {    
@@ -132,8 +122,53 @@ void CHANGE_STAGE_NAMES(void)
 }
 #endif
 
-
+/* 68EF4 8018D6F4 -O2 */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_CardDisplayPassword);
+#else
+void PS1_CardDisplayPassword(void)
+{
+  u8 color;
+
+  __builtin_memcpy(&text_to_display[1], &text_to_display[0], sizeof(TextToDisplay));
+  __builtin_memcpy(&text_to_display[3], &text_to_display[2], sizeof(TextToDisplay));
+
+  PS1_GenerateAndDisplayPassword();
+
+  color = t_world_info[num_world_choice].color;
+  text_to_display[2].font_size = 1;
+  text_to_display[2].color = color;
+  text_to_display[2].x_pos = 450;
+  text_to_display[2].y_pos = 40;
+  text_to_display[2].is_fond = 0;
+  text_to_display[2].field8_0x3d = 0;
+  INIT_TXT_BOX(&text_to_display[2]);
+
+  text_to_display[0].font_size = 2;
+  text_to_display[0].x_pos = 450;
+  text_to_display[0].y_pos = 220;
+  text_to_display[0].is_fond = 0;
+  text_to_display[0].field8_0x3d = 0;
+  text_to_display[2].width += 10;
+  text_to_display[2].height += 2;
+  INIT_TXT_BOX(&text_to_display[0]);
+
+  text_to_display[0].centered_y_pos -= 6;
+  text_to_display[0].width += 10;
+  text_to_display[0].height += 6;
+  text_to_display[0].color = t_world_info[num_world_choice].color;
+  text_to_display[1].x_pos = 160;
+  text_to_display[1].y_pos = 250;
+  text_to_display[1].field8_0x3d = 0;
+  text_to_display[1].is_fond = 0;
+  text_to_display[3].x_pos = 160;
+  text_to_display[3].y_pos = -50;
+  text_to_display[3].field8_0x3d = 0;
+  text_to_display[3].is_fond = 0;
+
+  __asm__("nop\nnop");
+}
+#endif
 
 /* 691E0 8018D9E0 -O2 */
 void PS1_WorldMapMoveText(void)
@@ -160,6 +195,7 @@ void PS1_WorldMapMoveText(void)
     }
 }
 
+/* next */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_INFO);
 
 /* 693B4 8018DBB4 -O2 */
