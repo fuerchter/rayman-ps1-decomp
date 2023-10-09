@@ -195,7 +195,6 @@ void PS1_WorldMapMoveText(void)
     }
 }
 
-/* next */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_INFO);
 
 /* 693B4 8018DBB4 -O2 */
@@ -216,8 +215,10 @@ void RESTORE_RAY(void)
     ray.nb_sprites = raytmp.nb_sprites;
 }
 
+/* 69468 8018DC68 -O2 */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_CHEMIN);
 
+/* next */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_UP);
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_DOWN);
