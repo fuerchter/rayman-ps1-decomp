@@ -88,21 +88,19 @@ extern s16 scroll_start_y;
 
 void DoScrollInWorldMap(s32 arg0, s32 arg1)
 {
-    /* ??? */
     u8 test[16];
     s16 temp_v1;
     s16 var_a0;
     s16 var_v1;
 
-    ymap = (u16) ymap + arg1;
-    temp_v1 = (u16) xmap + arg0;
-    xmap = temp_v1;
-    if ((temp_v1 < scroll_start_x) || (var_a0 = scroll_end_x, ((scroll_end_x < temp_v1) != 0)))
+    ymap = ymap + arg1;
+    xmap = xmap + arg0;
+    if (xmap < scroll_start_x || (var_a0 = scroll_end_x, var_a0 < xmap))
     {
         xmap = var_a0;
         dhspeed = 0;
     }
-    if ((scroll_start_y > ymap) || (var_v1 = scroll_end_y, ((scroll_end_y < ymap) != 0)))
+    if (scroll_start_y > ymap || (var_v1 = scroll_end_y, var_v1 < ymap))
     {
         ymap = var_v1;
         dvspeed = 0;
@@ -227,92 +225,40 @@ void DETER_WORLD_AND_LEVEL(void)
   }
 }
 
-/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_DisplayPts);*/
-
-/* 678DC 8018C0DC -O2 */
-/*? DISPLAY_PTS_TO_PLAN2(s16, s16, s16, s16, s32);*/
-extern s16 D_801C335E;
-extern u8 D_801C3364;
-extern u8 chemin_percent;
-
-void PS1_DisplayPts(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
-{
-    s32 temp_a1;
-    u32 temp_v1;
-
-    if (arg1 != arg0 && (temp_v1 = *(u32*)&t_world_info[arg1].state, (temp_v1 >> 1 & 1) == 0))
-    {
-        if (temp_v1 & 1)
-        {
-            DISPLAY_PTS_TO_PLAN2(
-                arg2,
-                arg3,
-                t_world_info[arg1].x_pos,
-                t_world_info[arg1].y_pos,
-                0x64);
-            return;
-        }
-        if ((temp_v1 >> 2) & 1)
-        {
-            DISPLAY_PTS_TO_PLAN2(
-                arg2,
-                arg3,
-                t_world_info[arg1].x_pos,
-                t_world_info[arg1].y_pos,
-                (s32) chemin_percent
-            );
-        }
-    }
-}
-
+/* matching, but WorldInfo state casts... */
+/* 679D4 8018C1D4 -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DISPLAY_PLAT_WAY);*/
 
-/* 679D4 8018C1D4 -O2 */
 void DISPLAY_PLAT_WAY(void)
 {
-  WorldInfo *var_s4;
-  s32 new_var;
-  s16 var_s5;
-  s16 var_s5_2;
-  s16 temp_s0;
-  s16 temp_s1;
-  s32 *var_a0;
-  s32 *var_s3;
-  s32 new_var2;
+  s16 i;
+  WorldInfo *cur;
+  s16 x_pos;
+  s16 y_pos;
+  s8 flag;
+  
+  i = 0;
+  cur = &t_world_info[i];
+  do {
+    flag = 0xfd;
+    *(u32*)&cur->state = *(u32*)&cur->state & flag;
+    i++;
+    cur++;
+  } while (i < 24);
 
-  var_s5 = 0;
-  new_var = ~2;
-  var_a0 = &t_world_info->state;
-  do
-  {
-    new_var2 = *var_a0;
-    var_s5 = var_s5 + 1;
-    *var_a0 = new_var2 & new_var;
-    var_a0 += 5;
-  }
-  while (var_s5 < 0x18);
-
-  var_s5_2 = 0;
-  var_s4 = &t_world_info;
-  var_s3 = &t_world_info->state;
-  do
-  {
-    temp_s1 = var_s4->x_pos;
-    var_a0 = var_s3;
-    var_s5 = *(((u16 *) var_a0) - 3);
-    temp_s0 = var_s5;
-    var_s4 += 1;
-    var_s5 = 1;
-    if ((*var_a0) & 1)
-    {
-      PS1_DisplayPts(var_s5_2, *(((u8 *) var_s3) - 4), temp_s1, temp_s0);
-      PS1_DisplayPts(var_s5_2, *(((u8 *) var_a0) - 3), temp_s1, temp_s0);
-      PS1_DisplayPts(var_s5_2, *(((u8 *) var_a0) - 1), temp_s1, temp_s0);
-      PS1_DisplayPts(var_s5_2, *(((u8 *) var_a0) - 2), temp_s1, temp_s0);
-      *var_a0 = (*var_s3) | 2;
+  i = 0;
+  cur = &t_world_info[i];
+  do {
+    x_pos = cur->x_pos;
+    y_pos = cur->y_pos;
+    if (*(u32*)&cur->state & 1) {
+      PS1_DisplayPts(i, cur->index_up, x_pos, y_pos);
+      PS1_DisplayPts(i, cur->index_down, x_pos, y_pos);
+      PS1_DisplayPts(i, cur->index_right, x_pos, y_pos);
+      PS1_DisplayPts(i, cur->index_left, x_pos, y_pos);
+      *(u32*)&cur->state = *(u32*)&cur->state | 2;
     }
-    var_s5_2++;
-    var_s4++;
-  }
-  while (var_s5_2 < 0x18);
+    i++;
+    cur++;
+  } while (i < 24);
 }

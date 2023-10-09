@@ -20,7 +20,7 @@ typedef struct WorldInfo
     u8 index_down;
     u8 index_left;
     u8 index_right;
-    u8 state;
+    u8 state; /* TODO: bitfield */
     u8 nb_cages;
     u8 world;
     u8 level;
@@ -35,6 +35,7 @@ extern s16 ymap;
 extern s16 new_world;
 extern u8 old_num_world;
 extern Obj raylittle;
+extern u8 chemin_percent;
 
 void CalcObjPosInWorldMap(Obj *obj);
 void INIT_STAGE_NAME(void);
