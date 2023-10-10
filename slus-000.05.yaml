@@ -119,7 +119,7 @@ segments:
       - [0x361A0, c, obj/cage_init] #8015a9a0
       - [0x36260, asm, num_level_36260] #8015aa60
       - [0x372E0, c, bonus_372E0] #8015bae0
-      - [0x37A9C, asm, obj/fish] #8015c29c
+      - [0x37A9C, c, obj/fish] #8015c29c
       - [0x380A0, asm, obj/balle] #8015c8a0
       - [0x38118, asm, obj/stonechip] #8015c918
       - [0x38514, asm, obj/stonebomb] #8015cd14
@@ -191,8 +191,8 @@ segments:
       - [0x4E7DC, asm, obj/stonewoman] #80172fdc
       - [0x4ECB0, asm, obj/stonewoman2] #801734b0
       - [0x4ED80, asm, obj/herse] #80173580
-      - [0x4EFB0, asm, obj/poi2_command] #801737b0
-      - [0x4F0CC, asm, obj/poi3_command] #801738cc
+      - [0x4EFB0, c, obj/poi2_command] #801737b0
+      - [0x4F0CC, c, obj/poi3_command] #801738cc
       - [0x4F364, asm, obj/black_ray_command] #80173b64
       - [0x4F818, asm, obj/poelle_command] #80174018
       - [0x4FB58, asm, obj/corde_command] #80174358

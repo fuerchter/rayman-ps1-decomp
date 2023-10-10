@@ -1,4 +1,6 @@
 #TODO:
+#style: move assignment in if into second if
+
 #PS1_DisplayPts, DISPLAY_PLAT_WAY, INIT_WORLD_INFO. if we get one we might be able to get the others, too?
 #DETER_WORLD_AND_LEVEL and PASTILLES_SAUVE_SAVED also share issues
 #check out -psx patched old-gcc to possibly clean up DO_WORLD_MAP, DETER_WORLD_AND_LEVEL world_index assign
