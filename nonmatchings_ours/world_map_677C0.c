@@ -12,7 +12,7 @@ void RESPOND_TO_UP(void)
 }
 
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_PASTILLES_SAUVE);*/
-/* https://decomp.me/scratch/Y1VKk PSYQ3.3 (gcc 2.6.0 + aspsx 2.21) -O1 */
+/* https://decomp.me/scratch/Y1VKk PSYQ3.3 (gcc 2.6.0 + aspsx 2.21) -O2 */
 /* 6A0C8 8018E8C8 */
 extern s32 D_801C34D4;
 extern s32 D_801C34E8;
@@ -20,60 +20,28 @@ extern s32 D_801C34FC;
 extern s32 D_801C3510;
 extern s32 D_801C3524;
 extern s32 D_801C3538;
-extern s32 D_801C353C;
-extern s32 D_801C3544;
+extern u8 *D_801C353C;
+extern u8 *D_801C3544;
 extern u8 NBRE_SAVE;
 
 void INIT_PASTILLES_SAUVE(void)
 {
-    s32 var_v0;
-
-    if (NBRE_SAVE != 0)
-    {
-        var_v0 = D_801C353C;
-    } else {
-        var_v0 = D_801C3544;
-    }
-    D_801C34D4 = var_v0;
-    t_world_info[19].level_name = var_v0;
-    D_801C34FC = var_v0;
-    D_801C3510 = var_v0;
-    D_801C3524 = var_v0;
-    D_801C3538 = var_v0;
-}
-
-/* matching, but... */
-/* 6A180 8018E980 */
-void INIT_PASTILLES_SAUVE(void);
-extern s8 PROC_EXIT;
-extern s8 dir_on_wldmap;
-extern u16 xmapinit;
-extern u16 xwldmapsave;
-extern u16 ymapinit;
-extern u16 ywldmapsave;
-
-extern u8 D_801F6200;
-extern u32 D_801F620C;
-
-void FIN_WORLD_CHOICE(void)
-{
-    xwldmapsave = xmap;
-    ywldmapsave = ymap;
-    xmap = xmapinit;
-    ymap = ymapinit;
-    /*
-    tried ray.flags & OBJ_FLIP_X,
-    tried ray.flags & OBJ_FLIP_X != 0
-    and bitfield
-    */
-    dir_on_wldmap = D_801F620C >> 0xE & 1;
-    RESTORE_RAY();
-    INIT_PASTILLES_SAUVE();
-    PROC_EXIT = FALSE;
-    if (D_801F6200 == 0xFF)
-    {
-        D_801F6200 = 0; /* this is also ray.hit_points */
-    }
+ u8 *test;
+  
+  if (NBRE_SAVE != 0) {
+    test = D_801C353C;
+  }
+  else
+  {
+    test = D_801C3544;
+  }
+  __asm__("nop"); /* ... */
+  t_world_info[18].level_name = test;
+  t_world_info[19].level_name = test;
+  t_world_info[20].level_name = test;
+  t_world_info[21].level_name = test;
+  t_world_info[22].level_name = test;
+  t_world_info[23].level_name = test;
 }
 
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DoScrollInWorldMap);*/
@@ -172,56 +140,55 @@ void PASTILLES_SAUVE_SAVED(s16 arg0)
     *(u32*)(test + arg0 * sizeof(WorldInfo)) = D_801C3540;
 }
 
+/* missing_addiu match, but nicer way to match without test/test2? */
+/* 6A224 8018EA24 -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DETER_WORLD_AND_LEVEL);*/
 
-/* 6A224 8018EA24 -O2 */
 extern u8 D_801C3366;
 extern u8 D_801C3367;
 extern u8 D_801F43D1;
 extern u8 D_801F4EE9;
-extern u8 ModeDemo;
 extern s8 You_Win;
-extern u8 finBosslevel;
+extern u8 finBosslevel[2];
 extern s8 fin_dark;
-extern s8 fin_du_jeu;
-extern s16 num_level_choice;
-extern s16 num_world_choice;
-extern u8 world_index;
+extern RaymanEvents RayEvts;
 
 void DETER_WORLD_AND_LEVEL(void)
 {
-  s16 temp_v0;
-  world_index = *(u8*)&num_world_choice;
+  RayEvts_1 *test;
+  RayEvts_1 *test2;
+
+  world_index = num_world_choice;
   if (ModeDemo == 0)
   {
-    temp_v0 = num_world_choice;
-    num_level_choice = t_world_info[temp_v0].level;
-    num_world_choice = t_world_info[temp_v0].world;
+    num_level_choice = t_world_info[num_world_choice].level;
+    num_world_choice = t_world_info[num_world_choice].world;
   }
   if (num_world_choice == 5)
   {
-    if ((num_level_choice == 3) && (finBosslevel[1] & 2))
+    if (num_level_choice == 3 && finBosslevel[1] & 2)
     {
       num_level_choice += 1;
-      D_801F43D1 |= 4;
+      test2 = &RayEvts.flags1;
+      *test2 |= 4;
       return;
     }
     if (num_world_choice == 5)
     {
-      if (((num_level_choice == 4) && (finBosslevel[1] & 2)) && (ModeDemo != 0))
+      if (num_level_choice == 4 && finBosslevel[1] & 2 && ModeDemo != 0)
       {
-        D_801F43D1 |= 4;
+        test = &RayEvts.flags1;
+        *test |= 4;
         return;
       }
     }
   }
-  if ((num_world_choice == 6) && (finBosslevel[0] & 0x80))
+  if (num_world_choice == 6 && finBosslevel[0] & 0x80)
   {
     You_Win = 1;
     fin_du_jeu = 1;
     fin_dark = 1;
     new_world = 1;
-    return;
   }
 }
 

@@ -218,17 +218,58 @@ void RESTORE_RAY(void)
 /* 69468 8018DC68 -O2 */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_CHEMIN);
 
-/* next */
+/* https://decomp.me/scratch/6ivxi PSYQ3.3 (gcc 2.6.0 + aspsx 2.21) -O1 */
+/* 698B4 8018E0B4 -O2 */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_UP);
+#else
+void RESPOND_TO_UP(void)
+{
+    num_world_choice = t_world_info[num_world_choice].index_up;
 
+    __asm__("nop");
+}
+#endif
+
+/* 698F0 8018E0F0 -O2 */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_DOWN);
+#else
+void RESPOND_TO_DOWN(void)
+{
+    num_world_choice = t_world_info[num_world_choice].index_down;
 
+    __asm__("nop");
+}
+#endif
+
+/* 6992C 8018E12C -O2 */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_RIGHT);
+#else
+void RESPOND_TO_RIGHT(void)
+{
+    num_world_choice = t_world_info[num_world_choice].index_right;
 
+    __asm__("nop");
+}
+#endif
+
+/* 69968 8018E168 -O2 */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_LEFT);
+#else
+void RESPOND_TO_LEFT(void)
+{
+    num_world_choice = t_world_info[num_world_choice].index_left;
+
+    __asm__("nop");
+}
+#endif
 
 /* 699A4 8018E1A4 -O2 */
-void MoveRayInWorldMap(void) {
+void MoveRayInWorldMap(void)
+{
     h_scroll_speed = ray.speed_x;
     v_scroll_speed = ray.speed_y;
     ray.x_pos += ray.speed_x;
@@ -251,8 +292,37 @@ void DO_CHEMIN(void)
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_PASTILLES_SAUVE);
 
+/* 6A130 8018E930 -O2 */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PASTILLES_SAUVE_SAVED);
+#else
+/*? INIT_PASTILLES_SAUVE();*/
 
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", FIN_WORLD_CHOICE);
+void PASTILLES_SAUVE_SAVED(s16 wld)
+{
+    INIT_PASTILLES_SAUVE();
+    t_world_info[wld].level_name = PTR_s_game_saved_801c3540;
+
+    __asm__("nop");
+}
+#endif
+
+/* 6A180 8018E980 -O2 */
+/*void INIT_PASTILLES_SAUVE(void);*/
+
+void FIN_WORLD_CHOICE(void)
+{
+    xwldmapsave = xmap;
+    ywldmapsave = ymap;
+    xmap = xmapinit;
+    ymap = ymapinit;
+
+    dir_on_wldmap = ray.flags >> 0xE & 1;
+    RESTORE_RAY();
+    INIT_PASTILLES_SAUVE();
+    PROC_EXIT = FALSE;
+    if (ray.hit_points == 0xFF)
+        ray.hit_points = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DETER_WORLD_AND_LEVEL);

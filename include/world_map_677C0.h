@@ -37,11 +37,39 @@ extern s16 new_world;
 extern u8 old_num_world;
 extern Obj raylittle;
 extern u8 chemin_percent;
+extern u8 *PTR_s_game_saved_801c3540;
+extern u8 dir_on_wldmap;
+extern s16 xmapinit;
+extern s16 ymapinit;
+extern s16 xwldmapsave;
+extern s16 ywldmapsave;
 
 void CalcObjPosInWorldMap(Obj *obj);
+
+void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y);
+
+
+
+void INIT_LEVEL_STAGE_NAME(void);
+
 void INIT_STAGE_NAME(void);
+void CHANGE_STAGE_NAMES(void);
+void PS1_CardDisplayPassword(void);
+void PS1_WorldMapMoveText(void);
+
+void INIT_LITTLE_RAY(void);
 void RESTORE_RAY(void);
+
+void RESPOND_TO_UP(void);
+void RESPOND_TO_DOWN(void);
+void RESPOND_TO_RIGHT(void);
+void RESPOND_TO_LEFT(void);
 void MoveRayInWorldMap(void);
+
 void DO_CHEMIN(void);
+
+void PASTILLES_SAUVE_SAVED(s16 wld);
+void FIN_WORLD_CHOICE(void);
+
 
 #endif
