@@ -163,7 +163,7 @@ segments:
       - [0x48D74, asm, obj/spider_command] #8016d574
       - [0x48F74, asm, obj/stoneman_command] #8016d774
       - [0x49090, asm, obj/stonedog_command] #8016d890
-      - [0x49320, asm, obj/moving_platform_command] #8016DB20
+      - [0x49320, c, obj/moving_platform_command] #8016DB20
       - [0x493E0, asm, obj/trompette_command] #8016dbe0
       - [0x494FC, c, command_494FC] #8016dcfc
       - [0x4995C, asm, obj/stonechip_command] #8016e15c
@@ -204,7 +204,7 @@ segments:
       - [0x504E8, asm, obj/bouee_joe_command] #80174ce8
       - [0x50588, asm, obj/joe_command] #80174d88
       - [0x506E8, asm, obj/drop_command] #80174ee8
-      - [0x5088C, asm, obj/falling_obj_command] #8017508c
+      - [0x5088C, c, obj/falling_obj_command] #8017508c
       - [0x50AC4, asm, obj/mus_wait] #801752c4
       - [0x50C00, asm, obj/tire_bouchon_command] #80175400
       - [0x50C2C, asm, obj/petit_couteau_command] #8017542c
