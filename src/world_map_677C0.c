@@ -16,27 +16,31 @@ void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y)
 {
     u32 state;
 
-    if (to != from && (state = *(u32*)&t_world_info[to].state, !(state >> 1 & 1)))
+    if (to != from)
     {
-        if (state & 1)
+        state = *(u32*)&t_world_info[to].state;
+        if(!(state >> 1 & 1))
         {
-            DISPLAY_PTS_TO_PLAN2(
-                from_x,
-                from_y,
-                t_world_info[to].x_pos,
-                t_world_info[to].y_pos,
-                100
-            );
-        }
-        else if (state >> 2 & 1)
-        {
-            DISPLAY_PTS_TO_PLAN2(
-                from_x,
-                from_y,
-                t_world_info[to].x_pos,
-                t_world_info[to].y_pos,
-                chemin_percent
-            );
+            if (state & 1)
+            {
+                DISPLAY_PTS_TO_PLAN2(
+                    from_x,
+                    from_y,
+                    t_world_info[to].x_pos,
+                    t_world_info[to].y_pos,
+                    100
+                );
+            }
+            else if (state >> 2 & 1)
+            {
+                DISPLAY_PTS_TO_PLAN2(
+                    from_x,
+                    from_y,
+                    t_world_info[to].x_pos,
+                    t_world_info[to].y_pos,
+                    chemin_percent
+                );
+            }
         }
     }
 

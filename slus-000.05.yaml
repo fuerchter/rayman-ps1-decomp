@@ -191,8 +191,7 @@ segments:
       - [0x4E7DC, asm, obj/stonewoman] #80172fdc
       - [0x4ECB0, asm, obj/stonewoman2] #801734b0
       - [0x4ED80, asm, obj/herse] #80173580
-      - [0x4EFB0, c, obj/poi2_command] #801737b0
-      - [0x4F0CC, c, obj/poi3_command] #801738cc
+      - [0x4EFB0, c, obj/poi_command] #801737b0
       - [0x4F364, asm, obj/black_ray_command] #80173b64
       - [0x4F818, asm, obj/poelle_command] #80174018
       - [0x4FB58, asm, obj/corde_command] #80174358
