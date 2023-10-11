@@ -51,3 +51,30 @@ void allocate_splash(Obj *baseObj)
     } while (iVar4 < PS1_SplashAlwaysObjectsCount);
   }
 }
+
+/* 37CB8 8015C4B8 -O2 */
+/*INCLUDE_ASM("asm/nonmatchings/obj/fish", DESACTIVE_FISH_COLLIS);*/
+
+extern u8 *link_init;
+
+void DESACTIVE_FISH_COLLIS(Obj *fish)
+{
+  u8 obj_index;
+  Obj *obj;
+
+  obj_index = link_init[fish->id];
+  obj = &level.objects[obj_index];
+  if (obj->y_pos == fish->y_pos) {
+    obj->y_pos = ymap + 240;
+    /* already tried doing same as below, saving one of the flags to var, retyping */
+    obj->flags &= ~(OBJ_ALIVE|OBJ_ACTIVE);
+  }
+
+  obj_index = link_init[obj->id];
+  obj = &level.objects[obj_index];
+  if (obj->y_pos == fish->y_pos) {
+    obj->flags &= ~OBJ_ACTIVE;
+    obj->y_pos = ymap + 240;
+    obj->flags &= ~OBJ_ALIVE;
+  }
+}

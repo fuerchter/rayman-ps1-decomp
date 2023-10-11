@@ -1,8 +1,8 @@
 #include "obj/moving_platform_command.h"
 
-/*INCLUDE_ASM("asm/nonmatchings/obj/moving_platform_command", DO_MOVING_PLATFORM_COMMAND);*/
-
 /* 49320 8016DB20 -O2 */
+s16 test_allowed(Obj *obj, s16 param_2, s16 param_3);
+
 void DO_MOVING_PLATFORM_COMMAND(Obj *obj)
 {
   s16 x_cen;
@@ -12,7 +12,8 @@ void DO_MOVING_PLATFORM_COMMAND(Obj *obj)
   x_cen = get_center_x(obj);
   y_cen = get_center_y(obj);
   chdir = on_block_chdir(obj, x_cen, y_cen);
-  if (chdir && (x_cen = test_allowed(obj, x_cen, y_cen), x_cen != 0))
+  /* TODO: remove cast once sure of test_allowed() return */
+  if (chdir && (s16)test_allowed(obj, x_cen, y_cen))
     skipToLabel(obj, 99, TRUE);
 
   obj->flags &= ~OBJ_FLIP_X;
