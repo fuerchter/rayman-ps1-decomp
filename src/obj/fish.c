@@ -37,5 +37,5 @@ u8 can_free_fish(Obj *fish)
 /* 37CB8 8015C4B8 -O2 */
 INCLUDE_ASM("asm/nonmatchings/obj/fish", DESACTIVE_FISH_COLLIS);
 
-/* next */
+/* 37DA4 8015C5A4 -O2 */
 INCLUDE_ASM("asm/nonmatchings/obj/fish", DO_PYRANHA);
