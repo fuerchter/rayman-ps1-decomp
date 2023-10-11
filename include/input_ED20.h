@@ -3,58 +3,54 @@
 
 #include "common.h"
 
-typedef enum Input
-{
-    INPUT_NONE=0,
-    INPUT_LEFT=1,
-    INPUT_RIGHT=2,
-    INPUT_UP=3,
-    INPUT_DOWN=4,
-    INPUT_CROSS=5,
-    INPUT_CIRCLE=6,
-    INPUT_SQUARE=7,
-    INPUT_TRIANGLE=8,
-    INPUT_START=9,
-    INPUT_SELECT=10,
-    INPUT_R1=11,
-    INPUT_R2=12,
-    INPUT_L1=13,
-    INPUT_L2=14,
-    INPUT_DISABLE_DEBUG=15, // unused,
-    INPUT_ENABLE_DEBUG=16, // unused,
-    INPUT_START_SELECT=17,
-    INPUT_UNUSED_12=18,
-    INPUT_13=19,
-    INPUT_14=20,
-    INPUT_UNUSED_15=21,
-    INPUT_UNUSED_16=22,
-    INPUT_17=23,
-    INPUT_18=24,
-    INPUT_UNUSED_19=25,
-    INPUT_UNUSED_1A=26,
-    INPUT_READ=255
-} Input;
+typedef u32 Input;
+#define INPUT_NONE 0
+#define INPUT_LEFT 1
+#define INPUT_RIGHT 2
+#define INPUT_UP 3
+#define INPUT_DOWN 4
+#define INPUT_CROSS 5
+#define INPUT_CIRCLE 6
+#define INPUT_SQUARE 7
+#define INPUT_TRIANGLE 8
+#define INPUT_START 9
+#define INPUT_SELECT 10
+#define INPUT_R1 11
+#define INPUT_R2 12
+#define INPUT_L1 13
+#define INPUT_L2 14
+#define INPUT_DISABLE_DEBUG 15 // unused
+#define INPUT_ENABLE_DEBUG 16 // unused
+#define INPUT_START_SELECT 17
+#define INPUT_UNUSED_12 18
+#define INPUT_13 19
+#define INPUT_14 20
+#define INPUT_UNUSED_15 21
+#define INPUT_UNUSED_16 22
+#define INPUT_17 23
+#define INPUT_18 24
+#define INPUT_UNUSED_19 25
+#define INPUT_UNUSED_1A 26
+#define INPUT_READ 255
 
 //TODO: these are also defined in libetc.h
-typedef enum PsxPadButtonStates
-{
-    PAD_NONE=0,
-    PAD_L2=1,
-    PAD_R2=2,
-    PAD_L1=4,
-    PAD_R1=8,
-    PAD_TRIANGLE=16,
-    PAD_CIRCLE=32,
-    PAD_CROSS=64,
-    PAD_SQUARE=128,
-    PAD_SELECT=256,
-    PAD_L3=512,
-    PAD_R3=1024,
-    PAD_START=2048,
-    PAD_UP=4096,
-    PAD_RIGHT=8192,
-    PAD_DOWN=16384,
-    PAD_LEFT=32768
-} PsxPadButtonStates;
+typedef u32 PsxPadButtonStates;
+#define PAD_NONE 0
+#define PAD_L2 1
+#define PAD_R2 2
+#define PAD_L1 4
+#define PAD_R1 8
+#define PAD_TRIANGLE 16
+#define PAD_CIRCLE 32
+#define PAD_CROSS 64
+#define PAD_SQUARE 128
+#define PAD_SELECT 256
+#define PAD_L3 512
+#define PAD_R3 1024
+#define PAD_START 2048
+#define PAD_UP 4096
+#define PAD_RIGHT 8192
+#define PAD_DOWN 16384
+#define PAD_LEFT 32768
 
 #endif

@@ -13,4 +13,6 @@ typedef struct StatusBar
     u8 max_hp;
 } StatusBar;
 
+extern StatusBar status_bar;
+
 #endif

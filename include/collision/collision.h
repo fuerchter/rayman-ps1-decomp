@@ -13,4 +13,6 @@ typedef struct ZDC
     u8 sprite;
 } ZDC;
 
+extern u8 nb_wiz_collected;
+
 #endif

@@ -2,8 +2,16 @@
 #define BONUS_35FB4_H
 
 #include "common.h"
+#include "ray/ray_30A64.h"
+#include "timers.h"
+#include "num_level_36260.h"
+#include "world_map_95CC.h"
+#include "moteur_init_end.h"
+#include "collision/collision.h"
 
 extern u8 bonus_perfect[24];
+extern s16 loop_time;
+extern s32 nb_wiz_save;
 
 u8 get_bonus_map_complete(s16 world, s16 level);
 void set_bonus_map_complete(s16 world, s16 level);
