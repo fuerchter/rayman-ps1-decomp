@@ -1,71 +1,216 @@
 #include "bonus_372E0.h"
 
-/*INCLUDE_ASM("asm/nonmatchings/bonus_372E0", get_next_bonus_level);*/
+/* TEST_WIZARD-10 output improved score */
+/* 375BC 8015BDBC -O2 */
+/*INCLUDE_ASM("asm/nonmatchings/bonus_372E0", TEST_WIZARD);*/
 
-/* feels like subswitches should stay instead of if/else, even though worse score */
-/* 374A8 8015BCA8 -O2 */
-s16 get_next_bonus_level(u8 arg0)
+/*? GET_ANIM_POS(Obj *, ? *, s16 *, u16 *, s16 *);
+? set_sub_etat(Obj *, ?, s32 *);*/
+extern u8 D_801E4D56;
+extern u8 D_801F43D1;
+extern u16 D_801F61BC;
+extern s16 D_801F61BE;
+extern s16 D_801F61CC;
+extern s16 D_801F61CE;
+extern s16 D_801F61DE;
+extern u8 D_801F61F2;
+extern u8 D_801F61F3;
+extern u8 D_801F61F6;
+extern u8 D_801F61F8;
+extern s32 D_801F620C;
+extern u8 nb_wiz_collected;
+extern RaymanEvents RayEvts;
+
+void TEST_WIZARD(Obj *arg0)
 {
-    s16 var_a1;
+    s16 sp18;
+    s16 sp1A;
+    s16 sp1C;
+    s16 sp1E;
+    s16 temp_a2;
+    s16 temp_a3;
     s16 temp_v0;
-    s32 temp_v1;
+    s32 temp_v0_2;
+    s16 temp_v1;
     s32 temp_v1_2;
-    s32 temp_v1_3;
+    s16 var_v0;
+    s32 var_v0_2;
+    s32 var_v0_3;
+    s16 var_v0_4;
+    s32 var_v0_5;
+    s32 var_v0_6;
+    s16 var_v0_7;
+    s32 var_v0_9;
+    u16 var_v0_8;
+    u8 temp_a0;
+    u8 temp_a1;
+    s32 new_var;
+    u8 new_var2;
+    s16 new_var3;
+    s32 new_var4;
 
-    temp_v0 = num_world - 1;
-    var_a1 = 0;
-    switch (temp_v0)
+    if ((RayEvts.flags1 & 2) || (!(ray.flags & 0x100) && (((ray.main_etat != 0) && (ray.main_etat != 3)) || (nb_wiz_collected != 0))))
     {
-    case 5:
-        break;
-    case 0:
-        temp_v1 = arg0 & 0xFF;
-        switch (temp_v1)
+        arg0->detect_zone_flag = 0;
+    }
+    temp_a0 = arg0->sub_etat;
+    if (temp_a0 == 0)
+    {
+        if (ray.flags & 0x100)
         {
-        case 2:
-            var_a1 = 0x15;
-            break;
-        case 4:
-            var_a1 = 0x14;
-            break;
-        case 12:
-            var_a1 = 0x13;
-            break;
-        case 11:
-        case 9:
-            var_a1 = 0x12;
-            break;
-        }
-        break;
-    case 1:
-        temp_v1_2 = arg0 & 0xFF;
-        switch (temp_v1_2)
-        {
-        case 4:
-            var_a1 = 0x11;
-            break;
-        }
-        break;
-    case 3:
-        temp_v1_3 = arg0 & 0xFF;
-        if (temp_v1_3 != 3)
-        {
-            if (temp_v1_3 == 9)
+            if ((status_bar.num_wiz + nb_wiz_collected) >= 0xA)
             {
-                var_a1 = 0xD;
+                set_sub_etat(arg0, 0xB);
+                arg0->timer = 0xC8;
+                return;
+            }
+            ray.flags &= ~0x100;
+            return;
+        }
+        if (arg0->detect_zone_flag != 0)
+        {
+            if ((u8) arg0->anim_frame < 0x14U)
+            {
+                if ((u8) status_bar.num_wiz >= 0xAU)
+                {
+                    arg0->anim_frame = 0x14;
+                    return;
+                }
+                set_sub_etat(arg0, 0xA);
+                arg0->flags &= ~0x4000;
+            }
+        }
+        else if (arg0->anim_frame == 0x13)
+        {
+            arg0->anim_frame = 0;
+            if (arg0->detect_zone_flag == 0)
+            {
+                ray.flags &= ~0x100;
+            }
+        }
+    }
+    else if (arg0->detect_zone_flag != 0)
+    {
+        if ((ray.flags & 0x100) && (temp_a0 == 0x0B))
+        {
+            arg0->timer -= 1;
+            if (arg0->timer == 0)
+            {
+                ray.flags &= ~0x100;
+                set_sub_etat(arg0, 1, &ray.flags);
             }
         }
         else
         {
-            var_a1 = 0xC;
+            temp_a1 = arg0->sub_etat;
+            if (temp_a1 == 1)
+            {
+                /* 4ec */
+                if (((ray.main_etat == 0) && ((ray.sub_etat < 2) || ((new_var2 = ray.sub_etat) == 2))) || (ray.main_etat == temp_a1))
+                {
+                    GET_ANIM_POS(arg0, &sp18, &sp1A, &sp1C, &sp1E);
+                    temp_v0 = ((arg0->offset_bx + (u16) arg0->x_pos) - ray.x_pos) - ray.offset_bx;
+                    temp_v1 = (sp1C >> 1);
+                    temp_a2 = temp_v0 - temp_v1;
+                    temp_a3 = temp_v0 + temp_v1;
+                    temp_v1_2 = (ray.y_pos + ray.offset_by) - sp1A;
+                    temp_v0_2 = temp_v1_2 - sp1E;
+                    if (temp_v0_2 >= 0)
+                    {
+                        var_v0 = temp_a2;
+                        if (temp_v0_2 < 9)
+                        {
+                            goto block_33;
+                            
+                        }
+                        return;
+                    }
+                    var_v0 = temp_a2;
+                    if ((sp1E - temp_v1_2) < 9)
+                    {
+block_33:
+                        var_v0_2 = temp_a2;
+                        new_var = temp_a3;
+                        if (var_v0_2 < 0)
+                        {
+                            var_v0_2 = -var_v0_2;
+                        }
+                        var_v0_3 = temp_a3;
+                        var_v0_4 = temp_a2;
+                        new_var3 = temp_a3;
+                        if (var_v0_2 < 0x11)
+                        {
+                            
+                            if (!(ray.flags & 0x4000))
+                            {
+                                var_v0_3 = new_var3;
+                                goto block_38;
+                            }
+                            goto block_42;
+                        }
+block_38:
+                        var_v0_5 = var_v0_3;
+                        if (var_v0_5 < 0)
+                        {
+                            var_v0_5 = -var_v0_5;
+                        }
+                        if (var_v0_5 < 0x11)
+                        {
+                            var_v0_4 = temp_a2;
+                            if (!(ray.flags & 0x4000))
+                            {
+block_42:
+                                var_v0_6 = var_v0_4;
+                                if (var_v0_6 < 0)
+                                {
+                                    var_v0_6 = -var_v0_6;
+                                }
+                                var_v0_7 = new_var;
+                                if (var_v0_6 < 0x11)
+                                {
+                                    if (ray.flags & 0x4000)
+                                    {
+                                        arg0->flags &= ~0x4000;
+                                        var_v0_8 = (((arg0->offset_bx + (u16) arg0->x_pos) - ray.offset_bx) - ((s32) (sp1C >> 1))) - 0xC;
+                                        goto block_53;
+                                    }
+                                    var_v0_7 = new_var3;
+                                    goto block_48;
+                                }
+block_48:
+                                /* 698 */
+                                var_v0_9 = var_v0_7;
+                                if (var_v0_9 < 0)
+                                {
+                                    var_v0_9 = -var_v0_9;
+                                }
+                                if ((var_v0_9 < 0x11) && !(ray.flags & 0x4000))
+                                {
+                                    arg0->flags |= 0x4000;
+                                    var_v0_8 = ((arg0->offset_bx + (u16) arg0->x_pos) - ray.offset_bx) + (sp1C >> 1) + 0xC;
+block_53:
+                                    ray.x_pos = var_v0_8;
+                                }
+                                var_v0_4 = (((s32) (ray.y_pos + ray.offset_by)) >> 4) * 0x10;
+                                ray.speed_x = 0;
+                                decalage_en_cours = 0;
+                                ray.speed_y = 0;
+                                ray.field24_0x3e = 0;
+                                ray.y_pos = var_v0_4 - ray.offset_by;
+                                DO_WIZARD(arg0);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                DO_WIZARD(arg0);
+            }
         }
-        break;
-    case 4:
-        if ((arg0 & 0xFF) == 2)
-        {
-            var_a1 = 0xC;
-        }
-        break;
     }
-    return var_a1;
+    else if ((temp_a0 != 0x0A) && (ray.main_etat != 3) && (temp_a0 != 1))
+    {
+        set_sub_etat(arg0, 1);
+    }
 }

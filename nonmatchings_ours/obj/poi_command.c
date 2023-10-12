@@ -41,7 +41,7 @@ void DO_POISSON_VERT_CMD(Obj *obj)
   return;
 }
 
-/* matching, but... */
+/* matching, but... gotos */
 /* 4F0CC 801738CC -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/obj/poi_command", DO_POISSON_BLEU_CMD);*/
 
