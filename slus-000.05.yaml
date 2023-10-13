@@ -181,7 +181,7 @@ segments:
       - [0x4D1F4, asm, obj/flash_command] #801719f4
       - [0x4D354, asm, obj/mst_scroll] #80171b54
       - [0x4D6EC, c, obj/caisse_claire_command] #80171eec
-      - [0x4D7DC, asm, obj/walk_note_command] #80171fdc
+      - [0x4D7DC, c, obj/walk_note_command] #80171fdc
       - [0x4D908, asm, obj/eau] #80172108
       - [0x4DF04, asm, obj/photographe_command] #80172704
       - [0x4DF88, asm, obj/reducteur] #80172788
