@@ -140,9 +140,9 @@ segments:
       - [0x3AE54, asm, nova] #8015f654
       - [0x3B264, asm, snow] #8015FA64
       - [0x3C3A8, asm, obj/eyes_3C3A8] #80160ba8
-      - [0x3C6E4, asm, obj/mite2_badguy3] #80160EE4
+      - [0x3C6E4, asm, obj/mite_badguy] #80160EE4
       - [0x3CB5C, asm, unknown/3CB5C] #8016135c
-      - [0x3CE78, asm, obj/cymbal2] #80161678
+      - [0x3CE78, c, obj/cymbal2] #80161678
       - [0x3CF08, c, obj/cage] #80161708
       - [0x3CFA0, asm, obj/medaillon_toon] #801617A0
       - [0x3D384, asm, unknown/3D384] #80161B84
@@ -168,11 +168,9 @@ segments:
       - [0x494FC, c, command_494FC] #8016dcfc
       - [0x4995C, asm, obj/stonechip_command] #8016e15c
       - [0x49A74, asm, obj/stonebomb_command] #8016E274
-      - [0x49B74, asm, obj/cymbale_command] #8016e374
-      - [0x4A078, asm, obj/cymbal] #8016e878
+      - [0x49B74, c, obj/cymbal] #8016e374
       - [0x4A5BC, asm, obj/genebadguy_command] #8016edbc
       - [0x4A85C, asm, obj/mite] #8016f05c
-      - [0x4BA08, asm, obj/mite2_command] #80170208
       - [0x4BC40, asm, obj/eyes_4BC40] #80170440
       - [0x4BFCC, asm, unknown/4BFCC] #801707cc
       - [0x4C2C8, asm, obj/bag1] #80170ac8
@@ -189,7 +187,6 @@ segments:
       - [0x4DF88, asm, obj/reducteur] #80172788
       - [0x4DFD0, asm, obj/fee_4DFD0] #801727d0
       - [0x4E7DC, asm, obj/stonewoman] #80172fdc
-      - [0x4ECB0, asm, obj/stonewoman2] #801734b0
       - [0x4ED80, asm, obj/herse] #80173580
       - [0x4EFB0, c, obj/poi_command] #801737b0
       - [0x4F364, asm, obj/black_ray_command] #80173b64
