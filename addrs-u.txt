@@ -17,6 +17,8 @@ s_candy_chateau_8012ba80 = 0x8012ba80; // type:asciz force_migration:True
 s___801cf0a4 = 0x801cf0a4;
 s__801cf0a8 = 0x801cf0a8;
 PTR_s_game_saved_801c3540 = 0x801c3540;
+s__tings_to_get_801277fc = 0x801277fc;
+PS1_star_spr = 0x801cef7c;
 
 EXP1_BASE_ADDR = 0x1f801000;
 EXP2_BASE_ADDR = 0x1f801004;
