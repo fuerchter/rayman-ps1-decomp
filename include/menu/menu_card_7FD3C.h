@@ -23,4 +23,6 @@ typedef struct OptionsJeu
     s16 field14_0x24;
 } OptionsJeu;
 
+extern OptionsJeu options_jeu;
+
 #endif

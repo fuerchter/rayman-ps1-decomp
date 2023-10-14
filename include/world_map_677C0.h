@@ -33,8 +33,6 @@ extern WorldInfo t_world_info[24];
 
 extern s16 xmap;
 extern s16 ymap;
-extern s16 new_world;
-extern u8 old_num_world;
 extern Obj raylittle;
 extern u8 chemin_percent;
 extern u8 *PTR_s_game_saved_801c3540;

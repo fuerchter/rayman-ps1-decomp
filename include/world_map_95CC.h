@@ -10,11 +10,13 @@
 #include "demo_9FD4.h"
 #include "main.h"
 
+extern s16 new_world;
 extern s16 new_level;
-extern s16 num_level;
-extern s16 num_level_choice;
 extern s16 num_world;
+extern s16 num_level;
 extern s16 num_world_choice;
+extern s16 num_level_choice;
+extern u8 old_num_world;
 extern u8 world_index;
 
 extern s16 inter_select;

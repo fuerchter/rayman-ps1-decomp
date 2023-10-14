@@ -1,3 +1,4 @@
+DemoRecordWorld = 0x801c435c;
 PS1_SaveMode = 0x801E4C10;
 PS1_MENU_RETURN2 = 0x801f55a8;
 PS1_VideoState = 0x801f7fa8;
@@ -1030,7 +1031,6 @@ PS1_SettingStrings = 0x801c35bc;
 credits = 0x801c35f4;
 DemoRecord = 0x801c3c48;
 DemoRecordSize = 0x801c4350;
-DemoRecordWolrd = 0x801c435c;
 DemoRecordMap = 0x801c4368;
 PS1_BackgroundIndexTable = 0x801c43a4;
 PS1_MemoryUsageRect = 0x801c4458;

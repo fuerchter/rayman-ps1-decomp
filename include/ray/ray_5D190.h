@@ -39,6 +39,7 @@ typedef u16 RayMode;
 #define MODE_MORT_DE_RAYMAN 3
 #define MODE_MORT_DE_RAYMAN_ON_MS 4
 
+extern RaymanEvents RayEvts;
 extern s16 decalage_en_cours;
 
 #endif

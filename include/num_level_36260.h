@@ -4,5 +4,6 @@
 #include "common.h"
 
 extern s16 departlevel;
+extern u8 finBosslevel[2];
 
 #endif
