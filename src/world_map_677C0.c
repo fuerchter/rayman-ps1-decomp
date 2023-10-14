@@ -68,7 +68,7 @@ void INIT_LEVEL_STAGE_NAME(void)
   if (t_world_info[num_world_choice].world == 7 && NBRE_SAVE == 0)
     PS1_GenerateAndDisplayPassword();
   else
-    __builtin_memcpy(&text_to_display[0], t_world_info[num_world_choice].level_name, 48);
+    __builtin_memcpy(&text_to_display[0], t_world_info[num_world_choice].level_name, sizeof(text_to_display->text));
 
   text_to_display[0].font_size = 2;
   text_to_display[0].x_pos = 450;

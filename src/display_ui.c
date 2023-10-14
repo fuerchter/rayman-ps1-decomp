@@ -1,6 +1,7 @@
 #include "display_ui.h"
 
 /* TODO: Display struct */
+
 /* 19A38 8013E238 -O2 */
 /*? ClearImage(s32, ?, ?, ?);*/
 extern s32 PS1_CurrentDisplay;
@@ -90,8 +91,10 @@ void display_grp_stars(void)
     }
 }
 
+/* 19D20 8013E520 -O2 */
 INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_TEXT_FEE);
 
+/* 1A04C 8013E84C -O2 */
 INCLUDE_ASM("asm/nonmatchings/display_ui", DisplayJumellesNormal);
 
 INCLUDE_ASM("asm/nonmatchings/display_ui", FUN_8013eb38);

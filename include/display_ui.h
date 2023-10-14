@@ -5,6 +5,7 @@
 #include "obj_update.h"
 #include "world_map_677C0.h"
 #include "obj/poing.h"
+#include "obj/fee_4DFD0.h"
 
 typedef struct GrpStar
 {
