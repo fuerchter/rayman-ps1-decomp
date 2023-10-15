@@ -1,10 +1,13 @@
+PS1_LoadPts = 0x8013f460;
 PS1_DisplayPlateau = 0x8018c30c;
 PS1_LoadImaWorld = 0x8019e770;
 PS1_LoadImaSplash = 0x8019ea10;
 PS1_WorldMapMoveText = 0x8018d9e0;
-PS1_DisplayWorldMapGraphEdges = 0x8013af14;
+PS1_DisplayPtsPrim = 0x8013af14;
 PS1_DoGameOptionsLoop = 0x801a4d38;
 PS1_DrawColoredSprite = 0x801397f4;
+PS1_DisplayWorldMapBg1 = 0x8013eb38;
+PS1_DisplayWorldMapBg2 = 0x80139014;
 
 gte_ldv0 = 0x20000000;
 gte_ldv1 = 0x20000004;
@@ -285,7 +288,6 @@ FUN_8013eb38 = 0x8013eb38;
 DISPLAY_SAVE_SPRITES = 0x8013eb88;
 DISPLAY_SAVE_POING = 0x8013f0c0;
 display_time = 0x8013f1d8;
-FUN_8013f460 = 0x8013f460;
 DISPLAY_CONTINUE_SPR = 0x8013f7fc;
 PS1_PromptCardDisplayPoing = 0x8013f8f8;
 DISPLAY_OPTIONS_POING = 0x8013f950;

@@ -90,9 +90,9 @@ s32 WORLD_CHOICE(void)
 {  
     let_shadow = FALSE;
     DO_FADE();
-    FUN_8013eb38(xmap, ymap, 0x2C, 0x37);
+    PS1_DisplayWorldMapBg1(xmap, ymap, 44, 55);
     DISPLAY_PLAT_WAY();
-    PS1_DisplayWorldMapGraphEdges();
+    PS1_DisplayPtsPrim();
     display2(&ray);
     DO_CHEMIN();
     PS1_DisplayPlateau();

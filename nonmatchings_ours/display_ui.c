@@ -71,7 +71,6 @@ void DISPLAY_TEXT_FEE(void)
 
 /*
 reg swaps
-that's not actually mapobj, right?
 every local var ever
 */
 /* 1A04C 8013E84C -O2 */
@@ -152,4 +151,90 @@ void DisplayJumellesNormal(void)
     temp_s0_9 = temp_s0_8 - 0x3A;
     DISPLAY_BLACKBOX(0, 53, temp_s3_2 + 5, temp_s0_9, 0, 0);
     DISPLAY_BLACKBOX(temp_s1_5 - 5, 53, temp_s1_5 - temp_s3_2, temp_s0_9, 0, 0);
+}
+
+/* no idea... */
+/* 1A9D8 8013F1D8 -O2 */
+/*INCLUDE_ASM("asm/nonmatchings/display_ui", display_time);*/
+
+/*? PS1_sprintf(u8, ? *, ?, s32 *);
+? display_sprite(Obj *, s32, ?, ?, s32);
+? display_text(u16 *, ?, ?, ?, s32);
+? strcat(u16 *, ? *);*/
+extern u8 *D_801CEF88;
+extern s16 D_801CEF90[1];
+
+extern s32 *D_801CEF94;
+extern s16 *D_801CEF98;
+extern s8 D_801CEF9A;
+extern s16 D_801CF018;
+extern u8 D_801F4EC0;
+extern s32 D_801F620C;
+extern s32 map_time;
+extern u8 nb_wiz;
+extern s16 sbar_obj_id;
+extern u8 D_801CEF86;
+extern u8 D_801CEF87;
+
+void display_time(s16 arg0)
+{
+    u8 sp18[12];
+    s16 sp1C;
+    s8 sp1E;
+    u8 sp30[8];
+    Obj *temp_s1;
+    s32 temp_lo;
+    s32 temp_v0;
+    u32 temp_a0;
+    u32 temp_v1;
+    u8 var_v0;
+    u8 *new_var;
+
+    temp_s1 = &level.objects[sbar_obj_id];
+    if (arg0 != -2)
+    {
+        if (D_801CF018 == -1)
+        {
+            display_text(&D_801CEF88, 0x10C, 0xCA, 2, 7);
+            temp_lo = arg0 / 60;
+            display_sprite(temp_s1, (temp_lo / 10) + 0x1C, 0x10E, 0xCC, 0);
+            display_sprite(temp_s1, (temp_lo % 10) + 0x1C, 0x11D, 0xCC, 0);
+        }
+        if (map_time < 0x65)
+        {
+            /*sp18[0]=D_801CEF90[0];*/
+            temp_v1 = ray.flags & (~0x800);
+            ray.flags = temp_v1;
+            __builtin_memcpy(sp18, D_801CEF90, sizeof(D_801CEF90));
+            PS1_sprintf(nb_wiz, &sp30, 0xA);
+            strcat(&sp18, &sp30);
+            strcat(&sp18, " tings to get/");
+            if ((u8) D_801F4EC0 < 4U)
+            {
+                temp_a0 = D_801CEF86;
+                temp_v1 = D_801CEF87;
+                D_801CEF86 = temp_a0 + temp_v1;
+                temp_v0 = -D_801CEF87;
+                if (D_801CEF86 >= 6U)
+                {
+                    D_801CEF87 = (u8) temp_v0;
+                    D_801CEF86 = 5;
+                }
+                else if (D_801CEF86 == 0)
+                {
+                    D_801CEF87 = (u8) temp_v0;
+                    D_801CEF86 = 1;
+                }
+                if (D_801CF018 == -1)
+                {
+                    display_text(&sp18, 0xA0, 0x78, 2, D_801CEF86);
+                }
+            }
+        }
+        else if ((u32) (map_time - 0x79) < 0x28U)
+        {
+            __builtin_memcpy(sp18, D_801CEF94, 7);
+            display_text(&sp18, 0xA0, 0x78, 0, 8);
+        }
+    }
 }

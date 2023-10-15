@@ -97,15 +97,137 @@ INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_TEXT_FEE);
 /* 1A04C 8013E84C -O2 */
 INCLUDE_ASM("asm/nonmatchings/display_ui", DisplayJumellesNormal);
 
-INCLUDE_ASM("asm/nonmatchings/display_ui", FUN_8013eb38);
+/* 1A338 8013EB38 -O2 */
+/*? FUN_80139014(s16, s16, s16, s16, s32, s32);*/
 
+void PS1_DisplayWorldMapBg1(s16 x1, s16 y1, s16 x2, s16 y2)
+{
+    PS1_DisplayWorldMapBg2(x1, y1, x2, y2, 130, 320 - x2);
+}
+
+/* trap */
+/* 1A388 8013EB88 -O2 */
 INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_SAVE_SPRITES);
 
-INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_SAVE_POING);
+extern Obj *mapobj;
+extern LoadInfoRay loadInfoRay[6];
+extern Obj div_obj;
+extern s16 debut_options;
+extern s16 ecarty;
+extern u8 D_801CEF84;
+/*D_801CEF84 = "%";*/
 
+/* 1A8C0 8013F0C0 -O2 */
+/*? display_sprite(Obj *, ?, s32, s32, s32);*/
+extern s16 debut_sortie;
+extern s16 fichier_a_copier;
+extern s16 positionx2;
+
+void DISPLAY_SAVE_POING(void)
+{
+  Obj *obj;
+  s16 temp;
+  
+  obj = mapobj;
+  display_sprite(obj, 2, 10, debut_options + (positiony - 1) * (ecarty + 23) - 23, 1);
+  temp = 11;
+  display_sprite(obj, 2, (positionx2 - 1) * 100, debut_sortie - ((obj->sprites[2].height >> 1) + temp), 1);
+  if (fichier_a_copier != 0)
+    display_sprite(obj, 1, 10, debut_options + (fichier_a_copier - 1) * (ecarty + 23) - 23, 1);
+}
+
+/* 1A9D8 8013F1D8 -O2 */
 INCLUDE_ASM("asm/nonmatchings/display_ui", display_time);
 
-INCLUDE_ASM("asm/nonmatchings/display_ui", FUN_8013f460);
+void PS1_LoadPts(void)
+{
+  u8 image [250];
+  RECT rect;
+  u8 *pixel_1;
+  u8 *pixel_2;
+  s32 i;
+  
+  rect.x = 320; rect.y = 0; rect.w = 40; rect.h = 8;
+  ClearImage(&rect, 0, 0, 0);
+  i = 63;
+  pixel_1 = image + i;
+  while (i >= 0)
+  {
+    *pixel_1 = 0;
+    i--;
+    pixel_1--;
+  }
+
+  rect.w = 4;
+  image[1] = 4; image[8] = 5;
+  LoadImage(&rect, (u32 *)&image);
+  DrawSync(0);
+
+  image[0] = 6; image[8] = 7; image[1] = 7; image[9] = 8;
+  rect.x = rect.x + rect.w;
+  LoadImage(&rect, (u32 *)&image);
+  DrawSync(0);
+  
+  image[0] = 0; image[17] = 6; image[10] = 6; image[8] = 6;
+  image[1] = 6; image[9] = 8;
+  rect.x = rect.x + rect.w;
+  LoadImage(&rect, (u32 *)&image);
+  DrawSync(0);
+
+  image[10] = 2; image[1] = 2; image[17] = 3; image[8]= 3;
+  image[2] = 4; image[9] = 5;
+  rect.x = rect.x + rect.w;
+  LoadImage(&rect, (u32 *)&image);
+  DrawSync(0);
+
+  image[8] = 0; image[1] = 0; image[11] = 2; image[2] = 2;
+  image[18] = 3; image[9] = 3; image[3] = 3; image[25] = 4;
+  image[16] = 4; image[10] = 4; image[17] = 5; image[24] = 6;
+  rect.x = rect.x + rect.w;
+  LoadImage(&rect, (u32 *)&image);
+  DrawSync(0);
+
+  image[3] = 0; image[24] = 0; image[26] = 6; image[25] = 6;
+  image[19] = 6; image[16] = 6; image[11] = 6; image[8] = 6;
+  image[2] = 6; image[1] = 6; image[18] = 7; image[17] = 7;
+  image[10] = 7; image[9] = 7;
+  rect.x = rect.x + rect.w;
+  LoadImage(&rect, (u32 *)&image);
+  DrawSync(0);
+
+  image[26] = 6; image[25] = 6; image[19] = 6; image[16] = 6;
+  image[11] = 6; image[8] = 6; image[2] = 6; image[1] = 6;
+  image[18] = 8; image[17] = 8; image[10] = 8; image[9] = 8;
+  rect.x = rect.x + rect.w;
+  LoadImage(&rect, (u32 *)&image);
+  DrawSync(0);
+
+  image[8] = 0; image[1] = 0; image[43] = 6; image[42] = 6;
+  image[29] = 6; image[24] = 6; image[21] = 6; image[16] = 6;
+  image[3] = 6; image[2] = 6; image[36] = 7; image[33] = 7;
+  image[12] = 7; image[9] = 7; image[20] = 8; image[19] = 8;
+  image[18] = 8; image[17] = 8; image[11] = 8; image[10] = 8;
+  image[35] = 8; image[34] = 8; image[28] = 8; image[27] = 8;
+  image[26] = 8; image[25] = 8;
+  rect.x = rect.x + rect.w;
+  LoadImage(&rect, (u32 *)&image);
+  DrawSync(0);
+  i = 63;
+  pixel_2 = image + i;
+  rect.x = rect.x + rect.w;
+  while (i > -1)
+  {
+    *pixel_2 = 0;
+    i--;
+    pixel_2--;
+  }
+
+  image[8] = 12; image[1] = 12; image[26] = 80; image[25] = 80;
+  image[19] = 80; image[16] = 80; image[11] = 80; image[2] = 80;
+  image[9] = 14; image[18] = 9; image[17] = 10; image[10] = 10;
+  LoadImage(&rect, (u32 *)&image);
+  DrawSync(0);
+}
 
 INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_CONTINUE_SPR);
 
