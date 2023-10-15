@@ -24,5 +24,13 @@ typedef struct OptionsJeu
 } OptionsJeu;
 
 extern OptionsJeu options_jeu;
+extern s16 debut_options;
+extern s16 debut_sortie;
+extern s16 ecarty;
+extern s16 fichier_a_copier;
+extern s16 positionx2;
+extern s16 PS1_display_y1;
+extern s16 PS1_display_y2;
+extern s16 position;
 
 #endif

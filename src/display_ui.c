@@ -1,10 +1,10 @@
 #include "display_ui.h"
 
 /* TODO: Display struct */
+extern s32 PS1_CurrentDisplay;
 
 /* 19A38 8013E238 -O2 */
 /*? ClearImage(s32, ?, ?, ?);*/
-extern s32 PS1_CurrentDisplay;
 
 void CLRSCR(void)
 {
@@ -109,19 +109,8 @@ void PS1_DisplayWorldMapBg1(s16 x1, s16 y1, s16 x2, s16 y2)
 /* 1A388 8013EB88 -O2 */
 INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_SAVE_SPRITES);
 
-extern Obj *mapobj;
-extern LoadInfoRay loadInfoRay[6];
-extern Obj div_obj;
-extern s16 debut_options;
-extern s16 ecarty;
-extern u8 D_801CEF84;
-/*D_801CEF84 = "%";*/
-
 /* 1A8C0 8013F0C0 -O2 */
 /*? display_sprite(Obj *, ?, s32, s32, s32);*/
-extern s16 debut_sortie;
-extern s16 fichier_a_copier;
-extern s16 positionx2;
 
 void DISPLAY_SAVE_POING(void)
 {
@@ -139,6 +128,7 @@ void DISPLAY_SAVE_POING(void)
 /* 1A9D8 8013F1D8 -O2 */
 INCLUDE_ASM("asm/nonmatchings/display_ui", display_time);
 
+/* 1AC60 8013F460 -O2 */
 void PS1_LoadPts(void)
 {
   u8 image [250];
@@ -229,8 +219,27 @@ void PS1_LoadPts(void)
   DrawSync(0);
 }
 
+/* 1AFFC 8013F7FC -O2 */
 INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_CONTINUE_SPR);
 
-INCLUDE_ASM("asm/nonmatchings/display_ui", PS1_PromptCardDisplayPoing);
+/* 1B0F8 8013F8F8 -O2 */
+/*? display_sprite(Obj *, ?, ?, s32, s32);*/
 
-INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_OPTIONS_POING);
+void PS1_PromptCardDisplayPoing(void)
+{
+    display_sprite(mapobj, 2, 120, ((positiony_mc - 1) * 22) + 157, 1);
+}
+
+/* 1B150 8013F950 -O2 */
+/*? display_sprite(Obj *, ?, s32, s32, s32);*/
+
+void DISPLAY_OPTIONS_POING(void)
+{
+    Obj *obj;
+
+    obj = mapobj;
+    if (position == 7)
+        display_sprite(obj, 2, text_to_display[7].centered_x_pos - 35, PS1_display_y1 - 14, 1);
+    else
+        display_sprite(obj, 2, 20, debut_sortie + position * (PS1_display_y2 + 0xF) - 0xF, 1);
+}

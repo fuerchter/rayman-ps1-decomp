@@ -30,6 +30,7 @@ typedef struct WorldInfo
 } WorldInfo;
 
 extern WorldInfo t_world_info[24];
+extern Obj *mapobj;
 
 extern s16 xmap;
 extern s16 ymap;

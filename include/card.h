@@ -19,4 +19,6 @@ typedef struct LoadInfoRay {
     u8 num_continues;
 } LoadInfoRay;
 
+extern LoadInfoRay loadInfoRay[6];
+
 #endif

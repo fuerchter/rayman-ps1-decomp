@@ -8,6 +8,7 @@
 #include "obj/poing.h"
 #include "obj/fee_4DFD0.h"
 #include "card.h"
+#include "menu/menu_6A3BC.h"
 
 typedef struct GrpStar
 {
@@ -20,5 +21,6 @@ typedef struct GrpStar
 extern GrpStar grp_stars[30];
 extern s16 current_star;
 extern u8 PS1_star_spr[8];
+extern Obj div_obj;
 
 #endif

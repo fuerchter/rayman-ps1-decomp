@@ -238,3 +238,31 @@ void display_time(s16 arg0)
         }
     }
 }
+
+/* psyq 3.0 cc1psx.exe, see Makefile. modulo but no tge... */
+/* 1AFFC 8013F7FC -O2 */
+/*INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_CONTINUE_SPR);*/
+
+/*? display2(Obj *);
+? display_sprite(Obj *, s32, ?, ?, s32);
+? display_text(? *, ?, ?, ?, s32);*/
+
+void DISPLAY_CONTINUE_SPR(void)
+{
+    u32 dig_0;
+    u32 dig_1;
+
+    dig_0 = nb_continue / 10;
+    dig_1 = nb_continue % 10;
+    if (loop_timing == 0x00FF)
+        display_text(&s_the_end_801cef9c, 177, 182, 2, 0);
+    else
+    {
+        display_sprite(&div_obj, dig_0 + 28, 184, 162, 0);
+        display_sprite(&div_obj, dig_1 + 28, 199, 162, 0);
+    }
+    display2(&ray);
+    display2(&clock_obj);
+    if (mapobj->flags & OBJ_ALIVE)
+        display2(mapobj);
+}

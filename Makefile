@@ -1,9 +1,8 @@
 #TODO:
-#PS1_DisplayPts, DISPLAY_PLAT_WAY, INIT_WORLD_INFO. if we get one we might be able to get the others, too?
-#DETER_WORLD_AND_LEVEL and PASTILLES_SAUVE_SAVED also share issues
 #check out -psx patched old-gcc to possibly clean up DO_WORLD_MAP, DETER_WORLD_AND_LEVEL world_index assign
 #skipTestArgs, readTestArgs share issues
 
+#og psyq 3.0 cc1psx.exe seems to fix nop/divu swap
 #can you just write / 2 instead of >> 1?
 #style: move assignment in if into second if
 #order splat yaml settings by wiki
