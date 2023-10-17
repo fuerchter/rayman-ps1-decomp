@@ -246,6 +246,7 @@ void display_time(s16 arg0)
 /*? display2(Obj *);
 ? display_sprite(Obj *, s32, ?, ?, s32);
 ? display_text(? *, ?, ?, ?, s32);*/
+extern u8 *s_the_end_801cef9c;
 
 void DISPLAY_CONTINUE_SPR(void)
 {

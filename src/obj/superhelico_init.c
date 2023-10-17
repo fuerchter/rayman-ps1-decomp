@@ -36,6 +36,6 @@ void allocateSupHelico(Obj *mus_obj)
       i++;
       type = TYPE_SUPERHELICO;
     }
-    while (i < nb_objects);
+    while (nb_objects > i);
   }
 }

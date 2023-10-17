@@ -1,8 +1,8 @@
 #TODO:
 #check out -psx patched old-gcc to possibly clean up DO_WORLD_MAP, DETER_WORLD_AND_LEVEL world_index assign
 #skipTestArgs, readTestArgs share issues
+#og psyq 3.0 cc1psx.exe seems to fix nop/divu swap: DISPLAY_CONTINUE_SPR (others in display_ui?)
 
-#og psyq 3.0 cc1psx.exe seems to fix nop/divu swap
 #can you just write / 2 instead of >> 1?
 #style: move assignment in if into second if
 #order splat yaml settings by wiki
@@ -30,8 +30,8 @@ PYTHON            := python3
 CROSS             := mips-linux-gnu-
 AS                := $(CROSS)as
 AS_FLAGS          := -EL -mips2 -msoft-float -no-pad-sections -Iinclude
-GCC   		      := $(TOOLS_DIR)/gcc-2.5.7-psx/gcc
-GCC_FLAGS	      := -c -mgas -B$(TOOLS_DIR)/gcc-2.5.7-psx/ -pipe -Iinclude -fshort-enums -fno-builtin
+GCC   		      := $(TOOLS_DIR)/gcc-2.5.7/gcc
+GCC_FLAGS	      := -c -mgas -msoft-float -B$(TOOLS_DIR)/gcc-2.5.7/ -pipe -Iinclude -fshort-enums -fno-builtin
 GCC_AS_FLAGS      := -Wa,-EL,-mips2,-msoft-float,-no-pad-sections,-Iinclude
 LD                := $(CROSS)ld
 LD_FLAGS          := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Map $(BUILD_EXE).map
@@ -77,9 +77,9 @@ $(O_SRC_O2) : $(BUILD_DIR)/%.o : %
 $(O_SRC_O1) : $(BUILD_DIR)/%.o : %
 	$(GCC) $(GCC_FLAGS) -G0 -O1 $(GCC_AS_FLAGS) -o $@ $<
 
-GCC_SCR := $(TOOLS_DIR)/gcc-2.5.7-psx/
-$(O_SRC_SCRATCH) : $(BUILD_DIR)/%.o : %
-	$(GCC_SCR)gcc -c -mgas -B$(GCC_SCR) -pipe -Iinclude -fshort-enums -G0 -O2 -Wa,-EL,-mips2,-msoft-float,-no-pad-sections,-Iinclude -o $@ $<
+GCC_SCR := $(TOOLS_DIR)/gcc-2.5.7/
+$(O_SRC_SCRATCH_2) : $(BUILD_DIR)/%.o : %
+	$(GCC_SCR)gcc -c -mgas -msoft-float -B$(GCC_SCR) -pipe -Iinclude -fshort-enums -G0 -O2 -Wa,-EL,-mips2,-msoft-float,-no-pad-sections,-Iinclude -o $@ $<
 
 check:
 	sha1sum --check $(EXE).sha1

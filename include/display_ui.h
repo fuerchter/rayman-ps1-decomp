@@ -23,4 +23,18 @@ extern s16 current_star;
 extern u8 PS1_star_spr[8];
 extern Obj div_obj;
 
+void CLRSCR(void);
+void display_etoile(s32 in_x, s32 in_y);
+void display_grp_stars(void);
+
+
+void PS1_DisplayWorldMapBg1(s16 x1, s16 y1, s16 x2, s16 y2);
+
+void DISPLAY_SAVE_POING(void);
+
+void PS1_LoadPts(void);
+
+void PS1_PromptCardDisplayPoing(void);
+void DISPLAY_OPTIONS_POING(void);
+
 #endif

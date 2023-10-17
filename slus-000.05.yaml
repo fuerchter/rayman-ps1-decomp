@@ -63,14 +63,18 @@ segments:
       - [0x300C, rodata]
       - [0x5EC0, .rodata, bonus_372E0] #8012A6C0
       - [0x5ED8, rodata]
+      - [0x5FE0, .rodata, obj/fee_3D76C] #8012a7e0
+      - [0x6364, rodata]
       - [0x6724, .rodata, command_494FC] #8012af24, TODO: this needs to be built without -no-pad-sections for some reason
       - [0x67A4, rodata]
+      - [0x67BC, .rodata, obj/fee_4DFD0] #8012AFBC
+      - [0x67F4, rodata]
       - [0x6878, .rodata, command_56AF0] #8012B078
       - [0x699C, rodata]
       - [0x721C, .rodata, world_map_677C0] #8012BA1C
       - [0x72B4, rodata]
       - [0x7C68, .rodata, demo_7F2BC] #8012c468
-      - [0x7C84, .rodata, menu/menu_7F4B4] #8012c484 TODO: does 8012c4bc used by both menu_7F4B4 and menu_card_7FD3C mean they should be merged/split?
+      - [0x7C84, .rodata, menu/menu_7F4B4] #8012c484, TODO: does 8012c4bc used by both menu_7F4B4 and menu_card_7FD3C mean they should be merged/split?
       - [0x7CE0, rodata]
       - [0x8830, asm, unknown/8830] #8012D030
       - [0x9424, asm, continue] #8012DC24
@@ -149,7 +153,7 @@ segments:
       - [0x3CFA0, asm, obj/medaillon_toon] #801617A0
       - [0x3D384, asm, unknown/3D384] #80161B84
       - [0x3D738, asm, num_level_3D738] #80161F38
-      - [0x3D76C, asm, obj/fee_3D76C] #80161f6c
+      - [0x3D76C, c, obj/fee_3D76C] #80161f6c
       - [0x3EB50, asm, obj/corde] #80163350
       - [0x3ED10, asm, unknown/3ED10] #80163510
       - [0x3EECC, c, obj/superhelico_init] #801636cc
@@ -187,7 +191,7 @@ segments:
       - [0x4D908, asm, obj/eau] #80172108
       - [0x4DF04, asm, obj/photographe_command] #80172704
       - [0x4DF88, asm, obj/reducteur] #80172788
-      - [0x4DFD0, asm, obj/fee_4DFD0] #801727d0
+      - [0x4DFD0, c, obj/fee_4DFD0] #801727d0
       - [0x4E7DC, asm, obj/stonewoman] #80172fdc
       - [0x4ED80, asm, obj/herse] #80173580
       - [0x4EFB0, c, obj/poi_command] #801737b0

@@ -144,14 +144,14 @@ void PS1_CardDisplayPassword(void)
   text_to_display[2].color = color;
   text_to_display[2].x_pos = 450;
   text_to_display[2].y_pos = 40;
-  text_to_display[2].is_fond = 0;
+  text_to_display[2].is_fond = FALSE;
   text_to_display[2].field8_0x3d = 0;
   INIT_TXT_BOX(&text_to_display[2]);
 
   text_to_display[0].font_size = 2;
   text_to_display[0].x_pos = 450;
   text_to_display[0].y_pos = 220;
-  text_to_display[0].is_fond = 0;
+  text_to_display[0].is_fond = FALSE;
   text_to_display[0].field8_0x3d = 0;
   text_to_display[2].width += 10;
   text_to_display[2].height += 2;
@@ -164,11 +164,11 @@ void PS1_CardDisplayPassword(void)
   text_to_display[1].x_pos = 160;
   text_to_display[1].y_pos = 250;
   text_to_display[1].field8_0x3d = 0;
-  text_to_display[1].is_fond = 0;
+  text_to_display[1].is_fond = FALSE;
   text_to_display[3].x_pos = 160;
   text_to_display[3].y_pos = -50;
   text_to_display[3].field8_0x3d = 0;
-  text_to_display[3].is_fond = 0;
+  text_to_display[3].is_fond = FALSE;
 
   __asm__("nop\nnop");
 }
