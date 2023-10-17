@@ -78,7 +78,7 @@ $(O_SRC_O1) : $(BUILD_DIR)/%.o : %
 	$(GCC) $(GCC_FLAGS) -G0 -O1 $(GCC_AS_FLAGS) -o $@ $<
 
 GCC_SCR := $(TOOLS_DIR)/gcc-2.5.7/
-$(O_SRC_SCRATCH_2) : $(BUILD_DIR)/%.o : %
+$(O_SRC_SCRATCH) : $(BUILD_DIR)/%.o : %
 	$(GCC_SCR)gcc -c -mgas -msoft-float -B$(GCC_SCR) -pipe -Iinclude -fshort-enums -G0 -O2 -Wa,-EL,-mips2,-msoft-float,-no-pad-sections,-Iinclude -o $@ $<
 
 check:

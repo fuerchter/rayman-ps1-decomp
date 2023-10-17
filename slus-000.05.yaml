@@ -67,7 +67,7 @@ segments:
       - [0x6364, rodata]
       - [0x6724, .rodata, command_494FC] #8012af24, TODO: this needs to be built without -no-pad-sections for some reason
       - [0x67A4, rodata]
-      - [0x67BC, .rodata, obj/fee_4DFD0] #8012AFBC
+      - [0x67BC, .rodata, obj/fee_4DFD0] #8012AFBC, TODO: this needs to be built without -no-pad-sections for some reason
       - [0x67F4, rodata]
       - [0x6878, .rodata, command_56AF0] #8012B078
       - [0x699C, rodata]

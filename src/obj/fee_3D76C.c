@@ -56,7 +56,7 @@ void allocate_poing_or_fee(void)
         obj->speed_x = 8;
         obj->speed_y = 0;
         obj->anim_frame = 0;
-        obj->flags = obj->flags | OBJ_FLIP_X;
+        obj->flags |= OBJ_FLIP_X;
         png_or_fee_id = obj->id;
         break;
       }
