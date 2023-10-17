@@ -52,7 +52,7 @@ s_as_a_helicopter_8012aa94 = 0x8012aa94; // type:asciz force_migration:True
 s_to_do_it_press__twice_8012aaa8 = 0x8012aaa8; // type:asciz force_migration:True
 s_things_are_going_to_get_8012aac4 = 0x8012aac4; // type:asciz force_migration:True
 s_really_wild_from_now_on_rayman_8012aae0 = 0x8012aae0; // type:asciz force_migration:True
-s_you'll_have_to_be_very_quick_8012ab04 = 0x8012ab04; // type:asciz force_migration:True
+s_youll_have_to_be_very_quick_8012ab04 = 0x8012ab04; // type:asciz force_migration:True
 s_now_you_can_run_faster_8012ab28 = 0x8012ab28; // type:asciz force_migration:True
 s_to_run_press__while_walking_8012ab44 = 0x8012ab44; // type:asciz force_migration:True
 

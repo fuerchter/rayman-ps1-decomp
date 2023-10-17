@@ -4,7 +4,7 @@
 #og psyq 3.0 cc1psx.exe seems to fix nop/divu swap: DISPLAY_CONTINUE_SPR (others in display_ui?)
 
 #can you just write / 2 instead of >> 1?
-#style: move assignment in if into second if
+#style: move assignment in if into second if. convert do/whiles into whiles
 #order splat yaml settings by wiki
 #more enums, defines...
 #use a bool type?

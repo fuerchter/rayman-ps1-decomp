@@ -108,4 +108,6 @@ typedef u32 ObjFlags;
 #define OBJ_FLAG_A 0x40000
 #define OBJ_FLAG_B 0x80000
 
+extern s16 rayman_obj_id;
+
 #endif

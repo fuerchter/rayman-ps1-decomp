@@ -9,7 +9,7 @@ void allocateGrille(Obj *obj)
 
   nb_objects = level.nb_objects;
   i = 0;
-  cur_obj = &level.objects[i];
+  cur_obj = level.objects;
   if (nb_objects != 0)
   {
     /* TODO: how to make this a matching for-loop? */
