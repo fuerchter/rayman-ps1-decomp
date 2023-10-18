@@ -1,6 +1,10 @@
 #include "obj/fee_4DFD0.h"
 
-/* replacing some obj->field56_0x69 = 0; with new_var improves score. adding it at end of case 4 does so as well. not been successful with gotos */
+/* 
+replacing some obj->field56_0x69 = 0; with new_var improves score.
+adding it at end of case 4 does so as well. not been successful with gotos
+gotos-only version has same issue
+*/
 /* 4E2D0 80172AD0 -O2 -msoft-float */
 /*INCLUDE_ASM("asm/nonmatchings/obj/fee_4DFD0", DO_FEE);*/
 
@@ -142,7 +146,6 @@ block_25:
         }
         break;
     }
-test_lab1:
     DO_FEE_ETAPE(obj);
     if (display_txt_fee != temp_s4)
     {

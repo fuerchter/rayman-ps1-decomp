@@ -73,6 +73,8 @@ segments:
       - [0x699C, rodata]
       - [0x721C, .rodata, world_map_677C0] #8012BA1C
       - [0x72B4, rodata]
+      - [0x77F8, .rodata, obj/moskito] #8012bff8
+      - [0x785C, rodata]
       - [0x7C68, .rodata, demo_7F2BC] #8012c468
       - [0x7C84, .rodata, menu/menu_7F4B4] #8012c484, TODO: does 8012c4bc used by both menu_7F4B4 and menu_card_7FD3C mean they should be merged/split?
       - [0x7CE0, rodata]
@@ -235,7 +237,7 @@ segments:
       - [0x6A3BC, asm, menu/menu_6A3BC] #8018ebbc
       - [0x6C6E4, asm, obj/scorpion] #80190ee4
       - [0x6E5E0, asm, collision/block] #80192de0
-      - [0x6F914, asm, obj/moskito] #80194114
+      - [0x6F914, c, obj/moskito] #80194114
       - [0x71680, asm, obj/batteur_fou] #80195e80
       - [0x72384, asm, obj/pirate_poelle] #80196b84
       - [0x729F0, asm, obj/dark_729F0] #801971f0
