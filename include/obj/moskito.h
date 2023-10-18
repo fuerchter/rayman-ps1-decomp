@@ -3,5 +3,6 @@
 
 #include "common.h"
 #include "obj_update.h"
+#include "num_level_36260.h"
 
 #endif

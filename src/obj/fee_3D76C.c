@@ -39,14 +39,14 @@ void INIT_TXT_FEE(void)
 /* 3D89C 8016209C -O2 -msoft-float */
 void allocate_poing_or_fee(void)
 {
-  u8 nb_objects;
+  u8 nb_objs;
   s16 i;
   Obj *obj;
   
-  nb_objects = level.nb_objects;
+  nb_objs = level.nb_objects;
   i = 0;
   obj = level.objects;
-  if (nb_objects != 0)
+  if (nb_objs != 0)
   {
     do {
       if (obj->type == TYPE_POING_FEE && !(obj->flags & OBJ_ALIVE))
@@ -62,7 +62,7 @@ void allocate_poing_or_fee(void)
       }
       i++;
       obj++;
-    } while (i < nb_objects);
+    } while (i < nb_objs);
   }
 }
 

@@ -3,14 +3,14 @@
 /* 361A0 8015A9A0 -O2 */
 void allocateGrille(Obj *obj)
 {
-  u8 nb_objects;
+  u8 nb_objs;
   s16 i;
   Obj *cur_obj;
 
-  nb_objects = level.nb_objects;
+  nb_objs = level.nb_objects;
   i = 0;
   cur_obj = level.objects;
-  if (nb_objects != 0)
+  if (nb_objs != 0)
   {
     /* TODO: how to make this a matching for-loop? */
     do
@@ -28,6 +28,6 @@ void allocateGrille(Obj *obj)
       i++;
       cur_obj++;
     }
-    while (i < nb_objects);
+    while (i < nb_objs);
   }
 }

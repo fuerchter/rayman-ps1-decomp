@@ -5,14 +5,14 @@ void allocateSupHelico(Obj *mus_obj)
 {
   Obj *cur_obj;
   s16 i;
-  u8 nb_objects;
+  u8 nb_objs;
   s32 type;
   s8 speed;
   
   cur_obj = level.objects;
   i = 0;
-  nb_objects = level.nb_objects;
-  if (nb_objects != 0)
+  nb_objs = level.nb_objects;
+  if (nb_objs != 0)
   {
     do
     {
@@ -36,6 +36,6 @@ void allocateSupHelico(Obj *mus_obj)
       i++;
       type = TYPE_SUPERHELICO;
     }
-    while (nb_objects > i);
+    while (nb_objs > i);
   }
 }

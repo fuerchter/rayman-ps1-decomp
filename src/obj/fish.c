@@ -7,15 +7,15 @@ INCLUDE_ASM("asm/nonmatchings/obj/fish", allocate_splash);
 u8 can_free_fish(Obj *fish)
 {
   u8 res;
-  u8 nb_obj;
+  u8 nb_objs;
   s16 i;
   Obj *obj;
   
   res = TRUE;
-  nb_obj = level.nb_objects;
+  nb_objs = level.nb_objects;
   i = 0;
   obj = level.objects;
-  if (nb_obj != 0) {
+  if (nb_objs != 0) {
     do {
       if (
         obj->type == TYPE_FISH &&
@@ -29,7 +29,7 @@ u8 can_free_fish(Obj *fish)
       }
       i++;
       obj++;
-    } while (i < nb_obj);
+    } while (i < nb_objs);
   }
   return res;
 }
