@@ -15,7 +15,47 @@ void DO_ONE_CMD_WAIT(Obj *obj)
 
 INCLUDE_ASM("asm/nonmatchings/command_494FC", DO_ONE_CMD_LR_ATTENTE);
 
-INCLUDE_ASM("asm/nonmatchings/command_494FC", DO_ONE_CMD_UPDOWN);
+void DO_ONE_CMD_UPDOWN(Obj *obj)
+{
+  switch(obj->type)
+  {
+    case TYPE_FISH:
+      if (obj->main_etat == 0 && obj->sub_etat == 0)
+      {
+        if (obj->cmd == GO_UP)
+          obj->speed_y = -2;
+        else
+          obj->speed_y = 2;
+      }
+      break;
+
+    case TYPE_PLATFORM:
+      if(obj->cmd == GO_UP)
+        obj->speed_y = -2;
+      else if(obj->cmd == GO_DOWN)
+        obj->speed_y = 2;
+      break;
+      
+    case TYPE_INTERACTPLT:
+      obj->nb_cmd--;
+      if ((obj->nb_cmd << 0x10) > 0)
+      {
+        if(obj->cmd == GO_UP)
+          obj->speed_y = -1;
+        else if(obj->cmd == GO_DOWN)
+          obj->speed_y = 1;
+      }
+      else
+      {
+        obj->speed_y = 0;
+        obj->type = TYPE_PLATFORM;
+        obj->nb_cmd = 0;
+        obj->cmd = GO_WAIT;
+        obj->init_y_pos = obj->y_pos;
+      }
+      break;
+  }
+}
 
 /* 497FC 8016DFFC -O2 */
 void special_pour_liv(Obj *obj)

@@ -684,7 +684,6 @@ void moskitoDropFruitOnRay(Obj *arg0)
     }
 }
 
-/* this takes an Obj*? */
 /* 71330 80195B30 -O2 -msoft-float */
 /*INCLUDE_ASM("asm/nonmatchings/obj/moskito", tellNextMoskitoAction);*/
 
@@ -749,7 +748,7 @@ void doMoskitoHit(Obj *obj)
         bossSafeTimer = 0xFF;
         obj->flags |= OBJ_FLAG_0;
         changeMoskitoPhase(obj);
-        act_next = tellNextMoskitoAction(obj);
+        act_next = tellNextMoskitoAction();
         act_18 = 18;
         if (
             act_next >= 7 &&

@@ -13,7 +13,6 @@
 #ask about cd_cw, cd_read case issue
 #rename duplicate memcpy, set_alarm in ghidra
 #how to decompile ghidra_psx_ldr generated obj labels/functions in psyq?
-#should we be adding function signature to a header the first time it is called from decompiled function?
 
 EXE               := slus-000.05
 
