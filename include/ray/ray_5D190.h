@@ -41,5 +41,6 @@ typedef u16 RayMode;
 
 extern RaymanEvents RayEvts;
 extern s16 decalage_en_cours;
+extern s16 remoteRayXToReach;
 
 #endif

@@ -3,13 +3,13 @@
 /* 6F988 80194188 -O2 -msoft-float */
 /*INCLUDE_ASM("asm/nonmatchings/obj/moskito", closeEnoughToSting);*/
 
-s32 closeEnoughToSting(Obj *arg0, u16 arg1, u16 arg2)
+u8 closeEnoughToSting(Obj *arg0, u16 arg1, u16 arg2)
 {
     s16 sting_x;
     s16 sting_y;
     s32 var_a0;
     s32 var_v1;
-    s32 var_v0;
+    u32 var_v0;
     s16 test;
     u16 new_var2;
     s16 test2;

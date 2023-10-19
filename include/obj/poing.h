@@ -19,6 +19,7 @@ typedef struct Poing
 } Poing;
 
 extern s16 poing_obj_id;
+extern Poing poing;
 extern s16 id_obj_grapped;
 
 #endif

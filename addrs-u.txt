@@ -1,3 +1,4 @@
+PS1_MsAnimIndex = 0x801cf0bc;
 DemoRecordWorld = 0x801c435c;
 PS1_SaveMode = 0x801E4C10;
 PS1_MENU_RETURN2 = 0x801f55a8;

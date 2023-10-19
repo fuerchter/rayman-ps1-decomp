@@ -1,45 +1,5 @@
 #include "obj/moskito.h"
 
-extern s16 ray_zdc_h;
-extern s16 ray_zdc_w;
-extern s16 ray_zdc_x;
-extern s16 ray_zdc_y;
-extern s16 bossScrollEndX;
-extern s16 bossScrollEndY;
-extern s16 bossScrollStartX;
-extern s16 bossScrollStartY;
-extern s16 floorLine;
-extern s16 xmapmax;
-extern s16 ymapmax;
-extern s16 h_scroll_speed;
-extern u8 scrollLocked;
-extern s16 scroll_end_x;
-extern s16 scroll_end_y;
-extern s16 scroll_start_x;
-extern s16 scroll_start_y;
-extern s16 v_scroll_speed;
-extern s16 xmap;
-extern s16 ymap;
-extern s32 alternateBossSpeedFactor;
-extern u8 bossEncounter;
-extern u8 bossReachingAccuracyX;
-extern u8 bossReachingAccuracyY;
-extern u8 bossReachingTimer;
-extern s8 bossSafeTimer;
-extern s16 bossXToReach;
-extern s16 bossYToReach;
-extern u8 curAct;
-extern u8 currentBossAction;
-extern u8 currentBossActionIsOver;
-extern u8 fin_boss;
-extern s8 fistAvoided;
-extern u8 *moskitoActionSequences[10];
-extern u8 mstMustLeaveScreenToProceed;
-extern Obj ray;
-extern s16 remoteRayXToReach;
-extern u8 saveBossEncounter;
-extern u8 saveCurrentBossAction;
-
 /* 6F914 80194114 -O2 -msoft-float */
 void getIdealStingCoords(Obj *obj, s16 *out_x, s16 *out_y)
 {
@@ -96,11 +56,11 @@ void PS1_setBossScrollLimits_moskito(Obj *obj)
 }
 
 /* 6FB88 80194388 -O2 -msoft-float */
-s32 moskitoCanAttak(Obj *obj)
+u8 moskitoCanAttak(Obj *obj)
 {
     u8 locked;
     s16 one;
-    s32 res;
+    u32 res;
 
     if (!scrollLocked)
     {
@@ -179,7 +139,89 @@ INCLUDE_ASM("asm/nonmatchings/obj/moskito", allocateMoskitoFruit);
 /* 70E50 80195650 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/moskito", moskitoDropFruitOnRay);
 
-INCLUDE_ASM("asm/nonmatchings/obj/moskito", doMoskitoCommand);
+/* 71030 80195830 -O2 -msoft-float */
+/*? calc_obj_dir(Obj *);
+s32 closeEnoughToSting(Obj *, ?, ?);
+? moskitoDropFruitOnRay(Obj *);
+? prepareNewMoskitoAttack(Obj *);
+? setBossReachingSpeeds(Obj *, u8, u8, u8);
+? testActionEnd(Obj *);*/
+u8 closeEnoughToSting(Obj *arg0, u16 arg1, u16 arg2);
+
+void doMoskitoCommand(Obj *obj)
+{
+    s8 one;
+    ObjFlags flags;
+    Obj *poing_obj;
+
+    if (moskitoCanAttak(obj))
+    {
+        if (bossSafeTimer != 0)
+        {
+            one = 1;
+            bossSafeTimer -= one;
+        }
+        flags = obj->flags;
+        if (!(flags & OBJ_FLAG_0))
+        {
+            if (obj->cmd == 2)
+            {
+                if (PS1_MsAnimIndex == 0x0E && obj->anim_index == 0x0F)
+                    obj->flags = flags & ~OBJ_FLIP_X | (((flags >> 0xE ^ 1) & 1) << 0xE);
+                bossXToReach = -32000;
+                bossYToReach = -32000;
+                obj->speed_x = 0;
+                obj->speed_y = 0;
+            }
+            else
+            {
+                switch (curAct)
+                {
+                case 10:
+                case 13:
+                    calc_obj_dir(obj);
+                    getIdealStingCoords(obj, &bossXToReach, &bossYToReach);
+                    if (closeEnoughToSting(obj, 24, 24))
+                        currentBossActionIsOver = TRUE;
+                    /* fall through */
+                case 4:
+                    if (
+                        obj->hit_points < 2 &&
+                        poing.is_active &&
+                        !fistAvoided &&
+                        ModeDemo == 0 &&
+                        !record.is_recording
+                    )
+                    {
+                        fistAvoided = TRUE;
+                        poing_obj = &level.objects[poing_obj_id];
+                        if (
+                          obj->y_pos + (obj->offset_by + obj->offset_hy) / 2
+                          >
+                          poing_obj->y_pos + (poing_obj->offset_by + poing_obj->offset_hy) / 2
+                        )
+                            obj->speed_y += 80;
+                        else
+                            obj->speed_y -= 80;
+                        
+                        if ((obj->x_pos + obj->offset_bx) > (poing_obj->x_pos + poing_obj->offset_bx))
+                            obj->speed_x += 80;
+                        else
+                            obj->speed_x -= 80;
+                    }
+                    break;
+                }
+                setBossReachingSpeeds(obj, bossReachingTimer, bossReachingAccuracyX, bossReachingAccuracyY);
+                if (obj->main_etat == 0 && (u8) (obj->sub_etat - 0xB) < 2)
+                    moskitoDropFruitOnRay(obj);
+            }
+            testActionEnd(obj);
+        }
+        prepareNewMoskitoAttack(obj);
+    }
+    obj->flags &= ~OBJ_FLAG_0;
+    PS1_MsAnimIndex = obj->anim_index;
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/moskito", tellNextMoskitoAction);
 

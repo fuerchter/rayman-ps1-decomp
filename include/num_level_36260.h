@@ -5,5 +5,6 @@
 
 extern s16 departlevel;
 extern u8 finBosslevel[2];
+extern u8 fin_boss;
 
 #endif
