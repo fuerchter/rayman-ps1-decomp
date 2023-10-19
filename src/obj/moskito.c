@@ -223,8 +223,50 @@ void doMoskitoCommand(Obj *obj)
     PS1_MsAnimIndex = obj->anim_index;
 }
 
+/* 71330 80195B30 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/moskito", tellNextMoskitoAction);
 
-INCLUDE_ASM("asm/nonmatchings/obj/moskito", changeMoskitoPhase);
+/* 7144C 80195C4C -O2 -msoft-float */
+void changeMoskitoPhase(Obj *obj)
+{
+    u8 *enc;
+    u8 *act;
+    u8 enc_prev;
+    u8 hp;
 
+    if (bossEncounter == 8)
+    {
+        enc = &saveBossEncounter;
+        act = &saveCurrentBossAction;
+    }
+    else
+    {
+        enc = &bossEncounter;
+        act = &currentBossAction;
+    }
+
+    enc_prev = *enc;
+    if (obj->init_hit_points == 12)
+    {
+        hp = obj->hit_points;
+        if (hp >= 10)
+            *enc = 3;
+        else if (hp >= 8)
+            *enc = 5;
+        else if (hp >= 5)
+            *enc = 6;
+        else if (hp != 0)
+            *enc = 7;
+        else
+        {
+            *enc = 9;
+            bossSafeTimer = 0;
+        }
+
+        if (enc_prev != *enc)
+            *act = 0;
+    }
+}
+
+/* 7151C 80195D1C -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/moskito", doMoskitoHit);

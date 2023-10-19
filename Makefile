@@ -1,7 +1,7 @@
 #TODO:
 #check out -psx patched old-gcc to possibly clean up DO_WORLD_MAP, DETER_WORLD_AND_LEVEL world_index assign
 #skipTestArgs, readTestArgs share issues
-#og psyq 3.0 cc1psx.exe seems to fix nop/divu swap: DISPLAY_CONTINUE_SPR (others in display_ui?)
+#og psyq 3.0 cc1psx.exe seems to fix nop/divu swap: DISPLAY_CONTINUE_SPR (others in display_ui?), doMoskitoHit
 
 #can you just write / 2 instead of >> 1? (yes, sometimes removing s16 cast is needed)
 #style: move assignment in if into second if. convert do/whiles into whiles

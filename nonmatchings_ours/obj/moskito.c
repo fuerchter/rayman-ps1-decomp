@@ -683,3 +683,102 @@ void moskitoDropFruitOnRay(Obj *arg0)
         bossYToReach = (u16) bossYToReach - 0x40;
     }
 }
+
+/* this takes an Obj*? */
+/* 71330 80195B30 -O2 -msoft-float */
+/*INCLUDE_ASM("asm/nonmatchings/obj/moskito", tellNextMoskitoAction);*/
+
+extern u8 *D_801C8464;
+
+u8 tellNextMoskitoAction(void)
+{
+  u8 act;
+  int enc_next;
+  u32 enc;
+  u8 *pbVar4;
+  
+  enc = bossEncounter;
+  if (enc != 8) {
+    act = currentBossAction;
+  }
+  else
+  {
+    enc = saveBossEncounter;
+    act = saveCurrentBossAction;
+  }
+  pbVar4 = &moskitoActionSequences[enc][act];
+  act = pbVar4[0];
+  switch(act)
+  {
+    case 2:
+        enc_next = bossEncounter * 4;
+        return **(u8 **)((int)moskitoActionSequences + enc_next);
+    case 3:
+        return **(&D_801C8464 + (bossEncounter));
+    case 5:
+        enc_next = saveBossEncounter * 4;
+        return **(u8 **)((int)moskitoActionSequences + enc_next);
+    case 12:
+        enc_next = pbVar4[1] * 4;
+        return **(u8 **)((int)moskitoActionSequences + enc_next);
+    default:
+        return pbVar4[0];
+  }
+}
+
+/* this would match if not for div/nop swap and tge */
+/* 7151C 80195D1C -O2 -msoft-float */
+/*INCLUDE_ASM("asm/nonmatchings/obj/moskito", doMoskitoHit);*/
+
+/*? obj_hurt();*/
+u8 tellNextMoskitoAction(Obj *);
+extern s32 bossSpeedFactor;
+
+void doMoskitoHit(Obj *obj)
+{
+    s32 act_next;
+    s32 act_18;
+    u8 hp;
+    s32 dividend;
+    s32 divisor;
+
+    if (bossSafeTimer == 0)
+    {
+        poing.damage = 1;
+        obj_hurt(obj);
+        bossSafeTimer = 0xFF;
+        obj->flags |= OBJ_FLAG_0;
+        changeMoskitoPhase(obj);
+        act_next = tellNextMoskitoAction(obj);
+        act_18 = 18;
+        if (
+            act_next >= 7 &&
+            (act_next <= 10 || (act_next <= 21 && act_next >= act_18))
+        )
+            mstMustLeaveScreenToProceed = TRUE;
+
+        hp = obj->hit_points;
+        if (hp != 0)
+        {
+            dividend = obj->init_hit_points * 0x1000;
+            divisor = hp + obj->init_hit_points;
+            bossSpeedFactor = (dividend / divisor) + 0x4000;
+
+            if (bossEncounter != 8)
+            {
+                saveBossEncounter = bossEncounter;
+                saveCurrentBossAction = currentBossAction;
+                bossEncounter = 8;
+            }
+        }
+        else
+        {
+            bossEncounter = 9;
+            bossSpeedFactor = 0x4000;
+        }
+        currentBossAction = 0;
+        currentBossActionIsOver = TRUE;
+    }
+
+    __asm__("nop");
+}
