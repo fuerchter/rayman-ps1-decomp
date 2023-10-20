@@ -1,5 +1,6 @@
 #include "obj/maracas.h"
 
+/* default settings permuter doesn't find anything */
 /* 3AB5C 8015F35C -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/obj/maracas", MARACAS_GO);*/
 
@@ -7,42 +8,41 @@ void MARACAS_GO(Obj *obj)
 {
   ObjFlags OVar1;
   s16 iVar2;
-  Obj *_basObj;
   Obj *basObj;
+
   u8 nb_obj;
   int new_var;
+  u8 new_var2;
   
   iVar2 = 0;
   basObj = level.objects;
   nb_obj = level.nb_objects;
   if (nb_obj != 0) {
-    _basObj = level.objects;
+    new_var2 = nb_obj;
     do {
-      new_var = TYPE_MARACAS_BAS;
-      if ((_basObj->type == new_var) &&
-         ((_basObj->flags & OBJ_ACTIVE) == OBJ_NONE)) {
+
+      if ((basObj->type == TYPE_MARACAS_BAS) &&
+         ((basObj->flags & OBJ_ACTIVE) == OBJ_NONE)) {
         OVar1 = obj->flags;
         new_var = ~OBJ_FLIP_X;
-        new_var = _basObj->flags & new_var;
-        _basObj->speed_y = 0;
-        _basObj->speed_x = 0;
-        _basObj->flags = new_var;
-        _basObj->flags = _basObj->flags | (OVar1 & OBJ_FLIP_X);
-        _basObj->x_pos = obj->x_pos;
-        _basObj->y_pos = obj->y_pos;
+        new_var = basObj->flags & new_var;
+        basObj->speed_y = 0;
+        basObj->speed_x = 0;
+        basObj->flags = new_var;
+        basObj->flags = basObj->flags | (OVar1 & OBJ_FLIP_X);
+        basObj->x_pos = obj->x_pos;
+        basObj->y_pos = obj->y_pos;
         calc_obj_pos(basObj);
-        _basObj->gravity_value_1 = 0;
-        OVar1 = 7;
-        new_var = _basObj->flags;
+        basObj->gravity_value_1 = 0;
+        new_var = basObj->flags;
         new_var = new_var | (OBJ_ALIVE | OBJ_ACTIVE);
-        _basObj->flags = new_var;
-        _basObj->gravity_value_2 = OVar1;
+        basObj->flags = new_var;
+        basObj->gravity_value_2 = 7;
         break;
       }
-      _basObj = _basObj + 1;
-      iVar2 = iVar2 + 1;
       basObj = basObj + 1;
-    } while (iVar2 < nb_obj);
+      iVar2 = iVar2 + 1;
+    } while (iVar2 < new_var2);
   }
   skipToLabel(obj,99,TRUE);
   if (obj->cmd == GO_SPEED) {

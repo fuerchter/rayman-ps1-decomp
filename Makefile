@@ -13,6 +13,7 @@
 #ask about cd_cw, cd_read case issue
 #rename duplicate memcpy, set_alarm in ghidra
 #how to decompile ghidra_psx_ldr generated obj labels/functions in psyq?
+#.data like DemoRecord might need incbin preprocessor stuff, see https://github.com/YohannDR/mzm/blob/e0f6976efb9d4be4b653d1c71ee803a8ef0599b3/tools/preproc/c_file.cpp#L326 ?
 
 EXE               := slus-000.05
 
