@@ -1,5 +1,6 @@
 #include "obj/cymbal.h"
 
+/* matches, but... */
 /* 49B74 8016E374 -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/obj/cymbal", DO_CYMBAL_COMMAND);*/
 
@@ -17,6 +18,8 @@ extern u8 D_801F61F3;
 extern u8 D_801F61F6;
 extern s32 D_801F620C;
 
+s32 on_block_chdir(Obj *obj,short param_2,short param_3);
+
 void DO_CYMBAL_COMMAND(Obj *arg0)
 {
     s16 sp18;
@@ -27,7 +30,7 @@ void DO_CYMBAL_COMMAND(Obj *arg0)
     s16 temp_v1_3;
     s16 var_a3;
     s16 var_s2;
-    s16 var_v0_2;
+    s32 var_v0_2;
     s32 temp_v0_2;
     s32 temp_v1_7;
     s16 var_v0;
@@ -42,6 +45,8 @@ void DO_CYMBAL_COMMAND(Obj *arg0)
     u8 temp_v1_4;
     u8 temp_v1_5;
     u32 temp_v1_6;
+    int new_var;
+    int new_var2;
 
     var_s1 = arg0->speed_x;
     temp_a2 = ((ray.offset_bx + ray.x_pos) - arg0->x_pos) - arg0->offset_bx;
@@ -54,7 +59,6 @@ void DO_CYMBAL_COMMAND(Obj *arg0)
             if (temp_a2 >= 0x63)
             {
                 ray.y_pos += 8;
-                var_v1 = var_s1 << 0x10;
             }
             else
             {
@@ -74,10 +78,9 @@ void DO_CYMBAL_COMMAND(Obj *arg0)
                 {
                     var_a3 = (temp_a2 < 0x15) ^ 1;
                 }
-                var_v1 = var_s1 << 0x10;
             }
-            var_v1_2 = var_s1 << 0x10;
-            if ((var_v1 >> 0x10) < var_a3)
+
+            if ((s16)var_s1 < var_a3)
             {
                 temp_v1 = arg0->gravity_value_1;
                 arg0->gravity_value_1 = (u8) (temp_v1 + 0xFF);
@@ -86,11 +89,10 @@ void DO_CYMBAL_COMMAND(Obj *arg0)
                     var_s1 += 1;
                     goto block_33;
                 }
-                var_v1_2 = var_s1 << 0x10;
                 goto block_16;
             }
 block_16:
-            if ((var_v1_2 >> 0x10) > var_a3)
+            if ((s16)var_s1 > var_a3)
             {
                 temp_v1_2 = arg0->gravity_value_1;
                 arg0->gravity_value_1 = (u8) (temp_v1_2 + 0xFF);
@@ -103,11 +105,13 @@ block_16:
             goto block_40;
         }
         var_s2 = -temp_a2;
-        temp_v1_3 = temp_a2 * -1;
+        temp_v1_3 = -1;
+        temp_v1_3 = temp_a2 * temp_v1_3;
+        new_var = 0x1FE; /* this would make u8 overflow */
+        new_var2 = 0xFF;
         if (temp_v1_3 >= 0x6A)
         {
             ray.y_pos += 8;
-            var_v1_3 = var_s1 << 0x10;
         }
         else
         {
@@ -127,15 +131,13 @@ block_16:
             {
                 var_a3 = (temp_v1_3 < 0x15) - 1;
             }
-            var_v1_3 = var_s1 << 0x10;
         }
-        var_s2 = var_v1_3 >> 0x10;
-        if (var_a3 < var_s2)
+        if (((s16) var_s1) > var_a3)
         {
             temp_v0 = arg0->gravity_value_1;
-            temp_v1_4 = temp_v0 + 0xFF;
+            temp_v1_4 = temp_v0 + new_var2;
             arg0->gravity_value_1 = temp_v1_4;
-            if ((temp_v0 == 0) || (arg0->gravity_value_1 = (u8) (temp_v0 + 0x1FE), var_v0 = var_s1 << 0x10, ((temp_v1_4 & 0xFF) == 0)))
+            if ((temp_v0 == 0) || (arg0->gravity_value_1 = (temp_v0 + new_var), (temp_v1_4 & 0xFF) == 0))
             {
                 var_s1 -= 1;
 block_33:
@@ -155,9 +157,9 @@ block_33:
         if (temp_v1_5 == 0)
         {
             arg0->gravity_value_2 = 5U;
-            if ((s16) var_s1 != 0)
+            if (var_s1 != 0)
             {
-                if ((s16) var_s1 > 0)
+                if (var_s1 > 0)
                 {
                     var_s1 -= 1;
                 }
@@ -167,10 +169,9 @@ block_33:
                 }
             }
         }
-block_40:
-        var_v0 = var_s1 << 0x10;
     }
-    if ((on_block_chdir(arg0, arg0->offset_bx + (var_v0 >> 0xF), arg0->offset_by) << 0x10) != 0)
+block_40:
+    if ((s16)on_block_chdir(arg0, arg0->offset_bx + (var_s1 * 2), arg0->offset_by))
     {
         var_s1 = 0;
     }
@@ -210,19 +211,15 @@ block_40:
                     temp_v0_2 = temp_v1_7 - 0x1C;
                     if (temp_v0_2 >= 0)
                     {
-                        var_v0_3 = var_s2 << 0x10;
-                        var_s2 = temp_v0_2 >= 0x14;
-                        if (var_s2)
+                        if ((temp_v0_2) < 0x14)
                         {
-                            return;
+                            goto block_61;
                         }
-                        goto block_61;
                     }
-                    var_v0_3 = var_s2 << 0x10;
-                    if ((0x1C - temp_v1_7) < 0x14)
+                    else if ((0x1C - temp_v1_7) < 0x14)
                     {
 block_61:
-                        if (var_v0_3 < 0)
+                        if (var_s2 < 0)
                         {
                             ray.flags |= 0x4000;
                         }
@@ -231,12 +228,12 @@ block_61:
                             ray.flags &= ~0x4000;
                         }
                         RAY_HIT(1, arg0);
-                        return;
+
                     }
                 }
             }
         }
-        else if(temp_v1_6)
+        else if(temp_v1_6 == 3)
         {
             if (!(ray.flags & 0x800) && (arg0->anim_frame == 0) && (ray.field20_0x36 == arg0->id))
             {
@@ -245,7 +242,7 @@ block_61:
                 ray.x_pos -= 4;
                 GET_SPRITE_POS(arg0, 1, &sp18, &sp1A, &sp1C, &sp1E);
                 ray.y_pos = (arg0->offset_hy + (u16) sp1A) - ray.offset_by;
-                set_main_and_sub_etat(&ray.flags - 0x6C, 0, 8);
+                set_main_and_sub_etat(&ray, 0, 8);
             }
         }
     }
@@ -259,6 +256,7 @@ u16 on_block_chdir(Obj *, u8, u8);
 ? set_main_and_sub_etat(Obj *, ?, ?, u8);
 ? skipToLabel(Obj *, ?, ?);*/
 s16 test_allowed(Obj *, u8, u8);
+s32 on_block_chdir(Obj *obj,short param_2,short param_3);
 extern u16 D_801F61BC;
 extern u16 D_801F61BE;
 extern s16 D_801F61D6;
@@ -284,7 +282,8 @@ void DO_2_PARTS_CYMBAL(Obj *param_1)
   s16 local_2c;
   s16 local_2a;
   int new_var2; /* s16? */
-  s16 test;
+  s32 test; /* s16? */
+
   bVar6 = param_1->offset_bx;
   bVar1 = param_1->offset_by;
   if (param_1->field24_0x3e == 0)
@@ -297,9 +296,9 @@ void DO_2_PARTS_CYMBAL(Obj *param_1)
   {
     if (ray.field20_0x36 == param_1->id)
     {
-      iVar5 = ((((ray.offset_bx + ((u16) ray.x_pos)) - ((u16) param_1->x_pos)) - bVar6) * 0x10000) >> 0x10;
+      iVar5 = (s16)(ray.offset_bx + ray.x_pos - param_1->x_pos - bVar6);
       iVar5_2 = iVar5; /* assignment from larger to smaller type */
-      if ((0x60 < iVar5) || (iVar5_2 < (-0x6b)))
+      if (0x60 < iVar5 || (iVar5_2 < -0x6b))
       {
         ray.y_pos = ray.y_pos + 8;
       }
@@ -310,7 +309,7 @@ void DO_2_PARTS_CYMBAL(Obj *param_1)
     {
       skipToLabel(param_1, 99, 1);
     }
-    param_1->flags = param_1->flags & (~0x4000);
+    param_1->flags = param_1->flags & ~0x4000;
     if (param_1->cmd == 20)
     {
       param_1->speed_x = param_1->iframes_timer;
@@ -324,10 +323,10 @@ void DO_2_PARTS_CYMBAL(Obj *param_1)
     {
       obj->flags = obj->flags | 0x800;
     }
-    iVar5 = *((s32 *) (&param_1->speed_x));
+
     iVar5_2 = param_1->speed_y;
     test = -1;
-    if (iVar5 == 0)
+    if (*(s32 *)&param_1->speed_x == 0)
     {
       sVar4 = param_1->field24_0x3e;
       if (sVar4 == 1)
@@ -338,14 +337,14 @@ void DO_2_PARTS_CYMBAL(Obj *param_1)
       if (param_1->field24_0x3e == 2)
       {
         obj->field24_0x3e = 3;
-        iVar5_2 = (u16) obj->x_pos - (u16) param_1->x_pos;
+        iVar5_2 = obj->x_pos - param_1->x_pos;
         new_var2 = (u16) obj->y_pos - (u16) param_1->y_pos;
         if (6 < iVar5_2)
         {
           obj->speed_x = -4;
           return;
         }
-        if (iVar5_2 < (-6))
+        if (iVar5_2 < -6)
         {
           obj->speed_x = 4;
           return;
@@ -360,18 +359,18 @@ void DO_2_PARTS_CYMBAL(Obj *param_1)
           obj->speed_x = 1;
           return;
         }
-        iVar5_2 = ((int) (new_var2 * 0x10000)) >> 0x10;
+        iVar5_2 = new_var2;
         obj->speed_x = 0;
-        if (iVar5_2 < (-8))
+        if (iVar5_2 < -8)
         {
           sVar4 = 4;
         }
         else
         {
           sVar4 = -4;
-          if ((iVar5_2 < 9) && ((sVar4 = -1, iVar5_2 < 1)))
+          if (iVar5_2 < 9 && (sVar4 = -1, iVar5_2 < 1))
           {
-            if ((-1) < iVar5_2)
+            if (-1 < iVar5_2)
             {
               obj->speed_y = 0;
               param_1->field24_0x3e = 4;
@@ -387,10 +386,11 @@ void DO_2_PARTS_CYMBAL(Obj *param_1)
                 sub_etat = 9;
               }
               set_main_and_sub_etat(obj, 0, sub_etat);
+              sVar4 = 1;
               set_main_and_sub_etat(param_1, 0, sub_etat_00);
               return;
             }
-            sVar4 = 1;
+
           }
         }
       }
@@ -432,10 +432,10 @@ void DO_2_PARTS_CYMBAL(Obj *param_1)
           {
             return;
           }
-          ray.x_pos = ray.x_pos + (-4);
+          ray.x_pos = ray.x_pos + -4;
           ray.flags = ray.flags | 0x800;
           GET_SPRITE_POS(param_1, 1, &local_30, &local_2e, &local_2c, &local_2a);
-          ray.y_pos = (((u16) param_1->offset_hy) + local_2e) - ((u16) ray.offset_by);
+          ray.y_pos = param_1->offset_hy + local_2e - ray.offset_by;
           set_main_and_sub_etat(&ray, 0, 8);
           return;
         }
