@@ -23,7 +23,7 @@ void INIT_SAXO(Obj *sax_obj)
   Sax.field10_0x10 = 0;
 }
 
-/* TODO: param_2, locals */
+/* TODO: param_2 */
 /* 50D7C 8017557C -O2 -msoft-float */
 void allocateNote2(Obj *note_obj, s16 param_2)
 {
@@ -66,7 +66,7 @@ void allocateNote2(Obj *note_obj, s16 param_2)
           calc_obj_pos(cur_obj);
           cur_obj->field23_0x3c = 10;
           allocateExplosion(cur_obj);
-          return;
+          break;
         }
         cur_obj++;
         i++;
@@ -256,7 +256,6 @@ void Cree_Eclat_Note(Obj *bnote, Obj *note1, s16 index)
     bnote->flags |= (OBJ_ALIVE|OBJ_ACTIVE);
     calc_obj_pos(bnote);
   }
-  
 }
 
 /* 513AC 80175BAC -O2 -msoft-float */
@@ -306,8 +305,8 @@ void DO_EXPLOSE_NOTE1(Obj *obj)
 /* 514F4 80175CF4 -O2 -msoft-float */
 void BonneNote(Obj *orig_obj)
 {
-  s16 i;
   Obj *obj;
+  s16 i;
   u8 nb_objs;
   s16 speed_x;
   
@@ -384,13 +383,123 @@ void DO_NOTE_TOUCHEE(Obj *obj)
     }
 }
 
+/* 51774 80175F74 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_NOTE_REBOND);
 
+extern u8 NextNote;
+extern SaxNoteEntry atak[7];
+
+/* 51828 80176028 -O2 -msoft-float */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", allocateNote);
+#else
+/*? calc_obj_pos(Obj *, s32);
+? skipToLabel(Obj *, ?, ?, s16);*/
 
+void allocateNote(Obj *obj)
+{
+  Obj *noteObj;
+  s16 i;
+  u8 nb_objs_1;
+  u8 nb_objs_2;
+
+  noteObj = level.objects;
+  i = 0;
+  nb_objs_1 = level.nb_objects;
+  if (nb_objs_1 != 0)
+  {
+    nb_objs_2 = nb_objs_1;
+    do {
+      if ((noteObj->type == atak[NextNote].type + TYPE_NOTE0))
+      {
+        if(!(noteObj->flags & OBJ_ACTIVE))
+        {
+            noteObj->flags = noteObj->flags & ~OBJ_FLIP_X | obj->flags & OBJ_FLIP_X;
+            noteObj->speed_y = atak[NextNote].speed_y;
+            if (noteObj->flags & OBJ_FLIP_X)
+            {
+                noteObj->speed_x = atak[NextNote].speed_x;
+                noteObj->x_pos = Sax.sprite2_x + 0x17 - noteObj->offset_bx;
+            }
+            else
+            {
+                noteObj->speed_x = -atak[NextNote].speed_x;
+                noteObj->x_pos = Sax.sprite2_x + 9 - noteObj->offset_bx;
+            }
+            noteObj->y_pos = (Sax.sprite2_y - noteObj->offset_by) + 0x19;
+            noteObj->main_etat = 2;
+            noteObj->sub_etat = atak[NextNote].type;
+            skipToLabel(noteObj, 1, TRUE);
+            calc_obj_pos(noteObj);
+            noteObj->flags = (noteObj->flags | OBJ_ALIVE) & ~OBJ_FLAG_9 | OBJ_ACTIVE;
+            noteObj->gravity_value_1 = 0;
+            noteObj->gravity_value_2 = 10;
+            noteObj->iframes_timer = atak[NextNote].initial_iframes;
+            calc_obj_pos(noteObj);
+            break;
+        }
+      }
+      noteObj++;
+      i++;
+    } while (i < nb_objs_2);
+  }
+
+  __asm__("nop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
+
+extern s16 IndexAtak;
+extern SaxAttackEntry SerieDatak[4][11];
+extern SaxAttackEntry attaque;
+
+/* 51A30 80176230 -O2 -msoft-float */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", PrepareAtak);
+#else
+u8 PrepareAtak(void)
+{
+  s16 is;
+  s16 ia;
+  
+  is = IndexSerie;
+  ia = IndexAtak;
+  attaque.next_note = SerieDatak[is][ia].next_note;
+  attaque.time = SerieDatak[is][ia].time;
+  attaque.field2_0x2 = SerieDatak[is][ia].field2_0x2;
+  if (attaque.field2_0x2 != 0)
+    IndexAtak = 0;
+  else
+    IndexAtak++;
 
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", SAXO_TIRE);
+  __asm__("nop\nnop\nnop");
+  return attaque.next_note;
+}
+#endif
+
+/* 51AE0 801762E0 -O2 -msoft-float */
+extern u8 WaitForFinAtan;
+
+void SAXO_TIRE(Obj *obj)
+{
+  s16 one;
+
+  if (obj->type == TYPE_SAXO)
+  {
+    if (NextNote > 6)
+    {
+      one = 1;
+      NextNote = NextNote - one;
+    }
+    allocateNote(obj);
+    WaitForFinAtan = attaque.time + 1;
+    NextNote = PrepareAtak();
+  }
+  else
+  {
+    NextNote = 0;
+    allocateNote(obj);
+  }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO_COUP);
 

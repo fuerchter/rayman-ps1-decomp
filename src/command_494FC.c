@@ -15,6 +15,7 @@ void DO_ONE_CMD_WAIT(Obj *obj)
 
 INCLUDE_ASM("asm/nonmatchings/command_494FC", DO_ONE_CMD_LR_ATTENTE);
 
+/* 496EC 8016DEEC -O2 -msoft-float */
 void DO_ONE_CMD_UPDOWN(Obj *obj)
 {
   switch(obj->type)
@@ -38,7 +39,7 @@ void DO_ONE_CMD_UPDOWN(Obj *obj)
       
     case TYPE_INTERACTPLT:
       obj->nb_cmd--;
-      if ((obj->nb_cmd << 0x10) > 0)
+      if (obj->nb_cmd > 0)
       {
         if(obj->cmd == GO_UP)
           obj->speed_y = -1;
