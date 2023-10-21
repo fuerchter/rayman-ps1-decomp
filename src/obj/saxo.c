@@ -188,7 +188,76 @@ void DO_NOTE_CMD(Obj *obj)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", Cree_Eclat_Note);
+/* 511C4 801759C4 -O2 -msoft-float */
+/*? calc_obj_pos(Obj *);
+? skipToLabel(Obj *, ?, ?);*/
+
+void Cree_Eclat_Note(Obj *bnote, Obj *note1, s16 index)
+{
+  s16 speed_x;
+  
+  if (bnote->type == TYPE_BNOTE)
+  {
+    if (bnote->flags & OBJ_ACTIVE)
+    {
+        do {
+            bnote++;
+            if (bnote->type != TYPE_BNOTE)
+                return;
+        } while (bnote->flags & OBJ_ACTIVE);
+    }
+  }
+
+  if (bnote->type == TYPE_BNOTE)
+  {
+    if (index < 4)
+    {
+        bnote->flags = (bnote->flags & ~OBJ_FLIP_X) | ((index % 2) & 1) << 14;
+        if (index < 2)
+            bnote->speed_y = -1;
+        else
+            bnote->speed_y = 1;
+
+        if (bnote->flags & OBJ_FLIP_X)
+            speed_x = 1;
+        else
+            speed_x = -1;
+        bnote->speed_x = speed_x;
+    }
+    else
+    {
+        bnote->flags = (bnote->flags & ~OBJ_FLIP_X) | ((index % 2) & 1) << 14;
+        switch(index)
+        {
+        case 4:
+            bnote->speed_y = 0;
+            bnote->speed_x = -2;
+            break;
+        case 5:
+            bnote->speed_x = 2;
+            bnote->speed_y = 0;
+            break;
+        case 6:
+            bnote->speed_x = 0;
+            bnote->speed_y = -2;
+            break;
+        case 7:
+            bnote->speed_x = 0;
+            bnote->speed_y = 2;
+            break;
+        }
+    }
+    bnote->x_pos = note1->x_pos;
+    bnote->y_pos = note1->y_pos;
+    bnote->main_etat = 2;
+    bnote->sub_etat = 5;
+    skipToLabel(bnote, 1, TRUE);
+    calc_obj_pos(bnote);
+    bnote->flags |= (OBJ_ALIVE|OBJ_ACTIVE);
+    calc_obj_pos(bnote);
+  }
+  
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_EXPLOSE_NOTE1);
 
