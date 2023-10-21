@@ -69,6 +69,7 @@ segments:
       - [0x67A4, rodata]
       - [0x67BC, .rodata, obj/fee_4DFD0] #8012AFBC, TODO: this needs to be built without -no-pad-sections for some reason
       - [0x67F4, rodata]
+      - [0x6820, .rodata, obj/saxo] #8012b020
       - [0x6878, .rodata, command_56AF0] #8012B078
       - [0x699C, rodata]
       - [0x721C, .rodata, world_map_677C0] #8012BA1C
@@ -213,7 +214,7 @@ segments:
       - [0x50C00, asm, obj/tire_bouchon_command] #80175400
       - [0x50C2C, asm, obj/petit_couteau_command] #8017542c
       - [0x50C60, asm, obj/blacktoon_eyes_command] #80175460
-      - [0x50CDC, asm, obj/saxo] #801754dc
+      - [0x50CDC, c, obj/saxo] #801754dc
       - [0x537C0, asm, obj/spider_plafond] #80177fc0
       - [0x548CC, asm, unknown/548CC] #801790cc 
       - [0x56AF0, c, command_56AF0] #8017b2f0

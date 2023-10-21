@@ -2,6 +2,8 @@
 #define SAXO_H
 
 #include "common.h"
+#include "obj_update.h"
+#include "timers.h"
 
 typedef struct SaxAttackEntry
 {
@@ -16,7 +18,7 @@ typedef struct SaxNoteEntry
     s16 speed_x;
     s16 speed_y;
     s16 initial_iframes;
-    s16 field4_0x8; // unused
+    s16 field4_0x8; /* unused */
 } SaxNoteEntry;
 
 typedef struct SaxData
@@ -33,5 +35,7 @@ typedef struct SaxData
     u8 field9_0xf;
     s16 field10_0x10;
 } SaxData;
+
+extern SaxData Sax;
 
 #endif
