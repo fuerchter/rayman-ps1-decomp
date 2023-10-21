@@ -5,6 +5,11 @@
 #include "obj_update.h"
 #include "timers.h"
 #include "obj/poing.h"
+#include "collision/collision_block.h"
+#include "num_level_36260.h"
+#include "cam_scroll.h"
+#include "moteur_init_end.h"
+#include "ray/ray_32398.h"
 
 typedef struct SaxAttackEntry
 {

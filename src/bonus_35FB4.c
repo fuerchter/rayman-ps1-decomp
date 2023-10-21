@@ -45,13 +45,10 @@ s16 NOVA_STATUS_BAR(u8 *, u8);*/
 
 void DO_WIZ_AFTER_BONUS_MAP(void)
 {
-    s16 one;
-
     if (!bonus_map && nb_wiz_collected != 0 && horloge[4] == 0)
     {
         status_bar.num_wiz++;
-        one = 1;
-        nb_wiz_collected -= one;
+        nb_wiz_collected--;
         if (status_bar.num_wiz >= 100)
         {
             status_bar.num_wiz += 156;

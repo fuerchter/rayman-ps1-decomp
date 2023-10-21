@@ -8,8 +8,6 @@
 
 void DO_WIZARD(Obj *obj)
 {
-  s16 one;
-  
   switch (obj->sub_etat)
   {
     case 1:
@@ -28,8 +26,7 @@ void DO_WIZARD(Obj *obj)
         set_main_and_sub_etat(&ray, 3, 0xA);
         if (horloge[2] == 0 && (obj->field24_0x3e - status_bar.num_wiz < 10))
         {
-            one = 1;
-            status_bar.num_wiz -= one;
+            status_bar.num_wiz--;
             return;
         }
         return;

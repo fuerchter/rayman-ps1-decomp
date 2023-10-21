@@ -481,15 +481,10 @@ extern u8 WaitForFinAtan;
 
 void SAXO_TIRE(Obj *obj)
 {
-  s16 one;
-
   if (obj->type == TYPE_SAXO)
   {
     if (NextNote > 6)
-    {
-      one = 1;
-      NextNote = NextNote - one;
-    }
+      NextNote--;
     allocateNote(obj);
     WaitForFinAtan = attaque.time + 1;
     NextNote = PrepareAtak();
@@ -501,19 +496,131 @@ void SAXO_TIRE(Obj *obj)
   }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO_COUP);
+/* 51B80 80176380 -O2 -msoft-float */
+void DO_SAXO_COUP(Obj *obj)
+{
+    u8 hp;
 
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO2_COUP);
+    if (Phase != 100)
+    {
+        hp = --obj->hit_points;
+        if (hp != 0)
+        {
+            if (obj->main_etat != 2)
+            {
+                Sax.field8_0xe = obj->main_etat;
+                Sax.field9_0xf = obj->sub_etat;
+                set_main_and_sub_etat(obj, 0, 3);
+                Sax.coup = 2;
+            }
+            else
+                Sax.coup = 0;
+            
+            IndexSerie++;
+            if (IndexSerie >= 4)
+                IndexSerie = 3;
+            else
+                IndexAtak = 0;
+            NextNote = PrepareAtak();
+        }
+        else
+            Sax.coup = 0;
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", SetSaxoCollNoteBox);
+/* 51C7C 8017647C -O2 -msoft-float */
+/*? set_main_and_sub_etat(Obj *, ?, ?);
+? set_sub_etat(Obj *, ?);*/
+extern u8 FinAnim;
 
+void DO_SAXO2_COUP(Obj *obj)
+{
+    switch (Phase)
+    {
+    case 1:
+        obj->hit_points--;
+        if (obj->init_hit_points - obj->hit_points >= 3)
+            Phase = 2;
+        FinAnim = FALSE;
+        set_sub_etat(obj, 3);
+        Sax.coup = 2;
+        break;
+    case 2:
+        obj->hit_points--;
+        Sax.coup = 0;
+        break;
+    case 3:
+        set_main_and_sub_etat(obj, 0, 3);
+        obj->speed_x = 0;
+        obj->hit_points--;
+        FinAnim = FALSE;
+        Sax.coup = 2;
+        break;
+    }
+}
+
+/* 51D7C 8017657C -O2 -msoft-float */
+void SetSaxoCollNoteBox(Obj *obj)
+{
+  s16 x2;
+  s16 y2;
+  s16 w2;
+  s16 h2;
+  s16 x5;
+  s16 y5;
+  s16 w5;
+  s16 h5;
+  
+  GET_SPRITE_POS(obj, 2, &x2, &y2, &w2, &h2);
+  GET_SPRITE_POS(obj, 5, &x5, &y5, &w5, &h5);
+  Sax.note_box_coll_y = y5 + 20;
+  Sax.note_box_coll_x = x2 + ((w2 - 20) >> 1);
+}
+
+void DO_SAXO_COMMAND(Obj *obj);
+
+extern u8 NiveauDansPhase;
+extern u8 WaitForAnim;
+extern MapData mp;
+
+/* 51E0C 8017660C -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO_COMMAND);
 
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO_ATTER);
+/* 52BC4 801773C4 -O2 -msoft-float */
+extern s16 screen_trembling;
+
+void DO_SAXO_ATTER(Obj *obj)
+{
+  if (obj->speed_y > 0)
+  {
+    CALC_MOV_ON_BLOC(obj);
+    screen_trembling = 1;
+    set_main_and_sub_etat(obj, 0, 0xb);
+    obj->speed_x = 0;
+    obj->speed_y = 0;
+    allocateLandingSmoke(obj);
+  }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO2_COMMAND);
 
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO2_ATTER);
+/* 533C8 80177BC8 -O2 -msoft-float */
+extern s16 screen_trembling3;
+
+void DO_SAXO2_ATTER(Obj *obj)
+{
+  s32 four = 4;
+  s32 two = 2;
+
+  if (Phase < four && Phase >= two && obj->speed_y > 0) {
+    CALC_MOV_ON_BLOC(obj);
+    screen_trembling3 = 1;
+    set_main_and_sub_etat(obj, 0, 0xb);
+    obj->speed_x = 0;
+    obj->speed_y = 0;
+    allocateLandingSmoke(obj);
+  }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO_MARCHE);
 

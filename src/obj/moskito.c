@@ -59,7 +59,6 @@ void PS1_setBossScrollLimits_moskito(Obj *obj)
 u8 moskitoCanAttak(Obj *obj)
 {
     u8 locked;
-    s16 one;
     u32 res;
 
     if (!scrollLocked)
@@ -82,10 +81,7 @@ u8 moskitoCanAttak(Obj *obj)
         }
     }
     else if (obj->timer != 0)
-    {
-        one = 1;
-        obj->timer -= one;
-    }
+        obj->timer--;
     res = FALSE;
     if (scrollLocked)
         res = (obj->timer == 0);
@@ -150,17 +146,13 @@ u8 closeEnoughToSting(Obj *arg0, u16 arg1, u16 arg2);
 
 void doMoskitoCommand(Obj *obj)
 {
-    s8 one;
     ObjFlags flags;
     Obj *poing_obj;
 
     if (moskitoCanAttak(obj))
     {
         if (bossSafeTimer != 0)
-        {
-            one = 1;
-            bossSafeTimer -= one;
-        }
+            bossSafeTimer--;
         flags = obj->flags;
         if (!(flags & OBJ_FLAG_0))
         {
