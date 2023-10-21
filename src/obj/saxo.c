@@ -259,11 +259,130 @@ void Cree_Eclat_Note(Obj *bnote, Obj *note1, s16 index)
   
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_EXPLOSE_NOTE1);
+/* 513AC 80175BAC -O2 -msoft-float */
+void DO_EXPLOSE_NOTE1(Obj *obj)
+{
+  Obj *cur_obj;
+  s16 i;
+  u8 nb_objs_1;
+  u8 nb_objs_2;
+  
+  cur_obj = level.objects;
+  i = 0;
+  nb_objs_1 = level.nb_objects;
+  if (nb_objs_1 != 0)
+  {
+    nb_objs_2 = nb_objs_1;
+    do {
+      if (cur_obj->type == TYPE_BNOTE && !(cur_obj->flags & OBJ_ACTIVE))
+      {
+        PlaySnd(0xf4,obj->id);
+        allocateExplosion(obj);
+        Cree_Eclat_Note(cur_obj,obj,0);
+        cur_obj++;
+        Cree_Eclat_Note(cur_obj,obj,1);
+        cur_obj++;
+        Cree_Eclat_Note(cur_obj,obj,2);
+        cur_obj++;
+        Cree_Eclat_Note(cur_obj,obj,3);
+        cur_obj++;
+        Cree_Eclat_Note(cur_obj,obj,4);
+        cur_obj++;
+        Cree_Eclat_Note(cur_obj,obj,5);
+        cur_obj++;
+        Cree_Eclat_Note(cur_obj,obj,6);
+        cur_obj++;
+        Cree_Eclat_Note(cur_obj,obj,7);
+        obj->flags &= ~OBJ_ACTIVE;
+        obj->flags &= ~OBJ_ALIVE;
+        break;
+      }
+      cur_obj++;
+      i++;
+    } while (i < nb_objs_2);
+  }
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", BonneNote);
+/* 514F4 80175CF4 -O2 -msoft-float */
+void BonneNote(Obj *orig_obj)
+{
+  s16 i;
+  Obj *obj;
+  u8 nb_objs;
+  s16 speed_x;
+  
+  obj = level.objects;
+  i = 0;
+  nb_objs = level.nb_objects;
+  if (nb_objs != 0)
+  {
+    do {
+      if (obj->type == TYPE_BONNE_NOTE && !(obj->flags & OBJ_ACTIVE))
+      {
+        if (orig_obj->speed_x == 0)
+        {
+          obj->flags &= ~OBJ_FLIP_X;
+          obj->speed_x = -1;
+          obj->speed_y = -4;
+          obj->gravity_value_2 = 10;
+          obj->field23_0x3c = 2;
+        }
+        else
+        {
+          speed_x = 4;
+          if (level.objects[poing_obj_id].speed_x < 0)
+            speed_x = -4;
+          obj->speed_x = speed_x;
+          if (speed_x < 0)
+            obj->flags &= ~OBJ_FLIP_X;
+          else
+            obj->flags |= OBJ_FLIP_X;
+          obj->gravity_value_2 = 0xff;
+          obj->field23_0x3c = 1;
+          obj->speed_y = -1;
+        }
+        obj->x_pos = orig_obj->x_pos;
+        obj->y_pos = orig_obj->y_pos;
+        obj->main_etat = 2;
+        obj->sub_etat = 3;
+        obj->init_x_pos = obj->x_pos;
+        skipToLabel(obj, 1, TRUE);
+        calc_obj_pos(obj);
+        obj->gravity_value_1 = 0;
+        
+        obj->flags |= (OBJ_ALIVE|OBJ_ACTIVE);
+        obj->iframes_timer = 200;
+        orig_obj->flags &= ~OBJ_ACTIVE;
+        orig_obj->flags &= ~OBJ_ALIVE;
+        calc_obj_pos(obj);
+        break;
+      }
+      obj++;
+      i++;
+    } while (i < nb_objs);
+  }
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_NOTE_TOUCHEE);
+/* 516B4 80175EB4 -O2 -msoft-float */
+void DO_NOTE_TOUCHEE(Obj *obj)
+{
+    switch (obj->type)
+    {
+    case TYPE_NOTE0:
+    case TYPE_NOTE3:
+        BonneNote(obj);
+        break;
+    case TYPE_NOTE1:
+        DO_EXPLOSE_NOTE1(obj);
+        break;
+    case TYPE_BONNE_NOTE:
+        obj->speed_x += level.objects[poing_obj_id].speed_x;
+        obj->speed_y = -1;
+        obj->gravity_value_2 = 0xFF;
+        obj->field23_0x3c = 1;
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_NOTE_REBOND);
 

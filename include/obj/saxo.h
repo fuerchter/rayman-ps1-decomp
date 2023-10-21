@@ -4,6 +4,7 @@
 #include "common.h"
 #include "obj_update.h"
 #include "timers.h"
+#include "obj/poing.h"
 
 typedef struct SaxAttackEntry
 {
