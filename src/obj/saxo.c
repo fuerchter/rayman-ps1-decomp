@@ -602,8 +602,6 @@ void DO_SAXO_ATTER(Obj *obj)
   }
 }
 
-#define MISSING_ADDIU
-
 /* 52C28 80177428 -O2 -msoft-float */
 #ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO2_COMMAND);
@@ -746,7 +744,7 @@ void DO_SAXO2_COMMAND(Obj *obj)
         main_etat = obj->main_etat;
         if (main_etat != 1)
         {
-          if (main_etat < 2 && main_etat == 0 && FinAnim != 0)
+          if (main_etat < 2 && main_etat == 0 && FinAnim)
           {
             switch (obj->sub_etat)
             {
@@ -839,9 +837,88 @@ void DO_SAXO2_ATTER(Obj *obj)
   }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO_MARCHE);
+/* 53448 80177C48 -O2 -msoft-float */
+void DO_SAXO_MARCHE(s16 hp)
+{
+  Sax.field10_0x10 = hp + 1;
+}
 
+/* 5345C 80177C5C -O2 -msoft-float */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO3_COMMAND);
+#else
+/*? GET_SPRITE_POS(?, u16 *, u16 *, u16 *, ? *);
+? set_main_and_sub_etat(Obj *, ?, ?);
+? set_sub_etat(Obj *, ?, u32);*/
+
+void DO_SAXO3_COMMAND(Obj *obj)
+{
+    s16 sprite_w;
+    s16 sprite_h;
+    u16 temp_x;
+    s32 temp_flags;
+
+    __asm__("nop\nnop");
+
+    GET_SPRITE_POS(obj, 2, &Sax.sprite2_x, &Sax.sprite2_y, &sprite_w, &sprite_h);
+    if (obj->flags & OBJ_FLIP_X)
+    {
+        temp_x = Sax.sprite2_x - 32;
+        Sax.sprite2_x = temp_x + sprite_w;
+    }
+    Sax.sprite2_x += 12;
+    Sax.sprite2_y += 12;
+    Sax.x_pos = obj->x_pos;
+    Sax.y_pos = obj->y_pos;
+    SetSaxoCollNoteBox(obj);
+    if (Phase == 2 && obj->main_etat == 0 && obj->sub_etat != 0)
+        Phase = 0;
+    if (
+      obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1) &&
+      horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+    )
+    {
+        FinAnim = TRUE;
+        WaitForAnim = FALSE;
+    }
+    else
+        FinAnim = FALSE;
+    
+    switch (Phase)
+    {
+    case 0:
+      break;
+    case 1:
+        switch(obj->sub_etat)
+        {
+          case 1:
+            if ((obj->anim_frame == 24) && (horloge[obj->eta[obj->main_etat][1].anim_speed & 0xF] == 0))
+                SAXO_TIRE(obj);
+            if (FinAnim)
+            {
+                /* TODO: see DO_SAXO2_COMMAND also */
+                temp_flags = (obj->flags & ~OBJ_FLIP_X) | (((1 - ((obj->flags >> 0xE) & 1)) & 1) << 0xE);
+                obj->flags = temp_flags;
+                set_sub_etat(obj, 0);
+                Phase++;
+            }
+            break;
+          case 3:
+            if (FinAnim)
+                Sax.coup = 0;
+            break;
+        }
+        break;
+    case 2:
+        if (FinAnim && obj->sub_etat == 0)
+        {
+            obj->speed_x = 2;
+            set_main_and_sub_etat(obj, 1, 0);
+        }
+        break;
+    }
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO3_DEBUT);
 
