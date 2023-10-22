@@ -98,7 +98,17 @@ block_2:
         goto block_6;
     }
     Sax.coup = 0;
-    if (!(((u8) block_flags[(u16) *(((s32) ((((s32) (obj->x_pos + obj->offset_bx) >> 4) + (mp.width * ((s32) (obj->y_pos + obj->offset_by) >> 4))) << 0x10) >> 0x10) + mp.map) >> 0xA] >> 1) & 1))
+    if (
+        !((block_flags[
+            (u16) *(
+                (
+                    ((obj->x_pos + obj->offset_bx) >> 4) +
+                    (mp.width * ((obj->y_pos + obj->offset_by) >> 4)) << 0x10 >> 0x10
+                ) +
+                mp.map
+            ) >> 0xA
+        ] >> 1) & 1)
+    )
     {
         goto block_6;
     }

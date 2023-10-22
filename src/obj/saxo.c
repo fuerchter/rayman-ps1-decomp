@@ -602,7 +602,224 @@ void DO_SAXO_ATTER(Obj *obj)
   }
 }
 
+#define MISSING_ADDIU
+
+/* 52C28 80177428 -O2 -msoft-float */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO2_COMMAND);
+#else
+/*? CALC_MOV_ON_BLOC(Obj *, s16, s32);
+? GET_SPRITE_POS(?, u16 *, u16 *, u16 *, ? *);
+? set_main_and_sub_etat(Obj *, ?, ?);
+? set_sub_etat(Obj *, ?, s32);*/
+
+void DO_SAXO2_COMMAND(Obj *obj)
+{
+    s16 sprite_w;
+    s16 sprite_h;
+    u16 temp_x;
+    s16 x_pos;
+    u8 anim_frame;
+    s32 main_etat;
+    s32 offs_x;
+    u8 should_dec;
+    s32 next_x;
+
+    __asm__("nop\nnop\nnop\nnop");
+
+    scrollLocked = TRUE;
+    GET_SPRITE_POS(obj, 2, &Sax.sprite2_x, &Sax.sprite2_y, &sprite_w, &sprite_h);
+    if (obj->flags & OBJ_FLIP_X)
+    {
+        temp_x = Sax.sprite2_x - 32;
+        Sax.sprite2_x = temp_x + sprite_w;
+    }
+    Sax.sprite2_x += 12;
+    Sax.sprite2_y += 12;
+    Sax.x_pos = obj->x_pos;
+    Sax.y_pos = obj->y_pos;
+    SetSaxoCollNoteBox(obj);
+    if (Sax.coup == 1)
+        DO_SAXO2_COUP(obj);
+    if (
+      obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1) &&
+      horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+    )
+    {
+        FinAnim = TRUE;
+        WaitForAnim = FALSE;
+    }
+    else
+        FinAnim = FALSE;
+    
+    x_pos = obj->x_pos;
+    if (xmapmax < ray.x_pos + 150 && (mp.height * 16 - 110) < ray.y_pos)
+        Sax.saved_hp = obj->hit_points;
+    
+    switch (Phase)
+    {
+    case 0:
+        CALC_MOV_ON_BLOC(obj);
+        if (ray.x_pos < x_pos + 220 && ray.x_pos + 220 > x_pos)
+            WaitForAnim = TRUE;
+        
+        if (WaitForAnim && FinAnim)
+        {
+            Phase = 1;
+            WaitForFinAtan = 2;
+            NiveauDansPhase = 0;
+            set_main_and_sub_etat(obj, 0, 1);
+        }
+        break;
+    case 1:
+        switch (obj->sub_etat)
+        {
+        case 1:
+            if (horloge[obj->eta[obj->main_etat][1].anim_speed & 0xF] == 0)
+            {
+                anim_frame = obj->anim_frame;
+                if(
+                  anim_frame == 24 ||
+                  (anim_frame == 28 && NiveauDansPhase >= 2) ||
+                  (anim_frame == 32 && NiveauDansPhase >= 4)
+                )
+                {
+                  SAXO_TIRE(obj);
+                  NiveauDansPhase++;
+                }
+            }
+            break;
+        case 2:
+            if (FinAnim)
+            {
+                if (WaitForFinAtan < 2)
+                    set_sub_etat(obj, 1);
+                else
+                    WaitForFinAtan--;
+            }
+            break;
+        case 3:
+            if (FinAnim)
+                Sax.coup = 0;
+            break;
+        }
+        break;
+    case 2:
+        switch (obj->sub_etat)
+        {
+        case 3:
+            if (FinAnim)
+            {
+                Sax.coup = 0;
+                set_main_and_sub_etat(obj, 0, 0xA);
+            }
+            break;
+        case 10:
+            if (FinAnim)
+            {
+                obj->gravity_value_2 = 5;
+                obj->gravity_value_1 = 0;
+                obj->speed_y = -6;
+                obj->speed_x = -1;
+                obj->y_pos -= 6;
+                Sax.field10_0x10 = 2;
+            }
+            break;
+        case 11:
+            if (FinAnim)
+            {
+                if (obj->x_pos < ray.x_pos - 50)
+                {
+                    /* TODO: last part is obj->flags ^ (1 << 14) ? */
+                    obj->flags = (obj->flags & ~OBJ_FLIP_X) | (((1 - ((obj->flags >> 14) & 1)) & 1) << 14);
+                    set_sub_etat(obj, 0);
+                    Phase = 3;
+                }
+                else
+                    set_main_and_sub_etat(obj, 0, 0xA);
+            }
+            break;
+        }
+        break;
+    case 3:
+        /* TODO: m2c output was switch */
+        main_etat = obj->main_etat;
+        if (main_etat != 1)
+        {
+          if (main_etat < 2 && main_etat == 0 && FinAnim != 0)
+          {
+            switch (obj->sub_etat)
+            {
+            case 0:
+            case 2:
+            case 3:
+            case 11:
+                set_main_and_sub_etat(obj, 1, 0);
+                obj->speed_x = Sax.field10_0x10;
+                Sax.coup = 0;
+                break;
+            case 10:
+                set_main_and_sub_etat(obj, 2, 1);
+                obj->anim_frame = obj->gravity_value_2;
+                obj->gravity_value_2 = 5;
+                obj->gravity_value_1 = 0;
+                obj->speed_y = -7;
+                obj->speed_x = 2;
+                obj->y_pos -= 7;
+                break;
+            }
+          }
+        }
+        else
+        {
+            offs_x = obj->offset_bx + 50;
+            /* TODO: shifts/div? */
+            if (
+              !((block_flags[
+                (u16)mp.map[(s16)(
+                  ((obj->x_pos + offs_x) >> 4) +
+                  (mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
+                )] >> 10
+              ] >> 1) & 1)
+            )
+            {
+              set_main_and_sub_etat(obj, 0, 0xA);
+              obj->speed_x = 0;
+            }
+            else if (xmap < obj->x_pos + 150)
+            {
+              if (Sax.field10_0x10 == 2)
+              {
+                  if (horloge[2] != 0)
+                  {
+                    obj->speed_x = 1;
+                    should_dec = horloge[4] < 2;
+                  }
+                  else
+                  {
+                    obj->speed_x = 2;
+                    break;
+                  }
+              }
+              else
+              {
+                obj->speed_x = 1;
+                should_dec = horloge[2];
+              }
+              
+              if (should_dec != 0)
+                obj->anim_frame--;
+            }
+            else
+              obj->speed_x = 2;
+            break;
+        }
+    }
+    next_x = obj->x_pos + obj->offset_bx + obj->speed_x;
+    if (next_x < 0 || (xmapmax + 320 - 1) < next_x)
+        obj->speed_x = 0;
+}
+#endif
 
 /* 533C8 80177BC8 -O2 -msoft-float */
 extern s16 screen_trembling3;

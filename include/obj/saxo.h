@@ -10,6 +10,7 @@
 #include "cam_scroll.h"
 #include "moteur_init_end.h"
 #include "ray/ray_32398.h"
+#include "world_map_677C0.h"
 
 typedef struct SaxAttackEntry
 {
