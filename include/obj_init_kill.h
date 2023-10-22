@@ -109,5 +109,6 @@ typedef u32 ObjFlags;
 #define OBJ_FLAG_B 0x80000
 
 extern s16 rayman_obj_id;
+extern u8 IsBossThere;
 
 #endif

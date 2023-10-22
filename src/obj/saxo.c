@@ -1,11 +1,6 @@
 #include "obj/saxo.h"
 
 /* 50CDC 801754DC -O2 -msoft-float */
-extern s16 IndexSerie;
-extern u8 IsBossThere;
-extern u8 Phase;
-extern s16 D_801F7FA0;
-
 void INIT_SAXO(Obj *sax_obj)
 {
   sax_obj->y_pos = firstFloorBelow(sax_obj) - sax_obj->offset_by;
@@ -13,7 +8,7 @@ void INIT_SAXO(Obj *sax_obj)
   sax_obj->speed_x = 0;
   sax_obj->speed_y = 0;
   Phase = 0;
-  IsBossThere = 0;
+  IsBossThere = FALSE;
   IndexSerie = 0;
   sax_obj->flags = (sax_obj->flags | OBJ_ALIVE) & ~OBJ_ACTIVE;
   if (sax_obj->type == TYPE_SAXO)
@@ -386,9 +381,6 @@ void DO_NOTE_TOUCHEE(Obj *obj)
 /* 51774 80175F74 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_NOTE_REBOND);
 
-extern u8 NextNote;
-extern SaxNoteEntry atak[7];
-
 /* 51828 80176028 -O2 -msoft-float */
 #ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", allocateNote);
@@ -448,10 +440,6 @@ void allocateNote(Obj *obj)
 }
 #endif
 
-extern s16 IndexAtak;
-extern SaxAttackEntry SerieDatak[4][11];
-extern SaxAttackEntry attaque;
-
 /* 51A30 80176230 -O2 -msoft-float */
 #ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", PrepareAtak);
@@ -477,8 +465,6 @@ u8 PrepareAtak(void)
 #endif
 
 /* 51AE0 801762E0 -O2 -msoft-float */
-extern u8 WaitForFinAtan;
-
 void SAXO_TIRE(Obj *obj)
 {
   if (obj->type == TYPE_SAXO)
@@ -531,7 +517,6 @@ void DO_SAXO_COUP(Obj *obj)
 /* 51C7C 8017647C -O2 -msoft-float */
 /*? set_main_and_sub_etat(Obj *, ?, ?);
 ? set_sub_etat(Obj *, ?);*/
-extern u8 FinAnim;
 
 void DO_SAXO2_COUP(Obj *obj)
 {
@@ -577,18 +562,10 @@ void SetSaxoCollNoteBox(Obj *obj)
   Sax.note_box_coll_x = x2 + ((w2 - 20) >> 1);
 }
 
-void DO_SAXO_COMMAND(Obj *obj);
-
-extern u8 NiveauDansPhase;
-extern u8 WaitForAnim;
-extern MapData mp;
-
 /* 51E0C 8017660C -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO_COMMAND);
 
 /* 52BC4 801773C4 -O2 -msoft-float */
-extern s16 screen_trembling;
-
 void DO_SAXO_ATTER(Obj *obj)
 {
   if (obj->speed_y > 0)
@@ -820,8 +797,6 @@ void DO_SAXO2_COMMAND(Obj *obj)
 #endif
 
 /* 533C8 80177BC8 -O2 -msoft-float */
-extern s16 screen_trembling3;
-
 void DO_SAXO2_ATTER(Obj *obj)
 {
   s32 four = 4;
@@ -920,6 +895,22 @@ void DO_SAXO3_COMMAND(Obj *obj)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO3_DEBUT);
+/* 53758 80177F58 -O2 -msoft-float */
+void DO_SAXO3_DEBUT(Obj *obj)
+{
+  if (Phase == 0)
+  {
+    Phase = 1;
+    WaitForFinAtan = 1;
+    set_main_and_sub_etat(obj,0,1);
+  }
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", saxo2_get_eject_sens);
+/* 5379C 80177F9C -O2 -msoft-float */
+s32 saxo2_get_eject_sens(void)
+{
+  if (Phase <= 1)
+    return -1;
+  else
+    return 1;
+}
