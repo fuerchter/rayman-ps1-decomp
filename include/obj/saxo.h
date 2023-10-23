@@ -16,7 +16,7 @@ typedef struct SaxAttackEntry
 {
     u8 next_note;
     u8 time;
-    s16 field2_0x2;
+    s16 end;
 } SaxAttackEntry;
 
 typedef struct SaxNoteEntry
@@ -49,13 +49,14 @@ extern u8 WaitForFinAtan;
 extern u8 FinAnim;
 extern u8 WaitForAnim;
 
+extern SaxNoteEntry atak[7];
+extern SaxAttackEntry SerieDatak[4][11];
+
 extern SaxData Sax;
 extern s16 IndexSerie;
 extern s16 D_801F7FA0;
 extern u8 NextNote;
-extern SaxNoteEntry atak[7];
 extern s16 IndexAtak;
-extern SaxAttackEntry SerieDatak[4][11];
 extern SaxAttackEntry attaque;
 extern u8 NiveauDansPhase;
 
