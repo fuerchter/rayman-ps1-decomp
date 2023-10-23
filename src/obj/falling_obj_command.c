@@ -14,7 +14,7 @@ void move_fruit_in_water(Obj *obj)
   s16 h;
   s32 x2;
   
-  obj_flip_x = obj->flags >> 0xe & 1;
+  obj_flip_x = obj->flags >> OBJ_FLIP_X & 1;
   if (obj->main_etat == 0)
   {
     if (obj->sub_etat == 0xd && ray.field20_0x36 == obj->id)
@@ -31,7 +31,7 @@ void move_fruit_in_water(Obj *obj)
       {
         obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | ray.flags & FLG(OBJ_FLIP_X);
         SET_X_SPEED(obj);
-        obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | obj_flip_x << 0xe;
+        obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | obj_flip_x << OBJ_FLIP_X;
       }
 
       if (obj->speed_x != 0)
@@ -41,7 +41,7 @@ void move_fruit_in_water(Obj *obj)
         if (obj->speed_x > -1)
           x2 += w;
         btyp = PS1_BTYPAbsPos(x2, y + 0x10);
-        if (block_flags[btyp] >> 1 & 1)
+        if (block_flags[btyp] >> BLOCK_SOLID & 1)
         {
           set_main_and_sub_etat(obj, 0, 0xd);
           obj->speed_x = 0;

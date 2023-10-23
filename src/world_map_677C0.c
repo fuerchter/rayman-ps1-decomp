@@ -321,7 +321,7 @@ void FIN_WORLD_CHOICE(void)
     xmap = xmapinit;
     ymap = ymapinit;
 
-    dir_on_wldmap = ray.flags >> 0xE & 1;
+    dir_on_wldmap = ray.flags >> OBJ_FLIP_X & 1;
     RESTORE_RAY();
     INIT_PASTILLES_SAUVE();
     PROC_EXIT = FALSE;

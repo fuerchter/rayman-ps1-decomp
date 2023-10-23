@@ -330,7 +330,7 @@ u8 handle_GO_SETTEST(Obj *obj)
     u8 to_and;
     
     to_and = 1;
-    obj->flags = obj->flags & ~FLG(OBJ_CMD_TEST) | (obj->nb_cmd & to_and) << 9;
+    obj->flags = obj->flags & ~FLG(OBJ_CMD_TEST) | (obj->nb_cmd & to_and) << OBJ_CMD_TEST;
     return TRUE;
 }
 
@@ -427,7 +427,7 @@ void skipToLabel(Obj *obj, u8 label, u8 skip_label_cmd)
             GET_OBJ_CMD(obj);
 
             /* restore in_rd_cmd */
-            obj->flags = obj->flags & ~FLG(OBJ_READ_CMDS) | (in_rd_cmd & to_and) << 15;
+            obj->flags = obj->flags & ~FLG(OBJ_READ_CMDS) | (in_rd_cmd & to_and) << OBJ_READ_CMDS;
         }
     }
     else

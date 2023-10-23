@@ -159,7 +159,7 @@ void doMoskitoCommand(Obj *obj)
             if (obj->cmd == 2)
             {
                 if (PS1_MsAnimIndex == 0x0E && obj->anim_index == 0x0F)
-                    obj->flags = flags & ~FLG(OBJ_FLIP_X) | (((flags >> 0xE ^ 1) & 1) << 0xE);
+                    obj->flags = flags & ~FLG(OBJ_FLIP_X) | (((flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X);
                 bossXToReach = -32000;
                 bossYToReach = -32000;
                 obj->speed_x = 0;

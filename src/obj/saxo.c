@@ -281,7 +281,7 @@ void Cree_Eclat_Note(Obj *bnote, Obj *note1, s16 index)
   {
     if (index < 4)
     {
-        bnote->flags = (bnote->flags & ~FLG(OBJ_FLIP_X)) | ((index % 2) & 1) << 14;
+        bnote->flags = (bnote->flags & ~FLG(OBJ_FLIP_X)) | ((index % 2) & 1) << OBJ_FLIP_X;
         if (index < 2)
             bnote->speed_y = -1;
         else
@@ -295,7 +295,7 @@ void Cree_Eclat_Note(Obj *bnote, Obj *note1, s16 index)
     }
     else
     {
-        bnote->flags = (bnote->flags & ~FLG(OBJ_FLIP_X)) | ((index % 2) & 1) << 14;
+        bnote->flags = (bnote->flags & ~FLG(OBJ_FLIP_X)) | ((index % 2) & 1) << OBJ_FLIP_X;
         switch(index)
         {
         case 4:
@@ -779,8 +779,8 @@ void DO_SAXO2_COMMAND(Obj *obj)
             {
                 if (obj->x_pos < ray.x_pos - 50)
                 {
-                    /* TODO: last part is obj->flags ^ (1 << 14) ? */
-                    obj->flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (((1 - ((obj->flags >> 14) & 1)) & 1) << 14);
+                    /* TODO: last part is obj->flags ^ (1 << OBJ_FLIP_X) ? */
+                    obj->flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (((1 - ((obj->flags >> OBJ_FLIP_X) & 1)) & 1) << OBJ_FLIP_X);
                     set_sub_etat(obj, 0);
                     Phase = 3;
                 }
@@ -829,7 +829,7 @@ void DO_SAXO2_COMMAND(Obj *obj)
                   ((obj->x_pos + offs_x) >> 4) +
                   (mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
                 )] >> 10
-              ] >> 1) & 1)
+              ] >> BLOCK_SOLID) & 1)
             )
             {
               set_main_and_sub_etat(obj, 0, 0xA);
@@ -946,7 +946,7 @@ void DO_SAXO3_COMMAND(Obj *obj)
             if (FinAnim)
             {
                 /* TODO: see DO_SAXO2_COMMAND also */
-                temp_flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (((1 - ((obj->flags >> 0xE) & 1)) & 1) << 0xE);
+                temp_flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (((1 - ((obj->flags >> OBJ_FLIP_X) & 1)) & 1) << OBJ_FLIP_X);
                 obj->flags = temp_flags;
                 set_sub_etat(obj, 0);
                 Phase++;

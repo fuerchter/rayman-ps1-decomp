@@ -14,8 +14,8 @@ void DO_CCL_COMMAND(Obj *obj)
         if (obj->main_etat == 0 && obj->sub_etat == 2)
         {
             hp = obj->hit_points;
-            if (hp != (obj->flags >> 0xe & 1))
-                obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | (hp & 1) << 0xe;
+            if (hp != (obj->flags >> OBJ_FLIP_X & 1))
+                obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | (hp & 1) << OBJ_FLIP_X;
         }
         break;
     case GO_LEFT:
