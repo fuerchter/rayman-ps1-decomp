@@ -251,14 +251,14 @@ u8 handle_GO_RETURN(Obj *obj)
 u8 handle_GO_DOLOOP(Obj *obj)
 {
     u8 *cci;
-    u16 count;
+    s32 count;
     s16 to_sub;
 
     cci = &obj->cmd_context_index;
     count = (obj->cmd_contexts[*cci].count -= 1);
     to_sub = 1;
 
-    if ((count << 16) > 0)
+    if ((s16) count > 0)
         obj->cmd_offset = obj->cmd_contexts[*cci].cmd_offset;
     else
         *cci -= to_sub;

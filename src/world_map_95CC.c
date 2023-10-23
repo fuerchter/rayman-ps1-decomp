@@ -12,6 +12,9 @@ s32 leftjoy(?);
 ? readinput();
 s32 rightjoy(?);*/
 
+s32 but0pressed(s32);
+s32 but1pressed(s32);
+
 s32 select_level_prg(void)
 {
     u8 num[10];
@@ -37,7 +40,8 @@ s32 select_level_prg(void)
     if (inter_select > 3)
         inter_select = 0;
 
-    return but0pressed(0) << 16 || but1pressed(0) << 16;
+    /* TODO: either *pressed() functions return s16 or this is cast */
+    return (s16)but0pressed(0) || (s16)but1pressed(0);
 }
 
 /* 975C 8012DF5C -O2 */

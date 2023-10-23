@@ -1,6 +1,5 @@
 #include "bonus_35FB4.h"
 
-/* TODO: what is new_var for these two? */
 /* 35FB4 8015A7B4 -O2 */
 /*s32 getbit(? *, s16);*/
 

@@ -68,7 +68,8 @@ segments:
       - [0x6724, .rodata, command_494FC] #8012af24, TODO: this needs to be built without -no-pad-sections for some reason
       - [0x67A4, rodata]
       - [0x67BC, .rodata, obj/fee_4DFD0] #8012AFBC, TODO: this needs to be built without -no-pad-sections for some reason
-      - [0x67F4, rodata]
+      - [0x67F4, .rodata, obj/corde_command] #8012AFF4
+      - [0x680C, rodata]
       - [0x6820, .rodata, obj/saxo] #8012b020
       - [0x6878, .rodata, command_56AF0] #8012B078
       - [0x699C, rodata]
@@ -157,7 +158,7 @@ segments:
       - [0x3D384, asm, unknown/3D384] #80161B84
       - [0x3D738, asm, num_level_3D738] #80161F38
       - [0x3D76C, c, obj/fee_3D76C] #80161f6c
-      - [0x3EB50, asm, obj/corde] #80163350
+      - [0x3EB50, c, obj/corde] #80163350
       - [0x3ED10, asm, unknown/3ED10] #80163510
       - [0x3EECC, c, obj/superhelico_init] #801636cc
       - [0x3EFC4, asm, obj/rayon] #801637C4
@@ -200,9 +201,7 @@ segments:
       - [0x4EFB0, c, obj/poi_command] #801737b0
       - [0x4F364, asm, obj/black_ray_command] #80173b64
       - [0x4F818, asm, obj/poelle_command] #80174018
-      - [0x4FB58, asm, obj/corde_command] #80174358
-      - [0x4FDF4, asm, obj/pierreacorde_command] #801745f4
-      - [0x4FEF8, asm, obj/cfumee_command] #801746f8
+      - [0x4FB58, c, obj/corde_command] #80174358
       - [0x4FFD0, asm, obj/nova2_command] #801747d0
       - [0x500FC, asm, obj/ens_command] #801748fc
       - [0x501FC, asm, obj/bateau_command] #801749fc
