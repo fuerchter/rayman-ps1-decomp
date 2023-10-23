@@ -13,12 +13,12 @@ void wait_for_dialogue_fee(Obj *obj, s16 time)
 }
 
 /* 4E020 80172820 -O2 -msoft-float */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/obj/fee_4DFD0", DO_FEE_ETAPE);
-
+#else
 /*? skipToLabel(Obj *, ?, ?);*/
 
-/* see splat .yaml, also missing addius */
-/*void DO_FEE_ETAPE(Obj *obj)
+void DO_FEE_ETAPE(Obj *obj)
 {
     u8 state;
 
@@ -69,7 +69,9 @@ INCLUDE_ASM("asm/nonmatchings/obj/fee_4DFD0", DO_FEE_ETAPE);
         display_txt_fee = 0xFF;
         break;
     }
-}*/
+}
+const u8 rodata_fee_4DFD0[4] = {};
+#endif
 
 /* 4E1B4 801729B4 -O2 -msoft-float */
 void fee_gives_super_evts(void)

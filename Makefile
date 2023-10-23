@@ -31,8 +31,8 @@ PYTHON            := python3
 CROSS             := mips-linux-gnu-
 AS                := $(CROSS)as
 AS_FLAGS          := -EL -mips2 -msoft-float -no-pad-sections -Iinclude
-GCC   		      := $(TOOLS_DIR)/gcc-2.5.7/gcc
-GCC_FLAGS	      := -c -mgas -msoft-float -B$(TOOLS_DIR)/gcc-2.5.7/ -pipe -Iinclude -fshort-enums -fno-builtin
+GCC               := $(TOOLS_DIR)/gcc-2.5.7/gcc
+GCC_FLAGS         := -c -mgas -msoft-float -B$(TOOLS_DIR)/gcc-2.5.7/ -pipe -Iinclude -fshort-enums -fno-builtin
 GCC_AS_FLAGS      := -Wa,-EL,-mips2,-msoft-float,-no-pad-sections,-Iinclude
 LD                := $(CROSS)ld
 LD_FLAGS          := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Map $(BUILD_EXE).map
@@ -41,7 +41,7 @@ ASM_FILES         := $(wildcard $(ASM_DIR)/**.s) $(wildcard $(ASM_DIR)/**/**.s)
 SRC_FILES_O2      := $(wildcard $(SRC_DIR)/**.c) $(wildcard $(SRC_DIR)/**/**.c)
 SRC_FILES_O1      := 
 SRC_FILES_SCRATCH := 
-SRC_FILES_O2 	  := $(filter-out $(SRC_FILES_O1) $(SRC_FILES_SCRATCH), $(SRC_FILES_O2))
+SRC_FILES_O2      := $(filter-out $(SRC_FILES_O1) $(SRC_FILES_SCRATCH), $(SRC_FILES_O2))
 
 O_ASM             := $(foreach file,$(ASM_FILES),$(BUILD_DIR)/$(file).o)
 O_SRC_O2          := $(foreach file,$(SRC_FILES_O2),$(BUILD_DIR)/$(file).o)
@@ -52,7 +52,7 @@ default: $(BUILD_EXE) check
 
 extract: splat dirs
 
-splat: 
+splat:
 	mkdir -p $(ASM_DIR)
 	$(PYTHON) $(TOOLS_DIR)/splat/split.py $(EXE).yaml
 

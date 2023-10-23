@@ -1,9 +1,6 @@
 #include "obj/corde_command.h"
 
-/*
-- matches, but...
-- requires yes-pad-sections
-*/
+/* matches, but... */
 /* 4FB58 80174358 -O2 -msoft-float */
 #ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/obj/corde_command", DO_CORDE_COMMAND);
@@ -99,4 +96,5 @@ void DO_CORDE_COMMAND(Obj *obj)
 
   __asm__("nop");
 }
+const u8 rodata_corde_command[4] = {};
 #endif

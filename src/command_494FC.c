@@ -65,19 +65,17 @@ void special_pour_liv(Obj *obj)
         obj->flags &= ~OBJ_READ_CMDS;
 }
 
-/* TODO: build without -no-pad-sections!!! */
 /* 49844 8016E044 -O2 */
 #ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/command_494FC", DO_ONE_CMD);
 #else
-INCLUDE_ASM("asm/nonmatchings/command_494FC", DO_ONE_CMD);
 /*? CALC_MOV_ON_BLOC(Obj *);
 ? DO_ONE_CMD_LR_ATTENTE(Obj *);
 ? DO_ONE_CMD_UPDOWN(Obj *);
 ? SET_X_SPEED(Obj *);
 ? special_pour_liv();*/
 
-/*void DO_ONE_CMD(Obj *obj)
+void DO_ONE_CMD(Obj *obj)
 {
   s16 etat;
 
@@ -117,5 +115,6 @@ INCLUDE_ASM("asm/nonmatchings/command_494FC", DO_ONE_CMD);
     case GO_NOP:
       break;
   }
-}*/
+}
+const u8 rodata_command_494FC[4] = {};
 #endif
