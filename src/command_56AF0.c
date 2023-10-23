@@ -132,7 +132,7 @@ u8 handle_RESERVED_GO_SKIP_and_RESERVED_GO_GOTO(Obj *obj)
 /* 56E90 8017B690 -O1, -O2 */
 u8 handle_RESERVED_GO_BRANCHTRUE(Obj *obj)
 {
-    if (obj->flags & OBJ_CMD_TEST)
+    if (obj->flags & FLG(OBJ_CMD_TEST))
         obj->cmd_offset = obj->cmd_labels[obj->nb_cmd];
     return TRUE;
 }
@@ -141,7 +141,7 @@ u8 handle_RESERVED_GO_BRANCHTRUE(Obj *obj)
 /* 56EC8 8017B6C8 -O1, -O2 */
 u8 handle_RESERVED_GO_BRANCHFALSE(Obj *obj)
 {
-    if (!(obj->flags & OBJ_CMD_TEST))
+    if (!(obj->flags & FLG(OBJ_CMD_TEST)))
         obj->cmd_offset = obj->cmd_labels[obj->nb_cmd];
     return TRUE;
 }
@@ -149,7 +149,7 @@ u8 handle_RESERVED_GO_BRANCHFALSE(Obj *obj)
 /* 56F00 8017B700 -O1, -O2 */
 u8 handle_RESERVED_GO_SKIPTRUE(Obj *obj)
 {
-    if (obj->flags & OBJ_CMD_TEST)
+    if (obj->flags & FLG(OBJ_CMD_TEST))
         obj->cmd_offset = obj->cmd_labels[obj->nb_cmd];
     return TRUE;
 }
@@ -157,7 +157,7 @@ u8 handle_RESERVED_GO_SKIPTRUE(Obj *obj)
 /* 56F38 8017B738 -O1, -O2 */
 u8 handle_RESERVED_GO_SKIPFALSE(Obj *obj)
 {
-    if (!(obj->flags & OBJ_CMD_TEST))
+    if (!(obj->flags & FLG(OBJ_CMD_TEST)))
         obj->cmd_offset = obj->cmd_labels[obj->nb_cmd];
     return TRUE;
 }
@@ -275,7 +275,7 @@ u8 handle_INVALID_CMD(Obj *obj)
 /* 571C8 8017B9C8 -O2 */
 u8 handle_GO_BRANCHTRUE(Obj *obj)
 {
-    if (obj->flags & OBJ_CMD_TEST)
+    if (obj->flags & FLG(OBJ_CMD_TEST))
     {
         skipToLabel(obj, obj->nb_cmd, TRUE);
         return FALSE;
@@ -286,7 +286,7 @@ u8 handle_GO_BRANCHTRUE(Obj *obj)
 /* 57204 8017BA04 -O2 */
 u8 handle_GO_BRANCHFALSE(Obj *obj)
 {
-    if (!(obj->flags & OBJ_CMD_TEST))
+    if (!(obj->flags & FLG(OBJ_CMD_TEST)))
     {
         skipToLabel(obj, obj->nb_cmd, TRUE);
         return FALSE;
@@ -300,7 +300,7 @@ u8 handle_GO_SKIPTRUE(Obj *obj)
   s16 length;
   s16 i;
   
-  if (obj->flags & OBJ_CMD_TEST)
+  if (obj->flags & FLG(OBJ_CMD_TEST))
   {
     length = obj->nb_cmd;
     for (i = 0; i < length; i++)
@@ -315,7 +315,7 @@ u8 handle_GO_SKIPFALSE(Obj *obj)
   s16 length;
   s16 i;
   
-  if (!(obj->flags & OBJ_CMD_TEST))
+  if (!(obj->flags & FLG(OBJ_CMD_TEST)))
   {
     length = obj->nb_cmd;
     for (i = 0; i < length; i++)
@@ -330,7 +330,7 @@ u8 handle_GO_SETTEST(Obj *obj)
     u8 to_and;
     
     to_and = 1;
-    obj->flags = obj->flags & ~OBJ_CMD_TEST | (obj->nb_cmd & to_and) << 9;
+    obj->flags = obj->flags & ~FLG(OBJ_CMD_TEST) | (obj->nb_cmd & to_and) << 9;
     return TRUE;
 }
 
@@ -376,7 +376,7 @@ void GET_OBJ_CMD(Obj *obj)
 
     if (obj->cmds)
     {
-        if ((obj->flags & OBJ_READ_CMDS) && --obj->nb_cmd == -1)
+        if ((obj->flags & FLG(OBJ_READ_CMDS)) && --obj->nb_cmd == -1)
         {
             do
             {
@@ -423,11 +423,11 @@ void skipToLabel(Obj *obj, u8 label, u8 skip_label_cmd)
         if (cur_offs != in_offs)
         {
             obj->nb_cmd = 0;
-            obj->flags |= OBJ_READ_CMDS;
+            obj->flags |= FLG(OBJ_READ_CMDS);
             GET_OBJ_CMD(obj);
 
             /* restore in_rd_cmd */
-            obj->flags = obj->flags & ~OBJ_READ_CMDS | (in_rd_cmd & to_and) << 15;
+            obj->flags = obj->flags & ~FLG(OBJ_READ_CMDS) | (in_rd_cmd & to_and) << 15;
         }
     }
     else

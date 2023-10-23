@@ -11,7 +11,7 @@ void getIdealStingCoords(Obj *obj, s16 *out_x, s16 *out_y)
   calc_y = ray_zdc_y + (ray_zdc_h >> 1);
   calc_x = x + (ray_zdc_w >> 1) - obj->offset_bx;
   *out_x = calc_x;
-  if (obj->flags & OBJ_FLIP_X)
+  if (obj->flags & FLG(OBJ_FLIP_X))
     calc_x -= 48;
   else
     calc_x += 48;
@@ -102,24 +102,24 @@ s16 setMoskitoAtScrollBorder(Obj *obj, u8 param_2)
     case 0:
       res = -1;
       obj->x_pos = scroll_start_x - obj->offset_bx;
-      obj->flags &= ~OBJ_FLIP_X;
+      obj->flags &= ~FLG(OBJ_FLIP_X);
       break;
     case 1:
       res = 1;
       obj->x_pos = scroll_end_x - (obj->offset_bx - width);
-      obj->flags |= OBJ_FLIP_X;
+      obj->flags |= FLG(OBJ_FLIP_X);
       break;
     default:
       res = obj->offset_bx + obj->x_pos - ((scroll_start_x + scroll_end_x + 320) / 2);
       if (res >= 1)
       {
         obj->x_pos = scroll_end_x - (obj->offset_bx - width);
-        obj->flags &= ~OBJ_FLIP_X;
+        obj->flags &= ~FLG(OBJ_FLIP_X);
       }
       else
       {
         obj->x_pos = scroll_start_x - obj->offset_bx;
-        obj->flags |= OBJ_FLIP_X;
+        obj->flags |= FLG(OBJ_FLIP_X);
       }
       break;
   }
@@ -154,12 +154,12 @@ void doMoskitoCommand(Obj *obj)
         if (bossSafeTimer != 0)
             bossSafeTimer--;
         flags = obj->flags;
-        if (!(flags & OBJ_FLAG_0))
+        if (!(flags & FLG(OBJ_FLAG_0)))
         {
             if (obj->cmd == 2)
             {
                 if (PS1_MsAnimIndex == 0x0E && obj->anim_index == 0x0F)
-                    obj->flags = flags & ~OBJ_FLIP_X | (((flags >> 0xE ^ 1) & 1) << 0xE);
+                    obj->flags = flags & ~FLG(OBJ_FLIP_X) | (((flags >> 0xE ^ 1) & 1) << 0xE);
                 bossXToReach = -32000;
                 bossYToReach = -32000;
                 obj->speed_x = 0;
@@ -211,7 +211,7 @@ void doMoskitoCommand(Obj *obj)
         }
         prepareNewMoskitoAttack(obj);
     }
-    obj->flags &= ~OBJ_FLAG_0;
+    obj->flags &= ~FLG(OBJ_FLAG_0);
     PS1_MsAnimIndex = obj->anim_index;
 }
 

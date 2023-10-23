@@ -62,7 +62,7 @@ void DO_ONE_CMD_UPDOWN(Obj *obj)
 void special_pour_liv(Obj *obj)
 {
     if (obj->type == TYPE_BADGUY1 && obj->main_etat == 1 && obj->sub_etat == 0xb)
-        obj->flags &= ~OBJ_READ_CMDS;
+        obj->flags &= ~FLG(OBJ_READ_CMDS);
 }
 
 /* 49844 8016E044 -O2 */
@@ -91,9 +91,9 @@ void DO_ONE_CMD(Obj *obj)
     case GO_LEFT:
     case GO_RIGHT:
       if (obj->cmd == GO_LEFT)
-        obj->flags &= ~OBJ_FLIP_X;
+        obj->flags &= ~FLG(OBJ_FLIP_X);
       else
-        obj->flags |= OBJ_FLIP_X;
+        obj->flags |= FLG(OBJ_FLIP_X);
       
       if (etat == 1)
       {

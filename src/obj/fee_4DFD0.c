@@ -80,19 +80,19 @@ void fee_gives_super_evts(void)
     {
     case 1:
         if (num_level == 3)
-            RayEvts.flags0 |= RAYEVTS0_POING;
+            RayEvts.flags0 |= FLG(RAYEVTS0_POING);
         if (num_level == 8)
-            RayEvts.flags0 |= RAYEVTS0_HANG;
+            RayEvts.flags0 |= FLG(RAYEVTS0_HANG);
         if (num_level == 17)
-            RayEvts.flags0 |= RAYEVTS0_GRAP;
+            RayEvts.flags0 |= FLG(RAYEVTS0_GRAP);
         break;
     case 2:
         if (num_level == 11)
-            RayEvts.flags0 |= RAYEVTS0_HELICO;
+            RayEvts.flags0 |= FLG(RAYEVTS0_HELICO);
         break;
     case 3:
         if (num_level == 11)
-            RayEvts.flags1 |= RAYEVTS1_RUN;
+            RayEvts.flags1 |= FLG(RAYEVTS1_RUN);
         break;
     }
 }

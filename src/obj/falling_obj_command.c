@@ -29,9 +29,9 @@ void move_fruit_in_water(Obj *obj)
       }
       else if (ray.field20_0x36 == obj->id)
       {
-        obj->flags = obj->flags & ~OBJ_FLIP_X | ray.flags & OBJ_FLIP_X;
+        obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | ray.flags & FLG(OBJ_FLIP_X);
         SET_X_SPEED(obj);
-        obj->flags = obj->flags & ~OBJ_FLIP_X | obj_flip_x << 0xe;
+        obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | obj_flip_x << 0xe;
       }
 
       if (obj->speed_x != 0)

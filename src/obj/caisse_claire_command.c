@@ -15,15 +15,15 @@ void DO_CCL_COMMAND(Obj *obj)
         {
             hp = obj->hit_points;
             if (hp != (obj->flags >> 0xe & 1))
-                obj->flags = obj->flags & ~OBJ_FLIP_X | (hp & 1) << 0xe;
+                obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | (hp & 1) << 0xe;
         }
         break;
     case GO_LEFT:
     case GO_RIGHT:
         if (obj->cmd == GO_LEFT)
-            obj->flags &= ~OBJ_FLIP_X;
+            obj->flags &= ~FLG(OBJ_FLIP_X);
         else
-            obj->flags |= OBJ_FLIP_X;
+            obj->flags |= FLG(OBJ_FLIP_X);
         SET_X_SPEED(obj);
         CALC_MOV_ON_BLOC(obj);
         break;

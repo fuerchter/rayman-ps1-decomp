@@ -49,14 +49,14 @@ void allocate_poing_or_fee(void)
   if (nb_objs != 0)
   {
     do {
-      if (obj->type == TYPE_POING_FEE && !(obj->flags & OBJ_ALIVE))
+      if (obj->type == TYPE_POING_FEE && !(obj->flags & FLG(OBJ_ALIVE)))
       {
-        obj->flags &= ~OBJ_ALIVE;
-        obj->flags &= ~OBJ_ACTIVE;
+        obj->flags &= ~FLG(OBJ_ALIVE);
+        obj->flags &= ~FLG(OBJ_ACTIVE);
         obj->speed_x = 8;
         obj->speed_y = 0;
         obj->anim_frame = 0;
-        obj->flags |= OBJ_FLIP_X;
+        obj->flags |= FLG(OBJ_FLIP_X);
         png_or_fee_id = obj->id;
         break;
       }

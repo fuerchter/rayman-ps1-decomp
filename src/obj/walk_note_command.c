@@ -21,9 +21,9 @@ void DO_WLKNOT_COMMAND(Obj *obj)
     case GO_LEFT:
     case GO_RIGHT:
         if (obj->cmd == GO_LEFT)
-            obj->flags &= ~OBJ_FLIP_X;
+            obj->flags &= ~FLG(OBJ_FLIP_X);
         else
-            obj->flags |= OBJ_FLIP_X;
+            obj->flags |= FLG(OBJ_FLIP_X);
         SET_X_SPEED(obj);
         CALC_MOV_ON_BLOC(obj);
         break;
@@ -35,14 +35,14 @@ void DO_WLKNOT_COMMAND(Obj *obj)
     by = obj->offset_by - 8;
     if ((s16)test_allowed(obj, bx, by) && (s16)on_block_chdir(obj, bx, by))
     {
-      if (!(obj->flags & OBJ_FLIP_X))
+      if (!(obj->flags & FLG(OBJ_FLIP_X)))
       {
-        obj->flags |= OBJ_FLIP_X;
+        obj->flags |= FLG(OBJ_FLIP_X);
         skipToLabel(obj,2,TRUE);
       }
       else
       {
-        obj->flags &= ~OBJ_FLIP_X;
+        obj->flags &= ~FLG(OBJ_FLIP_X);
         skipToLabel(obj,1,TRUE);
       }
     }

@@ -20,7 +20,7 @@ u8 can_free_fish(Obj *fish)
       if (
         obj->type == TYPE_FISH &&
         obj->init_x_pos == fish->init_x_pos &&
-        (obj->flags & OBJ_ACTIVE) &&
+        (obj->flags & FLG(OBJ_ACTIVE)) &&
         obj->timer < 100
       )
       {

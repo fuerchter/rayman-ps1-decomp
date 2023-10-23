@@ -15,9 +15,9 @@ void allocateGrille(Obj *obj)
     /* TODO: how to make this a matching for-loop? */
     do
     {
-      if (cur_obj->type == TYPE_CAGE2 && !(cur_obj->flags & OBJ_ACTIVE))
+      if (cur_obj->type == TYPE_CAGE2 && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
       {
-        cur_obj->flags = cur_obj->flags | (OBJ_ALIVE | OBJ_ACTIVE);
+        cur_obj->flags = cur_obj->flags | (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
         cur_obj->x_pos = obj->x_pos;
         cur_obj->y_pos = obj->y_pos;
         cur_obj->screen_x_pos = cur_obj->x_pos - xmap;

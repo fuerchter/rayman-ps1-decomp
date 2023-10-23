@@ -87,7 +87,7 @@ void display_grp_stars(void)
     s16 cen_x;
     s16 grapped_x;
 
-    if (ray.main_etat == 7 && (ray.flags & OBJ_ALIVE))
+    if (ray.main_etat == 7 && (ray.flags & FLG(OBJ_ALIVE)))
     {
         current_star = 0;
         grapped = &level.objects[id_obj_grapped];

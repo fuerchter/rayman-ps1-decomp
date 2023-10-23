@@ -19,7 +19,7 @@ void DO_WIZARD(Obj *obj)
             return;
         }
         set_sub_etat(obj, 0xA);
-        obj->flags &= ~OBJ_FLIP_X;
+        obj->flags &= ~FLG(OBJ_FLIP_X);
         return;
 
     case 3:
@@ -41,7 +41,7 @@ void DO_WIZARD(Obj *obj)
             fix_numlevel(obj);
             save_objects_flags();
 
-            ray.flags |= OBJ_FLAG_0;
+            ray.flags |= FLG(OBJ_FLAG_0);
             set_main_and_sub_etat((&ray), 0, 0);
         }
         break;

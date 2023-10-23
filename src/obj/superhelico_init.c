@@ -17,9 +17,9 @@ void allocateSupHelico(Obj *mus_obj)
     do
     {
       type = TYPE_SUPERHELICO;
-      if (cur_obj->type == type && !(cur_obj->flags & OBJ_ACTIVE))
+      if (cur_obj->type == type && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
       {
-        cur_obj->flags |= (OBJ_ALIVE | OBJ_ACTIVE);
+        cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
         cur_obj->x_pos = mus_obj->x_pos;
         cur_obj->y_pos = mus_obj->y_pos;
         set_main_and_sub_etat(cur_obj, 2, 0x12);

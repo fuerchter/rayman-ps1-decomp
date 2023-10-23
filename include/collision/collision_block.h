@@ -5,15 +5,16 @@
 
 /*TODO: bitfields?*/
 typedef u8 BlockFlags;
-#define BLOCK_NONE 0
-#define BLOCK_FULLY_SOLID 1
-#define BLOCK_SOLID 2
-#define BLOCK_HURT 4
-#define BLOCK_SLIPPERY 8
-#define BLOCK_FLAG_4 16
-#define BLOCK_CH_DIR 32
-#define BLOCK_SLOPE 64
-#define BLOCK_FLAG_7 128
+#define BLOCK_FULLY_SOLID 0
+#define BLOCK_SOLID 1
+#define BLOCK_HURT 2
+#define BLOCK_SLIPPERY 3
+#define BLOCK_FLAG_4 4
+#define BLOCK_CH_DIR 5
+#define BLOCK_SLOPE 6
+#define BLOCK_FLAG_7 7
+
+#define FLG_BLOCK_NONE 0
 
 typedef u8 BlockType;
 #define BTYP_NONE 0

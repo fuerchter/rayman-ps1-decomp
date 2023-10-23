@@ -6,6 +6,8 @@
 
 /*#define MISSING_ADDIU*/
 
+#define FLG(x) (1 << x)
+
 #define TRUE 1
 #define FALSE 0
 #define NULL 0

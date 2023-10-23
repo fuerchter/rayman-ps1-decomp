@@ -21,11 +21,11 @@ void DO_CORDE_CASSE(Obj *obj)
   nb_objs = level.nb_objects;
   if (nb_objs != 0) {
     do {
-      if (cur_obj->type == TYPE_CORDEBAS && !(cur_obj->flags & OBJ_ACTIVE)) {
+      if (cur_obj->type == TYPE_CORDEBAS && !(cur_obj->flags & FLG(OBJ_ACTIVE))) {
         cur_obj->x_pos = obj->x_pos;
         cur_obj->y_pos = obj->y_pos;
         cur_obj->speed_y = 1;
-        cur_obj->flags |= (OBJ_ALIVE|OBJ_ACTIVE);
+        cur_obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
         cur_obj->gravity_value_2 = 4;
         break;
       }
@@ -47,11 +47,11 @@ void DO_FUMEE_CORDE(s16 x, s16 y)
   nb_objs = level.nb_objects;
   if (nb_objs != 0) {
     do {
-      if (obj->type == TYPE_CFUMEE && !(obj->flags & OBJ_ACTIVE))
+      if (obj->type == TYPE_CFUMEE && !(obj->flags & FLG(OBJ_ACTIVE)))
       {
         obj->x_pos = x - 142;
         obj->y_pos = y - 128;
-        obj->flags |= (OBJ_ALIVE|OBJ_ACTIVE);
+        obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
         break;
       }
       obj++;

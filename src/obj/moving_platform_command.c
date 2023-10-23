@@ -16,7 +16,7 @@ void DO_MOVING_PLATFORM_COMMAND(Obj *obj)
   if (chdir && (s16)test_allowed(obj, x_cen, y_cen))
     skipToLabel(obj, 99, TRUE);
 
-  obj->flags &= ~OBJ_FLIP_X;
+  obj->flags &= ~FLG(OBJ_FLIP_X);
   if (obj->cmd == GO_SPEED)
   {
     obj->speed_x = obj->iframes_timer;

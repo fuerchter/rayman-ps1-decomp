@@ -84,7 +84,7 @@ void INIT_SAXO(Obj *sax_obj)
   Phase = 0;
   IsBossThere = FALSE;
   IndexSerie = 0;
-  sax_obj->flags = (sax_obj->flags | OBJ_ALIVE) & ~OBJ_ACTIVE;
+  sax_obj->flags = (sax_obj->flags | FLG(OBJ_ALIVE)) & ~FLG(OBJ_ACTIVE);
   if (sax_obj->type == TYPE_SAXO)
     sax_obj->hit_points = Sax.saved_hp;
   Sax.coup = 0;
@@ -110,9 +110,9 @@ void allocateNote2(Obj *note_obj, s16 param_2)
     if (nb_objs != 0)
     {
       do {
-        if (cur_obj->type == TYPE_NOTE2 && !(cur_obj->flags & OBJ_ACTIVE))
+        if (cur_obj->type == TYPE_NOTE2 && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
         {
-          cur_obj->flags &= ~OBJ_FLIP_X;
+          cur_obj->flags &= ~FLG(OBJ_FLIP_X);
           cur_obj->speed_y = 0;
           cur_obj->speed_x = 0;
 
@@ -129,7 +129,7 @@ void allocateNote2(Obj *note_obj, s16 param_2)
           cur_obj->init_y_pos = cur_obj->y_pos;
           skipToLabel(cur_obj,1,TRUE);
           calc_obj_pos(cur_obj);
-          cur_obj->flags = (cur_obj->flags | OBJ_ALIVE) & ~OBJ_FLAG_9 | OBJ_ACTIVE;
+          cur_obj->flags = (cur_obj->flags | FLG(OBJ_ALIVE)) & ~FLG(OBJ_FLAG_9) | FLG(OBJ_ACTIVE);
           cur_obj->gravity_value_1 = 0;
           cur_obj->iframes_timer = note_obj->iframes_timer - 1;
           calc_obj_pos(cur_obj);
@@ -185,7 +185,7 @@ void DO_NOTE_CMD(Obj *obj)
             {
                 set_main_and_sub_etat(obj, 2, 0);
                 obj->speed_x = 3;
-                obj->flags |= OBJ_FLIP_X;
+                obj->flags |= FLG(OBJ_FLIP_X);
             }
             else if (calc_x < 200)
             {
@@ -218,13 +218,13 @@ void DO_NOTE_CMD(Obj *obj)
                     /* fall through */
                 case 2:
                     allocateNote2(obj, 0);
-                    obj->flags &= ~OBJ_ACTIVE;
-                    obj->flags &= ~OBJ_ALIVE;
+                    obj->flags &= ~FLG(OBJ_ACTIVE);
+                    obj->flags &= ~FLG(OBJ_ALIVE);
                     break;
                 case 3:
                     allocateNote2(obj, 1);
-                    obj->flags &= ~OBJ_ACTIVE;
-                    obj->flags &= ~OBJ_ALIVE;
+                    obj->flags &= ~FLG(OBJ_ACTIVE);
+                    obj->flags &= ~FLG(OBJ_ALIVE);
                     break;
                 }
             }
@@ -246,8 +246,8 @@ void DO_NOTE_CMD(Obj *obj)
         {
             if (Sax.coup == 0)
                 Sax.coup = 1;
-            obj->flags &= ~OBJ_ACTIVE;
-            obj->flags &= ~OBJ_ALIVE;
+            obj->flags &= ~FLG(OBJ_ACTIVE);
+            obj->flags &= ~FLG(OBJ_ALIVE);
             obj->y_pos += 30;
             PlaySnd(0xF3, obj->id);
             allocateExplosion(obj);
@@ -267,13 +267,13 @@ void Cree_Eclat_Note(Obj *bnote, Obj *note1, s16 index)
   
   if (bnote->type == TYPE_BNOTE)
   {
-    if (bnote->flags & OBJ_ACTIVE)
+    if (bnote->flags & FLG(OBJ_ACTIVE))
     {
         do {
             bnote++;
             if (bnote->type != TYPE_BNOTE)
                 return;
-        } while (bnote->flags & OBJ_ACTIVE);
+        } while (bnote->flags & FLG(OBJ_ACTIVE));
     }
   }
 
@@ -281,13 +281,13 @@ void Cree_Eclat_Note(Obj *bnote, Obj *note1, s16 index)
   {
     if (index < 4)
     {
-        bnote->flags = (bnote->flags & ~OBJ_FLIP_X) | ((index % 2) & 1) << 14;
+        bnote->flags = (bnote->flags & ~FLG(OBJ_FLIP_X)) | ((index % 2) & 1) << 14;
         if (index < 2)
             bnote->speed_y = -1;
         else
             bnote->speed_y = 1;
 
-        if (bnote->flags & OBJ_FLIP_X)
+        if (bnote->flags & FLG(OBJ_FLIP_X))
             speed_x = 1;
         else
             speed_x = -1;
@@ -295,7 +295,7 @@ void Cree_Eclat_Note(Obj *bnote, Obj *note1, s16 index)
     }
     else
     {
-        bnote->flags = (bnote->flags & ~OBJ_FLIP_X) | ((index % 2) & 1) << 14;
+        bnote->flags = (bnote->flags & ~FLG(OBJ_FLIP_X)) | ((index % 2) & 1) << 14;
         switch(index)
         {
         case 4:
@@ -322,7 +322,7 @@ void Cree_Eclat_Note(Obj *bnote, Obj *note1, s16 index)
     bnote->sub_etat = 5;
     skipToLabel(bnote, 1, TRUE);
     calc_obj_pos(bnote);
-    bnote->flags |= (OBJ_ALIVE|OBJ_ACTIVE);
+    bnote->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
     calc_obj_pos(bnote);
   }
 }
@@ -342,7 +342,7 @@ void DO_EXPLOSE_NOTE1(Obj *obj)
   {
     nb_objs_2 = nb_objs_1;
     do {
-      if (cur_obj->type == TYPE_BNOTE && !(cur_obj->flags & OBJ_ACTIVE))
+      if (cur_obj->type == TYPE_BNOTE && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
       {
         PlaySnd(0xf4,obj->id);
         allocateExplosion(obj);
@@ -361,8 +361,8 @@ void DO_EXPLOSE_NOTE1(Obj *obj)
         Cree_Eclat_Note(cur_obj,obj,6);
         cur_obj++;
         Cree_Eclat_Note(cur_obj,obj,7);
-        obj->flags &= ~OBJ_ACTIVE;
-        obj->flags &= ~OBJ_ALIVE;
+        obj->flags &= ~FLG(OBJ_ACTIVE);
+        obj->flags &= ~FLG(OBJ_ALIVE);
         break;
       }
       cur_obj++;
@@ -385,11 +385,11 @@ void BonneNote(Obj *orig_obj)
   if (nb_objs != 0)
   {
     do {
-      if (obj->type == TYPE_BONNE_NOTE && !(obj->flags & OBJ_ACTIVE))
+      if (obj->type == TYPE_BONNE_NOTE && !(obj->flags & FLG(OBJ_ACTIVE)))
       {
         if (orig_obj->speed_x == 0)
         {
-          obj->flags &= ~OBJ_FLIP_X;
+          obj->flags &= ~FLG(OBJ_FLIP_X);
           obj->speed_x = -1;
           obj->speed_y = -4;
           obj->gravity_value_2 = 10;
@@ -402,9 +402,9 @@ void BonneNote(Obj *orig_obj)
             speed_x = -4;
           obj->speed_x = speed_x;
           if (speed_x < 0)
-            obj->flags &= ~OBJ_FLIP_X;
+            obj->flags &= ~FLG(OBJ_FLIP_X);
           else
-            obj->flags |= OBJ_FLIP_X;
+            obj->flags |= FLG(OBJ_FLIP_X);
           obj->gravity_value_2 = 0xff;
           obj->field23_0x3c = 1;
           obj->speed_y = -1;
@@ -418,10 +418,10 @@ void BonneNote(Obj *orig_obj)
         calc_obj_pos(obj);
         obj->gravity_value_1 = 0;
         
-        obj->flags |= (OBJ_ALIVE|OBJ_ACTIVE);
+        obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
         obj->iframes_timer = 200;
-        orig_obj->flags &= ~OBJ_ACTIVE;
-        orig_obj->flags &= ~OBJ_ALIVE;
+        orig_obj->flags &= ~FLG(OBJ_ACTIVE);
+        orig_obj->flags &= ~FLG(OBJ_ALIVE);
         calc_obj_pos(obj);
         break;
       }
@@ -478,11 +478,11 @@ void allocateNote(Obj *obj)
     do {
       if ((noteObj->type == atak[NextNote].type + TYPE_NOTE0))
       {
-        if(!(noteObj->flags & OBJ_ACTIVE))
+        if(!(noteObj->flags & FLG(OBJ_ACTIVE)))
         {
-            noteObj->flags = noteObj->flags & ~OBJ_FLIP_X | obj->flags & OBJ_FLIP_X;
+            noteObj->flags = noteObj->flags & ~FLG(OBJ_FLIP_X) | obj->flags & FLG(OBJ_FLIP_X);
             noteObj->speed_y = atak[NextNote].speed_y;
-            if (noteObj->flags & OBJ_FLIP_X)
+            if (noteObj->flags & FLG(OBJ_FLIP_X))
             {
                 noteObj->speed_x = atak[NextNote].speed_x;
                 noteObj->x_pos = Sax.sprite2_x + 0x17 - noteObj->offset_bx;
@@ -497,7 +497,7 @@ void allocateNote(Obj *obj)
             noteObj->sub_etat = atak[NextNote].type;
             skipToLabel(noteObj, 1, TRUE);
             calc_obj_pos(noteObj);
-            noteObj->flags = (noteObj->flags | OBJ_ALIVE) & ~OBJ_FLAG_9 | OBJ_ACTIVE;
+            noteObj->flags = (noteObj->flags | FLG(OBJ_ALIVE)) & ~FLG(OBJ_FLAG_9) | FLG(OBJ_ACTIVE);
             noteObj->gravity_value_1 = 0;
             noteObj->gravity_value_2 = 10;
             noteObj->iframes_timer = atak[NextNote].initial_iframes;
@@ -678,7 +678,7 @@ void DO_SAXO2_COMMAND(Obj *obj)
 
     scrollLocked = TRUE;
     GET_SPRITE_POS(obj, 2, &Sax.sprite2_x, &Sax.sprite2_y, &sprite_w, &sprite_h);
-    if (obj->flags & OBJ_FLIP_X)
+    if (obj->flags & FLG(OBJ_FLIP_X))
     {
         temp_x = Sax.sprite2_x - 32;
         Sax.sprite2_x = temp_x + sprite_w;
@@ -780,7 +780,7 @@ void DO_SAXO2_COMMAND(Obj *obj)
                 if (obj->x_pos < ray.x_pos - 50)
                 {
                     /* TODO: last part is obj->flags ^ (1 << 14) ? */
-                    obj->flags = (obj->flags & ~OBJ_FLIP_X) | (((1 - ((obj->flags >> 14) & 1)) & 1) << 14);
+                    obj->flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (((1 - ((obj->flags >> 14) & 1)) & 1) << 14);
                     set_sub_etat(obj, 0);
                     Phase = 3;
                 }
@@ -910,7 +910,7 @@ void DO_SAXO3_COMMAND(Obj *obj)
     __asm__("nop\nnop");
 
     GET_SPRITE_POS(obj, 2, &Sax.sprite2_x, &Sax.sprite2_y, &sprite_w, &sprite_h);
-    if (obj->flags & OBJ_FLIP_X)
+    if (obj->flags & FLG(OBJ_FLIP_X))
     {
         temp_x = Sax.sprite2_x - 32;
         Sax.sprite2_x = temp_x + sprite_w;
@@ -946,7 +946,7 @@ void DO_SAXO3_COMMAND(Obj *obj)
             if (FinAnim)
             {
                 /* TODO: see DO_SAXO2_COMMAND also */
-                temp_flags = (obj->flags & ~OBJ_FLIP_X) | (((1 - ((obj->flags >> 0xE) & 1)) & 1) << 0xE);
+                temp_flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (((1 - ((obj->flags >> 0xE) & 1)) & 1) << 0xE);
                 obj->flags = temp_flags;
                 set_sub_etat(obj, 0);
                 Phase++;

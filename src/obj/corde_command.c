@@ -51,8 +51,8 @@ void DO_CFUMEE_COMMAND(Obj *obj)
     level.objects[pierreAcorde_obj_id].iframes_timer == 0
   )
   {
-    obj->flags &= ~OBJ_ALIVE;
-    obj->flags &= ~OBJ_ACTIVE;
+    obj->flags &= ~FLG(OBJ_ALIVE);
+    obj->flags &= ~FLG(OBJ_ACTIVE);
   }
   return;
 }
