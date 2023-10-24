@@ -1,3 +1,4 @@
+D_8005866C = 0x8005866C;
 PS1_MsAnimIndex = 0x801cf0bc;
 DemoRecordWorld = 0x801c435c;
 PS1_SaveMode = 0x801E4C10;

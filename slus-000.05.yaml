@@ -91,8 +91,8 @@ segments:
       - [0xAACC, asm, unknown/AACC] #8012F2CC
       - [0xAD90, asm, main_moteur] #8012f590
       - [0xB3F8, c, demo_B3F8] #8012FBF8
-      - [0xB438, asm, main] #8012fc38
-      - [0xB834, asm, music] #80130034
+      - [0xB438, c, main] #8012fc38
+      - [0xB848, asm, music] #80130048
       - [0xD9FC, asm, unknown/D9FC] #801321fc
       - [0xDA64, asm, loading_DA64] #80132264
       - [0xE098, asm, video] #80132898

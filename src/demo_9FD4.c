@@ -46,8 +46,8 @@ void FinDemoJeu(void)
     record.current_offset = 0;
     record.length = 0;
     record.data = 0;
-    new_world = 0;
-    new_level = 0;
+    new_world = FALSE;
+    new_level = FALSE;
     num_world = 0;
     num_level = 0;
     num_world_choice = 0;
