@@ -96,5 +96,5 @@ void DO_CORDE_COMMAND(Obj *obj)
 
   __asm__("nop");
 }
-const u8 rodata_corde_command[4] = {};
+const u8 rodata_DO_CORDE_COMMAND[4] = {};
 #endif

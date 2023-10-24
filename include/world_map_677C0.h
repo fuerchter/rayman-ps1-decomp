@@ -44,31 +44,31 @@ extern s16 xwldmapsave;
 extern s16 ywldmapsave;
 
 void CalcObjPosInWorldMap(Obj *obj);
-
+void DoScrollInWorldMap(s16 param_1, s16 param_2);
 void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y);
-
-
-
+void DISPLAY_PLAT_WAY(void);
+void PS1_DisplayPlateau(void);
+void DO_MEDAILLONS(void);
 void INIT_LEVEL_STAGE_NAME(void);
-
+void INIT_WORLD_STAGE_NAME(void);
 void INIT_STAGE_NAME(void);
 void CHANGE_STAGE_NAMES(void);
 void PS1_CardDisplayPassword(void);
 void PS1_WorldMapMoveText(void);
-
+void INIT_WORLD_INFO(void);
 void INIT_LITTLE_RAY(void);
 void RESTORE_RAY(void);
-
+void INIT_CHEMIN(void);
 void RESPOND_TO_UP(void);
 void RESPOND_TO_DOWN(void);
 void RESPOND_TO_RIGHT(void);
 void RESPOND_TO_LEFT(void);
 void MoveRayInWorldMap(void);
-
+void DO_RAYMAN_IN_WLD_MAP(void);
 void DO_CHEMIN(void);
-
+void INIT_PASTILLES_SAUVE(void);
 void PASTILLES_SAUVE_SAVED(s16 wld);
 void FIN_WORLD_CHOICE(void);
-
+void DETER_WORLD_AND_LEVEL(void);
 
 #endif

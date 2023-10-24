@@ -73,8 +73,8 @@ void main(void)
               next_display = &PS1_Display1 + 0x6CBC;
             else
               next_display = &PS1_Display1;
-            
             PS1_CurrentDisplay = next_display;
+            
             PS1_Ingame = FALSE;
             PS1_StopLevelMusic();
             DO_CONTINUE();

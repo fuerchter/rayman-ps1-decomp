@@ -116,5 +116,5 @@ void DO_ONE_CMD(Obj *obj)
       break;
   }
 }
-const u8 rodata_command_494FC[4] = {};
+const u8 rodata_DO_ONE_CMD[4] = {};
 #endif

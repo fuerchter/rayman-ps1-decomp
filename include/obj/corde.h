@@ -6,4 +6,7 @@
 
 extern s16 pierreAcorde_obj_id;
 
+void DO_CORDE_CASSE(Obj *obj);
+void DO_FUMEE_CORDE(s16 x, s16 y);
+
 #endif

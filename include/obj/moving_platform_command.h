@@ -4,4 +4,6 @@
 #include "common.h"
 #include "obj_update.h"
 
+void DO_MOVING_PLATFORM_COMMAND(Obj *obj);
+
 #endif

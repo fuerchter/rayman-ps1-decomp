@@ -16,5 +16,9 @@ extern s16 delai_repetition;
 extern s16 positiony;
 
 void PS1_TextBoxCardOrPassword(void);
+void PS1_InputCardOrPassword(void);
+void PS1_DisplayCardOrPassword(void);
+u8 PS1_MenuCardOrPassword(void);
+void PS1_InitCardOrPassword(void);
 
 #endif

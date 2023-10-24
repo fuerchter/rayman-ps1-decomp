@@ -5,8 +5,9 @@
 #include "obj_update.h"
 
 void DO_ONE_CMD_WAIT(Obj *obj);
-
-
+void DO_ONE_CMD_LR_ATTENTE(Obj *obj);
+void DO_ONE_CMD_UPDOWN(Obj *obj);
 void special_pour_liv(Obj *obj);
+void DO_ONE_CMD(Obj *obj);
 
 #endif

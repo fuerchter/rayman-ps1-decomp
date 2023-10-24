@@ -35,4 +35,7 @@ extern s16 NumDemo;
 extern RaymanEvents SauveRayEvtsDemo;
 extern OptionsJeu options_jeu_save;
 
+void InitDemoJeu(void);
+void FinDemoJeu(void);
+
 #endif

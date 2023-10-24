@@ -68,14 +68,14 @@ void Cree_Eclat_Note(Obj *bnote, Obj *note1, s16 index);
 void DO_EXPLOSE_NOTE1(Obj *obj);
 void BonneNote(Obj *orig_obj);
 void DO_NOTE_TOUCHEE(Obj *obj);
-
+void DO_NOTE_REBOND(Obj *param_1);
 void allocateNote(Obj *obj);
 u8 PrepareAtak(void);
 void SAXO_TIRE(Obj *obj);
 void DO_SAXO_COUP(Obj *obj);
 void DO_SAXO2_COUP(Obj *obj);
 void SetSaxoCollNoteBox(Obj *obj);
-
+void DO_SAXO_COMMAND(Obj *obj);
 void DO_SAXO_ATTER(Obj *obj);
 void DO_SAXO2_COMMAND(Obj *obj);
 void DO_SAXO2_ATTER(Obj *obj);

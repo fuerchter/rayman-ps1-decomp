@@ -70,7 +70,7 @@ void DO_FEE_ETAPE(Obj *obj)
         break;
     }
 }
-const u8 rodata_fee_4DFD0[4] = {};
+const u8 rodata_DO_FEE_ETAPE[4] = {};
 #endif
 
 /* 4E1B4 801729B4 -O2 -msoft-float */

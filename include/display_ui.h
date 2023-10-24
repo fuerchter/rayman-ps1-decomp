@@ -34,14 +34,14 @@ extern Obj div_obj;
 void CLRSCR(void);
 void display_etoile(s32 in_x, s32 in_y);
 void display_grp_stars(void);
-
-
+void DISPLAY_TEXT_FEE(void);
+void DisplayJumellesNormal(void);
 void PS1_DisplayWorldMapBg1(s16 x1, s16 y1, s16 x2, s16 y2);
-
+void DISPLAY_SAVE_SPRITES(s16 param_1, s16 param_2);
 void DISPLAY_SAVE_POING(void);
-
+void display_time(s16 param_1);
 void PS1_LoadPts(void);
-
+void DISPLAY_CONTINUE_SPR(void);
 void PS1_PromptCardDisplayPoing(void);
 void DISPLAY_OPTIONS_POING(void);
 

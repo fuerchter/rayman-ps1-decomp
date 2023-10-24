@@ -17,18 +17,18 @@ void popCmdContext(Obj *obj);
 s16 char2short(u8 in_char);
 u8 readNoArg(void);
 u8 readOneArg(Obj *obj);
-
+u8 readTestArgs(Obj *obj);
 u8 readGoXYArgs(Obj *obj);
 u8 readSpeedArgs(Obj *obj);
 u8 readInvalidArg(Obj *obj);
 u8 skipNoArg(void);
 u8 skipOneArg(Obj *obj);
-
+u8 skipTestArgs(Obj *obj);
 u8 skipGoXYArgs(Obj *obj);
 u8 skipSpeedArgs(Obj *obj);
 u8 skipInvalidArg(Obj *obj);
 u8 handle_GO_WAITSTATE(Obj *obj);
-
+u8 handle_RESERVED_GO_GOSUB(Obj *obj);
 u8 handle_RESERVED_GO_SKIP_and_RESERVED_GO_GOTO(Obj *obj);
 u8 handle_RESERVED_GO_BRANCHTRUE(Obj *obj);
 u8 handle_RESERVED_GO_BRANCHFALSE(Obj *obj);
@@ -52,10 +52,10 @@ u8 handle_GO_BRANCHFALSE(Obj *obj);
 u8 handle_GO_SKIPTRUE(Obj *obj);
 u8 handle_GO_SKIPFALSE(Obj *obj);
 u8 handle_GO_SETTEST(Obj *obj);
-
+u8 handle_GO_TEST(Obj *obj);
 u8 readOneCommand(Obj *arg0);
 u8 skipOneCommand(Obj *obj);
-
+void GET_OBJ_CMD(Obj *obj);
 void pushCmdContext(Obj *obj,u16 count);
 void skipToLabel(Obj *obj, u8 label, u8 skip_label_cmd);
 void pushToLabel(Obj *obj, u8 label, u8 skip_label_cmd);

@@ -54,6 +54,5 @@ void DO_CFUMEE_COMMAND(Obj *obj)
     obj->flags &= ~FLG(OBJ_ALIVE);
     obj->flags &= ~FLG(OBJ_ACTIVE);
   }
-  return;
 }
 #endif

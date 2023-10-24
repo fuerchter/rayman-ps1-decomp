@@ -15,6 +15,8 @@ extern s32 nb_wiz_save;
 
 u8 get_bonus_map_complete(s16 world, s16 level);
 void set_bonus_map_complete(s16 world, s16 level);
+void DO_PERFECT_BONUS_MAP(void);
+void DO_WIZ_AFTER_BONUS_MAP(void);
 void init_bonus_perfect(void);
 
 #endif
