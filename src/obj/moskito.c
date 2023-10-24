@@ -33,7 +33,7 @@ void PS1_setBossScrollLimits_moskito(Obj *obj)
     bossScrollStartX = x;
     bossScrollEndX = x;
 
-    floorLine = firstFloorBelow();
+    floorLine = firstFloorBelow(obj);
     bossScrollStartY = floorLine - 256;
     bossScrollEndY = floorLine - 176;
     

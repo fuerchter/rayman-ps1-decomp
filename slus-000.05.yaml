@@ -231,7 +231,7 @@ segments:
       - [0x5D128, asm, obj/pirate_bomb_command] #80181928
       - [0x5D190, asm, ray/ray_5D190] #80181990
       - [0x640F0, asm, obj/space_mama] #801888f0
-      - [0x66BE8, asm, boss] #8018b3e8
+      - [0x66BE8, c, boss] #8018b3e8
       - [0x67130, asm, obj/blacktoon1] #8018b930
       - [0x677C0, c, world_map_677C0] #8018bfc0
       - [0x6A3BC, asm, menu/menu_6A3BC] #8018ebbc

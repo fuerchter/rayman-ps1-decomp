@@ -2,7 +2,6 @@
 #define SAXO_H
 
 #include "common.h"
-#include "obj_update.h"
 #include "timers.h"
 #include "obj/poing.h"
 #include "collision/collision_block.h"
@@ -11,6 +10,7 @@
 #include "moteur_init_end.h"
 #include "ray/ray_32398.h"
 #include "world_map_677C0.h"
+#include "boss.h"
 
 typedef struct SaxAttackEntry
 {
@@ -42,12 +42,6 @@ typedef struct SaxData
     u8 field9_0xf;
     s16 field10_0x10;
 } SaxData;
-
-/* TODO: general boss.h? see bb1/bb12 */
-extern u8 Phase;
-extern u8 WaitForFinAtan;
-extern u8 FinAnim;
-extern u8 WaitForAnim;
 
 extern SaxNoteEntry atak[7];
 extern SaxAttackEntry SerieDatak[4][11];
