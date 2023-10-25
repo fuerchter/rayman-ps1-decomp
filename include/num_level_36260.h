@@ -5,6 +5,7 @@
 #include "obj_update.h"
 #include "ray/ray_32398.h"
 #include "world_map_677C0.h"
+#include "obj/poing.h"
 
 extern s16 departlevel;
 extern u8 finBosslevel[2];

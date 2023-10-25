@@ -3,6 +3,7 @@
 #skipTestArgs, readTestArgs share issues
 #og psyq 3.0 cc1psx.exe seems to fix nop/divu swap: DISPLAY_CONTINUE_SPR (others in display_ui?), doMoskitoHit, setBossReachingSpeeds
 
+#deal with WorldInfo.state
 #can you just write / 2 instead of >> 1? (yes, sometimes removing s16 cast is needed)
 #style: move assignment in if into second if. convert do/whiles into whiles
 #order splat yaml settings by wiki
