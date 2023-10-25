@@ -11,7 +11,7 @@ u8 can_free_fish(Obj *fish)
   s16 i;
   Obj *obj;
   
-  res = TRUE;
+  res = true;
   nb_objs = level.nb_objects;
   i = 0;
   obj = level.objects;
@@ -24,7 +24,7 @@ u8 can_free_fish(Obj *fish)
         obj->timer < 100
       )
       {
-        res = FALSE;
+        res = false;
         break;
       }
       i++;

@@ -42,12 +42,12 @@ void FinDemoJeu(void)
     TempsDemo = 0;
     INIT_RAY(1);
     RayEvts = SauveRayEvtsDemo;
-    record.is_playing = FALSE;
+    record.is_playing = false;
     record.current_offset = 0;
     record.length = 0;
     record.data = 0;
-    new_world = FALSE;
-    new_level = FALSE;
+    new_world = false;
+    new_level = false;
     num_world = 0;
     num_level = 0;
     num_world_choice = 0;

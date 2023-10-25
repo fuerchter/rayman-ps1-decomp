@@ -22,7 +22,7 @@ void INIT_TXT_FEE(void)
       text_to_display[i].x_pos = 150;
       text_to_display[i].y_pos = 218;
       text_to_display[i].field8_0x3d = 0;
-      text_to_display[i].is_fond = FALSE;
+      text_to_display[i].is_fond = false;
       INIT_TXT_BOX(&text_to_display[i]);
       text_to_display[i].text[0] = ' ';
       text_to_display[i].x_pos = text_to_display[i].centered_x_pos;
@@ -72,9 +72,9 @@ void init_moustique(void)
     if (!fin_du_jeu)
     {
         if (rayman_obj_id != -1)
-          NewMs = TRUE;
+          NewMs = true;
         else
-          NewMs = FALSE;
+          NewMs = false;
     }
 }
 
@@ -88,8 +88,8 @@ void init_fee(void)
 {  
   display_txt_fee = 0xff;
   if (ModeDemo == 0)
-    record.is_playing = FALSE;
-  is_fee = FALSE;
+    record.is_playing = false;
+  is_fee = false;
   INIT_TEXT_TO_DISPLAY();
 
   switch(num_world)
@@ -98,7 +98,7 @@ void init_fee(void)
       switch(num_level)
       {
         case 3:
-          is_fee = TRUE;
+          is_fee = true;
           __builtin_strcpy(text_to_display[0].text, "/hello rayman/");
           __builtin_strcpy(text_to_display[1].text, "/i'm betilla the fairy/");
           __builtin_strcpy(text_to_display[2].text, "/and i'm going to help you/");
@@ -112,13 +112,13 @@ void init_fee(void)
           Deter_Option_Caract(&text_to_display[7].text,options_jeu.Fist,0xb);
           break;
         case 8:
-          is_fee = TRUE;
+          is_fee = true;
           __builtin_strcpy(text_to_display[0].text, "/you're courageous rayman/");
           __builtin_strcpy(text_to_display[1].text, "/but you will have to keep at it/");
           __builtin_strcpy(text_to_display[5].text, "/you now have the power to hang/");
           break;
         case 17:
-          is_fee = TRUE;
+          is_fee = true;
           __builtin_strcpy(text_to_display[0].text, "/great job rayman but you'll be going/");
           __builtin_strcpy(text_to_display[1].text, "/through more perilous traps!/");
           __builtin_strcpy(text_to_display[2].text, "/i hope this will help you/");
@@ -134,7 +134,7 @@ void init_fee(void)
       switch(num_level)
       {
         case 11:
-          is_fee = TRUE;
+          is_fee = true;
           __builtin_strcpy(text_to_display[0].text, "/things are not going to get/");
           __builtin_strcpy(text_to_display[1].text, "/any easier for you rayman/");
           __builtin_strcpy(text_to_display[2].text, "/but this new power /");
@@ -150,7 +150,7 @@ void init_fee(void)
       switch(num_level)
       {
         case 11:
-          is_fee = TRUE;
+          is_fee = true;
           __builtin_strcpy(text_to_display[0].text, "/things are going to get/");
           __builtin_strcpy(text_to_display[1].text, "/really wild from now on rayman/");
           __builtin_strcpy(text_to_display[2].text, "/you'll have to be very quick.../");

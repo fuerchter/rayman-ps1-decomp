@@ -17,8 +17,8 @@ void PS1_TextBoxCardOrPassword(void)
   text_to_display[1].x_pos = 160;
   text_to_display[1].y_pos = 80;
   text_to_display[1].font_size = 1;
-  text_to_display[1].is_fond = FALSE;
-  text_to_display[1].field8_0x3d = FALSE;
+  text_to_display[1].is_fond = false;
+  text_to_display[1].field8_0x3d = false;
   text_to_display[1].color = 11;
   INIT_TXT_BOX(text_to_display + 1);
   switch(menuEtape)
@@ -33,8 +33,8 @@ void PS1_TextBoxCardOrPassword(void)
   text_to_display[2].x_pos = 160;
   text_to_display[2].y_pos = 140;
   text_to_display[2].font_size = 1;
-  text_to_display[2].is_fond = FALSE;
-  text_to_display[2].field8_0x3d = FALSE;
+  text_to_display[2].is_fond = false;
+  text_to_display[2].field8_0x3d = false;
   text_to_display[2].color = 11;
   INIT_TXT_BOX(text_to_display + 2);
   positiony = 1;
@@ -44,8 +44,8 @@ void PS1_TextBoxCardOrPassword(void)
   delai_repetition = 12;
   repetition = 6;
   PS1_SaveMode = 0;
-  MENU_RETURN = FALSE;
-  PS1_MENU_RETURN2 = FALSE;
+  MENU_RETURN = false;
+  PS1_MENU_RETURN2 = false;
 }
 
 /* 7F754 801A3F54 -O2 */
@@ -75,9 +75,9 @@ u8 PS1_MenuCardOrPassword(void)
     DO_FADE();
     PS1_DisplayCardOrPassword();
     readinput();
-    done = FALSE;
-    if ((PS1_SaveMode != 0 || MENU_RETURN == TRUE) && button_released != 0)
-        done = TRUE;
+    done = false;
+    if ((PS1_SaveMode != 0 || MENU_RETURN == true) && button_released != 0)
+        done = true;
         
     return done;
 }

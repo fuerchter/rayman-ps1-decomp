@@ -38,12 +38,12 @@ void DO_WLKNOT_COMMAND(Obj *obj)
       if (!(obj->flags & FLG(OBJ_FLIP_X)))
       {
         obj->flags |= FLG(OBJ_FLIP_X);
-        skipToLabel(obj,2,TRUE);
+        skipToLabel(obj,2,true);
       }
       else
       {
         obj->flags &= ~FLG(OBJ_FLIP_X);
-        skipToLabel(obj,1,TRUE);
+        skipToLabel(obj,1,true);
       }
     }
   }

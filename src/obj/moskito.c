@@ -63,7 +63,7 @@ u8 moskitoCanAttak(Obj *obj)
 
     if (!scrollLocked)
     {
-        locked = FALSE;
+        locked = false;
         if (
             xmap >= bossScrollStartX - h_scroll_speed &&
             xmap <= bossScrollEndX + h_scroll_speed &&
@@ -82,7 +82,7 @@ u8 moskitoCanAttak(Obj *obj)
     }
     else if (obj->timer != 0)
         obj->timer--;
-    res = FALSE;
+    res = false;
     if (scrollLocked)
         res = (obj->timer == 0);
     return res;
@@ -174,7 +174,7 @@ void doMoskitoCommand(Obj *obj)
                     calc_obj_dir(obj);
                     getIdealStingCoords(obj, &bossXToReach, &bossYToReach);
                     if (closeEnoughToSting(obj, 24, 24))
-                        currentBossActionIsOver = TRUE;
+                        currentBossActionIsOver = true;
                     /* fall through */
                 case 4:
                     if (
@@ -185,7 +185,7 @@ void doMoskitoCommand(Obj *obj)
                         !record.is_recording
                     )
                     {
-                        fistAvoided = TRUE;
+                        fistAvoided = true;
                         poing_obj = &level.objects[poing_obj_id];
                         if (
                           obj->y_pos + (obj->offset_by + obj->offset_hy) / 2

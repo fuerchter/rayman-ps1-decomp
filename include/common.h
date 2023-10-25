@@ -8,9 +8,9 @@
 
 #define FLG(x) (1 << x)
 
-#define TRUE 1
-#define FALSE 0
-#define NULL 0
+#define true 1
+#define false 0
+#define null 0
 
 typedef unsigned char			u8;	/* unsigned  8-bit */
 typedef unsigned short			u16;	/* unsigned 16-bit */

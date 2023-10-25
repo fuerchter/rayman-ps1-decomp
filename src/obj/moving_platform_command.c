@@ -14,7 +14,7 @@ void DO_MOVING_PLATFORM_COMMAND(Obj *obj)
   chdir = on_block_chdir(obj, x_cen, y_cen);
   /* TODO: remove cast once sure of test_allowed() return */
   if (chdir && (s16)test_allowed(obj, x_cen, y_cen))
-    skipToLabel(obj, 99, TRUE);
+    skipToLabel(obj, 99, true);
 
   obj->flags &= ~FLG(OBJ_FLIP_X);
   if (obj->cmd == GO_SPEED)

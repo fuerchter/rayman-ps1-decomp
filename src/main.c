@@ -75,7 +75,7 @@ void main(void)
               next_display = &PS1_Display1;
             PS1_CurrentDisplay = next_display;
             
-            PS1_Ingame = FALSE;
+            PS1_Ingame = false;
             PS1_StopLevelMusic();
             DO_CONTINUE();
             DO_VICTOIRE();
@@ -84,11 +84,11 @@ void main(void)
           FIN_DEAD_LOOP();
         }
         if (ModeDemo != 0)
-          fin_du_jeu = TRUE;
+          fin_du_jeu = true;
       }
     }
     if (ModeDemo != 0)
       FinDemoJeu();
-  } while( TRUE );
+  } while( true );
 }
 #endif

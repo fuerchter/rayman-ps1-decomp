@@ -92,7 +92,7 @@ s32 SelectButPressed();
 
 s32 WORLD_CHOICE(void)
 {  
-    let_shadow = FALSE;
+    let_shadow = false;
     DO_FADE();
     PS1_DisplayWorldMapBg1(xmap, ymap, 44, 55);
     DISPLAY_PLAT_WAY();
@@ -141,7 +141,7 @@ void DO_WORLD_MAP(void)
     if (PROC_EXIT)
     {
         world_index = *(u8*)&num_world_choice;
-        fin_du_jeu = TRUE;
+        fin_du_jeu = true;
         menuEtape = 4;
         num_world_choice = num_world;
         num_world = 0;

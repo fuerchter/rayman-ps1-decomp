@@ -21,56 +21,56 @@ mips-linux-gnu-ld: src/obj/saxo.c:(.text+0xbe0): undefined reference to `D_801C7
 SaxAttackEntry SerieDatak[4][11] =
 {
   {
-    {.next_note = 1, .time = 1, .end = FALSE},
-    {.next_note = 3, .time = 0xFF, .end = FALSE},
-    {.next_note = 1, .time = 1, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = TRUE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
+    {.next_note = 1, .time = 1, .end = false},
+    {.next_note = 3, .time = 0xFF, .end = false},
+    {.next_note = 1, .time = 1, .end = false},
+    {.next_note = 0, .time = 0, .end = true},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
   },
   {
-    {.next_note = 9, .time = 0, .end = FALSE},
-    {.next_note = 1, .time = 0, .end = FALSE},
-    {.next_note = 3, .time = 0xFF, .end = FALSE},
-    {.next_note = 5, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = TRUE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
+    {.next_note = 9, .time = 0, .end = false},
+    {.next_note = 1, .time = 0, .end = false},
+    {.next_note = 3, .time = 0xFF, .end = false},
+    {.next_note = 5, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = true},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
   },
   {
-    {.next_note = 2, .time = 1, .end = FALSE},
-    {.next_note = 7, .time = 0, .end = FALSE},
-    {.next_note = 2, .time = 0, .end = FALSE},
-    {.next_note = 8, .time = 0, .end = FALSE},
-    {.next_note = 1, .time = 0xFF, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = TRUE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
+    {.next_note = 2, .time = 1, .end = false},
+    {.next_note = 7, .time = 0, .end = false},
+    {.next_note = 2, .time = 0, .end = false},
+    {.next_note = 8, .time = 0, .end = false},
+    {.next_note = 1, .time = 0xFF, .end = false},
+    {.next_note = 0, .time = 0, .end = true},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
   },
   {
-    {.next_note = 3, .time = 0xFF, .end = FALSE},
-    {.next_note = 4, .time = 0xFF, .end = FALSE},
-    {.next_note = 6, .time = 1, .end = FALSE},
-    {.next_note = 9, .time = 0, .end = FALSE},
-    {.next_note = 2, .time = 0, .end = FALSE},
-    {.next_note = 2, .time = 0, .end = FALSE},
-    {.next_note = 9, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 9, .time = 0, .end = TRUE},
-    {.next_note = 0, .time = 0, .end = FALSE},
-    {.next_note = 0, .time = 0, .end = FALSE},
+    {.next_note = 3, .time = 0xFF, .end = false},
+    {.next_note = 4, .time = 0xFF, .end = false},
+    {.next_note = 6, .time = 1, .end = false},
+    {.next_note = 9, .time = 0, .end = false},
+    {.next_note = 2, .time = 0, .end = false},
+    {.next_note = 2, .time = 0, .end = false},
+    {.next_note = 9, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 9, .time = 0, .end = true},
+    {.next_note = 0, .time = 0, .end = false},
+    {.next_note = 0, .time = 0, .end = false},
   }
 };*/
 
@@ -82,7 +82,7 @@ void INIT_SAXO(Obj *sax_obj)
   sax_obj->speed_x = 0;
   sax_obj->speed_y = 0;
   Phase = 0;
-  IsBossThere = FALSE;
+  IsBossThere = false;
   IndexSerie = 0;
   sax_obj->flags = (sax_obj->flags | FLG(OBJ_ALIVE)) & ~FLG(OBJ_ACTIVE);
   if (sax_obj->type == TYPE_SAXO)
@@ -127,7 +127,7 @@ void allocateNote2(Obj *note_obj, s16 param_2)
           cur_obj->sub_etat = param_2 + 2;
           cur_obj->init_x_pos = cur_obj->x_pos;
           cur_obj->init_y_pos = cur_obj->y_pos;
-          skipToLabel(cur_obj,1,TRUE);
+          skipToLabel(cur_obj,1,true);
           calc_obj_pos(cur_obj);
           cur_obj->flags = (cur_obj->flags | FLG(OBJ_ALIVE)) & ~FLG(OBJ_FLAG_9) | FLG(OBJ_ACTIVE);
           cur_obj->gravity_value_1 = 0;
@@ -320,7 +320,7 @@ void Cree_Eclat_Note(Obj *bnote, Obj *note1, s16 index)
     bnote->y_pos = note1->y_pos;
     bnote->main_etat = 2;
     bnote->sub_etat = 5;
-    skipToLabel(bnote, 1, TRUE);
+    skipToLabel(bnote, 1, true);
     calc_obj_pos(bnote);
     bnote->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
     calc_obj_pos(bnote);
@@ -414,7 +414,7 @@ void BonneNote(Obj *orig_obj)
         obj->main_etat = 2;
         obj->sub_etat = 3;
         obj->init_x_pos = obj->x_pos;
-        skipToLabel(obj, 1, TRUE);
+        skipToLabel(obj, 1, true);
         calc_obj_pos(obj);
         obj->gravity_value_1 = 0;
         
@@ -495,7 +495,7 @@ void allocateNote(Obj *obj)
             noteObj->y_pos = (Sax.sprite2_y - noteObj->offset_by) + 0x19;
             noteObj->main_etat = 2;
             noteObj->sub_etat = atak[NextNote].type;
-            skipToLabel(noteObj, 1, TRUE);
+            skipToLabel(noteObj, 1, true);
             calc_obj_pos(noteObj);
             noteObj->flags = (noteObj->flags | FLG(OBJ_ALIVE)) & ~FLG(OBJ_FLAG_9) | FLG(OBJ_ACTIVE);
             noteObj->gravity_value_1 = 0;
@@ -600,7 +600,7 @@ void DO_SAXO2_COUP(Obj *obj)
         obj->hit_points--;
         if (obj->init_hit_points - obj->hit_points >= 3)
             Phase = 2;
-        FinAnim = FALSE;
+        FinAnim = false;
         set_sub_etat(obj, 3);
         Sax.coup = 2;
         break;
@@ -612,7 +612,7 @@ void DO_SAXO2_COUP(Obj *obj)
         set_main_and_sub_etat(obj, 0, 3);
         obj->speed_x = 0;
         obj->hit_points--;
-        FinAnim = FALSE;
+        FinAnim = false;
         Sax.coup = 2;
         break;
     }
@@ -676,7 +676,7 @@ void DO_SAXO2_COMMAND(Obj *obj)
 
     __asm__("nop\nnop\nnop\nnop");
 
-    scrollLocked = TRUE;
+    scrollLocked = true;
     GET_SPRITE_POS(obj, 2, &Sax.sprite2_x, &Sax.sprite2_y, &sprite_w, &sprite_h);
     if (obj->flags & FLG(OBJ_FLIP_X))
     {
@@ -695,11 +695,11 @@ void DO_SAXO2_COMMAND(Obj *obj)
       horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
     )
     {
-        FinAnim = TRUE;
-        WaitForAnim = FALSE;
+        FinAnim = true;
+        WaitForAnim = false;
     }
     else
-        FinAnim = FALSE;
+        FinAnim = false;
     
     x_pos = obj->x_pos;
     if (xmapmax < ray.x_pos + 150 && (mp.height * 16 - 110) < ray.y_pos)
@@ -710,7 +710,7 @@ void DO_SAXO2_COMMAND(Obj *obj)
     case 0:
         CALC_MOV_ON_BLOC(obj);
         if (ray.x_pos < x_pos + 220 && ray.x_pos + 220 > x_pos)
-            WaitForAnim = TRUE;
+            WaitForAnim = true;
         
         if (WaitForAnim && FinAnim)
         {
@@ -927,11 +927,11 @@ void DO_SAXO3_COMMAND(Obj *obj)
       horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
     )
     {
-        FinAnim = TRUE;
-        WaitForAnim = FALSE;
+        FinAnim = true;
+        WaitForAnim = false;
     }
     else
-        FinAnim = FALSE;
+        FinAnim = false;
     
     switch (Phase)
     {

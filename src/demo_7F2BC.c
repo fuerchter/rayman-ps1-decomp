@@ -21,23 +21,23 @@ u8 PS1_DemoLoop(void)
 {
     u8 done;
 
-    done = FALSE;
+    done = false;
     DISPLAY_FOND3();
     DO_FADE();
     PS1_ShowDemoText();
 
     readinput();
     if (!fade && (ValidButPressed() || StartButPressed()))
-        PS1_MENU_RETURN2 = TRUE;
+        PS1_MENU_RETURN2 = true;
 
     TempsDemo++;
     if (TempsDemo >= RunTimeDemo && !fin_du_jeu && !PS1_MENU_RETURN2)
         InitDemoJeu();
 
     if (PS1_VideoState != VIDEOST_NOT_PLAYING)
-        done = TRUE;
+        done = true;
     if (fin_du_jeu || ModeDemo || PS1_MENU_RETURN2 || MENU_RETURN)
-        done = TRUE;
+        done = true;
     return done;
 }
 
@@ -53,9 +53,9 @@ void PS1_PlayDemo(void)
     PS1_LoadImaSplash();
     PS1_PlayCDTrack_0_3();
     INIT_FADE_IN();
-    PS1_MENU_RETURN2 = FALSE;
-    MENU_RETURN = FALSE;
-    let_shadow = TRUE;
+    PS1_MENU_RETURN2 = false;
+    MENU_RETURN = false;
+    let_shadow = true;
     SYNCHRO_LOOP(&PS1_DemoLoop);
     DO_FADE_OUT();
 }
