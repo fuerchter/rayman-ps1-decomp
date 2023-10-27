@@ -25,4 +25,7 @@ typedef struct VoiceTableEntry
     u8 field8_0xb;
 } VoiceTableEntry;
 
+/* .data */
+extern s16 D_801C7D20[8];
+
 #endif

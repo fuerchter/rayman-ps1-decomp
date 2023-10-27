@@ -10,6 +10,10 @@
 #include "demo_9FD4.h"
 #include "main.h"
 
+/* .data */
+extern u8 s_level_801cedf4[7];
+
+/**/
 extern s16 new_world;
 extern s16 new_level;
 extern s16 num_world;
@@ -21,7 +25,6 @@ extern u8 world_index;
 
 extern s16 inter_select;
 extern s16 level_select;
-extern u8 s_level_801cedf4[7];
 
 s32 select_level_prg(void);
 s16 SELECT_LEVEL(s16 sel);

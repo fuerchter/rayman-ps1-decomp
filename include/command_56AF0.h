@@ -11,6 +11,7 @@ typedef struct CommandTableEntry
     u8 (* handle)(Obj *);
 } CommandTableEntry;
 
+/* .data */
 extern CommandTableEntry cptr_tab[34];
 
 void popCmdContext(Obj *obj);

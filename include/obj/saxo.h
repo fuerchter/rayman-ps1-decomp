@@ -43,9 +43,11 @@ typedef struct SaxData
     s16 field10_0x10;
 } SaxData;
 
+/* .data */
 extern SaxNoteEntry atak[7];
 extern SaxAttackEntry SerieDatak[4][11];
 
+/**/
 extern SaxData Sax;
 extern s16 IndexSerie;
 extern s16 D_801F7FA0;

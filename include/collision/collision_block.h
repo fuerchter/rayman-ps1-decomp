@@ -48,7 +48,10 @@ typedef struct MapData {
     s16 * map;
 } MapData;
 
-extern MapData mp;
+/* .data */
 extern BlockFlags block_flags[32];
+
+/**/
+extern MapData mp;
 
 #endif

@@ -6,7 +6,10 @@
 #include "menu/menu_7EEE4.h"
 #include "fade.h"
 
+/* .data */
 extern u8 s_start_801cf118[8];
+
+/**/
 extern s16 PS1_SaveMode;
 extern u8 button_released; /* TODO: not a bool? */
 extern s16 compteur;

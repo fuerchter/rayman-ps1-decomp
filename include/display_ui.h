@@ -18,6 +18,8 @@ typedef struct GrpStar
     u8 sprite_table_index;
 } GrpStar;
 
+/* .data */
+extern u8 PS1_star_spr[8];
 extern u8 s__801cef84[2];
 extern u8 PS1_TingsToGet_Col;
 extern u8 PS1_TingsToGet_ColAdd;
@@ -26,9 +28,9 @@ extern u8 s__801cef90[2];
 extern u8 s_go__801cef94[7];
 extern u8 s_the_end_801cef9c[8];
 
+/**/
 extern GrpStar grp_stars[30];
 extern s16 current_star;
-extern u8 PS1_star_spr[8];
 extern Obj div_obj;
 
 void CLRSCR(void);

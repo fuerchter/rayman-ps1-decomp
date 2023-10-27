@@ -24,13 +24,16 @@ typedef struct Record
     u8 is_finished;
 } Record;
 
-extern Record record;
-extern u8 ModeDemo; /* TODO: enum also? */
-extern u16 RunTimeDemo;
+/* .data */
 extern u8 DemoRecord[6][300];
 extern s16 DemoRecordSize[6];
 extern s16 DemoRecordWorld[6];
 extern s16 DemoRecordMap[6];
+
+/**/
+extern Record record;
+extern u8 ModeDemo; /* TODO: enum also? */
+extern u16 RunTimeDemo;
 extern s16 NumDemo;
 extern RaymanEvents SauveRayEvtsDemo;
 extern OptionsJeu options_jeu_save;

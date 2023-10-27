@@ -13,10 +13,16 @@
 #include "obj/poing.h"
 #include "boss.h"
 
-extern u8 fistAvoided;
+/* TODO: data conflict */
+/* 801c8050 - 801c84d8 might be general boss data? */
+/* same with 801cf0bc - 801cf0ca though */
+/* .data */
 extern u8 *moskitoActionSequences[10];
-extern u8 mstMustLeaveScreenToProceed;
 extern s16 PS1_MsAnimIndex;
+
+/**/
+extern u8 fistAvoided;
+extern u8 mstMustLeaveScreenToProceed;
 
 void getIdealStingCoords(Obj *obj, s16 *out_x, s16 *out_y);
 u8 closeEnoughToSting(Obj *arg0, u16 arg1, u16 arg2);

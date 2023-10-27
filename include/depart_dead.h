@@ -6,9 +6,10 @@
 #include "loading_794DC.h"
 #include "main_moteur.h"
 #include "victoire.h"
+#include "sound.h"
 
+/* TODO: data conflict */
 /* .data */
-extern s16 D_801C7D20[8];
 extern u8 D_801CEDFC;
 extern u8 D_801CF0DC;
 
