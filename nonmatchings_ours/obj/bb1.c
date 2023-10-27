@@ -284,3 +284,152 @@ void allocateDog(Obj *bb1Obj)
   }
   return;
 }
+
+/* reg swaps */
+/* 58278 8017CA78 -O2 -msoft-float */
+/*INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateTir);*/
+
+/*? GET_SPRITE_POS(Obj *, ?, s16 *, u16 *, u16 *, ? *);
+? calc_obj_pos(Obj *);
+? skipToLabel(Obj *, ?, ?);*/
+extern s16 PS1_AlwaysObjects[100];
+extern BB1Data bb1;
+
+void allocateTir(Obj *param_1,short param_2)
+{
+  u8 bVar1;
+  s32 sVar2;
+  s16 iVar3;
+  s32 spriteIndex;
+  Obj *obj;
+  short local_30;
+  short local_2e;
+  short local_2c;
+  s16 auStack_2a;
+  u8 nb_objs;
+  int new_var;
+  s32 new_var2;
+  
+  iVar3 = 0;
+  nb_objs = level.nb_objects;
+  obj = level.objects;
+  if (nb_objs != 0) {
+    do {
+      if ((obj->type == TYPE_BBL) && ((obj->flags & FLG(OBJ_ACTIVE)) == FLG_OBJ_NONE)) {
+        spriteIndex = 9;
+        if (param_2 != 0) {
+          spriteIndex = 8;
+        }
+        obj->flags = obj->flags & ~FLG(OBJ_FLIP_X);
+        GET_SPRITE_POS(param_1,spriteIndex,&local_30,&local_2e,&local_2c, &auStack_2a);
+        if (param_2 == 1) {
+          sVar2 = (local_30 - obj->offset_bx) + (local_2c >> 1);
+          if ((param_1->flags & 0x4000)) {
+            sVar2 = sVar2 + 0x40;
+          }
+          else {
+            sVar2 = sVar2 + -0x40;
+          }
+          obj->x_pos = sVar2;
+          obj->y_pos = local_2e + -0x28;
+          if ((param_1->flags & 0x4000) != FLG_OBJ_NONE) {
+            sVar2 = 0xc;
+          }
+          else
+            sVar2 = -0xc;
+          obj->speed_x = sVar2;
+          obj->speed_y = 0;
+          obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | param_1->flags & FLG(OBJ_FLIP_X);
+        }
+        else if (param_2 == 0) {
+          sVar2 = (local_30 - obj->offset_bx) + (local_2c >> 1);
+          if ((param_1->flags & FLG(OBJ_FLIP_X))) {
+            sVar2 = sVar2 + 9;
+          }
+          else {
+            sVar2 = sVar2 + -9;
+          }
+          obj->x_pos = sVar2;
+          obj->y_pos = local_2e + -0x28;
+          sVar2 = -2;
+          if ((param_1->flags & FLG(OBJ_FLIP_X)) != FLG_OBJ_NONE) {
+            sVar2 = 2;
+          }
+          obj->speed_x = sVar2;
+          obj->speed_y = -5;
+          obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | param_1->flags & FLG(OBJ_FLIP_X);
+        }
+        else {
+          if (param_2 == 3) {
+            new_var2 = param_1->x_pos;
+            if ((param_1->flags & FLG(OBJ_FLIP_X)) == FLG_OBJ_NONE)
+                obj->x_pos = new_var2 - 0x24;
+            else
+                obj->x_pos = new_var2 + 0x78;
+
+            obj->y_pos = param_1->y_pos - 0xb9;
+            obj->speed_y = 4;  
+          }
+          else {
+            if (9 >= param_2) {
+              obj->x_pos = ray.x_pos;
+              if (obj->x_pos < 0x28) {
+                obj->x_pos = 0x28;
+              }
+              if (obj->x_pos > 0xc8) {
+                obj->x_pos = 0xc8;
+              }
+              
+            }
+            else {
+              if ((param_1->flags & FLG(OBJ_FLIP_X))) {
+                sVar2 = 0xf0 - (bb1.field8_0xe * 0x32);
+                
+              }
+              else {
+                sVar2 = bb1.field8_0xe * 0x32 + -0x14;
+              }
+              obj->x_pos = sVar2;
+            }
+            obj->y_pos = param_1->y_pos + -200;
+            obj->speed_y = 0;
+            
+          }
+          obj->speed_x = 0;
+        }
+        obj->iframes_timer = 0x26;
+        if (param_2 != 3) {
+          obj->gravity_value_2 = 10;
+        }
+        else {
+          obj->gravity_value_2 = 7;
+        }
+
+        if (param_2 == 0) {
+          obj->gravity_value_2 = 3;
+        }
+        obj->main_etat = 2;
+        obj->sub_etat = 6;
+        skipToLabel(obj,1,true);
+        calc_obj_pos(obj);
+        obj->gravity_value_1 = 0;
+        obj->flags = obj->flags | (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+        if (9 >= param_2) {
+          obj->field23_0x3c = param_2;
+        }
+        else {
+          obj->field23_0x3c = 4;
+        }
+        if (param_2 == 3) {
+          return;
+        }
+        PS1_AlwaysObjects[PS1_AlwaysObjectsCount] = obj->id;
+        PS1_AlwaysObjectsCount = PS1_AlwaysObjectsCount + 1;
+        return;
+      }
+      obj = obj + 1;
+      iVar3 = iVar3 + 1;
+    } while (iVar3 < nb_objs);
+  }
+  return;
+}

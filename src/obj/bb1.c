@@ -115,9 +115,52 @@ void DO_BBL_REBOND(Obj *obj)
 /* 580F8 8017C8F8 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateDog);
 
+/* 58278 8017CA78 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateTir);
 
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", CreateFirstBBL);
+/* 58644 8017CE44 -O2 -msoft-float */
+/*INCLUDE_ASM("asm/nonmatchings/obj/bb1", CreateFirstBBL);*/
+
+extern s16 PS1_AlwaysObjects[100];
+
+void CreateFirstBBL(void)
+{
+  Obj *obj;
+  s16 i;
+  u8 nb_objs;
+  
+  obj = level.objects;
+  i = 0;
+  nb_objs = level.nb_objects;
+  if (nb_objs != 0) {
+    do {
+      if (obj->type == TYPE_BBL && !(obj->flags & FLG(OBJ_ACTIVE))) {
+        obj->x_pos = -40;
+        PosPierre = -15;
+        obj->y_pos = 160;
+        obj->speed_x = 0;
+        obj->speed_y = 0;
+        obj->iframes_timer = 38;
+        obj->gravity_value_2 = 3;
+        obj->main_etat = 2;
+        obj->sub_etat = 6;
+        obj->flags = obj->flags & ~FLG(OBJ_FLIP_X);
+        skipToLabel(obj, 1, true);
+        calc_obj_pos(obj);
+        obj->gravity_value_1 = 0;
+        obj->field23_0x3c = 2;
+        obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+        PS1_AlwaysObjects[PS1_AlwaysObjectsCount] = obj->id;
+        PS1_AlwaysObjectsCount++;
+        break;
+      }
+      obj++;
+      i++;
+    } while (nb_objs > i);
+  }
+}
+
+
 
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", INIT_BBMONT);
 
