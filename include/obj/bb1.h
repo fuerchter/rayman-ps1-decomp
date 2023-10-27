@@ -2,6 +2,10 @@
 #define BB1_H
 
 #include "common.h"
+#include "obj_update.h"
+#include "obj/poing.h"
+#include "timers.h"
+#include "ray/ray_32398.h"
 
 typedef struct BB1Data
 {
@@ -21,5 +25,32 @@ typedef struct BBAttackEntry
     s16 attack;
     u8 wait_for_fin_atan;
 } BBAttackEntry;
+
+void DO_TOTEM_TOUCHE(Obj *obj, s16 sprite);
+void DO_TOTEM_COMMAND(Obj *param_1);
+void DO_TOTBT_REBOND(Obj *obj);
+void DO_PI_EXPLOSION2(Obj *obj);
+void DO_BBL_REBOND(Obj *obj);
+void allocateDog(Obj *bb1Obj);
+void allocateTir(Obj *param_1, s16 param_2);
+void CreateFirstBBL(void);
+void INIT_BBMONT(Obj *obj);
+void DO_BBL_COMMAND(Obj *obj);
+void BBMONT_ECLAIR(Obj *obj);
+void BBMONT_ETINCELLES(Obj *param_1);
+void BBMONT_TIRE(s32 param_1);
+void Cree_BBL(s32 param_1);
+void BB_Attaque(Obj *param_1);
+void Fin_BB_Attaque(s32 param_1);
+void BB_Atan(Obj *obj);
+void DO_BBMONT_ATTER(Obj *obj);
+void DO_BBMONT_COMMAND(Obj *obj);
+void DO_BBMONT_TOUCHE(Obj *obj);
+void DO_BBMONT2_COMMAND(Obj *obj);
+void DO_BBMONT2_MARCHE(s16 hp);
+void DO_BBMONT2_ATTER(Obj *obj);
+void DO_BBMONT3_COMMAND(Obj *obj);
+void DO_BBMONT3_ATTER(Obj *obj);
+void DO_BBMONT4_COMMAND(Obj *obj);
 
 #endif

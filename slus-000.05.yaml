@@ -73,7 +73,8 @@ segments:
       - [0x680C, rodata]
       - [0x6820, .rodata, obj/saxo] #8012b020
       - [0x6878, .rodata, command_56AF0] #8012B078
-      - [0x699C, rodata]
+      - [0x699C, .rodata, obj/bb1] #8012B19C
+      - [0x6A3C, rodata]
       - [0x721C, .rodata, world_map_677C0] #8012BA1C
       - [0x72B4, rodata]
       - [0x77F8, .rodata, obj/moskito] #8012bff8
@@ -218,13 +219,7 @@ segments:
       - [0x537C0, asm, obj/spider_plafond] #80177fc0
       - [0x548CC, asm, unknown/548CC] #801790cc 
       - [0x56AF0, c, command_56AF0] #8017b2f0
-      - [0x5783C, asm, obj/totem] #8017c03c
-      - [0x57EC4, asm, obj/bout_totem] #8017c6c4
-      - [0x57F48, asm, obj/bbl] #8017c748
-      - [0x58B04, asm, obj/bb1] #8017d304
-      - [0x5A2A4, asm, obj/bb12] #8017eaa4
-      - [0x5B568, asm, obj/bb13] #8017fd68
-      - [0x5B984, asm, obj/bb14] #80180184
+      - [0x5783C, c, obj/bb1] #8017c03c
       - [0x5BAD8, asm, unknown/5BAD8] #801802d8
       - [0x5BD8C, asm, fond_5BD8C] #8018058c
       - [0x5C2BC, asm, unknown/5C2BC] #80180abc
