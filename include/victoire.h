@@ -13,4 +13,6 @@ typedef struct Credit
     u8 color;
 } Credit;
 
+extern u8 You_Win;
+
 #endif

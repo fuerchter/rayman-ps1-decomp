@@ -1,5 +1,8 @@
 #include "depart_dead.h"
 
+/**/
+extern u8 D_801E4C20;
+
 /* 7B850 801A0050 -O2 -msoft-float */
 /*? DO_VICTOIRE();
 ? FUN_8019fa94(?);
@@ -7,10 +10,6 @@
 ? INIT_MOTEUR_WORLD();
 ? PS1_PlaySnd(s16, ?);
 ? load_world(s16);*/
-extern s16 D_801C7D20[8];
-extern u8 D_801CF0DC;
-extern u8 D_801CEDFC;
-extern u8 You_Win;
 
 #ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/depart_dead", DEPART_WORLD);
@@ -59,9 +58,6 @@ void DEPART_WORLD(void)
 ? LOAD_VIGNET_GAME();
 ? PS1_OnPauseOff();
 ? load_level();*/
-extern u8 D_801E4C20;
-extern u8 PS1_HasLoadedFont;
-extern u8 in_pause;
 
 void DEPART_LEVEL(void)
 {
@@ -93,6 +89,35 @@ void DEPART_LEVEL(void)
     PS1_OnPauseOff();
 }
 
-INCLUDE_ASM("asm/nonmatchings/depart_dead", DEPART_DEAD_LOOP);
+/* 7BA7C 801A027C -O2 -msoft-float */
+/*? FUN_80168f38(s16);
+? playLevelMusic(s16, s16);*/
 
+void DEPART_DEAD_LOOP(void)
+{
+    playLevelMusic(num_world, num_level);
+    FUN_80168f38(num_world);
+}
+
+/* 7BABC 801A02BC -O2 -msoft-float */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/depart_dead", FIN_DEAD_LOOP);
+#else
+void FIN_DEAD_LOOP(void)
+{
+    s16 i;
+
+    __asm__("nop");
+
+    if (fin_du_jeu)
+    {
+        i = 0;
+        while (i < 24)
+        {
+            t_world_info[i].nb_cages = 0;
+            i++;
+        } 
+        D_801CEDFC = 1;
+    }
+}
+#endif

@@ -12,7 +12,7 @@
 #include "menu/menu_card_7C028.h"
 #include "timers.h"
 
-/* TODO: does padding (between color, level_name) matter? */
+/* TODO: does padding (between color, level_name) matter? it seems to work even without, but why? */
 typedef struct WorldInfo
 {
     s16 x_pos;

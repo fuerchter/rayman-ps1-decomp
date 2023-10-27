@@ -11,7 +11,6 @@ extern u8 D_801E4D48;
 extern s32 PS1_CurrentDisplay;
 extern u8 PS1_Display1;
 extern u8 PS1_Display2;
-extern s16 D_801C7D20[8];
 
 extern u8 PS1_Ingame; /* TODO: put near PS1_CheckPauseAndCheatInputs */
 
