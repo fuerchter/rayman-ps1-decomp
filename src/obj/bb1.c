@@ -118,11 +118,12 @@ INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateDog);
 /* 58278 8017CA78 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateTir);
 
-/* 58644 8017CE44 -O2 -msoft-float */
-/*INCLUDE_ASM("asm/nonmatchings/obj/bb1", CreateFirstBBL);*/
-
 extern s16 PS1_AlwaysObjects[100];
 
+/* 58644 8017CE44 -O2 -msoft-float */
+#ifndef MISSING_ADDIU
+INCLUDE_ASM("asm/nonmatchings/obj/bb1", CreateFirstBBL);
+#else
 void CreateFirstBBL(void)
 {
   Obj *obj;
@@ -158,9 +159,10 @@ void CreateFirstBBL(void)
       i++;
     } while (nb_objs > i);
   }
+
+  __asm__("nop");
 }
-
-
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", INIT_BBMONT);
 
