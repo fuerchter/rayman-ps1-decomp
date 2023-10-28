@@ -9,9 +9,6 @@ s32 myRand(?);
 ? set_main_and_sub_etat(Obj *, ?, ?);
 ? set_sub_etat(Obj *, ?);*/
 s16 inter_box(s32, s32, s32, s32, s32, s32, s32, s32);
-extern s16 IndAtak;
-extern u16 IndSerie;
-extern BB1Data bb1;
 
 void DO_TOTEM_COMMAND(Obj *param_1)
 {
@@ -232,9 +229,6 @@ void DO_TOTEM_COMMAND(Obj *param_1)
 ? obj_init(Obj *, s16, u8);
 ? skipToLabel(Obj *, ?, ?);*/
 /*void skipToLabel(Obj *obj,u8 label,u8 param_3);*/
-extern u8 D_801D7AE4;
-extern s16 YaDesChiens;
-extern s16 niveau;
 
 void allocateDog(Obj *bb1Obj)
 {
@@ -292,8 +286,6 @@ void allocateDog(Obj *bb1Obj)
 /*? GET_SPRITE_POS(Obj *, ?, s16 *, u16 *, u16 *, ? *);
 ? calc_obj_pos(Obj *);
 ? skipToLabel(Obj *, ?, ?);*/
-extern s16 PS1_AlwaysObjects[100];
-extern BB1Data bb1;
 
 void allocateTir(Obj *param_1,short param_2)
 {
@@ -428,6 +420,243 @@ void allocateTir(Obj *param_1,short param_2)
         return;
       }
       obj = obj + 1;
+      iVar3 = iVar3 + 1;
+    } while (iVar3 < nb_objs);
+  }
+  return;
+}
+
+/* reg swaps */
+/* 5884C 8017D04C -O2 -msoft-float */
+/*INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBL_COMMAND);*/
+
+void DO_BBL_COMMAND(Obj *obj)
+{
+  short sVar1;
+  short sVar2;
+  int iVar3;
+  int iVar4;
+  int new_var2;
+  
+  if (PierreDoitExploser != 0) {
+    DO_PI_EXPLOSION2(obj);
+    obj->flags &= ~FLG(OBJ_ACTIVE);
+    obj->flags &= ~FLG(OBJ_ALIVE);
+    if (ray.field20_0x36 == obj->id) {
+      ray.field20_0x36 = -1;
+      obj->ray_dist = 1000;
+      set_main_and_sub_etat(&ray,2,2);
+    }
+    PierreDoitExploser = 0;
+    PosPierre = 9999;
+    PS1_AlwaysObjectsCount = PS1_AlwaysObjectsCount + -1;
+  }
+  sVar2 = 0x14;
+  if ((obj->field23_0x3c == 3))
+  {
+    sVar1 = --obj->iframes_timer;
+    if(sVar1 == 0) {
+        obj->flags &= ~FLG(OBJ_ACTIVE);
+        obj->flags &= ~FLG(OBJ_ALIVE);
+    }
+  }
+  if (obj->speed_x < 0) {
+    sVar2 = -0x14;
+  }
+  if ((block_flags
+    [*(ushort *)
+        (((((int) (obj->x_pos + obj->offset_bx + sVar2) >> 4) +
+        mp.width * (obj->y_pos + 0x28 >> 4)) * 0x10000 >> 0xf) +
+        (int)mp.map) >> 10
+    ] >> 4 & 1) != 0)
+  {
+    switch(obj->field23_0x3c)
+    {
+    case 1:
+        PlaySnd(200,obj->id);
+        iVar4 = (int)obj->speed_x;
+        iVar3 = iVar4;
+        new_var2 = 12;
+        if (iVar4 < 0) {
+            iVar3 = -iVar3;
+        }
+        if (iVar3 == new_var2) {
+            sVar2 = 0xd;
+            if (iVar4 > 0) {
+                sVar2 = -0xd;
+            }
+            obj->speed_x = sVar2;
+            obj->speed_y = 0;
+        }
+        else if (iVar3 == 13) {
+            sVar2 = 0xe;
+            if (0 < iVar4) {
+                sVar2 = -0xe;
+            }
+            obj->speed_x = sVar2;
+            obj->speed_y = 0;
+        }
+        else if (iVar3 == 14) {
+            sVar2 = 0xf;
+            if (0 < iVar4) {
+                sVar2 = -0xf;
+            }
+            obj->speed_x = sVar2;
+            obj->speed_y = 0;
+        }
+        else if (iVar3 == 15)
+        {
+            DO_PI_EXPLOSION2(obj);
+            obj->flags &= ~FLG(OBJ_ACTIVE);
+            obj->flags &= ~FLG(OBJ_ALIVE);
+            if (ray.field20_0x36 == obj->id) {
+                ray.field20_0x36 = -1;
+                obj->ray_dist = 1000;
+                set_main_and_sub_etat(&ray,2,2);
+            }
+            PS1_AlwaysObjectsCount = PS1_AlwaysObjectsCount + -1;
+            return;
+        }
+        break;
+    case 0:
+        PlaySnd(200,obj->id);
+        obj->speed_x = 0;
+        obj->field23_0x3c = 2;
+        break;
+    }
+  }
+  return;
+}
+
+/* matches, but too lazy to clean */
+/* 58B04 8017D304 -O2 -msoft-float */
+/*INCLUDE_ASM("asm/nonmatchings/obj/bb1", BBMONT_ECLAIR);*/
+
+void BBMONT_ECLAIR(Obj *obj)
+{
+  char cVar1;
+  s32 sVar2;
+  s16 iVar3;
+  Obj *eclairObj;
+  short local_18;
+  short local_16;
+  short local_14;
+  s16 auStack_12;
+  u8 nb_objs;
+  
+  iVar3 = 0;
+  eclairObj = level.objects;
+  nb_objs = level.nb_objects;
+  if (nb_objs != 0) {
+    do {
+      if ((eclairObj->type == TYPE_ECLAIR) &&
+         ((eclairObj->flags & FLG(OBJ_ACTIVE)) == FLG_OBJ_NONE)) {
+        eclairObj->flags =
+             eclairObj->flags & ~FLG(OBJ_FLIP_X) | obj->flags & FLG(OBJ_FLIP_X);
+        eclairObj->speed_y = 0;
+        if ((eclairObj->flags & FLG(OBJ_FLIP_X)) == FLG_OBJ_NONE) {
+          cVar1 = eclairObj->eta[eclairObj->main_etat][eclairObj->sub_etat].
+                  speed_x_left;
+        }
+        else {
+          cVar1 = eclairObj->eta[eclairObj->main_etat][eclairObj->sub_etat].
+                  speed_x_right;
+        }
+        eclairObj->speed_x = (short)cVar1;
+        GET_SPRITE_POS(obj,10,&local_18,&local_16,&local_14,&auStack_12);
+        sVar2 = (local_18 + local_14) - eclairObj->offset_bx;
+        if ((obj->flags & FLG(OBJ_FLIP_X)) != FLG_OBJ_NONE) {
+          sVar2 = sVar2 + 0x10;
+        }
+        else {
+          sVar2 = sVar2 + -0x10;
+        }
+        eclairObj->x_pos = sVar2;
+        eclairObj->y_pos = local_16;
+        eclairObj->init_x_pos = eclairObj->x_pos;
+        eclairObj->init_y_pos = eclairObj->y_pos;
+        skipToLabel(eclairObj,(u8)(eclairObj->flags >> 0xe) & 1,true);
+        calc_obj_pos(eclairObj);
+        eclairObj->flags = eclairObj->flags | (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+        allocateExplosion(eclairObj);
+        return;
+      }
+      eclairObj = eclairObj + 1;
+      iVar3 = iVar3 + 1;
+    } while (iVar3 < nb_objs);
+  }
+  return;
+}
+
+/* matches, but too lazy to clean */
+/* 58CC4 8017D4C4 -O2 -msoft-float */
+/*INCLUDE_ASM("asm/nonmatchings/obj/bb1", BBMONT_ETINCELLES);*/
+
+void BBMONT_ETINCELLES(Obj *param_1)
+{
+  short sVar1;
+  s16 uVar2;
+  s16 iVar3;
+  Obj *pOVar4;
+  short local_18;
+  short local_16;
+  short local_14;
+  s16 auStack_12;
+  u8 nb_objs;
+  ObjFlags OVar3;
+  ObjFlags new_var;
+  
+  iVar3 = 0;
+  pOVar4 = level.objects;
+  nb_objs = level.nb_objects;
+  if (nb_objs != 0) {
+    do {
+      if ((pOVar4->type == TYPE_ETINC) && ((pOVar4->flags & FLG(OBJ_ACTIVE)) == FLG_OBJ_NONE)) {
+        pOVar4->flags = pOVar4->flags & ~FLG(OBJ_FLIP_X) | param_1->flags & FLG(OBJ_FLIP_X);
+        pOVar4->speed_y = 0;
+        if ((pOVar4->flags & FLG(OBJ_FLIP_X)) == FLG_OBJ_NONE) {
+          pOVar4->speed_x = 7;
+        }
+        else {
+          pOVar4->speed_x = -7;
+        }
+
+        GET_SPRITE_POS(param_1,3,&local_18,&local_16,&local_14,&auStack_12);
+        if ((param_1->flags & FLG(OBJ_FLIP_X)) == FLG_OBJ_NONE) {
+          local_14 = 0;
+        }
+        pOVar4->x_pos = (local_18 + local_14) - (ushort)pOVar4->offset_bx; /* temp_a3 */
+        pOVar4->y_pos = local_16 + -8;
+        pOVar4->init_x_pos = pOVar4->x_pos;
+        pOVar4->init_y_pos = pOVar4->y_pos;
+        skipToLabel(pOVar4,(u8)(pOVar4->flags >> 0xe) & 1,true);
+        calc_obj_pos(pOVar4);
+        pOVar4->flags = pOVar4->flags | (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+        pOVar4 = pOVar4 + 1;
+        pOVar4->flags = pOVar4->flags & ~FLG(OBJ_FLIP_X) | param_1->flags & FLG(OBJ_FLIP_X);
+        pOVar4->speed_y = 0;
+        if ((pOVar4->flags & FLG(OBJ_FLIP_X)) == FLG_OBJ_NONE) {
+          pOVar4->speed_x = 7;
+        }
+        else {
+          pOVar4->speed_x = -7;
+        }
+
+        GET_SPRITE_POS(param_1,2,&local_18,&local_16,&local_14,&auStack_12);
+        if ((param_1->flags & FLG(OBJ_FLIP_X)) == FLG_OBJ_NONE) {
+          local_14 = 0;
+        }
+        pOVar4->x_pos = (local_18 + local_14) - (pOVar4->offset_bx);
+        pOVar4->y_pos = local_16 + -8;
+        pOVar4->init_x_pos = pOVar4->x_pos;
+        pOVar4->init_y_pos = pOVar4->y_pos;
+        skipToLabel(pOVar4,(u8)(pOVar4->flags >> 0xe) & 1,true);
+        calc_obj_pos(pOVar4);
+        pOVar4->flags = pOVar4->flags | (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+        allocateExplosion(pOVar4);
+        return;
+      }
+      pOVar4 = pOVar4 + 1;
       iVar3 = iVar3 + 1;
     } while (iVar3 < nb_objs);
   }

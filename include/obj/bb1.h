@@ -6,6 +6,7 @@
 #include "obj/poing.h"
 #include "timers.h"
 #include "ray/ray_32398.h"
+#include "boss.h"
 
 typedef struct BB1Data
 {

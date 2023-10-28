@@ -1,5 +1,14 @@
 #include "obj/bb1.h"
 
+extern s16 IndAtak;
+extern u16 IndSerie;
+extern BB1Data bb1;
+extern u8 D_801D7AE4;
+extern s16 YaDesChiens;
+extern s16 niveau;
+extern s16 PS1_AlwaysObjects[100];
+extern BB1Data bb1;
+
 /* 5783C 8017C03C -O2 -msoft-float */
 /*? set_sub_etat(Obj *, ?);*/
 
@@ -118,8 +127,6 @@ INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateDog);
 /* 58278 8017CA78 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateTir);
 
-extern s16 PS1_AlwaysObjects[100];
-
 /* 58644 8017CE44 -O2 -msoft-float */
 #ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", CreateFirstBBL);
@@ -164,12 +171,42 @@ void CreateFirstBBL(void)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", INIT_BBMONT);
+/* 58784 8017CF84 -O2 -msoft-float */
+extern s16 PierreDoitExploser;
+extern s16 RMrepere;
+extern s16 screen_trembling2; /* cam_scroll? */
 
+void INIT_BBMONT(Obj *obj)
+{
+  calc_obj_pos(obj);
+  obj->field23_0x3c = 0;
+  obj->gravity_value_2 = 10;
+  Phase = 0;
+  WaitForAnim = false;
+  WaitForFinAtan = 10;
+  PosPierre = 9999;
+  PierreDoitExploser = 0;
+  IndSerie = 0;
+  IndAtak = 0;
+  RMrepere = 0;
+  YaDesChiens = 0;
+  screen_trembling2 = 0;
+  obj->flags |= FLG(OBJ_ALIVE);
+  obj->flags &= ~FLG(OBJ_ACTIVE);
+  bb1.field1_0x2 = -1;
+  bb1.speed_x = 0;
+  bb1.saved_cmd = 0;
+  bb1.field2_0x4 = 0;
+  bb1.field8_0xe = 1;
+}
+
+/* 5884C 8017D04C -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBL_COMMAND);
 
+/* 58B04 8017D304 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", BBMONT_ECLAIR);
 
+/* 58CC4 8017D4C4 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", BBMONT_ETINCELLES);
 
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", BBMONT_TIRE);
