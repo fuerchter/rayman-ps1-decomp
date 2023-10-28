@@ -7,6 +7,8 @@
 #include "timers.h"
 #include "ray/ray_32398.h"
 #include "boss.h"
+#include "cam_scroll.h"
+#include "num_level_36260.h"
 
 typedef struct BB1Data
 {
@@ -39,10 +41,10 @@ void INIT_BBMONT(Obj *obj);
 void DO_BBL_COMMAND(Obj *obj);
 void BBMONT_ECLAIR(Obj *obj);
 void BBMONT_ETINCELLES(Obj *param_1);
-void BBMONT_TIRE(s32 param_1);
-void Cree_BBL(s32 param_1);
-void BB_Attaque(Obj *param_1);
-void Fin_BB_Attaque(s32 param_1);
+void BBMONT_TIRE(Obj *obj);
+void Cree_BBL(Obj *obj);
+void BB_Attaque(Obj *obj);
+void Fin_BB_Attaque(Obj *obj);
 void BB_Atan(Obj *obj);
 void DO_BBMONT_ATTER(Obj *obj);
 void DO_BBMONT_COMMAND(Obj *obj);

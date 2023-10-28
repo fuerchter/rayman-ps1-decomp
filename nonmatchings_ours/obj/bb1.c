@@ -662,3 +662,26 @@ void BBMONT_ETINCELLES(Obj *param_1)
   }
   return;
 }
+
+/* 5908C 8017D88C -O2 -msoft-float */
+/*INCLUDE_ASM("asm/nonmatchings/obj/bb1", Fin_BB_Attaque);*/
+
+void Fin_BB_Attaque(Obj *obj)
+{
+  IndAtak = IndAtak + 1;
+  if (IndAtak < 7) {
+    NextAtak = SerieAtakBB[IndSerie][IndAtak].attack;
+  }
+  else
+  {
+    NextAtak = 0xff;
+  }
+
+  if (NextAtak == 0xff) {
+    IndAtak = 0;
+    NextAtak = SerieAtakBB[IndSerie][IndAtak].attack;
+  }
+  WaitForFinAtan = SerieAtakBB[IndSerie][IndAtak].wait_for_fin_atan;
+  BB_Attaque(obj);
+  return;
+}

@@ -1,7 +1,7 @@
 #include "obj/bb1.h"
 
 extern s16 IndAtak;
-extern u16 IndSerie;
+extern s16 IndSerie;
 extern BB1Data bb1;
 extern u8 D_801D7AE4;
 extern s16 YaDesChiens;
@@ -209,18 +209,101 @@ INCLUDE_ASM("asm/nonmatchings/obj/bb1", BBMONT_ECLAIR);
 /* 58CC4 8017D4C4 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", BBMONT_ETINCELLES);
 
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", BBMONT_TIRE);
+/* 58F14 8017D714 -O2 -msoft-float */
+void BBMONT_TIRE(Obj *obj)
+{
+    allocateTir(obj, 1);
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", Cree_BBL);
+/* 58F34 8017D734 -O2 -msoft-float */
+void Cree_BBL(Obj *obj)
+{
+    allocateTir(obj, 0);
+}
 
+extern s16 NextAtak;
+
+/* 58F54 8017D754 -O2 -msoft-float */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", BB_Attaque);
+#else
+void BB_Attaque(Obj *obj)
+{
+  switch(NextAtak)
+  {
+  case 0:
+    set_main_and_sub_etat(obj, 0, 4);
+    Phase = 1;
+    break;
+  case 1:
+    set_main_and_sub_etat(obj, 0, 3);
+    Phase = 2;
+    break;
+  case 2:
+    set_main_and_sub_etat(obj, 0, 6);
+    Phase = 3;
+    break;
+  case 3:
+    set_main_and_sub_etat(obj, 0, 7);
+    Phase = 4;
+    break;
+  case 4:
+    set_main_and_sub_etat(obj, 0, 2);
+    Phase = 5;
+    break;
+  case 5:
+    set_main_and_sub_etat(obj, 0, 4);
+    Phase = 12;
+    break;
+  case 6:
+    set_main_and_sub_etat(obj, 2, 3);
+    obj->iframes_timer = 35;
+    Phase = 11;
+    bb1.field8_0xe = 1;
+    break;
+  case 7:
+    set_main_and_sub_etat(obj, 0, 22);
+    Phase = 13;
+  }
 
+  __asm__("nop");
+}
+#endif
+
+extern BBAttackEntry SerieAtakBB[6][7];
+
+/* 5908C 8017D88C -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", Fin_BB_Attaque);
 
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", BB_Atan);
+/* 59198 8017D998 -O2 -msoft-float */
+void BB_Atan(Obj *obj)
+{
+    if (WaitForFinAtan != 0)
+    {
+        set_main_and_sub_etat(obj, 0, 0);
+        skipToLabel(obj, 0, 1);
+        Phase = 6;
+    }
+    else
+        Fin_BB_Attaque(obj);
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT_ATTER);
+/* 591FC 8017D9FC -O2 -msoft-float */
+/*? allocateLandingSmoke(Obj *);
+? recale_position();
+? set_sub_etat(Obj *, ?);*/
 
+void DO_BBMONT_ATTER(Obj *obj)
+{
+    obj->speed_y = 0;
+    obj->speed_x = 0;
+    recale_position(obj);
+    set_sub_etat(obj, 6);
+    allocateLandingSmoke(obj);
+    screen_trembling3 = 1;
+}
+
+/* 59248 8017DA48 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT_COMMAND);
 
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT_TOUCHE);
