@@ -1,5 +1,6 @@
 #include "obj/bb1.h"
 
+/* check rodata again */
 extern s16 PS1_AlwaysObjectsCount;
 extern s16 PosPierre;
 extern s16 IndAtak;
@@ -304,15 +305,190 @@ void DO_BBMONT_ATTER(Obj *obj)
 /* 59248 8017DA48 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT_COMMAND);
 
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT_TOUCHE);
+/* 5A260 8017EA60 -O2 -msoft-float */
+void DO_BBMONT_TOUCHE(Obj *obj)
+{
+  set_sub_etat(obj, 8);
+  obj->anim_frame = 0;
+  Phase = 7;
+  WaitForFinAtan = 2;
+}
 
+/* 5A2A4 8017EAA4 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT2_COMMAND);
 
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT2_MARCHE);
+/* 5B388 8017FB88 -O2 -msoft-float */
+void DO_BBMONT2_MARCHE(s16 hp)
+{
+    bb1.speed_x = hp;
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT2_ATTER);
+/* 5B398 8017FB98 -O2 -msoft-float */
+/*? recale_position();
+? set_main_and_sub_etat(Obj *, ?, ?);
+? set_sub_etat(Obj *, ?);*/
 
+void DO_BBMONT2_ATTER(Obj *obj)
+{
+    if (obj->speed_y >= 2)
+    {
+        obj->speed_y = 0;
+        obj->speed_x = 0;
+        recale_position(obj);
+        switch (Phase)
+        {
+        case 0:
+            set_sub_etat(obj, 2);
+            break;
+        case 1:
+            switch (bb1.speed_x)
+            {
+            case 2:
+                set_main_and_sub_etat(obj, 1, 1);
+                break;
+            case 3:
+                set_main_and_sub_etat(obj, 1, 2);
+                break;
+            case 0:
+            default:
+                set_main_and_sub_etat(obj, 1, 0);
+                break;
+            }
+            Phase = 2;
+            obj->speed_x = bb1.speed_x;
+            break;
+        case 2:
+            set_sub_etat(obj, 2);
+            Phase = 3;
+            obj->x_pos -= 32;
+            bb1.speed_x = -1;
+            obj->field23_0x3c = 0;
+            break;
+        case 3:
+            bb1.field1_0x2 += 1;
+            obj->gravity_value_2 = 5;
+            obj->gravity_value_1 = 0;
+            obj->speed_x = 2;
+            set_sub_etat(obj, 2);
+            obj->speed_x = 0;
+            bb1.sprite6_y = 691;
+            bb1.sprite6_x = 0;
+            scroll_end_y = ymap;
+            if (ymap < 691)
+            {
+                scroll_end_y = 691;
+            }
+            Phase = 4;
+            obj->speed_y = 0;
+            break;
+        }
+    }
+}
+
+/* 5B568 8017FD68 -O2 -msoft-float */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT3_COMMAND);
+#else 
+/*? CALC_MOV_ON_BLOC(Obj *);
+? SET_X_SPEED(Obj *);
+? set_main_and_sub_etat(Obj *, ?, ?);
+extern s32 D_801F4438;*/
+
+void DO_BBMONT3_COMMAND(Obj *obj)
+{
+    u8 eight;
+    __asm__("nop\nnop\nnop");
+    if (
+      obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1) &&
+      horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+    )
+        FinAnim = true;
+    else
+        FinAnim = false;
+    
+    if (obj->main_etat == 1)
+    {
+        SET_X_SPEED(obj);
+        CALC_MOV_ON_BLOC(obj);
+        if (FinAnim && (bb1.speed_x != obj->sub_etat + 1))
+        {
+            switch (bb1.speed_x)
+            {
+            case 2:
+                set_main_and_sub_etat(obj, 1, 1);
+                break;
+            case 3:
+                set_main_and_sub_etat(obj, 1, 2);
+                break;
+            case 0:
+            default:
+                set_main_and_sub_etat(obj, 1, 0);
+                break;
+            }
+        }
+    }
+    switch (Phase)
+    {
+    case 0:
+        obj->flags &= ~FLG(OBJ_FLIP_X);
+        if (obj->main_etat != 2)
+            CALC_MOV_ON_BLOC(obj);
+        
+        if (FinAnim && obj->main_etat == 0)
+        {
+            bb1.speed_x = 2;
+            set_main_and_sub_etat(obj, 1, 1);
+        }
+        eight = 8;
+        if (
+          (obj->main_etat == 1) &&
+          ((block_flags
+            [
+              *(u16 *)(
+                (
+                  (s16)(
+                    ((obj->x_pos + (obj->offset_bx - eight)) >> 4) +
+                    mp.width * ((obj->y_pos + obj->offset_by + eight) >> 4)
+                  ) << 1
+                ) + (int)mp.map
+              ) >> 10
+            ] >> 1 & 1) == 0
+          )
+        )
+        {
+            set_main_and_sub_etat(obj, 2, 4);
+            obj->gravity_value_2 = 5;
+            obj->gravity_value_1 = 0;
+            obj->speed_y = -8;
+            obj->speed_x = -2;
+        }
+        break;
+    case 1:
+        if (
+          (obj->main_etat == 1) &&
+          ((block_flags
+            [
+              *(u16 *)(
+                (
+                  (s16)(
+                    ((obj->x_pos + (obj->offset_bx)) >> 4) +
+                    mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4)
+                  ) << 1
+                ) + (int)mp.map
+              ) >> 10
+            ] >> 1 & 1) == 0
+          )
+        )
+        {
+            set_main_and_sub_etat(obj, 0, 1);
+            obj->speed_y = 0;
+            obj->speed_x = 0;
+            Phase = 2;
+        }
+        break;
+    }
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT3_ATTER);
 

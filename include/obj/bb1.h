@@ -9,6 +9,7 @@
 #include "boss.h"
 #include "cam_scroll.h"
 #include "num_level_36260.h"
+#include "collision/collision.h"
 
 typedef struct BB1Data
 {
