@@ -1,5 +1,7 @@
 #include "obj/bb1.h"
 
+extern s16 PS1_AlwaysObjectsCount;
+extern s16 PosPierre;
 extern s16 IndAtak;
 extern s16 IndSerie;
 extern BB1Data bb1;
@@ -8,6 +10,12 @@ extern s16 YaDesChiens;
 extern s16 niveau;
 extern s16 PS1_AlwaysObjects[100];
 extern BB1Data bb1;
+extern BBAttackEntry SerieAtakBB[6][7];
+extern s16 PierreDoitExploser;
+extern s16 RMrepere;
+extern s16 screen_trembling2; /* cam_scroll? */
+extern s16 NextAtak;
+extern s16 horlogeDog;
 
 /* 5783C 8017C03C -O2 -msoft-float */
 /*? set_sub_etat(Obj *, ?);*/
@@ -80,8 +88,6 @@ void DO_PI_EXPLOSION2(Obj *obj)
 /*? PlaySnd(?, s16);
 ? recale_position(Obj *);
 ? set_main_and_sub_etat(s16 *, ?, ?);*/
-extern s16 PS1_AlwaysObjectsCount;
-extern s16 PosPierre;
 
 void DO_BBL_REBOND(Obj *obj)
 {
@@ -172,10 +178,6 @@ void CreateFirstBBL(void)
 #endif
 
 /* 58784 8017CF84 -O2 -msoft-float */
-extern s16 PierreDoitExploser;
-extern s16 RMrepere;
-extern s16 screen_trembling2; /* cam_scroll? */
-
 void INIT_BBMONT(Obj *obj)
 {
   calc_obj_pos(obj);
@@ -220,8 +222,6 @@ void Cree_BBL(Obj *obj)
 {
     allocateTir(obj, 0);
 }
-
-extern s16 NextAtak;
 
 /* 58F54 8017D754 -O2 -msoft-float */
 #ifndef MISSING_ADDIU
@@ -269,8 +269,6 @@ void BB_Attaque(Obj *obj)
   __asm__("nop");
 }
 #endif
-
-extern BBAttackEntry SerieAtakBB[6][7];
 
 /* 5908C 8017D88C -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", Fin_BB_Attaque);
