@@ -13,7 +13,7 @@ void DO_BAG1_COMMAND(Obj *obj)
   if (
     obj->sub_etat == 4 &&
     obj->anim_frame == 14 &&
-    horloge[obj->eta[obj->main_etat][4].anim_speed & 0xf] == 0 &&
+    horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0 &&
     (u16)(obj->screen_x_pos + 0x9f) < 409 &&
     obj->screen_y_pos < 140
   )

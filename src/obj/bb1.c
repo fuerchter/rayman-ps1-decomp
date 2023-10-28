@@ -490,6 +490,66 @@ void DO_BBMONT3_COMMAND(Obj *obj)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT3_ATTER);
+/* 5B8C0 801800C0 -O2 -msoft-float */
+/*? CALC_MOV_ON_BLOC();
+? set_main_and_sub_etat(Obj *, ?, ?);*/
 
+void DO_BBMONT3_ATTER(Obj *obj)
+{
+    if (obj->speed_y >= 2)
+    {
+        obj->speed_y = 0;
+        obj->speed_x = 0;
+        CALC_MOV_ON_BLOC(obj);
+        if (Phase == 0)
+        {
+            switch (bb1.speed_x)
+            {
+            case 2:
+                set_main_and_sub_etat(obj, 1, 1);
+                break;
+            case 3:
+                set_main_and_sub_etat(obj, 1, 2);
+                break;
+            case 0:
+            default:
+                set_main_and_sub_etat(obj, 1, 0);
+                break;
+            }
+            Phase = 1;
+        }
+    }
+}
+
+/* 5B984 80180184 -O2 -msoft-float */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT4_COMMAND);
+#else
+/*? set_sub_etat(Obj *, ?);*/
+
+void DO_BBMONT4_COMMAND(Obj *obj)
+{
+    __asm__("nop\nnop");
+
+    obj->flags |= FLG(OBJ_FLIP_X);
+    if (
+      obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1) &&
+      horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+    )
+        FinAnim = true;
+    else
+        FinAnim = false;
+    
+    if (obj->main_etat == 0)
+    {
+        if (
+          obj->sub_etat == 7 &&
+          obj->anim_frame == 0x2C &&
+          horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
+        )
+            BBMONT_ETINCELLES(obj);
+        if (FinAnim && obj->sub_etat == 0)
+            set_sub_etat(obj, 7);
+    }
+}
+#endif

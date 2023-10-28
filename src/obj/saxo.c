@@ -724,7 +724,7 @@ void DO_SAXO2_COMMAND(Obj *obj)
         switch (obj->sub_etat)
         {
         case 1:
-            if (horloge[obj->eta[obj->main_etat][1].anim_speed & 0xF] == 0)
+            if (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0)
             {
                 anim_frame = obj->anim_frame;
                 if(
@@ -941,7 +941,7 @@ void DO_SAXO3_COMMAND(Obj *obj)
         switch(obj->sub_etat)
         {
           case 1:
-            if ((obj->anim_frame == 24) && (horloge[obj->eta[obj->main_etat][1].anim_speed & 0xF] == 0))
+            if ((obj->anim_frame == 24) && (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0))
                 SAXO_TIRE(obj);
             if (FinAnim)
             {

@@ -4,10 +4,11 @@
 #og psyq 3.0 cc1psx.exe seems to fix nop/divu swap: DISPLAY_CONTINUE_SPR (others in display_ui?), doMoskitoHit, setBossReachingSpeeds
 #missing nop INIT_PASTILLES_SAUVE, Fin_BB_Attaque
 
+#split some boss objs again?
 #block_flags accesses could be cleaned up
 #deal with WorldInfo.state
 #can you just write / 2 instead of >> 1? (yes, sometimes removing s16 cast is needed)
-#style: move assignment in if into second if. convert do/whiles into whiles
+#style: move assignment in if into second if. convert do/whiles into whiles where possible
 #order splat yaml settings by wiki
 #more enums, defines...
 #use a bool type?

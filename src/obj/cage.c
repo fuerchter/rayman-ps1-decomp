@@ -18,7 +18,7 @@ void DO_CAGE(Obj *obj)
     obj->main_etat == 0 &&
     obj->sub_etat == 7 &&
     obj->anim_frame == 0 &&
-    horloge[obj->eta[0][7].anim_speed & 0x0f] == 0
+    horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0x0f] == 0
     ) {
     obj->display_prio = 5;
     allocateGrille(obj);
