@@ -30,6 +30,24 @@ typedef struct BBAttackEntry
     u8 wait_for_fin_atan;
 } BBAttackEntry;
 
+/* TODO: data conflict */
+/* .data */
+extern BBAttackEntry SerieAtakBB[6][7];
+extern s16 niveau;
+
+/**/
+extern BB1Data bb1;
+extern s16 PS1_AlwaysObjects[100];
+extern s16 PS1_AlwaysObjectsCount;
+extern s16 PosPierre;
+extern s16 IndAtak;
+extern s16 IndSerie;
+extern s16 NextAtak;
+extern s16 YaDesChiens;
+extern s16 PierreDoitExploser;
+extern s16 RMrepere;
+extern s16 horlogeDog;
+
 void DO_TOTEM_TOUCHE(Obj *obj, s16 sprite);
 void DO_TOTEM_COMMAND(Obj *param_1);
 void DO_TOTBT_REBOND(Obj *obj);

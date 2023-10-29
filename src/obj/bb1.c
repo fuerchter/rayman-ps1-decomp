@@ -1,22 +1,6 @@
 #include "obj/bb1.h"
 
-/* check rodata again */
-extern s16 PS1_AlwaysObjectsCount;
-extern s16 PosPierre;
-extern s16 IndAtak;
-extern s16 IndSerie;
-extern BB1Data bb1;
-extern u8 D_801D7AE4;
-extern s16 YaDesChiens;
-extern s16 niveau;
-extern s16 PS1_AlwaysObjects[100];
-extern BB1Data bb1;
-extern BBAttackEntry SerieAtakBB[6][7];
-extern s16 PierreDoitExploser;
-extern s16 RMrepere;
-extern s16 screen_trembling2; /* cam_scroll? */
-extern s16 NextAtak;
-extern s16 horlogeDog;
+/* TODO: check rodata padding once everything is matching */
 
 /* 5783C 8017C03C -O2 -msoft-float */
 /*? set_sub_etat(Obj *, ?);*/

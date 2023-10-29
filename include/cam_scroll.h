@@ -11,6 +11,7 @@ extern s16 scroll_end_x;
 extern s16 scroll_end_y;
 extern u8 scrollLocked;
 extern s16 screen_trembling;
+extern s16 screen_trembling2;
 extern s16 screen_trembling3;
 
 #endif
