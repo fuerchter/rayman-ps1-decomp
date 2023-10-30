@@ -42,6 +42,7 @@ extern s16 xmapinit;
 extern s16 ymapinit;
 extern s16 xwldmapsave;
 extern s16 ywldmapsave;
+extern u8 nouvelle_partie;
 
 void CalcObjPosInWorldMap(Obj *obj);
 void DoScrollInWorldMap(s16 param_1, s16 param_2);

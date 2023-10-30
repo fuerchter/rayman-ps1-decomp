@@ -1,8 +1,13 @@
 #TODO:
 #check out -psx patched old-gcc to possibly clean up DO_WORLD_MAP, DETER_WORLD_AND_LEVEL world_index assign
 #skipTestArgs, readTestArgs share issues
-#og psyq 3.0 cc1psx.exe seems to fix nop/divu swap: DISPLAY_CONTINUE_SPR (others in display_ui?), doMoskitoHit, setBossReachingSpeeds
+#og psyq 3.0 cc1psx.exe seems to fix div nop swap: DISPLAY_CONTINUE_SPR (others in display_ui?), doMoskitoHit, setBossReachingSpeeds, DO_COMMANDE_PAD
 #missing nop INIT_PASTILLES_SAUVE, Fin_BB_Attaque
+
+#missing_addiu: fake structs don't work for horloge (https://decomp.me/scratch/3YQbc) or cptr_tab (array/structs themselves), or rodata switch/case
+#cc1psx.exe seems to fix these only for arrays/structs, not standard types
+#arrays/structs involved in missing_addiu: horloge, block_flags, t_world_info, cptr_tab, D_801C7D20, PS1_AlwaysObjects, text_to_display, atak, SerieDatak
+#standard type involved in missing_addiu: PS1_Setting_StereoEnabled
 
 #split some boss objs again?
 #block_flags accesses could be cleaned up
@@ -84,7 +89,7 @@ $(O_SRC_O1) : $(BUILD_DIR)/%.o : %
 
 GCC_SCR := $(TOOLS_DIR)/gcc-2.5.7/
 $(O_SRC_SCRATCH) : $(BUILD_DIR)/%.o : %
-	$(GCC_SCR)gcc -c -mgas -msoft-float -B$(GCC_SCR) -pipe -Iinclude -fshort-enums -G0 -O2 -Wa,-EL,-mips2,-msoft-float,-no-pad-sections,-Iinclude -o $@ $<
+	$(GCC_SCR)gcc -c -mgas -msoft-float -B$(GCC_SCR) -pipe -Iinclude -fshort-enums -fno-builtin -gcoff -G0 -O2 -Wa,-EL,-mips2,-msoft-float,-no-pad-sections,-Iinclude -o $@ $<
 
 check:
 	sha1sum --check $(EXE).sha1

@@ -1,31 +1,5 @@
 #include "menu/menu_82008.h"
 
-extern s16 D_801D7A50;
-extern s16 D_801D7AA0;
-extern s16 D_801F5498;
-extern s16 D_801F9A38;
-extern s16 D_801FA580;
-extern s16 PS1_Setting_Action;
-extern s16 PS1_Setting_Fist;
-extern s16 PS1_Setting_Jump;
-extern s16 PS1_Setting_Soundfx;
-extern s16 basex;
-extern s16 debut_titre;
-extern s16 delai_barre;
-extern s16 delai_stereo;
-extern s16 ecart_barre;
-
-extern s16 fichier_existant;
-extern s16 fichier_selectionne;
-extern u8 nouvelle_partie;
-
-typedef struct Test {
- s16 test_1;
-} Test;
-
-extern s16 PS1_Setting_StereoEnabled;
-extern s16 PS1_Setting_Music;
-
 /*
 generates division checks if:
 -function arg is involved
@@ -40,12 +14,12 @@ INCLUDE_ASM("asm/nonmatchings/menu/menu_82008", FUN_801a6808);
 /* 82184 801A6984 -O2 -msoft-float */
 void FUN_801a6984(void)
 {
-  options_jeu.Jump = PS1_Setting_Jump;
-  options_jeu.Fist = PS1_Setting_Fist;
-  options_jeu.Action = PS1_Setting_Action;
-  options_jeu.Music = PS1_Setting_Music;
-  options_jeu.Soundfx = PS1_Setting_Soundfx;
-  options_jeu.StereoEnabled = PS1_Setting_StereoEnabled;
+  options_jeu.Jump = PS1_Settings[0];
+  options_jeu.Fist = PS1_Settings[1];
+  options_jeu.Action = PS1_Settings[2];
+  options_jeu.Music = PS1_Settings[3];
+  options_jeu.Soundfx = PS1_Settings[4];
+  options_jeu.StereoEnabled = PS1_Settings[5];
   POINTEUR_BOUTONS_OPTIONS_BIS();
 }
 
@@ -65,4 +39,45 @@ void FUN_801a6a04(u8 param_1)
 /* 82268 801A6A68 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_82008", DO_COMMANDE_PAD);
 
+/* 82EE4 801A76E4 -O2 -msoft-float */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/menu/menu_82008", FUN_801a76e4);
+#else
+void FUN_801a76e4(void)
+{
+    s16 i;
+    u8 seven;
+
+    i = 0;
+    if ((D_801F5498 + 2) > 0)
+    {
+        do
+        {
+            strcpy(&text_to_display[i], PS1_SettingStrings[i]);
+            seven = 7;
+            if (i == seven)
+            {
+                text_to_display[seven].x_pos = 0x00A0;
+                text_to_display[seven].font_size = 2;
+                text_to_display[seven].y_pos = PS1_display_y1;
+            }
+            else
+            {
+                text_to_display[i].x_pos = basex;
+                if (i >= 6)
+                    text_to_display[i].y_pos = debut_sortie + (PS1_display_y2 + 15) * (i - 1);
+                else
+                    text_to_display[i].y_pos = debut_sortie + (PS1_display_y2 + 15) * i;
+                
+                text_to_display[i].font_size = 2;
+            }
+            text_to_display[i].is_fond = 1;
+            text_to_display[i].field8_0x3d = 0;
+            INIT_TXT_BOX(&text_to_display[i].text);
+            i++;
+        } while (i < (D_801F5498 + 2));
+    }
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif

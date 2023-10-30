@@ -11,7 +11,7 @@ extern u8 s_start_801cf118[8];
 
 /**/
 extern s16 PS1_SaveMode;
-extern u8 button_released; /* TODO: not a bool? */
+extern u8 button_released; /* TODO: not a bool? based on RAY_HELICO */
 extern s16 compteur;
 extern s16 max_compteur;
 extern s16 repetition;

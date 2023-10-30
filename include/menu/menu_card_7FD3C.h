@@ -23,7 +23,16 @@ typedef struct OptionsJeu
     s16 field14_0x24;
 } OptionsJeu;
 
+/* .data */
+extern u8 *PS1_SettingStrings[8]; /* if creates conflict here, put in menu_82008 */
+
+/**/
+extern s16 PS1_Settings[6];
+extern s16 D_801D7A50;
+extern s16 basex;
+extern s16 ecart_barre;
 extern OptionsJeu options_jeu;
+extern s16 debut_titre;
 extern s16 debut_options;
 extern s16 debut_sortie;
 extern s16 ecarty;
@@ -32,5 +41,7 @@ extern s16 positionx2;
 extern s16 PS1_display_y1;
 extern s16 PS1_display_y2;
 extern s16 position;
+extern s16 fichier_existant;
+extern s16 fichier_selectionne;
 
 #endif
