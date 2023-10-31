@@ -76,7 +76,8 @@ segments:
       - [0x699C, .rodata, obj/bb1] #8012B19C
       - [0x6A3C, rodata]
       - [0x721C, .rodata, world_map_677C0] #8012BA1C
-      - [0x72B4, rodata]
+      - [0x72B4, .rodata, menu/menu_6A3BC] #8012BAB4
+      - [0x742C, rodata]
       - [0x77F8, .rodata, obj/moskito] #8012bff8
       - [0x785C, rodata]
       - [0x7C68, .rodata, demo_7F2BC] #8012c468
@@ -230,7 +231,7 @@ segments:
       - [0x66BE8, c, boss] #8018b3e8
       - [0x67130, asm, obj/blacktoon1] #8018b930
       - [0x677C0, c, world_map_677C0] #8018bfc0
-      - [0x6A3BC, asm, menu/menu_6A3BC] #8018ebbc
+      - [0x6A3BC, c, menu/menu_6A3BC] #8018ebbc
       - [0x6C6E4, asm, obj/scorpion] #80190ee4
       - [0x6E5E0, asm, collision/block] #80192de0
       - [0x6F914, c, obj/moskito] #80194114
