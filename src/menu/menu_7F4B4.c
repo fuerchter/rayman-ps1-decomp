@@ -48,11 +48,9 @@ void PS1_TextBoxCardOrPassword(void)
   PS1_MENU_RETURN2 = false;
 }
 
-/* 7F754 801A3F54 -O2 */
-/* m2c: 4602 ghidra: 9437 */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_InputCardOrPassword);
+/* m2c: 4602 ghidra: 9437 */
 
-/* 7FAE8 801A42E8 -O2 */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_DisplayCardOrPassword);
 
 /* 7FC58 801A4458 -O2 */

@@ -23,7 +23,6 @@ s16 DemoRecordWorld[6] = {0x0002, 0x0003, 0x0004, 0x0005, 0x0004, 0x0005};
 s16 DemoRecordMap[6] = {0x0007, 0x0007, 0x0001, 0x0004, 0x000a, 0x000a};*/
 
 
-/* 9FD4 8012E7D4 -O2 */
 INCLUDE_ASM("asm/nonmatchings/demo_9FD4", InitDemoJeu);
 
 /* A228 8012EA28 -O2 */

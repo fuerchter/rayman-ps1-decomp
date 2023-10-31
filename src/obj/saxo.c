@@ -452,7 +452,6 @@ void DO_NOTE_TOUCHEE(Obj *obj)
     }
 }
 
-/* 51774 80175F74 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_NOTE_REBOND);
 
 /* 51828 80176028 -O2 -msoft-float */
@@ -636,7 +635,6 @@ void SetSaxoCollNoteBox(Obj *obj)
   Sax.note_box_coll_x = x2 + ((w2 - 20) >> 1);
 }
 
-/* 51E0C 8017660C -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO_COMMAND);
 
 /* 52BC4 801773C4 -O2 -msoft-float */

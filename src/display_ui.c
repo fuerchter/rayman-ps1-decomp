@@ -107,10 +107,8 @@ void display_grp_stars(void)
     }
 }
 
-/* 19D20 8013E520 -O2 */
 INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_TEXT_FEE);
 
-/* 1A04C 8013E84C -O2 */
 INCLUDE_ASM("asm/nonmatchings/display_ui", DisplayJumellesNormal);
 
 /* 1A338 8013EB38 -O2 */
@@ -121,9 +119,8 @@ void PS1_DisplayWorldMapBg1(s16 x1, s16 y1, s16 x2, s16 y2)
     PS1_DisplayWorldMapBg2(x1, y1, x2, y2, 130, 320 - x2);
 }
 
-/* trap */
-/* 1A388 8013EB88 -O2 */
 INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_SAVE_SPRITES);
+/* trap */
 
 /* 1A8C0 8013F0C0 -O2 */
 /*? display_sprite(Obj *, ?, s32, s32, s32);*/
@@ -141,7 +138,6 @@ void DISPLAY_SAVE_POING(void)
     display_sprite(obj, 1, 10, debut_options + (fichier_a_copier - 1) * (ecarty + 23) - 23, 1);
 }
 
-/* 1A9D8 8013F1D8 -O2 */
 INCLUDE_ASM("asm/nonmatchings/display_ui", display_time);
 
 /* 1AC60 8013F460 -O2 */
@@ -235,7 +231,6 @@ void PS1_LoadPts(void)
   DrawSync(0);
 }
 
-/* 1AFFC 8013F7FC -O2 */
 INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_CONTINUE_SPR);
 
 /* 1B0F8 8013F8F8 -O2 */

@@ -17,5 +17,4 @@ void new_level_init(void)
 
 INCLUDE_ASM("asm/nonmatchings/num_level_36260", fix_numlevel);
 
-/* 36D54 8015B554 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/num_level_36260", TEST_SIGNPOST);

@@ -50,10 +50,8 @@ void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y)
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DISPLAY_PLAT_WAY);
 
-/* 67B0C 8018C30C -O2 */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_DisplayPlateau);
 
-/* 67BE8 8018C3E8 -O2 */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_MEDAILLONS);
 
 /* 68220 8018CA20 -O2 */
@@ -85,7 +83,6 @@ void INIT_LEVEL_STAGE_NAME(void)
 }
 #endif
 
-/* 683FC 8018CBFC -O2 */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_STAGE_NAME);
 
 /* 68CB8 8018D4B8 -O2 */
@@ -219,7 +216,6 @@ void RESTORE_RAY(void)
     ray.nb_sprites = raytmp.nb_sprites;
 }
 
-/* 69468 8018DC68 -O2 */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_CHEMIN);
 
 /* https://decomp.me/scratch/6ivxi PSYQ3.3 (gcc 2.6.0 + aspsx 2.21) -O1 */

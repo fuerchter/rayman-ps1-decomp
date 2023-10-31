@@ -35,7 +35,6 @@ void DO_TOTEM_TOUCHE(Obj *obj, s16 sprite)
     }
 }
 
-/* 57950 8017C150 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_TOTEM_COMMAND);
 
 /* 57EC4 8017C6C4 -O2 -msoft-float */
@@ -112,10 +111,8 @@ void DO_BBL_REBOND(Obj *obj)
     recale_position(obj);
 }
 
-/* 580F8 8017C8F8 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateDog);
 
-/* 58278 8017CA78 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateTir);
 
 /* 58644 8017CE44 -O2 -msoft-float */
@@ -187,13 +184,10 @@ void INIT_BBMONT(Obj *obj)
   bb1.field8_0xe = 1;
 }
 
-/* 5884C 8017D04C -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBL_COMMAND);
 
-/* 58B04 8017D304 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", BBMONT_ECLAIR);
 
-/* 58CC4 8017D4C4 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", BBMONT_ETINCELLES);
 
 /* 58F14 8017D714 -O2 -msoft-float */
@@ -255,7 +249,6 @@ void BB_Attaque(Obj *obj)
 }
 #endif
 
-/* 5908C 8017D88C -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", Fin_BB_Attaque);
 
 /* 59198 8017D998 -O2 -msoft-float */
@@ -286,7 +279,6 @@ void DO_BBMONT_ATTER(Obj *obj)
     screen_trembling3 = 1;
 }
 
-/* 59248 8017DA48 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT_COMMAND);
 
 /* 5A260 8017EA60 -O2 -msoft-float */
@@ -298,7 +290,6 @@ void DO_BBMONT_TOUCHE(Obj *obj)
   WaitForFinAtan = 2;
 }
 
-/* 5A2A4 8017EAA4 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT2_COMMAND);
 
 /* 5B388 8017FB88 -O2 -msoft-float */

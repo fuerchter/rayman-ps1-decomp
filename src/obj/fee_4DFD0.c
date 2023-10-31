@@ -97,5 +97,4 @@ void fee_gives_super_evts(void)
     }
 }
 
-/* 4E2D0 80172AD0 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/fee_4DFD0", DO_FEE);

@@ -2,7 +2,6 @@
 
 extern MapData mp;
 
-/* 4CB88 80171388 -O2 */
 INCLUDE_ASM("asm/nonmatchings/obj/maracas_command", MarCoince);
 
 /* 4CF4C 8017174C -O2 */

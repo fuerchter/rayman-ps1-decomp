@@ -19,7 +19,6 @@ void getIdealStingCoords(Obj *obj, s16 *out_x, s16 *out_y)
   *out_y = calc_y - 112;
 }
 
-/* 6F988 80194188 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/moskito", closeEnoughToSting);
 
 /* 6FA3C 8019423C -O2 -msoft-float */
@@ -126,13 +125,10 @@ s16 setMoskitoAtScrollBorder(Obj *obj, u8 param_2)
   return res;
 }
 
-/* 6FDC8 801945C8 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/moskito", prepareNewMoskitoAttack);
 
-/* 70C64 80195464 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/moskito", allocateMoskitoFruit);
 
-/* 70E50 80195650 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/moskito", moskitoDropFruitOnRay);
 
 /* 71030 80195830 -O2 -msoft-float */
@@ -215,7 +211,6 @@ void doMoskitoCommand(Obj *obj)
     PS1_MsAnimIndex = obj->anim_index;
 }
 
-/* 71330 80195B30 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/moskito", tellNextMoskitoAction);
 
 /* 7144C 80195C4C -O2 -msoft-float */
@@ -260,5 +255,4 @@ void changeMoskitoPhase(Obj *obj)
     }
 }
 
-/* 7151C 80195D1C -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/moskito", doMoskitoHit);

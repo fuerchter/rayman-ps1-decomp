@@ -1,6 +1,5 @@
 #include "obj/corde_command.h"
 
-/* 4FB58 80174358 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/obj/corde_command", DO_CORDE_COMMAND);
 
 /* 4FDF4 801745F4 -O2 -msoft-float */

@@ -1,5 +1,6 @@
 #include "menu/menu_82008.h"
 
+INCLUDE_ASM("asm/nonmatchings/menu/menu_82008", FUN_801a6808);
 /*
 generates division checks if:
 -function arg is involved
@@ -8,8 +9,6 @@ generates division checks if:
 
 still to see more
 */
-/* 82008 801A6808 -O2 -msoft-float */
-INCLUDE_ASM("asm/nonmatchings/menu/menu_82008", FUN_801a6808);
 
 /* 82184 801A6984 -O2 -msoft-float */
 void FUN_801a6984(void)
@@ -36,7 +35,6 @@ void FUN_801a6a04(u8 param_1)
         FUN_801a3550();
 }
 
-/* 82268 801A6A68 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_82008", DO_COMMANDE_PAD);
 
 /* 82EE4 801A76E4 -O2 -msoft-float */

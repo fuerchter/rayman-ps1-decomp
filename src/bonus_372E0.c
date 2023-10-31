@@ -117,5 +117,4 @@ INCLUDE_ASM("asm/nonmatchings/bonus_372E0", get_next_bonus_level);
 }*/
 #endif
 
-/* 375BC 8015BDBC -O2 */
 INCLUDE_ASM("asm/nonmatchings/bonus_372E0", TEST_WIZARD);

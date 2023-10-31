@@ -1,9 +1,7 @@
 #include "boss.h"
 
-/* 66BE8 8018B3E8 -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/boss", setBossReachingSpeeds);
 
-/* 66EFC 8018B6FC -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/boss", testActionEnd);
 
 /* well, we got the unused function, so i did something today :) */
@@ -32,5 +30,4 @@ void FUN_8018b78c(s16 *param_1, s16 *param_2, s16 *param_3, s16 *param_4, u8 par
   *param_2 = sVar2 - (*param_4 >> 1);
 }
 
-/* 6703C 8018B83C -O2 -msoft-float */
 INCLUDE_ASM("asm/nonmatchings/boss", firstFloorBelow);
