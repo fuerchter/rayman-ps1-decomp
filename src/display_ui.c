@@ -120,7 +120,6 @@ void PS1_DisplayWorldMapBg1(s16 x1, s16 y1, s16 x2, s16 y2)
 }
 
 INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_SAVE_SPRITES);
-/* trap */
 
 /* 1A8C0 8013F0C0 -O2 */
 /*? display_sprite(Obj *, ?, s32, s32, s32);*/

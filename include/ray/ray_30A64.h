@@ -14,5 +14,8 @@ typedef struct StatusBar
 } StatusBar;
 
 extern StatusBar status_bar;
+extern s16 sbar_obj_id;
+extern u8 nb_wiz;
+extern u8 nb_wiz_collected;
 
 #endif

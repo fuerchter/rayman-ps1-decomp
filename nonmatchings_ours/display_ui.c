@@ -152,7 +152,7 @@ void DisplayJumellesNormal(void)
     DISPLAY_BLACKBOX(temp_s1_5 - 5, 53, temp_s1_5 - temp_s3_2, temp_s0_9, 0, 0);
 }
 
-/* no idea... */
+/* div/nop swap, otherwise "matches, but..." */
 /* 1A9D8 8013F1D8 -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/display_ui", display_time);*/
 
@@ -160,92 +160,68 @@ void DisplayJumellesNormal(void)
 ? display_sprite(Obj *, s32, ?, ?, s32);
 ? display_text(u16 *, ?, ?, ?, s32);
 ? strcat(u16 *, ? *);*/
-extern u8 *D_801CEF88;
-extern s16 D_801CEF90[1];
 
-extern s32 *D_801CEF94;
-extern s16 *D_801CEF98;
-extern s8 D_801CEF9A;
-extern s16 D_801CF018;
-extern u8 D_801F4EC0;
-extern s32 D_801F620C;
-extern s32 map_time;
-extern u8 nb_wiz;
-extern s16 sbar_obj_id;
-extern u8 D_801CEF86;
-extern u8 D_801CEF87;
-
-void display_time(s16 arg0)
+void display_time(s16 time)
 {
-    u8 sp18[12];
-    s16 sp1C;
-    s8 sp1E;
-    u8 sp30[8];
-    Obj *temp_s1;
-    s32 temp_lo;
-    s32 temp_v0;
-    u32 temp_a0;
-    u32 temp_v1;
-    u8 var_v0;
-    u8 *new_var;
+    Obj *sbar_obj;
+    u8 text[24];
+    u8 nb_wiz_text[8];
+    s32 time_div;
+    u32 col;
+    u32 col_add;
 
-    temp_s1 = &level.objects[sbar_obj_id];
-    if (arg0 != -2)
+    sbar_obj = &level.objects[sbar_obj_id];
+    if (time != -2)
     {
         if (D_801CF018 == -1)
         {
-            display_text(&D_801CEF88, 0x10C, 0xCA, 2, 7);
-            temp_lo = arg0 / 60;
-            display_sprite(temp_s1, (temp_lo / 10) + 0x1C, 0x10E, 0xCC, 0);
-            display_sprite(temp_s1, (temp_lo % 10) + 0x1C, 0x11D, 0xCC, 0);
+            display_text(&s_time_801cef88, 0x10C, 0xCA, 2, 7);
+            time_div = time / 60;
+            display_sprite(sbar_obj, (time_div / 10) + 0x1C, 0x10E, 0xCC, 0);
+            display_sprite(sbar_obj, (time_div % 10) + 0x1C, 0x11D, 0xCC, 0);
         }
         if (map_time < 0x65)
         {
-            /*sp18[0]=D_801CEF90[0];*/
-            temp_v1 = ray.flags & (~0x800);
-            ray.flags = temp_v1;
-            __builtin_memcpy(sp18, D_801CEF90, sizeof(D_801CEF90));
-            PS1_sprintf(nb_wiz, &sp30, 0xA);
-            strcat(&sp18, &sp30);
-            strcat(&sp18, " tings to get/");
-            if ((u8) D_801F4EC0 < 4U)
+            __builtin_memcpy(text, s__801cef90, sizeof(s__801cef90));
+            ray.flags &= ~FLG(OBJ_ACTIVE);
+            PS1_sprintf(nb_wiz, &nb_wiz_text, 0xA);
+            strcat(&text, &nb_wiz_text);
+            strcat(&text, " tings to get/");
+            if (horloge[8] < 4)
             {
-                temp_a0 = D_801CEF86;
-                temp_v1 = D_801CEF87;
-                D_801CEF86 = temp_a0 + temp_v1;
-                temp_v0 = -D_801CEF87;
-                if (D_801CEF86 >= 6U)
+                col = PS1_TingsToGet_Col;
+                col_add = PS1_TingsToGet_ColAdd;
+                PS1_TingsToGet_Col = col + col_add;
+                if (PS1_TingsToGet_Col >= 6)
                 {
-                    D_801CEF87 = (u8) temp_v0;
-                    D_801CEF86 = 5;
+                    PS1_TingsToGet_ColAdd *= -1;
+                    PS1_TingsToGet_Col = 5;
                 }
-                else if (D_801CEF86 == 0)
+                else if (PS1_TingsToGet_Col == 0)
                 {
-                    D_801CEF87 = (u8) temp_v0;
-                    D_801CEF86 = 1;
+                    PS1_TingsToGet_ColAdd *= -1;
+                    PS1_TingsToGet_Col = 1;
                 }
+
                 if (D_801CF018 == -1)
-                {
-                    display_text(&sp18, 0xA0, 0x78, 2, D_801CEF86);
-                }
+                    display_text(&text, 0xA0, 0x78, 2, PS1_TingsToGet_Col);
             }
         }
-        else if ((u32) (map_time - 0x79) < 0x28U)
+        else if (map_time - 0x79 < 0x28U)
         {
-            __builtin_memcpy(sp18, D_801CEF94, 7);
-            display_text(&sp18, 0xA0, 0x78, 0, 8);
+            __builtin_memcpy(text, s_go__801cef94, 7);
+            display_text(&text, 0xA0, 0x78, 0, 8);
         }
     }
 }
 
-/* psyq 3.0 cc1psx.exe, see Makefile. modulo but no tge... */
+/* div/nop swap, otherwise "matches, but..." modulo but no tge... */
 /* 1AFFC 8013F7FC -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_CONTINUE_SPR);*/
 
 /*? display2(Obj *);
 ? display_sprite(Obj *, s32, ?, ?, s32);
 ? display_text(? *, ?, ?, ?, s32);*/
-extern u8 *s_the_end_801cef9c;
 
 void DISPLAY_CONTINUE_SPR(void)
 {
@@ -263,6 +239,54 @@ void DISPLAY_CONTINUE_SPR(void)
     }
     display2(&ray);
     display2(&clock_obj);
-    if (mapobj->flags & OBJ_ALIVE)
+    if (mapobj->flags & FLG(OBJ_ALIVE))
         display2(mapobj);
+}
+
+/* div/nop swap, missing addiu, otherwise "matches, but..." */
+/*INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_SAVE_SPRITES);*/
+
+/* 1A388 8013EB88 -O2 -msoft-float */
+/*? display_sprite(Obj *, s16, s16, s32, s32);
+? display_text(u8 *, s16, s32, ?, s32);
+extern ? D_801E4D62;
+extern ? D_801E4D63;*/
+
+void DISPLAY_SAVE_SPRITES(s16 x, s16 y)
+{
+    Obj *loc_mapobj;
+    u8 num_lives;
+    s32 pct;
+    s16 sprite_ind_1;
+    s16 sprite_ind_2;
+    s16 sprite_ind_3;
+
+    loc_mapobj = mapobj;
+    num_lives = loadInfoRay[y].num_lives;
+    sprite_ind_1 = ((s32) num_lives / 10) + 28;
+    sprite_ind_2 = (num_lives % 10) + 28;
+    /* TODO: macro for y? */
+    display_sprite(&div_obj, 27, x, (debut_options + y * (ecarty + 23) - 23), 0);
+    x += div_obj.sprites[27].width;
+    display_sprite(&div_obj, sprite_ind_1, x, (debut_options + y * (ecarty + 23)) - 23, 0);
+    x += div_obj.sprites[sprite_ind_1].width;
+    display_sprite(&div_obj, sprite_ind_2, x, (debut_options + (y * (ecarty + 23))) - 23, 0);
+    x = x + div_obj.sprites[28].width + 10;
+
+    sprite_ind_1 = (loadInfoRay[y].num_continues % 10) + 28;
+    display_sprite(loc_mapobj, 57, x, (debut_options + (y * (ecarty + 23))) - 23, 0);
+    x += loc_mapobj->sprites[57].width;
+    display_sprite(&div_obj, sprite_ind_1, x, (debut_options + (y * (ecarty + 23))) - 23, 0);
+    
+    pct = loadInfoRay[y].num_cages * 100 / 102;
+    sprite_ind_1 = ((s16) pct / 100) + 28;
+    sprite_ind_2 = ((s16) pct / 10 % 10) + 28;
+    sprite_ind_3 = ((s16) pct % 10) + 28;
+    x = x + div_obj.sprites[37].width + 10;
+    display_sprite(&div_obj, sprite_ind_1, x, (debut_options + (y * (ecarty + 23))) - 23, 0);
+    x += div_obj.sprites[sprite_ind_1].width;
+    display_sprite(&div_obj, sprite_ind_2, x, (debut_options + (y * (ecarty + 23))) - 23, 0);
+    x += div_obj.sprites[sprite_ind_2].width;
+    display_sprite(&div_obj, sprite_ind_3, x, (debut_options + (y * (ecarty + 23))) - 23, 0);
+    display_text(s__801cef84, (s16) (x + div_obj.sprites[sprite_ind_3].width), debut_options + (y * (ecarty + 23)), 1, (s32) colour);
 }

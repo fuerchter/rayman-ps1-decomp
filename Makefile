@@ -1,7 +1,9 @@
 #TODO:
 #check out -psx patched old-gcc to possibly clean up DO_WORLD_MAP, DETER_WORLD_AND_LEVEL world_index assign
 #skipTestArgs, readTestArgs share issues
-#og psyq 3.0 cc1psx.exe seems to fix div nop swap: DISPLAY_TEXT_FEE (this has an actual swap, some have a missing nop?), DISPLAY_CONTINUE_SPR (others in display_ui?), doMoskitoHit, setBossReachingSpeeds, DO_COMMANDE_PAD
+#og psyq 3.0 cc1psx.exe seems to fix div nop swap:
+#DISPLAY_TEXT_FEE (this has an actual swap, some have a missing nop?)
+#display_time, DISPLAY_SAVE_SPRITES, DISPLAY_CONTINUE_SPR, doMoskitoHit, setBossReachingSpeeds, DO_COMMANDE_PAD
 #missing nop INIT_PASTILLES_SAUVE, Fin_BB_Attaque
 
 #missing_addiu: fake structs don't work for horloge (https://decomp.me/scratch/3YQbc) or cptr_tab (array/structs themselves), or rodata switch/case
