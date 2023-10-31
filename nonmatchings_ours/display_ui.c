@@ -17,8 +17,8 @@ void DISPLAY_TEXT_FEE(void)
   s16 obj_x;
   s16 marg_x;
   
-  DISPLAY_BLACKBOX(0, 0, 320, 20, 0, FALSE);
-  DISPLAY_BLACKBOX(0, 190, 320, 50, 0, FALSE);
+  DISPLAY_BLACKBOX(0, 0, 320, 20, 0, false);
+  DISPLAY_BLACKBOX(0, 190, 320, 50, 0, false);
   txt_fee = display_txt_fee;
   if (txt_fee != 0xff)
   {
@@ -26,7 +26,7 @@ void DISPLAY_TEXT_FEE(void)
     __builtin_memcpy(&ttd, &text_to_display[txt_fee], sizeof(TextToDisplay));
     if (ttd.text[0] != '\0')
     {
-        if (obj->flags & OBJ_ALIVE)
+        if (obj->flags & FLG(OBJ_ALIVE))
         {
             obj->screen_y_pos = 220 - obj->offset_by;
             cen_x = ttd.centered_x_pos;
@@ -52,7 +52,7 @@ void DISPLAY_TEXT_FEE(void)
                 30,
                 18,
                 0,
-                FALSE
+                false
             );
             display2(obj);
         }
@@ -69,10 +69,7 @@ void DISPLAY_TEXT_FEE(void)
   }
 }
 
-/*
-reg swaps
-every local var ever
-*/
+/* matches, but do{}while(0); */
 /* 1A04C 8013E84C -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/display_ui", DisplayJumellesNormal);*/
 
@@ -83,69 +80,71 @@ extern Obj *mapobj;
 
 void DisplayJumellesNormal(void)
 {
-    s32 width_plus;
-    s32 width_plus_2;
+    s32 x_3;
+    s32 x_5;
     s16 temp_s0_8;
     s32 temp_s0_9;
-    s32 height_plus;
-    s32 temp_s1_2;
-    s32 temp_s1_4;
+    s32 y_1;
+    s32 y_2;
+    s32 y_3;
     s32 temp_s1_5;
-    s32 minus_width;
+    s32 x_4;
     s32 temp_s3_2;
-    s32 temp_s4_2;
-    s32 temp_s5;
+    s32 size;
+    s32 x_2;
     Sprite *sprite;
-    s32 temp_s7;
-    u8 temp_s0_7;
-    u8 height;
+    s32 x_1;
+    u8 width_1;
+    s32 height_1;
     u8 width;
-    s16 temp_v0;
-    Sprite *temp_s2;
+    s16 height_2;
+    Sprite *sprites;
     s32 new_var;
 
-    temp_s2 = mapobj[0x18].sprites;
+    sprites = mapobj[24].sprites;
     PS1_PrevPrim = PS1_CurrentDisplay + 0x814;
-    sprite = &temp_s2[1];
-    height = sprite->height;
-    new_var = height + 48;
-    minus_width = 160 - (sprite->width * 2);
-    PS1_DrawColoredSprite(sprite, minus_width, 53, 1);
-    width_plus = minus_width + sprite->width;
-    PS1_DrawColoredSprite(sprite, width_plus, 53, 0);
-    width_plus = width_plus + sprite->width;
-    PS1_DrawColoredSprite(sprite, width_plus, 53, 1);
-    width_plus = width_plus + sprite->width;
-    PS1_DrawColoredSprite(sprite, width_plus, 53, 0);
-    temp_s7 = (minus_width - height) + 5;
-    height_plus = new_var;
-    width_plus = width_plus + sprite->width;
-    PS1_DrawColoredSprite(sprite, temp_s7, height_plus, 4);
-    PS1_DrawColoredSprite(sprite, temp_s7, sprite->width + height_plus, 6);
-    temp_s5 = width_plus - 5;
-    PS1_DrawColoredSprite(sprite, temp_s5, height_plus, 7);
-    new_var = 2;
-    temp_s1_2 = height_plus + sprite->width;
-    PS1_DrawColoredSprite(sprite, temp_s5, temp_s1_2, 5);
-    temp_s4_2 = height - 5;
-    DISPLAY_BLACKBOX(temp_s7, 53, temp_s4_2, temp_s4_2, 0, 0);
-    DISPLAY_BLACKBOX(width_plus, 53, temp_s4_2, temp_s4_2, 0, 0);
-    temp_s1_2 = temp_s1_2 + sprite->width;
-    DISPLAY_BLACKBOX(temp_s7, temp_s1_2, temp_s4_2, temp_s4_2, 0, 0);
-    DISPLAY_BLACKBOX(width_plus, temp_s1_2, temp_s4_2, temp_s4_2, 0, 0);
-    temp_s1_4 = temp_s1_2 - 5;
-    PS1_DrawColoredSprite(sprite, minus_width, temp_s1_4, 3);
-    width_plus_2 = minus_width + sprite->width;
-    PS1_DrawColoredSprite(sprite, width_plus_2, temp_s1_4, 2);
-    width_plus_2 = width_plus_2 + sprite->width;
-    PS1_DrawColoredSprite(sprite, width_plus_2, temp_s1_4, 3);
-    PS1_DrawColoredSprite(sprite, sprite->width + width_plus_2, temp_s1_4, 2);
-    temp_v0 = sprite->height;
-    temp_s0_7 = sprite->width;
-    temp_s0_8 = minus_width - temp_v0;
+
+    sprite = &sprites[1];
+    height_1 = sprite->height;
+    do {
+        x_4 = 0xa0 - (sprite->width * 2);
+        PS1_DrawColoredSprite(sprite, x_4, 53, 1);
+    } while (0);
+    x_3 = x_4 + sprite->width;
+    PS1_DrawColoredSprite(sprite, x_3, 53, 0);
+    x_3 += sprite->width;
+    PS1_DrawColoredSprite(sprite, x_3, 53, 1);
+    x_3 += sprite->width;
+    PS1_DrawColoredSprite(sprite, x_3, 53, 0);
+    x_1 = (x_4 - height_1) + 5;
+    x_3 += sprite->width;
+    y_1 = height_1 + 0x30;
+    PS1_DrawColoredSprite(sprite, x_1, y_1, 4);
+    PS1_DrawColoredSprite(sprite, x_1, sprite->width + y_1, 6);
+    x_2 = x_3 - 5;
+    PS1_DrawColoredSprite(sprite, x_2, y_1, 7);
+    y_2 = y_1 + sprite->width;
+    PS1_DrawColoredSprite(sprite, x_2, y_2, 5);
+    size = height_1 - 5;
+    DISPLAY_BLACKBOX(x_1, 53, size, size, 0, 0);
+    DISPLAY_BLACKBOX(x_3, 53, size, size, 0, 0);
+    y_2 += sprite->width;
+    DISPLAY_BLACKBOX(x_1, y_2, size, size, 0, 0);
+    DISPLAY_BLACKBOX(x_3, y_2, size, size, 0, 0);
+    y_3 = y_2 - 5;
+    PS1_DrawColoredSprite(sprite, x_4, y_3, 3);
+    x_5 = x_4 + sprite->width;
+    PS1_DrawColoredSprite(sprite, x_5, y_3, 2);
+    x_5 += sprite->width;
+    PS1_DrawColoredSprite(sprite, x_5, y_3, 3);
+    PS1_DrawColoredSprite(sprite, sprite->width + x_5, y_3, 2);
+    
+    height_2 = sprite->height;
+    width_1 = sprite->width;
+    temp_s0_8 = x_4 - height_2;
     temp_s3_2 = temp_s0_8;
-    temp_s1_5 = temp_s3_2 + ((temp_v0 + (temp_s0_7 * 2)) * new_var);
-    temp_s0_8 = ((temp_s0_7 + temp_v0) * 2) + 53;
+    temp_s1_5 = temp_s3_2 + ((height_2 + (width_1 * 2)) * 2);
+    temp_s0_8 = ((width_1 + height_2) * 2) + 53;
     DISPLAY_BLACKBOX(0, 0, 0x140, 53, 0, 0);
     DISPLAY_BLACKBOX(0, temp_s0_8 - 0xA, 0x140, 0xFA - temp_s0_8, 0, 0);
     temp_s0_9 = temp_s0_8 - 0x3A;
