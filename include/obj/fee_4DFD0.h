@@ -11,6 +11,7 @@
 
 extern u8 display_txt_fee;
 extern u8 old_txt_fee;
+extern u8 new_txt_fee;
 extern s16 png_or_fee_id;
 
 void wait_for_dialogue_fee(Obj *obj, s16 time);

@@ -13,6 +13,14 @@ typedef struct Credit
     u8 color;
 } Credit;
 
+/* .data */
+extern Credit credits[109];
+
+/**/
 extern u8 You_Win;
+extern u8 display_Vignet;
+extern u8 first_credit;
+extern u8 last_credit;
+extern s16 nb_credits_lines;
 
 #endif

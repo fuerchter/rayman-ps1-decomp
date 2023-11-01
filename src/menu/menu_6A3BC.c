@@ -1,31 +1,5 @@
 #include "menu/menu_6A3BC.h"
 
-/* required! */
-u8 but0pressed();
-u8 but1pressed();
-u8 but2pressed();
-u8 but3pressed();
-
-/* .data */
-extern s32 PS1_Button_Text_Square;
-extern s32 PS1_Button_Text_Cross;
-extern s32 PS1_Button_Text_Triangle;
-extern s32 PS1_Button_Text_Circle;
-
-/* unk */
-extern u8 Etape_History;
-extern u8 fin_continue;
-extern u8 joy_done;
-extern s16 loop_nb_frames;
-extern u8 new_txt_fee;
-extern u8 dans_la_map_monde;
-extern u8 display_Vignet;
-extern u8 first_credit;
-extern u8 last_credit;
-extern s16 nb_credits_lines;
-extern Credit credits[109];
-extern Obj bigray;
-
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_NEW_GAME); /* skipping for now due to WorldInfo.state */
 
 /* 6A5F0 8018EDF0 -O2 -msoft-float */
@@ -520,4 +494,13 @@ void DO_LOADER_ANIM(void)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", SPECIAL_INIT);
+/* 6C6A0 80190EA0 -O2 -msoft-float */
+void SPECIAL_INIT(void)
+{
+    dark_phase = 0;
+    if (ray_on_poelle == true)
+    {
+      PS1_RestoreSauveRayEvts();
+      ray_on_poelle = false;
+    }
+}

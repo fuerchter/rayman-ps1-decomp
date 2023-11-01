@@ -8,10 +8,25 @@
 #include "menu/menu_7F4B4.h"
 #include "world_map_677C0.h"
 #include "victoire.h"
+#include "input_ED20.h"
+#include "vignet.h"
+#include "obj/dark_729F0.h"
+#include "ray/ray_5D190.h"
+#include "obj/fee_4DFD0.h"
 
+/* .data */
+extern s32 PS1_Button_Text_Square;
+extern s32 PS1_Button_Text_Cross;
+extern s32 PS1_Button_Text_Triangle;
+extern s32 PS1_Button_Text_Circle;
+
+/**/
 extern Obj clock_obj;
 extern s16 loop_timing;
 extern u8 nb_continue;
+extern u8 Etape_History;
+extern u8 fin_continue;
+extern Obj bigray;
 
 void INIT_NEW_GAME(void);
 void POINTEUR_BOUTONS_OPTIONS_BIS(void);

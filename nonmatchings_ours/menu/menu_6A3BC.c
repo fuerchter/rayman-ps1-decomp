@@ -237,6 +237,7 @@ void DO_CREDITS(void)
         if (horloge[2] == 0)
         {
             /* have i compared this between m2c/ghidra yet? */
+            /* DISPLAY_TXT_CREDITS seems to have mini version of this? */
             var_a1 = first_credit;
             if (var_a1 <= last_credit)
             {

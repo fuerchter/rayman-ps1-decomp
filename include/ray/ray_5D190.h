@@ -42,6 +42,7 @@ typedef u16 RayMode;
 #define MODE_MORT_DE_RAYMAN_ON_MS 4
 
 extern RaymanEvents RayEvts;
+extern u8 ray_on_poelle;
 extern s16 decalage_en_cours;
 extern s16 remoteRayXToReach;
 extern u8 dead_time;

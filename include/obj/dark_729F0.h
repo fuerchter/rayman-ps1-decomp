@@ -8,10 +8,12 @@ typedef struct VitrauxInfo
     s16 x_pos;
     s16 y_pos;
     u8 obj_id;
-    u8 index; // 0-4
+    u8 index; /* 0-4 */
     u8 field4_0x6;
-    u8 mode; // 0 is inactive, 1 is getting less bright and 2 is getting brighter
-    u16 value; // goes from 100 to 0
+    u8 mode; /* 0 is inactive, 1 is getting less bright and 2 is getting brighter */
+    u16 value; /* goes from 100 to 0 */
 } VitrauxInfo;
+
+extern u8 dark_phase;
 
 #endif

@@ -33,7 +33,7 @@ typedef u32 Input;
 #define INPUT_UNUSED_1A 26
 #define INPUT_READ 255
 
-//TODO: these are also defined in libetc.h
+/* TODO: these are also defined in libetc.h */
 typedef u32 PsxPadButtonStates;
 #define PAD_NONE 0
 #define PAD_L2 1
@@ -52,5 +52,10 @@ typedef u32 PsxPadButtonStates;
 #define PAD_RIGHT 8192
 #define PAD_DOWN 16384
 #define PAD_LEFT 32768
+
+u8 but0pressed();
+u8 but1pressed();
+u8 but2pressed();
+u8 but3pressed();
 
 #endif
