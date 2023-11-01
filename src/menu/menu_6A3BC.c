@@ -258,11 +258,55 @@ void CHEAT_MODE_CONTINUE(void)
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", MAIN_CONTINUE_PRG);
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", FIN_CONTINUE_PRG);
+/* 6B4C4 8018FCC4 -O2 -msoft-float */
+void FIN_CONTINUE_PRG(void)
+{
+  if (loop_timing == 0xff)
+  {
+    fin_du_jeu = true;
+    menuEtape = 0;
+  }
+  else if (loop_timing != -1)
+  {
+    status_bar.num_lives = 3;
+    ray.hit_points = 2;
+    status_bar.max_hp = 2;
+    fin_du_jeu = false;
+    LOAD_VIGNET_GAME();
+  }
+  else
+    menuEtape = 0;
+  xmap = xmapinit;
+  ymap = ymapinit;
+}
 
+/* 6B568 8018FD68 -O2 -msoft-float */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", MAIN_NO_MORE_CONTINUE_PRG);
+#else
+void MAIN_NO_MORE_CONTINUE_PRG(void)
+{
+  u8 flag_set;
+
+  __asm__("nop");
+
+  PROC_EXIT = SelectButPressed() != false;
+  flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10;
+  if (
+    (flag_set && ray.anim_frame == 0) ||
+    (!flag_set && ray.anim_frame == ray.animations[ray.anim_index].frames_count - 1)
+  )
+    if(horloge[ray.eta[ray.main_etat][ray.sub_etat].anim_speed & 0xf] == 0)
+      PROC_EXIT = true;
+
+  if (PROC_EXIT)
+    fin_continue = true;
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_VIGNET);
+
+/* 6B6A0 8018FEA0 -O2 -msoft-float */
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_CREDITS);
 

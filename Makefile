@@ -11,6 +11,7 @@
 #arrays/structs involved in missing_addiu: horloge, block_flags, t_world_info, cptr_tab, D_801C7D20, PS1_AlwaysObjects, text_to_display, atak, SerieDatak
 #standard type involved in missing_addiu: PS1_Setting_StereoEnabled
 
+#for small flags/anim_frame/horloge block example check MAIN_NO_MORE_CONTINUE_PRG
 #when would someone actually have written do{}while(0); ? if(1) i can understand https://github.com/zeldaret/oot/pull/946 https://github.com/simonlindholm/decomp-permuter/issues/2 https://stackoverflow.com/questions/257418/do-while-0-what-is-it-good-for
 #split some boss objs again?
 #block_flags accesses could be cleaned up
