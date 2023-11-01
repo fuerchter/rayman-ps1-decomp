@@ -1,22 +1,29 @@
 #include "menu/menu_6A3BC.h"
 
+/* required! */
+u8 but0pressed();
+u8 but1pressed();
+u8 but2pressed();
+u8 but3pressed();
+
 /* .data */
 extern s32 PS1_Button_Text_Square;
 extern s32 PS1_Button_Text_Cross;
 extern s32 PS1_Button_Text_Triangle;
 extern s32 PS1_Button_Text_Circle;
 
-u8 but0pressed();
-u8 but1pressed();
-u8 but2pressed();
-u8 but3pressed();
-void set_main_and_sub_etat(Obj *obj,u8 main_etat,u8 sub_etat);
-void set_zoom_mode(u8 zoomMode);
-
+/* unk */
 extern u8 Etape_History;
 extern u8 fin_continue;
 extern u8 joy_done;
 extern s16 loop_nb_frames;
+extern u8 new_txt_fee;
+extern u8 dans_la_map_monde;
+extern u8 display_Vignet;
+extern u8 first_credit;
+extern u8 last_credit;
+extern s16 nb_credits_lines;
+extern Credit credits[109];
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_NEW_GAME); /* skipping for now due to WorldInfo.state */
 
@@ -139,7 +146,8 @@ void PS1_DisplayPadButton(s16 button, s16 x, s16 y, u8 font_size)
 }
 
 /* 6A948 8018F148 -O2 -msoft-float */
-/*? set_main_etat(s16 *, ?);
+/*void set_zoom_mode(u8 zoomMode);
+? set_main_etat(s16 *, ?);
 ? set_sub_etat(s16 *, ?);*/
 
 void INIT_CONTINUE(void)
@@ -304,11 +312,108 @@ void MAIN_NO_MORE_CONTINUE_PRG(void)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_VIGNET);
-
 /* 6B6A0 8018FEA0 -O2 -msoft-float */
+#ifndef MISSING_ADDIU
+INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_VIGNET);
+#else
+/*void Deter_Option_Caract(char *param_1,short param_2,uint param_3);
+void start_cd_suspence(void);*/
 
+void INIT_VIGNET(void)
+{
+  s32 base;
+  s32 i;
+
+  __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
+
+  loop_nb_frames = 0;
+  loop_timing = 5;
+  new_txt_fee = 0;
+  INIT_TEXT_TO_DISPLAY();
+  if (You_Win)
+  {
+    INIT_CREDITS();
+    return;
+  }
+
+  switch(num_world)
+  {
+  case 1:
+    __builtin_strcpy(text_to_display[0].text, "/tarayzan gives rayman a magic seed/");
+    __builtin_strcpy(text_to_display[1].text, "/press the ? button to use the seed/");
+    Deter_Option_Caract(text_to_display[1].text,options_jeu.Action, 11);
+    break;
+  case 3:
+    __builtin_strcpy(text_to_display[0].text, "/the musician gives rayman/");
+    __builtin_strcpy(text_to_display[1].text, "/a super helicopter power/");
+    __builtin_strcpy(text_to_display[2].text, "/press the ? button to use it/");
+    __builtin_strcpy(text_to_display[3].text, "/press ? again to go higher/");
+    Deter_Option_Caract(text_to_display[2].text,options_jeu.Jump, 11);
+    Deter_Option_Caract(text_to_display[3].text,options_jeu.Jump, 7);
+    break;
+  case 4:
+    start_cd_suspence();
+    __builtin_strcpy(text_to_display[0].text, "/mr dark kidnaps betilla the fairy/");
+    break;
+  case 5:
+    if (num_level == 3)
+    {
+      __builtin_strcpy(text_to_display[0].text, "/joe offers rayman a firefly /");
+      __builtin_strcpy(text_to_display[1].text, "/to light up the dark/");
+    }
+    if (num_level == 11)
+      __builtin_strcpy(text_to_display[0].text, "/rayman please help me! hurry!/");
+    break;
+  }
+
+  base = 0;
+  i = 0;
+  while (i < 5)
+  {
+    if (text_to_display[base].text[0] != '\0')
+    {
+        text_to_display[base].x_pos = 160;
+        text_to_display[base].y_pos = 203;
+        text_to_display[base].font_size = 2;
+    }
+    if (text_to_display[base + 1].text[0] != '\0')
+    {
+        text_to_display[base + 1].x_pos = 160;
+        text_to_display[base + 1].y_pos = 218;
+        text_to_display[base + 1].font_size = 2;
+    }
+    base += 2;
+    i++;
+  }
+}
+#endif
+
+/* 6BE68 80190668 -O2 -msoft-float */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_CREDITS);
+#else
+/*? SaveGameOnDisk(s16);*/
+
+void INIT_CREDITS(void)
+{
+  s16 i = -1;
+
+  dans_la_map_monde = false;
+  SaveGameOnDisk(fichier_selectionne);
+  first_credit = 0;
+  last_credit = 0;
+  nb_credits_lines = 0;
+  PROC_EXIT = false;
+  display_Vignet = 0;
+  menuEtape = 0;
+  do {
+    i++;
+    credits[i].y_pos = 260;
+  } while (credits[i].cmd != 0xff);
+
+  __asm__("nop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", DO_CREDITS);
 

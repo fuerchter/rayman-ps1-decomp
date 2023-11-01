@@ -7,6 +7,7 @@
 #include "menu/menu_7EEE4.h"
 #include "menu/menu_7F4B4.h"
 #include "world_map_677C0.h"
+#include "victoire.h"
 
 extern Obj clock_obj;
 extern s16 loop_timing;
