@@ -24,6 +24,7 @@ extern u8 first_credit;
 extern u8 last_credit;
 extern s16 nb_credits_lines;
 extern Credit credits[109];
+extern Obj bigray;
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_NEW_GAME); /* skipping for now due to WorldInfo.state */
 
@@ -417,8 +418,106 @@ void INIT_CREDITS(void)
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", DO_CREDITS);
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_LOADER_ANIM);
+/* 6C198 80190998 -O2 -msoft-float */
+void INIT_LOADER_ANIM(void)
+{
+  bigray.offset_bx = 200;
+  bigray.offset_by = 240;
+  bigray.screen_x_pos = 120;
+  bigray.screen_y_pos = -32;
+  bigray.main_etat = 1;
+  bigray.sub_etat = 0;
+  bigray.flags &= ~FLG(OBJ_FLIP_X);
+  bigray.cmd = GO_LEFT;
+  bigray.flags &= ~FLG(OBJ_FLIP_X);
+}
 
+/* 6C210 80190A10 -O2 -msoft-float */
+#ifndef MISSING_ADDIU
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", DO_LOADER_ANIM);
+#else
+void DO_LOADER_ANIM(void)
+{
+  u8 anim_speed;
+  u8 flag_set;
+
+  __asm__("nop\nnop\nnop");
+
+  anim_speed = bigray.eta[bigray.main_etat][bigray.sub_etat].anim_speed;
+  bigray.speed_x = 0;
+  if (((anim_speed & 0xf) != 0) && (horloge[anim_speed & 0xf] == 0))
+    SET_X_SPEED(&bigray);
+  
+  bigray.screen_x_pos += bigray.speed_x;
+  if (PROC_EXIT == true)
+  {
+    bigray.cmd = GO_SUBSTATE;
+    set_main_and_sub_etat(&bigray, 0, 2);
+    bigray.timer = 2;
+    bigray.screen_x_pos = 144 - bigray.offset_bx;
+    bigray.flags &= ~FLG(OBJ_FLIP_X);
+    PROC_EXIT = false;
+  }
+
+  switch(bigray.cmd)
+  {
+  case GO_LEFT:
+    if ((s32)(bigray.screen_x_pos + bigray.offset_bx) <= -101 )
+    {
+      bigray.cmd += GO_RIGHT;
+      set_main_and_sub_etat(&bigray, 1, 1);
+      bigray.screen_x_pos = -bigray.offset_bx - 60;
+      bigray.flags |= FLG(OBJ_FLIP_X);
+    }
+    break;
+  case GO_RIGHT:
+    if ((s32)(bigray.screen_x_pos + bigray.offset_bx) >= 401)
+    {
+      bigray.cmd += GO_RIGHT;
+      set_main_and_sub_etat(&bigray, 1, 2);
+      bigray.anim_frame = 0;
+      bigray.screen_x_pos = -bigray.offset_bx + 350;
+      bigray.flags &= ~FLG(OBJ_FLIP_X);
+    }
+    break;
+  case GO_WAIT:
+    if (bigray.main_etat == 0 && bigray.sub_etat == 0)
+      bigray.cmd += GO_RIGHT;
+    break;
+  case GO_UP:
+    flag_set = bigray.eta[bigray.main_etat][bigray.sub_etat].flags & 0x10;
+    if (
+      (!flag_set || bigray.anim_frame == 0) &&
+      (flag_set || bigray.anim_frame == bigray.animations[bigray.anim_index].frames_count - 1) &&
+      horloge[bigray.eta[bigray.main_etat][bigray.sub_etat].anim_speed & 0xf] == 0
+    )
+    {
+      bigray.cmd += GO_RIGHT;
+      set_main_and_sub_etat(&bigray, 1, 3);
+      bigray.screen_x_pos = -60 - bigray.offset_bx;
+      bigray.flags |= FLG(OBJ_FLIP_X);
+    }
+    break;
+  case GO_DOWN:
+    if ((s32)(bigray.screen_x_pos + bigray.offset_bx) >= 0x191)
+    {
+      bigray.cmd += GO_RIGHT;
+      set_main_and_sub_etat(&bigray, 0, 1);
+      bigray.screen_x_pos = 144 - bigray.offset_bx;
+      bigray.flags &= ~FLG(OBJ_FLIP_X);
+    }
+    break;
+  case GO_SUBSTATE:
+    if (bigray.main_etat == 0 && bigray.sub_etat == 2)
+    {
+      if (bigray.timer == 0)
+        PROC_EXIT = true;
+      else
+        bigray.timer--;
+    }
+  }
+  DO_ANIM(&bigray);
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", SPECIAL_INIT);

@@ -212,3 +212,84 @@ block_53:
     }
     MAIN_NO_MORE_CONTINUE_PRG();
 }
+
+/*INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", DO_CREDITS);*/
+
+/* 6BF14 80190714 -O2 -msoft-float */
+void INIT_FADE_OUT(void);
+void horloges(void);
+extern u8 D_801F7FF0;
+
+void DO_CREDITS(void)
+{
+    Credit *var_a0;
+    s16 var_s0;
+    s32 temp_v0;
+    s32 var_a1;
+    s16 temp_a0;
+    u8 temp_v1;
+    short saved_reg_s0;
+
+    /*var_s0 = saved_reg_s0;*/
+    if (You_Win != 0)
+    {
+        horloges();
+        if (horloge[2] == 0)
+        {
+            /* have i compared this between m2c/ghidra yet? */
+            var_a1 = first_credit;
+            if (var_a1 <= last_credit)
+            {
+                var_a0 = &credits[var_a1];
+                do
+                {
+                    var_a0->y_pos = credits[first_credit].y_pos - 1;
+                    var_a0 += 1;
+                } while ((s32) &credits[last_credit] >= (s32) var_a0);
+            }
+            nb_credits_lines = nb_credits_lines + 1;
+            temp_v0 = last_credit;
+            temp_a0 = credits[temp_v0].cmd;
+            if (temp_a0 == 0)
+            {
+                temp_v1 = credits[temp_v0].font;
+                switch (temp_v1)
+                {
+                case 0:
+                    var_s0 = 0x0024;
+                    break;
+                case 1:
+                    var_s0 = 0x0017;
+                    break;
+                case 2:
+                    var_s0 = 0x000F;
+                    break;
+                }
+            }
+            else if (temp_a0 == 0xFF)
+            {
+                var_s0 = 0x00A0;
+            }
+            else if ((s32) temp_a0 >= 0x65)
+            {
+                var_s0 = temp_a0 - 0x55;
+            }
+            else
+            {
+                var_s0 = temp_a0 * 0xF;
+            }
+            if ((nb_credits_lines >= var_s0) && ((nb_credits_lines = 0, (temp_a0 == 0xFF)) || (last_credit += 1, (((u8) last_credit % 19U) == 0))))
+            {
+                INIT_FADE_OUT();
+            }
+            if (credits[first_credit].y_pos < -4)
+            {
+                first_credit += 1;
+            }
+            if ((D_801F7FF0 == 1) && (fade == 0))
+            {
+                PROC_EXIT = 1;
+            }
+        }
+    }
+}
