@@ -10,6 +10,13 @@ u8 but0pressed();
 u8 but1pressed();
 u8 but2pressed();
 u8 but3pressed();
+void set_main_and_sub_etat(Obj *obj,u8 main_etat,u8 sub_etat);
+void set_zoom_mode(u8 zoomMode);
+
+extern u8 Etape_History;
+extern u8 fin_continue;
+extern u8 joy_done;
+extern s16 loop_nb_frames;
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_NEW_GAME); /* skipping for now due to WorldInfo.state */
 
@@ -131,9 +138,123 @@ void PS1_DisplayPadButton(s16 button, s16 x, s16 y, u8 font_size)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_CONTINUE);
+/* 6A948 8018F148 -O2 -msoft-float */
+/*? set_main_etat(s16 *, ?);
+? set_sub_etat(s16 *, ?);*/
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", CHEAT_MODE_CONTINUE);
+void INIT_CONTINUE(void)
+{
+  Obj *mapobj_1;
+  Obj *mapobj_2;
+  Obj *mapobj_3;
+  
+  loop_nb_frames = 0;
+  loop_timing = 10;
+  fin_continue = 0;
+  compteur = 0;
+  joy_done = 0;
+  Etape_History = 0;
+  ray.y_pos = 135 - ray.offset_by;
+  ray.anim_frame = 0;
+  if (nb_continue != 0)
+  {
+    set_main_and_sub_etat(&ray, 3, 24);
+    ray.x_pos = 225 - ray.offset_bx;
+  }
+  else
+  {
+    ray.x_pos = 80 - ray.offset_bx;
+    set_main_etat(&ray, 3);
+    loop_timing = 0xff;
+    if (horloge[20] >= 11)
+      set_sub_etat(&ray, 51);
+    else
+      set_sub_etat(&ray, 50);
+  }
+
+  ray.flags &= ~FLG(OBJ_FLIP_X);
+  ray.speed_x = 0;
+  ray.speed_y = 0;
+  set_zoom_mode(0);
+  clock_obj.x_pos = 80;
+  clock_obj.y_pos = 130;
+  set_main_and_sub_etat(&clock_obj, 0, 0);
+  mapobj_1 = mapobj;
+  mapobj_1->offset_bx = 80;
+  mapobj_1->screen_x_pos = 120;
+  mapobj_1->screen_y_pos = 110;
+  mapobj_2 = mapobj;
+  mapobj_2->offset_by = 64;
+  mapobj_3 = mapobj;
+  mapobj_3->timer = 0;
+  mapobj_3->flags &= ~FLG(OBJ_ALIVE);
+  set_main_and_sub_etat(mapobj, 5, 20);
+  xmapinit = xmap;
+  ymapinit = ymap;
+  xmap = 0;
+  ymap = 0;
+  PROC_EXIT = false;
+}
+
+/* 6AB48 8018F348 -O2 -msoft-float */
+void CHEAT_MODE_CONTINUE(void)
+{
+    if (joy_done == 0 && ++compteur >= 6)
+      compteur = 0;
+
+    if (compteur == 0)
+    {
+      if(upjoy(0))
+        joy_done = 1;
+      else if(downjoy(0))
+        joy_done = 2;
+      else if(rightjoy(0))
+        joy_done = 3;
+      else if(leftjoy(0))
+        joy_done = 4;
+    }
+
+    switch (Etape_History)
+    {
+    case 0:
+        if ((joy_done == 1) && (nb_continue < 4))
+        {
+          joy_done = 0;
+          Etape_History++;
+          return;
+        }
+        if (joy_done != 0)
+          Etape_History = 0;
+        break;
+    case 1:
+        if (joy_done == 2) {
+          joy_done = 0;
+          Etape_History++;
+          return;
+        }
+        if (joy_done != 0)
+          Etape_History = 0;
+        break;
+    case 2:
+        if (joy_done == 3)
+        {
+          joy_done = 0;
+          Etape_History++;
+          return;
+        }
+        if (joy_done != 0)
+          Etape_History = 0;
+        break;
+    case 3:
+        if (joy_done == 4) {
+          nb_continue = 10;
+          return;
+        }
+        if (joy_done != 0)
+          Etape_History = 0;
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", MAIN_CONTINUE_PRG);
 
