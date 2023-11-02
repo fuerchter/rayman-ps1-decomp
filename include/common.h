@@ -4,6 +4,8 @@
 #include "psyq_3_0/SYS/TYPES.H"
 #include "include_asm.h"
 
+/*#define NONMATCHINGS*/
+
 /*#define MISSING_ADDIU*/
 
 #define FLG(x) (1 << x)
