@@ -1,7 +1,7 @@
 #include "obj/bag1.h"
 
 /* 4C2C8 80170AC8 -O2 */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/bag1", DO_BAG1_COMMAND);
 #else
 /*? DO_ONE_CMD();

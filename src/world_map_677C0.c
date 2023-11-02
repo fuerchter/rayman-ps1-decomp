@@ -9,7 +9,7 @@ void CalcObjPosInWorldMap(Obj *obj) {
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DoScrollInWorldMap);
 
 /* 678DC 8018C0DC -O2 */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_DisplayPts);
 #else
 void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y)
@@ -55,7 +55,7 @@ INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_DisplayPlateau);
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_MEDAILLONS);
 
 /* 68220 8018CA20 -O2 */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_LEVEL_STAGE_NAME);
 #else
 /*? INIT_TXT_BOX(s8 *);
@@ -66,7 +66,7 @@ void INIT_LEVEL_STAGE_NAME(void)
   if (t_world_info[num_world_choice].world == 7 && NBRE_SAVE == 0)
     PS1_GenerateAndDisplayPassword();
   else
-    __builtin_memcpy(&text_to_display[0], t_world_info[num_world_choice].level_name, sizeof(text_to_display->text));
+    __builtin_memcpy(&text_to_display[0].text, t_world_info[num_world_choice].level_name, sizeof(text_to_display[0].text));
 
   text_to_display[0].font_size = 2;
   text_to_display[0].x_pos = 450;
@@ -103,7 +103,7 @@ void INIT_STAGE_NAME(void) {
 }
 
 /* 68D34 8018D534 -O2 */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", CHANGE_STAGE_NAMES);
 #else
 /*? INIT_LEVEL_STAGE_NAME(s32, s32, ? *, void *);
@@ -124,7 +124,7 @@ void CHANGE_STAGE_NAMES(void)
 #endif
 
 /* 68EF4 8018D6F4 -O2 */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_CardDisplayPassword);
 #else
 void PS1_CardDisplayPassword(void)
@@ -220,7 +220,7 @@ INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_CHEMIN);
 
 /* https://decomp.me/scratch/6ivxi PSYQ3.3 (gcc 2.6.0 + aspsx 2.21) -O1 */
 /* 698B4 8018E0B4 -O2 */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_UP);
 #else
 void RESPOND_TO_UP(void)
@@ -232,7 +232,7 @@ void RESPOND_TO_UP(void)
 #endif
 
 /* 698F0 8018E0F0 -O2 */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_DOWN);
 #else
 void RESPOND_TO_DOWN(void)
@@ -244,7 +244,7 @@ void RESPOND_TO_DOWN(void)
 #endif
 
 /* 6992C 8018E12C -O2 */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_RIGHT);
 #else
 void RESPOND_TO_RIGHT(void)
@@ -256,7 +256,7 @@ void RESPOND_TO_RIGHT(void)
 #endif
 
 /* 69968 8018E168 -O2 */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_LEFT);
 #else
 void RESPOND_TO_LEFT(void)
@@ -293,7 +293,7 @@ void DO_CHEMIN(void)
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_PASTILLES_SAUVE);
 
 /* 6A130 8018E930 -O2 */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PASTILLES_SAUVE_SAVED);
 #else
 /*? INIT_PASTILLES_SAUVE();*/

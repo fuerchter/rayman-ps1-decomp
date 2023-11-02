@@ -66,7 +66,7 @@ void special_pour_liv(Obj *obj)
 }
 
 /* 49844 8016E044 -O2 */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/command_494FC", DO_ONE_CMD);
 #else
 /*? CALC_MOV_ON_BLOC(Obj *);

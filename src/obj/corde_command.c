@@ -36,7 +36,7 @@ void DO_PAC_COMMAND(Obj *obj)
 }
 
 /* 4FEF8 801746F8 -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/corde_command", DO_CFUMEE_COMMAND);
 #else
 void DO_CFUMEE_COMMAND(Obj *obj)

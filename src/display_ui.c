@@ -7,7 +7,7 @@ mips-linux-gnu-ld: build/src/display_ui.c.o: in function `display_time':
 src/display_ui.c:(.text+0x11d0): undefined reference to `D_801CEF98'
 mips-linux-gnu-ld: src/display_ui.c:(.text+0x11d4): undefined reference to `D_801CEF98'
 */
-/*u8 PS1_star_spr[8] = {0x15, 0x16, 0x17, 0x18, 0x15, 0x19, 0x16, 0x15};
+/*u8 PS1_star_spr[] = {0x15, 0x16, 0x17, 0x18, 0x15, 0x19, 0x16, 0x15};
 u8 s__801cef84[] = "%";
 u8 PS1_TingsToGet_Col = 1;
 u8 PS1_TingsToGet_ColAdd = 1;
@@ -27,11 +27,14 @@ void CLRSCR(void)
     ClearImage(PS1_CurrentDisplay + 0x14, 0, 0, 0);
 }
 
+INCLUDE_ASM("asm/nonmatchings/display_ui", display_etoile);
+
 /* 19A6C 8013E26C -O2 */
 /*? PS1_DrawSprite(Sprite *, s16, s16, ?);
 u8 myRand(?, ? *);*/
 
-void display_etoile(s32 in_x, s32 in_y)
+/* TODO: memcpy doesn't match while .data is used */
+/*void display_etoile(s32 in_x, s32 in_y)
 {
     u8 loc_star_spr[8];
     GrpStar *temp;
@@ -41,6 +44,7 @@ void display_etoile(s32 in_x, s32 in_y)
     s16 draw_y;
     u8 sprite;
 
+    
     __builtin_memcpy(&loc_star_spr, &PS1_star_spr, sizeof(PS1_star_spr));
     
     temp = &grp_stars[current_star];
@@ -71,7 +75,7 @@ void display_etoile(s32 in_x, s32 in_y)
     }
     if (current_star < 30)
         current_star++;
-}
+}*/
 
 /* 19C08 8013E408
 /*? Bresenham(void (*)(s32, s32), s16, s16, s16, s32, s32, s32);
@@ -119,7 +123,60 @@ void PS1_DisplayWorldMapBg1(s16 x1, s16 y1, s16 x2, s16 y2)
     PS1_DisplayWorldMapBg2(x1, y1, x2, y2, 130, 320 - x2);
 }
 
+/* 1A388 8013EB88 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_SAVE_SPRITES);
+#else
+/*? display_sprite(Obj *, s16, s16, s32, s32);
+? display_text(u8 *, s16, s32, ?, s32);
+extern ? D_801E4D62;
+extern ? D_801E4D63;*/
+
+void DISPLAY_SAVE_SPRITES(s16 x, s16 y)
+{
+    Obj *loc_mapobj;
+    u8 num_lives;
+    s32 pct;
+    s16 sprite_ind_1;
+    s16 sprite_ind_2;
+    s16 sprite_ind_3;
+
+    inline s32 calc_y(s16 y) /* TODO: needs different solution */
+    {
+        return (debut_options + y * (ecarty + 23) - 23);
+    }
+
+    loc_mapobj = mapobj;
+    num_lives = loadInfoRay[y].num_lives;
+    sprite_ind_1 = ((s32) num_lives / 10) + 28;
+    sprite_ind_2 = (num_lives % 10) + 28;
+    display_sprite(&div_obj, 27, x, calc_y(y), 0);
+    x += div_obj.sprites[27].width;
+    display_sprite(&div_obj, sprite_ind_1, x, calc_y(y), 0);
+    x += div_obj.sprites[sprite_ind_1].width;
+    display_sprite(&div_obj, sprite_ind_2, x, calc_y(y), 0);
+    x = x + div_obj.sprites[28].width + 10;
+
+    sprite_ind_1 = (loadInfoRay[y].num_continues % 10) + 28;
+    display_sprite(loc_mapobj, 57, x, calc_y(y), 0);
+    x += loc_mapobj->sprites[57].width;
+    display_sprite(&div_obj, sprite_ind_1, x, calc_y(y), 0);
+    
+    pct = loadInfoRay[y].num_cages * 100 / 102;
+    sprite_ind_1 = ((s16) pct / 100) + 28;
+    sprite_ind_2 = ((s16) pct / 10 % 10) + 28;
+    sprite_ind_3 = ((s16) pct % 10) + 28;
+    x = x + div_obj.sprites[37].width + 10;
+    display_sprite(&div_obj, sprite_ind_1, x, calc_y(y), 0);
+    x += div_obj.sprites[sprite_ind_1].width;
+    display_sprite(&div_obj, sprite_ind_2, x, calc_y(y), 0);
+    x += div_obj.sprites[sprite_ind_2].width;
+    display_sprite(&div_obj, sprite_ind_3, x, calc_y(y), 0);
+    display_text(s__801cef84, (s16) (x + div_obj.sprites[sprite_ind_3].width), debut_options + (y * (ecarty + 23)), 1, colour);
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 /* 1A8C0 8013F0C0 -O2 */
 /*? display_sprite(Obj *, ?, s32, s32, s32);*/
@@ -137,7 +194,69 @@ void DISPLAY_SAVE_POING(void)
     display_sprite(obj, 1, 10, debut_options + (fichier_a_copier - 1) * (ecarty + 23) - 23, 1);
 }
 
+/* 1A9D8 8013F1D8 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/display_ui", display_time);
+#else
+/*? PS1_sprintf(u8, ? *, ?, s32 *);
+? display_sprite(Obj *, s32, ?, ?, s32);
+? display_text(u16 *, ?, ?, ?, s32);
+? strcat(u16 *, ? *);*/
+
+void display_time(s16 time)
+{
+    Obj *sbar_obj;
+    u8 text[24];
+    u8 nb_wiz_text[8];
+    s32 time_div;
+    u32 col;
+    u32 col_add;
+
+    sbar_obj = &level.objects[sbar_obj_id];
+    if (time != -2)
+    {
+        if (D_801CF018 == -1)
+        {
+            display_text(&s_time_801cef88, 268, 202, 2, 7);
+            time_div = time / 60;
+            display_sprite(sbar_obj, (time_div / 10) + 28, 270, 204, 0);
+            display_sprite(sbar_obj, (time_div % 10) + 28, 285, 204, 0);
+        }
+        if (map_time < 0x65)
+        {
+            __builtin_memcpy(text, s__801cef90, sizeof(s__801cef90));
+            ray.flags &= ~FLG(OBJ_ACTIVE);
+            PS1_sprintf(nb_wiz, &nb_wiz_text, 0xA);
+            strcat(&text, &nb_wiz_text);
+            strcat(&text, " tings to get/");
+            if (horloge[8] < 4)
+            {
+                col = PS1_TingsToGet_Col;
+                col_add = PS1_TingsToGet_ColAdd;
+                PS1_TingsToGet_Col = col + col_add;
+                if (PS1_TingsToGet_Col >= 6)
+                {
+                    PS1_TingsToGet_ColAdd *= -1;
+                    PS1_TingsToGet_Col = 5;
+                }
+                else if (PS1_TingsToGet_Col == 0)
+                {
+                    PS1_TingsToGet_ColAdd *= -1;
+                    PS1_TingsToGet_Col = 1;
+                }
+
+                if (D_801CF018 == -1)
+                    display_text(&text, 160, 120, 2, PS1_TingsToGet_Col);
+            }
+        }
+        else if (map_time - 121 < 40U)
+        {
+            __builtin_memcpy(text, s_go__801cef94, sizeof(s_go__801cef94));
+            display_text(&text, 160, 120, 0, 8);
+        }
+    }
+}
+#endif
 
 /* 1AC60 8013F460 -O2 */
 void PS1_LoadPts(void)
@@ -230,7 +349,35 @@ void PS1_LoadPts(void)
   DrawSync(0);
 }
 
+/* modulo but no tge... */
+/* 1AFFC 8013F7FC -O2 */
+#ifndef NONMATCHINGS /* div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_CONTINUE_SPR);
+#else
+/*? display2(Obj *);
+? display_sprite(Obj *, s32, ?, ?, s32);
+? display_text(? *, ?, ?, ?, s32);*/
+
+void DISPLAY_CONTINUE_SPR(void)
+{
+    u32 dig_0;
+    u32 dig_1;
+
+    dig_0 = nb_continue / 10;
+    dig_1 = nb_continue % 10;
+    if (loop_timing == 0x00FF)
+        display_text(&s_the_end_801cef9c, 177, 182, 2, 0);
+    else
+    {
+        display_sprite(&div_obj, dig_0 + 28, 184, 162, 0);
+        display_sprite(&div_obj, dig_1 + 28, 199, 162, 0);
+    }
+    display2(&ray);
+    display2(&clock_obj);
+    if (mapobj->flags & FLG(OBJ_ALIVE))
+        display2(mapobj);
+}
+#endif
 
 /* 1B0F8 8013F8F8 -O2 */
 /*? display_sprite(Obj *, ?, ?, s32, s32);*/

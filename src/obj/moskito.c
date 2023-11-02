@@ -255,4 +255,59 @@ void changeMoskitoPhase(Obj *obj)
     }
 }
 
+/* 7151C 80195D1C -O2 -msoft-float */
+#define NONMATCHINGS
+#ifndef NONMATCHINGS /* div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/obj/moskito", doMoskitoHit);
+#else
+/*? obj_hurt();*/
+
+void doMoskitoHit(Obj *obj)
+{
+    s32 act_next;
+    s32 act_18;
+    u8 hp;
+    s32 dividend;
+    s32 divisor;
+
+    if (bossSafeTimer == 0)
+    {
+        poing.damage = 1;
+        obj_hurt(obj);
+        bossSafeTimer = 0xFF;
+        obj->flags |= FLG(OBJ_FLAG_0);
+        changeMoskitoPhase(obj);
+        act_next = tellNextMoskitoAction(obj);
+        act_18 = 18;
+        if (
+            act_next >= 7 &&
+            (act_next <= 10 || (act_next <= 21 && act_next >= act_18))
+        )
+            mstMustLeaveScreenToProceed = true;
+
+        hp = obj->hit_points;
+        if (hp != 0)
+        {
+            dividend = obj->init_hit_points * 0x1000;
+            divisor = hp + obj->init_hit_points;
+            bossSpeedFactor = (dividend / divisor) + 0x4000;
+
+            if (bossEncounter != 8)
+            {
+                saveBossEncounter = bossEncounter;
+                saveCurrentBossAction = currentBossAction;
+                bossEncounter = 8;
+            }
+        }
+        else
+        {
+            bossEncounter = 9;
+            bossSpeedFactor = 0x4000;
+        }
+        currentBossAction = 0;
+        currentBossActionIsOver = true;
+    }
+
+    __asm__("nop");
+}
+#endif

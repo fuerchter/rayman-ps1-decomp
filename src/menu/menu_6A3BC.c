@@ -5,13 +5,13 @@ INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_NEW_GAME); /* skipping for 
 /* 6A5F0 8018EDF0 -O2 -msoft-float */
 void POINTEUR_BOUTONS_OPTIONS_BIS(void)
 {
-  u8 (*but0)() = &but0pressed;
+  s32 (*but0)() = &but0pressed;
   s32 val0 = 0;
-  u8 (*but1)() = &but1pressed;
+  s32 (*but1)() = &but1pressed;
   s32 val1 = 0;
-  u8 (*but2)() = &but2pressed;
+  s32 (*but2)() = &but2pressed;
   s32 val2 = 0;
-  u8 (*but3)() = &but3pressed;
+  s32 (*but3)() = &but3pressed;
   s32 val3 = 0;
 
   switch (options_jeu.Jump)
@@ -264,7 +264,7 @@ void FIN_CONTINUE_PRG(void)
 }
 
 /* 6B568 8018FD68 -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", MAIN_NO_MORE_CONTINUE_PRG);
 #else
 void MAIN_NO_MORE_CONTINUE_PRG(void)
@@ -288,7 +288,7 @@ void MAIN_NO_MORE_CONTINUE_PRG(void)
 #endif
 
 /* 6B6A0 8018FEA0 -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_VIGNET);
 #else
 /*void Deter_Option_Caract(char *param_1,short param_2,uint param_3);
@@ -364,7 +364,7 @@ void INIT_VIGNET(void)
 #endif
 
 /* 6BE68 80190668 -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_CREDITS);
 #else
 /*? SaveGameOnDisk(s16);*/
@@ -407,7 +407,7 @@ void INIT_LOADER_ANIM(void)
 }
 
 /* 6C210 80190A10 -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", DO_LOADER_ANIM);
 #else
 void DO_LOADER_ANIM(void)

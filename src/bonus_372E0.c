@@ -50,7 +50,7 @@ void DO_WIZARD(Obj *obj)
 
 /* TODO: inserting nop caused reg swap */
 /* 374A8 8015BCA8 -O2 */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/bonus_372E0", get_next_bonus_level);
 #else
 INCLUDE_ASM("asm/nonmatchings/bonus_372E0", get_next_bonus_level);

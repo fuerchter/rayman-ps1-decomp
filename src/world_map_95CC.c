@@ -12,9 +12,6 @@ s32 leftjoy(?);
 ? readinput();
 s32 rightjoy(?);*/
 
-s32 but0pressed(s32);
-s32 but1pressed(s32);
-
 s32 select_level_prg(void)
 {
     u8 num[10];

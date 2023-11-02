@@ -339,7 +339,7 @@ INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_TEST);
 /* m2c = 4285, ghidra = 9870 */
 
 /* 57528 8017BD28 -O2 */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/command_56AF0", readOneCommand);
 #else
 u8 readOneCommand(Obj *obj)
@@ -353,7 +353,7 @@ u8 readOneCommand(Obj *obj)
 #endif
 
 /* 57598 8017BD98 -O2 */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/command_56AF0", skipOneCommand);
 #else
 u8 skipOneCommand(Obj *obj)
@@ -367,7 +367,7 @@ u8 skipOneCommand(Obj *obj)
 #endif
 
 /* 57608 8017BE08 -O2 */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/command_56AF0", GET_OBJ_CMD);
 #else
 void GET_OBJ_CMD(Obj *obj)

@@ -53,9 +53,9 @@ typedef u32 PsxPadButtonStates;
 #define PAD_DOWN 16384
 #define PAD_LEFT 32768
 
-u8 but0pressed();
-u8 but1pressed();
-u8 but2pressed();
-u8 but3pressed();
+s32 but0pressed();
+s32 but1pressed();
+s32 but2pressed();
+s32 but3pressed();
 
 #endif

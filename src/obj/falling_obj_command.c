@@ -1,7 +1,7 @@
 #include "obj/falling_obj_command.h"
 
 /* 5088C 8017508C -O2 */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/falling_obj_command", move_fruit_in_water);
 #else
 void move_fruit_in_water(Obj *obj)

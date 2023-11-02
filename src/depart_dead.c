@@ -11,7 +11,7 @@ extern u8 D_801E4C20;
 ? PS1_PlaySnd(s16, ?);
 ? load_world(s16);*/
 
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/depart_dead", DEPART_WORLD);
 #else
 void DEPART_WORLD(void)
@@ -100,7 +100,7 @@ void DEPART_DEAD_LOOP(void)
 }
 
 /* 7BABC 801A02BC -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/depart_dead", FIN_DEAD_LOOP);
 #else
 void FIN_DEAD_LOOP(void)

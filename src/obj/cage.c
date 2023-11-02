@@ -7,7 +7,7 @@ void DO_CAGE2(Obj *obj)
 }
 
 /* 3CF18 80161718 -O2*/
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/cage", DO_CAGE);
 #else
 void DO_CAGE(Obj *obj)

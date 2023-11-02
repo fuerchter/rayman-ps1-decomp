@@ -1,4 +1,3 @@
-D_801F9A38 = 0x801F9A38;
 D_8005866C = 0x8005866C;
 PS1_MsAnimIndex = 0x801cf0bc;
 DemoRecordWorld = 0x801c435c;

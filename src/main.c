@@ -1,7 +1,7 @@
 #include "main.h"
 
 /* B438 8012FC38 -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/main", main);
 #else
 /* TODO: still to figure out */

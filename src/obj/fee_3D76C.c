@@ -1,7 +1,7 @@
 #include "obj/fee_3D76C.h"
 
 /* 3D76C 80161F6C -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/fee_3D76C", INIT_TXT_FEE);
 #else
 /*? INIT_TXT_BOX(u8 *);*/

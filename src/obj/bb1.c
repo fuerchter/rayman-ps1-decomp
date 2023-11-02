@@ -116,7 +116,7 @@ INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateDog);
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateTir);
 
 /* 58644 8017CE44 -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", CreateFirstBBL);
 #else
 void CreateFirstBBL(void)
@@ -203,7 +203,7 @@ void Cree_BBL(Obj *obj)
 }
 
 /* 58F54 8017D754 -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", BB_Attaque);
 #else
 void BB_Attaque(Obj *obj)
@@ -361,7 +361,7 @@ void DO_BBMONT2_ATTER(Obj *obj)
 }
 
 /* 5B568 8017FD68 -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT3_COMMAND);
 #else 
 /*? CALC_MOV_ON_BLOC(Obj *);
@@ -497,7 +497,7 @@ void DO_BBMONT3_ATTER(Obj *obj)
 }
 
 /* 5B984 80180184 -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT4_COMMAND);
 #else
 /*? set_sub_etat(Obj *, ?);*/

@@ -33,7 +33,7 @@ void prepareNewMoskitoAttack(Obj *obj);
 Obj * allocateMoskitoFruit(Obj *param_1);
 void moskitoDropFruitOnRay(Obj *param_1);
 void doMoskitoCommand(Obj *obj);
-u8 tellNextMoskitoAction(void);
+u8 tellNextMoskitoAction(Obj *obj);
 void changeMoskitoPhase(Obj *obj);
 void doMoskitoHit(Obj *obj);
 

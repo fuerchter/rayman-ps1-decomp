@@ -13,7 +13,7 @@ void wait_for_dialogue_fee(Obj *obj, s16 time)
 }
 
 /* 4E020 80172820 -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/fee_4DFD0", DO_FEE_ETAPE);
 #else
 /*? skipToLabel(Obj *, ?, ?);*/

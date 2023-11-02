@@ -6,8 +6,6 @@
 
 /*#define NONMATCHINGS*/
 
-/*#define MISSING_ADDIU*/
-
 #define FLG(x) (1 << x)
 
 #define true 1

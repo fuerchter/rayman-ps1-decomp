@@ -158,7 +158,7 @@ void DO_EXPLOSE_NOTE2(Obj *obj)
 }
 
 /* 50F40 80175740 -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_NOTE_CMD);
 #else
 /*? PlaySnd(?, s16, s16);
@@ -455,7 +455,7 @@ void DO_NOTE_TOUCHEE(Obj *obj)
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_NOTE_REBOND);
 
 /* 51828 80176028 -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", allocateNote);
 #else
 /*? calc_obj_pos(Obj *, s32);
@@ -514,7 +514,7 @@ void allocateNote(Obj *obj)
 #endif
 
 /* 51A30 80176230 -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", PrepareAtak);
 #else
 u8 PrepareAtak(void)
@@ -652,7 +652,7 @@ void DO_SAXO_ATTER(Obj *obj)
 }
 
 /* 52C28 80177428 -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO2_COMMAND);
 #else
 /*? CALC_MOV_ON_BLOC(Obj *, s16, s32);
@@ -891,7 +891,7 @@ void DO_SAXO_MARCHE(s16 hp)
 }
 
 /* 5345C 80177C5C -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO3_COMMAND);
 #else
 /*? GET_SPRITE_POS(?, u16 *, u16 *, u16 *, ? *);
