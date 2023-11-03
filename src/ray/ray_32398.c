@@ -153,9 +153,78 @@ void INIT_RAY(u8 new_level)
   calc_btyp(&ray);
 }
 
+/* 32898 80157098 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_32398", is_icy_pente);
+#else
+s16 is_icy_pente(u8 block)
+{
+  u8 res;
 
+  __asm__("nop");
+
+  res = 0;
+  if (block_flags[block] >> BLOCK_SLOPE & 1)
+    res = block_flags[block] >> BLOCK_SLIPPERY & 1;
+  return res;
+}
+#endif
+
+/* 328D0 801570D0 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_32398", STOPPE_RAY_EN_XY);
+#else
+void STOPPE_RAY_EN_XY(void)
+{
+  s16 x;
+  s16 y;
+  u8 btyp_1;
+  u8 btyp_2;
+  u8 btyp_3;
+  u8 btyp_4;
+  s16 stop;
+
+  x = ray.offset_bx + ray.x_pos;
+  y = ray.offset_by + ray.y_pos;
+  if (block_flags[ray.btypes[0]] >> BLOCK_SLOPE & 1)
+    y -= 8;
+  
+  x += ray.speed_x * 2;
+  btyp_1 = PS1_BTYPAbsPos(x, y - 8);
+  btyp_2 = PS1_BTYPAbsPos(x, y - 24);
+  btyp_3 = PS1_BTYPAbsPos(x, y - 40);
+  btyp_4 = PS1_BTYPAbsPos(x, y - 56);
+
+  stop = false;
+  if (block_flags[btyp_1] >> BLOCK_FLAG_4 & 1)
+    stop = !is_icy_pente(btyp_2);
+  if (
+    !(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40) &&
+    !(RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+  )
+  {
+    if (
+      (!stop) &&
+      (
+        ((block_flags[btyp_2] >> BLOCK_FLAG_4 & 1) && !is_icy_pente(btyp_3)) ||
+        ((block_flags[btyp_3] >> BLOCK_FLAG_4 & 1) && !is_icy_pente(btyp_4))
+      )
+    )
+      stop = true;
+  }
+
+  if (stop)
+  {
+    ray.speed_x = 0;
+    decalage_en_cours = 0;
+    ray.nb_cmd = 0;
+    Reset_air_speed(true);
+    Reset_air_speed(false);
+  }
+
+  __asm__("nop\nnop\nnop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_32398", RAY_RESPOND_TO_ALL_DIRS);
 

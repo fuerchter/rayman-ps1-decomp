@@ -20,7 +20,7 @@ extern Obj raytmp;
 
 void INIT_RAY_BEGIN(void);
 void INIT_RAY(u8 new_level);
-u8 is_icy_pente(u32 param_1);
+s16 is_icy_pente(u8 block);
 void STOPPE_RAY_EN_XY(void);
 void RAY_RESPOND_TO_ALL_DIRS(void);
 void DO_RAYMAN(void);
