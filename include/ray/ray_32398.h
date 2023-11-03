@@ -12,6 +12,9 @@
 #include "save.h"
 #include "obj/corde.h"
 #include "collision/collision.h"
+#include "continue.h"
+#include "main_moteur.h"
+#include "obj/eau.h"
 
 /* .data */
 extern u8 joy_done;
@@ -19,6 +22,9 @@ extern u8 joy_done;
 /**/
 extern Obj ray;
 extern Obj raytmp;
+extern u8 PS1_ShoulderL;
+extern u8 PS1_ShoulderR;
+extern u8 RAY_MODE_SPEED;
 
 void INIT_RAY_BEGIN(void);
 void INIT_RAY(u8 new_level);

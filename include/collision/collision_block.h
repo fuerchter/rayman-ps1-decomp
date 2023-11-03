@@ -53,5 +53,6 @@ extern BlockFlags block_flags[32];
 
 /**/
 extern MapData mp;
+extern u8 ray_last_ground_btyp;
 
 #endif

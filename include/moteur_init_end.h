@@ -6,5 +6,6 @@
 extern s16 bonus_map;
 extern s16 xmapmax;
 extern s16 ymapmax;
+extern Obj rms;
 
 #endif

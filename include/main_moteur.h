@@ -6,4 +6,7 @@
 /* .data */
 extern u8 in_pause;
 
+/**/
+extern u8 gele;
+
 #endif

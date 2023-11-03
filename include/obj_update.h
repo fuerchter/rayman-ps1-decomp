@@ -423,5 +423,6 @@ typedef struct LevelData
 
 extern LevelData level;
 extern s16 id_Cling_1up;
+extern u8 ray_in_fee_zone;
 
 #endif

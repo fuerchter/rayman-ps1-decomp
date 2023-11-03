@@ -17,5 +17,8 @@ extern s16 ray_zdc_x;
 extern s16 ray_zdc_y;
 extern s16 ray_zdc_w;
 extern s16 ray_zdc_h;
+extern u8 in_air_because_hit;
+
+s16 COLL_RAY_PIC(void);
 
 #endif

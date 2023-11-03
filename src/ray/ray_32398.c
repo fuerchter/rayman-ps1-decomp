@@ -1,31 +1,5 @@
 #include "ray/ray_32398.h"
 
-u8 RAY_DEAD(void);
-s16 COLL_RAY_PIC(void);
-
-extern s16 compteur_attente;
-extern u8 fin_dark;
-extern u8 gele;
-extern u8 in_air_because_hit;
-extern u8 no_ray_landing_smoke;
-extern s16 pos_stack[10];
-extern u8 ray_in_fee_zone;
-extern u8 ray_last_ground_btyp;
-extern s16 ray_mode;
-extern u8 ray_pos_in_stack;
-extern u8 ray_se_noie;
-extern u8 ray_stack_is_full;
-extern Obj rms;
-extern SaveState save1;
-extern u8 PS1_ShoulderL;
-extern u8 PS1_ShoulderR;
-extern s16 eau_obj_id;
-extern s16 scroll_y;
-extern Obj *star_ray_der;
-extern Obj *star_ray_dev;
-extern s16 D_801E64B0;
-extern u8 RAY_MODE_SPEED;
-
 /* 32398 80156B98 -O2 -msoft-float */
 void INIT_RAY_BEGIN(void)
 {
@@ -93,7 +67,7 @@ void INIT_RAY(u8 new_level)
   ray.flags |= FLG(OBJ_FLIP_X);
   ray_last_ground_btyp = 1;
   remoteRayXToReach = 33536;
-  ray_stack_is_full = 0;
+  ray_stack_is_full = false;
   ray_pos_in_stack = 0;
   ray_se_noie = false;
   ray_in_fee_zone = false;

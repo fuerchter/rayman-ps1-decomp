@@ -13,5 +13,6 @@ extern u8 scrollLocked;
 extern s16 screen_trembling;
 extern s16 screen_trembling2;
 extern s16 screen_trembling3;
+extern s16 scroll_y; /* maybe with DO_AUTO_SCROLL instead? */
 
 #endif

@@ -39,4 +39,6 @@ typedef struct SaveState
     u8 num_wiz;
 } SaveState;
 
+extern SaveState save1;
+
 #endif
