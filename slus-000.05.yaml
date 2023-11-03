@@ -61,6 +61,8 @@ segments:
       - [0x800, rodata]
       - [0x2FFC, .rodata, display_ui] #801277fc
       - [0x300C, rodata]
+      - [0x3F88, .rodata, obj/mama_pirate] #80128788
+      - [0x403C, rodata]
       - [0x5DA0, .rodata, num_level_36260] #8012A5A0
       - [0x5EC0, .rodata, bonus_372E0] #8012A6C0
       - [0x5ED8, rodata]
@@ -114,7 +116,7 @@ segments:
       - [0x243B8, asm, unknown/243B8] #80148bb8
       - [0x24E10, asm, text_24E10] #80149610
       - [0x2539C, asm, unknown/2539C] #80149B9C
-      - [0x25D4C, asm, obj/mama_pirate] #8014A54C
+      - [0x25D4C, c, obj/mama_pirate] #8014A54C
       - [0x29390, asm, card_clear] #8014db90
       - [0x293C4, asm, timers] #8014DBC4
       - [0x29A18, asm, unknown/29A18] #8014e218
