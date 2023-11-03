@@ -226,7 +226,110 @@ void STOPPE_RAY_EN_XY(void)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_32398", RAY_RESPOND_TO_ALL_DIRS);
+/* 32AF8 801572F8 -O2 -msoft-float */
+/* control flow not great? */
+void RAY_RESPOND_TO_ALL_DIRS(void)
+{
+    if (ray_on_poelle == true)
+    {
+        if (decalage_en_cours == 0 && ray.speed_y == 0)
+        {
+          if (!rightjoy(0) || ray.flags & FLG(OBJ_FLIP_X))
+          {
+            if (leftjoy(0) && ray.flags & FLG(OBJ_FLIP_X))
+              RAY_RESPOND_TO_DIR(0);
+          }
+          else
+            RAY_RESPOND_TO_DIR(1);
+        }
+        else if (decalage_en_cours > 0 && !(ray.flags & FLG(OBJ_FLIP_X)))
+          RAY_RESPOND_TO_DIR(1);
+        else if (decalage_en_cours < 0 && ray.flags & FLG(OBJ_FLIP_X))
+          RAY_RESPOND_TO_DIR(0);
+        
+        if (joy_done == 0)
+        {
+          RAY_RESPOND_TO_NOTHING();
+          return;
+        }
+        else
+        {
+          compteur_attente = 0;
+          return;
+        }
+    }
+
+    if (!(RayEvts.flags1 & (FLG(RAYEVTS1_REVERSE)|FLG(RAYEVTS1_FLAG6))))
+    {
+        if (rightjoy(0) || RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)))
+          RAY_RESPOND_TO_DIR(1);
+        if (leftjoy(0) && !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))))
+          RAY_RESPOND_TO_DIR(0);
+        if (downjoy(0) && joy_done == 0 && !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))))
+        {
+          RAY_RESPOND_TO_DOWN();
+          joy_done++;
+        }
+        if (upjoy(0))
+        {
+          if (joy_done == 0)
+          {
+            if (!(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))))
+            {
+              RAY_RESPOND_TO_UP();
+              joy_done++;
+            }
+          }
+          else
+          {
+            compteur_attente = 0;
+            return;
+          }
+        }
+        if (joy_done != 0)
+        {
+          compteur_attente = 0;
+          return;
+        }
+        if (!(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))))
+        {
+          RAY_RESPOND_TO_NOTHING();
+          return;
+        }
+        else
+        {
+          compteur_attente = 0;
+          return;
+        }
+    }
+    if (rightjoy(0))
+      RAY_RESPOND_TO_DIR(0);
+    if (leftjoy(0))
+      RAY_RESPOND_TO_DIR(1);
+    if (downjoy(0) && joy_done == 0)
+    {
+      RAY_RESPOND_TO_DOWN();
+      joy_done++;
+    }
+    if (upjoy(0))
+    {
+      if (joy_done == 0)
+      {
+        RAY_RESPOND_TO_UP();
+        joy_done++;
+      }
+      else
+      {
+        compteur_attente = 0;
+        return;
+      }
+    }
+
+    if (joy_done == 0)
+      RAY_RESPOND_TO_NOTHING();
+    else
+      compteur_attente = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_32398", DO_RAYMAN);
 
