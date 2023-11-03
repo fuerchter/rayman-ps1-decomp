@@ -1,5 +1,8 @@
 #include "ray/ray_32398.h"
 
+u8 RAY_DEAD(void);
+s16 COLL_RAY_PIC(void);
+
 extern s16 compteur_attente;
 extern u8 fin_dark;
 extern u8 gele;
@@ -21,6 +24,7 @@ extern s16 scroll_y;
 extern Obj *star_ray_der;
 extern Obj *star_ray_dev;
 extern s16 D_801E64B0;
+extern u8 RAY_MODE_SPEED;
 
 /* 32398 80156B98 -O2 -msoft-float */
 void INIT_RAY_BEGIN(void)
@@ -340,6 +344,130 @@ void RAY_RESPOND_TO_ALL_DIRS(void)
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_32398", DO_RAYMAN);
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_32398", DO_RAY_ON_MS);
+/* 339AC 801581AC -O2 -msoft-float */
+void DO_RAY_ON_MS(void)
+{  
+  v_scroll_speed = 0;
+  h_scroll_speed = 0;
+  if (!RAY_DEAD())
+    return;
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_32398", DO_PLACE_RAY);
+  if (++ray.gravity_value_1 > 3)
+    ray.gravity_value_1 = 0;
+  ray.ray_dist = ((s16)(ray.offset_bx + ray.x_pos) >> 4) + ((s16)(ray.offset_by + ray.y_pos) >> 4) * mp.width;
+  if (
+    (s32)(ray.screen_x_pos + ray.offset_bx + 30) < 0 ||
+    (s32)(ray.screen_y_pos + ray.offset_by + 20) < 0 ||
+    290 < ray.screen_x_pos || 200 < ray.screen_y_pos
+  )
+  {
+    ray.hit_points = 0;
+    RAY_HURT();
+  }
+
+  if (
+    ray.iframes_timer == -1 &&
+    ray.eta[ray.main_etat][ray.sub_etat].flags & 8 &&
+    COLL_RAY_PIC()
+  )
+    RAY_HIT(true, null);
+
+  joy_done = 0;
+  calc_obj_pos(&ray);
+  if (ray.field20_0x36 == -1)
+    calc_btyp(&ray);
+
+  if (ray.main_etat != 3 && (ray.main_etat != 6 || ray.sub_etat != 14))
+  {
+    if
+    (
+        options_jeu.Fire0ButtonFunc(options_jeu.field12_0x20) &&
+        ray.sub_etat != 4 && ray.sub_etat != 2 && ray.sub_etat != 8 &&
+        ray.sub_etat != 5 && ray.sub_etat != 3
+    )
+      RAY_RESPOND_TO_FIRE0();
+    
+
+    if (options_jeu.Button3Func(options_jeu.field14_0x24))
+      RAY_RESPOND_TO_BUTTON3();
+    if (options_jeu.Button4Func(options_jeu.field13_0x22))
+      RAY_RESPOND_TO_BUTTON4();
+    if (poing.is_charging)
+    {
+      if (ray.sub_etat == 12)
+        RAY_GROW_FIST();
+      if (!options_jeu.Fire0ButtonFunc(options_jeu.field12_0x20))
+        RAY_THROW_FIST();
+    }
+    if (rightjoy(0))
+      RAY_RESPOND_TO_DIR(1);
+    if (leftjoy(0))
+      RAY_RESPOND_TO_DIR(0);
+    if (downjoy(0))
+    {
+      RAY_RESPOND_TO_DOWN();
+      joy_done++;
+    }
+    if (upjoy(0))
+    {
+      RAY_RESPOND_TO_UP();
+      joy_done++;
+    }
+    if (joy_done == 0)
+      RAY_RESPOND_TO_NOTHING();
+    if (ray.screen_x_pos < -20 && ray.speed_x < 0)
+      ray.speed_x = 0;
+    if (ray.screen_x_pos > 210 && ray.speed_x > 0)
+      ray.speed_x = 0;
+    if (ray.screen_y_pos < 3 && ray.speed_y < 0)
+      ray.speed_y = 0;
+    if ((ray.screen_y_pos + ray.offset_by >= 231) && ray.speed_y > 0)
+      ray.speed_y = 0;
+  }
+  if (ray.speed_y > 0)
+    move_down_ray();
+  else if(ray.speed_y < 0)
+    move_up_ray();
+  if (ray.speed_x < 0)
+    RAY_TO_THE_LEFT();
+  else if (ray.speed_x > 0)
+    RAY_TO_THE_RIGHT();
+  if (ray.flags & FLG(OBJ_ALIVE))
+    DO_ANIM(&ray);
+  
+  GET_RAY_ZDC(&ray, &ray_zdc_x, &ray_zdc_y, &ray_zdc_w, &ray_zdc_h);
+  DO_COLLISIONS();
+}
+
+/* 33F1C 8015871C -O2 -msoft-float */
+void DO_PLACE_RAY(void)
+{
+  h_scroll_speed = 0;
+  v_scroll_speed = 0;
+  ray.speed_x = 0;
+  ray.speed_y = 0;
+
+  if (rightjoy(0))
+    ray.speed_x += RAY_MODE_SPEED;
+  else if (leftjoy(0))
+    ray.speed_x -= RAY_MODE_SPEED;
+
+  if (downjoy(0))
+    ray.speed_y += RAY_MODE_SPEED / 2;
+  else if (upjoy(0))
+    ray.speed_y -= RAY_MODE_SPEED / 2;
+
+  if (ray.speed_y >= 1)
+    move_down_ray();
+  else if (ray.speed_y < 0)
+    move_up_ray();
+
+  calc_obj_pos(&ray);
+  if (ray.speed_x < 0)
+    RAY_TO_THE_LEFT();
+  else if (ray.speed_x > 0)
+    RAY_TO_THE_RIGHT();
+
+  h_scroll_speed = ray.speed_x;
+  v_scroll_speed = ray.speed_y;
+}
