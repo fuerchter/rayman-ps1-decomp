@@ -6,7 +6,7 @@
 
 typedef struct SaveState
 {
-    u16 triggered_objects[8];
+    u32 triggered_objects[8];
     s16 nb_floc[8];
     s16 vent_x;
     s16 vent_y;

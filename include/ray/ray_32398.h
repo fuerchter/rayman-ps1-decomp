@@ -19,7 +19,7 @@ extern Obj ray;
 extern Obj raytmp;
 
 void INIT_RAY_BEGIN(void);
-void INIT_RAY(u8 newLevel);
+void INIT_RAY(u8 new_level);
 u8 is_icy_pente(u32 param_1);
 void STOPPE_RAY_EN_XY(void);
 void RAY_RESPOND_TO_ALL_DIRS(void);
