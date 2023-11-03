@@ -48,6 +48,7 @@ extern s16 PierreDoitExploser;
 extern s16 RMrepere;
 extern s16 horlogeDog;
 
+/* TODO: when do DO_BBMONT3_COMMAND, DO_BBMONT4_COMMAND get called? */
 void DO_TOTEM_TOUCHE(Obj *obj, s16 sprite);
 void DO_TOTEM_COMMAND(Obj *param_1);
 void DO_TOTBT_REBOND(Obj *obj);

@@ -256,7 +256,6 @@ void changeMoskitoPhase(Obj *obj)
 }
 
 /* 7151C 80195D1C -O2 -msoft-float */
-#define NONMATCHINGS
 #ifndef NONMATCHINGS /* div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/obj/moskito", doMoskitoHit);
 #else

@@ -7,7 +7,7 @@ mips-linux-gnu-ld: build/src/display_ui.c.o: in function `display_time':
 src/display_ui.c:(.text+0x11d0): undefined reference to `D_801CEF98'
 mips-linux-gnu-ld: src/display_ui.c:(.text+0x11d4): undefined reference to `D_801CEF98'
 */
-/*u8 PS1_star_spr[] = {0x15, 0x16, 0x17, 0x18, 0x15, 0x19, 0x16, 0x15};
+/*u8 PS1_star_spr[] __attribute__((aligned(2))) = {0x15, 0x16, 0x17, 0x18, 0x15, 0x19, 0x16, 0x15};
 u8 s__801cef84[] = "%";
 u8 PS1_TingsToGet_Col = 1;
 u8 PS1_TingsToGet_ColAdd = 1;
@@ -27,14 +27,11 @@ void CLRSCR(void)
     ClearImage(PS1_CurrentDisplay + 0x14, 0, 0, 0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/display_ui", display_etoile);
-
 /* 19A6C 8013E26C -O2 */
 /*? PS1_DrawSprite(Sprite *, s16, s16, ?);
 u8 myRand(?, ? *);*/
 
-/* TODO: memcpy doesn't match while .data is used */
-/*void display_etoile(s32 in_x, s32 in_y)
+void display_etoile(s32 in_x, s32 in_y)
 {
     u8 loc_star_spr[8];
     GrpStar *temp;
@@ -45,7 +42,7 @@ u8 myRand(?, ? *);*/
     u8 sprite;
 
     
-    __builtin_memcpy(&loc_star_spr, &PS1_star_spr, sizeof(PS1_star_spr));
+    __builtin_memcpy(loc_star_spr, PS1_star_spr, sizeof(PS1_star_spr));
     
     temp = &grp_stars[current_star];
     star = temp;
@@ -75,7 +72,7 @@ u8 myRand(?, ? *);*/
     }
     if (current_star < 30)
         current_star++;
-}*/
+}
 
 /* 19C08 8013E408
 /*? Bresenham(void (*)(s32, s32), s16, s16, s16, s32, s32, s32);
@@ -132,6 +129,7 @@ INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_SAVE_SPRITES);
 extern ? D_801E4D62;
 extern ? D_801E4D63;*/
 
+/* TODO: needs different solution than this inline */
 void DISPLAY_SAVE_SPRITES(s16 x, s16 y)
 {
     Obj *loc_mapobj;
@@ -141,7 +139,7 @@ void DISPLAY_SAVE_SPRITES(s16 x, s16 y)
     s16 sprite_ind_2;
     s16 sprite_ind_3;
 
-    inline s32 calc_y(s16 y) /* TODO: needs different solution */
+    inline s32 calc_y(s16 y) 
     {
         return (debut_options + y * (ecarty + 23) - 23);
     }
