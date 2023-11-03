@@ -5,14 +5,14 @@ INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_NEW_GAME); /* skipping for 
 /* 6A5F0 8018EDF0 -O2 -msoft-float */
 void POINTEUR_BOUTONS_OPTIONS_BIS(void)
 {
-  s32 (*but0)() = &but0pressed;
-  s32 val0 = 0;
-  s32 (*but1)() = &but1pressed;
-  s32 val1 = 0;
-  s32 (*but2)() = &but2pressed;
-  s32 val2 = 0;
-  s32 (*but3)() = &but3pressed;
-  s32 val3 = 0;
+  s16 (*but0)() = &but0pressed;
+  s16 val0 = 0;
+  s16 (*but1)() = &but1pressed;
+  s16 val1 = 0;
+  s16 (*but2)() = &but2pressed;
+  s16 val2 = 0;
+  s16 (*but3)() = &but3pressed;
+  s16 val3 = 0;
 
   switch (options_jeu.Jump)
   {

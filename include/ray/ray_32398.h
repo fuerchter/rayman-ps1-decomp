@@ -10,6 +10,8 @@
 #include "world_map_677C0.h"
 #include "moteur_init_end.h"
 #include "save.h"
+#include "obj/corde.h"
+#include "collision/collision.h"
 
 /* .data */
 extern u8 joy_done;

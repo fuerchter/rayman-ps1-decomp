@@ -14,6 +14,13 @@ extern u8 ray_se_noie;
 extern u8 ray_stack_is_full;
 extern Obj rms;
 extern SaveState save1;
+extern u8 PS1_ShoulderL;
+extern u8 PS1_ShoulderR;
+extern s16 eau_obj_id;
+extern s16 scroll_y;
+extern Obj *star_ray_der;
+extern Obj *star_ray_dev;
+extern s16 D_801E64B0;
 
 /* 32398 80156B98 -O2 -msoft-float */
 void INIT_RAY_BEGIN(void)
