@@ -8,6 +8,10 @@ extern u8 pma_groupe;
 extern u8 pma_sequence[4][2];
 extern s16 mama_pirate_obj_id;
 extern u8 pma_type_attaque;
+extern u8 cou_place;
+extern u16 cou_tempo;
+extern u8 place_sequence[5];
+extern u8 pma_nb_couteau;
 
 /* 25D4C 8014A54C -O2 -msoft-float */
 void pmamaFollowsShip(Obj *obj)
@@ -203,7 +207,7 @@ void init_move_couteau(Obj *obj)
       CouteauxInfos[cout_ind].y_pos = y_pos(11 - cout_ind, 1) + 8;
       CouteauxInfos[cout_ind].field9_0x10 = 0;
       if (cout_ind == 0)
-        CouteauxInfos[0].field2_0x4 = 50;
+        CouteauxInfos[cout_ind].field2_0x4 = 50;
       else
         CouteauxInfos[cout_ind].field2_0x4 = 50;
       CouteauxInfos[cout_ind].field3_0x6 = 70;
@@ -215,11 +219,66 @@ void init_move_couteau(Obj *obj)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", init_lance_couteau); /* larger */
+INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", init_lance_couteau);
 
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", couteau_frame);
+/* 267EC 8014AFEC -O2 -msoft-float */
+u8 couteau_frame(s16 speed_x, s16 speed_y)
+{
+    u8 frame;
+    s32 loc_speed_x;
+    s32 loc_speed_y;
+    s32 speed_x_check;
+    s16 diff;
 
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", update_couteau);
+    if (speed_x == 0)
+        frame = ((u32)speed_y / 4096) & 8;
+    else
+    {
+        loc_speed_y = speed_y;
+        if (loc_speed_y == 0)
+        {
+            frame = 12;
+            loc_speed_x = speed_x;
+            if (loc_speed_x > 0)
+              frame = 4;
+        }
+        else
+        {
+            speed_x_check = speed_x < 0;
+            loc_speed_x = speed_x;
+            if (speed_x_check)
+                loc_speed_x *= -1;
+            if (loc_speed_y < 0)
+                loc_speed_y *= -1;
+            diff = loc_speed_x - loc_speed_y;
+            if (diff != 0)
+            {
+                frame = 7;
+                if (diff >= 0)
+                    frame = 5;
+            }
+            else
+                frame = 6;
+            
+            if (speed_x > 0)
+            {
+                if (speed_y > 0)
+                    frame = 8 - frame;
+            }
+            else if (speed_y < 0)
+                frame = 16 - frame;
+            else
+                frame += 8;
+        }
+    }
+    return frame;
+}
+
+/* 268AC 8014B0AC -O2 -msoft-float */
+void update_couteau(Obj *obj)
+{
+    obj->anim_frame = couteau_frame(obj->speed_x, obj->speed_y);
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", get_cou_zdc);
 

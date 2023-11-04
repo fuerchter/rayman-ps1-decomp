@@ -29,7 +29,7 @@ s32 y_pos(s16 param_1, s16 param_2);
 s16 y_floor(s16 x, s16 y);
 void init_move_couteau(Obj *obj);
 void init_lance_couteau(u8 index);
-u32 couteau_frame(s16 speedX, s16 speedY);
+u8 couteau_frame(s16 speed_x, s16 speed_y);
 void update_couteau(Obj *obj);
 void get_cou_zdc(Obj *param_1, s16 *param_2, s16 *param_3, s16 *param_4, s16 *param_5);
 void pma_attaque_suivante(void);
