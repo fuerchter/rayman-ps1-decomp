@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "obj_update.h"
+#include "world_map_677C0.h"
 
 typedef struct CouteauxInfo
 {
@@ -33,7 +34,7 @@ u8 couteau_frame(s16 speed_x, s16 speed_y);
 void update_couteau(Obj *obj);
 void get_cou_zdc(Obj *obj, s16 *x, s16 *y, s16 *w, s16 *h);
 void pma_attaque_suivante(void);
-s32 convertspeed(s16 speed);
+s16 convertspeed(s16 speed);
 void lance_couteau_parabolique(Obj *obj);
 void lance_couteau_droit(Obj *param_1);
 void retour_couteau(Obj *obj);

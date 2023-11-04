@@ -9,9 +9,12 @@ extern u8 pma_sequence[4][2];
 extern s16 mama_pirate_obj_id;
 extern u8 pma_type_attaque;
 extern u8 cou_place;
-extern u16 cou_tempo;
+extern s16 cou_tempo;
 extern u8 place_sequence[5];
 extern u8 pma_nb_couteau;
+extern u8 pma_phase;
+extern s16 pma_tempo;
+extern u8 pma_touched;
 
 /* 25D4C 8014A54C -O2 -msoft-float */
 void pmamaFollowsShip(Obj *obj)
@@ -386,9 +389,52 @@ void get_cou_zdc(Obj *obj, s16 *x, s16 *y, s16 *w, s16 *h)
 }
 #endif
 
+/* 26C98 8014B498 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", pma_attaque_suivante);
+#else
+void pma_attaque_suivante(void)
+{
+  u8 i;
+  
+  __asm__("nop\nnop\nnop");
+  if ((pma_type_attaque - 1 < 2U) && (cou_place++, cou_place > 4))
+    cou_place = 0;
+  
+  if (pma_touched || (pma_attaque++, pma_attaque == 2))
+  {
+    pma_groupe++;
+    pma_attaque = 0;
+    if (pma_groupe == 4)
+    {
+      pma_tempo -= 10;
+      cou_tempo -= 10;
+      pma_groupe = 0;
+    }
+  }
+  if (pma_tempo < 100)
+    pma_tempo = 100;
 
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", convertspeed);
+  if (cou_tempo < 50)
+    cou_tempo = 50;
+  pma_phase = 0;
+  pma_type_attaque = pma_sequence[pma_groupe][pma_attaque];
+  pma_nb_couteau = pma_couteaux[pma_type_attaque];
+  pma_touched = false;
+  
+  for(i = 0; i < 5; i++)
+  {
+    level.objects[CouteauxInfos[i].id].flags &= ~FLG(OBJ_ACTIVE);
+    level.objects[CouteauxInfos[i].id].flags &= ~FLG(OBJ_ALIVE);
+  }
+}
+#endif
+
+/* 26EDC 8014B6DC -O2 -msoft-float */
+s16 convertspeed(s16 speed)
+{
+  return ashl16(speed, 4);
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", lance_couteau_parabolique);
 

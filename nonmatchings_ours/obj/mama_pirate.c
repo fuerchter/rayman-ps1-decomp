@@ -2,7 +2,7 @@
 
 /*INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", init_lance_couteau);*/
 
-/* matches, but clean up to do */
+/* matches, but clean up to do. cou_tempo changed u16 -> s16 in the meantime */
 /* 263E8 8014ABE8 -O2 -msoft-float */
 
 void init_lance_couteau(u8 index)
@@ -82,4 +82,60 @@ void init_lance_couteau(u8 index)
     }
   }
   return;
+}
+
+/* matches, but how to remove/clean up locals? */
+/* 26F08 8014B708 -O2 -msoft-float */
+/*INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", lance_couteau_parabolique);*/
+
+void lance_couteau_parabolique(Obj *obj)
+{
+    u8 cout_ind;
+    s16 diff_x;
+    s16 diff_y;
+    s16 speed_x;
+    s16 speed_y;
+    s32 dividend;
+    s32 divisor;
+
+    s16 test_1;
+    int new_var3;
+
+    cout_ind = find_couteau(obj);
+    if (cout_ind != 0xFF)
+    {
+        diff_x = (xmap + CouteauxInfos[cout_ind].x_pos) - (obj->offset_bx + obj->x_pos);
+        diff_y = (ymap + CouteauxInfos[cout_ind].y_pos) - (obj->offset_by + obj->y_pos);
+        if (CouteauxInfos[cout_ind].field2_0x4 != 0)
+        {
+            CouteauxInfos[cout_ind].field2_0x4 = 0;
+            if (diff_x == 0)
+            {
+                obj->speed_x = convertspeed(0);
+                obj->speed_y = convertspeed(-1);
+            }
+            else
+            {
+                if (diff_x >= 0)
+                    speed_x = 2;
+                else
+                    speed_x = -2;
+                test_1 = 0x10;
+                new_var3 = diff_x * 8;
+                dividend = -(diff_y * (speed_x * test_1) * 8 + diff_x * new_var3);
+                divisor = diff_x * speed_x * 8;
+                speed_y = dividend / divisor;
+                obj->speed_x = convertspeed(speed_x) - 10;
+                obj->speed_y = speed_y;
+            }
+            update_couteau(obj);
+            obj->display_prio = 3;
+            return;
+        }
+        obj->speed_y += 4;
+        if (obj->speed_x * diff_x < 0)
+            obj->speed_x = 0;
+        update_couteau(obj);
+    }
+    __asm__("nop\nnop\nnop\nnop\nnop");
 }
