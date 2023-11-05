@@ -16,6 +16,8 @@ extern u8 pma_phase;
 extern s16 pma_tempo;
 extern u8 pma_touched;
 
+s32 ashl16(s16, u32);
+
 /* 25D4C 8014A54C -O2 -msoft-float */
 void pmamaFollowsShip(Obj *obj)
 {
@@ -430,6 +432,7 @@ void pma_attaque_suivante(void)
 }
 #endif
 
+/* TODO: ashl16 return has changed
 /* 26EDC 8014B6DC -O2 -msoft-float */
 s16 convertspeed(s16 speed)
 {
@@ -442,7 +445,64 @@ INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", lance_couteau_droit);
 
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", retour_couteau);
 
+/* 276F4 8014BEF4 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", PS1_retour_couteau_old);
+#else
+void PS1_retour_couteau_old(Obj *obj)
+{
+    u8 cout_ind;
+    s16 diff_x;
+    s16 diff_y;
+    s32 abs_x;
+    s32 abs_y;
+    s32 divisor;
+
+    cout_ind = find_couteau(obj);
+    if (cout_ind != 0xFF)
+    {
+        diff_x = 0;
+        diff_y = 0;
+        if (CouteauxInfos[cout_ind].field9_0x10 != 2)
+        {
+            /* addressing is a little weird */
+            diff_x = (xmap + CouteauxInfos[cout_ind].x_pos) - (obj->offset_bx + obj->x_pos);
+            diff_y = (ymap + (&CouteauxInfos[cout_ind])->y_pos) - (obj->offset_by + obj->y_pos);
+        }
+
+        if (__builtin_abs(diff_x) >= 2 || __builtin_abs(diff_y) >= 2)
+        {
+            CouteauxInfos[cout_ind].active = false;
+            abs_x = __builtin_abs(diff_x);
+            abs_y = __builtin_abs(diff_y);
+            if (abs_x < abs_y)
+                abs_x = abs_y;
+            divisor = 2;
+            divisor = ashl16(abs_x, 4) / divisor;
+            obj->speed_x = convertspeed(ashl16(diff_x, 4) / (s16) divisor);
+            obj->speed_y = convertspeed(ashl16(diff_y, 4) / (s16) divisor);
+        }
+        else
+        {
+            CouteauxInfos[cout_ind].active = true;
+            obj->speed_x = convertspeed(0);
+            obj->speed_y = convertspeed(0);
+            if (CouteauxInfos[cout_ind].field9_0x10 != 2)
+            {
+                obj->x_pos = xmap + CouteauxInfos[cout_ind].x_pos - obj->offset_bx;
+                obj->y_pos = ymap + CouteauxInfos[cout_ind].y_pos - obj->offset_by;
+            }
+            if (check_couteaux())
+            {
+                pma_phase = 3;
+                reset_couteaux();
+            }
+        }
+    }
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", lance_couteau_lineaire);
 
