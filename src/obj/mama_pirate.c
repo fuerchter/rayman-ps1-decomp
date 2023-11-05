@@ -441,9 +441,129 @@ s16 convertspeed(s16 speed)
 
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", lance_couteau_parabolique);
 
+/* 270D8 8014B8D8 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", lance_couteau_droit);
+#else
+void lance_couteau_droit(Obj *obj)
+{
+    u8 cout_ind;
+    s16 diff_x;
+    s16 diff_y;
+    s32 abs_x;
+    s32 abs_y;
+    s32 divisor;
 
+    cout_ind = find_couteau(obj);
+    if (cout_ind != 0xFF)
+    {
+        diff_x = (xmap + CouteauxInfos[cout_ind].x_pos) - (obj->offset_bx + obj->x_pos);
+        diff_y = (ymap + CouteauxInfos[cout_ind].y_pos) - (obj->offset_by + obj->y_pos);
+        if (__builtin_abs(diff_x) >= 4 || __builtin_abs(diff_y) >= 4)
+        {
+            CouteauxInfos[cout_ind].active = false;
+            abs_x = __builtin_abs(diff_x);
+            abs_y = __builtin_abs(diff_y);
+            if (abs_x < abs_y)
+                abs_x = abs_y;
+            divisor = 4;
+            divisor = ashl16(abs_x, 4) / divisor;
+            obj->speed_x = convertspeed(ashl16(diff_x, 4) / (s16) divisor);
+            obj->speed_y = convertspeed(ashl16(diff_y, 4) / (s16) divisor);
+            update_couteau(obj);
+            obj->display_prio = 3;
+        }
+        else
+        {
+            CouteauxInfos[cout_ind].active = true;
+            if ((u32) (pma_type_attaque - 1) >= 2)
+            {
+                if (obj->main_etat != 2 || obj->sub_etat != 13)
+                {
+                    obj->main_etat = 2;
+                    obj->sub_etat = 13;
+                }
+            }
+            else
+                obj->anim_frame = couteau_frame(0, 1);
+            obj->speed_x = 0;
+            obj->speed_y = 0;
+            obj->x_pos = (xmap + CouteauxInfos[cout_ind].x_pos) - obj->offset_bx;
+            obj->y_pos = (ymap + CouteauxInfos[cout_ind].y_pos) - obj->offset_by;
+            if (check_couteaux())
+            {
+                pma_phase = 3;
+                reset_couteaux();
+            }
+        }
+    }
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
+
+/* 273C4 8014BBC4 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", retour_couteau);
+#else
+void retour_couteau(Obj *obj)
+{
+    u8 cout_ind;
+    s16 diff_x;
+    s16 diff_y;
+    s32 abs_x;
+    s32 abs_y;
+    s32 divisor;
+
+    cout_ind = find_couteau(obj);
+    if (cout_ind != 0xFF && (cout_ind == 0 || CouteauxInfos[cout_ind - 1].field3_0x6 == 0))
+    {
+        if (CouteauxInfos[cout_ind].field3_0x6 == 0)
+        {
+            diff_x = 0;
+            diff_y = 0;
+            if (CouteauxInfos[cout_ind].field9_0x10 != 2)
+            {
+                diff_x = (xmap + CouteauxInfos[cout_ind].x_pos) - (obj->offset_bx + obj->x_pos);
+                diff_y = (ymap + CouteauxInfos[cout_ind].y_pos) - (obj->offset_by + obj->y_pos);
+            }
+            
+            if (__builtin_abs(diff_x) >= 2 || __builtin_abs(diff_y) >= 2)
+            {
+                CouteauxInfos[cout_ind].active = false;
+                abs_x = __builtin_abs(diff_x);
+                abs_y = __builtin_abs(diff_y);
+                if (abs_x < abs_y)
+                    abs_x = abs_y;
+                divisor = 2;
+                divisor = ashl16(abs_x, 4) / divisor;
+                obj->speed_x = convertspeed(ashl16(diff_x, 4) / (s16) divisor);
+                obj->speed_y = convertspeed(ashl16(diff_y, 4) / (s16) divisor);    
+            }
+            else
+            {
+                CouteauxInfos[cout_ind].active = true;
+                obj->speed_x = convertspeed(0);
+                obj->speed_y = convertspeed(0);
+                if (CouteauxInfos[cout_ind].field9_0x10 != 2)
+                {
+                    obj->x_pos = (xmap + CouteauxInfos[cout_ind].x_pos) - obj->offset_bx;
+                    obj->y_pos = (ymap + CouteauxInfos[cout_ind].y_pos) - obj->offset_by;
+                }
+                if (check_couteaux())
+                {
+                    pma_phase = 3;
+                    reset_couteaux();
+                }
+            }
+        }
+        else
+            CouteauxInfos[cout_ind].field3_0x6--;
+    }
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 /* 276F4 8014BEF4 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
@@ -489,8 +609,8 @@ void PS1_retour_couteau_old(Obj *obj)
             obj->speed_y = convertspeed(0);
             if (CouteauxInfos[cout_ind].field9_0x10 != 2)
             {
-                obj->x_pos = xmap + CouteauxInfos[cout_ind].x_pos - obj->offset_bx;
-                obj->y_pos = ymap + CouteauxInfos[cout_ind].y_pos - obj->offset_by;
+                obj->x_pos = (xmap + CouteauxInfos[cout_ind].x_pos) - obj->offset_bx;
+                obj->y_pos = (ymap + CouteauxInfos[cout_ind].y_pos) - obj->offset_by;
             }
             if (check_couteaux())
             {

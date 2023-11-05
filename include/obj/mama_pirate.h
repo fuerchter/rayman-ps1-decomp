@@ -36,7 +36,7 @@ void get_cou_zdc(Obj *obj, s16 *x, s16 *y, s16 *w, s16 *h);
 void pma_attaque_suivante(void);
 s16 convertspeed(s16 speed);
 void lance_couteau_parabolique(Obj *obj);
-void lance_couteau_droit(Obj *param_1);
+void lance_couteau_droit(Obj *obj);
 void retour_couteau(Obj *obj);
 void PS1_retour_couteau_old(Obj *obj);
 void lance_couteau_lineaire(Obj *param_1);
