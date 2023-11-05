@@ -626,9 +626,105 @@ void PS1_retour_couteau_old(Obj *obj)
 
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", lance_couteau_lineaire);
 
+/* 28338 8014CB38 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", DO_COU_COMMAND);
+#else
+/*int ashr16(ushort param_1,uint param_2);*/
 
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", calc_pma_dir);
+void DO_COU_COMMAND(Obj *obj)
+{
+    u8 flag_set;
+
+    __asm__("nop\nnop");
+
+    switch (obj->main_etat)
+    {
+    case 0:
+        if (obj->sub_etat == 9)
+        {
+            obj->flags |= FLG(OBJ_FOLLOW_ENABLED);
+            obj->speed_x = ashr16(obj->speed_x, 1);
+            CALC_MOV_ON_BLOC(obj);
+            if(screen_trembling == 1 || pma_phase == 2)
+            {
+                if (pma_phase != 2)
+                {
+                    pma_phase = 2;
+                    reset_couteaux();
+                }
+                set_main_and_sub_etat(obj, 2, 12);
+            }
+        }
+    default:
+        break;
+    case 2:
+        obj->flags &= ~FLG(OBJ_FOLLOW_ENABLED);
+        switch (obj->sub_etat)
+        {
+        case 10:
+            if (pma_phase == 0)
+                lance_couteau_parabolique(obj);
+            break;
+        case 11:
+            if (pma_phase == 3)
+                lance_couteau_lineaire(obj);
+            else if (pma_phase == 0)
+                lance_couteau_droit(obj);
+            break;
+        case 14:
+            if (pma_phase == 3)
+                lance_couteau_lineaire(obj);
+            else if (pma_phase == 0)
+                lance_couteau_droit(obj);
+            
+            if (obj->speed_y >= 0 && obj->anim_frame == couteau_frame(0, -1))
+                obj->eta[obj->main_etat][obj->sub_etat].anim_speed &= 0xF0;
+            break;
+        case 13:
+            if (pma_phase == 2)
+              retour_couteau(obj);
+            else if (pma_phase == 3)
+              lance_couteau_lineaire(obj);            
+            break;
+        case 12:
+            obj->speed_x = convertspeed(0);
+            obj->speed_y = convertspeed(-1);
+            flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
+            if(
+              (flag_set && obj->anim_frame == 0) ||
+              (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)
+            )
+            {
+                if (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0)
+                {
+                    obj->speed_y = convertspeed(0);
+                    if (pma_phase == 2)
+                    {
+                        init_move_couteau(obj);
+                        set_main_and_sub_etat(obj, 2, 13);
+                    }
+                    else
+                        set_main_and_sub_etat(obj, 0, 9);
+                }
+            }
+            break;
+        }
+        break;
+    }
+}
+#endif
+
+/* 28694 8014CE94 -O2 -msoft-float */
+void calc_pma_dir(Obj *obj)
+{
+  s16 diff_x;
+  u8 should_flip;
+  
+  diff_x = (ray.offset_bx + ray.x_pos) - (obj->offset_bx + obj->x_pos);
+  if (diff_x != 0)
+    obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | (should_flip = diff_x > 0) << OBJ_FLIP_X;
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", DO_PMA_COMMAND);
 
