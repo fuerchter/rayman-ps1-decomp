@@ -263,19 +263,19 @@ segments:
       - [0x7F4B4, c, menu/menu_7F4B4] #801a3cb4
       - [0x7FD3C, asm, menu/menu_card_7FD3C] #801a453c
       - [0x82008, c, menu/menu_82008] #801A6808
-      - [0x8308C, asm, psyq3.0/pad] #801a788c
-      - [0x8331C, asm, psyq3.0/libapi_8331C] #801a7b1c
-      - [0x8332C, asm, psyq3.0/libc] #801a7b2c
-      - [0x8417C, asm, psyq3.0/libcd] #801a897c
-      - [0x87468, asm, psyq3.0/libcard] #801abc68
+      - [0x8308C, asm, psyq_3_0/pad] #801a788c
+      - [0x8331C, asm, psyq_3_0/libapi_8331C] #801a7b1c
+      - [0x8332C, asm, psyq_3_0/libc] #801a7b2c
+      - [0x8417C, asm, psyq_3_0/libcd] #801a897c
+      - [0x87468, asm, psyq_3_0/libcard] #801abc68
       - [0x874D8, asm, unknown/874D8] #801abcd8
-      - [0x87578, asm, psyq3.0/libsnd] #801abd78
-      - [0x90994, asm, psyq3.0/libspu] #801b5194
-      - [0x93F8C, asm, psyq3.0/libapi_93F8C] #801b878c
-      - [0x9426C, asm, psyq3.0/libetc] #801b8a6c
-      - [0x94DD4, asm, psyq3.0/libgte] #801b95d4
-      - [0x98048, asm, psyq3.0/libgpu] #801bc848
-      - [0x9BC24, asm, psyq3.0/libpress] #801c0424
+      - [0x87578, asm, psyq_3_0/libsnd] #801abd78
+      - [0x90994, asm, psyq_3_0/libspu] #801b5194
+      - [0x93F8C, asm, psyq_3_0/libapi_93F8C] #801b878c
+      - [0x9426C, asm, psyq_3_0/libetc] #801b8a6c
+      - [0x94DD4, asm, psyq_3_0/libgte] #801b95d4
+      - [0x98048, asm, psyq_3_0/libgpu] #801bc848
+      - [0x9BC24, asm, psyq_3_0/libpress] #801c0424
       - [0x9CA5C, data]
       #- [0x9F448, .data, demo_9FD4] #801C3C48
       #- [0x9FB74, data]

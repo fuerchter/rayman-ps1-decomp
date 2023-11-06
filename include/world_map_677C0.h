@@ -29,14 +29,17 @@ typedef struct WorldInfo
     u8 * level_name;
 } WorldInfo;
 
+/* .data */
 extern WorldInfo t_world_info[24];
-extern Obj *mapobj;
 
+extern u8 *PTR_s_game_saved_801c3540;
+
+/**/
+extern Obj *mapobj;
 extern s16 xmap;
 extern s16 ymap;
 extern Obj raylittle;
 extern u8 chemin_percent;
-extern u8 *PTR_s_game_saved_801c3540;
 extern u8 dir_on_wldmap;
 extern s16 xmapinit;
 extern s16 ymapinit;
