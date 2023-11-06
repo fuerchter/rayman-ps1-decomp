@@ -1,20 +1,5 @@
 #include "moteur_update.h"
 
-extern s16 ray_wind_force;
-extern s16 weather_wind;
-extern u16 D_801F7C90; /* related with ray position but didn't look into yet */
-extern u16 D_801F7CA0;
-extern u8 PS1_MoteurTime;
-extern u8 oldPrio;
-extern s16 ray_old_main_etat;
-extern s16 ray_old_sub_etat;
-extern s16 xmap_old;
-extern s16 ymap_old;
-extern s16 NumScrollObj;
-extern s16 scroll_x;
-extern s16 reduced_rayman_id;
-extern u8 D_801F57F0;
-
 /* 35314 80159B14 -O2 -msoft-float */
 void PS1_SetWindForce(void)
 {
