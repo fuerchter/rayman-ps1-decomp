@@ -34,7 +34,7 @@ typedef struct RaymanEvents
     RayEvts_1 flags1;
 } RaymanEvents;
 
-typedef u16 RayMode;
+typedef s16 RayMode;
 #define MODE_NONE 0
 #define MODE_RAYMAN 1
 #define MODE_RAY_ON_MS 2
