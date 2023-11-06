@@ -44,10 +44,10 @@ void DO_COU_COMMAND(Obj *obj);
 void calc_pma_dir(Obj *obj);
 void DO_PMA_COMMAND(Obj *obj);
 void init_mama_pirate(Obj *obj);
-void PMA_SORT_DU_CANON(void);
+void PMA_SORT_DU_CANON(Obj *obj);
 void DO_PMA_POING_COLLISION(Obj *obj);
 s32 pma_get_eject_sens(void);
-void DO_COU_ATTER(Obj *param_1);
+void DO_COU_ATTER(Obj *obj);
 void DO_PMA_ATTER(Obj *param_1);
 
 #endif

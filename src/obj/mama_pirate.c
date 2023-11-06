@@ -848,7 +848,7 @@ void DO_PMA_COMMAND(Obj *obj)
               (obj->hit_points == 1 && obj->speed_y >= 0)
             )
             {
-                pma_touched = 1;
+                pma_touched = true;
                 obj->hit_points--;
                 if (obj->hit_points == 0)
                   set_main_and_sub_etat(obj, 0, 7);
@@ -918,14 +918,109 @@ void DO_PMA_COMMAND(Obj *obj)
 }
 #endif
 
+/* 28F78 8014D778 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", init_mama_pirate);
+#else
+void init_mama_pirate(Obj *obj)
+{
+  init_couteaux();
+  obj->hit_points = 6;
+  obj->init_hit_points = 6;
+  pma_groupe = 0;
+  pma_attaque = 0;
+  pma_phase = 0;
+  cou_place = 0;
+  pma_type_attaque = pma_sequence[0][0];
+  pma_tempo = 150;
+  cou_tempo = 70;
+  pma_nb_couteau = pma_couteaux[pma_type_attaque];
+  pma_touched = false;
+  obj->flags &= ~FLG(OBJ_FLIP_X);
+  obj->speed_x = 0;
+  obj->speed_y = 0;
+  set_main_and_sub_etat(obj, 2, 6);
+  obj->anim_frame = 0;
+  obj->anim_index = obj->eta[2][6].anim_index;
 
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", PMA_SORT_DU_CANON);
+  __asm__("nop");
+}
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", DO_PMA_POING_COLLISION);
+/* 2905C 8014D85C -O2 -msoft-float */
+void PMA_SORT_DU_CANON(Obj *obj)
+{
+  init_mama_pirate(obj);
+  scroll_end_x = xmap;
+  scroll_start_x = xmap;
+  scroll_end_y = ymap;
+  scroll_start_y = ymap;
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", pma_get_eject_sens);
+/* 290AC 8014D8AC -O2 -msoft-float */
+void DO_PMA_POING_COLLISION(Obj *obj)
+{
+  if (!pma_touched && obj->main_etat == 2 && obj->sub_etat == 3)
+  {
+    set_main_and_sub_etat(obj, 2, 9);
+    obj->speed_x = 0;
+    obj->speed_y = -2;
+    obj->gravity_value_1 = 0;
+    obj->gravity_value_2 = 8;
+  }
+}
 
+/* 29118 8014D918 -O2 -msoft-float */
+s32 pma_get_eject_sens(void)
+{
+  ray.iframes_timer = 40;
+  return -1;
+}
+
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", DO_COU_ATTER);
+#else
+void DO_COU_ATTER(Obj *obj)
+{
+    u8 sub_etat;
+    ObjState *eta;
+
+    __asm__("nop\nnop");
+
+    if (obj->main_etat == 2)
+    {
+        sub_etat = obj->sub_etat;
+        if(sub_etat == 10)
+        {
+            recale_position();
+            CouteauxInfos[obj->field23_0x3c].active = true;
+            set_main_and_sub_etat(obj, 0, 9);
+            obj->speed_x = 0;
+            obj->speed_y = 0;
+        }
+        else if(sub_etat == 11)
+        {
+            if ((pma_type_attaque - 1) < 2U)
+            {
+                CouteauxInfos[obj->field23_0x3c].active = true;
+                if (check_couteaux())
+                    pma_phase = 1;
+                recale_position(obj);
+                set_main_and_sub_etat(obj, 0, 9);
+                obj->speed_x = 0;
+                obj->speed_y = 0;
+            }
+        }
+        else if(sub_etat == 14)
+        {
+            obj->speed_y = -obj->speed_y;
+            obj->gravity_value_1 = obj->gravity_value_2 - obj->gravity_value_1;
+            eta = &obj->eta[obj->main_etat][obj->sub_etat];
+            eta->anim_speed = eta->anim_speed & 0xf0 | 2;
+            recale_position(obj);
+        }
+    }
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", DO_PMA_ATTER);
