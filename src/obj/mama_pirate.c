@@ -977,6 +977,7 @@ s32 pma_get_eject_sens(void)
   return -1;
 }
 
+/* 2912C 8014D92C -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", DO_COU_ATTER);
 #else
@@ -1023,4 +1024,39 @@ void DO_COU_ATTER(Obj *obj)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", DO_PMA_ATTER);
+/* 2929C 8014DA9C -O2 -msoft-float */
+void DO_PMA_ATTER(Obj *obj)
+{
+  if (obj->main_etat == 2)
+  {
+    if (obj->sub_etat == 7)
+    {
+      obj->speed_x = 0;
+      obj->speed_y = 0;
+      recale_position(obj);
+      if (screen_trembling == 0)
+        screen_trembling = 1;
+      set_main_and_sub_etat(obj, 2, 8);
+    }
+    else if (obj->sub_etat == 5)
+    {
+      obj->speed_x = 0;
+      obj->speed_y = 0;
+      if (screen_trembling == 0)
+      {
+        if (obj->field23_0x3c == 0)
+        {
+          recale_position(obj);
+          allocateLandingSmoke(obj);
+          obj->field23_0x3c = 1;
+        }
+        screen_trembling = 1;
+      }
+      if (pma_phase == 1)
+      {
+        pma_phase = 2;
+        reset_couteaux();
+      }
+    }
+  }
+}

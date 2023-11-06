@@ -1,4 +1,6 @@
 #TODO:
+#DISPLAY_UI HAS TO BE BUILT WITH .DATA ON NONMATCHING BUILD
+
 #check out -psx patched old-gcc to possibly clean up DO_WORLD_MAP, DETER_WORLD_AND_LEVEL world_index assign
 #skipTestArgs, readTestArgs share issues
 #og psyq 3.0 cc1psx.exe seems to fix div nop swap:
