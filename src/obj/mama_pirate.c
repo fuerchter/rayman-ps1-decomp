@@ -1,23 +1,5 @@
 #include "obj/mama_pirate.h"
 
-extern s16 bateau_obj_id;
-extern CouteauxInfo CouteauxInfos[5];
-extern u8 pma_attaque;
-extern u8 pma_couteaux[6];
-extern u8 pma_groupe;
-extern u8 pma_sequence[4][2];
-extern s16 mama_pirate_obj_id;
-extern u8 pma_type_attaque;
-extern u8 cou_place;
-extern s16 cou_tempo;
-extern u8 place_sequence[5];
-extern u8 pma_nb_couteau;
-extern u8 pma_phase;
-extern s16 pma_tempo;
-extern u8 pma_touched;
-
-s32 ashl16(s16, u32);
-
 /* 25D4C 8014A54C -O2 -msoft-float */
 void pmamaFollowsShip(Obj *obj)
 {
@@ -432,7 +414,6 @@ void pma_attaque_suivante(void)
 }
 #endif
 
-/* TODO: ashl16 return has changed
 /* 26EDC 8014B6DC -O2 -msoft-float */
 s16 convertspeed(s16 speed)
 {

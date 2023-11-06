@@ -4,6 +4,8 @@
 #include "common.h"
 #include "obj_update.h"
 #include "world_map_677C0.h"
+#include "obj/bateau_command.h"
+#include "collision/bit_util.h"
 
 typedef struct CouteauxInfo
 {
@@ -19,6 +21,24 @@ typedef struct CouteauxInfo
     u8 field9_0x10;
     u8 id; /* Created by retype action */
 } CouteauxInfo;
+
+/* .data */
+extern u8 pma_couteaux[6];
+extern u8 pma_sequence[4][2];
+extern u8 place_sequence[5];
+
+/**/
+extern CouteauxInfo CouteauxInfos[5];
+extern u8 pma_attaque;
+extern u8 pma_groupe;
+extern s16 mama_pirate_obj_id;
+extern u8 pma_type_attaque;
+extern u8 cou_place;
+extern s16 cou_tempo;
+extern u8 pma_nb_couteau;
+extern u8 pma_phase;
+extern s16 pma_tempo;
+extern u8 pma_touched;
 
 void pmamaFollowsShip(Obj *obj);
 void init_couteaux(void);
