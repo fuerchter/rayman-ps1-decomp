@@ -726,7 +726,197 @@ void calc_pma_dir(Obj *obj)
     obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | (should_flip = diff_x > 0) << OBJ_FLIP_X;
 }
 
+/* 286F0 8014CEF0 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", DO_PMA_COMMAND);
+#else
+void DO_PMA_COMMAND(Obj *obj)
+{
+    s16 main_etat;
+    s16 sub_etat;
+    u8 flag_set;
+    s16 i;
+    s16 y;
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
+
+    scrollLocked = true;
+    main_etat = obj->main_etat;
+    sub_etat = obj->sub_etat;
+    switch (main_etat)
+    {
+    case 0:
+        switch (sub_etat)
+        {
+        case 6:
+            obj->speed_x = 1;
+            obj->speed_y = 0;
+            CALC_MOV_ON_BLOC(obj);
+            if ((obj->x_pos + obj->offset_bx) > (xmap + 272))
+            {
+                obj->speed_x = 0;
+                set_main_and_sub_etat(obj, 0, 2);
+            }
+            break;
+        default:
+            return;
+        case 2:
+            calc_pma_dir(obj);
+            CALC_MOV_ON_BLOC(obj);
+            if (pma_phase == 4)
+            {
+                reset_couteaux();
+                pma_attaque_suivante();
+            }
+            if (pma_phase == 0)
+                set_main_and_sub_etat(obj, 0, 1);
+            break;
+        case 1:
+            CALC_MOV_ON_BLOC(obj);
+            flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
+            if(
+                (flag_set && obj->anim_frame == 0) ||
+                (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)
+            )
+                if ((horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0) && pma_phase == 0)
+                    set_main_and_sub_etat(obj, 0, 5);
+            break;
+        case 5:
+            CALC_MOV_ON_BLOC(obj);
+            if (obj->anim_frame == 35 && (horloge[obj->eta[main_etat][sub_etat].anim_speed & 0xF] == 0))
+            {
+                PlaySnd(153, obj->id);
+                i = 0;
+                while(i < pma_nb_couteau && i < 5)
+                {
+                    init_lance_couteau(i);
+                    i++;
+                }
+            }
+            else
+            {
+                flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
+                if(
+                    (flag_set && obj->anim_frame == 0) ||
+                    (!flag_set && obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1))
+                )
+                    if (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0)
+                        set_main_and_sub_etat(obj, 2, 1);
+            }
+            break;
+        case 7:
+            obj->speed_x = 0;
+            obj->speed_y = -2;
+            flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
+            if(
+              (flag_set && obj->anim_frame == 0) ||
+              (!flag_set && obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1))
+            )
+            {
+                if (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0)
+                {
+                    obj->flags &= ~FLG(OBJ_ACTIVE);
+                    obj->flags &= ~FLG(OBJ_ALIVE);
+                    for (i = 0; i < 5; i++)
+                    {
+                        CouteauxInfos[i].field9_0x10 = 2;
+                        CouteauxInfos[i].field2_0x4 = 1;
+                        CouteauxInfos[i].active = 0;
+                        CouteauxInfos[i].field4_0x8 = 0xf;
+                    }
+                    pma_phase = 2;
+                    return;
+                }
+            }
+            break;
+        }
+        break;
+    case 2:
+        switch (sub_etat)
+        {
+        case 9:
+            obj->speed_x = 0;
+            flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
+            if(
+              (
+                (
+                  flag_set && obj->anim_frame == 0 ||
+                  !flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1
+                ) &&
+                horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+              ) ||
+              (obj->hit_points == 1 && obj->speed_y >= 0)
+            )
+            {
+                pma_touched = 1;
+                obj->hit_points--;
+                if (obj->hit_points == 0)
+                  set_main_and_sub_etat(obj, 0, 7);
+                else
+                  set_main_and_sub_etat(obj, 2, 4);
+            }
+            break;
+        case 6:
+            obj->speed_x = 0;
+            obj->flags &= ~FLG(OBJ_FLIP_X);
+            if (obj->anim_frame < 6)
+                pmamaFollowsShip(obj);
+            else
+                obj->speed_y = -2;
+            break;
+        case 1:
+            calc_pma_dir(obj);
+            obj->speed_x = 0;
+            obj->speed_y = 0;
+            break;
+        case 8:
+            obj->speed_x = 0;
+            obj->speed_y = 0;
+            break;
+        case 2:
+            obj->speed_y = -2;
+            if (obj->anim_frame >= 15)
+                obj->speed_y = 0;
+            obj->field23_0x3c = 0;
+            return;
+        case 3:
+            obj->speed_y = 0;
+            if (check_couteaux())
+            {
+                if (pma_phase == 0)
+                    pma_phase = 1;
+
+                if (++obj->field23_0x3c == pma_tempo || pma_type_attaque == 5)
+                {
+                    obj->gravity_value_1 = 0;
+                    obj->gravity_value_2 = 3;
+                    set_main_and_sub_etat(obj, 2, 4);
+                }
+            }
+            break;
+        case 4:
+            y = obj->offset_by + obj->y_pos;
+            if ((y_floor((s16) (xmap + 160), y) - y) < 5)
+            {
+                obj->speed_y = 1;
+                obj->field23_0x3c = 0;
+                set_main_and_sub_etat(obj, 2, 5);
+            }
+            break;
+        case 5:
+            flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
+            if(
+              (flag_set && obj->anim_frame == 0) ||
+              (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)
+            )
+                if (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0)
+                    set_main_and_sub_etat(obj, 0, 2);
+            break;
+        }
+        break;
+    }
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", init_mama_pirate);
 
