@@ -20,4 +20,7 @@ typedef struct Sprite
     u8 page_y;
 } Sprite;
 
+extern s16 D_801F4A28;
+extern s16 D_801FA690;
+
 #endif

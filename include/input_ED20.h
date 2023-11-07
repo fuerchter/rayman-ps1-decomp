@@ -53,6 +53,8 @@ typedef u32 PsxPadButtonStates;
 #define PAD_DOWN 16384
 #define PAD_LEFT 32768
 
+extern s32 PS1_GlobalTimer;
+
 s32 but0pressed();
 s32 but1pressed();
 s32 but2pressed();

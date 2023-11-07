@@ -18,6 +18,7 @@ PS1_Button_Text_Triangle = 0x801cf0b4;
 PS1_Button_Text_Circle = 0x801cf0b8;
 loop_nb_frames = 0x801fa6a0;
 
+PTR_PS1_MemoryUsageRect_801cee70 = 0x801cee70;
 s_level_801cedf4 = 0x801cedf4;
 s_tarayzan_gives_rayman_a_magic_s_8012bad0 = 0x8012bad0; // type:asciz force_migration:True
 s_press_the__button_to_use_the_s_8012baf8 = 0x8012baf8; // type:asciz force_migration:True

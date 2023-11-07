@@ -2,11 +2,40 @@
 #define MAIN_MOTEUR_H
 
 #include "common.h"
+#include "psyq_3_0/LIBGPU.H"
+#include "psyq_3_0/LIBCD.H"
+#include "psyq_3_0/LIBETC.H"
+#include "demo_9FD4.h"
+#include "obj/fee_3D76C.h"
+#include "input_ED20.h"
+#include "vignet.h"
+#include "music.h"
+
+/* .data */
+extern RECT PS1_MemoryUsageRect;
+
+/* .data */
+extern RECT *PTR_PS1_MemoryUsageRect_801cee70;
+extern u8 PS1_MemoryUsageDisplayMode;
 
 /* .data */
 extern u8 in_pause;
+extern u8 PS1_Ingame;
+
+/* .data, BAD ALIGNMENT */
+extern s16 D_801CEE9E;
+extern s16 D_801CEEA0;
+extern u8 D_801CEEA2;
+
+/* .data */
+extern s16 PS1_PolygonIndexTableCount;
 
 /**/
 extern u8 gele;
+extern s16 PS1_PolygonIndexTable[200];
+extern s16 PS1_PolygonsCount;
+
+void DO_GROS_MOTEUR_NORMAL(void);
+void DO_MAIN_LOOP(void);
 
 #endif
