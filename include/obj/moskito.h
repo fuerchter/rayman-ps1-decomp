@@ -13,11 +13,12 @@
 #include "obj/poing.h"
 #include "boss.h"
 
-/* TODO: data conflict */
 /* 801c8050 - 801c84d8 might be general boss data? */
 /* same with 801cf0bc - 801cf0ca though */
 /* .data */
 extern u8 *moskitoActionSequences[10];
+
+/* .data */
 extern s16 PS1_MsAnimIndex;
 
 /**/

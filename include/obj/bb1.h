@@ -30,9 +30,10 @@ typedef struct BBAttackEntry
     u8 wait_for_fin_atan;
 } BBAttackEntry;
 
-/* TODO: data conflict */
 /* .data */
 extern BBAttackEntry SerieAtakBB[6][7];
+
+/* .data */
 extern s16 niveau;
 
 /**/
