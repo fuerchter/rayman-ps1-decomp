@@ -1,6 +1,6 @@
 #include "main_moteur.h"
 
-/* reg swaps */
+/* reg swaps, not sure if due to unfinished Display struct */
 /* AE28 8012F628 -O2 -msoft-float */
 /*INCLUDE_ASM("asm/nonmatchings/main_moteur", DO_MAIN_LOOP);*/
 

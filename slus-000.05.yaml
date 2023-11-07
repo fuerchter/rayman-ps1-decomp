@@ -151,7 +151,7 @@ segments:
       - [0x3A868, asm, obj/badguy] #8015f068
       - [0x3A9EC, asm, obj/explosion] #8015F1EC
       - [0x3AB5C, c, obj/maracas] #8015f35c
-      - [0x3AC88, asm, unknown/3AC88] #8015f488
+      - [0x3AC88, c, ray/angle_rayman] #8015f488
       - [0x3AE54, asm, nova] #8015f654
       - [0x3B264, asm, snow] #8015FA64
       - [0x3C3A8, asm, obj/eyes_3C3A8] #80160ba8
