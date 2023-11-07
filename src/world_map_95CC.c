@@ -1,7 +1,5 @@
 #include "world_map_95CC.h"
 
-u8 s_level_801cedf4[] = "level ";
-
 /* 95CC 8012DDCC -O2 */
 /*? DISPLAY_FOND_SELECT();
 ? atoi(s16, ? *, ?);

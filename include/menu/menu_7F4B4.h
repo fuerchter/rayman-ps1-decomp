@@ -7,7 +7,7 @@
 #include "fade.h"
 
 /* .data */
-extern u8 s_start_801cf118[];
+extern u8 s_start_801cf118[8];
 
 /**/
 extern s16 PS1_SaveMode;

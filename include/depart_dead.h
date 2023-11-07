@@ -8,9 +8,10 @@
 #include "victoire.h"
 #include "sound.h"
 
-/* TODO: data conflict */
 /* .data */
 extern u8 D_801CEDFC;
+
+/* .data */
 extern u8 D_801CF0DC;
 
 void DEPART_WORLD(void);

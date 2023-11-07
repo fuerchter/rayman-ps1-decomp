@@ -1,6 +1,8 @@
 #include "demo_9FD4.h"
 
 /*
+TODO: move this to data/ dir once it can be used
+
 mips-linux-gnu-ld: build/asm/loading_DA64.s.o: in function `FUN_80132864':
 (.text+0x608): undefined reference to `D_801C4370'
 mips-linux-gnu-ld: (.text+0x60c): undefined reference to `D_801C4370'
