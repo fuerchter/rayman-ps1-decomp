@@ -34,7 +34,7 @@ extern u8 FinAnim;
 extern u8 WaitForAnim;
 
 void setBossReachingSpeeds(Obj *obj, u8 param_2, u8 param_3, u8 param_4);
-u8 testActionEnd(Obj *obj);
+s16 testActionEnd(Obj *obj);
 void FUN_8018b78c(s16 *param_1, s16 *param_2, s16 *param_3, s16 *param_4, u8 param_5);
 /*s16 firstFloorBelow(Obj *obj);*/
 

@@ -1,8 +1,21 @@
 #include "boss.h"
 
+
 INCLUDE_ASM("asm/nonmatchings/boss", setBossReachingSpeeds);
 
-INCLUDE_ASM("asm/nonmatchings/boss", testActionEnd);
+/* 66EFC 8018B6FC -O2 -msoft-float */
+s16 testActionEnd(Obj *obj)
+{
+  s16 res = false;
+
+  if (bossXToReach == -32000 && bossYToReach == -32000)
+    res = obj->nb_cmd == 0;
+  else if (obj->x_pos == bossXToReach && obj->y_pos == bossYToReach)
+    res = true;
+  if (res)
+    currentBossActionIsOver = true;
+  return res;
+}
 
 /* well, we got the unused function, so i did something today :) */
 /* 66F8C 8018B78C -O2 -msoft-float */
@@ -30,4 +43,29 @@ void FUN_8018b78c(s16 *param_1, s16 *param_2, s16 *param_3, s16 *param_4, u8 par
   *param_2 = sVar2 - (*param_4 >> 1);
 }
 
+/* 6703C 8018B83C -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/boss", firstFloorBelow);
+#else
+/*u8 PS1_BTYPAbsPos(s32 x, s32 y);*/
+
+s16 firstFloorBelow(Obj *obj)
+{
+  s16 x;
+  s16 y;
+  u8 btyp;
+
+  __asm__("nop");
+
+  x = obj->offset_bx + obj->x_pos;
+  y = obj->offset_by + obj->y_pos;
+  btyp = PS1_BTYPAbsPos(x, y);
+  while (!(block_flags[btyp] >> BLOCK_SOLID & 1) && (y <= ymapmax + 240))
+  {
+    y += 16;
+    btyp = PS1_BTYPAbsPos(x, y);
+  }
+  
+  return dist_to_bloc_floor(btyp, x & 0xf, 0) + (y & ~0xf);
+}
+#endif
