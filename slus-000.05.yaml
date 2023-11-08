@@ -252,8 +252,8 @@ segments:
       - [0x78988, asm, obj/pirate_ngawe] #8019d188
       - [0x79290, asm, obj/ring] #8019da90
       - [0x794DC, asm, loading_794DC] #8019dcdc
-      - [0x7ABA0, asm, unknown/7ABA0] #8019f3a0
-      - [0x7B6CC, asm, unknown/7B6CC] #8019feec
+      - [0x7ABA0, c, cheats] #8019f3a0
+      - [0x7B048, asm, first_init] #8019F848
       - [0x7B850, c, depart_dead] #801a0050
       - [0x7BB28, asm, unknown/7BB28] #801a0328
       - [0x7C028, asm, menu/menu_card_7C028] #801a0828
