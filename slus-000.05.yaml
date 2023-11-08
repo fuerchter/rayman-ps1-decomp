@@ -127,7 +127,7 @@ segments:
       - [0x30A64, asm, ray/ray_30A64] #80155264
       - [0x31D3C, asm, gendoor] #8015653c
       - [0x32398, c, ray/ray_32398] #80156b98
-      - [0x340A4, asm, cam_scroll_340A4] #801588a4
+      - [0x340A4, c, cam_scroll_340A4] #801588a4
       - [0x343EC, asm, bonus_343EC] #80158BEC
       - [0x347C4, asm, moteur_init_end] #80158fc4
       - [0x35314, c, moteur_update] #80159b14
