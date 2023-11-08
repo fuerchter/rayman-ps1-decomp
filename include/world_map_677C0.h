@@ -8,7 +8,7 @@
 #include "ray/ray_32398.h"
 #include "ray/ray_5D190.h"
 #include "moteur_update.h"
-#include "cam_scroll.h"
+#include "cam_scroll_29B5C.h"
 #include "menu/menu_card_7C028.h"
 #include "timers.h"
 

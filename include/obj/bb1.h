@@ -7,7 +7,7 @@
 #include "timers.h"
 #include "ray/ray_32398.h"
 #include "boss.h"
-#include "cam_scroll.h"
+#include "cam_scroll_29B5C.h"
 #include "num_level_36260.h"
 #include "collision/collision.h"
 

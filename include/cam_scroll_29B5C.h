@@ -1,5 +1,5 @@
-#ifndef CAM_SCROLL_H
-#define CAM_SCROLL_H
+#ifndef CAM_SCROLL_29B5C_H
+#define CAM_SCROLL_29B5C_H
 
 #include "common.h"
 
