@@ -1,6 +1,9 @@
 #include "cam_scroll_340A4.h"
 
-/* matches, but do {} while (0); */
+/*
+matches, but do {} while (0);
+m2c increments i in multiple places for some reason
+*/
 /*INCLUDE_ASM("asm/nonmatchings/cam_scroll_340A4", DO_AUTO_SCROLL);*/
 
 /* 340A4 801588A4 -O2 -msoft-float */

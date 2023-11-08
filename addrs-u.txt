@@ -17,6 +17,8 @@ PS1_Button_Text_Cross = 0x801cf0b0;
 PS1_Button_Text_Triangle = 0x801cf0b4;
 PS1_Button_Text_Circle = 0x801cf0b8;
 loop_nb_frames = 0x801fa6a0;
+PS1_BonusNovas = 0x801CF3F8;
+PS1_BonusOneUps = 0x801CF400;
 
 PTR_PS1_MemoryUsageRect_801cee70 = 0x801cee70;
 s_level_801cedf4 = 0x801cedf4;
