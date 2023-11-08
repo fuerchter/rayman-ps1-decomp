@@ -189,10 +189,10 @@ void STOPPE_RAY_EN_XY(void)
   )
   {
     if (
-      (!stop) &&
+      !stop &&
       (
-        ((block_flags[btyp_2] >> BLOCK_FLAG_4 & 1) && !is_icy_pente(btyp_3)) ||
-        ((block_flags[btyp_3] >> BLOCK_FLAG_4 & 1) && !is_icy_pente(btyp_4))
+        (block_flags[btyp_2] >> BLOCK_FLAG_4 & 1) && !is_icy_pente(btyp_3) ||
+        (block_flags[btyp_3] >> BLOCK_FLAG_4 & 1) && !is_icy_pente(btyp_4)
       )
     )
       stop = true;

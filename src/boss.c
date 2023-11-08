@@ -17,7 +17,6 @@ s16 testActionEnd(Obj *obj)
   return res;
 }
 
-/* well, we got the unused function, so i did something today :) */
 /* 66F8C 8018B78C -O2 -msoft-float */
 void FUN_8018b78c(s16 *param_1, s16 *param_2, s16 *param_3, s16 *param_4, u8 param_5)
 {

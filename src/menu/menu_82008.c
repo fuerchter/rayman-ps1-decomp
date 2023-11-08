@@ -42,7 +42,6 @@ INCLUDE_ASM("asm/nonmatchings/menu/menu_82008", DO_COMMANDE_PAD);
 /* still pretty gross. repeated sections, position == x check then x used as constant */
 void DO_COMMANDE_PAD(void)
 {
-  s16 iVar3;
   s16 new_pos;
   s16 i;
 
