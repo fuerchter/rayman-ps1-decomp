@@ -10,6 +10,7 @@
 #include "input_ED20.h"
 #include "vignet.h"
 #include "music.h"
+#include "cheats.h"
 
 /* .data */
 extern RECT PS1_MemoryUsageRect;

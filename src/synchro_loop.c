@@ -6,7 +6,9 @@ void FUN_801802d8(void) {}
 extern s32 PS1_CurrentDisplay; /* TODO: Display struct mostly unknown */
 extern u8 PS1_Display1;
 extern s32 PS1_PrevPrim;
-extern s16 D_801E4BE0; /* used as array index for map_drawing_environment_primitives? (0x70 in Display struct) */
+
+/* belongs to 548CC? used as array index for map_drawing_environment_primitives? (0x70 in Display struct) */
+extern s16 D_801E4BE0;
 
 void SYNCHRO_LOOP(s16 (*func)())
 {

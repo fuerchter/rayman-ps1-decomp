@@ -1,13 +1,5 @@
 #include "main_moteur.h"
 
-/* TODO: need to start working on src/unknown/ */
-extern s16 D_801CEFC8; /* 7ABA0 */
-extern u8 PS1_DebugMode;
-extern u8 PS1_15fps;
-extern u8 PS1_PictureInPicture;
-
-extern s16 D_801E4BE0; /* 548CC */
-
 /* AD90 8012F590 -O2 -msoft-float */
 void DO_GROS_MOTEUR_NORMAL(void)
 {
@@ -24,4 +16,136 @@ void DO_GROS_MOTEUR_NORMAL(void)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_moteur", DO_MAIN_LOOP);
+/* AE28 8012F628 -O2 -msoft-float */
+extern s32 PS1_CurrentDisplay; /* TODO: see synchro_loop.c, main.c and others */
+extern u8 PS1_Display1;
+extern u8 PS1_Display2;
+extern s16 D_801E4BE0;
+
+void DO_MAIN_LOOP(void)
+{
+  s16 i;
+  u8 *new_disp_1;
+  u8 *new_disp_2;
+  RECT *new_rect;
+  
+  if (PS1_CurrentDisplay == &PS1_Display1)
+    new_disp_1 = &PS1_Display1 + 0x6cbc;
+  else
+    new_disp_1 = &PS1_Display1;
+  i = 0;
+  if (PS1_PolygonIndexTableCount > 0)
+  {
+    do {
+      SetPolyFT4(new_disp_1 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144));
+      SetSemiTrans(new_disp_1 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144), 0);
+      SetShadeTex(new_disp_1 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144), 1);
+      i++;
+    } while (i < PS1_PolygonIndexTableCount);
+  }
+  PS1_PolygonIndexTableCount = 0;
+  
+  if (PS1_CurrentDisplay == &PS1_Display1)
+    new_disp_2 = &PS1_Display1 + 0x6cbc;
+  else
+    new_disp_2 = &PS1_Display1;
+  PS1_CurrentDisplay = new_disp_2;
+  ClearOTag(PS1_CurrentDisplay + 0x7F0, 11);
+  D_801E4BE0 = 0x19;
+  D_801F4A28 = 0;
+  D_801FA690 = 0;
+  PS1_PolygonsCount = 0;
+  D_801F81B0 = 0;
+  if (PS1_MemoryUsageDisplayMode == 2)
+    ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 128, 128, 128);
+  readinput();
+  if (PS1_MemoryUsageDisplayMode == 2)
+    ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 128, 0, 0);
+  D_801CEEA0 = 0;
+  DO_GROS_MOTEUR_NORMAL();
+  PS1_Ingame = true;
+  D_801CEEA0 = 0;
+  if (xmap < 0)
+    xmap = 0;
+  if (ymap < 0)
+    ymap = 0;
+  if (xmapmax < 0)
+    xmapmax = 0;
+  if (ymapmax < 0)
+    ymapmax = 0;
+
+  if (in_pause)
+    DO_AFFICHE_PAUSE();
+  if (PS1_MemoryUsageDisplayMode == 2)
+    ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 0, 128, 0);
+  if (num_world == 5 && num_level == 4)
+    Display_and_free_luciole();
+  if (PS1_MemoryUsageDisplayMode == 2)
+    ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 0, 128, 128);
+  display_flocons_behind();
+  DISPLAY_ALL_OBJECTS();
+  display_grp_stars();
+  display_pix_gerbes();
+  display_flocons_before();
+  if ((num_world == 2 && num_level == 4) || (num_world == 4 && num_level == 9))
+  {
+    if (((PS1_GlobalTimer & 0x3f) == 0) && myRand(256) > 128)
+    {
+      PlaySnd_old(195);
+      FUN_80169564(8, 9);
+      D_801CEEA2 = 0;
+    }
+    else
+      FUN_80169564(1, 9);
+  }
+  if (is_fee)
+    DISPLAY_TEXT_FEE();
+  else
+    DISPLAY_FIXE(left_time);
+  display_time(left_time);
+  DRAW_MAP();
+  if (PS1_PictureInPicture)
+    PS1_DO_PICTURE_IN_PICTURE();
+  if (PS1_MemoryUsageDisplayMode != 0)
+    ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 0, 0, 0);
+  DrawSync(0);
+  VSync(0);
+  if (PS1_15fps)
+  {
+    VSync(0);
+    VSync(0);
+    VSync(0);
+  }
+  PutDispEnv((DISPENV *) PS1_CurrentDisplay);
+  PutDrawEnv(PS1_CurrentDisplay + 0x14);
+  
+  if (PTR_PS1_MemoryUsageRect_801cee70 == &PS1_MemoryUsageRect)
+    new_rect = &PS1_MemoryUsageRect + 1;
+  else
+    new_rect = &PS1_MemoryUsageRect;
+  PTR_PS1_MemoryUsageRect_801cee70 = new_rect;
+  if (PS1_MemoryUsageDisplayMode != 0)
+    ClearImage(new_rect, 0, 0, 128);
+  PS1_DisplayFondSprites();
+  DrawSync(0);
+  if (PS1_MemoryUsageDisplayMode == 2)
+    ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 128, 0, 128);
+  DrawOTag(PS1_CurrentDisplay + 0x7F0);
+  PS1_CheckPauseAndCheatInputs();
+  if (dead_time != 64 && D_801CEE9E != 0)
+  {
+    PS1_PlayDeathMusic();
+    D_801CEE9E = 0;
+  }
+  FUN_80168f48();
+  CdSync(1, null);
+  FUN_8013045c();
+  if (scrollLocked && !PS1_ScrollLockedAudio)
+    change_audio_track_puit();
+  if (Vignet_To_Display != 0)
+  {
+    PS1_Ingame = false;
+    DISPLAY_GAME_VIGNET();
+    PS1_Ingame = true;
+  }
+}
