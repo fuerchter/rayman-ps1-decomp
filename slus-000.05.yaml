@@ -287,6 +287,8 @@ segments:
       - [0xAA5FC, data]
       #- [0xAA5FC, .data, data/cam_scroll_AA5FC] #801CEDFC not enough funcs implemented yet
       - [0xAA608, data]
+      #- [0xAA610, .data, data/text_AA610] #801CEE10 both vars here seem to end up at 801CEE10? not sure how it would be, when let_shadow is done
+      - [0xAA614, data]
       #- [0xAA77C, .data, data/display_ui] #801CEF7C
       - [0xAA7A4, data]
       #- [0xAA8DC, .data, data/depart_dead_AA8DC] #801CF0DC

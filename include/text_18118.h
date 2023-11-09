@@ -4,6 +4,7 @@
 #include "common.h"
 
 /* .data */
+extern u8 D_801CEE10;
 extern u8 let_shadow;
 
 /**/
