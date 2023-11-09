@@ -9,9 +9,6 @@
 #include "sound.h"
 
 /* .data */
-extern u8 D_801CEDFC;
-
-/* .data */
 extern u8 D_801CF0DC;
 
 void DEPART_WORLD(void);

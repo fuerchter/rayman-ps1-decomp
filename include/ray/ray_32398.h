@@ -16,9 +16,6 @@
 #include "main_moteur.h"
 #include "obj/eau.h"
 
-/* .data */
-extern u8 joy_done;
-
 /**/
 extern Obj ray;
 extern Obj raytmp;
