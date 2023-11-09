@@ -1,12 +1,5 @@
 #include "obj_util.h"
 
-/* .data, types? */
-extern s16 D_801C7258;
-extern s16 D_801C7268;
-
-extern s16 zonediffx[256];
-extern ObjTypeFlags flags[256];
-
 /* 243B8 80148BB8 -O2 -msoft-float */
 void init_obj_in_the_air(Obj *obj)
 {
@@ -109,10 +102,42 @@ void allocate_toons(Obj *src_obj, u8 count)
 
 INCLUDE_ASM("asm/nonmatchings/obj_util", special_flags_init);
 
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj_util", switchOff);
+#else
+void switchOff(Obj *obj)
+{
+  u8 flag_set;
 
-INCLUDE_ASM("asm/nonmatchings/obj_util", obj_hurt);
+  flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
+  if (
+    (flag_set && obj->anim_frame == 0 ||
+    !flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1) &&
+    horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
+  )
+  {
+    obj->flags &= ~FLG(OBJ_ACTIVE);
+    obj->flags &= ~FLG(OBJ_ALIVE);
+    if(obj->type == TYPE_RAYON) 
+    {
+      obj->x_pos = -32000;
+      obj->y_pos = -32000;
+    }
+  }
+
+  __asm__("nop");
+}
+#endif
+
+/* 2498C 8014918C -O2 -msoft-float */
+void obj_hurt(Obj *obj)
+{
+  if (obj->hit_points < poing.damage)
+    obj->hit_points = 0;
+  else
+    obj->hit_points -= poing.damage;
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj_util", Projectil_to_RM);
 
-INCLUDE_ASM("asm/nonmatchings/obj_util", del_actobj);
+INCLUDE_ASM("asm/nonmatchings/obj_util", del_actobj); /* ??? */

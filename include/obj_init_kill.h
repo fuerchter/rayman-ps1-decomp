@@ -91,6 +91,11 @@ typedef u32 ObjFlags;
 #define FLG_OBJ_NONE 0
 #define FLG_OBJ_ANIM_COUNT_MASK 0xFF
 
+/* .data */
+extern ObjTypeFlags flags[256];
+extern s16 zonediffx[256];
+
+extern ActiveObjects actobj;
 extern s16 rayman_obj_id;
 extern u8 IsBossThere;
 
