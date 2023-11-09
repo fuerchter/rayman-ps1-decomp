@@ -114,7 +114,7 @@ segments:
       - [0x22754, asm, collision/proj] #80146f54
       - [0x22A98, asm, collision/etat] #80147298
       - [0x22C84, asm, collision/collision_block] #80147484
-      - [0x243B8, asm, unknown/243B8] #80148bb8
+      - [0x243B8, c, obj_util] #80148bb8
       - [0x24E10, asm, text_24E10] #80149610
       - [0x2539C, asm, unknown/2539C] #80149B9C
       - [0x25D4C, c, obj/mama_pirate] #8014A54C
