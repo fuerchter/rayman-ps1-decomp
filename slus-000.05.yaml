@@ -281,18 +281,20 @@ segments:
       - [0x9CA5C, data]
       #- [0x9F448, .data, data/demo_9FD4] #801C3C48 TODO: move this to data/ dir once it can be used
       - [0x9FB74, data]
-      #- [0xA35A4, .data, data/obj/saxo] #801C7DA4
+      - [0xA35A4, .data, data/obj/saxo] #801C7DA4
       - [0xA369C, data]
-      #- [0xAA5F4, .data, data/world_map_AA5F4] #801CEDF4
+      - [0xA36B8, .data, data/command_A36B8] #801c7eb8
+      - [0xA3850, data]
+      - [0xAA5F4, .data, data/world_map_AA5F4] #801CEDF4
       - [0xAA5FC, data]
       #- [0xAA5FC, .data, data/cam_scroll_AA5FC] #801CEDFC not enough funcs implemented yet
       - [0xAA608, data]
       #- [0xAA610, .data, data/text_AA610] #801CEE10 both vars here seem to end up at 801CEE10? not sure how it would be, when let_shadow is done
       - [0xAA614, data]
-      #- [0xAA77C, .data, data/display_ui] #801CEF7C
+      - [0xAA77C, .data, data/display_ui] #801CEF7C
       - [0xAA7A4, data]
-      #- [0xAA8DC, .data, data/depart_dead_AA8DC] #801CF0DC
+      - [0xAA8DC, .data, data/depart_dead_AA8DC] #801CF0DC
       - [0xAA8E0, data]
-      #- [0xAA918, .data, data/menu/menu_AA918] #801CF118
+      - [0xAA918, .data, data/menu/menu_AA918] #801CF118
       - [0xAA920, data]
   - [0xAB000]
