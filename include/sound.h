@@ -28,6 +28,12 @@ typedef struct VoiceTableEntry
     u8 field8_0xb;
 } VoiceTableEntry;
 
+typedef struct SepInfo
+{
+    s16 access_num;
+    s16 seq_num;
+} SepInfo;
+
 /* .data */
 extern s16 D_801C7D20[8];
 
@@ -37,7 +43,7 @@ void manage_snd_event(Obj *obj);
 void PS1_LoadAllFixSound(void);
 void PS1_LoadWorldSound(s16 param_1);
 void PS1_PlaySnd(s16 param_1, s16 param_2);
-void PS1_StopPlayingSnd(s16 param_1);
+void PS1_StopPlayingSnd(s16 sep_ind);
 s32 PS1_SongIsPlaying(s32 param_1);
 void FUN_80166018(void);
 void FUN_80166060(s16 param_1);

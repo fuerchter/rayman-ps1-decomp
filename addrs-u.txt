@@ -26,7 +26,7 @@ PS1_AllFix_SepAcc = 0x801e58d0;
 PS1_World_VabId1 = 0x801E5608;
 PS1_World_VabId2 = 0x801F9A78;
 PS1_World_SepAcc = 0x801E58C8;
-
+PS1_SepInfo = 0x801C7CBC;
 
 PTR_PS1_MemoryUsageRect_801cee70 = 0x801cee70;
 s_level_801cedf4 = 0x801cedf4;
