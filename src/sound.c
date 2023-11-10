@@ -1,18 +1,11 @@
 #include "sound.h"
 
 extern s16 PS1_CurrentAudio;
-extern s16 D_801CEFCC;
 extern s16 PS1_AudioTable[14];
 extern s32 PS1_FileTemp;
 extern s16 PS1_AllFix_VabId1;
 extern s16 PS1_AllFix_VabId2;
 extern s16 PS1_AllFix_SepAcc;
-extern s32 D_801D8B50;
-extern s32 D_801D8B54;
-extern s32 D_801D8B58;
-extern s32 D_801D8B5C;
-extern s16 D_801CEFDC;
-extern s16 D_801C7C78;
 extern FileInfo PS1_VabFiles[7];
 extern FileInfo PS1_BigFiles[7];
 extern FileInfo PS1_Vab4sepFiles[7];
@@ -20,6 +13,13 @@ extern s16 PS1_World_VabId1;
 extern s16 PS1_World_VabId2;
 extern s16 PS1_World_SepAcc;
 
+extern s16 D_801CEFCC;
+extern s32 D_801D8B50;
+extern s32 D_801D8B54;
+extern s32 D_801D8B58;
+extern s32 D_801D8B5C;
+extern s16 D_801CEFDC;
+extern s16 D_801C7C78;
 extern s32 *D_801D7840;
 extern s16 PS1_SepVols[25];
 extern SepInfo PS1_SepInfos[25];
@@ -57,15 +57,6 @@ void manage_snd_event(Obj *obj)
         PS1_CurrentAudio = PS1_AudioTable[hp];
     }
 }
-
-/*
-PS1_LoadAllFixSound:
-    D_801C6E6C: loads the _contents_ of CdlLOC pos in a3
-    D_801C6E70: saves file.size, file.name on stack?
-FUN_80133498:
-    PS1_LoadFiles call with FileInfo*
-    SsVabTransBody call with dest, stack value past FileInfo? (zero)
-*/
 
 INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadAllFixSound);
 
@@ -154,11 +145,9 @@ INCLUDE_ASM("asm/nonmatchings/sound", setvol);
 
 INCLUDE_ASM("asm/nonmatchings/sound", setpan);
 
-void FUN_80168f38(s16 sep_ind) {
-}
+void FUN_80168f38(s16 sep_ind) {}
 
-void FUN_80168f40(void) {
-}
+void FUN_80168f40(void) {}
 
 INCLUDE_ASM("asm/nonmatchings/sound", FUN_80168f48);
 

@@ -27,40 +27,36 @@ void FUN_801658e0(void)
     } while (var_s3 < 2);
 }
 
+/* matches, but clean up/figure out unknowns */
 /*INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadAllFixSound);*/
 
 /* 41224 80165A24 -O2 -msoft-float */
-s32 FUN_80133498(FileInfo test);
-/*s32 FUN_80133498(u8 *param_1,u8 *param_2,u8 *param_3,CdlFILE param_4);*/
+s32 FUN_80133498(FileInfo param_1, s16 param_2, u8 *param_3);
 s32 PS1_LoadFiles(FileInfo *files,s32 fileIndex,s32 count, s32 a3);
 
 void PS1_LoadAllFixSound(void)
 {
-  volatile s32 *new_var;
-  /*volatile s32 new_var2;*/
+  s32 *new_var;
 
-  if (D_801CEFDC == 0) {
+  if (D_801CEFDC == 0)
+  {
     SsUtReverbOff();
     PS1_BigFiles[0].dest = (u8 *)&D_801D8B50;
     new_var = &D_801D8B50;
     PS1_FileTemp = PS1_LoadFiles(PS1_BigFiles,0,1, 0);
-    if (*new_var == 3) {
+    if (*new_var == 3)
+    {
       PS1_AllFix_VabId1 = 0;
-      PS1_AllFix_VabId1 = SsVabOpenHead((u8 *)((int)&D_801D8B50 + D_801D8B54),0);
-      if (PS1_AllFix_VabId1 != -1) {
-        /*new_var2 = 0;*/
-        PS1_FileTemp = FUN_80133498(PS1_VabFiles[0]);
-      }
+      PS1_AllFix_VabId1 = SsVabOpenHead((u8 *)((int)&D_801D8B50 + D_801D8B54), 0);
+      if (PS1_AllFix_VabId1 != -1)
+        PS1_FileTemp = FUN_80133498(PS1_VabFiles[0], PS1_AllFix_VabId1, 0);
       PS1_AllFix_VabId2 = 2;
-      PS1_AllFix_VabId2 = SsVabOpenHead((u8 *)((int)&D_801D8B50 + D_801D8B58),2);
-      if (PS1_AllFix_VabId2 != -1) {
-        PS1_FileTemp = FUN_80133498(PS1_Vab4sepFiles[0]);
-      }
+      PS1_AllFix_VabId2 = SsVabOpenHead((u8 *)((int)&D_801D8B50 + D_801D8B58), 2);
+      if (PS1_AllFix_VabId2 != -1)
+        PS1_FileTemp = FUN_80133498(PS1_Vab4sepFiles[0], PS1_AllFix_VabId2, 0);
       PS1_AllFix_SepAcc = 0;
-      if (PS1_AllFix_VabId2 != -1) {
-        PS1_AllFix_SepAcc = SsSepOpen((ulong *)((int)&D_801D8B50 + D_801D8B5C),PS1_AllFix_VabId2,
-                                 D_801C7C78);
-      }
+      if (PS1_AllFix_VabId2 != -1)
+        PS1_AllFix_SepAcc = SsSepOpen((u8 *)((int)&D_801D8B50 + D_801D8B5C), PS1_AllFix_VabId2, D_801C7C78);
     }
     SsUtReverbOn();
     LOAD_CONFIG();
@@ -69,13 +65,13 @@ void PS1_LoadAllFixSound(void)
     PS1_SetMusicVolume(options_jeu.Music);
     D_801CEFDC = 1;
   }
-  return;
 }
 
+/* matches, but clean up/figure out unknowns */
 /*INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadWorldSound);*/
 
 /* 4145C 80165C5C -O2 -msoft-float */
-s32 FUN_80133498(FileInfo test);
+s32 FUN_80133498(FileInfo param_1, s16 param_2, u8 *param_3);
 
 void PS1_LoadWorldSound(s16 param_1)
 {
@@ -84,29 +80,26 @@ void PS1_LoadWorldSound(s16 param_1)
   
   stop_all_snd();
   PS1_SetStereoEnabled(options_jeu.StereoEnabled);
-  new_var = ((uint) options_jeu.Soundfx) * 0x7f;
-  FUN_80166060(new_var / 0x14);
+  FUN_80166060(options_jeu.Soundfx * 127 / 20);
   piVar1 = D_801D7840;
-  if (*D_801D7840 != 0) {
+  if (*piVar1 != 0)
+  {
     PS1_World_VabId1 = 1;
     SsVabClose(PS1_World_VabId1);
     PS1_World_VabId2 = 3;
     SsVabClose(PS1_World_VabId2);
     PS1_World_VabId1 = SsVabOpenHead((int)piVar1 + piVar1[1], PS1_World_VabId1);
-    if (PS1_World_VabId1 != -1) {
-      PS1_FileTemp = FUN_80133498(PS1_VabFiles[param_1]);
-    }
+    if (PS1_World_VabId1 != -1)
+      PS1_FileTemp = FUN_80133498(PS1_VabFiles[param_1], PS1_World_VabId1, 0);
     PS1_World_VabId2 = SsVabOpenHead((int)piVar1 + piVar1[2], PS1_World_VabId2);
-    if (PS1_World_VabId2 != -1) {
-      PS1_FileTemp = FUN_80133498(PS1_Vab4sepFiles[param_1]);
-    }
+    if (PS1_World_VabId2 != -1)
+      PS1_FileTemp = FUN_80133498(PS1_Vab4sepFiles[param_1], PS1_World_VabId2, 0);
     PS1_World_SepAcc = 1;
     SsSepClose(PS1_World_SepAcc);
     PS1_World_SepAcc = SsSepOpen(
         (int)piVar1 + piVar1[3],
         PS1_World_VabId2,
-        *(s16 *)((int)&D_801C7C78 + ((param_1 << 1)))
+        *(s16 *)((int)&D_801C7C78 + param_1 * 2)
     );
   }
-  return;
 }
