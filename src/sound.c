@@ -13,7 +13,9 @@ extern s16 PS1_World_VabId1;
 extern s16 PS1_World_VabId2;
 extern s16 PS1_World_SepAcc;
 extern s16 PS1_SoundVolume;
+extern u8 voice_is_working[24];
 
+extern VoiceTableEntry voice_table[24];
 extern u8 D_801F6850;
 extern s16 D_801CEFCC;
 extern s32 D_801D8B50;
@@ -147,13 +149,62 @@ void FUN_801660e8(void)
   CdMix(&vol);
 }
 
+/* 41924 80166124 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/sound", stop_all_snd);
+#else
+void stop_all_snd(void)
+{
+  s16 i;
+
+  __asm__("nop");
+  SsUtAllKeyOff(0);
+  for (i = 0; i < 24; i++)
+    voice_is_working[i] = false;
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/sound", FUN_8016617c);
 
-INCLUDE_ASM("asm/nonmatchings/sound", get_pan_snd);
+/* 41A0C 8016620C -O2 -msoft-float */
+u8 get_pan_snd(Obj *obj)
+{
+  s16 screen_x;
+  s16 res;
+  
+  screen_x = obj->offset_bx + obj->screen_x_pos;
+  if (screen_x < -96)
+    res = 0;
+  else if (screen_x >= 417)
+    res = 127;
+  else
+    res = (screen_x + 96U) / 4;
 
-INCLUDE_ASM("asm/nonmatchings/sound", get_vol_snd);
+  if (res > 127)
+    res = 127;
+  return res;
+}
+
+/* 41A6C 8016626C -O2 -msoft-float */
+u8 get_vol_snd(Obj *obj)
+{
+  s16 x, y, w, h;
+  s32 diff_x, diff_y;
+  s32 unk_1;
+  s16 res;
+  
+  GET_ANIM_POS(obj, &x, &y, &w, &h);
+  diff_x = (x + (w >> 1)) - (ray.x_pos + ray.offset_bx);
+  diff_x = __builtin_abs(diff_x);
+  unk_1 = 40;
+  diff_y = (y + (h >> 1) + unk_1) - (ray.y_pos + ray.offset_by);
+  diff_y = __builtin_abs(diff_y);
+  res = 127 - ((s16)diff_x + (s16)diff_y >> 2);
+
+  if (res < 0)
+    res = 0;
+  return res;
+}
 
 INCLUDE_ASM("asm/nonmatchings/sound", PS1_SetSoundVolume);
 
@@ -193,7 +244,7 @@ INCLUDE_ASM("asm/nonmatchings/sound", setvol);
 
 INCLUDE_ASM("asm/nonmatchings/sound", setpan);
 
-void FUN_80168f38(s16 sep_ind) {}
+void FUN_80168f38(s16 param_1) {}
 
 void FUN_80168f40(void) {}
 

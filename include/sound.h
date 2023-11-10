@@ -6,6 +6,7 @@
 #include "obj_update.h"
 #include "loading_794DC.h"
 #include "menu/menu_card_7FD3C.h"
+#include "ray/ray_32398.h"
 
 typedef struct SoundTableEntry
 {
@@ -52,8 +53,8 @@ void FUN_801660ac(void);
 void FUN_801660e8(void);
 void stop_all_snd(void);
 void FUN_8016617c(void);
-u32 get_pan_snd(Obj *obj);
-u32 get_vol_snd(Obj *param_1);
+u8 get_pan_snd(Obj *obj);
+u8 get_vol_snd(Obj *obj);
 void PS1_SetSoundVolume(s16 param_1);
 void PS1_SetStereoEnabled(s16 param_1);
 void FUN_801663d4(void);

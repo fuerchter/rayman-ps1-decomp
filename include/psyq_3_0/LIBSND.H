@@ -49,6 +49,7 @@ extern void  SsSepPlay (short, short, char, short);
 extern void  SsSepStop (short, short);
 extern void  SsSepClose (short);
 extern void  SsSepSetVol (short, short, short, short);
+extern short SsUtSetVVol (short, short, short);
 extern void  SsUtReverbOn (void);
 extern void  SsUtReverbOff (void);
 extern short SsVabOpenHead (unsigned char*, short);
@@ -61,5 +62,7 @@ extern void  SsSetSerialAttr (char, char, char);
 extern void  SsSetSerialVol (char, short, short);
 
 extern void  SsSetStereo (void);
+
+extern void  SsUtAllKeyOff (short);
 
 #endif
