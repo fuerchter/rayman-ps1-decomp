@@ -20,6 +20,7 @@ options:
   o_as_suffix: False
   use_legacy_include_asm: False
   disassemble_all: True
+  include_macro_inc: False
 
   asm_function_macro: glabel
   asm_jtbl_label_macro: jlabel
@@ -69,6 +70,8 @@ segments:
       - [0x5ED8, rodata]
       - [0x5FE0, .rodata, obj/fee_3D76C] #8012a7e0
       - [0x6364, rodata]
+      - [0x6394, .rodata, sound] #8012AB94
+      - [0x6414, rodata]
       - [0x6724, .rodata, command_494FC] #8012af24
       - [0x67A4, rodata]
       - [0x67BC, .rodata, obj/fee_4DFD0] #8012AFBC
@@ -172,7 +175,7 @@ segments:
       - [0x3F0B8, asm, unknown/3F0B8] #801638B8
       - [0x3F170, asm, save] #80163970
       - [0x3FFAC, asm, special_platform] #801647ac
-      - [0x41084, asm, sound] #80165884
+      - [0x41084, c, sound] #80165884
       - [0x44C20, asm, fade] #80169420
       - [0x45A7C, asm, card] #8016a27c
       - [0x476F0, asm, obj/poing] #8016bef0

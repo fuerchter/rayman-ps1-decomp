@@ -20,6 +20,13 @@ PS1_Button_Text_Circle = 0x801cf0b8;
 loop_nb_frames = 0x801fa6a0;
 PS1_BonusNovas = 0x801CF3F8;
 PS1_BonusOneUps = 0x801CF400;
+PS1_AllFix_VabId1 = 0x801E5610;
+PS1_AllFix_VabId2 = 0x801F9A80;
+PS1_AllFix_SepAcc = 0x801e58d0;
+PS1_World_VabId1 = 0x801E5608;
+PS1_World_VabId2 = 0x801F9A78;
+PS1_World_SepAcc = 0x801E58C8;
+
 
 PTR_PS1_MemoryUsageRect_801cee70 = 0x801cee70;
 s_level_801cedf4 = 0x801cedf4;

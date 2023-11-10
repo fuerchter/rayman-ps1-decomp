@@ -8,6 +8,7 @@ PS1_DoGameOptionsLoop = 0x801a4d38;
 PS1_DrawColoredSprite = 0x801397f4;
 PS1_DisplayWorldMapBg1 = 0x8013eb38;
 PS1_DisplayWorldMapBg2 = 0x80139014;
+PS1_LoadWorldSound = 0x80165c5c;
 
 gte_ldv0 = 0x20000000;
 gte_ldv1 = 0x20000004;
@@ -628,7 +629,6 @@ PS1_StopPlayingAllSnd = 0x80165884;
 FUN_801658e0 = 0x801658e0;
 manage_snd_event = 0x80165990;
 PS1_LoadAllFixSound = 0x80165a24;
-FUN_80165c5c = 0x80165c5c;
 PS1_PlaySnd = 0x80165eb4;
 PS1_StopPlayingSnd = 0x80165f78;
 PS1_SongIsPlaying = 0x80165fcc;
