@@ -21,23 +21,10 @@ extern s16 PS1_World_VabId2;
 extern s16 PS1_World_SepAcc;
 
 extern s32 *D_801D7840;
-extern s16 *D_801C7C88;
-extern SepInfo PS1_SepInfo[25];
+extern s16 PS1_SepVols[25];
+extern SepInfo PS1_SepInfos[25];
 /*extern s16 *D_801C7CBE;*/
 extern s16 D_801F7C80;
-
-/* LIBSND */
-extern short SsIsEos (short, short);
-extern short SsSepOpen (unsigned long*, short, short);
-extern void  SsSepPlay (short, short, char, short);
-extern void  SsSepStop (short, short);
-extern void  SsSepClose (short);
-extern void  SsSepSetVol (short, short, short, short);
-extern void  SsUtReverbOn (void);
-extern void  SsUtReverbOff (void);
-extern short SsVabOpenHead (unsigned char*, short);
-extern void  SsVabClose (short);
-extern void  SsSeqCalledTbyT (void);
 
 /* 41084 80165884 -O2 -msoft-float */
 void PS1_StopPlayingAllSnd(void)
@@ -84,7 +71,20 @@ INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadAllFixSound);
 
 INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadWorldSound);
 
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/sound", PS1_PlaySnd);
+#else
+void PS1_PlaySnd(s16 sep_ind, s16 l_count)
+{
+  s16 vol = D_801F7C80 * PS1_SepVols[sep_ind] >> 7;
+
+  SsSepSetVol(PS1_SepInfos[sep_ind].access_num, PS1_SepInfos[sep_ind].seq_num, vol, vol);
+  SsSeqCalledTbyT();
+  SsSepPlay(PS1_SepInfos[sep_ind].access_num, PS1_SepInfos[sep_ind].seq_num, SSPLAY_PLAY, l_count);
+
+  __asm__("nop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/sound", PS1_StopPlayingSnd);
@@ -92,7 +92,7 @@ INCLUDE_ASM("asm/nonmatchings/sound", PS1_StopPlayingSnd);
 void PS1_StopPlayingSnd(s16 sep_ind)
 {
   if (sep_ind != 25)
-    SsSepStop(PS1_SepInfo[sep_ind].access_num, PS1_SepInfo[sep_ind].seq_num);
+    SsSepStop(PS1_SepInfos[sep_ind].access_num, PS1_SepInfos[sep_ind].seq_num);
 
   __asm__("nop\nnop");
 }
@@ -154,7 +154,7 @@ INCLUDE_ASM("asm/nonmatchings/sound", setvol);
 
 INCLUDE_ASM("asm/nonmatchings/sound", setpan);
 
-void FUN_80168f38(s16 param_1) {
+void FUN_80168f38(s16 sep_ind) {
 }
 
 void FUN_80168f40(void) {

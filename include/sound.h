@@ -2,6 +2,7 @@
 #define SOUND_H
 
 #include "common.h"
+#include "psyq_3_0/LIBSND.H"
 #include "obj_update.h"
 #include "loading_794DC.h"
 #include "menu/menu_card_7FD3C.h"
@@ -42,7 +43,7 @@ void FUN_801658e0(void);
 void manage_snd_event(Obj *obj);
 void PS1_LoadAllFixSound(void);
 void PS1_LoadWorldSound(s16 param_1);
-void PS1_PlaySnd(s16 param_1, s16 param_2);
+void PS1_PlaySnd(s16 sep_ind, s16 l_count);
 void PS1_StopPlayingSnd(s16 sep_ind);
 s32 PS1_SongIsPlaying(s32 param_1);
 void FUN_80166018(void);
