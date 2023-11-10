@@ -52,6 +52,8 @@ extern void  SsSepSetVol (short, short, short, short);
 extern short SsUtSetVVol (short, short, short);
 extern void  SsUtReverbOn (void);
 extern void  SsUtReverbOff (void);
+extern short SsUtSetReverbType (short);
+extern void  SsUtSetReverbDepth (short, short);
 extern short SsVabOpenHead (unsigned char*, short);
 extern void  SsVabClose (short);
 extern void  SsSeqCalledTbyT (void);

@@ -119,3 +119,50 @@ void FUN_8016617c(void)
       SsUtSetVVol(i, 0, 0);
   }
 }
+
+/* matches, but too much unkown */
+/*INCLUDE_ASM("asm/nonmatchings/sound", FUN_801663d4);*/
+
+/* 41BD4 801663D4 -O2 -msoft-float */
+void FUN_801663d4(void)
+{
+    s16 *var_a0;
+    s16 *var_v1;
+    s32 var_s0;
+    s16 test_1;
+
+    var_s0 = 0;
+    test_1 = -2;
+    var_a0 = stk_obj;
+    var_v1 = stk_snd;
+    while (var_s0 < 20)
+    {
+        *var_v1 = 0;
+        *var_a0 = test_1;
+        var_a0++;
+        var_s0++;
+        var_v1++;
+    }
+    D_801E59D0 = 0;
+    D_801FA578 = 0;
+    indice_ray_wait = 0;
+    D_801E4DD0 = 2;
+    for(var_s0 = 0; var_s0 < 8; var_s0++)
+    {
+        D_801F7D40[var_s0].field0_0x0 = D_801CEFD0[var_s0];
+        D_801F7D40[var_s0].field1_0x1 = -1;
+        D_801F7D40[var_s0].field2_0x2 = 0;
+        D_801F7D40[var_s0].field3_0x3 = 0;
+    }
+    for(var_s0 = 0; var_s0 < 24; var_s0++)
+        voice_table[var_s0].field0_0x0 = -2;
+    
+    SsSetSerialAttr(0, 0, 1);
+    FUN_80166060(options_jeu.Soundfx * 127 / 20);
+    PS1_SetStereoEnabled(options_jeu.StereoEnabled);
+    SsUtSetReverbType(2);
+    SsUtReverbOn();
+    for(var_s0 = 0; var_s0 < 200; var_s0++)
+        VSync(0);
+    SsUtSetReverbDepth(20, 20);
+}

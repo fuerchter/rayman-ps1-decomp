@@ -36,6 +36,15 @@ typedef struct SepInfo
     s16 seq_num;
 } SepInfo;
 
+typedef struct Unk_801f7d40
+{
+    u8 field0_0x0;
+    s8 field1_0x1;
+    u8 field2_0x2;
+    u8 field3_0x3;
+    u8 field4_0x4;
+} Unk_801f7d40;
+
 /* .data */
 extern s16 D_801C7D20[8];
 
@@ -55,8 +64,8 @@ void stop_all_snd(void);
 void FUN_8016617c(void);
 u8 get_pan_snd(Obj *obj);
 u8 get_vol_snd(Obj *obj);
-void PS1_SetSoundVolume(s16 param_1);
-void PS1_SetStereoEnabled(s16 param_1);
+void PS1_SetSoundVolume(s16 vol);
+void PS1_SetStereoEnabled(s16 enabled);
 void FUN_801663d4(void);
 void FUN_80166578(void);
 s32 last_snd(s16 param_1);

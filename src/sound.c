@@ -14,6 +14,9 @@ extern s16 PS1_World_VabId2;
 extern s16 PS1_World_SepAcc;
 extern s16 PS1_SoundVolume;
 extern u8 voice_is_working[24];
+extern s16 indice_ray_wait;
+extern s16 stk_obj[20];
+extern s16 stk_snd[20];
 
 extern VoiceTableEntry voice_table[24];
 extern u8 D_801F6850;
@@ -29,6 +32,14 @@ extern s16 PS1_SepVols[25];
 extern SepInfo PS1_SepInfos[25];
 /*extern s16 *D_801C7CBE;*/
 extern s16 D_801F7C80;
+extern u8 D_801CEFD0[8];
+extern Unk_801f7d40 D_801F7D40[8];
+extern s16 D_801E4DD0;
+extern s16 D_801E59D0;
+extern u8 D_801F7D41;
+extern u8 D_801F7D42;
+extern u8 D_801F7D43;
+extern s16 D_801FA578;
 
 /* 41084 80165884 -O2 -msoft-float */
 void PS1_StopPlayingAllSnd(void)
@@ -206,13 +217,34 @@ u8 get_vol_snd(Obj *obj)
   return res;
 }
 
+/* 41B3C 8016633C -O2 -msoft-float */
+#ifndef NONMATCHINGS /* div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/sound", PS1_SetSoundVolume);
+#else
+void PS1_SetSoundVolume(s16 vol)
+{
+  FUN_80166060(vol * 127 / 20);
+}
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/sound", PS1_SetStereoEnabled);
+/* 41B9C 8016639C -O2 -msoft-float */
+void PS1_SetStereoEnabled(s16 enabled)
+{
+  if (enabled)
+    FUN_801660ac();
+  else
+    FUN_801660e8();
+}
 
 INCLUDE_ASM("asm/nonmatchings/sound", FUN_801663d4);
 
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166578);
+/* 41D78 80166578 -O2 -msoft-float */
+void FUN_80166578(void)
+{
+  SsUtReverbOff();
+  SsVabClose(0);
+  SsEnd();
+}
 
 INCLUDE_ASM("asm/nonmatchings/sound", last_snd);
 
