@@ -1,3 +1,9 @@
+pile_snd = 0x801f62a0;
+pt_pile_snd = 0x801e59d0;
+frame_snd_bis = 0x801c7878;
+snd_bis = 0x801c7978;
+frame_snd = 0x801c7778;
+indice_trz_wait = 0x801e4dd0;
 D_801CEE10 = 0x801cee10;
 D_8005866C = 0x8005866C;
 PS1_MsAnimIndex = 0x801cf0bc;

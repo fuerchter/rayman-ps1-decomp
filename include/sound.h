@@ -22,12 +22,11 @@ typedef struct VoiceTableEntry
     s16 field0_0x0;
     s16 field1_0x2;
     s16 field2_0x4;
-    u8 field3_0x6;
-    u8 field4_0x7;
-    u8 field5_0x8;
-    u8 field6_0x9;
-    u8 field7_0xa;
-    u8 field8_0xb;
+    s16 field3_0x6;
+    u8 field4_0x8;
+    u8 field5_0x9;
+    u8 field6_0xa;
+    u8 field7_0xb;
 } VoiceTableEntry;
 
 typedef struct SepInfo
@@ -45,6 +44,22 @@ typedef struct Unk_801f7d40
     u8 field4_0x4;
 } Unk_801f7d40;
 
+typedef struct Unk_801f62a0
+{
+    s16 field0_0x0;
+    s16 index;
+    s16 prog;
+    s16 tone;
+    s16 note;
+    s16 vol;
+    /* not sure about these, but every acces would otherwise be multiplied by 2 */
+    s16 field6_0xc;
+    s16 field7_0xe;
+    s32 field8_0x10;
+    s16 field9_0x14;
+    s16 field10_0x16;
+} Unk_801f62a0;
+
 /* .data */
 extern s16 D_801C7D20[8];
 
@@ -57,7 +72,7 @@ void PS1_PlaySnd(s16 sep_ind, s16 l_count);
 void PS1_StopPlayingSnd(s16 sep_ind);
 s16 PS1_SongIsPlaying(s16 sep_ind);
 void FUN_80166018(void);
-void FUN_80166060(s16 vol);
+void SetVolumeSound(s16 vol);
 void FUN_801660ac(void);
 void FUN_801660e8(void);
 void stop_all_snd(void);
@@ -66,7 +81,7 @@ u8 get_pan_snd(Obj *obj);
 u8 get_vol_snd(Obj *obj);
 void PS1_SetSoundVolume(s16 vol);
 void PS1_SetStereoEnabled(s16 enabled);
-void FUN_801663d4(void);
+void InitSnd(void);
 void FUN_80166578(void);
 s32 last_snd(s16 param_1);
 s32 get_pile_obj(s16 param_1);
@@ -77,8 +92,8 @@ void erase_pile_snd(s16 param_1);
 void nettoie_pile_snd(void);
 void FUN_80166d20(s16 param_1);
 u16 FUN_80166d88(s16 param_1);
-s32 FUN_80166e1c(s16 param_1, s16 param_2);
-s32 FUN_80166e58(s16 param_1, s16 param_2);
+s32 vol_r(s16 param_1, s16 param_2);
+s32 vol_l(s16 param_1, s16 param_2);
 void PlaySnd(s16 snd, s16 objId);
 void PlaySnd_old(s16 snd);
 void setvol(u16 param_1);

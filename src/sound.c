@@ -32,14 +32,16 @@ extern s16 PS1_SepVols[25];
 extern SepInfo PS1_SepInfos[25];
 /*extern s16 *D_801C7CBE;*/
 extern s16 D_801F7C80;
-extern u8 D_801CEFD0[8];
-extern Unk_801f7d40 D_801F7D40[8];
-extern s16 D_801E4DD0;
-extern s16 D_801E59D0;
+extern s16 indice_trz_wait;
+extern s16 pt_pile_snd;
 extern u8 D_801F7D41;
 extern u8 D_801F7D42;
 extern u8 D_801F7D43;
 extern s16 D_801FA578;
+/* structs unclear, number of elements unclear*/
+extern u8 D_801CEFD0[8];
+extern Unk_801f7d40 D_801F7D40[8];
+extern Unk_801f62a0 pile_snd[10];
 
 /* 41084 80165884 -O2 -msoft-float */
 void PS1_StopPlayingAllSnd(void)
@@ -127,7 +129,7 @@ void FUN_80166018(void)
 }
 
 /* 41860 80166060 -O2 -msoft-float */
-void FUN_80166060(s16 vol)
+void SetVolumeSound(s16 vol)
 {
   SsSetSerialAttr(SS_SERIAL_B, SS_MIX, SS_SON);
   SsSetSerialVol(SS_SERIAL_B, vol, vol);
@@ -236,7 +238,7 @@ void PS1_SetStereoEnabled(s16 enabled)
     FUN_801660e8();
 }
 
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_801663d4);
+INCLUDE_ASM("asm/nonmatchings/sound", InitSnd);
 
 /* 41D78 80166578 -O2 -msoft-float */
 void FUN_80166578(void)
@@ -248,7 +250,28 @@ void FUN_80166578(void)
 
 INCLUDE_ASM("asm/nonmatchings/sound", last_snd);
 
-INCLUDE_ASM("asm/nonmatchings/sound", get_pile_obj);
+/* TODO: still lots to figure out */
+/* 41E90 80166690 -O2 -msoft-float */
+s32 get_pile_obj(s16 param_1)
+{
+  s16 i;
+  Unk_801f62a0 *cur;
+  
+  i = -1;
+  if (pt_pile_snd != 0)
+  {
+    cur = pile_snd;
+    i = 0;
+    while (cur->field0_0x0 != param_1 && i < pt_pile_snd)
+    {
+      cur++;
+      i++;
+    }
+    if (i == pt_pile_snd)
+      i = -1;
+  }
+  return i;
+}
 
 INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166724);
 
@@ -264,9 +287,9 @@ INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166d20);
 
 INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166d88);
 
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166e1c);
+INCLUDE_ASM("asm/nonmatchings/sound", vol_r);
 
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166e58);
+INCLUDE_ASM("asm/nonmatchings/sound", vol_l);
 
 INCLUDE_ASM("asm/nonmatchings/sound", PlaySnd);
 

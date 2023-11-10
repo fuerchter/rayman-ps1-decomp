@@ -1,3 +1,7 @@
+vol_l = 0x80166e58;
+vol_r = 0x80166e1c;
+InitSnd = 0x801663d4;
+SetVolumeSound = 0x80166060;
 PS1_LoadPts = 0x8013f460;
 PS1_DisplayPlateau = 0x8018c30c;
 PS1_LoadImaWorld = 0x8019e770;

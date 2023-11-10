@@ -121,10 +121,10 @@ void FUN_8016617c(void)
 }
 
 /* matches, but too much unkown */
-/*INCLUDE_ASM("asm/nonmatchings/sound", FUN_801663d4);*/
+/*INCLUDE_ASM("asm/nonmatchings/sound", InitSnd);*/
 
 /* 41BD4 801663D4 -O2 -msoft-float */
-void FUN_801663d4(void)
+void InitSnd(void)
 {
     s16 *var_a0;
     s16 *var_v1;
@@ -143,10 +143,10 @@ void FUN_801663d4(void)
         var_s0++;
         var_v1++;
     }
-    D_801E59D0 = 0;
+    pt_pile_snd = 0;
     D_801FA578 = 0;
     indice_ray_wait = 0;
-    D_801E4DD0 = 2;
+    indice_trz_wait = 2;
     for(var_s0 = 0; var_s0 < 8; var_s0++)
     {
         D_801F7D40[var_s0].field0_0x0 = D_801CEFD0[var_s0];
@@ -165,4 +165,47 @@ void FUN_801663d4(void)
     for(var_s0 = 0; var_s0 < 200; var_s0++)
         VSync(0);
     SsUtSetReverbDepth(20, 20);
+}
+
+/*INCLUDE_ASM("asm/nonmatchings/sound", last_snd);*/
+
+/* 41DA8 801665A8 -O2 -msoft-float */
+int last_snd(short param_1)
+{
+  short sVar1;
+  s16 iVar2;
+  s16 iVar3;
+  
+  iVar3 = 0;
+  if (stk_obj[0] != param_1) {
+    iVar2 = 1;
+    do {
+      iVar3 = iVar2;
+      if (iVar3 == 0x14) break;
+      iVar2 = iVar3 + 1;
+    } while (stk_obj[iVar3] != param_1);
+  }
+  /*iVar2 = iVar3;*/
+  if (iVar3 == 0x14) {
+LAB_80166608:
+    do {
+      iVar3 = iVar3 + -1;
+      iVar2 = iVar3;
+      if (iVar2 == -1) {
+        /*iVar3 = 0;*/
+        iVar2 = 0;
+        goto LAB_80166650;
+      }
+    } while (stk_snd[iVar2] != 0);
+  }
+  else {
+LAB_80166650:
+    if (iVar2 == -1) {
+      sVar1 = -1;
+      goto code_r0x80166684;
+    }
+  }
+  sVar1 = stk_snd[iVar3];
+code_r0x80166684:
+  return (int)sVar1;
 }
