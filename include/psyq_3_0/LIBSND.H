@@ -39,6 +39,10 @@
 
 #define SS_SEQ_TABSIZ     172
 
+extern void  SsSetTableSize (char*, short, short);
+extern void  SsSetTickMode (long);
+extern void  SsStart (void);
+
 extern short SsIsEos (short, short);
 extern short SsSepOpen (unsigned long*, short, short);
 extern void  SsSepPlay (short, short, char, short);
@@ -50,5 +54,12 @@ extern void  SsUtReverbOff (void);
 extern short SsVabOpenHead (unsigned char*, short);
 extern void  SsVabClose (short);
 extern void  SsSeqCalledTbyT (void);
+
+extern void  SsSetMVol (short, short);
+
+extern void  SsSetSerialAttr (char, char, char);
+extern void  SsSetSerialVol (char, short, short);
+
+extern void  SsSetStereo (void);
 
 #endif

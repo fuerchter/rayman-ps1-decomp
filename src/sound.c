@@ -12,7 +12,9 @@ extern FileInfo PS1_Vab4sepFiles[7];
 extern s16 PS1_World_VabId1;
 extern s16 PS1_World_VabId2;
 extern s16 PS1_World_SepAcc;
+extern s16 PS1_SoundVolume;
 
+extern u8 D_801F6850;
 extern s16 D_801CEFCC;
 extern s32 D_801D8B50;
 extern s32 D_801D8B54;
@@ -62,6 +64,7 @@ INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadAllFixSound);
 
 INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadWorldSound);
 
+/* 416B4 80165EB4 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/sound", PS1_PlaySnd);
 #else
@@ -77,6 +80,7 @@ void PS1_PlaySnd(s16 sep_ind, s16 l_count)
 }
 #endif
 
+/* 41778 80165F78 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/sound", PS1_StopPlayingSnd);
 #else
@@ -89,15 +93,59 @@ void PS1_StopPlayingSnd(s16 sep_ind)
 }
 #endif
 
+/* 417CC 80165FCC -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/sound", PS1_SongIsPlaying);
+#else
+s16 PS1_SongIsPlaying(s16 sep_ind)
+{
+  __asm__("nop\nnop");
+  return SsIsEos(PS1_SepInfos[sep_ind].access_num, PS1_SepInfos[sep_ind].seq_num);
+}
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166018);
+/* 41818 80166018 -O2 -msoft-float */
+void FUN_80166018(void)
+{
+  SsSetTableSize(&D_801F6850, 2, 10);
+  SsSetTickMode(SS_TICK120);
+  SsStart();
+  SsSetMVol(127, 127);
+}
 
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166060);
+/* 41860 80166060 -O2 -msoft-float */
+void FUN_80166060(s16 vol)
+{
+  SsSetSerialAttr(SS_SERIAL_B, SS_MIX, SS_SON);
+  SsSetSerialVol(SS_SERIAL_B, vol, vol);
+  PS1_SoundVolume = vol;
+}
 
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_801660ac);
+/* 418AC 801660AC -O2 -msoft-float */
+void FUN_801660ac(void)
+{
+  CdlATV vol;
+  
+  vol.val0 = 128;
+  vol.val1 = 0;
+  vol.val2 = 128;
+  vol.val3 = 0;
+  CdMix(&vol);
+  SsSetStereo();
+}
 
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_801660e8);
+/* 418E8 801660E8 -O2 -msoft-float */
+void FUN_801660e8(void)
+{
+  CdlATV vol;
+  
+  SsSetMono();
+  vol.val0 = 90;
+  vol.val1 = 90;
+  vol.val2 = 90;
+  vol.val3 = 90;
+  CdMix(&vol);
+}
 
 INCLUDE_ASM("asm/nonmatchings/sound", stop_all_snd);
 

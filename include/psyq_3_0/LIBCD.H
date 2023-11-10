@@ -12,6 +12,16 @@ typedef struct {
 } CdlLOC;
 
 /*
+ *	Attenuator
+ */
+typedef struct {
+	u_char	val0;		/* volume for CD(L) -> SPU (L) */
+	u_char	val1;		/* volume for CD(L) -> SPU (R) */
+	u_char	val2;		/* volume for CD(R) -> SPU (L) */
+	u_char	val3;		/* volume for CD(R) -> SPU (R) */
+} CdlATV;
+
+/*
  *	File System
  */
 typedef struct {
@@ -21,5 +31,6 @@ typedef struct {
 } CdlFILE;
 
 int CdSync(int mode, u_char *result);
+int CdMix(CdlATV *vol);
 
 #endif
