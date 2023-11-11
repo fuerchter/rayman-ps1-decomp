@@ -209,3 +209,43 @@ LAB_80166650:
 code_r0x80166684:
   return (int)sVar1;
 }
+
+/* matches, but... */
+/*INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166790);*/
+
+/* 41F90 80166790 -O2 -msoft-float */
+s32 FUN_80166790(s16 id)
+{
+  s16 *cur = &voice_table[0].field3_0x6;
+  s16 i = 0;
+  
+  while (*cur != id && i < 24)
+  {
+    cur += 6; /* this is almost certainly incorrect */
+    i++;
+  }
+  if (i == 24)
+    i = -1;
+  return i;
+}
+
+/* matches, but... */
+/*INCLUDE_ASM("asm/nonmatchings/sound", get_voice_obj_snd);*/
+
+/* 41FFC 801667FC -O2 -msoft-float */
+s32 get_voice_obj_snd(s16 id, s16 param_2)
+{
+  s16 *psVar1 = &voice_table[0].field3_0x6;
+  VoiceTableEntry *pVVar4 = voice_table;
+  s16 i = 0;
+  
+  while(*psVar1 != param_2 && pVVar4->id != id && i < 24)
+  {
+    i++;
+    psVar1 += 6;
+    pVVar4++;
+  }
+  if (i == 24)
+    i = -1;
+  return i;
+}

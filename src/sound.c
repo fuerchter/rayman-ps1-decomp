@@ -252,7 +252,7 @@ INCLUDE_ASM("asm/nonmatchings/sound", last_snd);
 
 /* TODO: still lots to figure out */
 /* 41E90 80166690 -O2 -msoft-float */
-s32 get_pile_obj(s16 param_1)
+s32 get_pile_obj(s16 id)
 {
   s16 i;
   Unk_801f62a0 *cur;
@@ -262,7 +262,7 @@ s32 get_pile_obj(s16 param_1)
   {
     cur = pile_snd;
     i = 0;
-    while (cur->field0_0x0 != param_1 && i < pt_pile_snd)
+    while (cur->id != id && i < pt_pile_snd)
     {
       cur++;
       i++;
@@ -273,7 +273,21 @@ s32 get_pile_obj(s16 param_1)
   return i;
 }
 
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166724);
+/* 41F24 80166724 -O2 -msoft-float */
+s32 FUN_80166724(s16 id)
+{
+  VoiceTableEntry *cur = &voice_table[0];
+  s16 i = 0;
+  
+  while (cur->id != id && i < 24)
+  {
+    cur++;
+    i++;
+  }
+  if (i == 24)
+    i = -1;
+  return i;
+}
 
 INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166790);
 

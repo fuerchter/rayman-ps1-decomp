@@ -19,7 +19,7 @@ typedef struct SoundTableEntry
 
 typedef struct VoiceTableEntry
 {
-    s16 field0_0x0;
+    s16 id;
     s16 field1_0x2;
     s16 field2_0x4;
     s16 field3_0x6;
@@ -46,7 +46,7 @@ typedef struct Unk_801f7d40
 
 typedef struct Unk_801f62a0
 {
-    s16 field0_0x0;
+    s16 id;
     s16 index;
     s16 prog;
     s16 tone;
@@ -84,10 +84,10 @@ void PS1_SetStereoEnabled(s16 enabled);
 void InitSnd(void);
 void FUN_80166578(void);
 s32 last_snd(s16 param_1);
-s32 get_pile_obj(s16 param_1);
-s32 FUN_80166724(s16 param_1);
-s32 FUN_80166790(s16 param_1);
-s32 get_voice_obj_snd(s16 param_1, s16 param_2);
+s32 get_pile_obj(s16 id);
+s32 FUN_80166724(s16 id);
+s32 FUN_80166790(s16 id);
+s32 get_voice_obj_snd(s16 id, s16 param_2);
 void erase_pile_snd(s16 param_1);
 void nettoie_pile_snd(void);
 void FUN_80166d20(s16 param_1);
