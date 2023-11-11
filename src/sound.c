@@ -372,7 +372,61 @@ s16 vol_l(s16 param_1, s16 param_2)
 
 INCLUDE_ASM("asm/nonmatchings/sound", PlaySnd);
 
+/* TODO: must be macro/inlining going on, surely? */
+/* 43400 80167C00 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/sound", PlaySnd_old);
+#else
+void PlaySnd_old(s16 snd)
+{
+  s16 new_id;
+  s32 voll_1;
+  s32 volr_1;
+  s16 voice_ind;
+  s32 voll_2;
+  s32 volr_2;
+  s32 vol_both;
+
+  new_id = -2;
+  if (options_jeu.StereoEnabled != 0)
+  {
+    vol_l(PS1_SoundVolume * sound_table[snd].volume >> 7, 64);
+    vol_r(PS1_SoundVolume * sound_table[snd].volume >> 7, 64);
+    voll_1 = vol_l(PS1_SoundVolume * sound_table[snd].volume >> 7, 64);
+    volr_1 = vol_r(PS1_SoundVolume * sound_table[snd].volume >> 7, 64);
+    voice_ind = SsUtKeyOn(
+      PS1_SoundVabIds[snd], sound_table[snd].prog,
+      sound_table[snd].tone, sound_table[snd].note,
+      0,
+      voll_1, volr_1
+    );
+    voll_2 = vol_l(PS1_SoundVolume * sound_table[snd].volume >> 7, 64);
+    volr_2 = vol_r(PS1_SoundVolume * sound_table[snd].volume >> 7, 64);
+    SsUtSetVVol(voice_ind, voll_2, volr_2);
+  }
+  else
+  {
+    voice_ind = SsUtKeyOn(
+      PS1_SoundVabIds[snd], sound_table[snd].prog,
+      sound_table[snd].tone, sound_table[snd].note,
+      0,
+      PS1_SoundVolume * sound_table[snd].volume >> 7, PS1_SoundVolume * sound_table[snd].volume >> 7
+    );
+    vol_both = PS1_SoundVolume * sound_table[snd].volume >> 7;
+    SsUtSetVVol(voice_ind, vol_both, vol_both);
+  }
+  if (voice_ind != -1)
+  {
+    voice_table[voice_ind].id = new_id;
+    voice_table[voice_ind].field1_0x2 = 64;
+    voice_table[voice_ind].field2_0x4 = 64;
+    if (sound_table[snd].flags >> 4 & 1)
+      voice_is_working[voice_ind] = true;
+  }
+
+  __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/sound", setvol);
 

@@ -65,6 +65,7 @@ extern void  SsSetSerialVol (char, short, short);
 
 extern void  SsSetStereo (void);
 
+extern short SsUtKeyOn (short, short, short, short, short, short, short);
 extern void  SsUtAllKeyOff (short);
 
 #endif
