@@ -21,8 +21,8 @@ typedef struct VoiceTableEntry
 {
     s16 id;
     s16 field1_0x2;
-    s16 field2_0x4; /* pan? see get_pan_snd */
-    s16 field3_0x6;
+    s16 field2_0x4; /* pan? see get_pan_snd, setpan */
+    s16 field3_0x6; /* sound_table index based on FUN_80168f48? */
     u8 field4_0x8;
     u8 field5_0x9;
     u8 field6_0xa;
@@ -54,7 +54,7 @@ typedef struct Unk_801f62a0
     s16 vol;
     /* not sure about these, but every acces would otherwise be multiplied by 2 */
     s16 field6_0xc;
-    s16 field7_0xe;
+    s16 field7_0xe; /* pan? see get_pan_snd, setpan */
     s32 field8_0x10; /* see nettoie_pile_snd for use */
     s16 field9_0x14;
     s16 field10_0x16;
@@ -94,13 +94,13 @@ void FUN_80166d20(s16 id);
 s16 FUN_80166d88(s16 index);
 s16 vol_r(s16 param_1, s16 param_2); /* param_1 is vol? param_2 is pan? see get_pan_snd */
 s16 vol_l(s16 param_1, s16 param_2);
-void PlaySnd(s16 snd, s16 objId);
+void PlaySnd(s16 snd, s16 obj_id);
 void PlaySnd_old(s16 snd);
 void setvol(u16 param_1);
-void setpan(s16 param_1);
+void setpan(s16 obj_id);
 void FUN_80168f38(s16 param_1);
 void FUN_80168f40(void);
-void FUN_80168f48(void);
+void FUN_80168f48(void); /* this looks closest to manage_snd on android? */
 void FUN_80169194(void);
 void FUN_8016924c(void);
 void PS1_OnPauseOn(void);

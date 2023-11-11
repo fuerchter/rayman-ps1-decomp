@@ -314,3 +314,63 @@ s16 FUN_80166d88(s16 index)
   }
   return i;
 }
+
+/*INCLUDE_ASM("asm/nonmatchings/sound", FUN_80168f48);*/
+
+/* 44748 80168F48 -O2 -msoft-float */
+void FUN_80168f48(void)
+{
+  short sVar1;
+  short sVar2;
+  int iVar3;
+  short *psVar4;
+  VoiceTableEntry *pVVar5;
+  s16 iVar6;
+  s16 new_var;
+  s16 test_1;
+  s32 test_2;
+  s16 *cur_stk_obj;
+  
+  if ((D_801CEFCC != 0) && !((level.objects[D_801CEFCE].flags & FLG(OBJ_ACTIVE)))
+     ) {
+    PS1_StopPlayingSnd(0x16);
+  }
+  psVar4 = &voice_table[0].field3_0x6;
+  pVVar5 = &voice_table[0];
+  iVar6 = 0;
+  do {
+    iVar3 = pVVar5->id;
+    if (
+      (
+        (-1 < iVar3 && !(level.objects[iVar3].flags & FLG(OBJ_ACTIVE))) ||
+        (iVar3 == -2 && *psVar4 != -1)
+      ) &&
+      ((sound_table[voice_table[iVar6].field3_0x6].flags >> 4 & 1) != 0)
+    )
+    {
+      sVar2 = *psVar4;
+      SsUtKeyOff(iVar6,PS1_SoundVabIds[sVar2],sound_table[sVar2].prog,sound_table[sVar2].tone,
+                 sound_table[sVar2].note);
+      voice_is_working[iVar6] = 0;
+      sVar2 = 0;
+      new_var = pVVar5->id;
+      cur_stk_obj = &stk_obj[sVar2];
+      if (stk_obj[sVar2] != new_var) {
+        sVar1 = 1;
+        do {
+          sVar2 = sVar1;
+          if (sVar2 == 0x14) break;
+          sVar1 = sVar2 + 1;
+        } while (stk_obj[sVar2] != new_var);
+      }
+      if (sVar2 < 0x14) {
+        stk_snd[sVar2] = -1;
+      }
+      pVVar5->id = -2;
+      *psVar4 = -1;
+    }
+    iVar6 = iVar6 + 1;
+    psVar4 = psVar4 + 6;
+    pVVar5 = pVVar5 + 1;
+  } while( 0x18 >= iVar6 * 0x10000 >> 0x10 );
+}

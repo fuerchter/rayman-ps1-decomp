@@ -18,7 +18,12 @@ extern s16 indice_ray_wait;
 extern s16 stk_obj[20];
 extern s16 stk_snd[20];
 extern u8 snd_sqrt_table[128];
+extern u8 PS1_SoundVabIds[256];
+extern s16 D_801CEFD8;
+extern s16 D_801CEEB6;
 
+extern s16 D_801CEFCE;
+extern SoundTableEntry sound_table[256];
 extern VoiceTableEntry voice_table[24];
 extern u8 D_801F6850;
 extern s16 D_801CEFCC;
@@ -371,7 +376,41 @@ INCLUDE_ASM("asm/nonmatchings/sound", PlaySnd_old);
 
 INCLUDE_ASM("asm/nonmatchings/sound", setvol);
 
+/* 445D0 80168DD0 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/sound", setpan);
+#else
+void setpan(s16 obj_id)
+{
+  s16 voice_ind;
+  s16 pile_ind;
+  u8 pan;
+  
+  if (ray.scale != 0 && obj_id == reduced_rayman_id)
+    obj_id = -1;
+  voice_ind = FUN_80166724(obj_id);
+  if (voice_ind != -1)
+  {
+    if (obj_id == -1)
+      pan = get_pan_snd(&ray);
+    else
+      pan = get_pan_snd(&level.objects[obj_id]);
+    voice_table[voice_ind].field2_0x4 = pan;
+  }
+  else
+  {
+    if (obj_id == -1)
+      pan = get_pan_snd(&ray);
+    else
+      pan = get_pan_snd(&level.objects[obj_id]);
+    pile_ind = get_pile_obj(obj_id);
+    if (pile_ind != -1)
+      pile_snd[pile_ind].field7_0xe = pan;
+  }
+
+  __asm__("nop\nnop");
+}
+#endif
 
 void FUN_80168f38(s16 param_1) {}
 
@@ -379,12 +418,74 @@ void FUN_80168f40(void) {}
 
 INCLUDE_ASM("asm/nonmatchings/sound", FUN_80168f48);
 
+/* 44994 80169194 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/sound", FUN_80169194);
+#else
+void FUN_80169194(void)
+{
+    s16 i;
+    s16 sound_ind;
+    
+    __asm__("nop\nnop");
 
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_8016924c);
+    for (i = 0; i < 24; i++)
+    {
+        sound_ind = voice_table[i].field3_0x6;
+        if (
+          sound_ind == 6 || sound_ind == 245 ||
+          sound_ind == 2 || sound_table[sound_ind].flags >> 4 & 1
+        )
+            SsUtSetVVol(i, 0, 0);
+    }
+}
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/sound", PS1_OnPauseOn);
+/* 44A4C 8016924C -O2 -msoft-float */
+void FUN_8016924c(void)
+{
+  s16 i;
+  
+  for (i = 0; i < 24; i++)
+    SsUtSetVVol(i, 0, 0);
+}
 
+/* 44A9C 8016929C -O2 -msoft-float */
+void PS1_OnPauseOn(void)
+{
+  s16 sep_access_num;
+  s16 seq_num;
+  
+  FUN_8016924c();
+  D_801CEFD8 = 1;
+  D_801CEEB6 = CdlPause;
+  CdControlB(D_801CEEB6, null, null);
+  
+  for (sep_access_num = 0; sep_access_num < 2; sep_access_num++)
+    for (seq_num = 0; seq_num < 10; seq_num++)
+      SsSepSetVol(sep_access_num, seq_num, 0, 0);
+}
+
+/* 44B50 80169350 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/sound", PS1_OnPauseOff);
+#else
+void PS1_OnPauseOff(void)
+{
+  s16 i;
+  s16 vol;
+
+  if (D_801CEFD8 != 0)
+    CdControl(CdlPlay, null, null);
+  for (i = 0; i <= 24; i++)
+  {
+    vol = D_801F7C80 * PS1_SepVols[i] >> 7;
+    SsSepSetVol(PS1_SepInfos[i].access_num, PS1_SepInfos[i].seq_num, vol, vol);
+  }
+  D_801CEFD8 = 0;
+
+  __asm__("nop\nnop");
+}
+#endif
 
 INCLUDE_RODATA("asm/nonmatchings/sound", snd_sqrt_table);
