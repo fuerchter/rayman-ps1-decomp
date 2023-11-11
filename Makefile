@@ -31,7 +31,7 @@
 #rename duplicate memcpy, set_alarm in ghidra
 #how to decompile ghidra_psx_ldr generated obj labels/functions in psyq?
 #.data like DemoRecord might need incbin preprocessor stuff, see https://github.com/YohannDR/mzm/blob/e0f6976efb9d4be4b653d1c71ee803a8ef0599b3/tools/preproc/c_file.cpp#L326 ?
-#.bss ? https://github.com/HighwayFrogs/frogger-psx/tree/main/vlo https://github.com/ethteck/splat/wiki/Segments#bss
+#.bss ? https://github.com/HighwayFrogs/frogger-psx/tree/main/vlo https://github.com/ethteck/splat/wiki/Segments#bss https://github.com/FoxdieTeam/mgs_reversing/tree/df66887a738d28581438b9cb5e77cd762223762d/src/data
 
 EXE               := slus-000.05
 

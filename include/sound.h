@@ -87,7 +87,7 @@ s32 last_snd(s16 param_1);
 s16 get_pile_obj(s16 id); /* do these "find" funcs all return s16? */
 s16 FUN_80166724(s16 id);
 s32 FUN_80166790(s16 id);
-s32 get_voice_obj_snd(s16 id, s16 param_2);
+s16 get_voice_obj_snd(s16 id, s16 param_2);
 void erase_pile_snd(s16 id);
 void nettoie_pile_snd(void);
 void FUN_80166d20(s16 id);

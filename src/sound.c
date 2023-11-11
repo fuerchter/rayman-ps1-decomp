@@ -48,6 +48,9 @@ extern s16 D_801FA578;
 extern u8 D_801CEFD0[8];
 extern Unk_801f7d40 D_801F7D40[8];
 extern Unk_801f62a0 pile_snd[10];
+extern u8 place_sequence[5];
+extern u8 frame_snd[256];
+extern s16 snd_bis[256];
 
 /* 41084 80165884 -O2 -msoft-float */
 void PS1_StopPlayingAllSnd(void)
