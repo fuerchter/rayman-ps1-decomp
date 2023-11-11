@@ -249,3 +249,68 @@ s32 get_voice_obj_snd(s16 id, s16 param_2)
     i = -1;
   return i;
 }
+
+/*INCLUDE_ASM("asm/nonmatchings/sound", nettoie_pile_snd);*/
+
+/* 422AC 80166AAC -O2 -msoft-float */
+void nettoie_pile_snd(void)
+{
+  int iVar3;
+  s16 iVar4;
+  s16 iVar5;
+  s16 new_var;
+  
+  iVar5 = 0;
+  if (0 < pt_pile_snd) {
+    do {
+      if (((uint)pile_snd[iVar5].field8_0x10 < map_time) &&
+         (pile_snd[iVar5].field8_0x10 != 0)) {
+        iVar4 = iVar5;
+        while (iVar4 < pt_pile_snd) {
+          iVar3 = iVar4 + 1;
+          pile_snd[iVar4].id = pile_snd[iVar3].id;
+          pile_snd[iVar4].index = pile_snd[iVar3].index;
+          pile_snd[iVar4].prog = pile_snd[iVar3].prog;
+          pile_snd[iVar4].tone = pile_snd[iVar3].tone;
+          pile_snd[iVar4].note = pile_snd[iVar3].note;
+          pile_snd[iVar4].vol = pile_snd[iVar3].vol;
+          pile_snd[iVar4].field6_0xc = pile_snd[iVar3].field6_0xc;
+          pile_snd[iVar4].field7_0xe = pile_snd[iVar3].field7_0xe;
+          pile_snd[iVar4].field8_0x10 = pile_snd[iVar3].field8_0x10;
+          pile_snd[iVar4].field9_0x14 = pile_snd[iVar3].field9_0x14;
+          iVar4++;
+        }
+        if (0 < pt_pile_snd) {
+          pt_pile_snd = pt_pile_snd + -1;
+        }
+      }
+      else {
+        iVar5 = iVar5 + 1;
+      }
+    } while (iVar5 < pt_pile_snd);
+  }
+  return;
+}
+
+/* matches, but same issues as FUN_80166790, get_voice_obj_snd */
+/*INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166d88);*/
+
+/* 42588 80166D88 -O2 -msoft-float */
+s16 FUN_80166d88(s16 index)
+{
+  s16 i;
+  s16 *psVar1;
+  
+  i = 0;
+  if (pt_pile_snd != 0)
+  {
+    psVar1 = &pile_snd[0].index;
+    while (*psVar1 != index && i < pt_pile_snd)
+    {
+        i++;
+        psVar1 += 0xc;
+    }
+    i = i != pt_pile_snd;
+  }
+  return i;
+}

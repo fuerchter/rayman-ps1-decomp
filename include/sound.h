@@ -21,7 +21,7 @@ typedef struct VoiceTableEntry
 {
     s16 id;
     s16 field1_0x2;
-    s16 field2_0x4;
+    s16 field2_0x4; /* pan? see get_pan_snd */
     s16 field3_0x6;
     u8 field4_0x8;
     u8 field5_0x9;
@@ -55,7 +55,7 @@ typedef struct Unk_801f62a0
     /* not sure about these, but every acces would otherwise be multiplied by 2 */
     s16 field6_0xc;
     s16 field7_0xe;
-    s32 field8_0x10;
+    s32 field8_0x10; /* see nettoie_pile_snd for use */
     s16 field9_0x14;
     s16 field10_0x16;
 } Unk_801f62a0;
@@ -84,16 +84,16 @@ void PS1_SetStereoEnabled(s16 enabled);
 void InitSnd(void);
 void FUN_80166578(void);
 s32 last_snd(s16 param_1);
-s32 get_pile_obj(s16 id);
-s32 FUN_80166724(s16 id);
+s16 get_pile_obj(s16 id); /* do these "find" funcs all return s16? */
+s16 FUN_80166724(s16 id);
 s32 FUN_80166790(s16 id);
 s32 get_voice_obj_snd(s16 id, s16 param_2);
-void erase_pile_snd(s16 param_1);
+void erase_pile_snd(s16 id);
 void nettoie_pile_snd(void);
-void FUN_80166d20(s16 param_1);
-u16 FUN_80166d88(s16 param_1);
-s32 vol_r(s16 param_1, s16 param_2);
-s32 vol_l(s16 param_1, s16 param_2);
+void FUN_80166d20(s16 id);
+s16 FUN_80166d88(s16 index);
+s16 vol_r(s16 param_1, s16 param_2); /* param_1 is vol? param_2 is pan? see get_pan_snd */
+s16 vol_l(s16 param_1, s16 param_2);
 void PlaySnd(s16 snd, s16 objId);
 void PlaySnd_old(s16 snd);
 void setvol(u16 param_1);

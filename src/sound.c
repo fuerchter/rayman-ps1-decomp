@@ -17,6 +17,7 @@ extern u8 voice_is_working[24];
 extern s16 indice_ray_wait;
 extern s16 stk_obj[20];
 extern s16 stk_snd[20];
+extern u8 snd_sqrt_table[128];
 
 extern VoiceTableEntry voice_table[24];
 extern u8 D_801F6850;
@@ -225,7 +226,7 @@ INCLUDE_ASM("asm/nonmatchings/sound", PS1_SetSoundVolume);
 #else
 void PS1_SetSoundVolume(s16 vol)
 {
-  FUN_80166060(vol * 127 / 20);
+  SetVolumeSound(vol * 127 / 20);
 }
 #endif
 
@@ -252,7 +253,7 @@ INCLUDE_ASM("asm/nonmatchings/sound", last_snd);
 
 /* TODO: still lots to figure out */
 /* 41E90 80166690 -O2 -msoft-float */
-s32 get_pile_obj(s16 id)
+s16 get_pile_obj(s16 id)
 {
   s16 i;
   Unk_801f62a0 *cur;
@@ -274,7 +275,7 @@ s32 get_pile_obj(s16 id)
 }
 
 /* 41F24 80166724 -O2 -msoft-float */
-s32 FUN_80166724(s16 id)
+s16 FUN_80166724(s16 id)
 {
   VoiceTableEntry *cur = &voice_table[0];
   s16 i = 0;
@@ -293,17 +294,76 @@ INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166790);
 
 INCLUDE_ASM("asm/nonmatchings/sound", get_voice_obj_snd);
 
+/* 42094 80166894 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */ 
 INCLUDE_ASM("asm/nonmatchings/sound", erase_pile_snd);
+#else
+void erase_pile_snd(s16 id)
+{
+    s16 pile_obj;
+    s16 cur;
+    s32 next;
+
+    pile_obj = get_pile_obj(id);
+    if (pile_obj != -1)
+    {
+        for (cur = pile_obj; cur < pt_pile_snd; cur++)
+        {
+            next = cur + 1;
+            pile_snd[cur].id = pile_snd[next].id;
+            pile_snd[cur].index = pile_snd[next].index;
+            pile_snd[cur].prog = pile_snd[next].prog;
+            pile_snd[cur].tone = pile_snd[next].tone;
+            pile_snd[cur].note = pile_snd[next].note;
+            pile_snd[cur].vol = pile_snd[next].vol;
+            pile_snd[cur].field6_0xc = pile_snd[next].field6_0xc;
+            pile_snd[cur].field7_0xe = pile_snd[next].field7_0xe;
+            pile_snd[cur].field8_0x10 = pile_snd[next].field8_0x10;
+            pile_snd[cur].field9_0x14 = pile_snd[next].field9_0x14;
+        }
+        if (pt_pile_snd > 0)
+            pt_pile_snd--;
+    }
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/sound", nettoie_pile_snd);
 
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166d20);
+/* 42520 80166D20 -O2 -msoft-float */
+void FUN_80166d20(s16 id)
+{
+  VoiceTableEntry *cur = &voice_table[0];
+  s16 i = 0;
+  
+  while (cur->id != id && i < 24)
+  {
+      cur++;
+      i++;
+  }
+  if (i != 24)
+    cur->id = -2;
+}
 
 INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166d88);
 
+/* 4261C 80166E1C -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/sound", vol_r);
+#else
+s16 vol_r(s16 param_1, s16 param_2)
+{
+  __asm__("nop");
+  return param_1 * (u32) snd_sqrt_table[param_2] / 256;
+}
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/sound", vol_l);
+/* 42658 80166E58 -O2 -msoft-float */
+s16 vol_l(s16 param_1, s16 param_2)
+{
+  return param_1 * (u32) snd_sqrt_table[127 - param_2] / 256;
+}
 
 INCLUDE_ASM("asm/nonmatchings/sound", PlaySnd);
 
@@ -327,4 +387,4 @@ INCLUDE_ASM("asm/nonmatchings/sound", PS1_OnPauseOn);
 
 INCLUDE_ASM("asm/nonmatchings/sound", PS1_OnPauseOff);
 
-INCLUDE_RODATA("asm/nonmatchings/sound", D_8012AB94);
+INCLUDE_RODATA("asm/nonmatchings/sound", snd_sqrt_table);

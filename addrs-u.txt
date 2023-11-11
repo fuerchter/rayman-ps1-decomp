@@ -1,3 +1,4 @@
+snd_sqrt_table = 0x8012ab94;
 pile_snd = 0x801f62a0;
 pt_pile_snd = 0x801e59d0;
 frame_snd_bis = 0x801c7878;
