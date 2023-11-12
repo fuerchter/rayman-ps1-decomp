@@ -167,40 +167,33 @@ void InitSnd(void)
     SsUtSetReverbDepth(20, 20);
 }
 
+/* matches, but gotos */
 /*INCLUDE_ASM("asm/nonmatchings/sound", last_snd);*/
 
 /* 41DA8 801665A8 -O2 -msoft-float */
-int last_snd(short param_1)
+s32 last_snd(s16 param_1)
 {
   short sVar1;
   s16 iVar2;
   s16 iVar3;
   
   iVar3 = 0;
-  if (stk_obj[0] != param_1) {
-    iVar2 = 1;
-    do {
-      iVar3 = iVar2;
-      if (iVar3 == 0x14) break;
-      iVar2 = iVar3 + 1;
-    } while (stk_obj[iVar3] != param_1);
+  while (iVar3 != 0x14 && stk_obj[iVar3] != param_1) {
+    iVar3 = iVar3 + 1;
   }
-  /*iVar2 = iVar3;*/
-  if (iVar3 == 0x14) {
-LAB_80166608:
+
+  if ((short)iVar3 == 0x14) {
     do {
       iVar3 = iVar3 + -1;
-      iVar2 = iVar3;
-      if (iVar2 == -1) {
-        /*iVar3 = 0;*/
-        iVar2 = 0;
+      if (iVar3 == -1) {
+        iVar3 = 0;
         goto LAB_80166650;
       }
-    } while (stk_snd[iVar2] != 0);
+    } while (stk_snd[iVar3] != 0);
   }
   else {
 LAB_80166650:
-    if (iVar2 == -1) {
+    if (iVar3 == -1) {
       sVar1 = -1;
       goto code_r0x80166684;
     }
