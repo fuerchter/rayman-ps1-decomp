@@ -1,56 +1,15 @@
 #include "sound.h"
 
-extern s16 PS1_CurrentAudio;
-extern s16 PS1_AudioTable[14];
-extern s32 PS1_FileTemp;
-extern s16 PS1_AllFix_VabId1;
-extern s16 PS1_AllFix_VabId2;
-extern s16 PS1_AllFix_SepAcc;
-extern FileInfo PS1_VabFiles[7];
-extern FileInfo PS1_BigFiles[7];
-extern FileInfo PS1_Vab4sepFiles[7];
-extern s16 PS1_World_VabId1;
-extern s16 PS1_World_VabId2;
-extern s16 PS1_World_SepAcc;
-extern s16 PS1_SoundVolume;
-extern u8 voice_is_working[24];
-extern s16 indice_ray_wait;
-extern s16 stk_obj[20];
-extern s16 stk_snd[20];
-extern u8 snd_sqrt_table[128];
-extern u8 PS1_SoundVabIds[256];
-extern s16 D_801CEFD8;
-extern s16 D_801CEEB6;
 
-extern s16 D_801CEFCE;
-extern SoundTableEntry sound_table[256];
-extern VoiceTableEntry voice_table[24];
-extern u8 D_801F6850;
-extern s16 D_801CEFCC;
-extern s32 D_801D8B50;
-extern s32 D_801D8B54;
-extern s32 D_801D8B58;
-extern s32 D_801D8B5C;
-extern s16 D_801CEFDC;
-extern s16 D_801C7C78;
-extern s32 *D_801D7840;
-extern s16 PS1_SepVols[25];
-extern SepInfo PS1_SepInfos[25];
-/*extern s16 *D_801C7CBE;*/
-extern s16 D_801F7C80;
-extern s16 indice_trz_wait;
-extern s16 pt_pile_snd;
+/* too much unknown? */
 extern u8 D_801F7D41;
 extern u8 D_801F7D42;
 extern u8 D_801F7D43;
-extern s16 D_801FA578;
-/* structs unclear, number of elements unclear*/
-extern u8 D_801CEFD0[8];
-extern Unk_801f7d40 D_801F7D40[8];
-extern Unk_801f62a0 pile_snd[10];
 extern u8 place_sequence[5];
-extern u8 frame_snd[256];
-extern s16 snd_bis[256];
+extern s16 D_801CEEB6; /* go through FUN_80130684 first */
+extern s32 *D_801D7840;
+extern s16 D_801F7C80;
+
 
 /* 41084 80165884 -O2 -msoft-float */
 void PS1_StopPlayingAllSnd(void)

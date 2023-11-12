@@ -13,6 +13,14 @@ typedef struct FileInfo
 } FileInfo;
 
 /* .data */
+extern FileInfo PS1_VabFiles[7];
+extern FileInfo PS1_BigFiles[7];
+extern FileInfo PS1_Vab4sepFiles[7];
+
+/* .data */
 extern u8 PS1_HasLoadedFont;
+
+/**/
+extern s32 PS1_FileTemp;
 
 #endif

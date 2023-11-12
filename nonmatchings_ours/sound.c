@@ -56,7 +56,7 @@ void PS1_LoadAllFixSound(void)
         PS1_FileTemp = FUN_80133498(PS1_Vab4sepFiles[0], PS1_AllFix_VabId2, 0);
       PS1_AllFix_SepAcc = 0;
       if (PS1_AllFix_VabId2 != -1)
-        PS1_AllFix_SepAcc = SsSepOpen((u8 *)((int)&D_801D8B50 + D_801D8B5C), PS1_AllFix_VabId2, D_801C7C78);
+        PS1_AllFix_SepAcc = SsSepOpen((u8 *)((int)&D_801D8B50 + D_801D8B5C), PS1_AllFix_VabId2, D_801C7C78[0]);
     }
     SsUtReverbOn();
     LOAD_CONFIG();
@@ -99,7 +99,7 @@ void PS1_LoadWorldSound(s16 param_1)
     PS1_World_SepAcc = SsSepOpen(
         (int)piVar1 + piVar1[3],
         PS1_World_VabId2,
-        *(s16 *)((int)&D_801C7C78 + param_1 * 2)
+        D_801C7C78[param_1]
     );
   }
 }
