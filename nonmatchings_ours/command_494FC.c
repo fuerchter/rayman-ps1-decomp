@@ -12,8 +12,8 @@
 
 void DO_ONE_CMD_LR_ATTENTE(Obj *obj)
 {
-    s32 temp_a0;
-    s32 temp_a1;
+    s16 temp_a0;
+    s16 temp_a1;
     s32 new_var2;
     short new_var;
 
@@ -31,26 +31,24 @@ void DO_ONE_CMD_LR_ATTENTE(Obj *obj)
       }
       SET_X_SPEED(obj);
       CALC_MOV_ON_BLOC(obj);
-      return;
     }
-    if ((temp_a0 == 3) || (temp_a0 == 6))
+    else if ((temp_a0 == 3) || (temp_a0 == 6))
     {
       new_var2 = 0xFFFF7FFF;
-        obj->speed_y = -8;
-        obj->flags &= new_var2;
-        return;
+      obj->speed_y = -8;
+      obj->flags &= new_var2;
     }
-    if ((temp_a0 == 0x0B) || (temp_a0 == 2) || (temp_a0 == 0x16))
+    else if ((temp_a0 == 0x0B) || (temp_a0 == 2) || (temp_a0 == 0x16))
     {
         switch (temp_a1)
         {
         case 0xE:
         case 0xC:
             DO_TIR(obj);
-            return;
+            break;
         case 0x3C:
             DO_BIG_CLOWN_ATTAK(obj);
-            return;
+            break;
         case 0x3D:
             DO_WAT_CLOWN_ATTAK(obj);
             break;

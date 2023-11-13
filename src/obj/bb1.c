@@ -425,7 +425,7 @@ void DO_BBMONT3_COMMAND(Obj *obj)
                     ((obj->x_pos + (obj->offset_bx - eight)) >> 4) +
                     mp.width * ((obj->y_pos + obj->offset_by + eight) >> 4)
                   ) << 1
-                ) + (int)mp.map
+                ) + (s32)mp.map
               ) >> 10
             ] >> 1 & 1) == 0
           )
@@ -449,7 +449,7 @@ void DO_BBMONT3_COMMAND(Obj *obj)
                     ((obj->x_pos + (obj->offset_bx)) >> 4) +
                     mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4)
                   ) << 1
-                ) + (int)mp.map
+                ) + (s32)mp.map
               ) >> 10
             ] >> 1 & 1) == 0
           )

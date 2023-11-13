@@ -1,7 +1,5 @@
 #include "obj/maracas_command.h"
 
-extern MapData mp;
-
 INCLUDE_ASM("asm/nonmatchings/obj/maracas_command", MarCoince);
 
 /* 4CF4C 8017174C -O2 */
