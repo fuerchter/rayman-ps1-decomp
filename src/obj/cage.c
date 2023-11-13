@@ -1,12 +1,13 @@
 #include "obj/cage.h"
 
+/* 3CF08 80161708 -O2 -msoft-float */
 void DO_CAGE2(Obj *obj)
 {
     obj->speed_x = 0;
     obj->speed_y = -8;
 }
 
-/* 3CF18 80161718 -O2*/
+/* 3CF18 80161718 -O2 */
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/cage", DO_CAGE);
 #else

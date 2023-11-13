@@ -6,21 +6,128 @@
 
 /*? GET_ANIM_POS(Obj *, ? *, s16 *, u16 *, s16 *);
 ? set_sub_etat(Obj *, ?, s32 *);*/
-extern u8 D_801E4D56;
-extern u8 D_801F43D1;
-extern u16 D_801F61BC;
-extern s16 D_801F61BE;
-extern s16 D_801F61CC;
-extern s16 D_801F61CE;
-extern s16 D_801F61DE;
-extern u8 D_801F61F2;
-extern u8 D_801F61F3;
-extern u8 D_801F61F6;
-extern u8 D_801F61F8;
-extern s32 D_801F620C;
-extern u8 nb_wiz_collected;
-extern RaymanEvents RayEvts;
 
+/* 470 */
+void TEST_WIZARD(Obj *obj)
+
+{
+  u8 bVar1;
+  int iVar2;
+  int iVar3;
+  int iVar4;
+  int iVar5;
+  s16 x;
+  short y;
+  s16 w;
+  short h;
+  u8 new_var2;
+  
+  if (((RayEvts.flags1 & FLG(RAYEVTS1_DEMI)) != FLG_RAYEVTS1_NONE) ||
+     (((ray.flags & FLG(OBJ_FLAG_0)) == FLG_OBJ_NONE &&
+      (((ray.main_etat != 0 && (ray.main_etat != 3)) || (nb_wiz_collected != 0)))))) {
+    obj->detect_zone_flag = 0;
+  }
+  bVar1 = obj->sub_etat;
+  if (bVar1 == 0) {
+    if ((ray.flags & FLG(OBJ_FLAG_0))) {
+        if (status_bar.num_wiz + nb_wiz_collected >= 10) {
+            set_sub_etat(obj,0xb);
+            obj->timer = 200;
+        }
+        else
+        {
+            ray.flags = ray.flags & ~FLG(OBJ_FLAG_0);
+        }
+    }
+    else
+    {
+      if (obj->detect_zone_flag != 0) {
+        if (obj->anim_frame < 0x14) {
+            if (status_bar.num_wiz >= 10) {
+                obj->anim_frame = 0x14;
+            }
+            else {
+                set_sub_etat(obj,10);
+                obj->flags = obj->flags & ~FLG(OBJ_FLIP_X);
+            }
+        }
+      }
+      else
+      {
+        if ((obj->anim_frame == 0x13) && (obj->anim_frame = 0, obj->detect_zone_flag == 0)) {
+          ray.flags = ray.flags & ~FLG(OBJ_FLAG_0);
+        }
+      }
+    }
+  }
+  else if (obj->detect_zone_flag != 0) {
+    if(((ray.flags & FLG(OBJ_FLAG_0))) && (bVar1 == 0xb))
+    {
+        obj->timer--;
+        if (obj->timer == 0) {
+        ray.flags = ray.flags & ~FLG(OBJ_FLAG_0);
+        set_sub_etat(obj,1);
+        }
+    }
+    else
+    {
+        if (obj->sub_etat == 1) {
+            if (((ray.main_etat == 0) && ((ray.sub_etat < 2) || ((new_var2 = ray.sub_etat) == 2))) || (ray.main_etat == 1))
+            {
+                GET_ANIM_POS(obj,&x,&y,&w,&h);
+                iVar2 = ((obj->offset_bx + (ushort)obj->x_pos) - (ushort)ray.x_pos) - ray.offset_bx;
+                iVar3 = (w >> 1);
+                iVar5 = iVar2 - iVar3;
+                iVar2 = iVar2 + iVar3;
+                iVar3 = ray.y_pos; /* ??? */
+                iVar4 = (ray.y_pos + ray.offset_by) - y;
+                if (iVar4 - h >= 0)
+                {
+                    if(iVar4 - h < 9)
+                        goto block_1;
+                    return;
+                }
+                if (h - iVar4 < 9) {
+block_1:
+                    if ((0x10 < __builtin_abs((s16) iVar5)) || ((ray.flags & FLG(OBJ_FLIP_X)) == FLG_OBJ_NONE)) {
+                        if (0x10 < __builtin_abs((s16) iVar2)) {
+                            return;
+                        }
+                        if ((ray.flags & FLG(OBJ_FLIP_X)) != FLG_OBJ_NONE) {
+                            return;
+                        }
+                    }
+                    if ((__builtin_abs((s16) iVar5) < 0x11) && ((ray.flags & FLG(OBJ_FLIP_X)) != FLG_OBJ_NONE)) {
+                        obj->flags = obj->flags & ~FLG(OBJ_FLIP_X);
+                        ray.x_pos = ((((ushort)obj->offset_bx + obj->x_pos) - (ushort)ray.offset_bx) -
+                                    ((short)w >> 1)) + -0xc;
+                    }
+                    else if ((__builtin_abs((s16) iVar2) < 0x11) && ((ray.flags & FLG(OBJ_FLIP_X)) == FLG_OBJ_NONE)) {
+                        obj->flags = obj->flags | FLG(OBJ_FLIP_X);
+                        ray.x_pos = (((ushort)obj->offset_bx + obj->x_pos) - (ushort)ray.offset_bx) +
+                                    ((short)w >> 1) + 0xc;
+                    }
+                    ray.y_pos = ((ray.y_pos + ray.offset_by) >> 4) * 0x10 - ray.offset_by;
+                    ray.speed_x = 0;
+                    decalage_en_cours = 0;
+                    ray.speed_y = 0;
+                    ray.field24_0x3e = 0;
+                    DO_WIZARD(obj);
+                }
+            }
+        }
+        else {
+            DO_WIZARD(obj);
+        }
+    }
+  }
+  else if (((bVar1 != 10) && (ray.main_etat != 3)) && (bVar1 != 1)) {
+    set_sub_etat(obj,1);
+  }
+  return;
+}
+
+/* 1095 */
 void TEST_WIZARD(Obj *arg0)
 {
     s16 sp18;

@@ -2,7 +2,7 @@
 
 /* matches, but... */
 /* 4FB58 80174358 -O2 -msoft-float */
-#ifndef MISSING_ADDIU
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/corde_command", DO_CORDE_COMMAND);
 #else
 /*? DO_CORDE_CASSE(Obj *, u8);
