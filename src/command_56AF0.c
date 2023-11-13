@@ -120,7 +120,13 @@ u8 handle_GO_WAITSTATE(Obj *obj)
     return false;
 }
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_RESERVED_GO_GOSUB);
+/* 56E24 8017B624 -O1 */
+u8 handle_RESERVED_GO_GOSUB(Obj *obj)
+{
+    pushCmdContext(obj, 1);
+    obj->cmd_offset = obj->cmd_labels[obj->nb_cmd];
+    return true;
+}
 
 /* 56E24 8017B624 -O1, -O2 */
 u8 handle_RESERVED_GO_SKIP_and_RESERVED_GO_GOTO(Obj *obj)
@@ -334,9 +340,73 @@ u8 handle_GO_SETTEST(Obj *obj)
     return true;
 }
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_TEST);
 /* 5736C 8017BB6C -O2 */
-/* m2c = 4285, ghidra = 9870 */
+#ifndef NONMATCHINGS /* missing_addiu */
+INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_TEST);
+#else
+u8 handle_GO_TEST(Obj *obj)
+{
+    s32 flip_x;
+
+    __asm__("nop");
+
+    switch (obj->nb_cmd)
+    {
+    case 70:
+        if ((s16)OBJ_IN_ZONE(obj))
+            obj->flags |= FLG(OBJ_CMD_TEST);
+        else
+            obj->flags &= ~FLG(OBJ_CMD_TEST);
+        break;
+    case 71:
+        if (obj->flags & FLG(OBJ_FLAG_0))
+            obj->flags |= FLG(OBJ_CMD_TEST);
+        else
+            obj->flags &= ~FLG(OBJ_CMD_TEST);
+        break;
+    case 72:
+        if (!(obj->flags & FLG(OBJ_READ_CMDS)))
+            obj->flags |= FLG(OBJ_CMD_TEST);
+        else
+            obj->flags &= ~FLG(OBJ_CMD_TEST);
+        break;
+    case 0:
+        if ((obj->flags >> OBJ_FLIP_X & 1) == obj->field23_0x3c)
+            obj->flags |= FLG(OBJ_CMD_TEST);
+        else
+            obj->flags &= ~FLG(OBJ_CMD_TEST);
+        break;
+    case 1:
+        if ((s16)myRand(obj->field23_0x3c) == 0)
+            obj->flags |= FLG(OBJ_CMD_TEST);
+        else
+            obj->flags &= ~FLG(OBJ_CMD_TEST);
+        break;
+    case 2:
+        flip_x = obj->flags >> OBJ_FLIP_X & 1;
+        calc_obj_dir(obj);
+        if ((obj->flags >> OBJ_FLIP_X & 1) == obj->field23_0x3c)
+            obj->flags |= FLG(OBJ_CMD_TEST);
+        else
+            obj->flags &= ~FLG(OBJ_CMD_TEST);
+        obj->flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (flip_x << OBJ_FLIP_X);
+        break;
+    case 3:
+        if (obj->main_etat == obj->field23_0x3c)
+            obj->flags |= FLG(OBJ_CMD_TEST);
+        else
+            obj->flags &= ~FLG(OBJ_CMD_TEST);
+        break;
+    case 4:
+        if (obj->sub_etat == obj->field23_0x3c)
+            obj->flags |= FLG(OBJ_CMD_TEST);
+        else
+            obj->flags &= ~FLG(OBJ_CMD_TEST);
+        break;
+    }
+    return true;
+}
+#endif
 
 /* 57528 8017BD28 -O2 */
 #ifndef NONMATCHINGS /* missing_addiu */

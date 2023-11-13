@@ -15,7 +15,7 @@ u8 readTestArgs(Obj *obj)
         obj->cmd_offset++;
         obj->field23_0x3c = obj->cmds[obj->cmd_offset];
     }
-    return FALSE;
+    return false;
 }
 
 /*INCLUDE_ASM("asm/nonmatchings/command_56AF0", skipTestArgs);*/
@@ -31,16 +31,7 @@ u8 skipTestArgs(Obj *obj)
     if (obj->cmds[obj->cmd_offset] < 5) {
         obj->cmd_offset++;
     }
-    return FALSE;
-}
-
-/* 56E24 8017B624 -O1 */
-/* matches, but -O1 */
-u8 handle_RESERVED_GO_GOSUB(Obj *obj)
-{
-    pushCmdContext(obj, 1);
-    obj->cmd_offset = *(s16 *)(obj->cmd_labels + obj->nb_cmd);
-    return TRUE;
+    return false;
 }
 
 /*INCLUDE_ASM("asm/nonmatchings/command_56AF0", GET_OBJ_CMD);*/
