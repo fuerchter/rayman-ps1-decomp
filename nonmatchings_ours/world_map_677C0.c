@@ -44,38 +44,6 @@ void INIT_PASTILLES_SAUVE(void)
   t_world_info[23].level_name = test;
 }
 
-/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DoScrollInWorldMap);*/
-
-/* 677F4 8018BFF4 -O2 */
-extern s16 dhspeed;
-extern s16 dvspeed;
-extern s16 scroll_end_x;
-extern s16 scroll_end_y;
-extern s16 scroll_start_x;
-extern s16 scroll_start_y;
-
-void DoScrollInWorldMap(s32 arg0, s32 arg1)
-{
-    u8 test[16];
-    s16 temp_v1;
-    s16 var_a0;
-    s16 var_v1;
-
-    ymap = ymap + arg1;
-    xmap = xmap + arg0;
-    if (xmap < scroll_start_x || (var_a0 = scroll_end_x, var_a0 < xmap))
-    {
-        xmap = var_a0;
-        dhspeed = 0;
-    }
-    if (scroll_start_y > ymap || (var_v1 = scroll_end_y, var_v1 < ymap))
-    {
-        ymap = var_v1;
-        dvspeed = 0;
-    }
-    CalcObjPosInWorldMap(&ray);
-}
-
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_INFO);*/
 
 /* 692CC 8018DACC -O2 */
@@ -192,7 +160,7 @@ void DETER_WORLD_AND_LEVEL(void)
   }
 }
 
-/* matching, but WorldInfo state casts... */
+/* matches, but WorldInfo state casts... */
 /* 679D4 8018C1D4 -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DISPLAY_PLAT_WAY);*/
 
@@ -233,6 +201,7 @@ void DISPLAY_PLAT_WAY(void)
   } while (i < 24);
 }
 
+/* matches, but WorldInfo state casts... */
 /* 67B0C 8018C30C -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_DisplayPlateau);*/
 
@@ -250,7 +219,7 @@ void PS1_DisplayPlateau(void)
   obj = mapobj;
   do
   {
-    if ((*(u32*)&wi->state & 1 || (test = i == 17)) &&
+    if ((*(u32*)&wi->state & 1 || (i == 17)) &&
         ((obj->screen_x_pos + (u32)obj->offset_bx) - 0x25 < 0x101) &&
        ((obj->screen_y_pos + (u32)obj->offset_by) - 0x2e < 0x97))
     {
@@ -262,11 +231,9 @@ void PS1_DisplayPlateau(void)
   } while (i < 24);
 }
 
-/* only resolved struct fields so far. x < bVar1 block could be loop? tried a little bit to resolve gotos */
+/* matches, but gotos, WorldInfo state casts... */
 /* 67BE8 8018C3E8 -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_MEDAILLONS);*/
-
-extern Obj *mapobj;
 
 void DO_MEDAILLONS(void)
 {
@@ -274,6 +241,7 @@ void DO_MEDAILLONS(void)
     Obj *mapObj_0;
     WorldInfo *pbVar2;
     u8 bVar1;
+    u8 flag_set;
 
     if ((chemin_percent < 100) && (horloge[2] != 0)) {
         chemin_percent = chemin_percent + 1;
@@ -284,26 +252,26 @@ void DO_MEDAILLONS(void)
     do
     {
         CalcObjPosInWorldMap(mapObj_0);
-        if (((*(u32 *)(pbVar2->state) & 4) != 0) && (0x62 < chemin_percent))
+        if (((*(u32 *)(&pbVar2->state) & 4) != 0) && (0x62 < chemin_percent))
         {
-            *(u32 *)(pbVar2->state) = *(u32 *)(pbVar2->state) & 0xfffffffb | 1;
+            *(u32 *)(&pbVar2->state) = *(u32 *)(&pbVar2->state) & 0xfffffffb | 1;
             set_sub_etat(mapObj_0,0x2e);
         }
         if (
             (s16)iVar3 == 0x11 &&
             mapObj_0->sub_etat != 0x3b &&
             mapObj_0->sub_etat != 0x2e &&
-            (*(u32 *)(pbVar2 + -1) & 1) != 0
+            (*(u32 *)(&pbVar2->state) & 1) != 0
         )
         {
             set_sub_etat(mapObj_0,0x3b);
         }
         else if (
-            ((((iVar3 - 0x12U & 0xffff) < 2 ||
-            (iVar3 - 0x14U & 0xffff) < 2) ||
-            (iVar3 - 0x16U & 0xffff) < 2) &&
+            ((((u16)(iVar3 - 0x12) < 2 ||
+            (u16)(iVar3 - 0x14) < 2) ||
+            (u16)(iVar3 - 0x16) < 2) &&
             ((mapObj_0->sub_etat != 0x3a && (mapObj_0->sub_etat != 0x2e)))) &&
-            ((*(u32 *)(pbVar2->state) & 1) != 0)
+            ((*(u32 *)(&pbVar2->state) & 1) != 0)
         )
         {
             set_sub_etat(mapObj_0,0x3a);
@@ -313,23 +281,26 @@ void DO_MEDAILLONS(void)
             bVar1 = pbVar2->nb_cages;
             if ((5 < bVar1) && (mapObj_0->sub_etat == 0x33))
             {
-                if ((mapObj_0->eta[mapObj_0->main_etat][0x33].flags & 0x10) == 0) {
-                    if ((u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1) goto LAB_8018c5f8;
-                }
-                else if (mapObj_0->anim_frame == 0) {
-        LAB_8018c5f8:
+                flag_set = mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].flags & 0x10;
+                if(
+                    (!flag_set || mapObj_0->anim_frame == 0) &&
+                    (flag_set || (u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1)
+                )
+                {
                     if (horloge[mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].anim_speed & 0xf] == 0) {
                         set_sub_etat(mapObj_0,0x34);
                         goto LAB_8018c9d8;
                     }
                 }
+
             }
             if ((4 < bVar1) && (mapObj_0->sub_etat == 0x32)) {
-                if ((mapObj_0->eta[mapObj_0->main_etat][0x32].flags & 0x10) == 0) {
-                    if ((u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1) goto LAB_8018c6dc;
-                }
-                else if (mapObj_0->anim_frame == 0) {
-            LAB_8018c6dc:
+                flag_set = mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].flags & 0x10;
+                if(
+                    (!flag_set || mapObj_0->anim_frame == 0) &&
+                    (flag_set || (u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1)
+                )
+                {
                     if (horloge[mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].anim_speed & 0xf] == 0) {
                         set_sub_etat(mapObj_0,0x33);
                         goto LAB_8018c9d8;
@@ -337,11 +308,12 @@ void DO_MEDAILLONS(void)
                 }
             }
             if ((3 < bVar1) && (mapObj_0->sub_etat == 0x31)) {
-                if ((mapObj_0->eta[mapObj_0->main_etat][0x31].flags & 0x10) == 0) {
-                    if ((u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1) goto LAB_8018c7c0;
-                    }
-                else if (mapObj_0->anim_frame == 0) {
-            LAB_8018c7c0:
+                flag_set = mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].flags & 0x10;
+                if(
+                    (!flag_set || mapObj_0->anim_frame == 0) &&
+                    (flag_set || (u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1)
+                )
+                {
                     if (horloge[mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].anim_speed & 0xf] == 0) {
                         set_sub_etat(mapObj_0,0x32);
                         goto LAB_8018c9d8;
@@ -349,11 +321,12 @@ void DO_MEDAILLONS(void)
                 }
             }
             if ((2 < bVar1) && (mapObj_0->sub_etat == 0x30)) {
-                if ((mapObj_0->eta[mapObj_0->main_etat][0x30].flags & 0x10) == 0) {
-                    if ((u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1) goto LAB_8018c8a4;
-                    }
-                else if (mapObj_0->anim_frame == 0) {
-            LAB_8018c8a4:
+                flag_set = mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].flags & 0x10;
+                if(
+                    (!flag_set || mapObj_0->anim_frame == 0) &&
+                    (flag_set || (u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1)
+                )
+                {
                     if (horloge[mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].anim_speed & 0xf] == 0) {
                         set_sub_etat(mapObj_0,0x31);
                         goto LAB_8018c9d8;
@@ -361,13 +334,15 @@ void DO_MEDAILLONS(void)
                 }
             }
             if ((1 < bVar1) && (mapObj_0->sub_etat == 0x2f)) {
-                if ((mapObj_0->eta[mapObj_0->main_etat][0x2f].flags & 0x10) == 0) {
-                    if ((u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1) goto LAB_8018c988;
-                    }
-                else if (mapObj_0->anim_frame == 0) {
-            LAB_8018c988:
+                flag_set = mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].flags & 0x10;
+                if(
+                    (!flag_set || mapObj_0->anim_frame == 0) &&
+                    (flag_set || (u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1)
+                )
+                {
                     if (horloge[mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].anim_speed & 0xf] == 0) {
                         set_sub_etat(mapObj_0,0x30);
+                        goto LAB_8018c9d8;
                     }
                 }
             }
@@ -377,10 +352,7 @@ void DO_MEDAILLONS(void)
         mapObj_0 = mapObj_0 + 1;
         iVar3 = iVar3 + 1;
         pbVar2 = pbVar2 + 1;
-        if (0x17 < iVar3) {
-        return;
-        }
-    } while(TRUE);
+    } while(0x17 >= iVar3);
 }
 
 /* based on ghidra */

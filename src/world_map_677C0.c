@@ -6,7 +6,34 @@ void CalcObjPosInWorldMap(Obj *obj) {
     obj->screen_y_pos = obj->y_pos - ymap + 55;
 }
 
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DoScrollInWorldMap);
+/* 677F4 8018BFF4 -O2 -msoft-float */
+void DoScrollInWorldMap(s16 h_speed, s16 v_speed)
+{
+  ymap += v_speed;
+  xmap += h_speed;
+
+  if(xmap < scroll_start_x)
+  {
+    xmap = scroll_start_x;
+    dhspeed = 0;
+  }
+  else if(xmap > scroll_end_x)
+  {
+    xmap = scroll_end_x;
+    dhspeed = 0;
+  }
+  if (ymap < scroll_start_y)
+  {
+    ymap = scroll_start_y;
+    dvspeed = 0;
+  }
+  else if(ymap > scroll_end_y)
+  {
+    ymap = scroll_end_y;
+    dvspeed = 0;
+  }
+  CalcObjPosInWorldMap(&ray);
+}
 
 /* 678DC 8018C0DC -O2 */
 #ifndef NONMATCHINGS /* missing_addiu */

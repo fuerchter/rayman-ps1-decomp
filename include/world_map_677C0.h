@@ -49,7 +49,7 @@ extern u8 nouvelle_partie;
 extern u8 dans_la_map_monde;
 
 void CalcObjPosInWorldMap(Obj *obj);
-void DoScrollInWorldMap(s16 param_1, s16 param_2);
+void DoScrollInWorldMap(s16 h_speed, s16 v_speed);
 void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y);
 void DISPLAY_PLAT_WAY(void);
 void PS1_DisplayPlateau(void);

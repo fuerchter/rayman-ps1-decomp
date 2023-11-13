@@ -226,4 +226,5 @@ void DO_FEE(Obj *obj)
         }
     }
 }
+const u8 rodata_DO_FEE[4] = {};
 #endif
