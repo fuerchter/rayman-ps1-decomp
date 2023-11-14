@@ -299,6 +299,8 @@ segments:
       - [0xAA614, data]
       #- [0xAA77C, .data, data/display_ui] #801CEF7C
       - [0xAA7A4, data]
+      #- [0xAA7A8, .data, data/obj/mama_pirate] #801CEFA8
+      - [0xAA7C0, data]
       #- [0xAA8A0, .data, data/obj/bb1_AA8A0] #801CF0A0
       - [0xAA8A4, data]
       #- [0xAA8DC, .data, data/depart_dead_AA8DC] #801CF0DC
