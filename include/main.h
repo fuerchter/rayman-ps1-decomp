@@ -5,14 +5,11 @@
 #include "psyq_3_0/LIBETC.H"
 #include "psyq_3_0/LIBAPI.H"
 #include "demo_9FD4.h"
-#include "ray/ray_5D190.h"
 #include "menu/menu_7EEE4.h"
 #include "world_map_95CC.h"
+#include "ray/ray_5D190.h"
 #include "ray/ray_30A64.h"
 #include "sound.h"
-
-/* .data */
-extern RaymanEvents PS1_DefaultRayEvts; /* belongs to PouvoirsParMap instead? */
 
 /**/
 extern u8 fin_du_jeu;
