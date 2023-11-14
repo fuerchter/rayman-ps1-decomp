@@ -317,7 +317,28 @@ void DO_CHEMIN(void)
     PS1_WorldMapMoveText();
 }
 
+/* 6A0C8 8018E8C8 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_nop */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_PASTILLES_SAUVE);
+#else
+void INIT_PASTILLES_SAUVE(void)
+{
+  u8 *name;
+  
+  if (NBRE_SAVE != 0)
+    name = D_801C353C;
+  else
+    name = D_801C3544;
+  t_world_info[18].level_name = name;
+  t_world_info[19].level_name = name;
+  t_world_info[20].level_name = name;
+  t_world_info[21].level_name = name;
+  t_world_info[22].level_name = name;
+  t_world_info[23].level_name = name;
+
+  __asm__("nop");
+}
+#endif
 
 /* 6A130 8018E930 -O2 */
 #ifndef NONMATCHINGS /* missing_addiu */
@@ -352,4 +373,41 @@ void FIN_WORLD_CHOICE(void)
         ray.hit_points = 0;
 }
 
+/* early returns kinda gross compared to android */
+/* 6A224 8018EA24 -O2 */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DETER_WORLD_AND_LEVEL);
+#else
+void DETER_WORLD_AND_LEVEL(void)
+{
+  world_index = num_world_choice;
+  if (ModeDemo == 0)
+  {
+    num_level_choice = t_world_info[num_world_choice].level;
+    num_world_choice = t_world_info[num_world_choice].world;
+  }
+  if (num_world_choice == 5)
+  {
+    if (num_level_choice == 3 && finBosslevel[1] & FLG(1))
+    {
+      num_level_choice++;
+      RayEvts.flags1 |= FLG(RAYEVTS1_LUCIOLE);
+      return;
+    }
+    else if (num_world_choice == 5 && num_level_choice == 4 && finBosslevel[1] & FLG(1) && ModeDemo != 0)
+    {
+      RayEvts.flags1 |= FLG(RAYEVTS1_LUCIOLE);
+      return;
+    }
+  }
+  if (num_world_choice == 6 && finBosslevel[0] & FLG(7))
+  {
+    You_Win = true;
+    fin_du_jeu = true;
+    fin_dark = true;
+    new_world = true;
+  }
+
+  __asm__("nop\nnop");
+}
+#endif

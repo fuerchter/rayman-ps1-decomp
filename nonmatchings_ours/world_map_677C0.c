@@ -1,64 +1,13 @@
 #include "world_map_677C0.h"
 
-/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_UP);*/
-/* https://decomp.me/scratch/6ivxi PSYQ3.3 (gcc 2.6.0 + aspsx 2.21) -O1 */
-/* 698B4 8018E0B4 */
-extern s16 num_world_choice;
-extern WorldInfo t_world_info[24];
-
-void RESPOND_TO_UP(void)
-{
-    num_world_choice = t_world_info[num_world_choice].index_up;
-}
-
-/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_PASTILLES_SAUVE);*/
-/* https://decomp.me/scratch/Y1VKk PSYQ3.3 (gcc 2.6.0 + aspsx 2.21) -O2 */
-/* 6A0C8 8018E8C8 */
-extern s32 D_801C34D4;
-extern s32 D_801C34E8;
-extern s32 D_801C34FC;
-extern s32 D_801C3510;
-extern s32 D_801C3524;
-extern s32 D_801C3538;
-extern u8 *D_801C353C;
-extern u8 *D_801C3544;
-extern u8 NBRE_SAVE;
-
-void INIT_PASTILLES_SAUVE(void)
-{
- u8 *test;
-  
-  if (NBRE_SAVE != 0) {
-    test = D_801C353C;
-  }
-  else
-  {
-    test = D_801C3544;
-  }
-  __asm__("nop"); /* ... */
-  t_world_info[18].level_name = test;
-  t_world_info[19].level_name = test;
-  t_world_info[20].level_name = test;
-  t_world_info[21].level_name = test;
-  t_world_info[22].level_name = test;
-  t_world_info[23].level_name = test;
-}
-
+/* matches, but doesn't actually use WorldInfo.state */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_INFO);*/
 
 /* 692CC 8018DACC -O2 */
 /*? INIT_PASTILLES_SAUVE(s32, s16, s32);*/
 extern u8 D_801C3364;
 extern u8 D_801F3EA0;
-extern s8 You_Win;
-extern s8 dir_on_wldmap;
-extern s8 fin_du_jeu;
-extern s16 new_level;
-extern s16 num_level;
-extern s16 num_world;
-extern s8 world_index;
-extern s16 xwldmapsave;
-extern s16 ywldmapsave;
+extern u8 You_Win;
 
 void INIT_WORLD_INFO(void)
 {
@@ -89,75 +38,7 @@ void INIT_WORLD_INFO(void)
   dir_on_wldmap = 1;
   You_Win = 0;
   fin_du_jeu = 0;
-  INIT_PASTILLES_SAUVE(var_a0);
-}
-
-/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PASTILLES_SAUVE_SAVED);*/
-
-/* 6A130 8018E930 -O2 */
-/*? INIT_PASTILLES_SAUVE();*/
-extern s32 D_801C336C;
-extern s32 D_801C3540;
-
-void PASTILLES_SAUVE_SAVED(s16 arg0)
-{
-    u8 *test;
-
-    INIT_PASTILLES_SAUVE();
-    test = &(t_world_info[0].level_name);
-    *(u32*)(test + arg0 * sizeof(WorldInfo)) = D_801C3540;
-}
-
-/* missing_addiu match, but nicer way to match without test/test2? */
-/* 6A224 8018EA24 -O2 */
-/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DETER_WORLD_AND_LEVEL);*/
-
-extern u8 D_801C3366;
-extern u8 D_801C3367;
-extern u8 D_801F43D1;
-extern u8 D_801F4EE9;
-extern s8 You_Win;
-extern u8 finBosslevel[2];
-extern s8 fin_dark;
-extern RaymanEvents RayEvts;
-
-void DETER_WORLD_AND_LEVEL(void)
-{
-  RayEvts_1 *test;
-  RayEvts_1 *test2;
-
-  world_index = num_world_choice;
-  if (ModeDemo == 0)
-  {
-    num_level_choice = t_world_info[num_world_choice].level;
-    num_world_choice = t_world_info[num_world_choice].world;
-  }
-  if (num_world_choice == 5)
-  {
-    if (num_level_choice == 3 && finBosslevel[1] & 2)
-    {
-      num_level_choice += 1;
-      test2 = &RayEvts.flags1;
-      *test2 |= 4;
-      return;
-    }
-    if (num_world_choice == 5)
-    {
-      if (num_level_choice == 4 && finBosslevel[1] & 2 && ModeDemo != 0)
-      {
-        test = &RayEvts.flags1;
-        *test |= 4;
-        return;
-      }
-    }
-  }
-  if (num_world_choice == 6 && finBosslevel[0] & 0x80)
-  {
-    You_Win = 1;
-    fin_du_jeu = 1;
-    fin_dark = 1;
-    new_world = 1;
-  }
+  INIT_PASTILLES_SAUVE();
 }
 
 /* matches, but WorldInfo state casts... */
@@ -355,7 +236,7 @@ void DO_MEDAILLONS(void)
     } while(0x17 >= iVar3);
 }
 
-/* based on ghidra */
+/* matches, but both s__801cf0a8 and local_60 would need to be 16-bit types? don't trust this yet */
 /* 683FC 8018CBFC -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_STAGE_NAME);*/
 
@@ -366,82 +247,79 @@ extern u8 save_ray[4][4];
 
 void INIT_WORLD_STAGE_NAME(void)
 {
-    u8 bVar1;
-    u8 local_60[48];
+    u8 new_color;
+    u8 local_60[80];
 
     switch(t_world_info[num_world_choice].world) {
-        case 1:
-            __builtin_strcpy(text_to_display[2].text, "/the dream forest/");
-            bVar1 = 7;
-            break;
-        case 2:
-            __builtin_strcpy(text_to_display[2].text, "/band land/");
-            bVar1 = 4;
-            break;
-        case 3:
-            __builtin_strcpy(text_to_display[2].text, "/blue mountains/");
-            bVar1 = 0xd;
-            break;
-        case 4:
-            __builtin_strcpy(text_to_display[2].text, "/picture city/");
-            bVar1 = 0;
-            break;
-        case 5:
-            __builtin_strcpy(text_to_display[2].text, "/the cave of skops/");
-            bVar1 = 2;
-            break;
-        case 6:
-            __builtin_strcpy(text_to_display[2].text, "/candy chateau/");
-            bVar1 = 1;
-            break;
         case 7:
-            bVar1 = t_world_info[num_world_choice].color;
-            if (fichier_selectionne == 1)
+            new_color = t_world_info[num_world_choice].color;
+            switch(fichier_selectionne)
             {
-                /*local_60._0_2_ = s_/_801cf0a8;*/
+            case 0:
+                if (NBRE_SAVE != 0)
+                {
+                    __builtin_memcpy(text_to_display[2].text, s___801cf0a4, sizeof(text_to_display[2].text));
+                }
+                else
+                {
+                    __builtin_strcpy(text_to_display[2].text, "/password/");
+                }
+                break;
+            case 1:
+                local_60[0] = s__801cf0a8[0];
                 strcat(local_60, save_ray[1]);
                 strcat(local_60, s__801cf0a8);
-                __builtin_strcpy(text_to_display[2].text, local_60);
-            }
-            else if (fichier_selectionne < 2)
-            {
-                if (fichier_selectionne == 0)
-                {
-                    if (NBRE_SAVE == 0)
-                    {
-                        __builtin_strcpy(text_to_display[2].text, "/password/");
-                    }
-                    else
-                    {
-                        __builtin_strcpy(text_to_display[2].text, s___801cf0a4);
-                    }
-                }
-            }
-            else if (fichier_selectionne == 2)
-            {
-                /*local_60._0_2_ = s_/_801cf0a8;*/
+                __builtin_memcpy(text_to_display[2].text, local_60, sizeof(text_to_display[2].text));
+                break;
+            case 2:
+                local_60[0] = s__801cf0a8[0];
                 strcat(local_60, save_ray[2]);
                 strcat(local_60, s__801cf0a8);
-                __builtin_strcpy(text_to_display[2].text, local_60);
-            }
-            else if (fichier_selectionne == 3)
-            {
-                /*local_60._0_2_ = s_/_801cf0a8;*/
+                __builtin_memcpy(text_to_display[2].text, local_60, sizeof(text_to_display[2].text));
+                break;
+            case 3:
+                local_60[0] = s__801cf0a8[0];
                 strcat(local_60, save_ray[3]);
                 strcat(local_60, s__801cf0a8);
-                __builtin_strcpy(text_to_display[2].text, local_60);
+                __builtin_memcpy(text_to_display[2].text, local_60, sizeof(text_to_display[2].text));
+                break;
             }
             break;
+        case 1:
+            __builtin_memcpy(text_to_display[2].text, "/the dream forest/", sizeof(text_to_display[2].text));
+            new_color = 7;
+            break;
+        case 2:
+            __builtin_memcpy(text_to_display[2].text, "/band land/", sizeof(text_to_display[2].text));
+            new_color = 4;
+            break;
+        case 3:
+            __builtin_memcpy(text_to_display[2].text, "/blue mountains/", sizeof(text_to_display[2].text));
+            new_color = 0xd;
+            break;
+        case 4:
+            __builtin_memcpy(text_to_display[2].text, "/picture city/", sizeof(text_to_display[2].text));
+            new_color = 0;
+            break;
+        case 5:
+            __builtin_memcpy(text_to_display[2].text, "/the cave of skops/", sizeof(text_to_display[2].text));
+            new_color = 2;
+            break;
+        case 6:
+            __builtin_memcpy(text_to_display[2].text, "/candy chateau/", sizeof(text_to_display[2].text));
+            new_color = 1;
+            break;
     }
-    text_to_display[2].color = bVar1;
+    
     text_to_display[2].font_size = 1;
-    text_to_display[2].x_pos = 0x1c2;
-    text_to_display[2].y_pos = 0x28;
-    text_to_display[2].is_fond = FALSE;
-    text_to_display[2].field8_0x3d = TRUE;
-    INIT_TXT_BOX(text_to_display + 2);
-    text_to_display[2].width = text_to_display[2].width + 10;
-    text_to_display[2].height = text_to_display[2].height + 2;
+    text_to_display[2].x_pos = 450;
+    text_to_display[2].y_pos = 40;
+    text_to_display[2].is_fond = false;
+    text_to_display[2].field8_0x3d = true;
+    text_to_display[2].color = new_color;
+    INIT_TXT_BOX(&text_to_display[2]);
+    text_to_display[2].width += 10;
+    text_to_display[2].height += 2;
 }
 
 /* pretty close */

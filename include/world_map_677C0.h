@@ -11,6 +11,7 @@
 #include "cam_scroll_29B5C.h"
 #include "menu/menu_card_7C028.h"
 #include "timers.h"
+#include "victoire.h"
 
 /* TODO: does padding (between color, level_name) matter? it seems to work even without, but why? */
 typedef struct WorldInfo
@@ -31,8 +32,9 @@ typedef struct WorldInfo
 
 /* .data */
 extern WorldInfo t_world_info[24];
-
+extern u8 *D_801C353C;
 extern u8 *PTR_s_game_saved_801c3540;
+extern u8 *D_801C3544;
 
 /**/
 extern Obj *mapobj;
