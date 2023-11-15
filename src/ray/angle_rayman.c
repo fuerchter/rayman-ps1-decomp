@@ -49,10 +49,14 @@ s16 ANGLE_RAYMAN(Obj *obj)
             else
                 res = 384 + tab_val;
         }
-        else if (y_gt_0)
-            res = 128 + tab_val;
         else
-            res = 128 - tab_val;
+        {
+            if (y_gt_0)
+                res = 128 + tab_val;
+            else
+                res = 128 - tab_val;
+        }
+
     }
     return res;
 }

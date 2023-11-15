@@ -49,16 +49,12 @@ void SYNCHRO_LOOP(s16 (*func)())
     else
       new_disp_2 = &PS1_Display1;
     
-    i = 0;
-    if (PS1_PolygonIndexTableCount > 0)
+    
+    for (i = 0; i < PS1_PolygonIndexTableCount; i++)
     {
-      while (i < PS1_PolygonIndexTableCount)
-      {
-        SetPolyFT4(new_disp_2 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144));
-        SetSemiTrans(new_disp_2 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144), 0);
-        SetShadeTex(new_disp_2 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144), 1);
-        i++;
-      }
+      SetPolyFT4(new_disp_2 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144));
+      SetSemiTrans(new_disp_2 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144), 0);
+      SetShadeTex(new_disp_2 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144), 1);
     }
     PS1_PolygonIndexTableCount = 0;
     D_801E4BE0 = 0x0019;

@@ -4,6 +4,9 @@ extern BlockType hand_btyp;
 extern BlockType hand_btypd;
 extern BlockType hand_btypg;
 extern s16 jump_time;
+extern s16 helico_time;
+extern s16 D_801E51E8;
+extern s16 D_801E51F8;
 
 /* 5D190 80181990 -O2 -msoft-float */
 void allocateRayLandingSmoke(void)
@@ -146,13 +149,170 @@ void set_air_speed(u8 main_etat, u8 sub_etat, s16 param_3, u8 param_4)
   }
 }
 
+/* 5DF0C 8018270C -O2 -msoft-float */
+void Reset_air_speed(u8 is_rolling_speed)
+{
+    if (is_rolling_speed)
+    {
+        set_air_speed(2, 17, decalage_en_cours, 48);
+        set_air_speed(2, 18, decalage_en_cours, 48);
+        set_air_speed(2, 19, decalage_en_cours, 48);
+        set_air_speed(2, 3, decalage_en_cours, 48);
+        set_air_speed(2, 5, decalage_en_cours, 48);
+        set_air_speed(2, 4, decalage_en_cours, 48);
+        set_air_speed(2, 32, decalage_en_cours, 48);
+    }
+    else
+    {
+        set_air_speed(2, 0, decalage_en_cours, 32);
+        set_air_speed(2, 1, decalage_en_cours, 32);
+        set_air_speed(2, 2, decalage_en_cours, 32);
+        set_air_speed(2, 24, decalage_en_cours, 32);
+        set_air_speed(2, 11, decalage_en_cours, 32);
+        set_air_speed(2, 12, decalage_en_cours, 32);
+        set_air_speed(2, 13, decalage_en_cours, 32);
+        set_air_speed(2, 3, decalage_en_cours, 32);
+        set_air_speed(2, 5, decalage_en_cours, 32);
+        set_air_speed(2, 4, decalage_en_cours, 32);
+    }
+}
 
+/* 5E0CC 801828CC -O2 -msoft-float */
+void determineRayAirInertia(void)
+{
+    /* this seems more readable to me than if/elseif, etc. */
+    if (ray_wind_force != 0)
+    {
+        ray.nb_cmd = 1;
+        return;
+    }
+    if (ray.field20_0x36 != -1)
+    {
+        ray.nb_cmd = 0;
+        return;
+    }
+    switch(ray_last_ground_btyp)
+    {
+    case 0:
+        if (__builtin_abs(decalage_en_cours) <= 256)
+            ray.nb_cmd = 0;
+        else
+            ray.nb_cmd = 1;
+        break;
+    case 1:
+        ray.nb_cmd = 0;
+        break;
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", Reset_air_speed);
-
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", determineRayAirInertia);
-
+/* 5E15C 8018295C -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", ray_jump);
+#else
+void ray_jump(void)
+{
+    u8 unk_1;
+    s16 speed_y;
+    s16 follow_y;
+    s32 unk_2;
+    u8 is_rolling_speed;
+
+    unk_1 = 1;
+    if ((ray.eta[ray.main_etat][ray.sub_etat].flags & 1) && (button_released & 1) == unk_1)
+    {
+        if (ray.main_etat == 7)
+        {
+            decalage_en_cours = ashl16(ray.speed_x, 7);
+            ray.speed_y -= 2;
+        }
+        else
+        {
+            if (ray.main_etat == 4)
+                ray.speed_y = -3;
+            else
+                ray.speed_y = -5;
+        }
+        speed_y = ray.speed_y;
+        if (ray.field20_0x36 != -1)
+        {
+            follow_y = level.objects[ray.field20_0x36].follow_y;
+            if (speed_y > follow_y)
+                speed_y = follow_y;
+        }
+        else
+        {
+            switch (ray.btypes[0])
+            {
+            case BTYP_NONE:
+                break;
+            case BTYP_SOLID_RIGHT_45:
+            case BTYP_SLIPPERY_RIGHT_45:
+                if (ray.speed_x >= 6)
+                    speed_y = ~ray.speed_x;
+                break;
+            case BTYP_SOLID_LEFT_45:
+            case BTYP_SLIPPERY_LEFT_45:
+                if (ray.speed_x < -5)
+                    speed_y = ray.speed_x - 1;
+                break;
+            case BTYP_SOLID_RIGHT1_30:
+            case BTYP_SOLID_RIGHT2_30:
+            case BTYP_SLIPPERY_RIGHT1_30:
+            case BTYP_SLIPPERY_RIGHT2_30:
+                if (ray.speed_x > 10)
+                    speed_y = ~ashr16(ray.speed_x, 1);
+                break;
+            case BTYP_SOLID_LEFT1_30:
+            case BTYP_SOLID_LEFT2_30:
+            case BTYP_SLIPPERY_LEFT1_30:
+            case BTYP_SLIPPERY_LEFT2_30:
+                if (ray.speed_x < -10)
+                    speed_y = ~ashr16(ray.speed_x, 1);
+                break;
+            case BTYP_SLIPPERY:
+                break;
+            }
+        }
+        ray.speed_y = speed_y;
+        determineRayAirInertia();
+        if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+            unk_2 = 256;
+        else
+            unk_2 = 512;
+        
+        if (ray_on_poelle)
+        {
+            Reset_air_speed(false);
+            if (ray.main_etat == 0 && ray.sub_etat == 40)
+                set_main_and_sub_etat(&ray, 2, 25);
+            else
+                set_main_and_sub_etat(&ray, 2, 27);
+        }
+        else
+        {
+            is_rolling_speed = unk_2 < __builtin_abs(decalage_en_cours);
+            Reset_air_speed(is_rolling_speed);
+            if (is_rolling_speed)
+                set_main_and_sub_etat(&ray, 2, 17);
+            else
+                set_main_and_sub_etat(&ray, 2, 0);
+        }
+        in_air_because_hit = false;
+        jump_time = 0;
+        helico_time = -1;
+        ray.gravity_value_1 = 0;
+        ray.gravity_value_2 = 0;
+        ray.field20_0x36 = -1;
+        button_released = 0;
+        poing.is_charging = false;
+        D_801E51E8 = ray.x_pos;
+        D_801E51F8 = ray.y_pos;
+        if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+            ray.speed_y = ashr16(ray.speed_y, 1) - 1;
+    }
+    __asm__("nop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", ray_inertia_speed);
 
@@ -186,8 +346,7 @@ INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", PS1_RespondShoulderR);
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", PS1_RespondShoulderL);
 
-void RAY_RESPOND_TO_BUTTON4(void) {
-}
+void RAY_RESPOND_TO_BUTTON4(void) {}
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_BUTTON3);
 

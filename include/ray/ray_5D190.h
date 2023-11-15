@@ -67,7 +67,7 @@ void calc_bhand_typ(Obj *obj);
 void IS_RAY_ON_LIANE(void);
 void rayMayLandOnAnObject(u8 *param_1, s16 param_2);
 void set_air_speed(u8 main_etat, u8 sub_etat, s16 param_3, u8 param_4);
-void Reset_air_speed(u8 isRollingSpeed);
+void Reset_air_speed(u8 is_rolling_speed);
 void determineRayAirInertia(void);
 void ray_jump(void);
 void ray_inertia_speed(u32 param_1, s16 param_2, s16 prevSpeedX, s16 param_4);
