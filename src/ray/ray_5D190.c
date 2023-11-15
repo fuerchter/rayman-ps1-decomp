@@ -3,6 +3,7 @@
 extern BlockType hand_btyp;
 extern BlockType hand_btypd;
 extern BlockType hand_btypg;
+extern s16 jump_time;
 
 /* 5D190 80181990 -O2 -msoft-float */
 void allocateRayLandingSmoke(void)
@@ -70,12 +71,82 @@ void calc_bhand_typ(Obj *obj)
   }
 }
 
+/* 5D3AC 80181BAC -O2 -msoft-float */
+void IS_RAY_ON_LIANE(void)
+{
+    s16 speed_y;
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", IS_RAY_ON_LIANE);
+    if (ray.main_etat != 2 || ray.timer == 0)
+    {
+        if (jump_time > 10)
+        {
+            speed_y = ray.speed_y;
+            ray.speed_y = 0;
+            calc_bhand_typ(&ray);
+            ray.speed_y = speed_y;
+            if(
+                (hand_btyp == BTYP_LIANE || hand_btypg == BTYP_LIANE || hand_btypd == BTYP_LIANE) &&
+                !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)))
+            )
+            {
+                if (ray.main_etat == 2 && ray.sub_etat == 8)
+                    ray.iframes_timer = 90;
+                recale_ray_on_liane();
+                set_main_and_sub_etat(&ray, 4, 1);
+                ray.speed_y = 0;
+                ray.speed_x = 0;
+                ray.field24_0x3e = 0;
+                decalage_en_cours = 0;
+                PlaySnd(9, -1);
+            }
+        }
+    }
+    else
+        ray.timer--;
+}
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", rayMayLandOnAnObject);
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", set_air_speed);
+/* unknowns... */
+/* 5DE3C 8018263C -O2 -msoft-float */
+void set_air_speed(u8 main_etat, u8 sub_etat, s16 param_3, u8 param_4)
+{
+  s32 unk_1;
+  ObjState *eta;
+  s8 unk_2;
+  s32 right;
+  s32 left;
+  
+  unk_1 = __builtin_abs(param_3) << 0x14 >> 0x18;
+  eta = &ray.eta[main_etat][sub_etat];
+  if (unk_1 > 112)
+    unk_1 = 112;
+  
+  unk_2 = -unk_1;
+  if (ray.speed_x > 0)
+  {
+    eta->speed_x_left = -16;
+    right = param_4;
+    if (param_4 < unk_1)
+      right = unk_1;
+    eta->speed_x_right = right;
+  }
+  else if (ray.speed_x < 0)
+  {
+    left = -param_4;
+    if (unk_2 < left)
+      left = unk_2;
+    eta->speed_x_left = left;
+    eta->speed_x_right = 16;
+  }
+  else
+  {
+    eta->speed_x_left = -param_4;
+    eta->speed_x_right = param_4;
+  }
+}
+
+
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", Reset_air_speed);
 

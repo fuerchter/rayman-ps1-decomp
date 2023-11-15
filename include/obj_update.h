@@ -31,8 +31,8 @@ typedef struct Animation
 
 typedef struct ObjState
 {
-    u8 speed_x_right;
-    u8 speed_x_left;
+    s8 speed_x_right;
+    s8 speed_x_left;
     u8 anim_index;
     u8 next_main_etat;
     u8 next_sub_etat;
