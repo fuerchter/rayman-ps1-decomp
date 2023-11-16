@@ -517,3 +517,183 @@ block_127:
 block_128:
     return;
 }
+
+/*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", ray_inertia_speed);*/
+
+s16 ashr16(s16 param_1, s32 param_2);
+s32 ashl16(s16 param_1, s32 param_2);
+
+/* goal: somewhere from 600-800? not sure i didn't break this somehow */
+void ray_inertia_speed(u32 param_1, s16 param_2, s16 prevSpeedX, s16 param_4)
+{
+    s16 temp_s0;
+    s16 temp_s3_2;
+    s16 temp_v1;
+    s16 var_a1;
+    s32 var_s0;
+    s16 var_s2;
+    s16 var_s6;
+    s16 var_v0;
+    s16 var_v1;
+    s32 temp_lo;
+    s32 temp_lo_2;
+    s16 temp_s0_2;
+    s32 temp_s1;
+    s32 temp_s1_2;
+    s32 temp_s3;
+    s32 temp_v0;
+    s32 temp_v0_2;
+    s32 var_v0_3;
+    s32 var_v0_4;
+    u8 new_var;
+    int new_var2;
+
+    temp_s0 = param_1 & 0xFF;
+    if (temp_s0 == 0)
+    {
+        decalage_en_cours = prevSpeedX;
+        var_s2 = 0;
+    }
+    else
+    {
+        temp_s3 = ashr32(prevSpeedX * temp_s0, 8);
+        var_s2 = ashr16(temp_s0, 3);
+        var_v1 = var_s2;
+        new_var2 = 6;
+        temp_s0 = temp_s3;
+        if (var_v1 == 0)
+        {
+            var_v1 = 1;
+        }
+        var_s2 = var_v1;
+        temp_s0_2 = ashl16(param_2, 2);
+        temp_s3_2 = ashl16(param_4, 3) + (temp_s0 + temp_s0_2);
+        temp_v1 = num_world - 1;
+        switch (temp_v1)
+        {
+        case 0:
+        case 1:
+        case 3:
+        case 5:
+            var_s6 = new_var2;
+            break;
+        case 2:
+            var_s6 = 3;
+            break;
+        }
+        if (temp_s3_2 > 0)
+        {
+            if ((s16)temp_s0 > 0)
+            {
+                var_s0 = prevSpeedX;
+            }
+            else
+            {
+                var_s0 = 0;
+            }
+            temp_s1 = ashl16(param_4, 8);
+            if ((temp_s0_2 << 0x10) > 0)
+            {
+                temp_v0 = ashl16((s16) param_2 + var_s6, 8);
+                var_s0 = var_s0 + temp_v0 / var_s2 + temp_s1;
+            }
+            else
+            {
+                var_s0 = var_s0 + temp_s1;
+            }
+            var_a1 = var_s0;
+            if (decalage_en_cours > var_a1)
+            {
+                var_a1 = decalage_en_cours;
+            }
+            goto block_32;
+        }
+        else if (temp_s3_2 < 0)
+        {
+            var_s0 = 0;
+            if ((s16) temp_s0 < 0)
+            {
+                var_s0 = prevSpeedX;
+            }
+            temp_s1_2 = ashl16(param_4, 8);
+            if (temp_s0_2 < 0)
+            {
+                temp_v0_2 = ashl16(param_2 - var_s6, 8);
+                var_s0 = var_s0 + temp_v0_2 / var_s2 + temp_s1_2;
+            }
+            else
+            {
+                var_s0 = var_s0 + temp_s1_2;
+            }
+            var_a1 = var_s0;
+            var_v0_3 = temp_s3_2 << 0x10;
+            if (decalage_en_cours < var_a1)
+            {
+                var_a1 = decalage_en_cours;
+            }
+        }
+        else
+        {
+            var_a1 = (s16) (u16) decalage_en_cours;
+block_32:
+            var_v0_3 = temp_s3_2 << 0x10;
+        }
+        if (var_v0_3 != 0)
+        {
+            if (var_a1 > 0)
+            {
+                if (decalage_en_cours < var_a1)
+                {
+                    decalage_en_cours += temp_s3_2;
+                }
+                var_v0_4 = var_a1 < decalage_en_cours;
+            }
+            else
+            {
+                if (var_a1 < decalage_en_cours)
+                {
+                    decalage_en_cours += temp_s3_2;
+                }
+                var_v0_4 = decalage_en_cours < var_a1;
+            }
+            if (var_v0_4 != 0)
+            {
+                decalage_en_cours = var_a1;
+            }
+        }
+    }
+    if (decalage_en_cours != 0)
+    {
+        ray.speed_x = instantSpeed(ashr16(decalage_en_cours, 4));
+        if ((((u8) block_flags[calc_typ_travd(&ray, 0) & 0xFF] >> 4) & 1) && (ray.main_etat != 2))
+        {
+            ray.speed_x = 0;
+            decalage_en_cours = 0;
+            ray.nb_cmd = 0;
+        }
+    }
+    else
+    {
+        ray.speed_x = 0;
+    }
+    new_var = ray.main_etat;
+    if (((new_var < 2U) || (ray.main_etat == 3)) && (ray.field20_0x36 == -1))
+    {
+        CALC_MOV_ON_BLOC(&ray);
+    }
+    if ((ray.main_etat == 2) && (ray.sub_etat == 0x0F))
+    {
+        var_s2 += 2;
+    }
+    if (decalage_en_cours >= var_s2)
+    {
+        decalage_en_cours -= var_s2;
+        return;
+    }
+    if (-var_s2 >= decalage_en_cours)
+    {
+        decalage_en_cours += var_s2;
+        return;
+    }
+    decalage_en_cours = 0;
+}
