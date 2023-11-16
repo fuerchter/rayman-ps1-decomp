@@ -111,12 +111,8 @@ void FIN_DEAD_LOOP(void)
 
     if (fin_du_jeu)
     {
-        i = 0;
-        while (i < 24)
-        {
+        for (i = 0; i < 24; i++)
             t_world_info[i].nb_cages = 0;
-            i++;
-        } 
         D_801CEDFC = 1;
     }
 }

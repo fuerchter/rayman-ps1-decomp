@@ -255,34 +255,29 @@ void FUN_801a76e4(void)
     s16 i;
     u8 seven;
 
-    i = 0;
-    if ((D_801F5498 + 2) > 0)
+    for (i = 0; i < (D_801F5498 + 2); i++)
     {
-        do
+        strcpy(&text_to_display[i], PS1_SettingStrings[i]);
+        seven = 7;
+        if (i == seven)
         {
-            strcpy(&text_to_display[i], PS1_SettingStrings[i]);
-            seven = 7;
-            if (i == seven)
-            {
-                text_to_display[seven].x_pos = 0x00A0;
-                text_to_display[seven].font_size = 2;
-                text_to_display[seven].y_pos = PS1_display_y1;
-            }
+            text_to_display[seven].x_pos = 0x00A0;
+            text_to_display[seven].font_size = 2;
+            text_to_display[seven].y_pos = PS1_display_y1;
+        }
+        else
+        {
+            text_to_display[i].x_pos = basex;
+            if (i >= 6)
+                text_to_display[i].y_pos = debut_sortie + (PS1_display_y2 + 15) * (i - 1);
             else
-            {
-                text_to_display[i].x_pos = basex;
-                if (i >= 6)
-                    text_to_display[i].y_pos = debut_sortie + (PS1_display_y2 + 15) * (i - 1);
-                else
-                    text_to_display[i].y_pos = debut_sortie + (PS1_display_y2 + 15) * i;
-                
-                text_to_display[i].font_size = 2;
-            }
-            text_to_display[i].is_fond = 1;
-            text_to_display[i].field8_0x3d = 0;
-            INIT_TXT_BOX(&text_to_display[i].text);
-            i++;
-        } while (i < (D_801F5498 + 2));
+                text_to_display[i].y_pos = debut_sortie + (PS1_display_y2 + 15) * i;
+            
+            text_to_display[i].font_size = 2;
+        }
+        text_to_display[i].is_fond = 1;
+        text_to_display[i].field8_0x3d = 0;
+        INIT_TXT_BOX(&text_to_display[i].text);
     }
 
     __asm__("nop\nnop\nnop\nnop\nnop\nnop");

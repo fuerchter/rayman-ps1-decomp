@@ -19,7 +19,6 @@ void set_bonus_map_complete(s16 world, s16 level)
 /* 36024 8015A824 -O2 */
 /*? SYNCHRO_LOOP(? *);
 ? start_cd_gagne(s16);*/
-u8 do_perfect_bonus();
 
 void DO_PERFECT_BONUS_MAP(void)
 {

@@ -33,15 +33,12 @@ void DO_MAIN_LOOP(void)
     new_disp_1 = &PS1_Display1 + 0x6cbc;
   else
     new_disp_1 = &PS1_Display1;
-  i = 0;
-  if (PS1_PolygonIndexTableCount > 0)
+  
+  for (i = 0; i < PS1_PolygonIndexTableCount; i++)
   {
-    do {
-      SetPolyFT4(new_disp_1 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144));
-      SetSemiTrans(new_disp_1 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144), 0);
-      SetShadeTex(new_disp_1 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144), 1);
-      i++;
-    } while (i < PS1_PolygonIndexTableCount);
+    SetPolyFT4(new_disp_1 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144));
+    SetSemiTrans(new_disp_1 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144), 0);
+    SetShadeTex(new_disp_1 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144), 1);
   }
   PS1_PolygonIndexTableCount = 0;
   

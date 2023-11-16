@@ -18,7 +18,7 @@ void PS1_TextBoxCardOrPassword(void)
   text_to_display[1].is_fond = false;
   text_to_display[1].field8_0x3d = false;
   text_to_display[1].color = 11;
-  INIT_TXT_BOX(text_to_display + 1);
+  INIT_TXT_BOX(&text_to_display[1]);
   switch(menuEtape)
   {
     case 1:
@@ -34,7 +34,7 @@ void PS1_TextBoxCardOrPassword(void)
   text_to_display[2].is_fond = false;
   text_to_display[2].field8_0x3d = false;
   text_to_display[2].color = 11;
-  INIT_TXT_BOX(text_to_display + 2);
+  INIT_TXT_BOX(&text_to_display[2]);
   positiony = 1;
   button_released = 1;
   compteur = 0;

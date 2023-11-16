@@ -16,21 +16,18 @@ void DO_WIZARD(Obj *obj)
             obj->field24_0x3e = status_bar.num_wiz;
             set_sub_etat(obj, 2);
             set_main_and_sub_etat(&ray, 3, 9);
-            return;
         }
-        set_sub_etat(obj, 0xA);
-        obj->flags &= ~FLG(OBJ_FLIP_X);
-        return;
-
+        else
+        {
+            set_sub_etat(obj, 10);
+            obj->flags &= ~FLG(OBJ_FLIP_X);
+        }
+        break;
     case 3:
         set_main_and_sub_etat(&ray, 3, 0xA);
         if (horloge[2] == 0 && (obj->field24_0x3e - status_bar.num_wiz < 10))
-        {
             status_bar.num_wiz--;
-            return;
-        }
-        return;
-
+        break;
     case 5:
         if (ray.main_etat == 3 && (ray.sub_etat - 0xB >= 2U))
             set_sub_etat(&ray, 0xB);

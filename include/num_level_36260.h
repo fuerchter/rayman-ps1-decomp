@@ -7,6 +7,7 @@
 #include "ray/ray_5D190.h"
 #include "world_map_677C0.h"
 #include "obj/poing.h"
+#include "moteur_init_end.h"
 #include "main_moteur.h"
 #include "cam_scroll_340A4.h"
 

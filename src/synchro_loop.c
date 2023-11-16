@@ -39,16 +39,13 @@ void SYNCHRO_LOOP(s16 (*func)())
     PTR_PS1_MemoryUsageRect_801cee70 = new_rect;
     
     if (PS1_MemoryUsageDisplayMode != 0)
-    {
       ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 0, 0, 128);
-    }
     ClearOTag(PS1_CurrentDisplay + 0x7F0, 11);
     
     if (PS1_CurrentDisplay == &PS1_Display1)
       new_disp_2 = (&PS1_Display1) + 0x6CBC;
     else
       new_disp_2 = &PS1_Display1;
-    
     
     for (i = 0; i < PS1_PolygonIndexTableCount; i++)
     {

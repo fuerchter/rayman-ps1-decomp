@@ -6,10 +6,10 @@ extern u8 PS1_TimeString[24];
 extern s16 allowed_time[192];
 extern s16 loop_time;
 
+/* 343EC 80158BEC -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/bonus_343EC", do_perfect_bonus);
 #else
-/* 343EC 80158BEC -O2 -msoft-float */
 s32 do_perfect_bonus(void)
 {
   s32 unk_1;

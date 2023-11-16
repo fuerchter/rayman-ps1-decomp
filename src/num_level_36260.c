@@ -1,11 +1,6 @@
 #include "num_level_36260.h"
 
 /* 36260 8015AA60 -O2 -msoft-float */
-extern s16 ray_X_main_pos_init;
-extern s16 ray_Y_main_pos_init;
-extern s16 xmapsave;
-extern s16 ymapsave;
-
 void new_level_init(void)
 {
   departlevel = 1;

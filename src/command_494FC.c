@@ -112,6 +112,7 @@ void DO_ONE_CMD(Obj *obj)
     case GO_SPEED:
       obj->speed_x = obj->iframes_timer;
       obj->speed_y = obj->field20_0x36;
+      break;
     case GO_NOP:
       break;
   }

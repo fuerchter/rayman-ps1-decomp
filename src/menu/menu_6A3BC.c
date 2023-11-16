@@ -200,22 +200,21 @@ void CHEAT_MODE_CONTINUE(void)
     switch (Etape_History)
     {
     case 0:
-        if ((joy_done == 1) && (nb_continue < 4))
+        if (joy_done == 1 && nb_continue < 4)
         {
           joy_done = 0;
           Etape_History++;
-          return;
         }
-        if (joy_done != 0)
+        else if (joy_done != 0)
           Etape_History = 0;
         break;
     case 1:
-        if (joy_done == 2) {
+        if (joy_done == 2)
+        {
           joy_done = 0;
           Etape_History++;
-          return;
         }
-        if (joy_done != 0)
+        else if (joy_done != 0)
           Etape_History = 0;
         break;
     case 2:
@@ -223,17 +222,14 @@ void CHEAT_MODE_CONTINUE(void)
         {
           joy_done = 0;
           Etape_History++;
-          return;
         }
-        if (joy_done != 0)
+        else if (joy_done != 0)
           Etape_History = 0;
         break;
     case 3:
-        if (joy_done == 4) {
+        if (joy_done == 4)
           nb_continue = 10;
-          return;
-        }
-        if (joy_done != 0)
+        else if (joy_done != 0)
           Etape_History = 0;
         break;
     }
@@ -436,7 +432,7 @@ void DO_LOADER_ANIM(void)
   switch(bigray.cmd)
   {
   case GO_LEFT:
-    if ((s32)(bigray.screen_x_pos + bigray.offset_bx) <= -101 )
+    if ((s32)(bigray.screen_x_pos + bigray.offset_bx) < -100 )
     {
       bigray.cmd += GO_RIGHT;
       set_main_and_sub_etat(&bigray, 1, 1);
@@ -445,7 +441,7 @@ void DO_LOADER_ANIM(void)
     }
     break;
   case GO_RIGHT:
-    if ((s32)(bigray.screen_x_pos + bigray.offset_bx) >= 401)
+    if ((s32)(bigray.screen_x_pos + bigray.offset_bx) > 400)
     {
       bigray.cmd += GO_RIGHT;
       set_main_and_sub_etat(&bigray, 1, 2);
@@ -473,7 +469,7 @@ void DO_LOADER_ANIM(void)
     }
     break;
   case GO_DOWN:
-    if ((s32)(bigray.screen_x_pos + bigray.offset_bx) >= 0x191)
+    if ((s32)(bigray.screen_x_pos + bigray.offset_bx) > 400)
     {
       bigray.cmd += GO_RIGHT;
       set_main_and_sub_etat(&bigray, 0, 1);
