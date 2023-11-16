@@ -318,8 +318,6 @@ INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", ray_inertia_speed);
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_SWIP);
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", FUN_801835c0);
-
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_STOP);
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_HELICO);

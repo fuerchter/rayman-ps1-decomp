@@ -919,7 +919,6 @@ determineRayAirInertia = 0x801828cc;
 ray_jump = 0x8018295c;
 ray_inertia_speed = 0x80182cbc;
 RAY_SWIP = 0x801831ac;
-FUN_801835c0 = 0x801835c0;
 RAY_STOP = 0x80183740;
 RAY_HELICO = 0x80183854;
 Make_Ray_Hang = 0x80183d2c;

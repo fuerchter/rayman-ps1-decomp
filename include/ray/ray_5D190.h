@@ -72,7 +72,6 @@ void determineRayAirInertia(void);
 void ray_jump(void);
 void ray_inertia_speed(u32 param_1, s16 param_2, s16 prevSpeedX, s16 param_4);
 void RAY_SWIP(void);
-void FUN_801835c0(s32 param_1, u32 param_2, s16 param_3);
 void RAY_STOP(void);
 void RAY_HELICO(void);
 void Make_Ray_Hang(s16 param_1, s16 param_2);
