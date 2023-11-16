@@ -443,9 +443,9 @@ void RAY_HELICO(void)
                 {
                     if (ray_between_clic >= 0)
                     {
-                        if(!(ray.flags & 0x4000) && ray.speed_x < -1 && leftjoy(0))
+                        if(!(ray.flags & FLG(OBJ_FLIP_X)) && ray.speed_x < -1 && leftjoy(0))
                             ray.speed_x = -48;
-                        else if(ray.flags & 0x4000 && ray.speed_x > 1 && rightjoy(0))
+                        else if(ray.flags & FLG(OBJ_FLIP_X) && ray.speed_x > 1 && rightjoy(0))
                             ray.speed_x = 48;
                         else if (ray.speed_x == 0)
                             ray.speed_y = -2;
@@ -474,11 +474,65 @@ void RAY_HELICO(void)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", Make_Ray_Hang);
+/* 5F52C 80183D2C -O2 -msoft-float */
+void Make_Ray_Hang(s16 param_1, s16 param_2)
+{
+    s32 unk_1;
+    u8 unk_2;
+    s32 unk_3;
+    s32 unk_4;
 
+    if (ray.main_etat == 2 && ray.sub_etat == 8)
+        ray.iframes_timer = 90;
+    set_main_and_sub_etat(&ray, 5, 0);
+    unk_1 = get_proj_dist2(ray.scale, 32);
+    
+    if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+        unk_2 = 3;
+    else
+        unk_2 = 7;
+
+    if (ray.flags & FLG(OBJ_FLIP_X))
+        unk_3 = 16 - unk_2;
+    else
+        unk_3 = unk_2;
+    
+    if (ray.scale != 0)
+        unk_1 += 37;
+    ray.y_pos = (param_2 >> 4 << 4) - unk_1;
+    ray.speed_y = 0;
+    ray.speed_x = 0;
+    ray.field24_0x3e = 0;
+    ray.gravity_value_1 = 0;
+    ray.gravity_value_2 = 0;
+    ray.field20_0x36 = -1;
+    decalage_en_cours = 0;
+    jump_time = 0;
+    unk_4 = 1;
+    ray.x_pos = (param_1 >> 4 << 4) - ray.offset_bx + (unk_3 - unk_4);
+}
+
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", AIR);
+#else
+u16 AIR(s32 param_1)
+{
+  __asm__("nop");
 
+  return block_flags[((u16) mp.map[param_1]) >> 10] >> BLOCK_SOLID & 1 ^ 1;
+}
+#endif
+
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", MUR);
+#else
+u16 MUR(s32 param_1)
+{
+  __asm__("nop");
+
+  return block_flags[(u16) mp.map[param_1] >> 10] >> BLOCK_SOLID & 1;
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", CAN_RAY_HANG_BLOC);
 
