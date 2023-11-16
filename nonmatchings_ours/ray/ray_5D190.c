@@ -930,3 +930,82 @@ block_57:
     }
     ray_inertia_speed(var_s0, var_s2, temp_a2, ray_wind_force);
 }
+
+/* only keeping this so i don't have to fill in struct fields again, kinda clueless still */
+/*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", CAN_RAY_HANG_BLOC);*/
+
+void CAN_RAY_HANG_BLOC(void)
+{
+    s16 temp_s0;
+    s16 temp_v0_1; /* s32??? 27fc */
+    s16 var_a0;
+    s16 var_s5;
+    s32 temp_fp;
+    s32 temp_s0_2;
+    s32 temp_s1;
+    s32 temp_s2;
+    s32 temp_s4;
+    s32 temp_s6;
+    s32 temp_v0_2;
+    s32 var_s7;
+    s32 var_v0;
+
+    if ((RayEvts.flags0 & 2) && !(RayEvts.flags1 & 0x18))
+    {
+        temp_v0_1 = ray.offset_bx + ray.x_pos;
+        temp_v0_2 = (s32) (temp_v0_1 << 0x10) >> 0x14;
+        if ((temp_v0_2 > 0) && ((mp.width - 2) >= temp_v0_2))
+        {
+            temp_s0 = ray.offset_hy + ray.y_pos + 0x20;
+            if (ray.scale != 0)
+            {
+                set_proj_center(temp_v0_1, ray.y_pos + ray.offset_by);
+                temp_s0 = get_proj_y(ray.scale, temp_s0);
+            }
+            var_s5 = -1;
+            if (ray.flags & 0x4000)
+            {
+                var_s5 = 1;
+            }
+            temp_s2 = temp_v0_2 + (((s32) (temp_s0 << 0x10) >> 0x14) * mp.width);
+            temp_s6 = (temp_s2 - mp.width) + var_s5;
+            temp_s4 = temp_s2 + mp.width;
+            if (temp_s6 >= 0)
+            {
+                temp_s1 = temp_s4 + mp.width;
+                var_s7 = temp_s1 + mp.width;
+                temp_fp = temp_s2 + var_s5;
+                if (ray.scale != 0)
+                {
+                    var_s7 = temp_s1;
+                }
+                if ((((MUR(temp_fp) << 0x10) != 0) || ((MUR(var_s5) << 0x10) != 0) || ((MUR(temp_s1) << 0x10) != 0)) && (ray.main_etat == 2) && (jump_time >= 9))
+                {
+                    if (
+                        ((AIR(temp_s2) << 0x10) != 0) &&
+                        ((AIR(temp_s1) << 0x10) != 0) &&
+                        ((AIR(temp_s4) << 0x10) != 0) &&
+                        ((AIR(temp_s6) << 0x10) != 0) &&
+                        ((AIR(var_s7) << 0x10) != 0) &&
+                        ((MUR(temp_fp) << 0x10) != 0)
+                    )
+                    {
+                        var_a0 = (s16) temp_v0_1;
+                        goto block_35;
+                    }
+                    if ((ray.scale == 0) && (((s32) temp_v0_1 >= 2) || !(ray.flags & 0x4000)) && ((var_v0 = var_s5 << 0x10, (((mp.width - 3) < (s32) temp_v0_1) == 0)) || (var_v0 = var_s5 << 0x10, ((ray.flags & 0x4000) != 0))))
+                    {
+                        
+                        temp_s0_2 = var_v0 >> 0x10;
+                        if (((AIR(temp_s2 - temp_s0_2) << 0x10) != 0) && ((AIR(temp_s1 - temp_s0_2) << 0x10) != 0) && ((AIR(temp_s4 - temp_s0_2) << 0x10) != 0) && ((AIR(temp_s6 - temp_s0_2) << 0x10) != 0) && ((AIR(var_s7 - temp_s0_2) << 0x10) != 0) && ((MUR(temp_fp - temp_s0_2) << 0x10) != 0))
+                        {
+                            var_a0 = (s16) temp_v0_1 - (temp_s0_2 * 0x10);
+block_35:
+                            Make_Ray_Hang(var_a0, (s16) temp_s0);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

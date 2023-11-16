@@ -322,6 +322,7 @@ INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", ray_inertia_speed);
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_SWIP);
 
+/* 5EF40 80183740 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_STOP);
 #else
@@ -512,6 +513,7 @@ void Make_Ray_Hang(s16 param_1, s16 param_2)
     ray.x_pos = (param_1 >> 4 << 4) - ray.offset_bx + (unk_3 - unk_4);
 }
 
+/* 5F680 80183E80 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", AIR);
 #else
@@ -523,6 +525,7 @@ u16 AIR(s32 param_1)
 }
 #endif
 
+/* 5F6C0 80183EC0 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", MUR);
 #else
@@ -536,7 +539,40 @@ u16 MUR(s32 param_1)
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", CAN_RAY_HANG_BLOC);
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_TOMBE);
+
+/* 5FAB8 801842B8 -O2 -msoft-float */
+void RAY_TOMBE(void)
+{
+  if (ray_on_poelle)
+  {
+    if (ray.main_etat == 0 && ray.sub_etat == 40)
+      set_main_and_sub_etat(&ray, 2, 26);
+    else
+      set_main_and_sub_etat(&ray, 2, 28);
+  }
+  else
+  {
+    if (ray.main_etat == 1 && ray.sub_etat == 11)
+      ray.flags = ray.flags & ~FLG(OBJ_FLIP_X) | ((ray.flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X;
+    if (ray.main_etat == 5)
+      set_main_and_sub_etat(&ray, 2, 1);
+    else
+    {
+      if (__builtin_abs(ray.speed_x) < 3)
+        set_main_and_sub_etat(&ray, 2, 24);
+      else
+        set_main_and_sub_etat(&ray, 2, 32);
+    }
+  }
+  jump_time = 0;
+  helico_time = -1;
+  ray.gravity_value_1 = 0;
+  ray.gravity_value_2 = 0;
+  ray.field20_0x36 = -1;
+  button_released = 0;
+  poing.is_charging = false;
+  determineRayAirInertia();
+}
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_DOWN);
 
