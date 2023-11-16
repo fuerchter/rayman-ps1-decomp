@@ -318,7 +318,49 @@ INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", ray_inertia_speed);
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_SWIP);
 
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_STOP);
+#else
+void RAY_STOP(void)
+{
+  u8 main_etat = ray.main_etat;
+
+  if (main_etat == 1 || ray.field20_0x36 != -1)
+  {
+    switch(main_etat * 0x100 + ray.sub_etat)
+    {
+    case 0x108:
+    case 0x10a:
+      set_main_and_sub_etat(&ray, 0, 47);
+      break;
+    case 0x109:
+    case 0x10b:
+      set_main_and_sub_etat(&ray, 0, 48);
+      break;
+    case 0x100:
+    case 0x103:
+    case 0x104:
+    case 0x105:
+    case 0x107:
+      set_main_and_sub_etat(&ray, 0, 0);
+      break;
+    }
+
+    if (decalage_en_cours == 0)
+    {
+      ray.speed_y = 0;
+      ray.speed_x = 0;
+    }
+  }
+  else if (main_etat == 4)
+  {
+    ray.speed_y = 0;
+    set_sub_etat(&ray, 0);
+  }
+
+  __asm__("nop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_HELICO);
 
