@@ -7,6 +7,10 @@ extern s16 jump_time;
 extern s16 helico_time;
 extern s16 D_801E51E8;
 extern s16 D_801E51F8;
+extern u8 ray_Suphelico_bis;
+extern u8 ray_clic;
+extern s16 D_801E62F0;
+extern s16 ray_between_clic;
 
 /* 5D190 80181990 -O2 -msoft-float */
 void allocateRayLandingSmoke(void)
@@ -362,7 +366,113 @@ void RAY_STOP(void)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_HELICO);
+/* 5F054 80183854 -O2 -msoft-float */
+void RAY_HELICO(void)
+{
+    ObjState **eta;
+    ObjState *sel_eta;
+
+    eta = ray.eta;
+    if (
+        ray.eta[ray.main_etat][ray.sub_etat].flags & 4 &&
+        button_released == 1 && options_jeu.Fire1ButtonFunc(options_jeu.field11_0x1e)
+    )
+    {
+        if (
+            RayEvts.flags0 & FLG(RAYEVTS0_SUPER_HELICO) &&
+            !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)))
+        )
+        {
+            button_released = 2;
+            set_sub_etat(&ray, 14);
+            sel_eta = &eta[ray.main_etat][ray.sub_etat];
+            sel_eta->anim_speed = sel_eta->anim_speed & 0xF | 0x30;
+            sel_eta = &eta[2][15];
+            sel_eta->anim_speed = sel_eta->anim_speed & 0xF | 0x20;
+            ray_Suphelico_bis = 0;
+            helico_time = -1;
+            ray.field24_0x3e = -1;
+            ray.timer = 0;
+            ray_clic = 0;
+            D_801E62F0 = 0;
+        }
+        else if (
+            RayEvts.flags0 & FLG(RAYEVTS0_HELICO) &&
+            !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)))
+        )
+        {
+            button_released = 2;
+            set_sub_etat(&ray, 3);
+            ray.anim_frame = 0;
+            helico_time = 50;
+            ray.field24_0x3e = -1;
+        }
+    }
+    if (ray.sub_etat == 15)
+    {
+        sel_eta = &eta[ray.main_etat][ray.sub_etat];
+        if ((sel_eta->anim_speed & 0xF0) == 0x20)
+        {
+            sel_eta->anim_speed = sel_eta->anim_speed & 0xF | 0xA0;
+            ray.gravity_value_1 = 0;
+            ray.gravity_value_2 = 20;
+        }
+    }
+    if (
+        (button_released == 3 && options_jeu.Fire1ButtonFunc(options_jeu.field11_0x1e)) ||
+        helico_time == 0
+    )
+    {
+        if (
+            RayEvts.flags0 & FLG(RAYEVTS0_SUPER_HELICO) &&
+            !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)))
+        )
+        {
+            if (ray.sub_etat == 15 && helico_time != 0)
+            {
+                ray.gravity_value_1 = 0;
+                ray_Suphelico_bis = 1;
+                button_released = 2;
+                sel_eta = &eta[ray.main_etat][ray.sub_etat];
+                sel_eta->anim_speed = sel_eta->anim_speed & 0xF | 0xA0;
+                ray_clic++;
+                ray.gravity_value_2 = 20;
+                ray.speed_y = -1;
+
+                if (ray_clic > 1)
+                {
+                    if (ray_between_clic >= 0)
+                    {
+                        if(!(ray.flags & 0x4000) && ray.speed_x < -1 && leftjoy(0))
+                            ray.speed_x = -48;
+                        else if(ray.flags & 0x4000 && ray.speed_x > 1 && rightjoy(0))
+                            ray.speed_x = 48;
+                        else if (ray.speed_x == 0)
+                            ray.speed_y = -2;
+                        
+                        helico_time = 70;
+                        ray_clic = 0;
+                        ray_inertia_speed(0xFF, 0, ashl16(ray.speed_x, 4), ray_wind_force);
+                    }
+                    else
+                    {
+                        ray_clic = 1;
+                        ray_between_clic = 20;
+                    }
+                }
+                else
+                    ray_between_clic = 20;
+            }
+        }
+        else
+        {
+            button_released = 4;
+            set_sub_etat(&ray, 5);
+            helico_time = -1;
+            ray.field24_0x3e = 0;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", Make_Ray_Hang);
 
