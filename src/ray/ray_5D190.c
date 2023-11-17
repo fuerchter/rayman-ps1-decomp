@@ -11,6 +11,9 @@ extern u8 ray_Suphelico_bis;
 extern u8 ray_clic;
 extern s16 D_801E62F0;
 extern s16 ray_between_clic;
+extern s16 costab[258]; /* size correct? */
+extern s16 RandArray[256];
+extern s16 expsin[64];
 
 void DO_ANIM(Obj *obj);
 void FUN_80150c5c(Obj *param_1,u8 param_2);
@@ -810,7 +813,7 @@ void RAY_RESPOND_TO_DIR(s16 flip_x)
         if (ray.sub_etat != 15 && ray.nb_cmd == 0)
             decalage_en_cours = 0;
         RAY_SWIP();
-        if (ray_on_poelle == 0)
+        if (!ray_on_poelle)
             ray.flags = (ray.flags & ~FLG(OBJ_FLIP_X)) | ((flip_x & 1) << OBJ_FLIP_X);
         break;
     case 4:
@@ -965,15 +968,117 @@ void PS1_RespondShoulderL(void)
 
 void RAY_RESPOND_TO_BUTTON4(void) {}
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_BUTTON3);
+/* 61568 80185D68 -O2 -msoft-float */
+void RAY_RESPOND_TO_BUTTON3(void)
+{
+    if (ray.main_etat != 2)
+    {
+        if (ray.main_etat != 1)
+        {
+            RAY_STOP();
+            if (
+                ray.main_etat == 0 &&
+                (ray.sub_etat == 0 || ray.sub_etat == 1 || ray.sub_etat == 2 ||
+                ray.sub_etat == 63 || ray.sub_etat == 59 || ray.sub_etat == 62 ||
+                ray.sub_etat == 3 || ray.sub_etat == 8)
+            )
+            {
+                if (RayEvts.flags0 & FLG(RAYEVTS0_GRAIN))
+                {
+                    if (ray.field20_0x36 == -1)
+                    {
+                        set_main_and_sub_etat(&ray, 3, 16);
+                        ray.speed_x = 0;
+                        ray.speed_y = 0;
+                    }
+                }
+                else if (
+                    !ray_on_poelle &&
+                    ray.sub_etat != 18 &&
+                    !(RayEvts.flags1 & (FLG(RAYEVTS1_RUN)|FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))) &&
+                    ray.sub_etat != 8
+                )
+                    set_sub_etat(&ray, 18);
+            }
+        }
+        else if (
+            !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))) &&
+            RayEvts.flags1 & 1 &&
+            ray.sub_etat == 0
+        )
+            set_sub_etat(&ray, 3);
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_FIRE0);
+/* 61704 80185F04 -O2 -msoft-float */
+void RAY_RESPOND_TO_FIRE0(void)
+{
+  if (
+    !poing.is_active &&
+    RayEvts.flags0 & FLG(RAYEVTS0_POING) &&
+    !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)))
+  )
+    RAY_PREPARE_FIST();
+}
 
+/* 61760 80185F60 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_FIRE1);
+#else
+void RAY_RESPOND_TO_FIRE1(void)
+{
+    if (!fin_boss)
+    {
+        switch (ray.main_etat)
+        {
+        case 0:
+        case 1:
+        case 2:
+        case 5:
+        case 7:
+            ray_jump();
+            break;
+        case 3:
+        case 4:
+        case 6:
+            break;
+        }
+    }
+
+    __asm__("nop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE_ANIM);
 
+/* 61870 80186070 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", abs_sinus_cosinus);
+#else
+void abs_sinus_cosinus(s16 tab_index, s16 *param_2, s16 *param_3)
+{
+    if (tab_index <= 256)
+    {
+        *param_3 = costab[tab_index];
+        if (tab_index < 128)
+            *param_2 = costab[tab_index + 128];
+        else
+            *param_2 = -costab[tab_index - 128];
+    }
+    else
+    {
+        *param_3 = costab[512 - tab_index];
+        if (tab_index > 384)
+        {
+            *param_2 = costab[tab_index - 384];
+        }
+        else
+            *param_2 = -costab[tab_index - 128];
+    }
+
+    __asm__("nop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", SET_RAY_BALANCE);
 

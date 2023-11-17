@@ -90,7 +90,7 @@ void RAY_RESPOND_TO_BUTTON3(void);
 void RAY_RESPOND_TO_FIRE0(void);
 void RAY_RESPOND_TO_FIRE1(void);
 s32 RAY_BALANCE_ANIM(s16 param_1);
-void abs_sinus_cosinus(s16 param_1, s16 *param_2, s16 *param_3);
+void abs_sinus_cosinus(s16 tab_index, s16 *param_2, s16 *param_3);
 void SET_RAY_BALANCE(void);
 void RAY_GOING_BALANCE(Obj *obj);
 void RAY_BALANCE(void);

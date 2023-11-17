@@ -1204,3 +1204,49 @@ block_60:
         break;
     }
 }
+
+
+/*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE_ANIM);*/
+
+s16 RAY_BALANCE_ANIM(s16 arg0)
+{
+    s16 var_v0;
+    s16 var_v1;
+    s16 temp_v1;
+
+    if (arg0 == 0)
+        arg0++;
+    
+    temp_v1 = (arg0 - 1) >> 3;
+    if (temp_v1 < 0x20)
+    {
+        if (!(ray.flags & 0x4000))
+        {
+            var_v0 = temp_v1 + 0x1F;
+        }
+        else if ((0x20 - temp_v1) >= 0) /* some optimization makes this jump to block at the end... */
+        {
+            var_v0 = 0x20 - temp_v1;
+        }
+        else
+        {
+            var_v0 = temp_v1 - 0x20;
+        }
+    }
+    else
+    {
+        if (!(ray.flags & 0x4000))
+        {
+            var_v0 = temp_v1 - 0x1F;
+        }
+        else if ((0x5F - temp_v1) >= 0)
+        {
+            var_v0 = 0x5F - temp_v1;
+        }
+        else
+        {
+            var_v0 = temp_v1 - 0x5F;
+        }
+    }
+    return var_v0;
+}
