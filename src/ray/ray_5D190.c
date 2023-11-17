@@ -15,6 +15,11 @@ extern s16 ray_between_clic;
 void DO_ANIM(Obj *obj);
 void FUN_80150c5c(Obj *param_1,u8 param_2);
 
+s32 calc_typ_trav(Obj *obj,u8 param_2);
+void set_main_and_sub_etat(Obj *obj,u8 main_etat,u8 sub_etat);
+void set_main_etat(Obj *param_1,u8 etat);
+void set_sub_etat(Obj *obj,u8 subEtat);
+
 /* 5D190 80181990 -O2 -msoft-float */
 void allocateRayLandingSmoke(void)
 {
@@ -591,7 +596,7 @@ void RAY_RESPOND_TO_DOWN(void)
     switch (ray.main_etat)
     {
     case 4:
-        if (ray.sub_etat - 11 >= 2U) /* don't understand these fully yet */
+        if (ray.sub_etat != 11 && ray.sub_etat != 12)
         {
             ray.speed_y = 1;
             if (ray.scale != 0 && horloge[2] != 0)
@@ -670,7 +675,7 @@ void RAY_RESPOND_TO_UP(void)
     switch (ray.main_etat)
     {
     case 4:
-        if (ray.sub_etat - 11 >= 2U)
+        if (ray.sub_etat != 11 && ray.sub_etat != 12)
         {
             calc_bhand_typ(&ray);
             if (hand_btyp == BTYP_NONE)
@@ -728,7 +733,147 @@ void RAY_RESPOND_TO_UP(void)
 }
 #endif
 
+/* 602E8 80184AE8 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_DIR);
+#else
+void RAY_RESPOND_TO_DIR(s16 flip_x)
+{
+    Animation *sel_anim;
+    s32 unk_1;
+    s16 to_speed;
+
+    switch (ray.main_etat)
+    {
+    case 1:
+        joy_done++;
+        if (
+            ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40 &&
+            !FUN_80133984(0) && !FUN_801339f4(0)
+        )
+        {
+            if (!(block_flags[(u8) calc_typ_trav(&ray, 2)] >> BLOCK_FLAG_4 & 1))
+            {
+                if (ray.main_etat != 0 || ray.sub_etat != 60)
+                    set_main_and_sub_etat(&ray, 0, 60);
+            }
+            else if (ray.main_etat != 0 || (ray.sub_etat != 15 && ray.sub_etat != 61))
+            {
+                sel_anim = &ray.animations[ray.anim_index];
+                set_main_and_sub_etat(&ray, 0, 15);
+                ray.anim_frame = sel_anim->frames_count + 0xFF;
+            }
+        }
+        else if (
+            ((ray.flags >> OBJ_FLIP_X & 1) != flip_x) &&
+            ray.sub_etat != 11 && ray.sub_etat != 50 && ray.sub_etat != 51 &&
+            ray_last_ground_btyp != 1
+        )
+            set_main_and_sub_etat(&ray, 1, 4);
+        if (!(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40))
+            ray.flags = (ray.flags & ~FLG(OBJ_FLIP_X)) | ((flip_x & 1) << OBJ_FLIP_X);
+        RAY_SWIP();
+        break;
+    case 0:
+        joy_done++;
+        if (
+            ray.sub_etat == 15 &&
+            !downjoy(0) &&
+            !(block_flags[(u8) calc_typ_trav(&ray, 2)] >> BLOCK_FLAG_4 & 1)
+        )
+            set_main_and_sub_etat(&ray, 1, 0);
+        else if (
+            ray.sub_etat != 11 && ray.sub_etat != 12 && ray.sub_etat != 18 &&
+            ray.sub_etat != 20 && ray.sub_etat != 15 && ray.sub_etat != 47 &&
+            ray.sub_etat != 48 && ray.sub_etat != 50 && ray.sub_etat != 51 &&
+            ray.sub_etat != 61
+        )
+        {
+            if ((ray.flags >> OBJ_FLIP_X & 1) != flip_x)
+            {
+                if (ray_last_ground_btyp != 1)
+                    set_main_and_sub_etat(&ray, 1, 4);
+                else
+                    set_main_and_sub_etat(&ray, 1, 0);
+                ray.flags = (ray.flags & ~FLG(OBJ_FLIP_X)) | ((flip_x & 1) << OBJ_FLIP_X);
+            }
+            else
+            {
+                set_main_etat(&ray, 1);
+                set_sub_etat(&ray, 0);
+            }
+        }
+        RAY_SWIP();
+        break;
+    case 2:
+        joy_done++;
+        if (ray.sub_etat != 15 && ray.nb_cmd == 0)
+            decalage_en_cours = 0;
+        RAY_SWIP();
+        if (ray_on_poelle == 0)
+            ray.flags = (ray.flags & ~FLG(OBJ_FLIP_X)) | ((flip_x & 1) << OBJ_FLIP_X);
+        break;
+    case 4:
+        /* TODO: ctrl flow? */
+        joy_done++;
+        if ((ray.sub_etat == 2 && upjoy(0)) || (ray.sub_etat == 3 && downjoy(0)))
+        {
+            calc_bhand_typ(&ray);
+            if(hand_btyp == BTYP_NONE)
+            {
+                if (ray.sub_etat == 2)
+                {
+                    RAY_TOMBE();
+                    ray.timer = 10;
+                    ray.speed_y = 1;
+                }
+                else
+                    RAY_TOMBE();
+            }
+            else if(hand_btyp != BTYP_LIANE)
+                RAY_STOP();
+        }
+        else if (ray.sub_etat == 2 || ray.sub_etat == 3)
+            RAY_STOP();
+        
+        if (
+            options_jeu.Fire1ButtonFunc(options_jeu.field11_0x1e) &&
+            (button_released & 1) == (unk_1 = 1) &&
+            ray.sub_etat != 11 && ray.sub_etat != 12 && ray.sub_etat != 13
+        )
+        {
+            ray_jump();
+            decalage_en_cours = 256;
+            return;
+        }
+        else if (ray.sub_etat == 13)
+            if (((ray.flags >> OBJ_FLIP_X) & 1) != flip_x)
+                set_sub_etat(&ray, 1);
+        if (ray.sub_etat != 11 && ray.sub_etat != 12)
+            ray.flags = (ray.flags & ~FLG(OBJ_FLIP_X)) | ((flip_x & 1) << OBJ_FLIP_X);
+        break;
+    case 5:
+        joy_done++;
+        if (((ray.flags >> OBJ_FLIP_X) & 1) != flip_x)
+            RAY_TOMBE();
+        break;
+    case 6:
+        joy_done++;
+        decalage_en_cours = 0;
+        ray.flags |= FLG(OBJ_FLIP_X);
+        if (flip_x == 0)
+            to_speed = -1;
+        else
+            to_speed = flip_x;
+        flip_x = to_speed;
+        if ((ray.speed_x * flip_x < 3) && ray.gravity_value_1 == 0)
+            ray.speed_x += flip_x;
+        break;
+    }
+
+    __asm__("nop\nnop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_NOTHING);
 

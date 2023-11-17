@@ -81,7 +81,7 @@ void CAN_RAY_HANG_BLOC(void);
 void RAY_TOMBE(void);
 void RAY_RESPOND_TO_DOWN(void);
 void RAY_RESPOND_TO_UP(void);
-void RAY_RESPOND_TO_DIR(u32 param_1);
+void RAY_RESPOND_TO_DIR(s16 flip_x);
 void RAY_RESPOND_TO_NOTHING(void);
 void PS1_RespondShoulderR(void);
 void PS1_RespondShoulderL(void);
