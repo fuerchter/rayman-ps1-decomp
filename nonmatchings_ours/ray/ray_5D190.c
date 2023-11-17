@@ -1009,3 +1009,198 @@ block_35:
         }
     }
 }
+
+/* matches, but gotos/cleanup */
+/* 60A58 80185258 -O2 -msoft-float */
+/*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_NOTHING);*/
+
+extern s16 D_801F5588;
+
+void RAY_RESPOND_TO_NOTHING(void)
+{
+    s16 temp_v0;
+    s16 var_v0;
+    s16 var_v0_2;
+    s16 var_v0_3;
+    u32 var_a0;
+    ObjState *temp_a0;
+    ObjState *temp_a2;
+    Animation *temp_s0;
+    s32 unk_1;
+    u8 flag_set;
+
+    switch (ray.main_etat)
+    {
+    case 1:
+        if ((!(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40) || ((FUN_80133984(0) == 0) && (FUN_801339f4(0) == 0))) && ((u32) (ray.sub_etat - 4) >= 2U) && !(RayEvts.flags1 & 0x18))
+        {
+            set_main_etat(&ray.main_etat - 0x56, 0U);
+            if ((ray.sub_etat == 8) || (ray.sub_etat == 10)) {
+                set_sub_etat(&ray,0x2f);
+            }
+            else if ((ray.sub_etat == 9) || (ray.sub_etat == 0xb)) {
+                set_sub_etat(&ray,0x30);
+            }
+            else if ((ray.sub_etat == 3) || (ray.sub_etat == 7)) {
+                set_sub_etat(&ray,0x24);
+            }
+            else
+            {
+                if ((FUN_80133984(0) == 0) && (FUN_801339f4(0) == 0))
+                {
+                    set_sub_etat(&ray, 0U);
+                }
+            }
+
+        }
+        RAY_SWIP();
+        return;
+    case 0:
+        ray.speed_x = 0;
+        if ((ray.field23_0x3c != -1) && (ray.sub_etat == 0))
+        {
+            if (ray.field23_0x3c == 1)
+            {
+                set_sub_etat(&ray, 0x31U);
+            }
+            else
+            {
+                set_sub_etat(&ray, 3U);
+            }
+        }
+        if ((ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40) && (FUN_801339f4(0) == 0) && (FUN_80133984(0) == 0))
+        {
+            if (!(((u8) block_flags[calc_typ_trav(&ray.main_etat - 0x56, 2U) & 0xFF] >> 4) & 1))
+            {
+                if ((ray.main_etat != 0) || (ray.sub_etat != 0x3C))
+                {
+                    set_main_and_sub_etat(&ray.main_etat - 0x56, 0U, 0x3CU);
+                }
+            }
+            else if ((ray.main_etat != 0) || ((ray.sub_etat != 0x0F) && (ray.sub_etat != 0x3D)))
+            {
+                temp_s0 = &ray.animations[ray.anim_index];
+                set_main_and_sub_etat(&ray.main_etat - 0x56, 0U, 0x0FU);
+                ray.anim_frame = temp_s0->frames_count + 0xFF;
+            }
+        }
+        else
+        {
+            if(ray.sub_etat == 0x25)
+            {
+                if(__builtin_abs(decalage_en_cours) < 0x81)
+                {
+                    set_sub_etat((Obj *) (&ray.sub_etat - 0x58), 0x26U);
+                    goto block_60;
+                }
+            }
+            if (ray.sub_etat == 0x14)
+            {
+                flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10;
+                if(
+                    (flag_set && ray.anim_frame == 0) ||
+                    (!flag_set && ray.anim_frame == (ray.animations[ray.anim_index].frames_count - 1))
+                )
+                {
+                    if(horloge[ray.eta[ray.main_etat][ray.sub_etat].anim_speed & 0xF] == 0)
+                    {
+                        if ((((u8) block_flags[calc_typ_trav(&ray, 2U) & 0xFF] >> 4) & 1))
+                        {
+                            temp_a2 = &ray.eta[ray.main_etat][ray.sub_etat];
+                            unk_1 = ((temp_a2->flags >> 4 ^ 1) & 1) * 0x10;
+                            temp_a2->flags = (u8) ((temp_a2->flags & 0xEF) | unk_1);
+                            FUN_80150c5c(&ray, 1U);
+                            temp_a0 = &ray.eta[ray.main_etat][ray.sub_etat];
+                            unk_1 = ((temp_a0->flags >> 4 ^ 1) & 1) * 0x10;
+                            temp_a0->flags = (u8) ((temp_a0->flags & 0xEF) | unk_1);
+                            goto block_60;
+                        }
+                        else
+                            goto block_60;
+                    }
+                }
+            }
+            if (ray.sub_etat == 0x3B || ray.sub_etat == 0x3e || ray.sub_etat == 0x3f)
+            {
+                flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10;
+                if(
+                    (flag_set && ray.anim_frame == 0) ||
+                    (!flag_set && ray.anim_frame == (ray.animations[ray.anim_index].frames_count - 1))
+                )
+                {
+                    if(horloge[ray.eta[ray.main_etat][ray.sub_etat].anim_speed & 0xF] == 0)
+                    {
+                        compteur_attente = 0;
+                        set_sub_etat(&ray, 0U);
+                    }
+                }
+                goto block_60;
+            }
+            if (ray.sub_etat == 0 || ray.sub_etat == 1 || ray.sub_etat == 2)
+            {
+            block_58:
+                temp_v0 = (u16) compteur_attente + 1;
+                compteur_attente = temp_v0;
+                if (temp_v0 < 0x1F4)
+                {
+                    goto block_60;
+                }
+                set_sub_etat((Obj *) (&ray.sub_etat - 0x58), 0x3BU);
+            }
+        }
+block_60:
+        RAY_SWIP();
+        return;
+    case 4:
+        if ((u32) (ray.sub_etat - 2) < 2U)
+        {
+            set_sub_etat((Obj *) (&ray.sub_etat - 0x58), 0U);
+            ray.speed_y = 0;
+            return;
+        }
+        return;
+    case 2:
+        compteur_attente = 0;
+        D_801F5588 = 0;
+        if (ray.sub_etat != 8)
+        {
+            ray.speed_x = 0;
+        }
+        if ((ray.sub_etat != 0x0F) && (ray.nb_cmd == 0))
+        {
+            ray_inertia_speed(0, 0, 0, ray_wind_force);
+        }
+        else
+            ray_inertia_speed(8, 0, 0, ray_wind_force);
+        return;
+    case 6:
+        decalage_en_cours = 0;
+        joy_done += 1;
+        ray.flags |= 0x4000;
+        if (ray.gravity_value_1 == 0)
+        {
+            if (ray.speed_x > 0)
+            {
+                var_v0_2 = ray.speed_x - 1;
+                ray.speed_x = var_v0_2;
+            }
+            else if (ray.speed_x < 0)
+            {
+                var_v0_2 = ray.speed_x + 1;
+                ray.speed_x = var_v0_2;
+            }
+
+            if (ray.speed_y > 0)
+            {
+                var_v0_3 = ray.speed_y - 1;
+                ray.speed_y = var_v0_3;
+            }
+            else if (ray.speed_y < 0)
+            {
+                var_v0_3 = ray.speed_y + 1;
+                ray.speed_y = var_v0_3;
+            }
+        }
+        break;
+    }
+}
