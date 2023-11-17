@@ -877,9 +877,91 @@ void RAY_RESPOND_TO_DIR(s16 flip_x)
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_NOTHING);
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", PS1_RespondShoulderR);
+/* 61254 80185A54 -O2 -msoft-float */
+void PS1_RespondShoulderR(void)
+{
+  switch(ray.main_etat)
+  {
+  case 0:
+    if (ray.sub_etat == 15 || ray.sub_etat == 47)
+    {
+      if (ray.flags & FLG(OBJ_FLIP_X))
+        set_main_and_sub_etat(&ray,1,8);
+      else
+      {
+        ray.flags = (ray.flags & ~FLG(OBJ_FLIP_X)) | (((1 - (ray.flags >> OBJ_FLIP_X & 1)) & 1) << OBJ_FLIP_X);
+        set_main_and_sub_etat(&ray, 0, 50);
+      }
+    }
+    else if (ray.sub_etat != 50)
+    {
+        if (!poing.is_active)
+        {
+            poing.is_charging = false;
+            poing.charge = 0;
+        }
+        set_main_and_sub_etat(&ray,3,6);
+    }
+    RAY_SWIP();
+    break;
+  case 1:
+    if (ray.sub_etat == 8 || ray.sub_etat == 10)
+    {
+      if (!(ray.flags & FLG(OBJ_FLIP_X)))
+      {
+        ray.flags |= FLG(OBJ_FLIP_X);
+        set_main_and_sub_etat(&ray, 0, 50);
+      }
+    }
+    else if (!(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40))
+        set_main_and_sub_etat(&ray,3,6);
+    RAY_SWIP();
+    break;
+  }
+}
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", PS1_RespondShoulderL);
+/* 613D8 80185BD8 -O2 -msoft-float */
+void PS1_RespondShoulderL(void)
+{
+  switch(ray.main_etat)
+  {
+  case 0:
+    if (ray.sub_etat == 15 || ray.sub_etat == 47)
+    {
+      if (!(ray.flags & FLG(OBJ_FLIP_X)))
+        set_main_and_sub_etat(&ray,1,8);
+      else
+      {
+        ray.flags = (ray.flags & ~FLG(OBJ_FLIP_X)) | (((1 - (ray.flags >> OBJ_FLIP_X & 1)) & 1) << OBJ_FLIP_X);
+        set_main_and_sub_etat(&ray, 0, 50);
+      }
+    }
+    else if (ray.sub_etat != 50)
+    {
+        if (!poing.is_active)
+        {
+            poing.is_charging = false;
+            poing.charge = 0;
+        }
+        set_main_and_sub_etat(&ray,3,6);
+    }
+    RAY_SWIP();
+    break;
+  case 1:
+    if (ray.sub_etat == 8 || ray.sub_etat == 10)
+    {
+      if (ray.flags & FLG(OBJ_FLIP_X))
+      {
+        ray.flags &= ~FLG(OBJ_FLIP_X);
+        set_main_and_sub_etat(&ray, 0, 50);
+      }
+    }
+    else if (!(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40))
+        set_main_and_sub_etat(&ray,3,6);
+    RAY_SWIP();
+    break;
+  }
+}
 
 void RAY_RESPOND_TO_BUTTON4(void) {}
 
