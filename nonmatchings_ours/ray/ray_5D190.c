@@ -1250,3 +1250,212 @@ s16 RAY_BALANCE_ANIM(s16 arg0)
     }
     return var_v0;
 }
+
+/*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_GOING_BALANCE);*/
+
+void RAY_GOING_BALANCE(Obj *obj)
+{
+    s16 sp10;
+    s16 sp12;
+    s16 diff_x;
+    s16 temp_v0;
+    s16 diff_y;
+    s16 var_v0;
+    s32 var_v0_5;
+    s32 var_v1;
+    s16 follow_y;
+    s32 dist;
+
+    diff_x = ray.x_pos + ray.offset_bx - obj->x_pos - obj->offset_bx;
+    diff_y = ray.y_pos + ray.offset_by - obj->y_pos - obj->offset_by;
+    dist = diff_x * diff_x + diff_y * diff_y;
+    if (ray.sub_etat == 0)
+    {
+        if (dist > 4512U)
+        {
+            set_sub_etat(&ray, 1);
+            obj->timer = 0;
+            ray.speed_y = 0;
+            ray.speed_x = 0;
+            decalage_en_cours = 0;
+            /* regswap????????? */
+            temp_v0 = ANGLE_RAYMAN(obj);
+            obj->follow_x = temp_v0;
+            if (temp_v0 > 0x100 || (temp_v0 == 0x100 && !(ray.flags & 0x4000)))
+                var_v0 = -1;
+            else
+                var_v0 = 1;
+            obj->field24_0x3e = var_v0;
+            abs_sinus_cosinus(temp_v0, &sp10, &sp12);
+            if (__builtin_abs(sp12) >= 3)
+            {
+                if (__builtin_abs(sp10) >= 3)
+                {
+                    var_v1 = (diff_x << 0x9) / sp10;
+                    var_v0_5 = (diff_y << 0x9) / sp12;
+                    follow_y = (__builtin_abs(var_v1) + __builtin_abs(var_v0_5)) >> 1;
+                }
+                else
+                    follow_y = __builtin_abs(diff_y);
+            }
+            else
+                follow_y = __builtin_abs(diff_x);
+            obj->follow_y = follow_y;
+        }
+        else
+        {
+            ray.speed_x = 0;
+            ray.gravity_value_1++;
+            ray.speed_y -= obj->speed_y;
+            if (ray.gravity_value_1 >= 3)
+            {
+                ray.speed_y++;
+                ray.gravity_value_1 = 0;
+            }
+        }
+    }
+}
+
+/*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE);*/
+
+void RAY_BALANCE(void)
+{
+    s16 sp10;
+    s16 sp12;
+    Obj *temp_s0;
+    s16 temp_a0;
+    s16 temp_v1_4;
+    s16 var_v0;
+    s16 var_v0_2;
+    s16 var_v0_4;
+    s16 var_v0_5;
+    ObjState **temp_s3;
+    s32 temp_v0;
+    s32 temp_v0_2;
+    s32 temp_v0_3;
+    s32 temp_v1;
+    s32 temp_v1_2;
+    s32 temp_v1_3;
+    s32 var_a2;
+    s32 var_v0_3;
+    s16 temp_s2;
+    u16 temp_v0_4;
+
+    temp_s3 = ray.eta;
+    temp_s0 = &level.objects[id_obj_grapped];
+    temp_s2 = temp_s0->follow_x;
+    if (ray.sub_etat == 0)
+    {
+        RAY_GOING_BALANCE(temp_s0);
+    }
+    else if (ray.sub_etat == 1)
+    {
+        if (temp_s0->timer == 0)
+        {
+            if (temp_s0->follow_y >= 0x65)
+            {
+
+                temp_s0->follow_y -= 2;
+            }
+            else if (temp_s0->follow_y < 0x5F)
+            {
+                temp_s0->follow_y++;
+            }
+
+            abs_sinus_cosinus((s16) temp_s2, &sp10, &sp12);
+            /* gotos-only unchanged to default m2c? */
+            /* might have broken something already */
+            if ((s16) temp_s2 >= 0x180)
+            {
+                if (temp_s0->field24_0x3e > 0)
+                {
+                    temp_s0->timer = 5;
+                }
+                temp_s0->field24_0x3e = -1;
+            }
+            else if ((s16) temp_s2 <= 0x80)
+            {
+                
+                if (temp_s0->field24_0x3e < 0)
+                {
+                    temp_s0->timer = 5;
+                    temp_s0->field24_0x3e = 1;
+                }
+                else
+                    temp_s0->field24_0x3e = 1;
+
+            }
+            if (temp_s2 <= 0x100)
+            {
+                temp_v1_2 = -((0x100 - temp_s2) << 7);
+                temp_v0 = 0x100 - 0x80;
+                var_v0_4 = (temp_v1_2 / temp_v0) + 0x100;
+            }
+            else
+            {
+                temp_v0_2 = (temp_s2 - 0x100) << 7;
+                temp_v1_3 = 0x100 - 0x180;
+                var_v0_4 = (temp_v0_2 / temp_v1_3) + 0x100;
+            }
+            temp_v0_3 = (__builtin_abs(costab[0x100 - var_v0_4]) >> 7) + 1;
+            var_a2 = temp_v0_3;
+            if (temp_s0->field24_0x3e < 0)
+            {
+                var_a2 = -temp_v0_3;
+            }
+            temp_v0_2 = temp_s0->follow_y;
+            temp_s0->follow_x = var_a2 + temp_s0->follow_x;
+            ray.speed_x = ((temp_s0->offset_bx + temp_s0->x_pos + ((temp_v0_2 * sp10) >> 9)) - ray.offset_bx) - ray.x_pos;
+            ray.speed_y = ((((temp_s0->offset_by + temp_s0->y_pos) - ((temp_v0_2 * sp12) >> 9)) - ray.offset_by) - ray.y_pos);
+        }
+        else
+        {
+            temp_s0->timer--;
+            ray.speed_x = 0;
+            ray.speed_y = 0U;
+            decalage_en_cours = 0;
+        }
+    }
+    ray.anim_index = temp_s3[ray.main_etat][ray.sub_etat].anim_index;
+    ray.anim_frame = RAY_BALANCE_ANIM((s16) temp_s2);
+    ray.speed_x += temp_s0->speed_x;
+    ray.speed_y = (ray.speed_y + temp_s0->speed_y);
+    if (((u8) block_flags[ray.btypes[0]] >> 1) & 1)
+    {
+        if (!(ray.flags & 0x4000))
+        {
+            if (((u8) block_flags[ray.btypes[1]] >> 1) & 1)
+            {
+                goto block_36;
+            }
+            goto block_39;
+        }
+        else
+        {
+            if (((u8) block_flags[ray.btypes[2]] >> 1) & 1)
+            {
+    block_36:
+                if (((s16) ray.speed_y > 0) || (temp_s0->speed_y > 0))
+                {
+                    recale_position(&ray);
+                    ray.y_pos = ray.y_pos + ray.speed_y;
+                    ray.speed_y = 0U;
+                    ray.timer = 0;
+                    helico_time = -1;
+                    set_main_and_sub_etat(&ray, 0U, 8U);
+                    PlaySnd(0x0013, -1);
+                    ray.field24_0x3e = -1;
+                    return;
+                }
+                goto block_39;
+            }
+        }
+
+        goto block_39;
+    }
+block_39:
+    if ((((u8) block_flags[ray.btypes[2]] >> 4) & 1) || (((u8) block_flags[ray.btypes[1]] >> 4) & 1))
+    {
+        RAY_FIN_BALANCE();
+    }
+}

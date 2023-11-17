@@ -22,6 +22,7 @@ s32 calc_typ_trav(Obj *obj,u8 param_2);
 void set_main_and_sub_etat(Obj *obj,u8 main_etat,u8 sub_etat);
 void set_main_etat(Obj *param_1,u8 etat);
 void set_sub_etat(Obj *obj,u8 subEtat);
+s32 MURDUR(s16 param_1, s16 param_2); /* s16 or RayTestBlocSH needs casts */
 
 /* 5D190 80181990 -O2 -msoft-float */
 void allocateRayLandingSmoke(void)
@@ -1080,15 +1081,89 @@ void abs_sinus_cosinus(s16 tab_index, s16 *param_2, s16 *param_3)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", SET_RAY_BALANCE);
+/* 6191C 8018611C -O2 -msoft-float */
+void SET_RAY_BALANCE(void)
+{
+  if (ray.main_etat == 2 && ray.sub_etat == 8)
+    ray.iframes_timer = 90;
+  set_main_and_sub_etat(&ray, 7, 0);
+  PlaySnd(0, -1);
+  ray.field24_0x3e = 0;
+  ray.gravity_value_1 = 0;
+  ray.gravity_value_2 = 0;
+  ray.field20_0x36 = -1;
+  decalage_en_cours = 0;
+  button_released = 1;
+  ray.speed_y = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_GOING_BALANCE);
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE);
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_FIN_BALANCE);
+/* 62144 80186944 -O2 -msoft-float */
+void RAY_FIN_BALANCE(void)
+{
+  s16 should_flip = level.objects[id_obj_grapped].follow_x < 256;
+  
+  ray.flags = ray.flags & ~FLG(OBJ_FLIP_X) | (should_flip << OBJ_FLIP_X);
+  set_main_and_sub_etat(&ray, 2, 2);
+  ray.speed_y = 0;
+  ray.gravity_value_1 = 0;
+  ray.gravity_value_2 = 0;
+  helico_time = -1;
+  ray.field24_0x3e = -1;
+  ray.x_pos -= ray.speed_x;
+}
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RayTestBlocSH);
+/* 621FC 801869FC -O2 -msoft-float */
+void RayTestBlocSH(void)
+{
+    s16 x_1;
+    s16 y_1;
+    s16 temp_v1_2;
+    s16 var_a1;
+    s32 var_v0;
+    s32 temp_v1;
+    s32 var_a0;
+    u32 var_v0_2;
+
+    x_1 = ray.x_pos + ray.offset_bx;
+    var_a1 = x_1;
+    y_1 = ray.y_pos + ray.offset_hy;
+    var_v0 = x_1;
+    if (x_1 < 0)
+        var_v0 = x_1 + 15;
+    temp_v1 = x_1 - (var_v0 >> 4 << 4);
+    if (
+        decalage_en_cours > 0 ||
+        (decalage_en_cours == 0 && (ray.flags & FLG(OBJ_FLIP_X)))
+    )
+    {
+        var_a0 = 16;
+        if ((u8) temp_v1 >= 14)
+            var_a1 = x_1 + 16;
+    }
+    else
+    {
+        var_a0 = -16;
+        if ((u8) temp_v1 < 4)
+            var_a1 -= 16;
+    }
+    temp_v1_2 = var_a1 + var_a0;
+    if (
+        decalage_en_cours != 0 &&
+        ((s16) MURDUR(temp_v1_2, y_1 + 16) ||
+        (s16) MURDUR(temp_v1_2, y_1 + 32) ||
+        (s16) MURDUR(temp_v1_2, y_1 + 48))
+    )
+    {
+        ray.speed_x = 0;
+        decalage_en_cours = 0;
+    }
+    if (ray.speed_y < 0 && (s16) MURDUR(x_1, y_1 + 16))
+        ray.speed_y = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", remoteControlRay);
 

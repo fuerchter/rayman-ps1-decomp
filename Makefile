@@ -13,6 +13,7 @@
 #arrays/structs involved in missing_addiu: horloge, block_flags, t_world_info, cptr_tab, D_801C7D20, PS1_AlwaysObjects, text_to_display, atak, SerieDatak
 #standard type involved in missing_addiu: PS1_Setting_StereoEnabled
 
+#for u8 < 2 or >= 2 conditions look at RAY_RESPOND_TO_DOWN e.g.
 #PS1_star_spr adding "__attribute__((aligned(2)))" changed memcpy lw/sw into lwl/lwr etc. the address of it in the exe (or its data) did not change. check this for other data and functions that use it (INIT_LEVEL_STAGE_NAME, CHANGE_STAGE_NAMES)
 #display_etoile memcpy changed when .data was added, will this happen for others? (INIT_LEVEL_STAGE_NAME e.g.)
 #for small flags/anim_frame/horloge block example check MAIN_NO_MORE_CONTINUE_PRG
