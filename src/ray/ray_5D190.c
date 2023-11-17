@@ -12,6 +12,9 @@ extern u8 ray_clic;
 extern s16 D_801E62F0;
 extern s16 ray_between_clic;
 
+void DO_ANIM(Obj *obj);
+void FUN_80150c5c(Obj *param_1,u8 param_2);
+
 /* 5D190 80181990 -O2 -msoft-float */
 void allocateRayLandingSmoke(void)
 {
@@ -574,9 +577,156 @@ void RAY_TOMBE(void)
   determineRayAirInertia();
 }
 
+/* 5FC44 80184444 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_DOWN);
+#else
+void RAY_RESPOND_TO_DOWN(void)
+{
+    u8 flag_set;
+    ObjState *sel_eta_1;
+    ObjState *sel_eta_2;
+    s32 unk_1;
 
+    switch (ray.main_etat)
+    {
+    case 4:
+        if (ray.sub_etat - 11 >= 2U) /* don't understand these fully yet */
+        {
+            ray.speed_y = 1;
+            if (ray.scale != 0 && horloge[2] != 0)
+                DO_ANIM(&ray);
+            calc_bhand_typ(&ray);
+            if (hand_btyp != BTYP_LIANE)
+                RAY_TOMBE();
+            else if (ray.sub_etat != 3)
+                set_sub_etat(&ray, 3);
+        }
+        else
+            ray.speed_y = 0;
+        break;
+    case 0:
+        /* not a switch? */
+        if (
+            ray.sub_etat == 0 || ray.sub_etat == 1 || ray.sub_etat == 2 || ray.sub_etat == 3 ||
+            ray.sub_etat == 49 || ray.sub_etat == 8 || ray.sub_etat == 43 || ray.sub_etat == 36 ||
+            ray.sub_etat == 37 || ray.sub_etat == 38 || ray.sub_etat == 39 || ray.sub_etat == 40 ||
+            ray.sub_etat == 41 || ray.sub_etat == 42 || ray.sub_etat == 13 || ray.sub_etat == 59 ||
+            ray.sub_etat == 62 || ray.sub_etat == 63
+        )
+            set_main_and_sub_etat(&ray, 3, 6);
+        else if (ray.sub_etat == 20)
+        {
+            flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10;
+            if(
+                (flag_set && ray.anim_frame == 0) || 
+                (!flag_set && ray.anim_frame == ray.animations[ray.anim_index].frames_count - 1)
+            )
+            {
+                sel_eta_1 = &ray.eta[ray.main_etat][ray.sub_etat];
+                if (horloge[sel_eta_1->anim_speed & 0xF] == 0)
+                {
+                    /* ??? */
+                    unk_1 = ((sel_eta_1->flags >> 4 ^ 1) & 1) * 0x10;
+                    sel_eta_1->flags = (sel_eta_1->flags & 0xEF) | unk_1;
+                    FUN_80150c5c(&ray, 1);
+                    sel_eta_2 = &ray.eta[ray.main_etat][ray.sub_etat];
+                    unk_1 = ((sel_eta_2->flags >> 4 ^ 1) & 1) * 0x10;
+                    sel_eta_2->flags = (sel_eta_2->flags & 0xEF) | unk_1;
+                }
+            }
+        }
+        RAY_SWIP();
+        break;
+    case 1:
+        if (
+            !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))) &&
+            !FUN_80133984(0) && !FUN_801339f4(0)
+        )
+            RAY_STOP();
+        break;
+    case 5:
+        ray.y_pos += 14;
+        RAY_TOMBE();
+        break;
+    case 6:
+        decalage_en_cours = 0;
+        ray.flags |= FLG(OBJ_FLIP_X);
+        if (ray.speed_y < 3 && ray.gravity_value_1 == 0)
+            ray.speed_y++;
+        break;
+    }
+
+    __asm__("nop\nnop");
+}
+#endif
+
+/* 6002C 8018482C -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_UP);
+#else
+void RAY_RESPOND_TO_UP(void)
+{
+    switch (ray.main_etat)
+    {
+    case 4:
+        if (ray.sub_etat - 11 >= 2U)
+        {
+            calc_bhand_typ(&ray);
+            if (hand_btyp == BTYP_NONE)
+            {
+                RAY_TOMBE();
+                ray.timer = 10;
+                ray.speed_y = 1;
+            }
+            else if (hand_btyp != BTYP_LIANE)
+                ray.speed_y = 0;
+            else
+            {
+                ray.speed_y = -1;
+                if (ray.scale != 0 && horloge[2] != 0)
+                    DO_ANIM(&ray);
+            }
+
+            if (ray.sub_etat != 2)
+                set_sub_etat(&ray, 2);
+        }
+        else
+            ray.speed_y = 0;
+        break;
+    case 1:
+        if (
+            !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))) &&
+            !FUN_80133984(0) && !FUN_801339f4(0)
+        )
+            RAY_STOP();
+        break;
+    case 5:
+        v_scroll_speed = 0xFF;
+        break;
+    case 0:
+        if (ray.sub_etat == 37 && __builtin_abs(decalage_en_cours) <= 128)
+            set_sub_etat(&ray, 38);
+        RAY_SWIP();
+        if (ray.field20_0x36 == -1)
+            v_scroll_speed = 0xFF;
+        if (
+            ray.main_etat == 0 && ray.sub_etat == 15 &&
+            !(block_flags[(u8) calc_typ_trav(&ray, 2)] >> BLOCK_FLAG_4 & 1)
+        )
+            set_main_and_sub_etat(&ray, 0, 60);
+        break;
+    case 6:
+        decalage_en_cours = 0;
+        ray.flags |= FLG(OBJ_FLIP_X);
+        if (ray.speed_y > -3 && ray.gravity_value_1 == 0)
+            ray.speed_y--;
+        break;
+    }
+
+    __asm__("nop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_DIR);
 
