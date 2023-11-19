@@ -1595,7 +1595,32 @@ void stackRay(void)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_SURF);
+/* 63BD0 801883D0 -O2 -msoft-float */
+void RAY_SURF(void)
+{
+    if (
+        (
+            ray.field20_0x36 == -1 ||
+            (u8) (level.objects[ray.field20_0x36].type + 0x61) >= 2U /* TODO: how to split this into each case? */
+        ) &&
+        ray.main_etat == 0 && !(ray.sub_etat == 13 || ray.sub_etat == 11 || ray.sub_etat == 12)
+    )
+    {
+        if (__builtin_abs(ray.speed_x) > 3 && ray.sub_etat != 40)
+        {
+            if (
+                !(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40) &&
+                !(ray.sub_etat == 8 || ray.sub_etat == 52 || ray.sub_etat == 53)
+            )
+                set_main_and_sub_etat(&ray, 0, 41);
+        }
+        else if (__builtin_abs(ray.speed_x) < 3 && ray.sub_etat == 40)
+        {
+            if (!(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40))
+                set_main_and_sub_etat(&ray, 0, 42);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", DO_SURF_CHANGE_HAIRS);
 
@@ -1607,4 +1632,68 @@ void DO_PIEDS_COLLISION(void) {}
 
 void allocatePiedBoum(void) {}
 
+/* 63E30 80188630 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", DO_MORT_DE_RAY);
+#else
+void DO_MORT_DE_RAY(void)
+{
+    u8 flag_set;
+
+    __asm__("nop");
+
+    ray.iframes_timer = -1;
+    v_scroll_speed = 0;
+    h_scroll_speed = 0;
+    calc_obj_pos(&ray);
+    calc_btyp(&ray);
+    RAY_IN_THE_AIR();
+    RAY_SWIP();
+    STOPPE_RAY_EN_XY();
+    if (ray.speed_y > 0)
+        move_down_ray();
+    else if (ray.speed_y < 0)
+        move_up_ray();
+    if (ray.speed_x < 0)
+        RAY_TO_THE_LEFT();
+    else if (ray.speed_x > 0)
+        RAY_TO_THE_RIGHT();
+    
+    fin_poing_follow(&level.objects[poing_obj_id], 0);
+    if (ray_on_poelle == true)
+    {
+        PS1_RestoreSauveRayEvts();
+        ray_on_poelle = false;
+    }
+    flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10;
+    if (
+        (
+            (
+                (flag_set && ray.anim_frame == 0) ||
+                (!flag_set && ray.anim_frame == ray.animations[ray.anim_index].frames_count - 1)
+            ) &&
+            horloge[ray.eta[ray.main_etat][ray.sub_etat].anim_speed & 0xf] == 0
+        ) ||
+        !(ray.main_etat == 2 && ray.sub_etat == 8)
+    )
+    {
+        snifRayIsDead(&ray);
+        dead_time = 128;
+        gerbe = 1;
+        ray.flags &= ~FLG(OBJ_ALIVE);
+        if (status_bar.num_lives >= 0)
+        {
+            ray.hit_points = 2;
+            status_bar.max_hp = 2;
+        }
+        else
+        {
+            ray.hit_points = 0;
+            status_bar.num_lives = 0;
+            fin_du_jeu = true;
+        }
+    }
+    DO_ANIM(&ray);
+    stackRay();
+}
+#endif

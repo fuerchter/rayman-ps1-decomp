@@ -1674,3 +1674,56 @@ block_30:
     }
     return var_s4;
 }
+
+/*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", DO_SURF_CHANGE_HAIRS);*/
+
+void DO_SURF_CHANGE_HAIRS(void)
+{
+    s16 flip_x_1;
+    s32 flip_x_2;
+    u8 var_v0;
+    s32 test_1;
+    s32 test_2;
+
+    if ((ray.main_etat == 0) && (ray.sub_etat == 0x28))
+    {
+        if (ray.flags & 0x4000)
+        {
+            flip_x_1 = 1;
+        }
+        else
+            flip_x_1 = -1;
+        /*flip_x_2 = flip_x_1;*/
+        if (ray.speed_x >= 0)
+        {
+            if (ray.speed_x > 0)
+            {
+                if (flip_x_1 != 1)
+                {
+                    var_v0 = 0x50;
+                }
+                else
+                    var_v0 = 0x4F;
+            }
+            else
+            {
+                if (flip_x_1 == 0)
+                {
+                    var_v0 = 0x4F;
+                }
+                else
+                    var_v0 = 0x50;
+            }
+        }
+        else
+        {
+            if (flip_x_1 == -1)
+            {
+                var_v0 = 0x4F;
+            }
+            else
+                var_v0 = 0x50;
+        }
+        ray.anim_index = var_v0;
+    }
+}
