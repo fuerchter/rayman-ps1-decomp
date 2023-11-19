@@ -1544,3 +1544,133 @@ block_31:
         unk_1 = !((u16) ray_mode == MODE_MORT_DE_RAYMAN || (u16) ray_mode == MODE_MORT_DE_RAYMAN_ON_MS);
     return unk_1;
 }
+
+/*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RayEstIlBloque);*/
+
+s32 RayEstIlBloque(void)
+{
+    s16 sp18;
+    s16 sp1A;
+    s16 sp1C;
+    s16 sp1E;
+    s16 sp20;
+    s16 sp22;
+    u16 sp24;
+    u16 sp26;
+    Obj *var_s0;
+    s16 temp_a0_2;
+    s16 temp_a0_3;
+    s16 temp_a0_4;
+    s16 temp_a2;
+    s16 temp_v0;
+    s32 var_a1;
+    s16 var_a1_2;
+    s16 var_s3;
+    s16 var_v0;
+    s32 temp_a0;
+    s16 temp_s2;
+    s32 var_s4;
+    s16 test_1;
+    int new_var;
+
+    var_s4 = 0;
+    if (ray.speed_x != 0)
+    {
+        var_a1 = ray_zdc_x;
+        var_s3 = 0;
+        if (ray.speed_x > 0)
+        {
+            var_a1 += ray_zdc_w;
+        }
+        temp_s2 = ((u16) ray_zdc_h << 0x10) >> 0x12;
+        var_s0 = &level.objects[actobj.objects[0]];
+        test_1 = var_a1;
+        if (actobj.num_active_objects > 0)
+        {
+            do
+            {
+                if (((u8) flags[var_s0->type].flags2 >> 2) & 1)
+                {
+                    GET_ANIM_POS(var_s0, &sp18, &sp1A, &sp1C, &sp1E);
+                    sp18 = sp18 + (sp1C >> 3);
+                    sp1C -= sp1C >> 2;
+                    if (var_s0->flags & 0x10000)
+                    {
+                        GET_SPRITE_POS(var_s0, (s32) var_s0->follow_sprite, &sp20, &sp22, &sp24, &sp26);
+                        sp1A = sp22 + var_s0->offset_hy + (ray.field20_0x36 == var_s0->id);
+                    }
+                    else
+                    {
+                        sp1A = var_s0->offset_hy + var_s0->y_pos;
+                    }
+                    sp1E = (var_s0->offset_by + var_s0->y_pos) - sp1A;
+                    if (((u8) flags[var_s0->type].flags3 >> 4) & 1)
+                    {
+                        sp1A = sp1A + 2;
+                        sp18 = sp18 + 6;
+                        sp1C -= 0xC;
+                    }
+                    if (var_s0->type == 0x6D)
+                    {
+                        sp18 = sp18 + 4;
+                        sp1C -= 8;
+                    }
+                    temp_v0 = sp18 + sp1C;
+                    if ((ray.speed_x <= 0) || (test_1 < (sp18 - ray.speed_x)) || (sp18 < test_1))
+                    {
+                        if (test_1 >= (temp_v0 + ray.speed_x))
+                        {
+                            var_a1_2 = var_s3 + 1;
+                            if (temp_v0 >= test_1)
+                            {
+                                goto block_18;
+                            }
+                            goto block_30;
+                        }
+                        goto block_29;
+                    }
+    block_18:
+                    temp_a2 = sp1A + sp1E;
+                    if (ray_zdc_y < sp1A || temp_a2 < ray_zdc_y)
+                    {
+                        temp_a0_2 = ray_zdc_y + temp_s2;
+                        temp_a0_3 = temp_a0_2 + temp_s2;
+                        if(temp_a0_2 < sp1A != 0 || temp_a2 < temp_a0_2)
+                        {
+                            temp_a0_4 = temp_a0_3 + temp_s2;
+                            if(temp_a0_3 < sp1A != 0 || temp_a2 < temp_a0_3)
+                            {
+                                if(
+                                    var_v0 = temp_a0_4 + temp_s2, (temp_a0_4 < sp1A != 0) ||
+                                    (var_v0 = temp_a0_4 + temp_s2, (temp_a2 < temp_a0_4 != 0))
+                                )
+                                {
+                                    if (var_v0 >= sp1A)
+                                    {
+                                        var_a1_2 = var_s3 + 1;
+                                        if (temp_a2 >= var_v0)
+                                        {
+                                            goto block_28;
+                                        }
+                                        goto block_30;
+                                    }
+                                    goto block_29;
+                                }
+                            }
+                        }
+                    }
+    block_28:
+                    var_s4 = 1;
+                    break;
+                }
+block_29:
+                var_a1_2 = var_s3 + 1;
+block_30:
+                var_s3 = var_a1_2;
+                var_s0 = &level.objects[actobj.objects[var_a1_2]];
+            }
+            while (var_a1_2 < actobj.num_active_objects);
+        }
+    }
+    return var_s4;
+}
