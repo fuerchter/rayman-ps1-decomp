@@ -14,6 +14,9 @@ extern s16 ray_between_clic;
 extern s16 costab[258]; /* size correct? */
 extern s16 RandArray[256];
 extern s16 expsin[64];
+extern u8 lidol_to_allocate;
+extern u8 gerbe;
+extern Obj *lidol_source_obj;
 
 void DO_ANIM(Obj *obj);
 void FUN_80150c5c(Obj *param_1,u8 param_2);
@@ -1218,6 +1221,7 @@ void STOPPE_RAY_CONTRE_PAROIS(u8 block)
 }
 #endif
 
+/* 624EC 80186CEC -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_IN_THE_AIR);
 #else
@@ -1427,11 +1431,57 @@ void RAY_IN_THE_AIR(void)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", terminateFistWhenRayDies);
+/* 62E90 80187690 -O2 -msoft-float */
+void terminateFistWhenRayDies(void)
+{
+  Obj *obj;
+  
+  if (poing.is_active)
+  {
+    obj = &level.objects[poing_obj_id];
+    DO_NOVA(obj);
+    switch_off_fist(obj);
+  }
+}
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", snifRayIsDead);
+/* 62EE8 801876E8 -O2 -msoft-float */
+void snifRayIsDead(Obj *ray_obj)
+{
+    status_bar.num_lives--;
+    RayEvts.flags0 &=
+        (FLG(RAYEVTS0_POING)|FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO)|FLG(RAYEVTS0_HANDSTAND_DASH)|
+        FLG(RAYEVTS0_HANDSTAND)|FLG(RAYEVTS0_GRAIN)|FLG(RAYEVTS0_GRAP));
+    status_bar.num_wiz = 0;
+    if (
+        !ray_se_noie &&
+        !(ray.main_etat == 3 && ray.sub_etat == 32) &&
+        !(RayEvts.flags1 & FLG(RAYEVTS1_UNUSED_DEATH))
+    )
+    {
+        lidol_to_allocate = 5;
+        lidol_source_obj = ray_obj;
+        gerbe = 1;
+    }
+    terminateFistWhenRayDies();
+}
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", rayfallsinwater);
+/* 62FA4 801877A4 -O2 -msoft-float */
+void rayfallsinwater(void)
+{
+  set_main_and_sub_etat(&ray, 3, 22);
+  ray.anim_frame = 0;
+  ray.speed_y = 0;
+  ray.speed_x = 0;
+  decalage_en_cours = 0;
+  if (ray_on_poelle)
+    ray.x_pos -= h_scroll_speed;
+  h_scroll_speed = 0;
+  dead_time = 1;
+  ray.iframes_timer = 120;
+  ray_se_noie = true;
+  allocate_splash(&ray);
+  terminateFistWhenRayDies();
+}
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_DEAD);
 

@@ -101,7 +101,7 @@ void remoteControlRay(void);
 void STOPPE_RAY_CONTRE_PAROIS(u8 block);
 void RAY_IN_THE_AIR(void);
 void terminateFistWhenRayDies(void);
-void snifRayIsDead(Obj *rayObj);
+void snifRayIsDead(Obj *ray_obj);
 void rayfallsinwater(void);
 u8 RAY_DEAD(void);
 void RAY_HURT(void);
