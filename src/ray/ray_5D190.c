@@ -1485,9 +1485,77 @@ void rayfallsinwater(void)
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_DEAD);
 
+/* 6346C 80187C6C -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_HURT);
+#else
+void RAY_HURT(void)
+{
+  u8 flag_set;
+  s16 new_iframes;
 
+  __asm__("nop");
+
+  test_fin_cling();
+  ray.hit_points--;
+  if (ray.iframes_timer == -1)
+  {
+    flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40;
+    if (
+        (flag_set && !(block_flags[(u8) calc_typ_trav(&ray, 2)] >> BLOCK_FLAG_4 & 1)) ||
+        !flag_set
+    )
+      new_iframes = 120;
+    else
+      new_iframes = 60;
+    ray.iframes_timer = new_iframes;
+  }
+
+  if (ray.hit_points == 0xFF)
+  {
+    if (ray_mode == MODE_RAY_ON_MS)
+      ray_mode = MODE_MORT_DE_RAYMAN_ON_MS;
+    else
+      ray_mode = MODE_MORT_DE_RAYMAN;
+    jump_time = 0;
+  }
+}
+#endif
+
+/* 6356C 80187D6C -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RepousseRay);
+#else
+void RepousseRay(void)
+{
+    Obj *pa_obj = &level.objects[pierreAcorde_obj_id];
+
+    if (pa_obj->flags & FLG(OBJ_ACTIVE))
+    {
+        if ((ray.x_pos > pa_obj->x_pos - 82) && (ray.x_pos < pa_obj->x_pos + 150))
+        {
+            if (ray.y_pos < pa_obj->y_pos + 96)
+            {
+                ray.y_pos = pa_obj->y_pos + 96;
+                if (ray.main_etat != 2)
+                {
+                    set_main_and_sub_etat(&ray, 2, 1);
+                    ray.speed_y = instantSpeed(pa_obj->speed_y);
+                    jump_time = 0;
+                    helico_time = -1;
+                    ray.gravity_value_1 = 0;
+                    ray.gravity_value_2 = 0;
+                    button_released = 0;
+                }
+                else
+                    ray.speed_y = pa_obj->speed_y;
+            }
+        }
+        if (ymap + 208 < pa_obj->y_pos)
+            pa_obj->flags &= ~FLG(OBJ_ALIVE);
+    }
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RayEstIlBloque);
 
