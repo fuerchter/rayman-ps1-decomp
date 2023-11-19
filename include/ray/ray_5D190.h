@@ -5,6 +5,7 @@
 #include "psyq_3_0/MEMORY.H"
 #include "obj_update.h"
 #include "ray/ray_32398.h"
+#include "obj/black_ray_command.h"
 
 /* TODO: bitfields? */
 typedef u8 RayEvts_0;

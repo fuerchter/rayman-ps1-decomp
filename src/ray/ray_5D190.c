@@ -17,6 +17,7 @@ extern s16 expsin[64];
 extern u8 lidol_to_allocate;
 extern u8 gerbe;
 extern Obj *lidol_source_obj;
+extern RayStack rayStack[100];
 
 void DO_ANIM(Obj *obj);
 void FUN_80150c5c(Obj *param_1,u8 param_2);
@@ -1559,7 +1560,40 @@ void RepousseRay(void)
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RayEstIlBloque);
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", stackRay);
+/* 63A6C 8018826C -O2 -msoft-float */
+void stackRay(void)
+{
+    RayStack *cur;
+    u8 active;
+    Obj *poing_obj;
+
+    cur = &rayStack[ray_pos_in_stack];
+    cur->x_pos = ray.x_pos;
+    cur->y_pos = ray.y_pos;
+    cur->main_etat = ray.main_etat;
+    cur->sub_etat = ray.sub_etat;
+    cur->anim_index = ray.anim_index;
+    cur->anim_frame = ray.anim_frame;
+    cur->flip_x = (ray.flags >> OBJ_FLIP_X) & 1;
+    cur->scale = ray.scale;
+    active = poing.is_active;
+    cur->poing_is_active = active;
+    if (active)
+    {
+        poing_obj = &level.objects[poing_obj_id];
+        cur->poing_x_pos = poing_obj->x_pos;
+        cur->poing_y_pos = poing_obj->y_pos;
+        cur->poing_anim_index = poing_obj->anim_index;
+        cur->poing_anim_frame = poing_obj->anim_frame;
+        cur->poing_flip_x = poing_obj->flags >> OBJ_FLIP_X & 1;
+    }
+    ray_pos_in_stack++;
+    if (ray_pos_in_stack > 100)
+    {
+        ray_pos_in_stack = 0;
+        ray_stack_is_full = true;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_SURF);
 
