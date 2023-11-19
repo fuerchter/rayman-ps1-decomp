@@ -1116,6 +1116,7 @@ void RAY_FIN_BALANCE(void)
   ray.x_pos -= ray.speed_x;
 }
 
+/* TODO: unknown locals... */
 /* 621FC 801869FC -O2 -msoft-float */
 void RayTestBlocSH(void)
 {
@@ -1165,9 +1166,52 @@ void RayTestBlocSH(void)
         ray.speed_y = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", remoteControlRay);
+/* 62384 80186B84 -O2 -msoft-float */
+void remoteControlRay(void)
+{
+    s16 diff = ray.x_pos - remoteRayXToReach;
 
+    if (diff > 1)
+    {
+        ray.flags &= ~FLG(OBJ_FLIP_X);
+        set_sub_etat(&ray, 21);
+    }
+    else if (diff < -1)
+    {
+        ray.flags |= FLG(OBJ_FLIP_X);
+        set_sub_etat(&ray, 21);
+    }
+    else
+    {
+        ray.speed_x = 0;
+        set_sub_etat(&ray, 20);
+        remoteRayXToReach = ray.x_pos;
+    }
+}
+
+/* 62440 80186C40 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", STOPPE_RAY_CONTRE_PAROIS);
+#else
+void STOPPE_RAY_CONTRE_PAROIS(u8 block)
+{
+  if (
+    ray_mode != MODE_MORT_DE_RAYMAN && (block_flags[block] >> BLOCK_FLAG_4 & 1) &&
+    ray.sub_etat != 7 && ray.sub_etat != 9 && ray.speed_y < 1
+  )
+  {
+    if (ray.sub_etat != 8)
+    {
+      set_sub_etat(&ray, 1);
+      button_released = 0;
+    }
+    ray.field24_0x3e = 0;
+    ray.speed_y = 0;
+  }
+
+  __asm__("nop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_IN_THE_AIR);
 

@@ -97,7 +97,7 @@ void RAY_BALANCE(void);
 void RAY_FIN_BALANCE(void);
 void RayTestBlocSH(void);
 void remoteControlRay(void);
-void STOPPE_RAY_CONTRE_PAROIS(u32 param_1);
+void STOPPE_RAY_CONTRE_PAROIS(u8 block);
 void RAY_IN_THE_AIR(void);
 void terminateFistWhenRayDies(void);
 void snifRayIsDead(Obj *rayObj);
