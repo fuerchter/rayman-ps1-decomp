@@ -23,6 +23,11 @@ void set_main_and_sub_etat(Obj *obj,u8 main_etat,u8 sub_etat);
 void set_main_etat(Obj *param_1,u8 etat);
 void set_sub_etat(Obj *obj,u8 subEtat);
 s32 MURDUR(s16 param_1, s16 param_2); /* s16 or RayTestBlocSH needs casts */
+void ChangeLevel(void);
+s32 DO_PESANTEUR(Obj *obj);
+s32 TEST_IS_ON_RESSORT_BLOC(Obj *obj);
+s16 ashr16(u16 param_1,u32 param_2);
+void recale_position(Obj *param_1);
 
 /* 5D190 80181990 -O2 -msoft-float */
 void allocateRayLandingSmoke(void)
@@ -1213,7 +1218,214 @@ void STOPPE_RAY_CONTRE_PAROIS(u8 block)
 }
 #endif
 
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_IN_THE_AIR);
+#else
+void RAY_IN_THE_AIR(void)
+{
+    u8 may_land_obj;
+    u8 anim_speed;
+    u8 block;
+    ObjState **ray_eta;
+    s16 snd;
+    u8 i;
+    s32 new_decalage;
+    s32 new_timer;
+
+    ray_eta = ray.eta;
+    if (ray_wind_force != 0)
+        ray.nb_cmd = 1;
+    memmove(&pos_stack[1], &pos_stack[0], sizeof(pos_stack) - (1 * sizeof(s16)));
+    *pos_stack = ray.x_pos;
+    if (ray.sub_etat == 7)
+        ray.field20_0x36 = -1;
+    may_land_obj = true;
+    if (helico_time != -1)
+        helico_time--;
+    if (ray_between_clic != -1)
+        ray_between_clic--;
+    jump_time++;
+    anim_speed = ray.eta[ray.main_etat][ray.sub_etat].anim_speed >> 4;
+    if (anim_speed != 10 && anim_speed != 11)
+    {
+        ray.gravity_value_1++;
+        if (ray.gravity_value_1 >= 3)
+            ray.gravity_value_1 = 0;
+        ray.gravity_value_2++;
+        if (ray.gravity_value_2 >= 4)
+            ray.gravity_value_2 = 0;
+    }
+    if (jump_time == 23)
+        ray.speed_y++;
+    if (
+        !options_jeu.Fire1ButtonFunc(options_jeu.field11_0x1e) ||
+        jump_time >= 13 || in_air_because_hit || ray.timer != 0 || ray.sub_etat == 2
+    )
+    {
+        DO_PESANTEUR(&ray);
+        if (((button_released & 1) == 0) && !options_jeu.Fire1ButtonFunc(options_jeu.field11_0x1e))
+            button_released++;
+    }
+    if (jump_time == 6)
+    {
+        if (ray.sub_etat == 24 || ray.sub_etat == 33)
+            set_sub_etat(&ray, 2);
+        else if (ray.sub_etat == 32)
+            set_sub_etat(&ray, 17);
+    }
+    if (ray.field24_0x3e != -1)
+        ray.field24_0x3e += ray.speed_y;
+    block = calc_typ_trav(&ray, 2);
+    if (ray.sub_etat != 8 && ray.sub_etat != 31)
+    {
+        RAY_HELICO();
+        if (ray.sub_etat == 15)
+            RayTestBlocSH();
+    }
+    STOPPE_RAY_CONTRE_PAROIS(block);
+    if (ray.speed_y < -3 && ray.sub_etat == 15 && (s16) anim_speed == 11)
+    {
+        /* ??? */
+        ray_eta[ray.main_etat][ray.sub_etat].anim_speed = (ray_eta[ray.main_etat][ray.sub_etat].anim_speed & 0xF) | 0x10;
+        ray.gravity_value_1 = 0;
+        ray.gravity_value_2 = 0;
+    }
+    if ((s16) ray.speed_y >= 0)
+    {
+        if (ray.sub_etat == 0)
+        {
+            set_sub_etat(&ray, 1);
+            ray.field24_0x3e = 0;
+        }
+        else if (ray.sub_etat == 17 || ray.sub_etat == 18)
+        {
+            set_sub_etat(&ray, 19);
+            ray.field24_0x3e = 0;
+        }
+    }
+    
+    if (
+        (ray.sub_etat != 17 && ray.sub_etat != 0 && ray.sub_etat != 9 && ray.sub_etat != 31) &&
+        (ray.sub_etat != 13 || ray.speed_y > -1) && jump_time > 2 
+    )
+    {
+        if (ray_mode != MODE_MORT_DE_RAYMAN)
+        {
+            if (block_flags[ray.btypes[0]] >> BLOCK_SOLID & 1)
+            {
+                recale_position(&ray);
+                ray.y_pos += ray.speed_y;
+                ray.speed_y = 0;
+                ray.timer = 0;
+                in_air_because_hit = 0;
+                
+                if (!((u8) TEST_IS_ON_RESSORT_BLOC(&ray)))
+                {
+                    
+                    if (num_world == 6 && num_level == 1)
+                        snd = 242;
+                    else
+                        snd = 19;
+                    PlaySnd(snd, -1);
+                }
+
+                if (ray.nb_cmd == 0)
+                {
+                    for (i = 1; i < 10; i++)
+                        if (pos_stack[i - 1] != pos_stack[i]) break;
+                    if (i != 10)
+                    {
+                        if (pos_stack[i - 1] < pos_stack[i])
+                        {
+                            new_decalage = decalage_en_cours;
+                            if (new_decalage > -256)
+                                new_decalage = -256;
+                        }
+                        else
+                        {
+                            new_decalage = decalage_en_cours;
+                            if (new_decalage < 256)
+                                new_decalage = 256;
+                        }
+                        decalage_en_cours = new_decalage;
+                    }
+                    else
+                        decalage_en_cours = 0;
+
+                }
+                helico_time = -1;
+                if (ray.sub_etat == 3)
+                {
+                    if (ray.anim_frame == 0)
+                        button_released = 1;
+                }
+                else if (ray.sub_etat == 8)
+                {
+                    new_timer = ray.iframes_timer;
+                    if (new_timer > 90)
+                        new_timer = 90;
+                    ray.iframes_timer = new_timer;
+                }
+                if (ray.sub_etat == 17 || ray.sub_etat == 18 || ray.sub_etat == 19)
+                {
+                    if (
+                        RayEvts.flags1 & FLG(RAYEVTS1_RUN) &&
+                        __builtin_abs(ray.speed_x) >= ashr16(ray.eta[1][3].speed_x_right, 4)
+                    )
+                        set_main_and_sub_etat(&ray, 1, 7);
+                    else
+                        set_main_and_sub_etat(&ray, 0, 43);
+                }
+                else if (ray.sub_etat == 25 || ray.sub_etat == 26)
+                    set_main_and_sub_etat(&ray, 0, 52);
+                else if (ray.sub_etat == 27 || ray.sub_etat == 28)
+                    set_main_and_sub_etat(&ray, 0, 53);
+                else
+                    set_main_and_sub_etat(&ray, 0, 8);
+                if (ray.field24_0x3e >= 200)
+                    allocateRayLandingSmoke();
+                ray.field24_0x3e = -1;
+            }
+            else
+            {
+                if (ray.sub_etat != 7)
+                {
+                    if (ray.sub_etat == 8)
+                    {
+                        if (ray.speed_y > -1)
+                            rayMayLandOnAnObject(&may_land_obj, -1);
+                        if (ray.main_etat != 2 || ray.sub_etat != 8)
+                            ray.iframes_timer = 90;
+                    }
+                    else
+                        rayMayLandOnAnObject(&may_land_obj, -1);
+                }
+            }
+        }
+    }
+    if (ray_mode != MODE_MORT_DE_RAYMAN && ray.main_etat == 2 && ray.sub_etat != 31)
+    {
+        IS_RAY_ON_LIANE();
+        CAN_RAY_HANG_BLOC();
+    }
+
+    if (may_land_obj == true)
+    {
+        if (ray.speed_y > 4)
+            ray.speed_y = 4;
+        if (ray.speed_y < -10)
+            ray.speed_y = -10;
+    }
+    if (
+        num_world == 2 && num_level == 15 &&
+        (xmapmax < ray.x_pos + 150) && (mp.height * 16 - 100 < ray.y_pos) &&
+        ray.hit_points != 0xff
+    )
+        ChangeLevel();
+
+    __asm__("nop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", terminateFistWhenRayDies);
 

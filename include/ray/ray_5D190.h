@@ -2,6 +2,7 @@
 #define RAY_5D190_H
 
 #include "common.h"
+#include "psyq_3_0/MEMORY.H"
 #include "obj_update.h"
 #include "ray/ray_32398.h"
 
