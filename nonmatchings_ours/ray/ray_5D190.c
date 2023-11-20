@@ -1460,7 +1460,7 @@ block_39:
     }
 }
 
-/* matches, but goto */
+/* matches, but goto (check android?) */
 /* 6305C 8018785C -O2 -msoft-float */
 /*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_DEAD);*/
 

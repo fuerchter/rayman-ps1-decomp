@@ -1,5 +1,7 @@
 #include "ray/ray_5D190.h"
 
+/* TODO: flip the "_etat !=" in this file */
+
 extern u8 gerbe; /* TODO: where to put this? */
 
 s32 calc_typ_trav(Obj *obj,u8 param_2);
