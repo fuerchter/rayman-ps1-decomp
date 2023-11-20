@@ -198,7 +198,6 @@ s32 closeEnoughToSting(Obj *, ?, ?);
 ? prepareNewMoskitoAttack(Obj *);
 ? setBossReachingSpeeds(Obj *, u8, u8, u8);
 ? testActionEnd(Obj *);*/
-u8 closeEnoughToSting(Obj *arg0, u16 arg1, u16 arg2);
 
 void doMoskitoCommand(Obj *obj)
 {
