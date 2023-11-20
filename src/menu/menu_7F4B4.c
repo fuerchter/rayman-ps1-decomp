@@ -47,7 +47,6 @@ void PS1_TextBoxCardOrPassword(void)
 }
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_InputCardOrPassword);
-/* m2c: 4602 ghidra: 9437 */
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_DisplayCardOrPassword);
 

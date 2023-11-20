@@ -5,6 +5,7 @@
 #include "text_24E10.h"
 #include "menu/menu_7EEE4.h"
 #include "fade.h"
+#include "demo_7F2BC.h"
 
 /* .data */
 extern u8 s_start_801cf118[8];
