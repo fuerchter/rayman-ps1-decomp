@@ -142,8 +142,7 @@ segments:
       - [0x372E0, c, bonus_372E0] #8015bae0
       - [0x37A9C, c, obj/fish] #8015c29c
       - [0x380A0, asm, obj/balle] #8015c8a0
-      - [0x38118, asm, obj/stonechip] #8015c918
-      - [0x38514, asm, obj/stonebomb] #8015cd14
+      - [0x38118, asm, obj/stonebomb] #8015c918
       - [0x395B0, asm, obj/dard] #8015ddb0 #TODO: should dard and spider be merged?
       - [0x39738, asm, obj/spider_39738] #8015df38
       - [0x3979C, asm, obj/platform] #8015df9c
@@ -187,8 +186,7 @@ segments:
       - [0x49320, c, obj/moving_platform_command] #8016DB20
       - [0x493E0, asm, obj/trompette_command] #8016dbe0
       - [0x494FC, c, command_494FC] #8016dcfc
-      - [0x4995C, asm, obj/stonechip_command] #8016e15c
-      - [0x49A74, asm, obj/stonebomb_command] #8016E274
+      - [0x4995C, asm, obj/stonebomb_command] #8016e15c
       - [0x49B74, c, obj/cymbal] #8016e374
       - [0x4A5BC, asm, obj/genebadguy_command] #8016edbc
       - [0x4A85C, asm, obj/mite] #8016f05c

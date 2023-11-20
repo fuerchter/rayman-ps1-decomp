@@ -26,7 +26,7 @@ s16 char2short(u8 in_char)
 }
 
 /* 56B40 8017B340 -O2 */
-u8 readNoArg(void)
+u8 readNoArg(Obj *obj)
 {
     return false;
 }
@@ -75,7 +75,7 @@ u8 readInvalidArg(Obj *obj)
 }
 
 /* 56D24 8017B524 -O2 */
-u8 skipNoArg(void)
+u8 skipNoArg(Obj *obj)
 {
     return false;
 }
@@ -169,7 +169,7 @@ u8 handle_RESERVED_GO_SKIPFALSE(Obj *obj)
 }
 
 /* 56F70 8017B770 -O1, -O2 */
-u8 handle_SELF_HANDLED(void)
+u8 handle_SELF_HANDLED(Obj *obj)
 {
     return false;
 }
@@ -226,7 +226,7 @@ u8 handle_GO_SKIP(Obj *obj)
 }
 
 /* 570D0 8017B8D0 -O2 */
-u8 handle_GO_LABEL(void)
+u8 handle_GO_LABEL(Obj *obj)
 {
     return true;
 }

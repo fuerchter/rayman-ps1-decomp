@@ -1,36 +1,11 @@
 #include "ray/ray_5D190.h"
 
-extern BlockType hand_btyp;
-extern BlockType hand_btypd;
-extern BlockType hand_btypg;
-extern s16 jump_time;
-extern s16 helico_time;
-extern s16 D_801E51E8;
-extern s16 D_801E51F8;
-extern u8 ray_Suphelico_bis;
-extern u8 ray_clic;
-extern s16 D_801E62F0;
-extern s16 ray_between_clic;
-extern s16 costab[258]; /* size correct? */
-extern s16 RandArray[256];
-extern s16 expsin[64];
-extern u8 lidol_to_allocate;
-extern u8 gerbe;
-extern Obj *lidol_source_obj;
-extern RayStack rayStack[100];
-
-void DO_ANIM(Obj *obj);
-void FUN_80150c5c(Obj *param_1,u8 param_2);
+extern u8 gerbe; /* TODO: where to put this? */
 
 s32 calc_typ_trav(Obj *obj,u8 param_2);
-void set_main_and_sub_etat(Obj *obj,u8 main_etat,u8 sub_etat);
-void set_main_etat(Obj *param_1,u8 etat);
-void set_sub_etat(Obj *obj,u8 subEtat);
 s32 MURDUR(s16 param_1, s16 param_2); /* s16 or RayTestBlocSH needs casts */
 void ChangeLevel(void);
-s32 DO_PESANTEUR(Obj *obj);
 s32 TEST_IS_ON_RESSORT_BLOC(Obj *obj);
-s16 ashr16(u16 param_1,u32 param_2);
 void recale_position(Obj *param_1);
 
 /* 5D190 80181990 -O2 -msoft-float */

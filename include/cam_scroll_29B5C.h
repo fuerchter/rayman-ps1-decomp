@@ -4,6 +4,9 @@
 #include "common.h"
 
 /* .data */
+extern s16 expsin[64];
+
+/* .data */
 extern u8 D_801CEDFC;
 extern s16 dhspeed;
 extern s16 dvspeed;

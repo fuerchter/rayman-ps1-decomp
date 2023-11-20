@@ -14,6 +14,9 @@ typedef struct MapData {
 /* .data */
 extern BlockFlags block_flags[32];
 
+/* .data */
+extern s16 RandArray[256];
+
 /**/
 extern MapData mp;
 extern u8 ray_last_ground_btyp;

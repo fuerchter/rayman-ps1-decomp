@@ -462,4 +462,8 @@ extern LevelData level;
 extern s16 id_Cling_1up;
 extern u8 ray_in_fee_zone;
 
+void DO_ANIM(Obj *obj);
+void FUN_80150c5c(Obj *param_1, u8 param_2);
+s32 DO_PESANTEUR(Obj *obj);
+
 #endif

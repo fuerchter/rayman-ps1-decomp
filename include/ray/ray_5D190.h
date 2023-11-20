@@ -6,6 +6,9 @@
 #include "obj_update.h"
 #include "ray/ray_32398.h"
 #include "obj/black_ray_command.h"
+#include "obj/stonebomb.h"
+#include "obj_util.h"
+#include "collision/bit_util.h"
 
 /* TODO: bitfields? */
 typedef u8 RayEvts_0;
@@ -62,6 +65,15 @@ extern RayMode ray_mode;
 extern u8 ray_pos_in_stack;
 extern u8 ray_stack_is_full;
 extern u8 ray_se_noie;
+extern BlockType hand_btyp;
+extern BlockType hand_btypd;
+extern BlockType hand_btypg;
+extern s16 jump_time;
+extern s16 helico_time;
+extern u8 ray_Suphelico_bis;
+extern u8 ray_clic;
+extern s16 D_801E62F0;
+extern s16 ray_between_clic;
 
 void allocateRayLandingSmoke(void);
 void recale_ray_on_liane(void);

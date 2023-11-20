@@ -21,4 +21,6 @@ typedef struct RayStack
     u8 scale;
 } RayStack;
 
+extern RayStack rayStack[100];
+
 #endif
