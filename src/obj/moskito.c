@@ -129,7 +129,67 @@ INCLUDE_ASM("asm/nonmatchings/obj/moskito", prepareNewMoskitoAttack);
 
 INCLUDE_ASM("asm/nonmatchings/obj/moskito", allocateMoskitoFruit);
 
-INCLUDE_ASM("asm/nonmatchings/obj/moskito", moskitoDropFruitOnRay);
+/* 70E50 80195650 -O2 -msoft-float */
+void moskitoDropFruitOnRay(Obj *obj)
+{
+    s16 x_1;
+    s16 x_2;
+    u8 sub_etat;
+    s32 speed_x;
+    s16 y_1;
+    s16 cen_x;
+    s16 cen_y;
+    s16 unk_1;
+    s32 unk_2;
+    s16 unk_3;
+    s16 unk_4;
+
+    x_1 = obj->offset_bx + obj->x_pos;
+    x_2 = x_1;
+    sub_etat = obj->sub_etat;
+    if (sub_etat != 11)
+    {
+        if (sub_etat == 12)
+        {
+            speed_x = obj->speed_x;
+            if (speed_x < 0)
+                speed_x += 7;
+            speed_x = speed_x >> 3;
+            unk_1 = speed_x;
+            /* ??? */
+            unk_2 = (s32) (((u32) speed_x >> 31) + speed_x) >> 1;
+            x_1 -= unk_2;
+        }
+    }
+    else
+    {
+        unk_2 = obj->speed_x * 120;
+        unk_1 = unk_2 >> 4;
+        if (unk_2 < 0)
+            unk_1 = (unk_2 + 15) >> 4;
+    }
+
+    unk_3 = __builtin_abs(unk_1);
+    if (unk_1 < 0)
+        x_1 += unk_1;
+    y_1 = obj->offset_by + obj->y_pos;
+    unk_4 = scroll_end_y - scroll_start_y + 240;
+    cen_x = ray_zdc_x + (ray_zdc_w >> 1);
+    cen_y = ray_zdc_y + (ray_zdc_h >> 1);
+    if (
+      scroll_start_x <= x_2 &&
+      scroll_end_x + 320 >= x_2 &&
+      cen_x >= x_1 &&
+      cen_y >= y_1 &&
+      cen_x <= x_1 + unk_3 &&
+      cen_y <= y_1 + unk_4 
+    )
+    {
+        allocateMoskitoFruit(obj);
+        set_main_and_sub_etat(obj, 0, 16);
+        bossYToReach -= 64;
+    }
+}
 
 /* 71030 80195830 -O2 -msoft-float */
 /*? calc_obj_dir(Obj *);

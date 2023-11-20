@@ -32,7 +32,7 @@ u8 moskitoCanAttak(Obj *obj);
 s16 setMoskitoAtScrollBorder(Obj *obj, u8 param_2);
 void prepareNewMoskitoAttack(Obj *obj);
 Obj * allocateMoskitoFruit(Obj *param_1);
-void moskitoDropFruitOnRay(Obj *param_1);
+void moskitoDropFruitOnRay(Obj *obj);
 void doMoskitoCommand(Obj *obj);
 u8 tellNextMoskitoAction(Obj *obj);
 void changeMoskitoPhase(Obj *obj);
