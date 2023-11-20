@@ -13,7 +13,47 @@ void DO_ONE_CMD_WAIT(Obj *obj)
         obj->speed_y = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/command_494FC", DO_ONE_CMD_LR_ATTENTE);
+/* 4956C 8016DD6C -O2 */
+void DO_ONE_CMD_LR_ATTENTE(Obj *obj)
+{
+    s16 sub_etat = obj->sub_etat;
+    s16 type = obj->type;
+
+    if (
+      !(sub_etat == 1 || sub_etat == 2 || sub_etat == 11 || sub_etat == 22 ||
+      sub_etat == 3 || sub_etat == 9 || sub_etat == 4 || sub_etat == 5 ||
+      sub_etat == 6 || sub_etat == 15 || sub_etat == 16 || sub_etat == 17)
+    )
+    {
+      if (!(type == TYPE_CHASSEUR1 || type == TYPE_CHASSEUR2))
+      {
+          set_main_and_sub_etat(obj, 1, 0);
+      }
+      SET_X_SPEED(obj);
+      CALC_MOV_ON_BLOC(obj);
+    }
+    else if (sub_etat == 3 || sub_etat == 6)
+    {
+      obj->flags &= ~FLG(OBJ_READ_CMDS);
+      obj->speed_y = -8;
+    }
+    else if (sub_etat == 0x0B || sub_etat == 2 || sub_etat == 0x16)
+    {
+        switch (type)
+        {
+        case TYPE_CHASSEUR2:
+        case TYPE_CHASSEUR1:
+            DO_TIR(obj);
+            break;
+        case TYPE_BIG_CLOWN:
+            DO_BIG_CLOWN_ATTAK(obj);
+            break;
+        case TYPE_WAT_CLOWN:
+            DO_WAT_CLOWN_ATTAK(obj);
+            break;
+        }
+    }
+}
 
 /* 496EC 8016DEEC -O2 -msoft-float */
 void DO_ONE_CMD_UPDOWN(Obj *obj)

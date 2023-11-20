@@ -91,7 +91,71 @@ void display_grp_stars(void)
     }
 }
 
+/* 19D20 8013E520 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_TEXT_FEE);
+#else
+void DISPLAY_TEXT_FEE(void)
+{
+  u8 txt_fee;
+  Obj *obj;
+  TextToDisplay ttd;
+  s16 cen_x;
+  s16 obj_x;
+  s16 marg_x;
+  
+  DISPLAY_BLACKBOX(0, 0, 320, 20, 0, false);
+  DISPLAY_BLACKBOX(0, 190, 320, 50, 0, false);
+  txt_fee = display_txt_fee;
+  if (txt_fee != 0xff)
+  {
+    obj = &level.objects[png_or_fee_id];
+    __builtin_memcpy(&ttd, &text_to_display[txt_fee], sizeof(TextToDisplay));
+    if (ttd.text[0] != '\0')
+    {
+        if (obj->flags & FLG(OBJ_ALIVE))
+        {
+            obj->screen_y_pos = 220 - obj->offset_by;
+            cen_x = ttd.centered_x_pos;
+            obj_x = obj->offset_bx + obj->screen_x_pos;
+            marg_x = 8;
+            if (cen_x < obj_x - marg_x)
+            {
+                if (cen_x + ttd.width > obj_x)
+                {
+                    ttd.text[(s16) ((obj_x - (cen_x + marg_x)) / 7)] = '\0';
+                    display_box_text(&ttd);
+                }
+                else
+                    display_box_text(&ttd);
+            }
+            else if (cen_x + ttd.width <= obj_x)
+                display_box_text(&ttd);
+            
+            DISPLAY_BLACKBOX(
+                obj_x,
+                obj->screen_y_pos + obj->offset_by - 20,
+                30,
+                18,
+                0,
+                false
+            );
+            display2(obj);
+        }
+        else
+            display_box_text(&ttd);
+    }
+  }
+
+  txt_fee = old_txt_fee;
+  if (txt_fee != 0xff)
+  {
+    __builtin_memcpy(&ttd, &text_to_display[txt_fee], sizeof(TextToDisplay));
+    if (ttd.text[0] != '\0')
+      display_box_text(&ttd);
+  }
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/display_ui", DisplayJumellesNormal);
 
