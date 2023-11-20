@@ -43,7 +43,7 @@ void prepareNewMoskitoAttack(Obj *arg0)
     s16 i;
     s16 var_v0;
     s16 new_x_2;
-    s32 flag_before;
+    s16 flag_before;
     s32 temp_s0_2;
     u16 x_pos;
     u32 temp_s7;
@@ -90,21 +90,15 @@ void prepareNewMoskitoAttack(Obj *arg0)
             case 5:
                 bossEncounter = saveBossEncounter;
                 currentBossAction = saveCurrentBossAction;
-                temp_v0_7 = bossEncounter;
-                seq_2 = &moskitoActionSequences[temp_v0_7];
-                act_0x1A = 0x1A;
-                act_0x0E = 0x0E;
+                seq_2 = &moskitoActionSequences[bossEncounter];
                 curAct_tmp_1 = (*seq_2)[currentBossAction];
                 curAct = curAct_tmp_1;
-                if ((curAct == act_0x1A) || (curAct == act_0x0E))
+                if (curAct == 0x1A || curAct == 0x0E)
                 {
-                    var_v0 = currentBossAction;
-                    currentBossAction = (act_0x1A = var_v0 + 1);
-                    do
+                    while (curAct == 0x1A || curAct == 0x0E)
                     {
-                        curAct = moskitoActionSequences[bossEncounter][act_0x1A];
-
-                    } while ((curAct == act_0x1A) || curAct == act_0x0E);
+                        curAct = moskitoActionSequences[bossEncounter][++currentBossAction];
+                    }
                 }
                 else if ((curAct_tmp_1 - 0x12) < 2U || (curAct == 0x15))
                 {
@@ -135,6 +129,7 @@ void prepareNewMoskitoAttack(Obj *arg0)
                         } while ((u32) (curAct_tmp_2 - 0x14) < 2U);
                     }
                 }
+block_19:
                 saveBossEncounter = 0xFF;
                 currentBossActionIsOver = 1;
                 mstMustLeaveScreenToProceed = 0;
@@ -152,7 +147,6 @@ void prepareNewMoskitoAttack(Obj *arg0)
                 {
                     bossEncounter = curAct_tmp_3;
                 }
-block_89:
                 currentBossActionIsOver = 0;
                 break;
             case 25:
@@ -169,7 +163,8 @@ block_89:
                     arg0->nb_cmd = vblToEOA(&ray, 1) + 1;
                     fin_boss = 1;
                 }
-                goto block_89;
+                currentBossActionIsOver = 0;
+                break;
             case 22:
                 if (arg0->init_hit_points == 0x0C)
                 {
@@ -224,7 +219,8 @@ block_89:
                 bossReachingAccuracyX = 0xFF;
                 bossReachingAccuracyY = 0;
                 bossReachingTimer = 1;
-                goto block_89;
+                currentBossActionIsOver = 0;
+                break;
             case 17:
                 half_wid = 160;
                 bossXToReach = scroll_start_x - (arg0->offset_bx - half_wid);
@@ -237,22 +233,27 @@ block_88:
                 bossReachingAccuracyY = 0xFF;
                 bossReachingTimer = 1;
                 setBossReachingSpeeds(arg0, 1, 0xFF, 0xFF);
-                goto block_89;
+                currentBossActionIsOver = 0;
+                break;
             case 16:
                 set_main_and_sub_etat(arg0, 0, 5);
                 skipToLabel(arg0, 1, 1);
-                goto block_89;
+                currentBossActionIsOver = 0;
+                break;
             case 6:
                 set_main_and_sub_etat(arg0, 0, 0xD);
                 skipToLabel(arg0, 1, 1);
-                goto block_89;
+                currentBossActionIsOver = 0;
+                break;
             case 26:
-                if ((arg0->main_etat == 0) && (arg0->sub_etat == 0x14))
+                temp_s0_2 = arg0->main_etat == 0;
+                if (temp_s0_2 && (arg0->sub_etat == 0x14))
                 {
                     calc_obj_dir(arg0);
                     set_main_and_sub_etat(arg0, 0, 0x15);
                     skipToLabel(arg0, 1, 1);
-                    goto block_89;
+                    currentBossActionIsOver = 0;
+                    break;
                 }
                 flag_before = (arg0->flags >> 0xE) & 1;
                 calc_obj_dir(arg0);
@@ -312,15 +313,18 @@ block_52:
                 bossReachingTimer = 1;
                 setBossReachingSpeeds(arg0, 1, 0xFF, 0xFF);
                 skipToLabel(arg0, 2, 1);
-                goto block_89;
+                currentBossActionIsOver = 0;
+                break;
             case 15:
                 set_main_and_sub_etat(arg0, 0, 0x14);
                 skipToLabel(arg0, 1, 1);
-                goto block_89;
+                currentBossActionIsOver = 0;
+                break;
             case 14:
                 set_main_and_sub_etat(arg0, 0, 0xF);
                 skipToLabel(arg0, 1, 1);
-                goto block_89;
+                currentBossActionIsOver = 0;
+                break;
             case 10:
                 calc_obj_dir(arg0);
                 setMoskitoAtScrollBorder(arg0, ((arg0->flags >> 0xE) ^ 1) & 1);
@@ -357,7 +361,8 @@ block_52:
                 }
                 arg0->flags = (arg0->flags & ~0x4000) | (flag_before << 0xE);
                 skipToLabel(arg0, 2, 1);
-                goto block_89;
+                currentBossActionIsOver = 0;
+                break;
             case 7:
                 set_main_and_sub_etat(arg0, 0, 0xC);
                 
@@ -369,7 +374,7 @@ block_52:
                 if ((setMoskitoAtScrollBorder(arg0, 2U) << 0x10) > 0)
                 {
                     arg0->flags &= ~0x4000;
-                    arg0->x_pos = (temp_v0_7 = arg0->x_pos + 0x30);
+                    arg0->x_pos = (temp_v0_7 = arg0->x_pos + 0x30); /* gross, undo? */
                     var_v0 = (scroll_start_x - arg0->offset_bx) - 0x30;
                 }
                 else
@@ -390,13 +395,14 @@ block_52:
                 bossReachingTimer = 1;
                 setBossReachingSpeeds(arg0, 1, 0xFF, 0xFF);
                 skipToLabel(arg0, 2, 1);
-                goto block_89;
+                currentBossActionIsOver = 0;
+                break;
             case 9:
                 set_main_and_sub_etat(arg0, 0, 9);
                 if ((setMoskitoAtScrollBorder(arg0, 2U) << 0x10) > 0)
                 {
                     arg0->flags &= ~0x4000;
-                    arg0->x_pos = (temp_v0_7 = arg0->x_pos + 0x50);
+                    arg0->x_pos = (temp_v0_7 = arg0->x_pos + 0x50); /* gross, undo? */
                     new_x_2 = (scroll_start_x - arg0->offset_bx) - 0x50;
                 }
                 else
@@ -417,7 +423,8 @@ block_52:
                 bossReachingTimer = 1;
                 setBossReachingSpeeds(arg0, 1, 0xFF, 0xFF);
                 skipToLabel(arg0, 2, 1);
-                goto block_89;
+                currentBossActionIsOver = 0;
+                break;
             case 18:
             case 19:
                 arg0->y_pos = floorLine - 0x48;
@@ -447,7 +454,8 @@ block_52:
                 bossYToReach = arg0->y_pos;
                 setBossReachingSpeeds(arg0, 1, 0xFF, 0xFF);
                 skipToLabel(arg0, 2, 1);
-                goto block_89;
+                currentBossActionIsOver = 0;
+                break;
             case 21:
                 set_main_and_sub_etat(arg0, 0, 0xE);
                 skipToLabel(arg0, 1, 1);
