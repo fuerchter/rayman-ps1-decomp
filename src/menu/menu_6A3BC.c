@@ -386,7 +386,64 @@ void INIT_CREDITS(void)
 }
 #endif
 
+/* 6BF14 80190714 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap, missing_nop */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", DO_CREDITS);
+#else
+void DO_CREDITS(void)
+{
+    s32 i;
+    s16 last_cmd;
+    s16 unk_1;
+
+    if (You_Win)
+    {
+        horloges();
+        if (horloge[2] == 0)
+        {
+            for (i = first_credit; i <= last_credit; i++)
+                credits[i].y_pos--;
+            
+            nb_credits_lines++;
+            last_cmd = credits[last_credit].cmd;
+            if (last_cmd == 0)
+            {
+                switch (credits[last_credit].font)
+                {
+                case 0:
+                    unk_1 = 36;
+                    break;
+                case 1:
+                    unk_1 = 23;
+                    break;
+                case 2:
+                    unk_1 = 15;
+                    break;
+                }
+            }
+            else if (last_cmd == 0xFF)
+                unk_1 = 160;
+            else if (last_cmd > 100)
+                unk_1 = last_cmd - 85;
+            else
+                unk_1 = last_cmd * 15;
+
+            if (nb_credits_lines >= unk_1)
+            {
+                nb_credits_lines = 0;
+                if(last_cmd == 0xFF || (last_credit++, last_credit % 19 == 0))
+                    INIT_FADE_OUT();
+            }
+            if (credits[first_credit].y_pos < -4)
+                first_credit++;
+            if (D_801F7FF0 == 1 && fade == 0)
+                PROC_EXIT = true;
+        }
+    }
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 /* 6C198 80190998 -O2 -msoft-float */
 void INIT_LOADER_ANIM(void)

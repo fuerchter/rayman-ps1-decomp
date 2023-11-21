@@ -48,7 +48,48 @@ void PS1_TextBoxCardOrPassword(void)
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_InputCardOrPassword);
 
+/* 7FAE8 801A42E8 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_DisplayCardOrPassword);
+#else
+void PS1_DisplayCardOrPassword(void)
+{
+    if (compteur < max_compteur)
+    {
+        if (button_released == 0)
+            compteur++;
+        else
+            compteur = 0;
+    }
+    else if (button_released == 0)
+        compteur = delai_repetition + 1;
+    else
+        compteur = 0;
+    
+    if (positiony > 0)
+    {
+        text_to_display[positiony].color = 144;
+        display_box_text(&text_to_display[positiony]);
+    }
+    let_shadow = true;
+    
+    switch (positiony)
+    {
+    case 1:
+        text_to_display[2].color = 10;
+        display_box_text(&text_to_display[2]);
+        break;
+    case 2:
+        text_to_display[1].color = 10;
+        display_box_text(&text_to_display[1]);
+        break;
+    }
+    display_text("/x : validate/", 160, 208, 2, 10);
+    display_text("/select : return/", 160, 223, 2, 10);
+
+    __asm__("nop");
+}
+#endif
 
 /* 7FC58 801A4458 -O2 */
 /*? CLRSCR();
