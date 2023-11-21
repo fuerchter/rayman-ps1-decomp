@@ -378,7 +378,26 @@ void DO_NOTE_TOUCHEE(Obj *obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_NOTE_REBOND);
+/* 51774 80175F74 -O2 -msoft-float */
+void DO_NOTE_REBOND(Obj *obj)
+{
+    switch (obj->type)
+    {
+    case TYPE_NOTE2:
+        DO_EXPLOSE_NOTE2(obj);
+        break;
+    case TYPE_NOTE0:
+    case TYPE_NOTE3:
+    case TYPE_BONNE_NOTE:
+        obj->speed_y = -__builtin_abs(obj->speed_y);
+        if (obj->speed_y > -3)
+            obj->speed_y--;
+
+        obj->gravity_value_1 = 10 - obj->gravity_value_1;
+        calc_obj_pos();
+        break;
+    }
+}
 
 /* 51828 80176028 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
