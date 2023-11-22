@@ -399,7 +399,112 @@ void INIT_BBMONT(Obj *obj)
   bb1.field8_0xe = 1;
 }
 
+/* 5884C 8017D04C -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBL_COMMAND);
+#else
+void DO_BBL_COMMAND(Obj *obj)
+{
+    short sVar1;
+    short new_spd_x;
+    int spd_x_abs;
+    int spd_x;
+    int new_var2;
+    s16 unk_x;
+
+    if (PierreDoitExploser)
+    {
+        DO_PI_EXPLOSION2(obj);
+        obj->flags &= ~FLG(OBJ_ACTIVE);
+        obj->flags &= ~FLG(OBJ_ALIVE);
+        if (ray.field20_0x36 == obj->id)
+        {
+            ray.field20_0x36 = -1;
+            obj->ray_dist = 1000;
+            set_main_and_sub_etat(&ray, 2, 2);
+        }
+        PierreDoitExploser = false;
+        PosPierre = 9999;
+        PS1_AlwaysObjectsCount--;
+    }
+
+    if (obj->field23_0x3c == 3 && --obj->iframes_timer == 0)
+    {
+        obj->flags &= ~FLG(OBJ_ACTIVE);
+        obj->flags &= ~FLG(OBJ_ALIVE);
+    }
+
+    if (obj->speed_x < 0)
+        unk_x = -20;
+    else
+        unk_x = 20;
+
+    if (
+        block_flags [
+            (u16) mp.map [
+                (s16) (((obj->x_pos + obj->offset_bx + unk_x) >> 4) + mp.width * ((obj->y_pos + 40) >> 4))
+            ] >> 10
+        ] >> BLOCK_FLAG_4 & 1
+    )
+    {
+        switch(obj->field23_0x3c)
+        {
+        case 1:
+            PlaySnd(200, obj->id);
+            spd_x = obj->speed_x;
+            spd_x_abs = __builtin_abs(spd_x);
+            if (spd_x_abs == 12)
+            {
+                
+                if (spd_x > 0)
+                    new_spd_x = -13;
+                else
+                    new_spd_x = 13;
+                obj->speed_x = new_spd_x;
+                obj->speed_y = 0;
+            }
+            else if (spd_x_abs == 13)
+            {
+                if (spd_x > 0)
+                    new_spd_x = -14;
+                else
+                    new_spd_x = 14;
+                obj->speed_x = new_spd_x;
+                obj->speed_y = 0;
+            }
+            else if (spd_x_abs == 14)
+            {
+                if (spd_x > 0)
+                    new_spd_x = -15;
+                else
+                    new_spd_x = 15;
+                obj->speed_x = new_spd_x;
+                obj->speed_y = 0;
+            }
+            else if (spd_x_abs == 15)
+            {
+                DO_PI_EXPLOSION2(obj);
+                obj->flags &= ~FLG(OBJ_ACTIVE);
+                obj->flags &= ~FLG(OBJ_ALIVE);
+                if (ray.field20_0x36 == obj->id)
+                {
+                    ray.field20_0x36 = -1;
+                    obj->ray_dist = 1000;
+                    set_main_and_sub_etat(&ray, 2, 2);
+                }
+                PS1_AlwaysObjectsCount--;
+                return;
+            }
+            break;
+        case 0:
+            PlaySnd(200, obj->id);
+            obj->speed_x = 0;
+            obj->field23_0x3c = 2;
+            break;
+        }
+    }
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", BBMONT_ECLAIR);
 
