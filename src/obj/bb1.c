@@ -282,10 +282,10 @@ void DO_BBL_REBOND(Obj *obj)
 /* 580F8 8017C8F8 -O2 -msoft-float */
 void allocateDog(Obj *bb1_obj)
 {
+    s16 new_x;
     s16 nb_objs = level.nb_objects;
     Obj *cur = level.objects;
     s16 i = 0;
-    s16 new_x;
 
     if (nb_objs != 0)
     {
@@ -328,7 +328,135 @@ void allocateDog(Obj *bb1_obj)
     }
 }
 
+/* 58278 8017CA78 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateTir);
+#else
+void allocateTir(Obj *bb1_obj, s16 param_2)
+{
+  s32 sprite_ind;
+  s16 x; s16 y; s16 w; s16 h;
+  s32 new_x_1;
+  s32 bb1_x;
+  s32 new_spd_x;
+  s32 new_x_2;
+  u8 nb_objs = level.nb_objects;
+  s16 i = 0;
+  Obj *cur_obj = level.objects;
+
+  if (nb_objs != 0)
+  {
+    do {
+      if (cur_obj->type == TYPE_BBL && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+      {
+        if (param_2 != 0)
+          sprite_ind = 8;
+        else
+          sprite_ind = 9;
+        cur_obj->flags &= ~FLG(OBJ_FLIP_X);
+        GET_SPRITE_POS(bb1_obj, sprite_ind, &x, &y, &w, &h);
+        if (param_2 == 1)
+        {
+          new_x_1 = x - cur_obj->offset_bx + (w >> 1);
+          if (bb1_obj->flags & FLG(OBJ_FLIP_X))
+            new_x_1 += 64;
+          else
+            new_x_1 -= 64;
+          cur_obj->x_pos = new_x_1;
+          cur_obj->y_pos = y - 40;
+          if (bb1_obj->flags & FLG(OBJ_FLIP_X))
+            new_spd_x = 12;
+          else
+            new_spd_x = -12;
+          cur_obj->speed_x = new_spd_x;
+          cur_obj->speed_y = 0;
+          cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | bb1_obj->flags & FLG(OBJ_FLIP_X);
+        }
+        else if (param_2 == 0)
+        {
+          new_x_1 = (x - cur_obj->offset_bx) + (w >> 1);
+          if (bb1_obj->flags & FLG(OBJ_FLIP_X))
+            new_x_1 += 9;
+          else
+            new_x_1 -= 9;
+          cur_obj->x_pos = new_x_1;
+          cur_obj->y_pos = y - 40;
+          if (bb1_obj->flags & FLG(OBJ_FLIP_X))
+            new_spd_x = 2;
+          else
+            new_spd_x = -2;
+          cur_obj->speed_x = new_spd_x;
+          cur_obj->speed_y = -5;
+          cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | bb1_obj->flags & FLG(OBJ_FLIP_X);
+        }
+        else
+        {
+          if (param_2 == 3)
+          {
+            bb1_x = bb1_obj->x_pos;
+            if (!(bb1_obj->flags & FLG(OBJ_FLIP_X)))
+                cur_obj->x_pos = bb1_x - 36;
+            else
+                cur_obj->x_pos = bb1_x + 120;
+            cur_obj->y_pos = bb1_obj->y_pos - 185;
+            cur_obj->speed_y = 4;  
+          }
+          else
+          {
+            if (param_2 < 10)
+            {
+              cur_obj->x_pos = ray.x_pos;
+              if (cur_obj->x_pos < 40)
+                cur_obj->x_pos = 40;
+              if (cur_obj->x_pos > 200)
+                cur_obj->x_pos = 200;              
+            }
+            else
+            {
+              if (bb1_obj->flags & FLG(OBJ_FLIP_X))
+                new_x_2 = 240 - bb1.field8_0xe * 50;
+              else {
+                new_x_2 = bb1.field8_0xe * 50 - 20;
+              }
+              cur_obj->x_pos = new_x_2;
+            }
+            cur_obj->y_pos = bb1_obj->y_pos - 200;
+            cur_obj->speed_y = 0;
+          }
+          cur_obj->speed_x = 0;
+        }
+        cur_obj->iframes_timer = 38;
+        if (param_2 != 3)
+          cur_obj->gravity_value_2 = 10;
+        else
+          cur_obj->gravity_value_2 = 7;
+
+        if (param_2 == 0)
+          cur_obj->gravity_value_2 = 3;
+        cur_obj->main_etat = 2;
+        cur_obj->sub_etat = 6;
+        skipToLabel(cur_obj, 1, true);
+        calc_obj_pos(cur_obj);
+        cur_obj->gravity_value_1 = 0;
+        cur_obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+        if (param_2 < 10)
+          cur_obj->field23_0x3c = param_2;
+        else
+          cur_obj->field23_0x3c = 4;
+        if (param_2 != 3) {
+          PS1_AlwaysObjects[PS1_AlwaysObjectsCount] = cur_obj->id;
+          PS1_AlwaysObjectsCount++;
+        }
+        break;
+      }
+      cur_obj++;
+      i++;
+    } while (i < nb_objs);
+  }
+
+  __asm__("nop");
+}
+#endif
 
 /* 58644 8017CE44 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
@@ -405,11 +533,10 @@ INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBL_COMMAND);
 #else
 void DO_BBL_COMMAND(Obj *obj)
 {
-    short sVar1;
-    short new_spd_x;
-    int spd_x_abs;
-    int spd_x;
-    int new_var2;
+    s16 new_spd_x;
+    s32 spd_x_abs;
+    s32 spd_x;
+    s32 bb1_x;
     s16 unk_x;
 
     if (PierreDoitExploser)
@@ -503,6 +630,8 @@ void DO_BBL_COMMAND(Obj *obj)
             break;
         }
     }
+
+    __asm__("nop");
 }
 #endif
 

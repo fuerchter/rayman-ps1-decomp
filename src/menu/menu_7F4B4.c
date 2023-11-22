@@ -52,7 +52,8 @@ INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_InputCardOrPassword);
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_DisplayCardOrPassword);
 #else
-void PS1_DisplayCardOrPassword(void)
+INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_DisplayCardOrPassword);
+/*void PS1_DisplayCardOrPassword(void)
 {
     if (compteur < max_compteur)
     {
@@ -88,7 +89,7 @@ void PS1_DisplayCardOrPassword(void)
     display_text("/select : return/", 160, 223, 2, 10);
 
     __asm__("nop");
-}
+}*/
 #endif
 
 /* 7FC58 801A4458 -O2 */
