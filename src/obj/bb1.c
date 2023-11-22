@@ -635,7 +635,49 @@ void DO_BBL_COMMAND(Obj *obj)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", BBMONT_ECLAIR);
+/* 58B04 8017D304 -O2 -msoft-float */
+void BBMONT_ECLAIR(Obj *bb1_obj)
+{
+  s16 new_spd_x;
+  s32 new_x;
+  s16 x; s16 y; s16 w; s16 h;
+  u8 nb_objs = level.nb_objects;
+  s16 i = 0;
+  Obj *cur_obj = level.objects;
+
+  if (nb_objs != 0)
+  {
+    do {
+      if (cur_obj->type == TYPE_ECLAIR && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+      {
+        cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | bb1_obj->flags & FLG(OBJ_FLIP_X);
+        cur_obj->speed_y = 0;
+        if (!(cur_obj->flags & FLG(OBJ_FLIP_X)))
+          new_spd_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_left;
+        else
+          new_spd_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_right;
+        cur_obj->speed_x = new_spd_x;
+        GET_SPRITE_POS(bb1_obj, 10, &x, &y, &w, &h);
+        new_x = (x + w) - cur_obj->offset_bx;
+        if ((bb1_obj->flags & FLG(OBJ_FLIP_X)))
+          new_x += 16;
+        else
+          new_x -= 16;
+        cur_obj->x_pos = new_x;
+        cur_obj->y_pos = y;
+        cur_obj->init_x_pos = cur_obj->x_pos;
+        cur_obj->init_y_pos = cur_obj->y_pos;
+        skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
+        calc_obj_pos(cur_obj);
+        cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+        allocateExplosion(cur_obj);
+        break;
+      }
+      cur_obj++;
+      i++;
+    } while (i < nb_objs);
+  }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", BBMONT_ETINCELLES);
 
@@ -698,7 +740,29 @@ void BB_Attaque(Obj *obj)
 }
 #endif
 
+/* 5908C 8017D88C -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu, missing_nop */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", Fin_BB_Attaque);
+#else
+void Fin_BB_Attaque(Obj *obj)
+{
+  IndAtak++;
+  if (IndAtak < 7)
+    NextAtak = SerieAtakBB[IndSerie][IndAtak].attack;
+  else
+    NextAtak = 0xff;
+
+  if (NextAtak == 0xff)
+  {
+    IndAtak = 0;
+    NextAtak = SerieAtakBB[IndSerie][IndAtak].attack;
+  }
+  WaitForFinAtan = SerieAtakBB[IndSerie][IndAtak].wait_for_fin_atan;
+  BB_Attaque(obj);
+
+  __asm__("nop\nnop\nnop\nnop");
+}
+#endif
 
 /* 59198 8017D998 -O2 -msoft-float */
 void BB_Atan(Obj *obj)

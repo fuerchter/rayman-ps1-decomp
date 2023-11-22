@@ -54,7 +54,7 @@ void allocateTir(Obj *bb1_obj, s16 param_2);
 void CreateFirstBBL(void);
 void INIT_BBMONT(Obj *obj);
 void DO_BBL_COMMAND(Obj *obj);
-void BBMONT_ECLAIR(Obj *obj);
+void BBMONT_ECLAIR(Obj *bb1_obj);
 void BBMONT_ETINCELLES(Obj *param_1);
 void BBMONT_TIRE(Obj *obj);
 void Cree_BBL(Obj *obj);

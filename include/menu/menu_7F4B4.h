@@ -50,6 +50,7 @@ extern s16 D_801D7A50;
 extern s16 basex;
 extern s16 ecart_barre;
 extern OptionsJeu options_jeu;
+extern OptionsJeu options_jeu_save; /* from include/demo_9FD4.h, move back? */
 extern s16 debut_titre;
 extern s16 debut_options;
 extern s16 debut_sortie;
@@ -61,7 +62,6 @@ extern s16 PS1_display_y2;
 extern s16 position;
 extern s16 fichier_existant;
 extern s16 fichier_selectionne;
-extern OptionsJeu options_jeu_save; /* from include/demo_9FD4.h, move back? */
 
 void PS1_TextBoxCardOrPassword(void);
 void PS1_InputCardOrPassword(void);

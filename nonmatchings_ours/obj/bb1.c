@@ -1,66 +1,6 @@
 #include "obj/bb1.h"
 
 /* matches, but too lazy to clean */
-/* 58B04 8017D304 -O2 -msoft-float */
-/*INCLUDE_ASM("asm/nonmatchings/obj/bb1", BBMONT_ECLAIR);*/
-
-void BBMONT_ECLAIR(Obj *obj)
-{
-  char cVar1;
-  s32 sVar2;
-  s16 iVar3;
-  Obj *eclairObj;
-  short local_18;
-  short local_16;
-  short local_14;
-  s16 auStack_12;
-  u8 nb_objs;
-  
-  iVar3 = 0;
-  eclairObj = level.objects;
-  nb_objs = level.nb_objects;
-  if (nb_objs != 0) {
-    do {
-      if ((eclairObj->type == TYPE_ECLAIR) &&
-         ((eclairObj->flags & FLG(OBJ_ACTIVE)) == FLG_OBJ_NONE)) {
-        eclairObj->flags =
-             eclairObj->flags & ~FLG(OBJ_FLIP_X) | obj->flags & FLG(OBJ_FLIP_X);
-        eclairObj->speed_y = 0;
-        if ((eclairObj->flags & FLG(OBJ_FLIP_X)) == FLG_OBJ_NONE) {
-          cVar1 = eclairObj->eta[eclairObj->main_etat][eclairObj->sub_etat].
-                  speed_x_left;
-        }
-        else {
-          cVar1 = eclairObj->eta[eclairObj->main_etat][eclairObj->sub_etat].
-                  speed_x_right;
-        }
-        eclairObj->speed_x = (short)cVar1;
-        GET_SPRITE_POS(obj,10,&local_18,&local_16,&local_14,&auStack_12);
-        sVar2 = (local_18 + local_14) - eclairObj->offset_bx;
-        if ((obj->flags & FLG(OBJ_FLIP_X)) != FLG_OBJ_NONE) {
-          sVar2 = sVar2 + 0x10;
-        }
-        else {
-          sVar2 = sVar2 + -0x10;
-        }
-        eclairObj->x_pos = sVar2;
-        eclairObj->y_pos = local_16;
-        eclairObj->init_x_pos = eclairObj->x_pos;
-        eclairObj->init_y_pos = eclairObj->y_pos;
-        skipToLabel(eclairObj,(u8)(eclairObj->flags >> 0xe) & 1,true);
-        calc_obj_pos(eclairObj);
-        eclairObj->flags = eclairObj->flags | (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
-        allocateExplosion(eclairObj);
-        return;
-      }
-      eclairObj = eclairObj + 1;
-      iVar3 = iVar3 + 1;
-    } while (iVar3 < nb_objs);
-  }
-  return;
-}
-
-/* matches, but too lazy to clean */
 /* 58CC4 8017D4C4 -O2 -msoft-float */
 /*INCLUDE_ASM("asm/nonmatchings/obj/bb1", BBMONT_ETINCELLES);*/
 
@@ -132,29 +72,6 @@ void BBMONT_ETINCELLES(Obj *param_1)
       iVar3 = iVar3 + 1;
     } while (iVar3 < nb_objs);
   }
-  return;
-}
-
-/* 5908C 8017D88C -O2 -msoft-float */
-/*INCLUDE_ASM("asm/nonmatchings/obj/bb1", Fin_BB_Attaque);*/
-
-void Fin_BB_Attaque(Obj *obj)
-{
-  IndAtak = IndAtak + 1;
-  if (IndAtak < 7) {
-    NextAtak = SerieAtakBB[IndSerie][IndAtak].attack;
-  }
-  else
-  {
-    NextAtak = 0xff;
-  }
-
-  if (NextAtak == 0xff) {
-    IndAtak = 0;
-    NextAtak = SerieAtakBB[IndSerie][IndAtak].attack;
-  }
-  WaitForFinAtan = SerieAtakBB[IndSerie][IndAtak].wait_for_fin_atan;
-  BB_Attaque(obj);
   return;
 }
 
