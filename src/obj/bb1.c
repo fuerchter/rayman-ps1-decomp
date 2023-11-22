@@ -35,7 +35,175 @@ void DO_TOTEM_TOUCHE(Obj *obj, s16 sprite)
     }
 }
 
+/* 57950 8017C150 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_TOTEM_COMMAND);
+#else
+void DO_TOTEM_COMMAND(Obj *tot_obj)
+{
+    s16 x; s16 y; s16 w; s16 h;
+    u8 nb_objs;
+    s16 i;
+    s16 j;
+    Obj *cur_obj;
+    s16 new_spd_x;
+    u8 unk_1;
+    s16 new_x;
+
+    tot_obj->field23_0x3c--;
+    if (tot_obj->field23_0x3c < 0)
+        tot_obj->field23_0x3c = 0;
+    if (bb1.field2_0x4 == 3)
+    {
+        tot_obj->flags &= ~FLG(OBJ_ACTIVE);
+        tot_obj->flags &= ~FLG(OBJ_ALIVE);
+        nb_objs = level.nb_objects;
+        i = 0;
+        cur_obj = level.objects;
+        if (nb_objs != 0)
+        {
+            do
+            {
+                if (cur_obj->type == TYPE_BOUT_TOTEM)
+                {
+                    
+                    for (j = 0; j < 6; cur_obj++, j++)
+                    {
+                        GET_SPRITE_POS(tot_obj, j, &x, &y, &w, &h);
+                        cur_obj->x_pos = x;
+                        cur_obj->y_pos = y;
+                        cur_obj->flags |= FLG(OBJ_ACTIVE)|FLG(OBJ_ALIVE);
+                        if (j == 0)
+                        {
+                            cur_obj->speed_x = 0;
+                            cur_obj->speed_y = 0;
+                        }
+                        else
+                        {
+                            new_spd_x = 2 - myRand(4);
+                            cur_obj->speed_x = new_spd_x;
+                            if (new_spd_x == 0)
+                                cur_obj->speed_x = 1;
+                            cur_obj->speed_y = -4 - myRand(3);
+                        }
+                        cur_obj->gravity_value_1 = 0;
+                        cur_obj->gravity_value_2 = 5;
+                        switch (j)
+                        {
+                        case 1:
+                            set_main_and_sub_etat(cur_obj, 2, 8);
+                            cur_obj->offset_by = 43;
+                            cur_obj->offset_bx = 25;
+                            cur_obj->flags &= ~FLG(OBJ_FLIP_X);
+                            cur_obj->anim_index = 31;
+                            break;
+                        case 2:
+                            set_main_and_sub_etat(cur_obj, 2, 10);
+                            cur_obj->offset_by = 17;
+                            cur_obj->offset_bx = 12;
+                            cur_obj->flags &= ~FLG(OBJ_FLIP_X);
+                            cur_obj->anim_index = 33;
+                            break;
+                        case 3:
+                            set_main_and_sub_etat(cur_obj, 2, 11);
+                            cur_obj->offset_by = 7;
+                            cur_obj->offset_bx = 7;
+                            cur_obj->flags &= ~FLG(OBJ_FLIP_X);
+                            cur_obj->anim_index = 34;
+                            break;
+                        case 4:
+                            set_main_and_sub_etat(cur_obj, 2, 9);
+                            cur_obj->offset_by = 28;
+                            cur_obj->offset_bx = 17;
+                            cur_obj->flags &= ~FLG(OBJ_FLIP_X);
+                            cur_obj->anim_index = 32;
+                            break;
+                        case 5:
+                            set_main_and_sub_etat(cur_obj, 2, 10);
+                            cur_obj->offset_by = 17;
+                            cur_obj->offset_bx = 12;
+                            cur_obj->flags = (cur_obj->flags | FLG(OBJ_FLIP_X));
+                            cur_obj->anim_index = 33;
+                            break;
+                        case 0:
+                            set_main_and_sub_etat(cur_obj, 0, 21);
+                            cur_obj->flags &= ~FLG(OBJ_FLIP_X);
+                            cur_obj->anim_index = 37;
+                            break;
+                        }
+                    }
+                    break;
+                }
+                i++;
+                cur_obj++;
+            } while(i < nb_objs);
+            
+        }
+    }
+    else if (!(tot_obj->sub_etat == 6 || tot_obj->sub_etat == 7 || tot_obj->sub_etat == 3))
+    {
+        GET_SPRITE_POS(tot_obj, 6, &x, &y, &w, &h);
+        x += 5; y += 5; w -= 10; h -= 10;
+        if ((s16) inter_box(x, y, w, h, bb1.sprite6_x, bb1.sprite6_y, 32, 32) && bb1.field2_0x4 == 0)
+        {
+
+            bb1.field2_0x4 = 1;
+            tot_obj->iframes_timer = 4;
+            IndSerie++;
+            if (IndSerie > 5)
+                IndSerie--;
+            IndAtak = 0;
+        }
+        
+        if (tot_obj->anim_frame == (tot_obj->animations[tot_obj->anim_index].frames_count - 1))
+            unk_1 = horloge[tot_obj->eta[tot_obj->main_etat][tot_obj->sub_etat].anim_speed & 0xf] == 0;
+        else
+            unk_1 = false;
+        
+        switch (tot_obj->sub_etat)
+        {
+        case 3:
+        case 6:
+        case 7:
+            break;
+        case 4:
+            if (unk_1)
+            {
+                if (++tot_obj->iframes_timer < 4)
+                {
+                    set_sub_etat(tot_obj, 5);
+                    new_x = tot_obj->init_x_pos - 85;
+                }
+                else
+                {
+                    set_sub_etat(tot_obj, 6);
+                    new_x = tot_obj->init_x_pos;
+                }
+                tot_obj->x_pos = new_x;
+            }
+            break;
+        case 5:
+            if (unk_1)
+            {
+                if (++tot_obj->iframes_timer < 4)
+                {
+                    set_sub_etat(tot_obj, 4);
+                    new_x = tot_obj->init_x_pos + 71;
+                }
+                else
+                {
+                    set_sub_etat(tot_obj, 7);
+                    new_x = tot_obj->init_x_pos;
+                }
+                tot_obj->x_pos = new_x;
+            }
+            break;
+        }
+    }
+
+    __asm__("nop\nnop\nnop");
+}
+#endif
 
 /* 57EC4 8017C6C4 -O2 -msoft-float */
 void DO_TOTBT_REBOND(Obj *obj)
