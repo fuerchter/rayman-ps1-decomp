@@ -5,7 +5,6 @@
 #include "psyq_3_0/LIBSND.H"
 #include "obj_update.h"
 #include "loading_794DC.h"
-#include "menu/menu_card_7FD3C.h"
 #include "ray/ray_32398.h"
 
 typedef struct SoundTableEntry

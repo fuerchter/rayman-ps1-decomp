@@ -5,12 +5,11 @@
 #include "ray/ray_5D190.h"
 #include "ray/ray_32398.h"
 #include "ray/ray_30A64.h"
-#include "menu/menu_card_7FD3C.h"
 #include "video.h"
 #include "demo_7F2BC.h"
 #include "world_map_95CC.h"
-#include "menu/menu_card_7FD3C.h"
 #include "num_level_36260.h"
+#include "menu/menu_7F4B4.h"
 
 typedef struct Record
 {
@@ -35,7 +34,6 @@ extern Record record;
 extern u8 ModeDemo; /* TODO: enum also? */
 extern u16 RunTimeDemo;
 extern s16 NumDemo;
-extern OptionsJeu options_jeu_save;
 
 void InitDemoJeu(void);
 void FinDemoJeu(void);

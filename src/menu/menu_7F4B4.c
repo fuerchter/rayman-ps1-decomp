@@ -135,3 +135,35 @@ void PS1_InitCardOrPassword(void)
     SYNCHRO_LOOP(PS1_MenuCardOrPassword);
     DO_FADE_OUT();
 }
+
+INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", saisie_nom_prg);
+
+INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", selection_save_option_prg);
+
+INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", DO_SAVE_CHOICE);
+
+INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", AFFICHE_ECRAN_SAVE);
+
+INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_DoGameOptionsLoop);
+
+INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_DoGameOptions);
+
+INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", AFFICHE_PAD_SCREEN);
+
+INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", INIT_SAVE_CHOICE);
+
+INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", INIT_SAVE_CONTINUE);
+
+INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", DO_COMMANDE_SAVE);
+
+INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", SELECTION_SAVE_OPTION);
+
+INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", INIT_AFFICHE_ECRAN_SAVE);
+
+INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", SAISIE_NOM);
+
+INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", REALISATION_ACTION);
+
+INCLUDE_RODATA("asm/nonmatchings/menu/menu_7F4B4", s_x__validate_8012c4bc);
+
+INCLUDE_RODATA("asm/nonmatchings/menu/menu_7F4B4", s_select__return_8012c4cc);

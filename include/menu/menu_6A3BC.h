@@ -3,7 +3,6 @@
 
 #include "common.h"
 #include "obj_update.h"
-#include "menu/menu_card_7FD3C.h"
 #include "menu/menu_7EEE4.h"
 #include "menu/menu_7F4B4.h"
 #include "world_map_677C0.h"
