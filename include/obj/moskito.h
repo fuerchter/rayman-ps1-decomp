@@ -3,14 +3,6 @@
 
 #include "common.h"
 #include "num_level_36260.h"
-#include "obj/poing.h"
-#include "demo_9FD4.h"
-#include "collision/collision.h"
-#include "moteur_init_end.h"
-#include "world_map_677C0.h"
-#include "ray/ray_32398.h"
-#include "demo_9FD4.h"
-#include "obj/poing.h"
 #include "boss.h"
 
 /* 801c8050 - 801c84d8 might be general boss data? */

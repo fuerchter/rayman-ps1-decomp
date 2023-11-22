@@ -3,12 +3,7 @@
 
 #include "common.h"
 #include "world_map_677C0.h"
-#include "text_24E10.h"
 #include "text_18118.h"
-#include "menu/menu_7EEE4.h"
-#include "ray/ray_32398.h"
-#include "demo_9FD4.h"
-#include "main.h"
 
 /* .data */
 extern u8 s_level_801cedf4[7];

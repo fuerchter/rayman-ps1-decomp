@@ -2,16 +2,9 @@
 #define MENU_6A3BC_H
 
 #include "common.h"
-#include "obj_update.h"
 #include "menu/menu_7EEE4.h"
 #include "menu/menu_7F4B4.h"
-#include "world_map_677C0.h"
-#include "victoire.h"
-#include "input_ED20.h"
-#include "vignet.h"
 #include "obj/dark_729F0.h"
-#include "ray/ray_5D190.h"
-#include "obj/fee_4DFD0.h"
 
 /* .data */
 extern s32 PS1_Button_Text_Square;

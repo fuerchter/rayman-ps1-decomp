@@ -2,8 +2,6 @@
 #define FISH_H
 
 #include "common.h"
-#include "obj_update.h"
-#include "collision/collision_block.h"
 #include "world_map_677C0.h"
 #include "gendoor.h"
 

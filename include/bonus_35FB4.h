@@ -2,11 +2,7 @@
 #define BONUS_35FB4_H
 
 #include "common.h"
-#include "ray/ray_30A64.h"
-#include "timers.h"
 #include "num_level_36260.h"
-#include "world_map_95CC.h"
-#include "moteur_init_end.h"
 #include "bonus_343EC.h"
 
 extern u8 bonus_perfect[24];

@@ -2,15 +2,11 @@
 #define WORLD_MAP_677C0_H
 
 #include "common.h"
-#include "world_map_95CC.h"
 #include "obj_update.h"
-#include "text_24E10.h"
 #include "ray/ray_32398.h"
-#include "ray/ray_5D190.h"
 #include "moteur_update.h"
 #include "cam_scroll_29B5C.h"
 #include "menu/menu_card_7C028.h"
-#include "timers.h"
 #include "victoire.h"
 
 /* TODO: does padding (between color, level_name) matter? it seems to work even without, but why? */

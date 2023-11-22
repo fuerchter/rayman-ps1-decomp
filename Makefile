@@ -13,6 +13,7 @@
 #arrays/structs involved in missing_addiu: horloge, block_flags, t_world_info, cptr_tab, D_801C7D20, PS1_AlwaysObjects, text_to_display, atak, SerieDatak
 #standard type involved in missing_addiu: PS1_Setting_StereoEnabled
 
+#should strings also be added as const instead of used in their respective functions?
 #see DO_BBL_COMMAND for slightly nicer way of writing block_flags[mp.map[...]]
 #apply MAX/MIN macros to code from before then
 #for u8 < 2 or >= 2 conditions look at RAY_RESPOND_TO_DOWN e.g.

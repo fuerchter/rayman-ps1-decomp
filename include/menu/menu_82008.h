@@ -5,9 +5,6 @@
 #include "psyq_3_0/STRINGS.H"
 #include "menu/menu_7EEE4.h"
 #include "menu/menu_7F4B4.h"
-#include "menu/menu_card_7C028.h"
-#include "demo_7F2BC.h"
-#include "input_ED20.h"
 
 extern s16 D_801D7AA0;
 extern s16 D_801F5498; /* used as loop bound */

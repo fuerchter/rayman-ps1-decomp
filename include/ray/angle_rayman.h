@@ -2,7 +2,6 @@
 #define ANGLE_RAYMAN_H
 
 #include "common.h"
-#include "obj_update.h"
 #include "ray/ray_32398.h"
 
 /* .data */

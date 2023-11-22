@@ -1,6 +1,5 @@
 #include "sound.h"
 
-
 /* too much unknown? */
 extern u8 D_801F7D41;
 extern u8 D_801F7D42;

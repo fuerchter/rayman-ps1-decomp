@@ -3,11 +3,7 @@
 
 #include "common.h"
 #include "ray/ray_5D190.h"
-#include "ray/ray_32398.h"
-#include "ray/ray_30A64.h"
 #include "video.h"
-#include "demo_7F2BC.h"
-#include "world_map_95CC.h"
 #include "num_level_36260.h"
 #include "menu/menu_7F4B4.h"
 

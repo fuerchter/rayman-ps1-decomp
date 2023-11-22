@@ -2,14 +2,7 @@
 #define SAXO_H
 
 #include "common.h"
-#include "timers.h"
-#include "obj/poing.h"
-#include "collision/collision_block.h"
 #include "num_level_36260.h"
-#include "cam_scroll_29B5C.h"
-#include "moteur_init_end.h"
-#include "ray/ray_32398.h"
-#include "world_map_677C0.h"
 #include "boss.h"
 
 typedef struct SaxAttackEntry

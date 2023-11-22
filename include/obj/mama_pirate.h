@@ -2,10 +2,8 @@
 #define MAMA_PIRATE_H
 
 #include "common.h"
-#include "obj_update.h"
 #include "world_map_677C0.h"
 #include "obj/bateau_command.h"
-#include "collision/bit_util.h"
 
 typedef struct CouteauxInfo
 {

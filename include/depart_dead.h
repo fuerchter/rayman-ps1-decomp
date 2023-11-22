@@ -3,10 +3,6 @@
 
 #include "common.h"
 #include "main.h"
-#include "loading_794DC.h"
-#include "main_moteur.h"
-#include "victoire.h"
-#include "sound.h"
 
 /* .data */
 extern u8 D_801CF0DC;

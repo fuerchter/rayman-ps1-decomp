@@ -3,12 +3,6 @@
 
 #include "common.h"
 #include "demo_9FD4.h"
-#include "menu/menu_7EEE4.h"
-#include "menu/menu_7F4B4.h"
-#include "text_18118.h"
-#include "video.h"
-#include "fade.h"
-#include "main.h"
 
 extern s32 TempsDemo;
 

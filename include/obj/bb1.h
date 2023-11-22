@@ -2,14 +2,8 @@
 #define BB1_H
 
 #include "common.h"
-#include "obj_update.h"
-#include "obj/poing.h"
-#include "timers.h"
 #include "ray/ray_32398.h"
 #include "boss.h"
-#include "cam_scroll_29B5C.h"
-#include "num_level_36260.h"
-#include "collision/collision.h"
 
 typedef struct BB1Data
 {

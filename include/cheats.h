@@ -3,11 +3,6 @@
 
 #include "common.h"
 #include "ray/ray_5D190.h"
-#include "main_moteur.h"
-#include "num_level_36260.h"
-#include "main.h"
-#include "main_moteur.h"
-#include "ray/ray_30A64.h"
 
 /* .data */
 extern s16 D_801CEFC8;

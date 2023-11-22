@@ -3,10 +3,6 @@
 
 #include "common.h"
 #include "ray/ray_32398.h"
-#include "timers.h"
-#include "cam_scroll_29B5C.h"
-#include "obj/eau.h"
-#include "obj_update.h"
 
 /**/
 extern s16 NumScrollObj;

@@ -3,15 +3,9 @@
 
 #include "common.h"
 #include "psyq_3_0/LIBGPU.H"
-#include "obj_update.h"
 #include "world_map_677C0.h"
-#include "obj/poing.h"
-#include "obj/fee_4DFD0.h"
 #include "card.h"
 #include "menu/menu_6A3BC.h"
-#include "fade.h"
-#include "timers.h"
-#include "ray/ray_30A64.h"
 
 typedef struct GrpStar
 {
