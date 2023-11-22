@@ -52,8 +52,7 @@ INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_InputCardOrPassword);
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_DisplayCardOrPassword);
 #else
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_DisplayCardOrPassword);
-/*void PS1_DisplayCardOrPassword(void)
+void PS1_DisplayCardOrPassword(void)
 {
     if (compteur < max_compteur)
     {
@@ -85,11 +84,11 @@ INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_DisplayCardOrPassword);
         display_box_text(&text_to_display[1]);
         break;
     }
-    display_text("/x : validate/", 160, 208, 2, 10);
-    display_text("/select : return/", 160, 223, 2, 10);
+    display_text(s_x__validate_8012c4bc, 160, 208, 2, 10);
+    display_text(s_select__return_8012c4cc, 160, 223, 2, 10);
 
     __asm__("nop");
-}*/
+}
 #endif
 
 /* 7FC58 801A4458 -O2 */
@@ -164,6 +163,5 @@ INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", SAISIE_NOM);
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", REALISATION_ACTION);
 
-INCLUDE_RODATA("asm/nonmatchings/menu/menu_7F4B4", s_x__validate_8012c4bc);
-
-INCLUDE_RODATA("asm/nonmatchings/menu/menu_7F4B4", s_select__return_8012c4cc);
+const u8 s_x__validate_8012c4bc[] = "/x : validate/";
+const u8 s_select__return_8012c4cc[] = "/select : return/";

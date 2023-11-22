@@ -27,6 +27,10 @@ typedef struct OptionsJeu
     s16 field14_0x24;
 } OptionsJeu;
 
+/* .rodata */
+extern const u8 s_x__validate_8012c4bc[];
+extern const u8 s_select__return_8012c4cc[];
+
 /* .data */
 extern u8 *PS1_SettingStrings[8]; /* if creates conflict here, put in menu_82008 */
 
