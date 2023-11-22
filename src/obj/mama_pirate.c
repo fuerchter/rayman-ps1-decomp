@@ -445,8 +445,7 @@ void lance_couteau_droit(Obj *obj)
             CouteauxInfos[cout_ind].active = false;
             abs_x = __builtin_abs(diff_x);
             abs_y = __builtin_abs(diff_y);
-            if (abs_x < abs_y)
-                abs_x = abs_y;
+            abs_x = MAX(abs_x, abs_y);
             divisor = 4;
             divisor = ashl16(abs_x, 4) / divisor;
             obj->speed_x = convertspeed(ashl16(diff_x, 4) / (s16) divisor);

@@ -7,6 +7,8 @@
 /*#define NONMATCHINGS*/
 
 #define FLG(x) (1 << x)
+#define MAX(x, y) ((x) > (y) ? (x) : (y))
+#define MIN(x, y) ((x) < (y) ? (x) : (y))
 
 #define true 1
 #define false 0
