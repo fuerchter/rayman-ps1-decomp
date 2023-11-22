@@ -111,7 +111,54 @@ void DO_BBL_REBOND(Obj *obj)
     recale_position(obj);
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateDog);
+/* 580F8 8017C8F8 -O2 -msoft-float */
+void allocateDog(Obj *bb1_obj)
+{
+    s16 nb_objs = level.nb_objects;
+    Obj *cur = level.objects;
+    s16 i = 0;
+    s16 new_x;
+
+    if (nb_objs != 0)
+    {
+        do
+        {
+            if (cur->type == TYPE_STONEDOG2 && !(cur->flags & FLG(OBJ_ACTIVE)))
+            {
+                if (!((((bb1_obj->flags >> OBJ_FLIP_X) & 1) + YaDesChiens) & 1))
+                {
+                    new_x = -20;
+                    cur->flags |= FLG(OBJ_FLIP_X);
+                }
+                else
+                {
+                    new_x = 260;
+                    cur->flags &= ~FLG(OBJ_FLIP_X);
+                }
+                obj_init(cur);
+                cur->cmd_offset = -1;
+                cur->x_pos = new_x;
+                cur->y_pos = bb1_obj->y_pos - 20;
+                cur->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+                cur->speed_x = 0;
+                cur->speed_y = 0;
+                cur->main_etat = 2;
+                cur->flags = cur->flags & ~FLG(OBJ_FLAG_9);
+                cur->sub_etat = 2;
+                if (cur->flags & FLG(OBJ_FLIP_X))
+                    skipToLabel(cur, 1, 1);
+                else
+                    skipToLabel(cur, 0, 1);
+                calc_obj_pos(cur);
+                if (niveau == 0)
+                    cur->hit_points = 1;
+                break;
+            }
+            cur++;
+            i++;
+        } while (i < nb_objs);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateTir);
 

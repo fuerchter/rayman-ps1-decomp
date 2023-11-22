@@ -222,63 +222,6 @@ void DO_TOTEM_COMMAND(Obj *param_1)
     }
 }
 
-/* 580F8 8017C8F8 -O2 -msoft-float */
-/*INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateDog);*/
-
-/*? calc_obj_pos(Obj *);
-? obj_init(Obj *, s16, u8);
-? skipToLabel(Obj *, ?, ?);*/
-/*void skipToLabel(Obj *obj,u8 label,u8 param_3);*/
-
-void allocateDog(Obj *bb1Obj)
-{
-  ObjFlags OVar1;
-  s16 iVar2;
-  Obj *obj;
-  short sVar3;
-  u8 nb_objs;
-
-  iVar2 = 0;
-  nb_objs = level.nb_objects;
-  obj = level.objects;
-  if (nb_objs != 0) {
-    do {
-      if ((obj->type == TYPE_STONEDOG2) &&
-         (OVar1 = obj->flags, (OVar1 & FLG(OBJ_ACTIVE)) == FLG_OBJ_NONE)) {
-        sVar3 = 0x104;
-        if (((bb1Obj->flags >> 0xe & 1) + (int)YaDesChiens & 1) == 0) {
-          sVar3 = -0x14;
-          OVar1 = OVar1 | FLG(OBJ_FLIP_X);
-        }
-        else {
-          OVar1 = OVar1 & ~FLG(OBJ_FLIP_X);
-        }
-        obj->flags = OVar1;
-        obj_init(obj);
-        obj->cmd_offset = -1;
-        obj->x_pos = sVar3;
-        obj->y_pos = bb1Obj->y_pos - 0x14;
-        obj->flags = obj->flags | (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
-        obj->flags = obj->flags & ~FLG(OBJ_FLAG_9);
-        obj->speed_x = 0;
-        obj->speed_y = 0;
-        obj->main_etat = 2;
-        obj->sub_etat = 2;
-        skipToLabel(obj, (u8)(obj->flags & FLG(OBJ_FLIP_X)),true);
-        calc_obj_pos(obj);
-        if (niveau == 0) {
-          obj->hit_points = 1;
-        }
-        return;
-      }
-      obj = obj + 1;
-      iVar2 = iVar2 + 1;
-
-    } while (iVar2 < nb_objs);
-  }
-  return;
-}
-
 /* reg swaps */
 /* 58278 8017CA78 -O2 -msoft-float */
 /*INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateTir);*/

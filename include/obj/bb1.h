@@ -55,7 +55,7 @@ void DO_TOTEM_COMMAND(Obj *param_1);
 void DO_TOTBT_REBOND(Obj *obj);
 void DO_PI_EXPLOSION2(Obj *obj);
 void DO_BBL_REBOND(Obj *obj);
-void allocateDog(Obj *bb1Obj);
+void allocateDog(Obj *bb1_obj);
 void allocateTir(Obj *param_1, s16 param_2);
 void CreateFirstBBL(void);
 void INIT_BBMONT(Obj *obj);
