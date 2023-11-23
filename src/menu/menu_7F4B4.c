@@ -317,9 +317,44 @@ void AFFICHE_ECRAN_SAVE(void)
     display_text(s_select__return_8012c4cc, 160, 223, 2, 10);
 }
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_DoGameOptionsLoop);
+/* 80538 801A4D38 -O2 -msoft-float*/
+s32 PS1_DoGameOptionsLoop(void)
+{
+  s32 done;
+  
+  readinput();
+  AFFICHE_PAD_SCREEN();
+  DO_COMMANDE_PAD();
+  PS1_SetSoundVolume(PS1_Settings[4]);
+  PS1_SetStereoEnabled(PS1_Settings[5]);
+  PS1_SetMusicVolume(PS1_Settings[3]);
+  if ((ValidButPressed() && position == 7) || StartButPressed())
+  {
+    D_801D7A50 = true;
+    PlaySnd_old(69);
+  }
+  if (MENU_RETURN)
+  {
+    while ((s16) but0pressed(0) || (s16) but1pressed(0) || (s16) but2pressed(0) || (s16) but3pressed(0))
+      readinput();
+  }
+  done = false;
+  if (fin_du_jeu || D_801D7A50 || MENU_RETURN) 
+    done = true;
+  return done;
+}
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_DoGameOptions);
+/* 80690 801A4E90 -O2 -msoft-float */
+void PS1_DoGameOptions(void)
+{
+  FUN_801a6808();
+  FUN_8019eb30();
+  INIT_FADE_IN();
+  FUN_801a76e4();
+  SYNCHRO_LOOP(PS1_DoGameOptionsLoop);
+  FUN_801a6984();
+  DO_FADE_OUT();
+}
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", AFFICHE_PAD_SCREEN);
 

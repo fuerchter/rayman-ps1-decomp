@@ -90,7 +90,7 @@ s32 saisie_nom_prg(void);
 s32 selection_save_option_prg(void);
 void DO_SAVE_CHOICE(void);
 void AFFICHE_ECRAN_SAVE(void);
-s32 FUN_801a4d38(void);
+s32 PS1_DoGameOptionsLoop(void);
 void PS1_DoGameOptions(void);
 void AFFICHE_PAD_SCREEN(void);
 void INIT_SAVE_CHOICE(void);
