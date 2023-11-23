@@ -10,6 +10,9 @@ extern s16 positionx;
 extern s16 compteur_clignote;
 extern s16 D_801F5448;
 extern s16 D_801E5748;
+extern s16 positiony2;
+extern s16 selection_effectuee;
+extern s16 affiche_bon_ecran;
 
 /* 7F4B4 801A3CB4 -O2 */
 void PS1_TextBoxCardOrPassword(void)
@@ -358,9 +361,49 @@ void PS1_DoGameOptions(void)
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", AFFICHE_PAD_SCREEN);
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", INIT_SAVE_CHOICE);
+/* 81074 801A5874 -O2 -msoft-float */
+void INIT_SAVE_CHOICE(void)
+{
+  s16 i;
+  s32 unk_1;
+  
+  D_801F5498 = 3;
+  positiony = 1;
+  positionx2 = 3;
+  button_released = 1;
+  compteur = 0;
+  max_compteur = 100;
+  nouvelle_partie = false;
+  delai_repetition = 12;
+  repetition = 6;
+  MENU_RETURN = 0;
+  basex = 40;
+  sortie_save = 0;
+  positiony2 = NBRE_SAVE + 1;
+  if (NBRE_SAVE && (unk_1 = NBRE_SAVE != false)) /* but, but why though??? */
+  {
+    i = 0;
+    do {
+      LoadInfoGame(i + 1);
+      i++;
+    } while (i < NBRE_SAVE);
+  }
+}
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", INIT_SAVE_CONTINUE);
+/* 8116C 801A596C -O2 -msoft-float */
+void INIT_SAVE_CONTINUE(void)
+{
+  selection_effectuee = 0;
+  realisation_effectuee = 0;
+  fichier_selectionne = 0;
+  fichier_a_copier = 0;
+  action = 0;
+  fin_saisie_nom = false;
+  affiche_bon_ecran = 0;
+  D_801F5448 = 0;
+  compteur_clignote = 0;
+  positionx = 1;
+}
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", DO_COMMANDE_SAVE);
 
