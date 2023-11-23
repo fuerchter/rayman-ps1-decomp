@@ -44,6 +44,16 @@ extern u8 *PS1_SettingStrings[8]; /* if creates conflict here, put in menu_82008
 
 /* .data */
 extern u8 s_start_801cf118[8];
+extern u8 s__801cf120[1];
+extern u8 s_copy_801cf124[5];
+extern u8 s_erase_801cf12c[6];
+extern u8 s_start_801cf134[6];
+extern u8 s__801cf13c[2];
+extern u8 s_801cf141[1];
+extern u8 s_empty_801cf144[6];
+extern u8 s_options_801cf14c[8];
+extern u8 s__801cf154[2];
+extern u8 s_aaa_801cf158[4];
 
 /**/
 extern s16 PS1_SaveMode;

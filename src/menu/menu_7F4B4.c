@@ -1,12 +1,15 @@
 #include "menu/menu_7F4B4.h"
 
 extern s16 realisation_effectuee;
-extern u8 s__801cf120[1];
 extern u8 D_801F7F68[8]; /* size? */
 extern s16 action;
 extern s16 fin_saisie_nom;
 extern u8 save_ray[4][4];
 extern s16 sortie_save;
+extern s16 positionx;
+extern s16 compteur_clignote;
+extern s16 D_801F5448;
+extern s16 D_801E5748;
 
 /* 7F4B4 801A3CB4 -O2 */
 void PS1_TextBoxCardOrPassword(void)
@@ -208,7 +211,111 @@ void DO_SAVE_CHOICE(void)
     DO_FADE_OUT();
 }
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", AFFICHE_ECRAN_SAVE);
+/* 80004 801A4804 -O2 -msoft-float */
+void AFFICHE_ECRAN_SAVE(void)
+{
+    s16 cur_save;
+    s16 cur_char;
+    u8 save_ray_cpy[4];
+    u8 prev_char;
+    s32 c_max = 30;
+
+    INIT_AFFICHE_ECRAN_SAVE();
+    if (compteur < max_compteur)
+    {
+        if (button_released == 0)
+            compteur++;
+        else
+            compteur = 0;
+    }
+    else if (button_released == 0)
+        compteur = delai_repetition + 1;
+    else
+        compteur = 0;
+    
+    if (compteur_clignote < c_max)
+        compteur_clignote++;
+    else
+        compteur_clignote = 0;
+    DO_FADE();
+    CLRSCR();
+    DISPLAY_FOND_MENU();
+    display_text(s_choose_a_game_8012c4e0, 160, debut_titre, 1, 11);
+    display_text(s_copy_801cf124, 30, debut_sortie, 1, 8);
+    display_text(s_erase_801cf12c, 125, debut_sortie, 1, 8);
+    display_text(s_start_801cf134, 223, debut_sortie, 1, 8);
+    
+    for (cur_save = 0; cur_save < NBRE_SAVE; cur_save++)
+    {
+        if (strcmp(save_ray[cur_save + 1], s__801cf120) != 0)
+        {
+            
+            for (cur_char = 1; (u32) cur_char <= strlen(save_ray[cur_save + 1]); cur_char++)
+            {
+                if (
+                    positionx != cur_char || positiony != (cur_save + 1) ||
+                    compteur_clignote <= c_max / 2 ||
+                    D_801F5448 == 0
+                )
+                {
+                    strcpy(save_ray_cpy, save_ray[cur_save + 1]);
+                    save_ray_cpy[cur_char] = 0;
+                    prev_char = save_ray_cpy[cur_char - 1];
+                    if (prev_char == '~')
+                    {
+                        display_text(
+                            s__801cf13c,
+                            basex + (cur_char - 1) * D_801E5748 - 10,
+                            debut_options + cur_save * (ecarty + 23),
+                            1,
+                            3
+                        );
+                    }
+                    else if (prev_char == ' ')
+                    {
+                        display_text(
+                            s_801cf141,
+                            basex + (cur_char - 1) * D_801E5748,
+                            debut_options + cur_save * (ecarty + 23),
+                            1,
+                            3
+                        );
+                    }
+                    else
+                    {
+                        display_text(
+                            save_ray_cpy + (cur_char - 1),
+                            basex + (cur_char - 1) * D_801E5748,
+                            debut_options + cur_save * (ecarty + 23),
+                            1,
+                            colour
+                        );
+                    }
+                }
+            }
+            DISPLAY_SAVE_SPRITES((s16) (basex + (D_801E5748 + 11) * 3 - 30), cur_save);
+        }
+        else
+        {
+            let_shadow = true;
+            display_text(s_empty_801cf144, basex, debut_options + cur_save * (ecarty + 0x17), 1, 3);
+        }
+    }
+    DISPLAY_SAVE_POING();
+    if (
+        (action == 1 && fichier_selectionne != 0) ||
+        (action == 3 && fichier_selectionne != 0)
+    )
+    {
+        display_text(s_up__down__browse_8012c4f0, 160, 193, 2, 10);
+        display_text(s_x__validate_letter_8012c508, 160, 208, 2, 10);
+    }
+    else
+    {
+        display_text(s_x__validate_8012c4bc, 160, 208, 2, 10);
+    }
+    display_text(s_select__return_8012c4cc, 160, 223, 2, 10);
+}
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_DoGameOptionsLoop);
 
