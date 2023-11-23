@@ -232,3 +232,10 @@ INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", REALISATION_ACTION);
 
 const u8 s_x__validate_8012c4bc[] = "/x : validate/";
 const u8 s_select__return_8012c4cc[] = "/select : return/";
+const u8 s_choose_a_game_8012c4e0[] = "/choose a game/";
+const u8 s_up__down__browse_8012c4f0[] = "/up | down : browse/";
+const u8 s_x__validate_letter_8012c508[] = "/x : validate letter/";
+const u8 s_press_wished_button_8012c520[] = "/press wished button/";
+const u8 s_left__right__modify_options_8012c538[] = "/left | right : modify options/";
+const u8 s_up__down__choose_options_8012c558[] = "/up | down : choose options/";
+const u8 s_x_validate_select_quit_game_8012c578[] = "/x: validate select: quit game/";

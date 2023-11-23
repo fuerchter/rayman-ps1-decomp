@@ -12,7 +12,7 @@
 #cc1psx.exe seems to fix these only for arrays/structs (not basic types?)
 #arrays/structs involved in missing_addiu: horloge, block_flags, t_world_info, cptr_tab, D_801C7D20, PS1_AlwaysObjects, text_to_display, atak, SerieDatak
 
-#should strings also be added as const instead of used in their respective functions?
+#add strings as const instead of used in code... (before commit b0ea40a, look for rodata .s that has .asciz)
 #see DO_BBL_COMMAND for slightly nicer way of writing block_flags[mp.map[...]]
 #apply MAX/MIN macros to code from before then
 #for u8 < 2 or >= 2 conditions look at RAY_RESPOND_TO_DOWN e.g.
