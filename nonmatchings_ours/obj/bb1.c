@@ -161,7 +161,7 @@ void DO_BBMONT_COMMAND(Obj *obj)
             obj->flags &= ~FLG(OBJ_FLIP_X);
             if(obj->cmd == GO_RIGHT)
             {
-        case GO_RIGHT:
+        case GO_RIGHT: /* <--- */
                 obj->flags |= FLG(OBJ_FLIP_X);
             }
             SET_X_SPEED(obj);

@@ -101,6 +101,7 @@ s_really_wild_from_now_on_rayman_8012aae0 = 0x8012aae0; // type:asciz force_migr
 s_youll_have_to_be_very_quick_8012ab04 = 0x8012ab04; // type:asciz force_migration:True
 s_now_you_can_run_faster_8012ab28 = 0x8012ab28; // type:asciz force_migration:True
 s_to_run_press__while_walking_8012ab44 = 0x8012ab44; // type:asciz force_migration:True
+s__801cf120 = 0x801cf120;
 
 ray = 0x801f61a0;
 //ray_obj_sprites = 0x801f61a0;

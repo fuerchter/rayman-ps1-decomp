@@ -1,5 +1,13 @@
 #include "menu/menu_7F4B4.h"
 
+extern s16 realisation_effectuee;
+extern u8 s__801cf120[1];
+extern u8 D_801F7F68[8]; /* size? */
+extern s16 action;
+extern s16 fin_saisie_nom;
+extern u8 save_ray[4][4];
+extern s16 sortie_save;
+
 /* 7F4B4 801A3CB4 -O2 */
 void PS1_TextBoxCardOrPassword(void)
 {
@@ -92,13 +100,6 @@ void PS1_DisplayCardOrPassword(void)
 #endif
 
 /* 7FC58 801A4458 -O2 */
-/*? CLRSCR();
-? DISPLAY_FOND_MENU();
-? DO_FADE();
-? PS1_DisplayCardOrPassword();
-? PS1_InputCardOrPassword();
-? readinput();*/
-
 u8 PS1_MenuCardOrPassword(void)
 {
     u8 done;
@@ -119,12 +120,6 @@ u8 PS1_MenuCardOrPassword(void)
 }
 
 /* 7FCEC 801A44EC -O2 */
-/*? DO_FADE_OUT();
-? INIT_FADE_IN();
-? LOAD_SAVE_SCREEN();
-? PS1_PlayCDTrack_0_3();
-? SYNCHRO_LOOP(u8 (*)());*/
-
 void PS1_InitCardOrPassword(void)
 {
     LOAD_SAVE_SCREEN();
@@ -135,11 +130,83 @@ void PS1_InitCardOrPassword(void)
     DO_FADE_OUT();
 }
 
+/* 7FD3C 801A453C -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", saisie_nom_prg);
+#else
+s32 saisie_nom_prg(void)
+{
+  u8 done; /* fine as u8 or s16? */
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", selection_save_option_prg);
+  readinput();
+  __asm__("nop");
+  SAISIE_NOM();
+  readinput();
+  AFFICHE_ECRAN_SAVE();
+  if (action == 3)
+    sortie_save = true;
+  done = false;
+  if (fin_saisie_nom || MENU_RETURN)
+  {
+    done = true;
+    if (MENU_RETURN)
+    {
+      if (action == 1)
+        strcpy(save_ray[fichier_selectionne], &D_801F7F68);
+      else
+        save_ray[fichier_selectionne][0] = s__801cf120[0];
+    }
+  }
+  return done;
+}
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", DO_SAVE_CHOICE);
+/* 7FE30 801A4630 -O2 -msoft-float */
+s32 selection_save_option_prg(void)
+{
+  s32 done;
+  
+  readinput();
+  DO_COMMANDE_SAVE();
+  AFFICHE_ECRAN_SAVE();
+  SELECTION_SAVE_OPTION();
+  REALISATION_ACTION();
+  if
+  (
+    (action == 1 && fichier_selectionne != 0) ||
+    (action == 3 && !fichier_existant && fichier_selectionne != 0)
+  )
+  {
+    if (!fin_saisie_nom)
+      SYNCHRO_LOOP(saisie_nom_prg);
+    if (!MENU_RETURN)
+      SaveGameOnDisk(fichier_selectionne);
+  }
+  while (ValidButPressed())
+    readinput();
+  if (realisation_effectuee)
+    INIT_SAVE_CONTINUE();
+  action = 0;
+  done = false;
+  if (fin_du_jeu || sortie_save || MENU_RETURN)
+    done = true;
+  return done;
+}
+
+/* 7FF90 801A4790 -O2 -msoft-float */
+void DO_SAVE_CHOICE(void)
+{
+    let_shadow = true;
+    LOAD_SAVE_SCREEN();
+    PS1_CheckCardChanged();
+    PS1_PlayCDTrack_0_3();
+    INIT_FADE_IN();
+    INIT_SAVE_CHOICE();
+    INIT_SAVE_CONTINUE();
+    TempsDemo = 0;
+    SYNCHRO_LOOP(selection_save_option_prg);
+    DO_FADE_OUT();
+}
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", AFFICHE_ECRAN_SAVE);
 
