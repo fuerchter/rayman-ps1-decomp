@@ -75,451 +75,412 @@ void BBMONT_ETINCELLES(Obj *param_1)
   return;
 }
 
-/* goal is around 1600? case GO_RIGHT is still bad, a reg swap further down */
+/* matches, but "case GO_LEFT" */
 /* 59248 8017DA48 -O2 -msoft-float */
-/*INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT_COMMAND);*/
-
-/*? CALC_MOV_ON_BLOC(Obj *);
-? GET_SPRITE_POS(Obj *, ?, ? *, void *, u16 *, u16 *);
-? PlaySnd(?, s16);
-s32 calc_typ_travd(Obj *, ?);
-? set_main_and_sub_etat(Obj *, u8, u8);
-? set_sub_etat(Obj *, ?);
-? skipToLabel(Obj *, ?, ?);*/
-void SET_X_SPEED(Obj *obj);
-
+#ifndef NONMATCHINGS /* missing_addiu */
+INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT_COMMAND);
+#else
 void DO_BBMONT_COMMAND(Obj *obj)
 {
-  ObjCommand OVar1;
-  u8 bVar2;
-  short sVar3;
-  uint uVar4;
-  int iVar5;
-  s32 bVar6;
-  u8 uVar7;
-  short local_18;
-  short local_16;
-  s16 temp_v0_2;
-s32 temp_a0;
-s32 temp_a0_2;
-int new_var;
-s16 temp_v0_7;
-    s16 var_v0_2;
-    s16 var_v1;
-    s16 var_v1_2;
-    u8 new_var2;
-  
-  scrollLocked = true;
-  if ((YaDesChiens != 0) && (horlogeDog = horlogeDog - 1, (int)((uint)horlogeDog << 0x10) < 0)) {
-    horlogeDog = 0x32;
-    allocateDog(obj);
-    YaDesChiens = YaDesChiens + -1;
-  }
-  GET_SPRITE_POS(obj,6,&bb1.sprite6_x,&bb1.sprite6_y,&local_18,&local_16);
-  local_18 = obj->x_pos;
-  local_16 = obj->y_pos;
-  if (((uint)obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1) &&
-     (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0)) {
-    FinAnim = true;
-  }
-  else {
-    FinAnim = false;
-  }
-  if ((bb1.field2_0x4 == 2) && (FinAnim != false)) {
-    if ((uint)obj->hit_points == obj->init_hit_points - 1) {
-      skipToLabel(obj,4,true);
-      Phase = 7;
-    }
-    set_main_and_sub_etat(obj,bb1.saved_main_etat,bb1.saved_sub_etat);
-    WaitForFinAtan = 1;
-    obj->cmd = (ObjCommand)bb1.saved_cmd;
-  }
-  if (bb1.field2_0x4 == 1) {
-    if ((obj->main_etat != 0) || (obj->sub_etat != 9)) {
-      bb1.saved_main_etat = obj->main_etat;
-      bb1.saved_sub_etat = obj->sub_etat;
-      set_main_and_sub_etat(obj,0,9);
-      bb1.field2_0x4 = 2;
-      FinAnim = false;
-      obj->speed_x = 0;
-      obj->hit_points--;
-      bb1.saved_cmd = (short)obj->cmd;
-      if (obj->hit_points == 0) {
-        bb1.field2_0x4 = 3;
-        set_main_and_sub_etat(obj,0,0x14);
-        obj->speed_x = 0;
-        bb1.saved_cmd = 0x1a4;
-      }
+    s16 w; s16 h;
+    s32 x_1;
+    s32 x_2;
+    s32 pos_pierre;
+    u8 wait;
+    s16 new_dogs;
+    s16 new_spd_x_1;
+    s16 new_spd_x_2;
 
+    scrollLocked = true;
+    if (YaDesChiens != 0 && --horlogeDog < 0)
+    {
+        horlogeDog = 50;
+        allocateDog(obj);
+        YaDesChiens--;
     }
-    else {
-      bb1.field2_0x4 = 0;
+    GET_SPRITE_POS(obj, 6, &bb1.sprite6_x, &bb1.sprite6_y, &w, &h);
+    w = obj->x_pos;
+    h = obj->y_pos;
+    if (
+        obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1 &&
+        horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
+    )
+        FinAnim = true;
+    else
+        FinAnim = false;
+
+    if (bb1.field2_0x4 == 2 && FinAnim)
+    {
+        if (obj->hit_points == obj->init_hit_points - 1)
+        {
+            skipToLabel(obj, 4, true);
+            Phase = 7;
+        }
+        set_main_and_sub_etat(obj, bb1.saved_main_etat, bb1.saved_sub_etat);
+        WaitForFinAtan = 1;
+        obj->cmd = bb1.saved_cmd;
     }
-  }
+    if (bb1.field2_0x4 == 1)
+    {
+        if (!(obj->main_etat == 0 && obj->sub_etat == 9))
+        {
+            bb1.saved_main_etat = obj->main_etat;
+            bb1.saved_sub_etat = obj->sub_etat;
+            set_main_and_sub_etat(obj, 0, 9);
+            bb1.field2_0x4 = 2;
+            FinAnim = false;
+            obj->speed_x = 0;
+            obj->hit_points--;
+            bb1.saved_cmd = obj->cmd;
+            if (obj->hit_points == 0)
+            {
+                bb1.field2_0x4 = 3;
+                set_main_and_sub_etat(obj, 0, 20);
+                obj->speed_x = 0;
+                bb1.saved_cmd = 420;
+            }
+        }
+        else
+            bb1.field2_0x4 = 0;
+    }
+    
     if (bb1.field2_0x4 == 3)
     {
-        temp_v0_2 = --bb1.saved_cmd;
-        if ((temp_v0_2 << 0x10) <= 0)
+        if (--bb1.saved_cmd < 1)
         {
             fin_boss = 1;
-            bb1.saved_cmd = 0x03E7;
-            *finBosslevel |= 8;
+            bb1.saved_cmd = 999;
+            finBosslevel[0] |= 0x08;
         }
     }
     else
     {
-        OVar1 = obj->cmd;
-        switch(OVar1)
+        switch(obj->cmd)
         {
+        case GO_LEFT:
+            obj->flags &= ~FLG(OBJ_FLIP_X);
+            if(obj->cmd == GO_RIGHT)
+            {
         case GO_RIGHT:
-            obj->flags = obj->flags | FLG(OBJ_FLIP_X);
-        LAB_8017dd9c:
+                obj->flags |= FLG(OBJ_FLIP_X);
+            }
             SET_X_SPEED(obj);
-            uVar4 = calc_typ_travd(obj,false);
-            if ((block_flags[uVar4 & 0xff] >> 4 & 1) != 0) {
-                obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | ((obj->flags >> 0xe ^ 1) & 1) << 0xe;
-                skipToLabel(obj,6,true);
-                if (3 < IndSerie) {
+            if (block_flags[calc_typ_travd(obj, false)] >> BLOCK_FLAG_4 & 1)
+            {
+                /* ??? */
+                obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | ((obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X;
+                skipToLabel(obj, 6, true);
+                if (IndSerie > 3)
                     WaitForFinAtan = 2;
-                }
                 Phase = 8;
             }
-            if (Phase == 7) {
-                temp_a0 = obj->x_pos;
-                new_var = PosPierre + 0xE;
-                if (!(obj->flags & 0x4000))
+            if (Phase == 7)
+            {
+                /* different way to write this, or is this the nicest??? */
+                pos_pierre = PosPierre;
+                x_1 = obj->x_pos;
+                if (
+                    (obj->flags & FLG(OBJ_FLIP_X) && (x_1 < pos_pierre + 14)) ||
+                    (!(obj->flags & FLG(OBJ_FLIP_X))  && (x_1 < pos_pierre - 6)))
                 {
-                    goto block_38;
+                    pos_pierre = PosPierre;
+                    x_2 = obj->x_pos;
+                    if (
+                        (obj->flags & FLG(OBJ_FLIP_X) && (x_2 > pos_pierre + 6)) ||
+                        (!(obj->flags & FLG(OBJ_FLIP_X)) && (x_2 > pos_pierre - 14))
+                    )
+                    {
+                        set_main_and_sub_etat(obj,  0,  2);
+                        skipToLabel(obj,  0,  1);
+                        Phase = 9;
+                    }
                 }
-                if (temp_a0 >= (new_var))
-                {
-                    goto block_45;
-                }
-                goto block_40;
-            block_38:
-                if (temp_a0 >= (PosPierre - 6))
-                {
-                    goto block_45;
-                }
-            block_40:
-                temp_a0_2 = obj->x_pos;
-                new_var = PosPierre + 6;
-                if (!(obj->flags & 0x4000))
-                {
-                    goto block_43;
-                }
-                if ((new_var) < temp_a0_2)
-                {
-                    goto block_44;
-                }
-                goto block_45;
-            block_43:
-                if ((PosPierre - 0xE) >= temp_a0_2)
-                {
-                    goto block_45;
-                }
-            block_44:
-                set_main_and_sub_etat(obj, 0U, 2U);
-                skipToLabel(obj, 0, 1);
-                Phase = 9;
             }
-block_45:
             CALC_MOV_ON_BLOC(obj);
             break;
-        case GO_LEFT:
-            obj->flags = obj->flags & ~FLG(OBJ_FLIP_X);
-            goto LAB_8017dd9c;
-            break;
         case GO_WAIT:
-            switch(Phase) {
+            switch(Phase)
+            {
             case 0:
-                if (bb1.field8_0xe != 0) {
+                if (bb1.field8_0xe != 0)
+                {
                     CreateFirstBBL();
                     WaitForAnim = true;
                     bb1.field8_0xe = 0;
                 }
-                if (FinAnim != false) {
-                    if (WaitForAnim != false) {
-                        obj->anim_frame = 0;
-                        IndSerie = 0;
-                        IndAtak = 0;
-                        WaitForFinAtan = SerieAtakBB[0][0].wait_for_fin_atan;
-                        NextAtak = SerieAtakBB[0][0].attack;
-                        BB_Attaque(obj);
-                    }
+                if (FinAnim && WaitForAnim)
+                {
+                    obj->anim_frame = 0;
+                    IndSerie = 0;
+                    IndAtak = 0;
+                    WaitForFinAtan = SerieAtakBB[0][0].wait_for_fin_atan;
+                    NextAtak = SerieAtakBB[0][0].attack;
+                    BB_Attaque(obj);
                 }
                 break;
             case 1:
-                if ((((obj->sub_etat == 4) && (obj->anim_frame == 0xe)) &&
-                    (horloge[obj->eta[obj->main_etat][4].anim_speed & 0xf] == 0)) && (screen_trembling2 == 0)) {
+                if (
+                    obj->sub_etat == 4 && obj->anim_frame == 0xe &&
+                    horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0 &&
+                    screen_trembling2 == 0
+                )
+                {
                     screen_trembling2 = 1;
-                    allocateTir(obj,4);
+                    allocateTir(obj, 4);
                 }
-                if (FinAnim == false) {
-                    return;
-                }
-                BB_Atan(obj);
+                if (FinAnim)
+                    BB_Atan(obj);
                 break;
             case 2:
-                bVar6 = obj->sub_etat;
-                if (obj->sub_etat == 0xb) {
-                    if ((obj->anim_frame == 0x17) &&
-                        (horloge[obj->eta[obj->main_etat][0xb].anim_speed & 0xf] == 0)) {
-                        allocateTir(obj,1);
-                    }
-                    bVar6 = obj->sub_etat;
+                if (
+                    obj->sub_etat == 11 && obj->anim_frame == 23 &&
+                    horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
+                )
+                {
+                    allocateTir(obj, 1);
                 }
-                if (((bVar6 == 3) && (obj->anim_frame == 0xe)) &&
-                ((horloge[obj->eta[obj->main_etat][3].anim_speed & 0xf] == 0 && (screen_trembling2 == 0)))) {
+                if (
+                    obj->sub_etat == 3 && obj->anim_frame == 14 &&
+                    horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0 &&
+                    screen_trembling2 == 0
+                )
+                {
                     screen_trembling2 = 1;
-                    allocateTir(obj,3);
-                    bVar2 = WaitForFinAtan;
-                    if (niveau == 0) {
-                        WaitForFinAtan = bVar2 + 3;
-                    }
+                    allocateTir(obj, 3);
+                    wait = WaitForFinAtan;
+                    if (niveau == 0)
+                        WaitForFinAtan = wait + 3;
                     else
-                    {
-                        WaitForFinAtan = bVar2 + 1;
-                    }
+                        WaitForFinAtan = wait + 1;
 
                 }
-                bVar6 = obj->sub_etat;
-                if ((bVar6 == 10) && (FinAnim != false)) {
-                    WaitForFinAtan--;
-                    new_var2 = WaitForFinAtan;
-                    if (new_var2 != 0) {
+                if (obj->sub_etat == 10 && FinAnim)
+                {
+                    if (--WaitForFinAtan != 0)
+                    {
                         obj->anim_frame = 0;
-                        set_sub_etat(obj,10);
+                        set_sub_etat(obj, 10);
                     }
-                    bVar6 = obj->sub_etat;
                 }
-                if (bVar6 == 0xb) {
-                    if (FinAnim != false) {
-                        Phase = 0xb;
-                        obj->iframes_timer = 0x23;
+                if (obj->sub_etat == 11) {
+                    if (FinAnim)
+                    {
+                        Phase = 11;
+                        obj->iframes_timer = 35;
                     }
                 }
                 break;
             case 3:
-                if (((obj->sub_etat == 6) && (obj->anim_frame == 0x40)) &&
-                (horloge[obj->eta[obj->main_etat][6].anim_speed & 0xf] == 0)) {
-                    
-                    if (niveau == 0) {
-                        YaDesChiens = 3;
-                    }
+                if (
+                    obj->sub_etat == 6 && obj->anim_frame == 0x40 &&
+                    horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
+                )
+                {
+                    if (niveau == 0)
+                        new_dogs = 3;
                     else
-                    {
-                        YaDesChiens = 4;
-                    }
+                        new_dogs = 4;
+                    YaDesChiens = new_dogs;
                     horlogeDog = 0;
                 }
-                if (FinAnim != false) {
+                if (FinAnim)
                     BB_Atan(obj);
-                }
                 break;
             case 4:
-                if (((obj->sub_etat == 7) && (obj->anim_frame == 0x2c)) &&
-                (horloge[obj->eta[obj->main_etat][7].anim_speed & 0xf] == 0)) {
-                BBMONT_ETINCELLES(obj);
-                PlaySnd(0x72,obj->id);
+                if (
+                    obj->sub_etat == 7 && obj->anim_frame == 44 &&
+                    horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
+                )
+                {
+                    BBMONT_ETINCELLES(obj);
+                    PlaySnd(114, obj->id);
                 }
-                if (FinAnim == false) {
-                    return;
-                }
-                BB_Atan(obj);
+                if (FinAnim)
+                    BB_Atan(obj);                
                 break;
             case 5:
-                if (((obj->sub_etat == 2) && (obj->anim_frame == 0x15)) &&
-                (horloge[obj->eta[obj->main_etat][2].anim_speed & 0xf] == 0)) {
-                BBMONT_ECLAIR(obj);
-                PlaySnd(0x72,obj->id);
+                if (
+                    obj->sub_etat == 2 && obj->anim_frame == 21 &&
+                    horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
+                )
+                {
+                    BBMONT_ECLAIR(obj);
+                    PlaySnd(114, obj->id);
                 }
-                if (FinAnim == false) {
-                return;
+                if (FinAnim)
+                {
+                    obj->anim_frame = 0;
+                    set_sub_etat(obj, 1);
+                    Phase = 10;
                 }
-                obj->anim_frame = 0;
-                set_sub_etat(obj,1);
-                Phase = 10;
                 break;
             case 6:
-                if (FinAnim == false) {
-                    return;
-                }
-                WaitForFinAtan--;
-                new_var2 = WaitForFinAtan;
-                if (new_var2 == 0) {
+                if (FinAnim && --WaitForFinAtan == 0)
                     Fin_BB_Attaque(obj);
-                }
                 break;
             case 7:
-                if (((obj->sub_etat == 8) && (obj->anim_frame == 0xe)) &&
-                (horloge[obj->eta[obj->main_etat][8].anim_speed & 0xf] == 0)) {
-                    allocateTir(obj,0);
+                if (
+                    obj->sub_etat == 8 && obj->anim_frame == 14 &&
+                    horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
+                )
+                {
+                    allocateTir(obj, 0);
                     break;
                 }
-                if (FinAnim != false) {
-                    WaitForFinAtan--;
-                    new_var2 = WaitForFinAtan;
-                    if (new_var2 == 0) {
-                        set_main_and_sub_etat(obj,1,2);
-                        if ((obj->flags & FLG(OBJ_FLIP_X)))
-                        {
-                            skipToLabel(obj,5,true);
-                        }
+                if (FinAnim)
+                {
+                    if (--WaitForFinAtan == 0) {
+                        set_main_and_sub_etat(obj, 1, 2);
+                        if (obj->flags & FLG(OBJ_FLIP_X))
+                            skipToLabel(obj, 5, true);
                         else
-                        {
-                            skipToLabel(obj,4,true);
-                        }
+                            skipToLabel(obj, 4, true);
                     }
                     else
-                    {
-                        set_sub_etat(obj,1);
-                        break;
-                    }
+                        set_sub_etat(obj, 1);
                 }
                 break;
             case 8:
-                if (FinAnim == false) {
-                return;
-                }
-                if (obj->sub_etat != 9) {
-                if (WaitForFinAtan == 2) {
-                    set_main_and_sub_etat(obj,0,1);
-                    WaitForFinAtan--;
-                }
-                else if (bb1.field8_0xe == 0) {
-                    WaitForFinAtan = SerieAtakBB[IndSerie][0].wait_for_fin_atan;
-                    NextAtak = SerieAtakBB[IndSerie][0].attack;
-                    IndAtak = 0;
-                    BB_Attaque(obj);
-                }
-                else {
-                    Fin_BB_Attaque(obj);
-                    bb1.field8_0xe = 0;
-                }
-                }
-                break;
-            case 9:
-                if (((obj->anim_frame == 0x14) &&
-                    (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0)) &&
-                (obj->sub_etat != 9)) {
-                    PierreDoitExploser = 1;
-                }
-                if (FinAnim != false) {
-                    if (bb1.field2_0x4 != 2) {
-                        set_main_and_sub_etat(obj,1,0);
-                        if ((obj->flags & FLG(OBJ_FLIP_X))) {
-                            skipToLabel(obj,5,true);
-                        }
-                        else {
-                            skipToLabel(obj,4,true);
-                        }
-                        PierreDoitExploser = 0;
-                    }
-                }
-                break;
-            case 10:
-                if (FinAnim != false) {
-                    obj->anim_frame = 0;
-                    set_main_and_sub_etat(obj,1,1);
-                    if ((obj->flags & FLG(OBJ_FLIP_X))) {
-                        skipToLabel(obj,5,true);
-                    }
-                    else {
-                        skipToLabel(obj,4,true);
-                    }
-                }
-                break;
-            case 0xb:
-                bVar6 = obj->sub_etat;
-                switch(bVar6)
+                if (FinAnim)
                 {
-                case 3:
-                case 0:
-                    temp_v0_7 = obj->iframes_timer - 1;
-                    obj->iframes_timer = temp_v0_7;
-                    if (temp_v0_7 >= 2)
+                    if (obj->sub_etat != 9)
                     {
-                        obj->speed_y = -8;
-                        obj->gravity_value_1 = 0;
-                        var_v0_2 = -4;
-                        if (obj->flags & 0x4000)
+                        if (WaitForFinAtan == 2)
                         {
-                            var_v0_2 = 4;
+                            set_main_and_sub_etat(obj, 0, 1);
+                            WaitForFinAtan--;
                         }
-                        obj->speed_x = var_v0_2;
-                    }
-                    else
-                    {
-                        set_sub_etat(obj, 4);
-                        var_v1_2 = -2;
-                        if (obj->flags & 0x4000)
+                        else if (bb1.field8_0xe == 0)
                         {
-                            var_v1_2 = 2;
-                        }
-                        obj->speed_x = var_v1_2;
-                    }
-                    break;
-                case 6:
-                    if (FinAnim != false) {
-                        set_main_and_sub_etat(obj,1,0);
-                        if ((obj->flags & FLG(OBJ_FLIP_X)))
-                        {
-                            skipToLabel(obj,5,true);
+                            WaitForFinAtan = SerieAtakBB[IndSerie][0].wait_for_fin_atan;
+                            NextAtak = SerieAtakBB[IndSerie][0].attack;
+                            IndAtak = 0;
+                            BB_Attaque(obj);
                         }
                         else
                         {
-                            skipToLabel(obj,4,true);
+                            Fin_BB_Attaque(obj);
+                            bb1.field8_0xe = 0;
                         }
+                    }
+                }
+                break;
+            case 9:
+                if (
+                    obj->anim_frame == 20 &&
+                    horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0 &&
+                    obj->sub_etat != 9
+                )
+                    PierreDoitExploser = true;
+                if (FinAnim && bb1.field2_0x4 != 2)
+                {
+                    set_main_and_sub_etat(obj, 1, 0);
+                    if (obj->flags & FLG(OBJ_FLIP_X))
+                        skipToLabel(obj, 5, true);
+                    else
+                        skipToLabel(obj, 4, true);
+                    PierreDoitExploser = false;
+                }
+                break;
+            case 10:
+                if (FinAnim)
+                {
+                    obj->anim_frame = 0;
+                    set_main_and_sub_etat(obj, 1, 1);
+                    if (obj->flags & FLG(OBJ_FLIP_X))
+                        skipToLabel(obj, 5, true);
+                    else
+                        skipToLabel(obj, 4, true);
+                }
+                break;
+            case 11:
+                switch(obj->sub_etat)
+                {
+                case 0:
+                case 3:
+                    if (--obj->iframes_timer > 1)
+                    {
+                        obj->speed_y = -8;
+                        obj->gravity_value_1 = 0;
+                        if (obj->flags & FLG(OBJ_FLIP_X))
+                            new_spd_x_1 = 4;
+                        else
+                            new_spd_x_1 = -4;
+                        obj->speed_x = new_spd_x_1;
+                    }
+                    else
+                    {
+                        set_sub_etat(obj,  4);
+                        if (obj->flags & FLG(OBJ_FLIP_X))
+                            new_spd_x_2 = 2;
+                        else
+                            new_spd_x_2 = -2;
+                        obj->speed_x = new_spd_x_2;
+                    }
+                    break;
+                case 6:
+                    if (FinAnim)
+                    {
+                        set_main_and_sub_etat(obj, 1, 0);
+                        if (obj->flags & FLG(OBJ_FLIP_X))
+                            skipToLabel(obj, 5, true);
+                        else
+                            skipToLabel(obj, 4, true);
                     }
                     break;
                 }
                 break;
-            case 0xc:
-                if (((obj->sub_etat == 4) && (obj->anim_frame == 0xe)) &&
-                ((horloge[obj->eta[obj->main_etat][4].anim_speed & 0xf] == 0 && (screen_trembling2 == 0)))) {
-                screen_trembling2 = 1;
-                allocateTir(obj,bb1.field8_0xe + 10);
-                bb1.field8_0xe = bb1.field8_0xe + 1;
-                }
-                if (FinAnim == false) {
-                return;
-                }
-                if (bb1.field8_0xe != 3) break;
-                bb1.field8_0xe = 0;
-                BB_Atan(obj);
-                break;
-            case 0xd:
-                if (obj->sub_etat == 0x16) {
-                bVar6 = obj->anim_frame;
-                if (bVar6 == 0x3f) {
-                    if (horloge[obj->eta[obj->main_etat][0x16].anim_speed & 0xf] == 0) {
-                    allocateTir(obj,1);
-                    }
-                    bVar6 = obj->anim_frame;
-                }
-                if (((bVar6 == 0xe) &&
-                    (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0)) &&
-                    (screen_trembling2 == 0)) {
+            case 12:
+                if (
+                    obj->sub_etat == 4 && obj->anim_frame == 14 &&
+                    horloge[obj->eta[obj->main_etat][4].anim_speed & 0xf] == 0 &&
+                    screen_trembling2 == 0
+                )
+                {
                     screen_trembling2 = 1;
-                    allocateTir(obj,3);
+                    allocateTir(obj, bb1.field8_0xe + 10);
+                    bb1.field8_0xe++;
                 }
-                if (FinAnim == false) {
-                    return;
+                if (FinAnim && bb1.field8_0xe == 3)
+                {
+                    bb1.field8_0xe = 0;
+                    BB_Atan(obj);
                 }
-                Phase = 0xb;
-                obj->iframes_timer = 0x23;
-                bb1.field8_0xe = 1;
+                break;
+            case 13:
+                if (obj->sub_etat == 22)
+                {
+                    if (
+                        obj->anim_frame == 63 &&
+                        horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
+                    )
+                        allocateTir(obj, 1);
+                    if (
+                        obj->anim_frame == 14 &&
+                        horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0 &&
+                        screen_trembling2 == 0
+                    )
+                    {
+                        screen_trembling2 = 1;
+                        allocateTir(obj, 3);
+                    }
+                    if (FinAnim)
+                    {
+                        Phase = 11;
+                        obj->iframes_timer = 35;
+                        bb1.field8_0xe = 1;
+                    }
                 }
             }
             break;
         }
-        if ((FinAnim != false) && (bb1.field2_0x4 == 2)) {
+        if (FinAnim && bb1.field2_0x4 == 2)
             bb1.field2_0x4 = 0;
-        }
-  }
-  return;
+    }
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 }
+#endif
 
 /* still very rough */
 /* 5A2A4 8017EAA4 -O2 -msoft-float */
