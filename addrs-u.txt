@@ -133,6 +133,7 @@ s_vab_file_8012c2b8 = 0x8012c2b8; // type:asciz force_not_migration:True
 s_big_file_8012c2c4 = 0x8012c2c4; // type:asciz force_not_migration:True
 s_vab4sep_file_8012c2d0 = 0x8012c2d0; // type:asciz force_not_migration:True
 s_ini_file_8012c2e0 = 0x8012c2e0; // type:asciz force_not_migration:True
+s_filefxs_801cf0d0 = 0x801cf0d0;
 
 ray = 0x801f61a0;
 //ray_obj_sprites = 0x801f61a0;
