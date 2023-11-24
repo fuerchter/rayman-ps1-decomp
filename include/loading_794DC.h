@@ -36,4 +36,25 @@ extern u8 PS1_HasLoadedFont;
 /**/
 extern s32 PS1_FileTemp;
 
+void PS1_Init_ImgLdrVdoTrk_Files(void);
+void FUN_8019dd74(void);
+void FUN_8019deac(void);
+void FUN_8019df1c(int param_1);
+void LOAD_BIG_RAYMAN(void);
+void LOAD_ALL_FIX(void);
+void load_world(short worldIndex);
+void load_level(void);
+void LOAD_FND(void);
+void PS1_LoadImgWorld(void);
+void PS1_LoadVideoTables(void);
+void PS1_LoadFont(void);
+void LOAD_SCREEN(void);
+void FUN_8019e914(void);
+void LOAD_CONTINUE_SCREEN(void);
+void PS1_LoadImgSplash(void);
+void LOAD_SAVE_SCREEN(void);
+void FUN_8019eb30(void);
+void LOAD_CREDITS_VIGNET(void);
+void LOAD_VIGNET_GAME(void);
+
 #endif

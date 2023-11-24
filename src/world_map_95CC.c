@@ -121,7 +121,7 @@ s32 WORLD_CHOICE(void)
 void DO_WORLD_MAP(void)
 {
     if (ModeDemo == 0)
-        PS1_LoadImaWorld();
+        PS1_LoadImgWorld();
     
     PS1_PlayCDTrack_0_3();
     INIT_FADE_IN();

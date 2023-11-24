@@ -1,5 +1,18 @@
 #include "menu/menu_7F4B4.h"
 
+const u8 s_use_memory_card_8012c484[] = "/use memory card/";
+const u8 s_enter_password_8012c498[] = "/enter password/";
+const u8 s_use_password_8012c4ac[] = "/use password/";
+const u8 s_x__validate_8012c4bc[] = "/x : validate/";
+const u8 s_select__return_8012c4cc[] = "/select : return/";
+const u8 s_choose_a_game_8012c4e0[] = "/choose a game/";
+const u8 s_up__down__browse_8012c4f0[] = "/up | down : browse/";
+const u8 s_x__validate_letter_8012c508[] = "/x : validate letter/";
+const u8 s_press_wished_button_8012c520[] = "/press wished button/";
+const u8 s_left__right__modify_options_8012c538[] = "/left | right : modify options/";
+const u8 s_up__down__choose_options_8012c558[] = "/up | down : choose options/";
+const u8 s_x_validate_select_quit_game_8012c578[] = "/x: validate select: quit game/";
+
 /*
 should probably be macro/inline:
 
@@ -13,10 +26,10 @@ void PS1_TextBoxCardOrPassword(void)
   switch(menuEtape)
   {
     case 1:
-      __builtin_strcpy(text_to_display[1].text, "/use memory card/");
+      __builtin_memcpy(text_to_display[1].text, s_use_memory_card_8012c484, sizeof(s_use_memory_card_8012c484));
       break;
     case 2:
-      __builtin_strcpy(text_to_display[1].text, "/enter password/");
+      __builtin_memcpy(text_to_display[1].text, s_enter_password_8012c498, sizeof(s_enter_password_8012c498));
       break;
   }
   text_to_display[1].x_pos = 160;
@@ -29,7 +42,7 @@ void PS1_TextBoxCardOrPassword(void)
   switch(menuEtape)
   {
     case 1:
-      __builtin_strcpy(text_to_display[2].text, "/use password/");
+      __builtin_memcpy(text_to_display[2].text, s_use_password_8012c4ac, sizeof(s_use_password_8012c4ac));
       break;
     case 2:
       __builtin_memcpy(text_to_display[2].text, s_start_801cf118, sizeof(s_start_801cf118));
@@ -619,13 +632,3 @@ void REALISATION_ACTION(void)
     __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 }
 #endif
-
-const u8 s_x__validate_8012c4bc[] = "/x : validate/";
-const u8 s_select__return_8012c4cc[] = "/select : return/";
-const u8 s_choose_a_game_8012c4e0[] = "/choose a game/";
-const u8 s_up__down__browse_8012c4f0[] = "/up | down : browse/";
-const u8 s_x__validate_letter_8012c508[] = "/x : validate letter/";
-const u8 s_press_wished_button_8012c520[] = "/press wished button/";
-const u8 s_left__right__modify_options_8012c538[] = "/left | right : modify options/";
-const u8 s_up__down__choose_options_8012c558[] = "/up | down : choose options/";
-const u8 s_x_validate_select_quit_game_8012c578[] = "/x: validate select: quit game/";

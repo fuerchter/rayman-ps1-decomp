@@ -50,7 +50,7 @@ u8 PS1_DemoLoop(void)
 
 void PS1_PlayDemo(void)
 {
-    PS1_LoadImaSplash();
+    PS1_LoadImgSplash();
     PS1_PlayCDTrack_0_3();
     INIT_FADE_IN();
     PS1_MENU_RETURN2 = false;

@@ -89,8 +89,10 @@ segments:
       - [0x742C, rodata]
       - [0x77F8, .rodata, obj/moskito] #8012bff8
       - [0x785C, rodata]
+      - [0x7A30, .rodata, loading_794DC] #8012C230
+      - [0x7B68, rodata]
       - [0x7C68, .rodata, demo_7F2BC] #8012c468
-      - [0x7C84, .rodata, menu/menu_7F4B4] #8012c484, TODO: does 8012c4bc used by both menu_7F4B4 and menu_card_7FD3C mean they should be merged/split?
+      - [0x7C84, .rodata, menu/menu_7F4B4] #8012c484
       - [0x7D98, rodata]
       - [0x8830, asm, unknown/8830] #8012D030
       - [0x9424, asm, continue] #8012DC24
@@ -257,7 +259,7 @@ segments:
       - [0x78004, asm, obj/dark2_pink_fly] #8019c804
       - [0x78988, asm, obj/pirate_ngawe] #8019d188
       - [0x79290, asm, obj/ring] #8019da90
-      - [0x794DC, asm, loading_794DC] #8019dcdc
+      - [0x794DC, c, loading_794DC] #8019dcdc
       - [0x7ABA0, c, cheats] #8019f3a0
       - [0x7B048, asm, first_init] #8019F848
       - [0x7B850, c, depart_dead] #801a0050

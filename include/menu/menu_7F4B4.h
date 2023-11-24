@@ -30,17 +30,6 @@ typedef struct OptionsJeu
     s16 field14_0x24;
 } OptionsJeu;
 
-/* .rodata */
-extern const u8 s_x__validate_8012c4bc[];
-extern const u8 s_select__return_8012c4cc[];
-extern const u8 s_choose_a_game_8012c4e0[];
-extern const u8 s_up__down__browse_8012c4f0[];
-extern const u8 s_x__validate_letter_8012c508[];
-extern const u8 s_press_wished_button_8012c520[];
-extern const u8 s_left__right__modify_options_8012c538[];
-extern const u8 s_up__down__choose_options_8012c558[];
-extern const u8 s_x_validate_select_quit_game_8012c578[];
-
 /* .data */
 extern u8 *PS1_SettingStrings[8]; /* if creates conflict here, put in menu_82008 */
 

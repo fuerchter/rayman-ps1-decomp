@@ -59,9 +59,6 @@ typedef struct Unk_801f62a0
     s16 field10_0x16;
 } Unk_801f62a0;
 
-/* .rodata */
-extern u8 snd_sqrt_table[128];
-
 /* .data */
 extern SoundTableEntry sound_table[256];
 extern u8 frame_snd[256];

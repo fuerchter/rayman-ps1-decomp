@@ -1,5 +1,7 @@
 #include "sound.h"
 
+extern u8 snd_sqrt_table[128];
+
 /* too much unknown? */
 extern u8 D_801F7D41;
 extern u8 D_801F7D42;
