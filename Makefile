@@ -12,6 +12,7 @@
 #cc1psx.exe seems to fix these only for arrays/structs (not basic types?)
 #arrays/structs involved in missing_addiu: horloge, block_flags, t_world_info, cptr_tab, D_801C7D20, PS1_AlwaysObjects, text_to_display, atak, SerieDatak
 
+#hardcoded pointers: 0x8005866C
 #add strings as const instead of used in code... (before commit b0ea40a, look for rodata .s that has .asciz)
 #see DO_BBL_COMMAND for slightly nicer way of writing block_flags[mp.map[...]]
 #apply MAX/MIN macros to code from before then
@@ -21,7 +22,6 @@
 #is there a way to inline EOA() (i couldn't find any yet), otherwise use macro? for example check MAIN_NO_MORE_CONTINUE_PRG
 #when would someone actually have written do{}while(0); ? if(1) i can understand https://github.com/zeldaret/oot/pull/946 https://github.com/simonlindholm/decomp-permuter/issues/2 https://stackoverflow.com/questions/257418/do-while-0-what-is-it-good-for
 #split some boss objs again?
-#block_flags accesses could be cleaned up
 #deal with WorldInfo.state
 #can you just write / 2 instead of >> 1? (yes, sometimes removing s16 cast is needed)
 #style: move assignment in if into second if. convert do/whiles into whiles where possible

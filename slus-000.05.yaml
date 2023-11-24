@@ -60,6 +60,8 @@ segments:
     subalign: 4
     subsegments:
       - [0x800, rodata]
+      #- [0x1580, .rodata, data/loading_A0338] #80125d80
+      #- [0x15D4, rodata]
       - [0x2FFC, .rodata, display_ui] #801277fc
       - [0x300C, rodata]
       - [0x3F88, .rodata, obj/mama_pirate] #80128788
@@ -284,6 +286,8 @@ segments:
       - [0x9CA94, data]
       #- [0x9F448, .data, data/demo_9FD4] #801C3C48 TODO: move this to data/ dir once it can be used
       - [0x9FB74, data]
+      #- [0xA0338, .data, data/loading_A0338] #801C4B38
+      #- [0xA03A4, data]
       #- [0xA35A4, .data, data/obj/saxo] #801C7DA4
       - [0xA369C, data]
       #- [0xA36B8, .data, data/command_A36B8] #801c7eb8

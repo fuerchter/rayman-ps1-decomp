@@ -1,19 +1,5 @@
 #include "menu/menu_7F4B4.h"
 
-extern s16 realisation_effectuee;
-extern u8 D_801F7F68[8]; /* size? */
-extern s16 action;
-extern s16 fin_saisie_nom;
-extern u8 save_ray[4][4];
-extern s16 sortie_save;
-extern s16 positionx;
-extern s16 compteur_clignote;
-extern s16 D_801F5448;
-extern s16 D_801E5748;
-extern s16 positiony2;
-extern s16 selection_effectuee;
-extern s16 affiche_bon_ecran;
-
 /*
 should probably be macro/inline:
 
