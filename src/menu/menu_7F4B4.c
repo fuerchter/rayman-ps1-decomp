@@ -385,7 +385,7 @@ void INIT_SAVE_CHOICE(void)
   repetition = 6;
   MENU_RETURN = 0;
   basex = 40;
-  sortie_save = 0;
+  sortie_save = false;
   positiony2 = NBRE_SAVE + 1;
   if (NBRE_SAVE && (unk_1 = NBRE_SAVE != false)) /* but, but why though??? */
   {
@@ -401,7 +401,7 @@ void INIT_SAVE_CHOICE(void)
 void INIT_SAVE_CONTINUE(void)
 {
   selection_effectuee = 0;
-  realisation_effectuee = 0;
+  realisation_effectuee = false;
   fichier_selectionne = 0;
   fichier_a_copier = 0;
   action = 0;
@@ -567,7 +567,72 @@ void SAISIE_NOM(void)
 }
 #endif
 
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", REALISATION_ACTION);
+#else
+void REALISATION_ACTION(void)
+{
+    u8 should_load = false;
+
+    switch (action)
+    {
+    case 1:
+        if (fichier_a_copier != 0)
+        {
+            if ((strcmp(save_ray[fichier_a_copier], s__801cf120) != 0) || (u8) PS1_SaveWldMap())
+                should_load = true;
+            if (should_load)
+            {
+                fichier_selectionne = positiony;
+                strcpy(D_801F7F68, save_ray[positiony]);
+                strcpy(save_ray[fichier_selectionne], save_ray[fichier_a_copier]);
+                /* ??? */
+                loadInfoRay[fichier_selectionne - 1].num_lives = loadInfoRay[fichier_a_copier - 1].num_lives;
+                loadInfoRay[fichier_selectionne - 1].num_wiz = loadInfoRay[fichier_a_copier - 1].num_wiz;
+                loadInfoRay[fichier_selectionne - 1].num_cages = loadInfoRay[fichier_a_copier - 1].num_cages;
+                loadInfoRay[fichier_selectionne - 1].num_continues = loadInfoRay[fichier_a_copier - 1].num_continues;
+                LoadGameOnDisk(fichier_a_copier);
+            }
+            realisation_effectuee = true;
+        }
+        else
+            if (strcmp(save_ray[positiony], s__801cf120) != 0)
+                fichier_a_copier = positiony;
+        break;
+    case 2:
+        if (strcmp(save_ray[positiony], s__801cf120) != 0)
+        {
+            FUN_801a1324();
+            if (positiony_mc == 1)
+            {
+                fichier_selectionne = positiony;
+                FUN_8016bbe4();
+                *save_ray[fichier_selectionne] = *s__801cf120;
+            }
+            realisation_effectuee = true;
+        }
+        break;
+    case 3:
+        fichier_selectionne = positiony;
+        if (strcmp(s__801cf120, save_ray[positiony]) == 0)
+        {
+            fichier_existant = false;
+            nouvelle_partie = true;
+            INIT_NEW_GAME();
+        }
+        else
+        {
+            fichier_existant = true;
+            LoadGameOnDisk(fichier_selectionne);
+            sortie_save = true;
+            new_world = true;
+        }
+        break;
+    }
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 const u8 s_x__validate_8012c4bc[] = "/x : validate/";
 const u8 s_select__return_8012c4cc[] = "/select : return/";

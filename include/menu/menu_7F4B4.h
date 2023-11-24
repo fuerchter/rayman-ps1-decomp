@@ -8,6 +8,7 @@
 #include "fade.h"
 #include "demo_7F2BC.h"
 #include "menu/menu_82008.h"
+#include "card.h"
 
 /* but0pressed etc. return int in ghidra */
 typedef struct OptionsJeu
