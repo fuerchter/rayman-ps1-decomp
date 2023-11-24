@@ -14,6 +14,13 @@ extern s16 positiony2;
 extern s16 selection_effectuee;
 extern s16 affiche_bon_ecran;
 
+/*
+should probably be macro/inline:
+
+button_released != 0 ||
+(compteur > delai_repetition && (compteur % [some_var] == 0))
+*/
+
 /* 7F4B4 801A3CB4 -O2 */
 void PS1_TextBoxCardOrPassword(void)
 {
@@ -399,7 +406,7 @@ void INIT_SAVE_CONTINUE(void)
   fichier_a_copier = 0;
   action = 0;
   fin_saisie_nom = false;
-  affiche_bon_ecran = 0;
+  affiche_bon_ecran = false;
   D_801F5448 = 0;
   compteur_clignote = 0;
   positionx = 1;
@@ -453,7 +460,112 @@ void INIT_AFFICHE_ECRAN_SAVE(void)
 }
 #endif
 
+#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap, missing_nop */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", SAISIE_NOM);
+#else
+void SAISIE_NOM(void)
+{
+    u8 *cur_save_1;
+    u8 *cur_char_1;
+    u8 *cur_save_2;
+    u8 *cur_char_2;
+    u8 new_char;
+
+    if (!fichier_existant && action != 1)
+    {
+        __builtin_memcpy(save_ray[positiony], s_aaa_801cf158, sizeof(s_aaa_801cf158));
+        fichier_existant = true;
+    }
+    if (affiche_bon_ecran)
+        fin_saisie_nom = true;
+    if (ValidButPressed())
+    {
+        cur_save_1 = save_ray[positiony];
+        cur_char_1 = &cur_save_1[positionx];
+        if (*(cur_char_1 - 1) == '~') /* ??? */
+        {
+            if (positionx != 1)
+            {
+                *(cur_char_1 - 1) = 'a';
+                positionx--;
+                PlaySnd_old(68);
+            }
+        }
+        else if (positionx < 3)
+        {
+            positionx++;
+            PlaySnd_old(68);
+        }
+        else
+        {
+            PlaySnd_old(69);
+            affiche_bon_ecran = true;
+        }
+        while(ValidButPressed())
+            readinput();
+    }
+    if (upjoy(0) && !rightjoy(0) && !leftjoy(0))
+    {
+        if(
+            button_released != 0 ||
+            (compteur > delai_repetition && compteur % 3 == 0)
+        )
+        {
+            cur_save_2 = save_ray[positiony];
+            cur_char_2 = &cur_save_2[positionx];
+            if (*(cur_char_2 - 1) == 'z')
+                new_char = ' ';
+            else if (*(cur_char_2 - 1) == ' ')
+                new_char = '~';
+            else if (*(cur_char_2 - 1) == '~')
+                new_char = 'a';
+            else
+                new_char = *(cur_char_2 - 1) + 1;
+            *(cur_char_2 - 1) = new_char;
+            PlaySnd_old(68);
+        }
+    }
+    if (downjoy(0) && !rightjoy(0) && !leftjoy(0))
+    {
+        if(
+            button_released != 0 ||
+            (compteur > delai_repetition && compteur % 3 == 0)
+        )
+        {
+            cur_save_2 = save_ray[positiony];
+            cur_char_2 = &cur_save_2[positionx];
+            if (*(cur_char_2 - 1) == 'a')
+                new_char = '~';
+            else if (*(cur_char_2 - 1) == '~')
+                new_char = ' ';
+            else if (*(cur_char_2 - 1) == ' ')
+                new_char = 'z';
+            else
+                new_char = *(cur_char_2 - 1) - 1;
+            *(cur_char_2 - 1) = new_char;
+            PlaySnd_old(68);
+        }
+    }
+    if (
+      !upjoy(0) && !downjoy(0) && !rightjoy(0) && !leftjoy(0) &&
+      !affiche_bon_ecran && !fin_saisie_nom
+    )
+    {
+        button_released = 1;
+        D_801F5448 = 1;
+        compteur = 0;
+    }
+    else
+    {
+        button_released = 0;
+        D_801F5448 = 0;
+    }
+    if (SelectButPressed() && button_released != 0)
+        MENU_RETURN = true;
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", REALISATION_ACTION);
 

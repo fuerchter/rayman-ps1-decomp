@@ -18,7 +18,7 @@ void PS1_InputCardOrPassword(void)
                 {
                     if (
                         button_released != 0 ||
-                        (compteur > delai_repetition && (compteur % repetition == 0))
+                        (compteur > delai_repetition && compteur % repetition == 0)
                     )
                     {
                         if (positiony > 1)
@@ -33,7 +33,7 @@ void PS1_InputCardOrPassword(void)
                 {
                     if(
                         button_released != 0 ||
-                        (compteur > delai_repetition && (compteur % repetition == 0))
+                        (compteur > delai_repetition && compteur % repetition == 0)
                     )
                     {
                         if (positiony > 1)
@@ -248,7 +248,7 @@ void DO_COMMANDE_SAVE(void)
     {
         if (
             button_released != 0 ||
-            (compteur > delai_repetition && (compteur % repetition == 0))
+            (compteur > delai_repetition && compteur % repetition == 0)
         )
         {
             if (positionx2 == D_801F5498)
@@ -268,7 +268,7 @@ void DO_COMMANDE_SAVE(void)
     {
         if (
             button_released != 0 ||
-            (compteur > delai_repetition && (compteur % repetition == 0))
+            (compteur > delai_repetition && compteur % repetition == 0)
         )
         {
             if (positionx2 == 1)
@@ -288,7 +288,7 @@ void DO_COMMANDE_SAVE(void)
     {
         if (
             button_released != 0 ||
-            (compteur > delai_repetition && (compteur % repetition == 0))
+            (compteur > delai_repetition && compteur % repetition == 0)
         )
         {
             if (positiony < 2)
@@ -305,7 +305,7 @@ void DO_COMMANDE_SAVE(void)
     {
         if (
             button_released != 0 ||
-            (compteur > delai_repetition && (compteur % repetition == 0))
+            (compteur > delai_repetition && compteur % repetition == 0)
         )
         {
             if (positiony == NBRE_SAVE)
