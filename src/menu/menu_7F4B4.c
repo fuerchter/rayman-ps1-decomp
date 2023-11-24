@@ -407,9 +407,51 @@ void INIT_SAVE_CONTINUE(void)
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", DO_COMMANDE_SAVE);
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", SELECTION_SAVE_OPTION);
+/* 81634 801A5E34 -O2 -msoft-float */
+void SELECTION_SAVE_OPTION(void)
+{  
+  if (positionx2 == 1 && ValidButPressed())
+  {
+    action = 1;
+    while (ValidButPressed())
+      readinput();
+    PlaySnd_old(69);
+  }
+  if (positionx2 == 2 && ValidButPressed())
+  {
+    action = 2;
+    while (ValidButPressed())
+      readinput();
+    PlaySnd_old(69);
+  }
+  if ((positionx2 == 3 && ValidButPressed()) || StartButPressed())
+  {
+    action = 3;
+    while ((s16) but0pressed(0) || (s16) but1pressed(0) || (s16) but2pressed(0) || (s16) but3pressed(0))
+      readinput();
+    PlaySnd_old(69);
+  }
+}
 
+/* 81794 801A5F94 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", INIT_AFFICHE_ECRAN_SAVE);
+#else
+void INIT_AFFICHE_ECRAN_SAVE(void)
+{
+    u8 fix_stack[8];
+    s16 y = (108 - NBRE_SAVE * 23) / (NBRE_SAVE + 1);
+
+    basex = 50;
+    debut_titre = 29;
+    D_801E5748 = 21;
+    debut_sortie = 167;
+    ecarty = y;
+    debut_options = y + 59;
+
+    __asm__("nop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", SAISIE_NOM);
 

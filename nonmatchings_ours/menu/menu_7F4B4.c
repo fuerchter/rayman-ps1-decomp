@@ -234,3 +234,104 @@ void AFFICHE_PAD_SCREEN(void)
     display_text(s_up__down__choose_options_8012c558, 0x00A0, 0x00D1, 2, 0x0000000A);
     display_text(s_x_validate_select_quit_game_8012c578, 0x00A0, 0x00DF, 2, 0x0000000A);
 }
+
+/* matches, but clean up */
+/* 811C8 801A59C8 -O2 -msoft-float */
+void DO_COMMANDE_SAVE(void)
+{
+    s16 var_v0;
+    s16 var_v0_4;
+    u16 var_v0_2;
+    u8 var_v0_3;
+
+    if ((rightjoy(0) != 0) && (upjoy(0) == 0) && (downjoy(0) == 0) && (fichier_a_copier == 0))
+    {
+        if (
+            button_released != 0 ||
+            (compteur > delai_repetition && (compteur % repetition == 0))
+        )
+        {
+            if (positionx2 == D_801F5498)
+            {
+                var_v0 = 1;
+            }
+            else
+            {
+                var_v0 = positionx2 + 1;
+            }
+            positionx2 = var_v0;
+            TempsDemo = 0;
+            PlaySnd_old(0x0044);
+        }
+    }
+    if ((leftjoy(0) != 0) && (upjoy(0) == 0) && (downjoy(0) == 0) && (fichier_a_copier == 0))
+    {
+        if (
+            button_released != 0 ||
+            (compteur > delai_repetition && (compteur % repetition == 0))
+        )
+        {
+            if (positionx2 == 1)
+            {
+                var_v0_2 = (u16) D_801F5498;
+            }
+            else
+            {
+                var_v0_2 = positionx2 - 1;
+            }
+            positionx2 = (s16) var_v0_2;
+            TempsDemo = 0;
+            PlaySnd_old(0x0044);
+        }
+    }
+    if ((upjoy(0) != 0) && (leftjoy(0) == 0) && (rightjoy(0) == 0))
+    {
+        if (
+            button_released != 0 ||
+            (compteur > delai_repetition && (compteur % repetition == 0))
+        )
+        {
+            if (positiony < 2)
+            {
+                positiony = NBRE_SAVE;
+            }
+            else
+                positiony = positiony - 1;
+            TempsDemo = 0;
+            PlaySnd_old(0x0044);
+        }
+    }
+    if ((downjoy(0) != 0) && (leftjoy(0) == 0) && (rightjoy(0) == 0))
+    {
+        if (
+            button_released != 0 ||
+            (compteur > delai_repetition && (compteur % repetition == 0))
+        )
+        {
+            if (positiony == NBRE_SAVE)
+            {
+                var_v0_4 = 1;
+            }
+            else
+            {
+                var_v0_4 = positiony + 1;
+            }
+            positiony = var_v0_4;
+            TempsDemo = 0;
+            PlaySnd_old(0x0044);
+        }
+    }
+    if ((rightjoy(0) == 0) && (leftjoy(0) == 0) && (downjoy(0) == 0) && (upjoy(0) == 0))
+    {
+        button_released = 1;
+        compteur = 0;
+    }
+    else
+    {
+        button_released = 0;
+    }
+    if ((SelectButPressed() != 0) && (button_released != 0))
+    {
+        MENU_RETURN = 1;
+    }
+}
