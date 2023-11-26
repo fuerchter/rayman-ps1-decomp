@@ -3,7 +3,7 @@
 extern s16 D_801D7A60;
 extern s16 D_801F8188;
 extern s16 D_801F84A8;
-extern s32 D_801F4A40; /* type? */
+extern s32 D_801F4A40; /* type? see FUN_8013234c */
 extern void *D_801F7E90; /* type? Obj * based on FUN_80132424? */
 extern Font alpha;
 extern Font alpha2;
@@ -37,7 +37,17 @@ void FUN_80132304(u32 *data, u8 height)
   LoadImage(&rect, data);
 }
 
-INCLUDE_ASM("asm/nonmatchings/loading_DA64", FUN_8013234c);
+/* DB4C 8013234C -O2 -msoft-float */
+void FUN_8013234c(u8 *param_1)
+{
+    /*
+    according to ghidra:
+    0xE8 * 4 = 0x3A0 in first if/else
+    0xD in block after
+    hoping this is correct
+    */
+    __builtin_memcpy(&D_801F4A40, param_1, 0x3AD);
+}
 
 /* DC24 80132424 -O2 -msoft-float */
 void FUN_80132424(void)
