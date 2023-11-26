@@ -108,7 +108,7 @@ segments:
       - [0xB438, c, main] #8012fc38
       - [0xB848, asm, music] #80130048
       - [0xD9FC, asm, unknown/D9FC] #801321fc
-      - [0xDA64, asm, loading_DA64] #80132264
+      - [0xDA64, c, loading_DA64] #80132264
       - [0xE098, asm, video] #80132898
       - [0xE99C, asm, loading_E99C] #8013319c
       - [0xED20, asm, input_ED20] #80133520

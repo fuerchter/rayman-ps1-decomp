@@ -10,7 +10,11 @@ in blocks of 0x15800 (LOAD_CREDITS_VIGNET)?
 in blocks of 0x19000 ((unused) FUN_8019ebc0)?
 */
 extern u8 *D_801F4380;
-/* 0x8005866C */ /* used as FileInfo::dest */
+/*
+used as FileInfo::dest
+undefined reference, even if specified in addrs-u.txt???
+*/
+/* 0x8005866C */
 extern void *D_801F4410;
 extern void *D_801F5160; /* type? very prominent in everything up to LOAD_FND */
 extern void *D_801F7E90;
