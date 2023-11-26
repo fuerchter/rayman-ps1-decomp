@@ -1,5 +1,7 @@
 #include "loading_794DC.h"
 
+/* TODO: go through this entire file again and try to actually reverse things... */
+
 void PS1_LoadAllFixTextures(s32 length);
 s32 PS1_LoadFiles(FileInfo *files, s32 fileIndex, s32 count, s32 a3);
 void FUN_801393c8(s32 param_1);
@@ -7,6 +9,8 @@ void FUN_8013948c(s32 param_1);
 void FUN_80139688(s32 tile_set_size);
 void FUN_80139514(s32 param_1);
 void FUN_801395a8(s32 param_1);
+void FUN_80133018(void);
+void PS1_LoadFond(void);
 
 extern s16 no_fnd;
 extern u8 s_filefxs_801cf0d0[8];
@@ -14,7 +18,9 @@ extern s16 plan2_height;
 extern s16 plan2_width;
 extern AllFixData *PS1_AllFixData;
 extern BackgroundData *PS1_LevelBGBlock;
+extern u8 PS1_BackgroundIndexTable[6][30];
 
+/* unknowns */
 extern void *PS1_LevelMapBlock; /* type? */
 extern void *PS1_LevelObjBlock; /* type? */
 extern u8 D_801CF0CA;
@@ -34,9 +40,11 @@ extern s16 D_801CEE9C;
 extern u8 D_801CF0CC;
 extern u8 D_801CF0CD;
 extern void *D_801D7840;
-extern void *D_801E5260;
-extern void *D_801F59E0;
+extern s32 *D_801E5260;
+extern s32 *D_801F59E0;
 extern void *D_801F8190;
+extern void *D_801E4F50;
+extern void *D_801F8180;
 
 /*
 before rodata even, what is this?
@@ -229,7 +237,24 @@ void load_world(s16 world)
 
 INCLUDE_ASM("asm/nonmatchings/loading_794DC", load_level);
 
-INCLUDE_ASM("asm/nonmatchings/loading_794DC", LOAD_FND);
+/* 79E94 8019E694 -O2 -msoft-float */
+void LOAD_FND(void)
+{
+    u8 *unk_1;
+
+    if (no_fnd != PS1_BackgroundIndexTable[num_world - 1][num_level - 1])
+    {
+        no_fnd = PS1_BackgroundIndexTable[num_world - 1][num_level - 1];
+        FUN_80133018();
+        PS1_FileTemp = PS1_LoadFiles(PS1_FndFiles, no_fnd, 1, 0);
+        unk_1 = D_801E5260; /* warning: assignment from incompatible pointer type */
+        D_801F4410 = unk_1;
+        D_801F5160 = unk_1;
+        D_801F8180 = unk_1 + *(D_801E5260 + 1);
+        D_801E4F50 = unk_1 + *(D_801E5260 + 2);
+        PS1_LoadFond();
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/loading_794DC", PS1_LoadImgWorld);
 
