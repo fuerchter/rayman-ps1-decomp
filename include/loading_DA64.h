@@ -19,4 +19,6 @@ typedef struct AllFixData
     Obj objects[29];
 } AllFixData;
 
+extern AllFixData *PS1_AllFixData;
+
 #endif

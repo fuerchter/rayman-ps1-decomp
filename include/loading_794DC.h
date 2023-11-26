@@ -18,6 +18,11 @@ typedef struct FileInfo
 } FileInfo;
 
 /* .data */
+extern s32 *D_801C4374[6];
+extern s32 *D_801C438C[6];
+extern u8 PS1_BackgroundIndexTable[6][30];
+
+/* .data */
 extern FileInfo PS1_ImgFiles[3];
 extern FileInfo PS1_LdrFiles[2];
 extern FileInfo PS1_VdoFiles[6];
@@ -36,10 +41,20 @@ extern FileInfo PS1_FxsFiles[2];
 extern FileInfo PS1_IniFiles[1];
 
 /* .data */
+extern u8 D_801CF0CA;
 extern u8 PS1_HasLoadedFont;
+extern u8 D_801CF0CC;
+extern u8 D_801CF0CD;
+extern u8 s_filefxs_801cf0d0[8];
 
 /**/
 extern s32 PS1_FileTemp;
+extern s16 no_fnd;
+extern s16 plan2_height;
+extern s16 plan2_width;
+extern BackgroundData *PS1_LevelBGBlock;
+extern void *PS1_LevelMapBlock; /* type? */
+extern void *PS1_LevelObjBlock; /* type? */
 
 void PS1_Init_ImgLdrVdoTrk_Files(void);
 void FUN_8019dd74(void);

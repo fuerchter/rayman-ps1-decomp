@@ -18,4 +18,6 @@ typedef u8 VideoState;
 
 extern VideoState PS1_VideoState;
 
+void FUN_80133018(void);
+
 #endif

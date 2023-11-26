@@ -2,28 +2,16 @@
 
 /* TODO: go through this entire file again and try to actually reverse things... */
 
+/* either from fond_10B3C or loading_tex which need to be re-split */
 void PS1_LoadAllFixTextures(s32 length);
-s32 PS1_LoadFiles(FileInfo *files, s32 fileIndex, s32 count, s32 a3);
 void FUN_801393c8(s32 param_1);
 void FUN_8013948c(s32 param_1);
 void FUN_80139688(s32 tile_set_size);
 void FUN_80139514(s32 param_1);
 void FUN_801395a8(s32 param_1);
-void FUN_80133018(void);
 void PS1_LoadFond(void);
 
-extern s16 no_fnd;
-extern u8 s_filefxs_801cf0d0[8];
-extern s16 plan2_height;
-extern s16 plan2_width;
-extern AllFixData *PS1_AllFixData;
-extern BackgroundData *PS1_LevelBGBlock;
-extern u8 PS1_BackgroundIndexTable[6][30];
-
 /* unknowns */
-extern void *PS1_LevelMapBlock; /* type? */
-extern void *PS1_LevelObjBlock; /* type? */
-extern u8 D_801CF0CA;
 extern u8 D_801E4B58;
 /*
 used as FileInfo::dest
@@ -33,18 +21,14 @@ in blocks of 0x19000 ((unused) FUN_8019ebc0)?
 extern u8 *D_801F4380;
 /* 0x8005866C */ /* used as FileInfo::dest */
 extern void *D_801F4410;
-extern void *D_801F5160;
+extern void *D_801F5160; /* type? very prominent in everything up to LOAD_FND */
 extern void *D_801F7E90;
 extern s32 D_80058674;
 extern s32 D_80058678;
 extern s32 D_8005867C;
 extern s32 D_80058684;
-extern s32 *D_801C4374[6];
-extern s32 *D_801c438c[6];
 extern s16 D_801CEE9A;
 extern s16 D_801CEE9C;
-extern u8 D_801CF0CC;
-extern u8 D_801CF0CD;
 extern void *D_801D7840;
 extern s32 *D_801E5260;
 extern s32 *D_801F59E0;
@@ -234,7 +218,7 @@ void load_world(s16 world)
     D_801CEE9C = world;
     D_801CEE9A = 0;
     no_fnd = -1;
-    D_801E5260 = D_801c438c[world - 1];
+    D_801E5260 = D_801C438C[world - 1];
     D_801F59E0 = D_801C4374[world - 1];
     PS1_LoadWorldSound(world);
 
