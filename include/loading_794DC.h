@@ -6,6 +6,7 @@
 #include "psyq_3_0/LIBGPU.H"
 #include "loading_DA64.h"
 #include "sound.h"
+#include "fond_10B3C.h"
 
 typedef struct FileInfo
 {
@@ -45,7 +46,7 @@ void FUN_8019deac(void);
 void FUN_8019df1c(s16 param_1);
 void LOAD_BIG_RAYMAN(void);
 void LOAD_ALL_FIX(void);
-/*void load_world(s16 worldIndex);*/
+void load_world(s16 world);
 void load_level(void);
 void LOAD_FND(void);
 void PS1_LoadImgWorld(void);

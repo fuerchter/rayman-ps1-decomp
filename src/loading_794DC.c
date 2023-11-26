@@ -5,13 +5,18 @@ s32 PS1_LoadFiles(FileInfo *files, s32 fileIndex, s32 count, s32 a3);
 void FUN_801393c8(s32 param_1);
 void FUN_8013948c(s32 param_1);
 void FUN_80139688(s32 tile_set_size);
+void FUN_80139514(s32 param_1);
+void FUN_801395a8(s32 param_1);
 
 extern s16 no_fnd;
 extern u8 s_filefxs_801cf0d0[8];
 extern s16 plan2_height;
 extern s16 plan2_width;
 extern AllFixData *PS1_AllFixData;
+extern BackgroundData *PS1_LevelBGBlock;
 
+extern void *PS1_LevelMapBlock; /* type? */
+extern void *PS1_LevelObjBlock; /* type? */
 extern u8 D_801CF0CA;
 extern u8 D_801E4B58;
 extern u8 *D_801F4380;
@@ -22,11 +27,12 @@ extern s32 D_80058674;
 extern s32 D_80058678;
 extern s32 D_8005867C;
 extern s32 D_80058684;
-extern s32 *D_801C4374[12]; /* just a guess for now */
+extern s32 *D_801C4374[6];
+extern s32 *D_801c438c[6];
 extern s16 D_801CEE9A;
 extern s16 D_801CEE9C;
-extern s8 D_801CF0CC;
-extern s8 D_801CF0CD;
+extern u8 D_801CF0CC;
+extern u8 D_801CF0CD;
 extern void *D_801D7840;
 extern void *D_801E5260;
 extern void *D_801F59E0;
@@ -189,7 +195,37 @@ void LOAD_ALL_FIX(void)
     PS1_LoadAllFixSound();
 }
 
+/* 79A98 8019E298 -O2 -msoft-float */
+#ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/loading_794DC", load_world);
+#else
+void load_world(s16 world)
+{
+    FUN_80133018();
+    PS1_FileTemp = PS1_LoadFiles(&PS1_WldFiles[world - 1], 0, 1, 0);
+    D_801F4410 = (void *)0x8005866C;
+    D_801F5160 = (void *)0x8005866C;
+    D_801D7840 = D_80058674 + (void *)0x8005866C;
+    D_801F4380 = D_80058678 + (void *)0x8005866C;
+    D_801F8190 = D_80058684 + (void *)0x8005866C;
+    FUN_8013948c(D_8005867C - D_80058678);
+    LoadClut(D_801F4410 + *(((s32 *) D_801F5160) + 4), 768, 490);
+    LoadClut(D_801F4410 + *(((s32 *) D_801F5160) + 5), 768, 491);
+    FUN_80139688(*(((s32 *) D_801F5160) + 7) - *(((s32 *) D_801F5160) + 6));
+    D_801CF0CC = 0;
+    D_801CF0CD = 0;
+    FUN_80132304(D_801F4410 + *(((s32 *) D_801F5160) + 7), (u8) ((u32) (*((s32 *) D_801F5160 + 8) - *(((s32 *) D_801F5160) + 7)) >> 9));
+    FUN_8013234c(D_801F4410 + *(((s32 *) D_801F5160) + 8));
+    D_801CEE9C = world;
+    D_801CEE9A = 0;
+    no_fnd = -1;
+    D_801E5260 = D_801c438c[world - 1];
+    D_801F59E0 = D_801C4374[world - 1];
+    PS1_LoadWorldSound(world);
+
+    __asm__("nop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/loading_794DC", load_level);
 
