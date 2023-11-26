@@ -25,7 +25,12 @@ extern void *PS1_LevelMapBlock; /* type? */
 extern void *PS1_LevelObjBlock; /* type? */
 extern u8 D_801CF0CA;
 extern u8 D_801E4B58;
-extern u8 *D_801F4380; /* used as FileInfo::dest, in blocks of 0x19000 ((unused) FUN_8019ebc0)? */
+/*
+used as FileInfo::dest
+in blocks of 0x15800 (LOAD_CREDITS_VIGNET)?
+in blocks of 0x19000 ((unused) FUN_8019ebc0)?
+*/
+extern u8 *D_801F4380;
 /* 0x8005866C */ /* used as FileInfo::dest */
 extern void *D_801F4410;
 extern void *D_801F5160;
@@ -377,6 +382,156 @@ void FUN_8019eb30(void)
 
 INCLUDE_ASM("asm/nonmatchings/loading_794DC", FUN_8019ebc0);
 
+/* 7A688 8019EE88 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/loading_794DC", LOAD_CREDITS_VIGNET);
+#else
+void LOAD_CREDITS_VIGNET(void)
+{
+    switch (display_Vignet)
+    {
+    case 0:
+        D_801F4380 = (void *)0x8005866C;
+        PS1_CrdFiles[0].dest = (void *)0x8005866C;
+        PS1_FileTemp = PS1_LoadFiles(PS1_CrdFiles, 0, 1, 0);
+        D_801F4380 += 0x15800;
+        PS1_CrdFiles[1].dest = D_801F4380;
+        PS1_FileTemp = PS1_LoadFiles(PS1_CrdFiles, 1, 1, 0);
+        D_801F4380 += 0x15800;
+        PS1_CrdFiles[2].dest = D_801F4380;
+        PS1_FileTemp = PS1_LoadFiles(PS1_CrdFiles, 2, 1, 0);
+        D_801F4380 += 0x15800;
+        PS1_CrdFiles[3].dest = D_801F4380;
+        PS1_FileTemp = PS1_LoadFiles(PS1_CrdFiles, 3, 1, 0);
+        D_801F4380 += 0x15800;
+        PS1_CrdFiles[4].dest = D_801F4380;
+        PS1_FileTemp = PS1_LoadFiles(PS1_CrdFiles, 4, 1, 0);
+        D_801F4380 += 0x15800;
+        PS1_CrdFiles[5].dest = D_801F4380;
+        PS1_FileTemp = PS1_LoadFiles(PS1_CrdFiles, 5, 1, 0);
+        D_801F4380 = (void *)0x8005866C;
+        plan2_width = 206;
+        plan2_height = 200;
+        D_801E4B58 = 0;
+        D_801CF0CA = 0xFF;
+        break;
+    case 1:
+        D_801F4380 += 0x15800;
+        plan2_width = 199;
+        plan2_height = 200;
+        D_801E4B58 = 0;
+        D_801CF0CA = 0xFF;
+        break;
+    case 2:
+        D_801F4380 += 0x15800;
+        plan2_width = 182;
+        plan2_height = 200;
+        D_801E4B58 = 0;
+        D_801CF0CA = 0xFF;
+        break;
+    case 3:
+        D_801F4380 += 0x15800;
+        plan2_width = 195;
+        plan2_height = 200;
+        D_801E4B58 = 0;
+        D_801CF0CA = 0xFF;
+        break;
+    case 4:
+        D_801F4380 += 0x15800;
+        plan2_width = 214;
+        plan2_height = 200;
+        D_801E4B58 = 0;
+        D_801CF0CA = 0xFF;
+        break;
+    case 5:
+        D_801F4380 += 0x15800;
+        plan2_width = 187;
+        plan2_height = 200;
+        D_801E4B58 = 0;
+        D_801CF0CA = 0xFF;
+        break;
+    }
 
+    __asm__("nop");
+}
+#endif
+
+/* 7A924 8019F124 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/loading_794DC", LOAD_VIGNET_GAME);
+#else
+void LOAD_VIGNET_GAME(void)
+{
+    s16 unk_1 = num_world - 1;
+
+    switch (unk_1)
+    {
+    case 0:
+        if (num_level == 9)
+        {
+            PS1_GamFiles[0].dest = D_801F4380;
+            PS1_FileTemp = PS1_LoadFiles(PS1_GamFiles, 0, 1, 0);
+            plan2_width = 178;
+            plan2_height = 150;
+            D_801E4B58 = 0;
+            D_801CF0CA = 0;
+        }
+        break;
+    case 2:
+        if (num_level == 6)
+        {
+            PS1_GamFiles[1].dest = D_801F4380;
+            PS1_FileTemp = PS1_LoadFiles(PS1_GamFiles, 1, 1, 0);
+            plan2_width = 159;
+            plan2_height = 150;
+            D_801E4B58 = 0;
+            D_801CF0CA = 0;
+        }
+        break;
+    case 3:
+        if (num_level == 11)
+        {
+            PS1_GamFiles[2].dest = D_801F4380;
+            PS1_FileTemp = PS1_LoadFiles(PS1_GamFiles, 2, 1, 0);
+            plan2_width = 171;
+            plan2_height = 150;
+            D_801E4B58 = 0;
+            D_801CF0CA = 0;
+        }
+        break;
+    case 4:
+        if (num_level == 3)
+        {
+            PS1_GamFiles[3].dest = D_801F4380;
+            PS1_FileTemp = PS1_LoadFiles(PS1_GamFiles, 3, 1, 0);
+            plan2_width = 162;
+            plan2_height = 150;
+            D_801E4B58 = 0;
+            D_801CF0CA = 0;
+        }
+        if (num_level == 11)
+        {
+            PS1_GamFiles[4].dest = D_801F4380;
+            PS1_FileTemp = PS1_LoadFiles(PS1_GamFiles, 4, 1, 0);
+            plan2_width = 168;
+            plan2_height = 150;
+            D_801E4B58 = 0;
+            D_801CF0CA = 0;
+        }
+        break;
+    case 5:
+        if (num_level == 4)
+        {
+            PS1_GamFiles[5].dest = D_801F4380;
+            PS1_FileTemp = PS1_LoadFiles(PS1_GamFiles, 5, 1, 0);
+            plan2_width = 306;
+            plan2_height = 240;
+            D_801E4B58 = 0;
+            D_801CF0CA = 0;
+        }
+        break;
+    }
+
+    __asm__("nop");
+}
+#endif
