@@ -53,3 +53,77 @@ void load_level(void)
         break;
     }
 }
+
+/* would match, if return set to s16... */
+/* 7A3C0 8019EBC0 -O2 -msoft-float */
+/*INCLUDE_ASM("asm/nonmatchings/loading_794DC", FUN_8019ebc0);*/
+
+void FUN_8019ebc0(void)
+{
+    if (D_801D7878 != 0)
+    {
+        switch (Etape_History)
+        {
+        case 1:
+            D_801F4380 = (void *)0x8005866C;
+            PS1_PreFiles[0].dest = (void *)0x8005866C;
+            PS1_FileTemp = PS1_LoadFiles(PS1_PreFiles, 0, 1, 0);
+            D_801F4380 += 0x19000;
+            PS1_PreFiles[1].dest = D_801F4380;
+            PS1_FileTemp = PS1_LoadFiles(PS1_PreFiles, 1, 1, 0);
+            D_801F4380 += 0x19000;
+            PS1_PreFiles[2].dest = D_801F4380;
+            PS1_FileTemp = PS1_LoadFiles(PS1_PreFiles, 2, 1, 0);
+            D_801F4380 += 0x19000;
+            PS1_PreFiles[3].dest = D_801F4380;
+            PS1_FileTemp = PS1_LoadFiles(PS1_PreFiles, 3, 1, 0);
+            D_801F4380 += 0x19000;
+            PS1_PreFiles[4].dest = D_801F4380;
+            PS1_FileTemp = PS1_LoadFiles(PS1_PreFiles, 4, 1, 0);
+            D_801F4380 = (void *)0x8005866C;
+            plan2_width = 254;
+            plan2_height = 180;
+            D_801E4B58 = 0;
+            D_801CF0CA = 0;
+            return;
+        case 2:
+            D_801F4380 += 0x19000;
+            plan2_width = 208;
+            plan2_height = 180;
+            D_801E4B58 = 0;
+            D_801CF0CA = 0;
+            break;
+        case 3:
+            D_801F4380 += 0x19000;
+            plan2_width = 200;
+            plan2_height = 200;
+            D_801E4B58 = 0;
+            D_801CF0CA = 0;
+            break;
+        case 4:
+            D_801F4380 += 0x19000;
+            plan2_width = 200;
+            plan2_height = 180;
+            D_801E4B58 = 0;
+            D_801CF0CA = 0;
+            break;
+        case 5:
+            D_801F4380 += 0x19000;
+            plan2_width = 146;
+            plan2_height = 150;
+            D_801E4B58 = 0;
+            D_801CF0CA = 0;
+            break;
+        }
+    }
+    else
+    {
+        D_801F4380 = (void *)0x8005866C;
+        PS1_PreFiles[4].dest = (void *)0x8005866C;
+        PS1_FileTemp = PS1_LoadFiles(PS1_PreFiles, 4, 1, 0);
+        plan2_width = 146;
+        plan2_height = 150;
+        D_801E4B58 = 0;
+        D_801CF0CA = 0;
+    }
+}

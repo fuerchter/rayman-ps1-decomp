@@ -25,7 +25,8 @@ extern void *PS1_LevelMapBlock; /* type? */
 extern void *PS1_LevelObjBlock; /* type? */
 extern u8 D_801CF0CA;
 extern u8 D_801E4B58;
-extern u8 *D_801F4380;
+extern u8 *D_801F4380; /* used as FileInfo::dest, in blocks of 0x19000 ((unused) FUN_8019ebc0)? */
+/* 0x8005866C */ /* used as FileInfo::dest */
 extern void *D_801F4410;
 extern void *D_801F5160;
 extern void *D_801F7E90;
@@ -45,6 +46,7 @@ extern s32 *D_801F59E0;
 extern void *D_801F8190;
 extern void *D_801E4F50;
 extern void *D_801F8180;
+extern u8 D_801D7878;
 
 /*
 before rodata even, what is this?
@@ -256,23 +258,122 @@ void LOAD_FND(void)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/loading_794DC", PS1_LoadImgWorld);
+/* 79F70 8019E770 -O2 -msoft-float */
+void PS1_LoadImgWorld(void)
+{
+  no_fnd = -1;
+  FUN_80133018();
+  PS1_ImgFiles[2].dest = D_801F4380;
+  D_801F8180 = D_801F4380;
+  PS1_FileTemp = PS1_LoadFiles(PS1_ImgFiles, 2, 1, 0);
+  D_801CF0CD = 0;
+  PS1_LoadFond();
+}
 
-INCLUDE_ASM("asm/nonmatchings/loading_794DC", PS1_LoadVideoTables);
+/* 79FE4 8019E7E4 -O2 -msoft-float */
+void PS1_LoadVideoTables(void)
+{
+  FUN_80133018();
+  PS1_FileTemp = PS1_LoadFiles(PS1_VdoFiles, 0, 1, 0);
+}
 
-INCLUDE_ASM("asm/nonmatchings/loading_794DC", PS1_LoadFont);
+/* 7A024 8019E824 -O2 -msoft-float */
+void PS1_LoadFont(void)
+{
+  if (!PS1_HasLoadedFont)
+  {
+    PS1_FxsFiles[1].dest = D_801F4380;
+    PS1_FileTemp = PS1_LoadFiles(PS1_FxsFiles, 1, 1, 0);
+    FUN_80139624(PS1_FxsFiles[1].file.size);
+    PS1_HasLoadedFont = true;
+  }
+}
 
-INCLUDE_ASM("asm/nonmatchings/loading_794DC", LOAD_SCREEN);
+/* 7A094 8019E894 -O2 -msoft-float */
+void LOAD_SCREEN(void)
+{
+    D_801F4380 = (void *)0x8005866C;
+    PS1_LdrFiles[0].dest = (void *)0x8005866C;
+    FUN_80133018();
+    PS1_FileTemp = PS1_LoadFiles(PS1_LdrFiles, 0, 1, 0);
+    plan2_width = 640;
+    plan2_height = 262;
+    D_801E4B58 = 0;
+    D_801CF0CA = 0;
+}
 
-INCLUDE_ASM("asm/nonmatchings/loading_794DC", FUN_8019e914);
+/* 7A114 8019E914 -O2 -msoft-float */
+void FUN_8019e914(void)
+{
+    D_801F4380 = (void *)0x8005866C;
+    PS1_LdrFiles[1].dest = (void *)0x8005866C;
+    FUN_80133018();
+    PS1_FileTemp = PS1_LoadFiles(PS1_LdrFiles, 1, 1, 0);
+    plan2_width = 279;
+    plan2_height = 90;
+    D_801E4B58 = 0;
+    D_801CF0CA = 0;
+}
 
-INCLUDE_ASM("asm/nonmatchings/loading_794DC", LOAD_CONTINUE_SCREEN);
+/* 7A194 8019E994 -O2 -msoft-float */
+void LOAD_CONTINUE_SCREEN(void)
+{
+    PS1_ImgFiles[1].dest = D_801F4380;
+    FUN_80133018();
+    PS1_FileTemp = PS1_LoadFiles(PS1_ImgFiles, 1, 1, 0);
+    plan2_width = 320;
+    plan2_height = 137;
+    D_801E4B58 = 1;
+    D_801CF0CA = 0;
+}
 
-INCLUDE_ASM("asm/nonmatchings/loading_794DC", PS1_LoadImgSplash);
+/* 7A210 8019EA10 -O2 -msoft-float */
+void PS1_LoadImgSplash(void)
+{
+    if (D_801CF0CD == 0)
+    {
+        PS1_ImgFiles[0].dest = D_801F4380;
+        FUN_80133018();
+        PS1_FileTemp = PS1_LoadFiles(PS1_ImgFiles, 0, 1, 0);
+        plan2_width = 320;
+        plan2_height = 240;
+        D_801E4B58 = 0;
+        D_801CF0CA = 0;
+        D_801CF0CD = 1;
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/loading_794DC", LOAD_SAVE_SCREEN);
+/* 7A2A0 8019EAA0 -O2 -msoft-float */
+void LOAD_SAVE_SCREEN(void)
+{
+    if (D_801CF0CD == 0)
+    {
+        PS1_ImgFiles[0].dest = D_801F4380;
+        FUN_80133018();
+        PS1_FileTemp = PS1_LoadFiles(PS1_ImgFiles, 0, 1, 0);
+        plan2_width = 320;
+        plan2_height = 240;
+        D_801E4B58 = 0;
+        D_801CF0CA = 0;
+        D_801CF0CD = 1;
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/loading_794DC", FUN_8019eb30);
+/* 7A330 8019EB30 -O2 -msoft-float */
+void FUN_8019eb30(void)
+{
+    if (D_801CF0CD == 0)
+    {
+        PS1_ImgFiles[0].dest = D_801F4380;
+        FUN_80133018();
+        PS1_FileTemp = PS1_LoadFiles(PS1_ImgFiles, 0, 1, 0);
+        plan2_width = 320;
+        plan2_height = 240;
+        D_801E4B58 = 0;
+        D_801CF0CA = 0;
+        D_801CF0CD = 1;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/loading_794DC", FUN_8019ebc0);
 

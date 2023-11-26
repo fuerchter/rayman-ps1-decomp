@@ -7,6 +7,7 @@
 #include "loading_DA64.h"
 #include "sound.h"
 #include "fond_10B3C.h"
+#include "menu/menu_6A3BC.h"
 
 typedef struct FileInfo
 {
@@ -52,7 +53,7 @@ void LOAD_FND(void);
 void PS1_LoadImgWorld(void);
 void PS1_LoadVideoTables(void);
 void PS1_LoadFont(void);
-void LOAD_SCREEN(void);
+void LOAD_SCREEN(void); /* labelled correctly? */
 void FUN_8019e914(void);
 void LOAD_CONTINUE_SCREEN(void);
 void PS1_LoadImgSplash(void);

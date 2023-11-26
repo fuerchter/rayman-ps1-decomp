@@ -113,7 +113,7 @@ segments:
       - [0xE99C, asm, loading_E99C] #8013319c
       - [0xED20, asm, input_ED20] #80133520
       - [0x10B3C, asm, fond_10B3C] #8013533C
-      - [0x13B38, asm, loading_tex] #80138338
+      - [0x13B38, asm, loading_tex] #80138338 TODO: recheck split both start and end
       - [0x15340, asm, display] #80139B40
       - [0x18118, asm, text_18118] #8013c918
       - [0x19A38, c, display_ui] #8013e238
@@ -147,7 +147,7 @@ segments:
       - [0x37A9C, c, obj/fish] #8015c29c
       - [0x380A0, asm, obj/balle] #8015c8a0
       - [0x38118, asm, obj/stonebomb] #8015c918
-      - [0x395B0, asm, obj/dard] #8015ddb0 #TODO: should dard and spider be merged?
+      - [0x395B0, asm, obj/dard] #8015ddb0 TODO: should dard and spider be merged?
       - [0x39738, asm, obj/spider_39738] #8015df38
       - [0x3979C, asm, obj/platform] #8015df9c
       - [0x398E8, asm, obj/graine] #8015e0e8
