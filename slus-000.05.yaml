@@ -113,8 +113,8 @@ segments:
       - [0xE99C, asm, loading_E99C] #8013319c
       - [0xED20, asm, input_ED20] #80133520
       - [0x10B3C, asm, fond_10B3C] #8013533C
-      - [0x13B38, asm, loading_tex] #80138338 TODO: recheck split both start and end
-      - [0x15340, asm, display] #80139B40
+      - [0x14AD8, asm, loading_tex] #801392D8 TODO: re-did split (start and end), but still not 100% certain
+      - [0x14FF4, asm, display] #801397F4
       - [0x18118, asm, text_18118] #8013c918
       - [0x19A38, c, display_ui] #8013e238
       - [0x1B1F0, asm, collision/collision] #8013f9f0
