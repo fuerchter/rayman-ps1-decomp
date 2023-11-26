@@ -6,6 +6,7 @@
 #include "obj_update.h"
 #include "collision/collision_block.h"
 #include "loading_794DC.h"
+#include "display_ui.h"
 
 typedef struct Font
 {
