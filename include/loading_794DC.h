@@ -5,6 +5,7 @@
 #include "psyq_3_0/LIBCD.H"
 #include "psyq_3_0/LIBGPU.H"
 #include "loading_DA64.h"
+#include "loading_tex.h"
 #include "sound.h"
 #include "fond_10B3C.h"
 #include "menu/menu_6A3BC.h"

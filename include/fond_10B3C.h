@@ -16,4 +16,6 @@ typedef struct BackgroundData
     Sprite sprites[16];
 } BackgroundData;
 
+void PS1_LoadFond(void);
+
 #endif

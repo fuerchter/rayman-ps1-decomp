@@ -2,15 +2,6 @@
 
 /* TODO: go through this entire file again and try to actually reverse things... */
 
-/* either from fond_10B3C or loading_tex which need to be re-split */
-void PS1_LoadAllFixTextures(s32 length);
-void FUN_801393c8(s32 param_1);
-void FUN_8013948c(s32 param_1);
-void FUN_80139688(s32 tile_set_size);
-void FUN_80139514(s32 param_1);
-void FUN_801395a8(s32 param_1);
-void PS1_LoadFond(void);
-
 /* unknowns */
 extern u8 D_801E4B58;
 /*
