@@ -30,21 +30,55 @@ void PS1_SetTypeZDC(ObjType type, u16 param_2, s32 param_3)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", get_nb_zdc);
+/* 1B270 8013FA70 -O2 -msoft-float */
+u16 get_nb_zdc(Obj *obj)
+{
+    return obj->zdc >> 11;
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", get_zdc_index);
+/*
+first 11 bits, see
+https://github.com/BinarySerializer/BinarySerializer.Ray1/blob/0323431715346d65200f898664351932b86deb8b/src/BinarySerializer.Ray1/DataTypes/Collision/ZDCReference.cs#L6
+*/
+/* 1B27C 8013FA7C -O2 -msoft-float */
+u16 get_zdc_index(Obj *obj)
+{
+    return obj->zdc & 0x7ff;
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", get_zdc);
+/* 1B288 8013FA88 -O2 -msoft-float */
+ZDC *get_zdc(Obj *obj, s16 param_2)
+{
+    return &zdc_tab[(s16) get_zdc_index(obj) + param_2];
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", get_ZDCPTR);
+/*INCLUDE_ASM("asm/nonmatchings/collision/collision", get_ZDCPTR);*/
+
+s16 get_ZDCPTR(void)
+{
+    return ZDCPTR;
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", in_coll_sprite_list);
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", box_inter_v_line);
+/* ??? think param_6 and 7 might be s32 ??? */
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", box_inter_h_line);
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", inter_box);
+/* 1B57C 8013FD7C -O2 -msoft-float */
+u8 inter_box(s32 x_1, s32 y_1, s32 w_1, s32 h_1, s16 x_2, s16 y_2, s32 w_2, s32 h_2)
+{
+    s16 unk_1 = x_1 - w_2;
+    s16 unk_2 = y_1 - h_2;
+    s16 unk_3 = w_1 + w_2;
+    s16 unk_4 = h_1 + h_2;
+    u8 res = false;
+
+    if (x_2 >= unk_1 && y_2 >= unk_2 && (unk_1 + unk_3 >= x_2))
+        res = (unk_2 + unk_4 < y_2) ^ 1;
+    return res;
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", GET_OBJ_ZDC); /**/
 
