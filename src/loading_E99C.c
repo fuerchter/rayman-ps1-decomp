@@ -1,11 +1,39 @@
 #include "loading_E99C.h"
 
-const u8 s_FILE_INFO_sd___801272a8[] = "FILE_INFO %s[%d] =\r\n{\r\n";
-const u8 s__s_void0x08x_void0x_801272c0[] = "\t{\"%s\", (void*)0x%08x, (void*)0x%08x, {{%d,%d,%d,%d},%ld,\"%s\"}},\r\n";
+/* E818 80133018 -O2 -msoft-float */
+void FUN_80133018(void)
+{
+  ResetCallback();
+  CdSyncCallback(null);
+  CdReadyCallback(null);
+}
 
-INCLUDE_ASM("asm/nonmatchings/loading_E99C", FUN_80133018);
+/* using const vars for this rodata would have caused
+warning: passing arg 2 of `sprintf' discards `const' from pointer target type */
+/* E848 80133048 -O2 -msoft-float */
+void FUN_80133048(s32 param_1, FileInfo *files, u8 count)
+{
+    u8 i;
 
-INCLUDE_ASM("asm/nonmatchings/loading_E99C", FUN_80133048);
+    D_801CEEEC = &D_801CEEEC[sprintf(D_801CEEEC, "FILE_INFO %s[%d] =\r\n{\r\n", param_1, count)];
+    for (i = 0; i < count; i++)
+    {
+        D_801CEEEC = &D_801CEEEC[sprintf(
+            D_801CEEEC,
+            "\t{\"%s\", (void*)0x%08x, (void*)0x%08x, {{%d,%d,%d,%d},%ld,\"%s\"}},\r\n",
+            files[i].path,
+            files[i].dest,
+            files[i].dest_debug,
+            files[i].file.pos.minute,
+            files[i].file.pos.second,
+            files[i].file.pos.sector,
+            files[i].file.pos.track,
+            files[i].file.size,
+            files[i].file.name
+        )];
+    }
+    D_801CEEEC = &D_801CEEEC[sprintf(D_801CEEEC, s__801ceef4)];
+}
 
 /* E99C 8013319C -O2 -msoft-float */
 s32 PS1_InitFiles(FileInfo *files, s32 count, u8 *name){ return 0; }

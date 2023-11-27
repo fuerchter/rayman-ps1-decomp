@@ -136,8 +136,7 @@ s_big_file_8012c2c4 = 0x8012c2c4; // type:asciz force_not_migration:True
 s_vab4sep_file_8012c2d0 = 0x8012c2d0; // type:asciz force_not_migration:True
 s_ini_file_8012c2e0 = 0x8012c2e0; // type:asciz force_not_migration:True
 s_filefxs_801cf0d0 = 0x801cf0d0;
-s_FILE_INFO_sd___801272a8 = 0x801272a8; // type:asciz force_not_migration:True
-s__s_void0x08x_void0x_801272c0 = 0x801272c0; // type:asciz force_not_migration:True
+s__801ceef4 = 0x801ceef4;
 
 ray = 0x801f61a0;
 //ray_obj_sprites = 0x801f61a0;

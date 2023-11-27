@@ -50,7 +50,6 @@ typedef struct {
 	u_char	u3, v3;	u_short	pad2;
 } POLY_FT4;				/* Flat Textured Quadrangle */
 
-int sprintf(char *buffer, char *fmt, ...);
 u_short LoadClut(u_long *clut, int x, int y);
 int ClearImage(RECT *rect, u_char r, u_char g, u_char b);
 int DrawSync(int mode);
