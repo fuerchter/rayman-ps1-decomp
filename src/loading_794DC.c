@@ -4,20 +4,16 @@
 
 /* unknowns */
 extern u8 D_801E4B58;
-/*
-used as FileInfo::dest
+/* used as FileInfo::dest
 in blocks of 0x15800 (LOAD_CREDITS_VIGNET)?
-in blocks of 0x19000 ((unused) FUN_8019ebc0)?
-*/
+in blocks of 0x19000 ((unused) FUN_8019ebc0)? */
 extern u8 *D_801F4380;
-/*
-used as FileInfo::dest
-undefined reference, even if specified in addrs-u.txt???
-*/
+/* used as FileInfo::dest
+undefined reference, even if specified in addrs-u.txt??? */
 /* 0x8005866C */
 extern void *D_801F4410;
 extern void *D_801F5160; /* type? very prominent in everything up to LOAD_FND */
-extern void *D_801F7E90;
+extern void *D_801F7E90; /* see loading_DA64 */
 extern s32 D_80058674;
 extern s32 D_80058678;
 extern s32 D_8005867C;
@@ -26,7 +22,7 @@ extern s16 D_801CEE9A;
 extern s16 D_801CEE9C;
 extern void *D_801D7840;
 extern s32 *D_801E5260;
-extern s32 *D_801F59E0;
+extern s32 *D_801F59E0; /* see loading_DA64 */
 extern void *D_801F8190;
 extern void *D_801E4F50;
 extern void *D_801F8180;

@@ -5,8 +5,6 @@ frame_snd_bis = 0x801c7878;
 snd_bis = 0x801c7978;
 frame_snd = 0x801c7778;
 indice_trz_wait = 0x801e4dd0;
-D_801CEE10 = 0x801cee10;
-D_8005866C = 0x8005866C;
 PS1_MsAnimIndex = 0x801cf0bc;
 DemoRecordWorld = 0x801c435c;
 PS1_SaveMode = 0x801E4C10;
@@ -35,6 +33,10 @@ PS1_World_VabId2 = 0x801F9A78;
 PS1_World_SepAcc = 0x801E58C8;
 PS1_SepInfos = 0x801C7CBC;
 PS1_SepVols = 0x801c7c88;
+
+D_801C438C = 0x801C438C;
+D_801CEE10 = 0x801cee10;
+D_8005866C = 0x8005866C;
 
 PTR_PS1_MemoryUsageRect_801cee70 = 0x801cee70;
 s_level_801cedf4 = 0x801cedf4;

@@ -55,7 +55,7 @@ extern s16 plan2_height;
 extern s16 plan2_width;
 extern BackgroundData *PS1_LevelBGBlock;
 extern s16 *PS1_LevelMapBlock; /* type? */
-extern void *PS1_LevelObjBlock; /* type? */
+extern u8 *PS1_LevelObjBlock; /* type? */
 
 void PS1_Init_ImgLdrVdoTrk_Files(void);
 void FUN_8019dd74(void);
