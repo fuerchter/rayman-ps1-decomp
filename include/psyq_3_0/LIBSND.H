@@ -39,6 +39,11 @@
 
 #define SS_SEQ_TABSIZ     172
 
+extern void  SsVabClose (short);
+extern short SsVabTransCompleted (short);
+extern short SsVabOpenHead (unsigned char*, short);
+extern short SsVabTransBody (unsigned char*, short);
+
 extern void  SsSetTableSize (char*, short, short);
 extern void  SsSetTickMode (long);
 extern void  SsStart (void);
@@ -54,8 +59,6 @@ extern void  SsUtReverbOn (void);
 extern void  SsUtReverbOff (void);
 extern short SsUtSetReverbType (short);
 extern void  SsUtSetReverbDepth (short, short);
-extern short SsVabOpenHead (unsigned char*, short);
-extern void  SsVabClose (short);
 extern void  SsSeqCalledTbyT (void);
 
 extern void  SsSetMVol (short, short);

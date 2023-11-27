@@ -58,7 +58,7 @@ s32 PS1_LoadFiles(FileInfo *files, s32 file_index, s32 count, s16 param_4)
                     CdSync(0, null);
                     num_sectors = (files[i].file.size + 2047) >> 11;
                     CdControlB(CdlSetloc, &files[i].file.pos.minute, null);
-                    CdRead(num_sectors, files[i].dest, CdlModeSpeed);
+                    CdRead(num_sectors, (u32 *) files[i].dest, CdlModeSpeed);
                     while ((sectors_rem = CdReadSync(1, null)) > 0)
                     {
                         if (param_4 != 0)
@@ -80,4 +80,18 @@ s32 PS1_LoadFiles(FileInfo *files, s32 file_index, s32 count, s16 param_4)
     return num_not_found;
 }
 
-INCLUDE_ASM("asm/nonmatchings/loading_E99C", FUN_80133498);
+/* EC98 80133498 -O2 -msoft-float */
+s32 FUN_80133498(FileInfo file, s16 in_vabid, s16 param_3)
+{
+  s32 out_vabid;
+  s16 completed;
+  
+  PS1_LoadFiles(&file, 0, 1, param_3);
+  SsUtReverbOff();
+  out_vabid = SsVabTransBody(file.dest, in_vabid);
+  SsUtReverbOn();
+  completed = SsVabTransCompleted(SS_WAIT_COMPLETED);
+  if (completed != true) /* ??? */
+    out_vabid += completed * 0x100;
+  return out_vabid;
+}
