@@ -64,7 +64,8 @@ segments:
       - [0x2AA8, .rodata, loading_E99C] #801272A8
       - [0x2B04, rodata]
       - [0x2FFC, .rodata, display_ui] #801277fc
-      - [0x300C, rodata]
+      - [0x300C, .rodata, collision/collision] #8012780C
+      - [0x3F0C, rodata]
       - [0x3F88, .rodata, obj/mama_pirate] #80128788
       - [0x403C, rodata]
       - [0x5D68, .rodata, bonus_343EC] #8012A568
@@ -118,7 +119,7 @@ segments:
       - [0x14FF4, asm, display] #801397F4
       - [0x18118, asm, text_18118] #8013c918
       - [0x19A38, c, display_ui] #8013e238
-      - [0x1B1F0, asm, collision/collision] #8013f9f0
+      - [0x1B1F0, c, collision/collision] #8013f9f0
       - [0x21D30, asm, collision/bit_util] #80146530
       - [0x22754, asm, collision/proj] #80146f54
       - [0x22A98, asm, collision/etat] #80147298
