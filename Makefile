@@ -12,18 +12,18 @@
 #cc1psx.exe seems to fix these only for arrays/structs (not basic types?)
 #arrays/structs involved in missing_addiu: horloge, block_flags, t_world_info, cptr_tab, D_801C7D20, PS1_AlwaysObjects, text_to_display, atak, SerieDatak
 
-#hardcoded pointers: main(), loading_794DC.c, data/loading_A0338
-#add strings as const instead of used in code... (before commit b0ea40a, look for rodata .s that has .asciz)
 #see DO_BBL_COMMAND for slightly nicer way of writing block_flags[mp.map[...]]
 #apply MAX/MIN macros to code from before then
+#is there a way to inline EOA() (i couldn't find any yet), otherwise use macro? for example check MAIN_NO_MORE_CONTINUE_PRG
+#try rewriting some while loops as for again
+
+#hardcoded pointers: main(), loading_794DC.c, data/loading_A0338, FUN_80132864 (unused)
 #for u8 < 2 or >= 2 conditions look at RAY_RESPOND_TO_DOWN e.g.
 #PS1_star_spr adding "__attribute__((aligned(2)))" changed memcpy lw/sw into lwl/lwr etc. the address of it in the exe (or its data) did not change. check this for other data and functions that use it (INIT_LEVEL_STAGE_NAME, CHANGE_STAGE_NAMES)
-#display_etoile memcpy changed when .data was added, will this happen for others? (INIT_LEVEL_STAGE_NAME e.g.)
-#is there a way to inline EOA() (i couldn't find any yet), otherwise use macro? for example check MAIN_NO_MORE_CONTINUE_PRG
 #when would someone actually have written do{}while(0); ? if(1) i can understand https://github.com/zeldaret/oot/pull/946 https://github.com/simonlindholm/decomp-permuter/issues/2 https://stackoverflow.com/questions/257418/do-while-0-what-is-it-good-for
 #split some boss objs again?
 #deal with WorldInfo.state
-#can you just write / 2 instead of >> 1? (yes, sometimes removing s16 cast is needed)
+#can you just write / 2 instead of >> 1? (sometimes, removing s16 cast needed?)
 #style: move assignment in if into second if. convert do/whiles into whiles where possible
 #order splat yaml settings by wiki
 #more enums, defines...
@@ -33,6 +33,10 @@
 #ask about cd_cw, cd_read case issue
 #rename duplicate memcpy, set_alarm in ghidra
 #how to decompile ghidra_psx_ldr generated obj labels/functions in psyq?
+
+#there seems to be an extra section before rodata even (0x80010000 and on)? see loading_794DC?
+#add strings as const instead of used in code... (before commit b0ea40a, look for rodata .s that has .asciz)
+#display_etoile memcpy changed when .data was added, will this happen for others? (INIT_LEVEL_STAGE_NAME e.g.)
 #.data like DemoRecord might need incbin preprocessor stuff, see https://github.com/YohannDR/mzm/blob/e0f6976efb9d4be4b653d1c71ee803a8ef0599b3/tools/preproc/c_file.cpp#L326 ?
 #.bss ? https://github.com/HighwayFrogs/frogger-psx/tree/main/vlo https://github.com/ethteck/splat/wiki/Segments#bss https://github.com/FoxdieTeam/mgs_reversing/tree/df66887a738d28581438b9cb5e77cd762223762d/src/data
 

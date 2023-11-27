@@ -2,6 +2,19 @@
 #define _LIBCD_H_
 
 /*
+ * CD-ROM Mode
+ */
+#define CdlModeStream  0x100    /* 0: not streaming     1: streaming    */
+#define CdlModeSpeed	0x80	/* 0: normal speed	1: double speed	*/
+#define CdlModeRT	0x40	/* 0: ADPCM off		1: ADPCM on	*/
+#define CdlModeSize1	0x20	/* 0: 2048 byte		1: 2340byte	*/
+#define CdlModeSize0	0x10	/* 0: -			1: 2328byte	*/
+#define CdlModeSF	0x08	/* 0: Channel off	1: Channel on	*/
+#define CdlModeRept  	0x04	/* 0: Report off	1: Report on	*/
+#define CdlModeAP	0x02	/* 0: AutoPause off	1: AutoPause on */
+#define CdlModeDA	0x01	/* 0: CD-DA off		1: CD-DA on	*/
+
+/*
  * CD-ROM Primitive Commands
  */
 #define CdlNop		0x01	
@@ -57,6 +70,9 @@ typedef struct {
 	char	name[16];	/* file name (body) */
 } CdlFILE;
 
+CdlFILE *CdSearchFile(CdlFILE *fp, char *name);
+int CdRead(int sectors, u_long *buf, int mode);
+int CdReadSync(int mode, u_char *result);
 int CdSync(int mode, u_char *result);
 int CdMix(CdlATV *vol);
 int CdControlB(u_char com, u_char *param, u_char *result);

@@ -110,7 +110,7 @@ segments:
       - [0xD9FC, asm, unknown/D9FC] #801321fc
       - [0xDA64, c, loading_DA64] #80132264
       - [0xE098, asm, video] #80132898
-      - [0xE99C, asm, loading_E99C] #8013319c
+      - [0xE99C, c, loading_E99C] #8013319c
       - [0xED20, asm, input_ED20] #80133520
       - [0x10B3C, asm, fond_10B3C] #8013533C
       - [0x14AD8, asm, loading_tex] #801392D8 TODO: re-did split (start and end), but still not 100% certain
