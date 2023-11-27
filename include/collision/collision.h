@@ -29,7 +29,7 @@ s16 get_ZDCPTR(void);
 s8 in_coll_sprite_list(Obj *obj, s16 param_2);
 s32 box_inter_v_line(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6, s16 param_7);
 s32 box_inter_h_line(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6, s16 param_7);
-u8 inter_box(s32 x_1, s32 y_1, s32 w_1, s32 h_1, s16 x_2, s16 y_2, s32 w_2, s32 h_2)
+u8 inter_box(s32 x_1, s32 y_1, s32 w_1, s32 h_1, s16 x_2, s16 y_2, s32 w_2, s32 h_2);
 void GET_OBJ_ZDC(Obj *obj, s16 *x, s16 *y, s16 *w, s16 *h);
 s32 GET_SPRITE_ZDC(Obj *param_1, s16 param_2, s16 *param_3, s16 *param_4, s16 *param_5, s16 *param_6);
 s32 BOX_HIT_SPECIAL_ZDC(s16 param_1, s16 param_2, s16 param_3, s16 param_4, Obj *param_5);
