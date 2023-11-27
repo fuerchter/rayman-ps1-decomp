@@ -4,7 +4,7 @@
 #include "common.h"
 #include "display.h"
 #include "obj_update.h"
-#include "collision/collision_block.h"
+#include "collision/block_22C84.h"
 #include "loading_794DC.h"
 #include "display_ui.h"
 #include "gendoor.h"

@@ -4,7 +4,7 @@
 #include "common.h"
 #include "ray/ray_32398.h"
 #include "boss.h"
-#include "collision/block.h"
+#include "collision/block_22C84.h"
 
 typedef struct BB1Data
 {

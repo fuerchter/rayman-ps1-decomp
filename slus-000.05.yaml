@@ -122,7 +122,7 @@ segments:
       - [0x21D30, asm, collision/bit_util] #80146530
       - [0x22754, asm, collision/proj] #80146f54
       - [0x22A98, asm, collision/etat] #80147298
-      - [0x22C84, asm, collision/collision_block] #80147484
+      - [0x22C84, asm, collision/block_22C84] #80147484
       - [0x243B8, c, obj_util] #80148bb8
       - [0x24E10, asm, text_24E10] #80149610
       - [0x2539C, asm, unknown/2539C] #80149B9C
@@ -244,7 +244,7 @@ segments:
       - [0x677C0, c, world_map_677C0] #8018bfc0
       - [0x6A3BC, c, menu/menu_6A3BC] #8018ebbc
       - [0x6C6E4, asm, obj/scorpion] #80190ee4
-      - [0x6E5E0, asm, collision/block] #80192de0
+      - [0x6E5E0, asm, collision/block_6E5E0] #80192de0
       - [0x6F914, c, obj/moskito] #80194114
       - [0x71680, asm, obj/batteur_fou] #80195e80
       - [0x72384, asm, obj/pirate_poelle] #80196b84
@@ -285,7 +285,7 @@ segments:
       - [0x98048, asm, psyq_3_0/libgpu] #801bc848
       - [0x9BC24, asm, psyq_3_0/libpress] #801c0424
       - [0x9CA5C, data]
-      #done - [0x9CA74, .data, data/collision/collision_block_9CA74] #801C1274
+      #done - [0x9CA74, .data, data/collision/block_9CA74] #801C1274
       - [0x9CA94, data]
       #- [0x9F448, .data, data/demo_9FD4] #801C3C48 TODO: move this to data/ dir once it can be used
       - [0x9FB74, data]

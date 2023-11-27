@@ -2,7 +2,7 @@
 #define SAVE_H
 
 #include "common.h"
-#include "collision/collision_block.h"
+#include "collision/block_22C84.h"
 
 typedef struct SaveState
 {

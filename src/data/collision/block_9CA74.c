@@ -1,4 +1,4 @@
-#include "collision/collision_block.h"
+#include "collision/block_22C84.h"
 
 BlockFlags block_flags[] =
 {
