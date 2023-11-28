@@ -1,8 +1,13 @@
 #include "collision/collision.h"
 
+s16 GET_SPRITE_POS(Obj *obj,s32 spriteIndex,s16 *x,s16 *y,u16 *w,u16 *h);
+
 extern s16 ZDCPTR;
 extern ZDC zdc_tab[512];
 extern u16 type_zdc[256];
+extern s16 bagD[20];
+extern s16 bagW[20];
+extern s16 bagH[20];
 
 /* 1B1F0 8013F9F0 -O2 -msoft-float */
 void PS1_SetZDC(s16 x, s16 y, u8 w, u8 h, u8 flags, u8 sprite)
@@ -67,7 +72,7 @@ INCLUDE_ASM("asm/nonmatchings/collision/collision", box_inter_v_line);
 INCLUDE_ASM("asm/nonmatchings/collision/collision", box_inter_h_line);
 
 /* 1B57C 8013FD7C -O2 -msoft-float */
-u8 inter_box(s32 x_1, s32 y_1, s32 w_1, s32 h_1, s16 x_2, s16 y_2, s32 w_2, s32 h_2)
+s32 inter_box(s32 x_1, s32 y_1, s32 w_1, s32 h_1, s16 x_2, s16 y_2, s32 w_2, s32 h_2)
 {
     s16 unk_1 = x_1 - w_2;
     s16 unk_2 = y_1 - h_2;
@@ -84,11 +89,29 @@ INCLUDE_ASM("asm/nonmatchings/collision/collision", GET_OBJ_ZDC);
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", GET_SPRITE_ZDC);
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", BOX_HIT_SPECIAL_ZDC); /**/
+INCLUDE_ASM("asm/nonmatchings/collision/collision", BOX_HIT_SPECIAL_ZDC);
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", BOX_IN_COLL_ZONES); /**/
+INCLUDE_ASM("asm/nonmatchings/collision/collision", BOX_IN_COLL_ZONES);
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", COLL_BOX_SPRITE);
+/* 1CD38 80141538 -O2 -msoft-float */
+s32 COLL_BOX_SPRITE(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
+{
+  s16 unk_1;
+  s16 spr_x;
+  s16 spr_y;
+  s16 spr_w;
+  s16 spr_h;
+  s32 spr;
+  
+  unk_1 = GET_SPRITE_POS(obj, obj->hit_sprite, &spr_x, &spr_y, &spr_w, &spr_h);
+  if (unk_1 != 0)
+    unk_1 = inter_box(in_x, in_y, in_w, in_h, spr_x, spr_y, spr_w, spr_h);
+  if (unk_1 != 0)
+    spr = obj->hit_sprite;
+  else
+    spr = -1;
+  return spr;
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", CHECK_BOX_COLLISION);
 
