@@ -82,7 +82,7 @@ u8 inter_box(s32 x_1, s32 y_1, s32 w_1, s32 h_1, s16 x_2, s16 y_2, s32 w_2, s32 
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", GET_OBJ_ZDC);
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", GET_SPRITE_ZDC); /**/
+INCLUDE_ASM("asm/nonmatchings/collision/collision", GET_SPRITE_ZDC);
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", BOX_HIT_SPECIAL_ZDC); /**/
 
