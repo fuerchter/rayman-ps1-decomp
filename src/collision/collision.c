@@ -1,5 +1,7 @@
 #include "collision/collision.h"
 
+/* 10000 (dist) could be a #define */
+
 s16 GET_SPRITE_POS(Obj *obj,s32 spriteIndex,s16 *x,s16 *y,u16 *w,u16 *h);
 
 extern s16 ZDCPTR;
@@ -57,8 +59,7 @@ ZDC *get_zdc(Obj *obj, s16 param_2)
     return &zdc_tab[(s16) get_zdc_index(obj) + param_2];
 }
 
-/*INCLUDE_ASM("asm/nonmatchings/collision/collision", get_ZDCPTR);*/
-
+/* 1B2D0 8013FAD0 -O2 -msoft-float */
 s16 get_ZDCPTR(void)
 {
     return ZDCPTR;
@@ -97,10 +98,7 @@ INCLUDE_ASM("asm/nonmatchings/collision/collision", BOX_IN_COLL_ZONES);
 s32 COLL_BOX_SPRITE(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
 {
   s16 unk_1;
-  s16 spr_x;
-  s16 spr_y;
-  s16 spr_w;
-  s16 spr_h;
+  s16 spr_x; s16 spr_y; s16 spr_w; s16 spr_h;
   s32 spr;
   
   unk_1 = GET_SPRITE_POS(obj, obj->hit_sprite, &spr_x, &spr_y, &spr_w, &spr_h);
@@ -129,7 +127,7 @@ s16 CHECK_BOX_COLLISION(s16 obj_type, s16 x, s16 y, s16 w, s16 h, Obj *obj)
 }
 
 /* 1CF08 80141708 -O2 -msoft-float */
-s32 possible_sprite(Obj *obj, s16 index)
+s16 possible_sprite(Obj *obj, s16 index)
 {
     s16 spr[12];
     
@@ -207,15 +205,108 @@ s32 possible_sprite(Obj *obj, s16 index)
     return spr[index];
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", setToleranceDist);
+/* 1D11C 8014191C -O2 -msoft-float */
+s16 setToleranceDist(s16 in_x, s16 in_w, s16 in_y)
+{
+    s16 unk_2;
+    s16 dist;
+    s16 ray_x = ray.x_pos + ray.offset_bx;
+    s16 ray_y = ray.y_pos + ray.offset_by;
+    s16 unk_1 = in_x + in_w - 1;
+
+    if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+        unk_2 = 4;
+    else
+        unk_2 = 8;
+    
+    if ((ray_x >= in_x - unk_2) && (ray_x <= unk_1 + unk_2))
+    {
+        if (ray_x >= in_x && ray_x <= unk_1)
+        {
+            /* abs??? */
+            if (ray_y - in_y >= 0)
+                dist = ray_y - in_y;
+            else
+                dist = in_y - ray_y;
+        }
+        else
+        {
+            if (ray_y - in_y < 0)
+                dist = ray_y - in_y;
+            else
+                dist = in_y - ray_y;
+            dist--;
+        }
+    }
+    else
+        dist = 10000;
+    return dist;
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_RAY_DIST_MULTISPR_CANTCHANGE);
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_RAY_DIST_PI);
+/* 1D594 80141D94 -O2 -msoft-float */
+void SET_RAY_DIST_PI(Obj *obj)
+{
+  s16 x; s16 y; s16 w; s16 h;
+  s16 new_dist;
+  s16 prev_flip_x = (obj->flags >> OBJ_FLIP_X & 1) << OBJ_FLIP_X;
+  
+  obj->flags &= ~FLG(OBJ_FLIP_X);
+  GET_SPRITE_POS(obj, 2, &x, &y, &w, &h);
+  obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | prev_flip_x;
+  y += obj->offset_hy;
+  x += 4;
+  w = 55;
+  new_dist = setToleranceDist(x, w, y);
+  if (new_dist != 10000)
+    obj->follow_sprite = 2;
+  obj->ray_dist = new_dist;
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_RAY_DIST_BAG);
 
+/* 1D798 80141F98 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_RAY_DIST);
+#else
+void SET_RAY_DIST(Obj *obj)
+{
+  ObjType type;
+  s16 x; s16 y; s16 w; s16 h;
+  
+  type = obj->type;
+  if (flags[type].flags1 >> OBJ1_RAY_DIST_MULTISPR_CANTCHANGE & 1)
+    SET_RAY_DIST_MULTISPR_CANTCHANGE(obj);
+  else
+  {
+    if (type == TYPE_PI || type == TYPE_BBL)
+      SET_RAY_DIST_PI(obj);
+    else if (type == TYPE_BAG3)
+      SET_RAY_DIST_BAG(obj);
+    else
+    {
+      GET_SPRITE_POS(obj, obj->follow_sprite, &x, &y, &w, &h);
+      y += obj->offset_hy;
+      type = obj->type;
+      if (
+        type == TYPE_FALLING_OBJ || type == TYPE_FALLING_OBJ2 || type == TYPE_FALLING_OBJ3 ||
+        type == TYPE_FALLING_YING || type == TYPE_FALLING_YING_OUYE
+      )
+      {
+        x -= 2;
+        w += 4;
+      }
+      else if (type == TYPE_MOVE_START_NUA || (type == TYPE_PLATFORM && num_world == 2))
+        w -= 8;
+      
+      obj->ray_dist = setToleranceDist(x, w, y);
+    }
+  }
+
+  __asm__("nop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", do_boum);
 
