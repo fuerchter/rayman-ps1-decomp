@@ -10,6 +10,9 @@ extern u16 type_zdc[256];
 extern s16 bagD[20];
 extern s16 bagW[20];
 extern s16 bagH[20];
+extern s16 Mus_obj_id;
+extern u8 Nb_total_cages;
+extern s16 prise_branchee;
 
 /* 1B1F0 8013F9F0 -O2 -msoft-float */
 void PS1_SetZDC(s16 x, s16 y, u8 w, u8 h, u8 flags, u8 sprite)
@@ -392,7 +395,7 @@ void DO_PNG_COLL_STONEWOMAN(Obj *obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_POING_COLLISION); /**/
+INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_POING_COLLISION);
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", COLL_BOX_ALL_SPRITES);
 

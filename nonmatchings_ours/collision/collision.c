@@ -933,7 +933,7 @@ do
   obj->ray_dist = new_dist;
 }
 
-/* matches, but mild control flow fuckiness */
+/* matches, but clean up */
 /* 1D66C 80141E6C -O2 -msoft-float */
 /*INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_RAY_DIST_BAG);*/
 
@@ -947,7 +947,7 @@ void SET_RAY_DIST_BAG(Obj *obj)
   s16 temp_v0;
 
   var_a1 = 0;
-  if (obj->sub_etat == 3 || (var_a1 = 0x2710, obj->sub_etat == 6 && obj->anim_frame <= 11))
+  if (obj->sub_etat == 3 || (obj->sub_etat == 6 && obj->anim_frame <= 11))
   {
     GET_SPRITE_POS(obj, obj->follow_sprite, &sp18, &sp1A, &sp1C, &sp1E);
     sp1A += obj->offset_hy;
@@ -955,6 +955,10 @@ void SET_RAY_DIST_BAG(Obj *obj)
     sp1C = 45;
     sp18 += ((s16) (temp_v0 - sp1C) >> 1);
     var_a1 = setToleranceDist(sp18, sp1C, sp1A);
+  }
+  else
+  {
+    var_a1 = 0x2710;
   }
   if (ray.field20_0x36 == obj->id && obj->sub_etat == 6 && obj->anim_frame == 11)
   {
@@ -964,4 +968,1106 @@ void SET_RAY_DIST_BAG(Obj *obj)
     ray.speed_y -= 10;
   }
   obj->ray_dist = var_a1;
+}
+
+/* one bad instruction and reg swaps, try standard version next? */
+/*INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_POING_COLLISION);*/
+
+/*void DO_BAT_POING_COLLISION(Obj *obj);
+void DO_BBMONT_TOUCHE(Obj *obj);
+void DO_DARK_POING_COLLISION(Obj *obj);
+void DO_HYB_BBF2_POING_COLLISION(Obj *obj);
+void DO_LEV_POING_COLLISION(Obj *obj);
+void DO_NGW_POING_COLLISION(Obj *obj);
+void DO_NOTE_TOUCHEE(Obj *obj);
+void DO_PAR_POING_COLLISION(Obj *obj,s16 param_2);
+void DO_PIRATE_POELLE_POING_COLLISION(Obj *obj);
+void DO_PMA_POING_COLLISION(Obj *obj);
+void DO_SKO_HIT(Obj *obj);
+void DO_SPIDER_PLAFOND_POING_COLLISION(Obj *obj);
+void DO_TOTEM_TOUCHE(Obj *obj,s16 param_2);
+void doMoskitoHit(Obj *obj);
+void fin_poing_follow(Obj *obj,u8 param_2);
+u8 PS1_BTYPAbsPos(s32 x,s32 y);*/
+s16 ANGLE_RAYMAN(Obj *obj);
+
+void DO_POING_COLLISION(void)
+{
+    s16 sp18;
+    s16 sp1A;
+    u16 sp1C;
+    u16 sp1E;
+    u8 var_a1_2;
+    u8 var_a1_3;
+    u8 var_a1_4;
+    u8 var_a2;
+    u8 var_a2_2;
+    Obj *temp_s1;
+    Obj *temp_v0_3;
+    Obj *var_s0;
+    s16 temp_a0;
+    s16 temp_v0;
+    s16 temp_v0_10;
+    s16 temp_v0_11;
+    s16 temp_v0_12;
+    s16 temp_v0_13;
+    s16 temp_v0_14;
+    s16 temp_v0_15;
+    s16 temp_v0_16;
+    s32 temp_v0_2;
+    s32 temp_v0_5;
+    s16 temp_v0_6;
+    s16 temp_v0_7;
+    s16 temp_v0_9;
+    s16 var_a1;
+    s32 var_s2_2;
+    s16 var_s5;
+    s16 var_v0_2;
+    s32 temp_a1;
+    s32 temp_v0_4;
+    s32 temp_v1_2;
+    u8 var_v0;
+    s32 var_v0_5;
+    s32 var_v1;
+    u32 temp_v1_3;
+    u32 var_v0_3;
+    u8 temp_a1_2;
+    u8 temp_s5;
+    u8 temp_v0_8;
+    u8 temp_v1;
+    s32 temp_v1_4;
+    u8 temp_v1_5;
+    s32 temp_v1_6;
+    s32 temp_v1_7;
+    s32 var_s2;
+    s16 test_1;
+    s32 test_2;
+    s32 test_3;
+
+    /*var_s2 = saved_reg_s2;*/
+    temp_s1 = &level.objects[poing_obj_id];
+    var_v0 = 0;
+    GET_SPRITE_POS(temp_s1, 0, &sp18, &sp1A, &sp1C, &sp1E);
+    temp_v0 = temp_s1->speed_x;
+    
+    if (temp_v0 > 0)
+    {
+        goto block_2;
+    }
+    if (temp_v0 >= 0)
+    {
+        goto block_3;
+    }
+block_2:
+    var_v0 = PS1_BTYPAbsPos(temp_s1->x_pos + temp_s1->offset_bx, temp_s1->y_pos + ((s32) (temp_s1->offset_by + temp_s1->offset_hy) >> 1));
+block_3:
+    temp_a1 = ((u8) block_flags[var_v0] >> 1) & 1;
+    var_s5 = 0;
+    if (temp_a1 == 0)
+    {
+        goto block_5;
+    }
+    do_boum();
+    fin_poing_follow(temp_s1, 1U);
+    return;
+block_5:
+    var_s0 = &level.objects[actobj.objects[var_s5]];
+    if (temp_a1 >= actobj.num_active_objects)
+    {
+        goto block_249;
+    }
+    test_1 = 2;
+    test_2 = ~0x4000;
+    test_3 = 1;
+loop_7:
+    if (new_world != 0)
+    {
+        goto block_249;
+    }
+    if (new_level != 0)
+    {
+        goto block_249;
+    }
+    if (fin_boss != 0)
+    {
+        goto block_249;
+    }
+    if (var_s0->display_prio == 0)
+    {
+        goto block_248;
+    }
+    if (var_s0->hit_points == 0)
+    {
+        goto block_248;
+    }
+    if (!(var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 8))
+    {
+        goto block_248;
+    }
+    temp_v0_2 = CHECK_BOX_COLLISION(0x005E, sp18, sp1A, (s16) sp1C, (s16) (s32) (s16) sp1E, var_s0);
+    if (temp_v0_2 == -1)
+    {
+        goto block_247;
+    }
+    temp_v1 = var_s0->type;
+    temp_s5 = var_s0->hit_points;
+    switch (temp_v1)
+    {
+case 0xDF:
+    if (temp_v0_2 != 6)
+    {
+        goto block_242;
+    }
+    if (poing.is_returning != 0)
+    {
+        goto block_242;
+    }
+    if (!(var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 1))
+    {
+        goto block_242;
+    }
+    poing.damage = 1;
+    obj_hurt(var_s0);
+    if (var_s0->hit_points == 0)
+    {
+        goto block_23;
+    }
+    if (var_s0->sub_etat != test_1)
+    {
+        goto block_22;
+    }
+    set_sub_etat(var_s0, 4);
+    goto block_242;
+block_22:
+    set_sub_etat(var_s0, 0xD);
+    goto block_242;
+block_23:
+    if (var_s0->sub_etat != test_1)
+    {
+        goto block_25;
+    }
+    level.objects[var_s0->field24_0x3e].flags &= ~0x400;
+    DO_NOVA(&level.objects[var_s0->field24_0x3e]);
+block_25:
+    set_sub_etat(var_s0, 8);
+    var_s0->field23_0x3c = test_3;
+    goto block_242;
+case 0xDA:
+    if (!(var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 1))
+    {
+        goto block_242;
+    }
+    if (temp_v0_2 == 3)
+    {
+        goto block_29;
+    }
+    if (temp_v0_2 != 6)
+    {
+        goto block_242;
+    }
+block_29:
+    poing.damage = 1;
+    obj_hurt(var_s0);
+    if (var_s0->hit_points == 0)
+    {
+        skipToLabel(var_s0, 2, 1);
+        var_s0->field23_0x3c = 1;
+        goto block_242;
+    }
+    else
+    {
+        skipToLabel(var_s0, 4, 1);
+        goto block_242;
+    }
+case 0x62:
+case 0xD5:
+    doMereDenisHit(var_s0, temp_v0_2);
+    goto block_242;
+case 0xD4:
+    DO_DARK_POING_COLLISION(var_s0);
+    goto block_242;
+case 0x78:
+    if (temp_v0_2 != test_1)
+    {
+        goto block_242;
+    }
+    DO_BAT_POING_COLLISION(var_s0);
+    goto block_242;
+case 0xBB:
+    if (temp_v0_2 != 5)
+    {
+        goto block_242;
+    }
+    DO_PMA_POING_COLLISION(var_s0);
+    goto block_242;
+case 0x32:
+case 0xE3:
+    doMoskitoHit(var_s0);
+    goto block_242;
+case 0x8E:
+    if (!(RayEvts.flags0 & 0x80))
+    {
+        goto block_242;
+    }
+    if (ray_mode == 3)
+    {
+        goto block_242;
+    }
+    temp_s1->field20_0x36 = (s16) (u16) var_s0->id;
+    goto block_242;
+case 0x8C:
+    if ((RayEvts.flags0 & 0x80) && (ray_mode != 3))
+    {
+        temp_a1_2 = var_s0->offset_by;
+        temp_v1_2 = (ray.y_pos + ray.offset_by) - var_s0->y_pos;
+        temp_v0_4 = temp_v1_2 - temp_a1_2;
+        /* should be abs, see DoPTGRAPPINPoingCollision of android */
+        if (temp_v0_4 >= 0)
+        {
+            if (temp_v0_4 < 0xFA)
+            {
+                goto block_47;
+            }
+        }
+        else if ((temp_a1_2 - temp_v1_2) < 0xFA)
+        {
+block_47:
+            SET_RAY_BALANCE();
+            id_obj_grapped = (s16) (u16) var_s0->id;
+            temp_v0_5 = ANGLE_RAYMAN(var_s0);
+            var_s0->follow_x = temp_v0_5;
+            if (temp_v0_5 >= 0x101)
+                var_s0->field24_0x3e = -1;
+            else if (temp_v0_5 < 0x101)
+            {
+                if(temp_v0_5 == 0x0100 && !(ray.flags & 0x4000))
+                    var_s0->field24_0x3e = -1;
+                else
+                    var_s0->field24_0x3e = 1;
+            }
+            else /* ??? */
+                var_s0->field24_0x3e = 1;
+            
+            if ((var_s0->main_etat == 0) && (var_s0->sub_etat == 0))
+            {
+                skipToLabel(var_s0, 0, 1);
+            }
+            poing.is_active = 0;
+            poing.is_returning = 0;
+            temp_s1->flags &= ~0x400;
+            temp_s1->flags &= ~0x800;
+            fin_poing_follow(temp_s1, 0U);
+        }
+    }
+    goto block_242;
+case 0x98:
+    if (var_s0->main_etat != 0)
+    {
+        goto block_57;
+    }
+    if (var_s0->sub_etat == test_1)
+    {
+        goto block_242;
+    }
+block_57:
+    set_main_and_sub_etat(var_s0, 1, 1);
+    temp_v1_3 = var_s0->flags;
+    if (temp_v1_3 & 0x4000)
+    {
+        goto block_59;
+    }
+    var_s0->flags = temp_v1_3 | 0x4000;
+    var_a1_2 = 3;
+    skipToLabel(var_s0, var_a1_2, 1);
+    goto block_242;
+block_59:
+    var_s0->flags = temp_v1_3 & test_2;
+    var_a1_2 = 2;
+    skipToLabel(var_s0, var_a1_2, 1);
+    goto block_242;
+case 0x7B:
+    obj_hurt(var_s0);
+    if (var_s0->hit_points != 0)
+    {
+        goto block_242;
+    }
+    set_main_and_sub_etat(var_s0, 0, 4);
+    var_s0->speed_y = 0;
+    temp_v0_6 = temp_s1->speed_x;
+    if (temp_v0_6 < 0)
+    {
+        goto block_66;
+    }
+    if (temp_v0_6 <= 0)
+    {
+        goto block_64;
+    }
+    var_v0_3 = var_s0->flags;
+    var_v0_3 = var_v0_3 & test_2;
+    goto block_67;
+block_64:
+    if (!(temp_s1->flags & 0x4000))
+    {
+        goto block_66;
+    }
+    var_v0_3 = var_s0->flags & test_2;
+    goto block_67;
+block_66:
+    var_v0_3 = var_s0->flags | 0x4000;
+block_67:
+    var_s0->flags = var_v0_3;
+    allocateBlacktoonEyes(var_s0);
+    if (!(var_s0->flags & 0x4000))
+    {
+        goto block_69;
+    }
+    var_a1_2 = 2;
+    skipToLabel(var_s0, var_a1_2, 1);
+    goto block_242;
+block_69:
+    var_a1_2 = 3;
+    skipToLabel(var_s0, var_a1_2, 1);
+    goto block_242;
+case 0x65:
+    if (temp_v0_2 != 4)
+    {
+        goto block_242;
+    }
+    if (var_s0->sub_etat != 5)
+    {
+        goto block_242;
+    }
+    temp_v0_7 = temp_s1->speed_x;
+    if (temp_v0_7 < 0)
+    {
+        goto block_78;
+    }
+    if (temp_v0_7 > 0)
+    {
+        goto block_75;
+    }
+    if (!(temp_s1->flags & 0x4000))
+    {
+        goto block_78;
+    }
+block_75:
+    set_sub_etat(var_s0, 9);
+    goto block_242;
+case 0x91:
+    temp_v0_8 = var_s0->hit_points - 1;
+    var_s0->hit_points = temp_v0_8;
+    if (!(temp_v0_8 & 0xFF))
+    {
+        goto block_78;
+    }
+    set_sub_etat(var_s0, 5);
+    var_s0->iframes_timer = 0x0032;
+    goto block_242;
+block_78:
+    set_sub_etat(var_s0, 6);
+    goto block_242;
+case 0x4D:
+case 0xEF:
+    DO_PAR_POING_COLLISION(var_s0, temp_v0_2);
+    goto block_242;
+case 0x48:
+    DO_NGW_POING_COLLISION(var_s0);
+    goto block_242;
+case 0x3A:
+    obj_hurt(var_s0);
+    if (var_s0->hit_points != 0)
+    {
+        goto block_83;
+    }
+    var_s0->init_main_etat = 0;
+    var_s0->init_sub_etat = 8;
+    var_s0->init_x_pos = (s16) (u16) var_s0->x_pos;
+    var_s0->init_y_pos = (s16) (u16) var_s0->y_pos;
+    set_sub_etat(var_s0, 0xC);
+    var_s0->init_flag = 7;
+    ALLOCATE_MEDAILLON_TOON();
+    lidol_to_allocate = 5;
+    lidol_source_obj = var_s0;
+    Nb_total_cages += 1;
+    take_bonus(var_s0->id);
+    goto block_242;
+block_83:
+    set_sub_etat(var_s0, 0xA);
+    goto block_242;
+case 0x2E:
+    if (temp_v0_2 != 9)
+    {
+        goto block_242;
+    }
+    DO_BBMONT_TOUCHE(var_s0);
+    goto block_242;
+case 0x5A:
+case 0x5B:
+case 0x5C:
+case 0x5D:
+case 0xB6:
+    DO_NOTE_TOUCHEE(var_s0);
+    goto block_242;
+case 0x60:
+    DO_TOTEM_TOUCHE(var_s0, temp_v0_2);
+    goto block_242;
+case 0x6F:
+    if (var_s0->main_etat != 0)
+    {
+        goto block_242;
+    }
+    if (Mus_obj_id < 0)
+    {
+        goto block_242;
+    }
+    PlaySnd(0x0053, var_s0->id);
+    var_s0->hit_points--;
+    temp_v1_4 = var_s0->hit_points;
+    if (temp_v1_4 == test_2)
+    {
+        goto block_98;
+    }
+    if ((s32) temp_v1_4 >= 2)
+    {
+        goto block_94;
+    }
+    if (temp_v1_4 == 0)
+    {
+        goto block_99;
+    }
+    goto block_242;
+block_94:
+    if (temp_v1_4 == test_1)
+    {
+        goto block_97;
+    }
+    if (temp_v1_4 != 3)
+    {
+        goto block_242;
+    }
+    set_sub_etat(var_s0, 4);
+    allocateEclatPS(var_s0, 7);
+    set_sub_etat(&level.objects[Mus_obj_id], 6);
+    goto block_242;
+block_97:
+    set_sub_etat(var_s0, 6);
+    allocateEclatPS(var_s0, 8);
+    goto block_242;
+block_98:
+    set_sub_etat(var_s0, 8);
+    allocateEclatPS(var_s0, 9);
+    goto block_242;
+block_99:
+    if (level.objects[Mus_obj_id].sub_etat != 6)
+    {
+        goto block_242;
+    }
+    PlaySnd(0x0053, var_s0->id);
+    set_sub_etat(var_s0, 9);
+    level.objects[Mus_obj_id].sub_etat = 3;
+    level.objects[Mus_obj_id].init_sub_etat = 4;
+    var_s0->init_sub_etat = 0x0A;
+    goto block_242;
+case 0x6D:
+    if (var_s0->main_etat != 0)
+    {
+        goto block_242;
+    }
+    obj_hurt(var_s0);
+    if (var_s0->hit_points != 0)
+    {
+        goto block_106;
+    }
+    DO_PI_EXPLOSION(var_s0);
+    var_s0->flags &= ~0x800;
+    if (ray.field20_0x36 != var_s0->id)
+    {
+        goto block_105;
+    }
+    ray.field20_0x36 = -1;
+    var_s0->ray_dist = 0x03E8;
+    set_main_and_sub_etat(&ray, 2, 2);
+block_105:
+    var_v1 = -0x401;
+    var_s0->flags &= var_v1;
+    goto block_242; /* supposed to go somewhere in case 0x64 instead */
+block_106:
+    set_sub_etat(var_s0, 1);
+    var_s0->anim_frame = 0;
+    goto block_242;
+case 0xA6:
+    DO_LEV_POING_COLLISION(var_s0);
+    goto block_242;
+case 0x41:
+    obj_hurt(var_s0);
+    if (var_s0->hit_points != 0)
+    {
+        goto block_110;
+    }
+    set_main_and_sub_etat(var_s0, 0, 7);
+    var_s0->anim_frame = 0;
+    goto block_226;
+block_110:
+    if (var_s0->main_etat != 0)
+    {
+        goto block_114;
+    }
+    temp_v1_5 = var_s0->sub_etat;
+    if ((u32) (temp_v1_5 - 2) < 2U)
+    {
+        goto block_113;
+    }
+    if ((u32) (temp_v1_5 - 4) >= 2U)
+    {
+        goto block_114;
+    }
+block_113:
+    var_s0->cmd_context_index = 0xFF;
+block_114:
+    var_s0->field23_0x3c = 0;
+    if (level.objects[poing_obj_id].speed_x <= 0)
+    {
+        goto block_116;
+    }
+    skipToLabel(var_s0, 3, 1);
+    var_v0_3 = var_s0->flags | 0x4000;
+    goto block_117;
+block_116:
+    skipToLabel(var_s0, 1, 1);
+    var_v0_3 = var_s0->flags;
+    var_v0_3 &= test_2;
+block_117:
+    var_s0->flags = var_v0_3;
+    pushToLabel(var_s0, 6, 1);
+    var_s0->anim_frame = 0;
+    pushToLabel(var_s0, 7, 1);
+    goto block_242;
+case 0x28:
+case 0x7A:
+    obj_hurt(var_s0);
+    if (var_s0->hit_points == 0)
+    {
+        goto block_225;
+    }
+    skipToLabel(var_s0, 5, 1);
+    var_s0->gravity_value_2 = 7;
+    var_s0->change_anim_mode = test_1;
+    temp_v0_9 = temp_s1->speed_x;
+    if (temp_v0_9 <= 0)
+    {
+        goto block_121;
+    }
+    var_s0->flags &= test_2;
+    goto block_242;
+block_121:
+    if (temp_v0_9 >= 0)
+    {
+        goto block_242;
+    }
+    var_s0->flags |= 0x4000;
+    goto block_242;
+case 0x24:
+case 0x2F:
+case 0x45:
+    set_sub_etat(var_s0, 1);
+    DO_STONE_EXPLOSION(var_s0);
+    goto block_242;
+case 0x23:
+case 0x2B:
+    DO_PNG_COLL_STONEMAN(var_s0);
+    goto block_242;
+case 0x38:
+case 0xAC:
+    DO_PNG_COLL_STONEWOMAN(var_s0);
+    goto block_242;
+case 0x1:
+    if (temp_v0_2 != var_s0->hit_sprite)
+    {
+        goto block_242;
+    }
+    temp_v0_10 = temp_s1->speed_x;
+    if (temp_v0_10 <= 0)
+    {
+        goto block_129;
+    }
+    set_sub_etat(var_s0, 0x19);
+    goto block_242;
+block_129:
+    if (temp_v0_10 >= 0)
+    {
+        goto block_242;
+    }
+    set_sub_etat(var_s0, 0x1A);
+    goto block_242;
+case 0x6:
+case 0x8:
+case 0x86:
+case 0xA7:
+case 0xB1:
+    temp_v1_6 = var_s0->type;
+    if (temp_v1_6 == 0x86)
+    {
+        goto block_139;
+    }
+    if ((s32) temp_v1_6 >= 0x87)
+    {
+        goto block_136;
+    }
+    if (temp_v1_6 == 6)
+    {
+        goto block_140;
+    }
+    if (temp_v1_6 == 8)
+    {
+        goto block_139;
+    }
+    goto block_141;
+block_136:
+    if (temp_v1_6 == 0xA7)
+    {
+        goto block_139;
+    }
+    if (temp_v1_6 == 0xB1)
+    {
+        goto block_140;
+    }
+    goto block_141;
+block_139:
+    PlaySnd(0x002C, var_s0->id);
+    goto block_141;
+block_140:
+    PlaySnd(0x008B, var_s0->id);
+block_141:
+    var_v0_5 = var_s2 * 4;
+    switch (poing.sub_etat)
+    {
+case 1:
+case 3:
+case 5:
+    var_s2 = poing.damage;
+    var_v0_5 = var_s2 * 4;
+    break;
+case 8:
+case 10:
+case 12:
+    var_s2 = poing.damage - 2;
+case 2:
+case 4:
+case 6:
+case 7:
+case 9:
+case 11:
+    var_v0_5 = var_s2 * 4;
+    }
+    var_s2 = var_v0_5 + var_s2 + 0xA;
+    if (temp_s1->speed_x < 0)
+    {
+        var_s2 = -var_s2;
+    }
+    make_my_fruit_go_down(var_s0, var_s2);
+    goto block_242;
+case 0x25:
+    set_main_and_sub_etat(var_s0, 0, 1);
+    var_s0->cmd = 0;
+    goto block_242;
+case 0x14:
+    if (temp_v0_2 == 0)
+    {
+        poing.damage = 1;
+        obj_hurt(var_s0);
+        if (var_s0->hit_points == 0)
+        {
+            var_a1_2 = 4;
+            skipToLabel(var_s0, 4, 1);
+            goto block_242;
+        }
+        var_a1_2 = 3;
+        skipToLabel(var_s0, 3, 1);
+        goto block_242;
+    }
+block_153:
+    var_a1_2 = test_1;
+    skipToLabel(var_s0, 2, 1);
+    goto block_242;
+case 0xC:
+case 0xE:
+    if (!(var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 1))
+    {
+        goto block_242;
+    }
+case 0xA:
+    obj_hurt(var_s0);
+    if (var_s0->hit_points == 0)
+    {
+        goto block_157;
+    }
+    var_s0->speed_x = 0;
+    var_s0->speed_y = 0;
+    set_main_and_sub_etat(var_s0, 0, 1);
+    goto block_158;
+block_157:
+    set_main_and_sub_etat(var_s0, 0, 3);
+block_158:
+    if (var_s0->type != 0x0A)
+    {
+        goto block_160;
+    }
+    DESACTIVE_FISH_COLLIS(var_s0);
+block_160:
+    if (var_s0->flags & 0x4000)
+    {
+        goto block_162;
+    }
+    var_s0->cmd = 0;
+    goto block_242;
+block_162:
+    var_s0->cmd = 1;
+    goto block_242;
+case 0x9:
+case 0xA5:
+    if (temp_v0_2 == 0x00FF)
+    {
+        goto block_165;
+    }
+    if (!(var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 1))
+    {
+        goto block_242;
+    }
+block_165:
+    obj_hurt(var_s0);
+    if (var_s0->hit_points != 0)
+    {
+        goto block_167;
+    }
+    set_main_and_sub_etat(var_s0, 0, 3);
+    skipToLabel(var_s0, 2, 1);
+    var_s0->y_pos = (u16) var_s0->y_pos - 2;
+    var_s0->flags &= 0xFFFF7FFF;
+    goto block_242;
+block_167:
+    if (!(temp_s1->flags & 0x4000))
+    {
+        goto block_172;
+    }
+    temp_v0_11 = temp_s1->speed_x;
+    if (temp_v0_11 < 0)
+    {
+        goto block_170;
+    }
+    var_a1_3 = 3;
+    skipToLabel(var_s0, var_a1_3, 1);
+    goto block_177;
+block_170:
+    if (temp_v0_11 >= -1)
+    {
+        goto block_177;
+    }
+    var_a1_3 = 2;
+    skipToLabel(var_s0, var_a1_3, 1);
+    goto block_177;
+block_172:
+    temp_a0 = temp_s1->speed_x;
+    var_a1_3 = 3;
+    if (temp_a0 < 2)
+    {
+        goto block_174;
+    }
+    skipToLabel(var_s0, var_a1_3, 1);
+    goto block_177;
+block_174:
+    if (temp_a0 > 0)
+    {
+        goto block_177;
+    }
+block_175:
+    var_a1_3 = 2;
+block_176:
+    skipToLabel(var_s0, var_a1_3, 1);
+block_177:
+    var_s0->speed_x = 0;
+    var_s0->speed_y = -4;
+    var_s0->y_pos = (u16) var_s0->y_pos - 2;
+    set_main_and_sub_etat(var_s0, 2, 2);
+    PlaySnd(0x001C, var_s0->id);
+    goto block_242;
+case 0x0:
+    obj_hurt(var_s0);
+    temp_v0_12 = temp_s1->speed_x;
+    if (temp_v0_12 <= 0)
+    {
+        goto block_180;
+    }
+    var_a1_4 = 3;
+    skipToLabel(var_s0, var_a1_4, 1);
+    goto block_182;
+block_180:
+    var_a1_4 = 2;
+    if (temp_v0_12 >= 0)
+    {
+        goto block_182;
+    }
+block_181:
+    skipToLabel(var_s0, var_a1_4, 1);
+block_182:
+    var_s0->speed_x = 0;
+    var_s0->y_pos = (u16) var_s0->y_pos - 2;
+    if (var_s0->hit_points == 0)
+    {
+        goto block_187;
+    }
+    var_s0->speed_y = -4;
+    var_a2 = 2;
+    if (!(var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 0x40))
+    {
+        goto block_185;
+    }
+    var_a2 = 0xA;
+block_185:
+    set_main_and_sub_etat(var_s0, 2, var_a2);
+block_186:
+    PlaySnd(0x001C, var_s0->id);
+    goto block_242;
+block_187:
+    var_s0->speed_y = -8;
+    var_a2_2 = 3;
+    if (!(var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 0x40))
+    {
+        goto block_189;
+    }
+    var_a2_2 = 6;
+block_189:
+    set_main_and_sub_etat(var_s0, 0, var_a2_2);
+    goto block_242;
+case 0x46:
+    obj_hurt(var_s0);
+    temp_v0_13 = temp_s1->speed_x;
+    if (temp_v0_13 <= 0)
+    {
+        goto block_192;
+    }
+    var_v0_3 = var_s0->flags;
+    var_v0_3 &= test_2;
+    goto block_194;
+block_192:
+    if (temp_v0_13 >= 0)
+    {
+        goto block_195;
+    }
+    var_v0_3 = var_s0->flags | 0x4000;
+block_194:
+    var_s0->flags = var_v0_3;
+block_195:
+    if (var_s0->hit_points != 0)
+    {
+        goto block_203;
+    }
+    set_main_and_sub_etat(var_s0, 0, 1);
+    var_v1 = 0xFFFF7FFF;
+    var_s0->cmd = test_1;
+    var_s0->flags &= var_v1;
+    goto block_242;
+case 0x3C:
+case 0x3D:
+    obj_hurt(var_s0);
+    temp_v0_14 = temp_s1->speed_x;
+    if (temp_v0_14 <= 0)
+    {
+        goto block_199;
+    }
+    var_v0_3 = var_s0->flags;
+    var_v0_3 &= test_2;
+    goto block_201;
+block_199:
+    if (temp_v0_14 >= 0)
+    {
+        goto block_202;
+    }
+    var_v0_3 = var_s0->flags | 0x4000;
+block_201:
+    var_s0->flags = var_v0_3;
+block_202:
+    if (var_s0->hit_points == 0)
+    {
+        goto block_204;
+    }
+block_203:
+    var_s0->y_pos = (u16) var_s0->y_pos - 2;
+    skipToLabel(var_s0, 4, 1);
+    goto block_242;
+block_204:
+    set_main_and_sub_etat(var_s0, 0, 3);
+    var_v1 = 0xFFFF7FFF;
+    var_s0->cmd = 0;
+    var_s0->flags &= var_v1;
+    goto block_242;
+case 0x74:
+case 0x75:
+case 0x76:
+    obj_hurt(var_s0);
+    temp_v0_15 = temp_s1->speed_x;
+    if (temp_v0_15 <= 0)
+    {
+        goto block_207;
+    }
+    var_v0_3 = var_s0->flags;
+    var_v0_3 &= test_2;
+    goto block_209;
+block_207:
+    if (temp_v0_15 >= 0)
+    {
+        goto block_210;
+    }
+    var_v0_3 = var_s0->flags | 0x4000;
+block_209:
+    var_s0->flags = var_v0_3;
+block_210:
+    if (var_s0->hit_points == 0)
+    {
+        goto block_213;
+    }
+    var_a1_2 = 5;
+    if (var_s0->flags & 0x4000)
+    {
+        skipToLabel(var_s0, var_a1_2, 1);
+        goto block_242;
+    }
+    var_a1_2 = 6;
+    skipToLabel(var_s0, var_a1_2, 1);
+    goto block_242;
+block_213:
+    set_main_and_sub_etat(var_s0, 0, 2);
+    goto block_226;
+case 0xD9:
+    if (temp_v0_2 != test_3)
+    {
+        goto block_242;
+    }
+    temp_v0_16 = temp_s1->speed_x;
+    if (temp_v0_16 <= 0)
+    {
+        goto block_217;
+    }
+    var_v0_3 = var_s0->flags;
+    var_v0_3 &= test_2;
+    goto block_219;
+block_217:
+    if (temp_v0_16 >= 0)
+    {
+        goto block_220;
+    }
+    var_v0_3 = var_s0->flags | 0x4000;
+block_219:
+    var_s0->flags = var_v0_3;
+case 0x64:
+block_220:
+    if (temp_v0_2 != test_3)
+    {
+        goto block_242;
+    }
+    obj_hurt(var_s0);
+    if (var_s0->hit_points == 0)
+    {
+        goto block_225;
+    }
+    var_a1_2 = 4;
+    skipToLabel(var_s0, var_a1_2, 1);
+    goto block_242;
+block_225:
+    set_main_and_sub_etat(var_s0, 0, 3);
+block_226:
+    var_v1 = 0xFFFF7FFF;
+block_227:
+    var_s0->flags &= var_v1;
+    goto block_242;
+case 0x96:
+    DO_SKO_HIT(var_s0);
+    goto block_242;
+case 0xAE:
+case 0xB8:
+case 0xE1:
+case 0xE2:
+    DO_PIRATE_POELLE_POING_COLLISION(var_s0);
+    goto block_242;
+case 0xE7:
+case 0xE8:
+    DO_HYB_BBF2_POING_COLLISION(var_s0);
+    goto block_242;
+case 0xC3:
+    DO_SPIDER_PLAFOND_POING_COLLISION(var_s0);
+    goto block_242;
+case 0xE4:
+    if (var_s0->screen_x_pos >= (temp_s1->screen_x_pos + 0x1E))
+    {
+        goto block_242;
+    }
+    if (var_s0->main_etat != 0)
+    {
+        goto block_242;
+    }
+    if (var_s0->sub_etat != 0)
+    {
+        goto block_242;
+    }
+    skipToLabel(var_s0, 2, 1);
+    var_s0->init_sub_etat = test_1;
+    prise_branchee = 1;
+    finBosslevel[1] |= 4;
+    goto block_242;
+case 0x84:
+    if (var_s0->main_etat != test_1)
+    {
+        goto block_238;
+    }
+    if (var_s0->sub_etat == 0x12)
+    {
+        goto block_242;
+    }
+block_238:
+    skipToLabel(var_s0, 0xC, 1);
+    var_s0->speed_x = 0;
+    var_s0->speed_y = 0;
+    var_s0->hit_points = 0;
+    goto block_242;
+case 0x81:
+    temp_v1_7 = var_s0->hit_points;
+    if (temp_v1_7 == test_1)
+    {
+        goto block_241;
+    }
+    if (temp_v1_7 != 4)
+    {
+        goto block_242;
+    }
+block_241:
+    var_s0->hit_points--;
+    }
+block_242:
+    do_boum();
+    var_s0->gravity_value_1 = 0;
+    if ((u32) (((u8) var_s0->eta[var_s0->main_etat][var_s0->sub_etat].anim_speed >> 4) - 0xA) < 2U)
+    {
+        goto block_244;
+    }
+    var_s0->gravity_value_2 = 0;
+block_244:
+    if (var_s0->hit_points != temp_s5)
+    {
+        goto block_249;
+    }
+    if (!(flags[var_s0->type].flags3 & 1))
+    {
+        goto block_249;
+    }
+    PlaySnd(0x00D6, var_s0->id);
+    return;
+block_247:
+block_248:
+    var_s5 = var_s5 + 1;
+    var_s0 = &level.objects[actobj.objects[var_s5]];
+    if (var_s5 < actobj.num_active_objects)
+    {
+        goto loop_7;
+    }
+block_249:
+    return;
 }
