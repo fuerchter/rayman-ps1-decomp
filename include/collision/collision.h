@@ -36,8 +36,8 @@ s32 GET_SPRITE_ZDC(Obj *obj, s16 index, s16 *param_3, s16 *param_4, s16 *param_5
 s32 BOX_HIT_SPECIAL_ZDC(s16 param_1, s16 param_2, s16 param_3, s16 param_4, Obj *param_5);
 s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, Obj *obj);
 s32 COLL_BOX_SPRITE(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj); /* return can be u32/s32? */
-s32 CHECK_BOX_COLLISION(s16 param_1, s16 x, s16 y, s16 w, s16 h, Obj *obj);
-s32 possible_sprite(Obj *obj, s32 index);
+s16 CHECK_BOX_COLLISION(s16 obj_type, s16 x, s16 y, s16 w, s16 h, Obj *obj);
+s32 possible_sprite(Obj *obj, s16 index);
 s32 setToleranceDist(s32 param_1, s32 param_2, s16 param_3);
 void SET_RAY_DIST_MULTISPR_CANTCHANGE(Obj *obj);
 void SET_RAY_DIST_PI(Obj *obj);

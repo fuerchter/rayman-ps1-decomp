@@ -675,7 +675,8 @@ LAB_80140fb0:
   return (s16) iVar8; /*iVar4 >> 0x10;*/
 }
 
-/* ??? tried gotos-only, both m2c and ghidra */
+/* ??? tried gotos-only, both m2c and ghidra
+param_1 is ObjType */
 /*INCLUDE_ASM("asm/nonmatchings/collision/collision", BOX_IN_COLL_ZONES);*/
 
 s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, Obj *obj)

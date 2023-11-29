@@ -113,9 +113,99 @@ s32 COLL_BOX_SPRITE(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
   return spr;
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", CHECK_BOX_COLLISION);
+/* 1CE18 80141618 -O2 -msoft-float */
+s16 CHECK_BOX_COLLISION(s16 obj_type, s16 x, s16 y, s16 w, s16 h, Obj *obj)
+{
+    s32 h_spr;
+    s16 res;
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", possible_sprite);
+    if (obj->hit_sprite == 0xFD)
+        res = BOX_HIT_SPECIAL_ZDC(x, y, w, h, obj);
+    else if (((h_spr = obj->hit_sprite) >= 0xFD) && h_spr < 0x100)
+        res = BOX_IN_COLL_ZONES(obj_type, x, y, w, h, obj);
+    else
+        res = COLL_BOX_SPRITE(x, y, w, h, obj);
+    return res;
+}
+
+/* 1CF08 80141708 -O2 -msoft-float */
+s32 possible_sprite(Obj *obj, s16 index)
+{
+    s16 spr[12];
+    
+    switch(obj->type)
+    {
+    case TYPE_BON3:
+        spr[0] = 0;
+        spr[1] = 1;
+        spr[2] = 2;
+        spr[3] = 3;
+        spr[4] = 4;
+        spr[5] = 0x00FF;
+        break;
+    case TYPE_CYMBALE:
+    case TYPE_CYMBAL2:
+        spr[0] = 0;
+        spr[1] = 1;
+        spr[2] = 2;
+        spr[3] = 0x00FF;
+        break;
+    case TYPE_ROULETTE:
+        spr[0] = 5;
+        spr[1] = 6;
+        spr[2] = 7;
+        spr[3] = 8;
+        spr[4] = 0x00FF;
+        break;
+    case TYPE_ROULETTE2:
+        spr[0] = 1;
+        spr[1] = 2;
+        spr[2] = 3;
+        spr[3] = 4;
+        spr[4] = 0x00FF;
+        break;
+    case TYPE_ROULETTE3:
+        spr[0] = 1;
+        spr[1] = 2;
+        spr[2] = 3;
+        spr[3] = 0x00FF;
+        break;
+    case TYPE_FALLPLAT:
+    case TYPE_LIFTPLAT:
+    case TYPE_INTERACTPLT:
+        spr[0] = 0;
+        spr[1] = 1;
+        spr[2] = 0x00FF;
+        break;
+    case TYPE_TIBETAIN_6:
+        if (ray.flags & FLG(OBJ_FLIP_X))
+        {
+            spr[0] = 4;
+            spr[1] = 5;
+            spr[2] = 6;
+            spr[3] = 7;
+            spr[4] = 8;
+            spr[5] = 9;
+        }
+        else
+        {
+            spr[0] = 9;
+            spr[1] = 8;
+            spr[2] = 7;
+            spr[3] = 6;
+            spr[4] = 5;
+            spr[5] = 4;
+        }
+        spr[6] = 0x00FF;
+        break;
+    case TYPE_TIBETAIN_2:
+        spr[0] = 4;
+        spr[1] = 5;
+        spr[2] = 0x00FF;
+        break;
+    }
+    return spr[index];
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", setToleranceDist);
 
