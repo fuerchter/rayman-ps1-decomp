@@ -475,9 +475,62 @@ s16 COLL_RAY_PIC(void)
     return res;
 }
 
+/* 1F3D0 80143BD0 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/collision", COLL_RAY_BLK_MORTEL);
+#else
+void COLL_RAY_BLK_MORTEL(void)
+{
+  u16 mp_map;
+  
+  if ((ray.y_pos + ray.offset_by) < (mp.height * 16))
+  {
+    mp_map = mp.map[ray.ray_dist] & 0xfc00;
+    if (mp_map == 0x6000) {
+      set_main_and_sub_etat(&ray, 3, 32);
+      dead_time = 1;
+      ray.speed_y = 0;
+      ray.speed_x = 0;
+      ray.y_pos += 5;
+      stop_all_snd();
+    }
+    else if (ray.btypes[3] == BTYP_SPIKES) {
+      set_main_and_sub_etat(&ray, 3, 32);
+      dead_time = 1;
+      ray.speed_y = 0;
+      ray.speed_x = 0;
+      stop_all_snd();
+    }
+    else if (mp_map == 0x6400) {
+      set_main_and_sub_etat(&ray, 2, 31);
+      scroll_end_y = ymap;
+      scroll_start_y = ymap;
+    }
+    else if (
+        RayEvts.flags1 & FLG(RAYEVTS1_UNUSED_DEATH) &&
+        block_flags[mp.map[ray.ray_dist] >> 10] >> BLOCK_SOLID & 1 &&
+        !(ray.main_etat == 3 && ray.sub_etat == 38)
+    )
+    {
+      set_main_and_sub_etat(&ray, 3, 38);
+      dead_time = 1;
+      ray.speed_y = 0;
+      ray.speed_x = 0;
+    }
+  }
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", RAY_KO);
+  __asm__("nop");
+}
+#endif
+
+/* 1F5B0 80143DB0 -O2 -msoft-float */
+void RAY_KO(void)
+{
+  set_main_and_sub_etat(&ray, 3, 0);
+  ray.speed_y = 0;
+  ray.speed_x = 0;
+  ray.field56_0x69 = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", RAY_HIT); /**/
 
