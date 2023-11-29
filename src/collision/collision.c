@@ -397,9 +397,83 @@ void DO_PNG_COLL_STONEWOMAN(Obj *obj)
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_POING_COLLISION);
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", COLL_BOX_ALL_SPRITES);
+/* 1F06C 8014386C -O2 -msoft-float */
+s32 COLL_BOX_ALL_SPRITES(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
+{
+    s16 i;
+    s16 spr_x; s16 spr_y; s16 spr_w; s16 spr_h;
+    s16 res;
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", COLL_RAY_PIC);
+    for (i = 0; i < (obj->animations[obj->anim_index].layers_count & 0x3FFF); i++)
+    {
+        GET_SPRITE_POS(obj, i, &spr_x, &spr_y, &spr_w, &spr_h);
+        if ((s16) inter_box(in_x, in_y, in_w, in_h, spr_x, spr_y, spr_w, spr_h))
+        {
+            res = i;
+            break;
+        }
+    }
+    return res;
+}
+
+/* 0xFC00, 0x2000 usages? macro? */
+/* 1F1B4 801439B4 -O2 -msoft-float */
+s16 COLL_RAY_PIC(void)
+{
+    s32 ray_dist;
+    s32 unk_1;
+    s32 unk_2;
+    s32 unk_3;
+    s32 unk_4;
+    s32 unk_5;
+    s16 res = false;
+
+    if ((ray.y_pos + ray.offset_by) < (mp.height * 16))
+    {
+        ray_dist = ray.ray_dist;
+        if (ray.field20_0x36 == -1)
+            res = (mp.map[ray_dist] & 0xFC00) == 0x2000;
+        if (!res)
+        {
+            unk_1 = ray_dist - mp.width;
+            res = (mp.map[unk_1] & 0xFC00) == 0x2000;
+            if (!res)
+            {
+                unk_2 = unk_1 + 1;
+                unk_3 = unk_1 - 1;
+                if (ray.main_etat != 2 || ray.speed_x != 0)
+                {
+                    res = false;
+                    if (
+                        (mp.map[unk_3] & 0xFC00) == 0x2000 ||
+                        (mp.map[unk_2] & 0xFC00) == 0x2000
+                    )
+                        res = true;                        
+                }
+
+                if (
+                    !res && !(RayEvts.flags1 & FLG(RAYEVTS1_DEMI)) &&
+                    !(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40)
+                )
+                {
+                    unk_4 = unk_1 - mp.width;
+                    unk_5 = unk_4 - mp.width;
+                    while (unk_5 < 0)
+                        unk_5 += mp.width;
+                    while (unk_4 < 0)
+                        unk_4 += mp.width;
+                    res = false;
+                    if (
+                        (mp.map[unk_5] & 0xFC00) == 0x2000 ||
+                        (mp.map[unk_4] & 0xFC00) == 0x2000
+                    )
+                        res = true;
+                }
+            }
+        }
+    }
+    return res;
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", COLL_RAY_BLK_MORTEL);
 

@@ -47,7 +47,7 @@ void do_boum(void);
 void DO_PNG_COLL_STONEMAN(Obj *obj);
 void DO_PNG_COLL_STONEWOMAN(Obj *obj);
 void DO_POING_COLLISION(void);
-s32 COLL_BOX_ALL_SPRITES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, Obj *param_5);
+s32 COLL_BOX_ALL_SPRITES(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj);
 s16 COLL_RAY_PIC(void);
 void COLL_RAY_BLK_MORTEL(void);
 void RAY_KO(void);

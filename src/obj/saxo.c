@@ -90,7 +90,6 @@ INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_NOTE_CMD);
 /*? PlaySnd(?, s16, s16);
 ? allocateExplosion(Obj *);
 ? set_main_and_sub_etat(Obj *, ?, ?);*/
-s16 inter_box(s32, s32, s32, s32, s32, s32, s32, s32);
 
 void DO_NOTE_CMD(Obj *obj)
 {
@@ -158,7 +157,7 @@ void DO_NOTE_CMD(Obj *obj)
         break;
     case TYPE_BONNE_NOTE:
         if (
-            inter_box(
+            (s16) inter_box(
                 obj->x_pos + obj->offset_bx - 8,
                 obj->y_pos + obj->offset_by - 8,
                 16,

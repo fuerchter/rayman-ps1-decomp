@@ -172,14 +172,13 @@ void DO_TOTEM_COMMAND(Obj *tot_obj)
                 if (++tot_obj->iframes_timer < 4)
                 {
                     set_sub_etat(tot_obj, 5);
-                    new_x = tot_obj->init_x_pos - 85;
+                    tot_obj->x_pos = tot_obj->init_x_pos - 85;
                 }
                 else
                 {
                     set_sub_etat(tot_obj, 6);
-                    new_x = tot_obj->init_x_pos;
+                    tot_obj->x_pos = tot_obj->init_x_pos;
                 }
-                tot_obj->x_pos = new_x;
             }
             break;
         case 5:
@@ -188,19 +187,18 @@ void DO_TOTEM_COMMAND(Obj *tot_obj)
                 if (++tot_obj->iframes_timer < 4)
                 {
                     set_sub_etat(tot_obj, 4);
-                    new_x = tot_obj->init_x_pos + 71;
+                    tot_obj->x_pos = tot_obj->init_x_pos + 71;
                 }
                 else
                 {
                     set_sub_etat(tot_obj, 7);
-                    new_x = tot_obj->init_x_pos;
+                    tot_obj->x_pos = tot_obj->init_x_pos;
                 }
-                tot_obj->x_pos = new_x;
             }
             break;
         }
     }
-
+    
     __asm__("nop\nnop\nnop");
 }
 #endif

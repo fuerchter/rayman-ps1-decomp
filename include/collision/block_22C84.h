@@ -8,7 +8,7 @@ typedef struct MapData {
     s16 width;
     s16 height;
     s32 length;
-    s16 * map;
+    u16 *map;
 } MapData;
 
 /* .data */
