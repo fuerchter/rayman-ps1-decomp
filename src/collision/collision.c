@@ -308,11 +308,89 @@ void SET_RAY_DIST(Obj *obj)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", do_boum);
+/* 1D8FC 801420FC -O2 -msoft-float */
+void do_boum(void)
+{
+  Obj *obj;
+  
+  allocatePoingBoum();
+  poing.is_boum = true;
+  obj = &level.objects[poing_obj_id];
+  if (!poing.is_returning)
+  {
+    poing.is_returning = true;
+    poing.charge = 0;
+    obj->speed_x = 0;
+    fist_U_turn(obj, true);
+    obj->anim_index = obj->eta[obj->main_etat][obj->sub_etat].anim_index;
+  }
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_PNG_COLL_STONEMAN);
+/* 1D9A0 801421A0 -O2 -msoft-float */
+void DO_PNG_COLL_STONEMAN(Obj *obj)
+{
+  u8 prev_flip_x;
+  
+  if (!(obj->main_etat == 0 && obj->sub_etat == 1))
+    obj_hurt(obj);
+  prev_flip_x = (obj->flags >> OBJ_FLIP_X & 1);
+  calc_obj_dir(obj);
+  skipToLabel(obj, 8, true);
+  if ((obj->flags >> OBJ_FLIP_X & 1) != prev_flip_x)
+  {
+    skipToLabel(obj, 1, true);
+    if (obj->type == TYPE_STONEMAN1)
+      allocateStonemanStone(obj, -2, 0);
+  }
+  if (obj->hit_points < 3)
+  {
+    if (obj->type == TYPE_STONEMAN1)
+      allocateStonemanStone(obj, -2, 0);
+    if (obj->hit_points == 0)
+    {
+      obj->hit_points = obj->init_hit_points;
+      skipToLabel(obj, 0, true);
+    }
+    else
+    {
+      skipToLabel(obj, 1, true);
+      obj->change_anim_mode = ANIMMODE_RESET;
+    }
+  }
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_PNG_COLL_STONEWOMAN);
+/* 1DAC4 801422C4 -O2 -msoft-float */
+void DO_PNG_COLL_STONEWOMAN(Obj *obj)
+{
+    u8 prev_flip_x;
+
+    obj_hurt(obj);
+    obj->timer = 0;
+    prev_flip_x = (obj->flags >> OBJ_FLIP_X) & 1;
+    calc_obj_dir(obj);
+    PlaySnd(86, obj->id);
+    if ((obj->flags >> OBJ_FLIP_X & 1) != prev_flip_x)
+    {
+        allocateStonewomanStone(obj, 0);
+        skipToLabel(obj, 1, true);
+        return;
+    }
+    if (obj->hit_points < 15)
+    {
+        allocateStonewomanStone(obj, 0);
+        if (obj->hit_points == 0)
+        {
+            obj->hit_points = obj->init_hit_points;
+            skipToLabel(obj, 0, true);
+        }
+        else
+        {
+            if (obj->main_etat != 1)
+                skipToLabel(obj, 1, true);
+            obj->change_anim_mode = 2;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_POING_COLLISION); /**/
 
