@@ -2071,3 +2071,312 @@ block_248:
 block_249:
     return;
 }
+
+/* some bad instructions and reg swaps. not sure if i botched something */
+/*INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_DETECT_ZONE_FLAG);*/
+
+void SET_DETECT_ZONE_FLAG(Obj *obj)
+{
+  s16 uVar1;
+  short sVar2;
+  u8 bVar3;
+  short sVar4;
+  u16 bVar5;
+  short x;
+  short y;
+  s16 w;
+  s16 h;
+  s32 new_var;
+  s32 new_var2;
+  
+  GET_ANIM_POS(obj,&x,&y,&w,&h);
+  /*if (0xea < obj->type - 5) {
+LAB_801448fc:
+    standard_frontZone(obj,&x,&w);
+    goto switchD_80144310_caseD_15;
+  }*/
+  sVar4 = h >> 1;
+  sVar2 = w >> 1;
+  switch(obj->type) {
+  case 0x99:
+    x = x + (((s16) h >> 1) - (obj->detect_zone >> 1));
+    y = y + -0x10;
+    w = obj->detect_zone;
+    h = h + 0x40;
+    break;
+  case 0x35:
+    y = y + h;
+    h = h + 0xf0;
+    break;
+  case 0x4d:
+  case 0xef:
+    standard_frontZone(obj,&x,&w);
+    if ((obj->main_etat == 0) && (obj->sub_etat == 4)) {
+      y = y + (h >> 1);
+      h = h + obj->detect_zone * 4 + (h >> 1);
+    }
+    break;
+  case 0x7b:
+    new_var2 = -1;
+    bVar5 = obj->follow_sprite;
+    switch(bVar5)
+    {
+    case 3:
+      if ((obj->main_etat == 0) && (obj->sub_etat == 0)) {
+        h = obj->detect_zone + h;
+        y = y - (ushort)obj->detect_zone;
+        w = obj->detect_zone + w;
+        x = x - (ushort)(obj->detect_zone >> 1);
+      }
+      break;
+    case 7:
+      if (((obj->main_etat == 1)) && (obj->sub_etat == 1)) {
+        x = x + new_var2 + (w >> 1);
+        y = y + ((s16) h >> 1);
+        w = 0x14;
+        h = obj->detect_zone + h;
+        if ((obj->flags & FLG(OBJ_FLIP_X)) == FLG_OBJ_NONE) {
+          x = x + -w;
+        }
+      }
+      break;
+    case 4:
+      y = y - (obj->detect_zone + h);
+      w = (u16) w * 2;
+      x = x - ((s16) w >> 1);
+      h = obj->detect_zone + h;
+      break;
+    case 2:
+      y = y - (obj->detect_zone + h);
+      h = obj->detect_zone + h;
+      w = w + (ushort)obj->detect_zone * 2;
+      x = x - (ushort)obj->detect_zone;
+      break;
+    }
+    break;
+  case 0x84:
+    new_var = x;
+    if ((obj->flags & FLG(OBJ_FLIP_X))) {
+      new_var = x + w;
+    }
+    else
+      new_var = x - w;
+    x = new_var;
+    y = y + -0x32;
+    h = h + 0x32;
+    break;
+  case 0x93:
+    if (obj->hit_points != 0) {
+      y = 0;
+      h = mp.height << 4;
+    }
+    break;
+  case 0xb5:
+  case 199:
+    x = (ushort)obj->offset_bx + obj->x_pos;
+    w = 0x10;
+    y = 0;
+    h = mp.height << 4;
+    break;
+  case 0x3d:
+    h = (obj->detect_zone >> 1) + h;
+    y = y - (ushort)(obj->detect_zone >> 1);
+    standard_frontZone(obj,&x,&w);
+    break;
+  case 0xe:
+    h = (ushort)obj->detect_zone;
+    y = y - (ushort)(obj->detect_zone >> 1);
+    w = w + (ushort)obj->detect_zone * 2;
+    x = x - (ushort)obj->detect_zone;
+    break;
+  case 5:
+  case 0xc:
+  case 0x14:
+  case 0x51:
+  case 0xa8:
+  case 0xa9:
+    w = w + (ushort)obj->detect_zone * 2;
+    x = x - (ushort)obj->detect_zone;
+    break;
+  case 0x74:
+    if (!(obj->flags & 0x4000))
+    {
+        x = (u16) x + (((s32) (w) >> 0x1) - ((u8) obj->detect_zone >> 1));
+    }
+    else
+    {
+        x = (u16) x + ((s32) (w) >> 0x1);
+    }
+    w = (ushort)(obj->detect_zone >> 1);
+    y = y + ((s16) h >> 1);
+    h = (ushort)obj->detect_zone + ((s16) h >> 1);
+    break;
+  case 0x38:
+  case 0xac:
+    standard_frontZone(obj,&x,&w);
+    h = h << 1;
+    break;
+  case 100:
+    bVar3 = 0x96;
+    if ((obj->flags & FLG(OBJ_FLIP_X)) == FLG_OBJ_NONE) {
+      x = x - obj->detect_zone;
+    }
+    else {
+      x = x + -bVar3 + (w >> 1);
+    }
+    w = obj->detect_zone + 0x96;
+    y = y - ((obj->detect_zone - h) >> 1);
+    h = obj->detect_zone;
+    break;
+  case 0xae:
+  case 0xe1:
+    standard_frontZone(obj,&x,&w);
+    h = 0x96;
+    break;
+  case 0xb8:
+  case 0xe2:
+    standard_frontZone(obj,&x,&w);
+    h = 0x96;
+    x = x + 0x46;
+    y = y + 0x32;
+    break;
+  case 0xc3:
+    if (((obj->main_etat == 0) &&
+        (((bVar5 = obj->sub_etat, bVar5 == 0x18 || (bVar5 == 0x1e)) || (bVar5 == 0xb)))) ||
+       ((obj->main_etat == 1 && (obj->sub_etat == 2)))) {
+      h = 10;
+      x = x + -0x28;
+      w = w + 0x50;
+    }
+    else {
+      h = 200;
+      x = x + -0x82;
+      w = w + 0x104;
+    }
+    break;
+  case 0xd4:
+    standard_frontZone(obj,&x,&w);
+    h = 0xfa;
+    break;
+  case 0x59:
+    h = h + 0x14;
+    break;
+  case 0x15:
+    break;
+  default:
+    standard_frontZone(obj,&x,&w);
+    break;
+  }
+  sVar4 = inter_box((int)x,(int)y,(int)(short)w,(int)(short)h,(int)ray_zdc_x,(int)ray_zdc_y,
+                    (int)ray_zdc_w,(int)ray_zdc_h);
+  if (sVar4 != 0) {
+    bVar5 = obj->detect_zone_flag;
+    if (bVar5 == 0 || bVar5 == 1) {
+      if (bVar5 == 0) {
+        obj->detect_zone_flag = 1;
+      }
+      else if (bVar5 == 1) {
+        obj->detect_zone_flag = 2;
+      }
+    }
+    else {
+      obj->detect_zone_flag = obj->detect_zone_flag + 1;
+      bVar5 = obj->detect_zone_flag;
+      if (bVar5 == 0x14) {
+        obj->detect_zone_flag = 2;
+      }
+    }
+  }
+  else {
+    obj->detect_zone_flag = 0;
+    if (obj->type == 0x15) {
+      obj->flags = obj->flags & ~FLG(OBJ_FLAG_0);
+    }
+  }
+  return;
+}
+
+/* matches, but case 0x7b... */
+/*INCLUDE_ASM("asm/nonmatchings/collision/collision", goToRay);*/
+
+void goToRay(Obj *obj)
+
+{
+  s32 bVar1;
+  u8 label;
+  
+  PlaySnd(0xcc,obj->id);
+  switch(obj->type) {
+  case 0x39:
+    if (obj->sub_etat == 4)
+    {
+      calc_obj_dir(obj);
+    }
+    else
+    {
+      obj->flags = obj->flags & ~FLG(OBJ_FLIP_X);
+    }
+    return;
+  case 1:
+  case 0x10:
+  case 0x11:
+  case 0x16:
+  case 0x19:
+  case 0x1a:
+  case 0x1b:
+  case 0x1c:
+  case 0x1d:
+  case 0x29:
+  case 0x2a:
+  case 0x2d:
+  case 0x2f:
+  case 0x3a:
+  case 0x3f:
+  case 0x44:
+  case 0x45:
+  case 0x52:
+  case 0x65:
+  case 0x69:
+  case 0x6a:
+  case 0x6b:
+  case 0x6d:
+  case 0x8e:
+  case 0x91:
+  case 0xbc:
+  case 0xf3:
+    obj->flags = obj->flags & ~FLG(OBJ_FLIP_X);
+    return;
+  case 0:
+  case 9:
+  case 0xa5:
+    calc_obj_dir(obj);
+    if ((obj->flags & FLG(OBJ_FLIP_X)) != FLG_OBJ_NONE) {
+      skipToLabel(obj,3,true);
+    }
+    else {
+      skipToLabel(obj,2,true);
+    }
+
+    break;
+  case 0x7b:
+    bVar1 = obj->follow_sprite;
+    if (bVar1 < 2 || (bVar1 >= 4 && ((s16) bVar1 >= 8 || bVar1 < 6)))
+    {
+      calc_obj_dir(obj);
+      if ((obj->flags & FLG(OBJ_FLIP_X)) != FLG_OBJ_NONE) {
+        skipToLabel(obj,3,true);
+      }
+      else {
+        skipToLabel(obj,2,true);
+      }
+    }
+    break;
+  case 0x3c:
+    calc_obj_dir(obj);
+    skipToLabel(obj,7,true);
+    break;
+  default:
+    calc_obj_dir(obj);
+    return;
+  }
+}

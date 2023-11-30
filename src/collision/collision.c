@@ -15,6 +15,7 @@ extern u8 Nb_total_cages;
 extern s16 prise_branchee;
 extern s16 ray_speed_inv;
 
+
 /* 1B1F0 8013F9F0 -O2 -msoft-float */
 void PS1_SetZDC(s16 x, s16 y, u8 w, u8 h, u8 flags, u8 sprite)
 {
@@ -676,7 +677,37 @@ INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_DETECT_ZONE_FLAG); /**/
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", goToRay);
 
+/* 20304 80144B04 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/collision", unleashMonsterHost);
+#else
+void unleashMonsterHost(Obj *in_obj)
+{
+    Obj *linked_obj;
+    s16 prev_id;
+    s16 linked_id = in_obj->field24_0x3e;
+
+    if (linked_id != in_obj->id)
+    {
+        do
+        {
+            linked_obj = &level.objects[linked_id];
+            if (!((flags[linked_obj->type].flags1 >> OBJ1_BONUS & 1) && ((u8) bonus_taken(linked_obj->id))))
+            {
+                obj_init(linked_obj);
+                linked_obj->flags |= FLG(OBJ_ALIVE);
+                make_active(linked_obj, true);
+                goToRay(linked_obj);
+            }
+            prev_id = linked_id;
+            linked_id = link_init[linked_obj->id];
+            suppressFromLinkList(linked_obj);
+        } while (prev_id != linked_id);
+    }
+
+    __asm__("nop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_COLL_RAY_CYMBALE); /**/
 
