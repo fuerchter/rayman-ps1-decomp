@@ -662,7 +662,15 @@ void RAY_HIT(u8 hurt, Obj *obj)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", standard_frontZone);
+/* 1FA54 80144254 -O2 -msoft-float */
+void standard_frontZone(Obj *obj, s16 *x, s16 *w)
+{
+  if (!(obj->flags & FLG(OBJ_FLIP_X)))
+    *x -= obj->detect_zone;
+  else
+    *x += (*w >> 1);
+  *w = obj->detect_zone + (*w >> 1);
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_DETECT_ZONE_FLAG); /**/
 

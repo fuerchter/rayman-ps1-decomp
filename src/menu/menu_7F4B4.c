@@ -459,6 +459,7 @@ void INIT_AFFICHE_ECRAN_SAVE(void)
 }
 #endif
 
+/* 81834 801A6034 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu, div_nop_swap, missing_nop */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", SAISIE_NOM);
 #else
@@ -566,6 +567,7 @@ void SAISIE_NOM(void)
 }
 #endif
 
+/* 81C84 801A6484 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", REALISATION_ACTION);
 #else
