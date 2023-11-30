@@ -13,6 +13,7 @@ extern s16 bagH[20];
 extern s16 Mus_obj_id;
 extern u8 Nb_total_cages;
 extern s16 prise_branchee;
+extern s16 ray_speed_inv;
 
 /* 1B1F0 8013F9F0 -O2 -msoft-float */
 void PS1_SetZDC(s16 x, s16 y, u8 w, u8 h, u8 flags, u8 sprite)
@@ -532,7 +533,134 @@ void RAY_KO(void)
   ray.field56_0x69 = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", RAY_HIT); /**/
+/* 1F5F4 80143DF4 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
+INCLUDE_ASM("asm/nonmatchings/collision/collision", RAY_HIT);
+#else
+void RAY_HIT(u8 hurt, Obj *obj)
+{
+  u16 ray_x_pos;
+  s16 ray_offset_bx;
+  u8 typ_trav;
+  ObjType obj_type;
+  s16 eject_sens;
+  s32 diff_spd_x;
+  s16 new_speed;
+
+  if (hurt)
+  {
+    RAY_HURT();
+    ray_x_pos = ray.x_pos;
+    ray_offset_bx = ray.offset_bx;
+    /* not sure how to change into cast... */
+    while ((s16) PS1_BTYPAbsPos((ray_offset_bx + ray_x_pos) << 0x10 >> 0x10, ray.y_pos + ray.offset_by) == BTYP_WATER)
+      ray.y_pos--;
+    ray.btypes[0] = BTYP_NONE;
+  }
+
+  if (ray.main_etat == 6)
+  {
+    set_main_and_sub_etat(&ray, 6, 8);
+    ray.speed_x = 0;
+    ray.speed_y = 0;
+    poing.is_charging = false;
+  }
+  else if (
+    ray.flags & FLG(OBJ_ALIVE) &&
+    !(ray.main_etat == 3 && (ray.sub_etat == 22 || ray.sub_etat == 32 || ray.sub_etat == 38)) &&
+    !(ray.main_etat == 2 && ray.sub_etat == 31)
+  )
+  {
+    if (
+      ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40 &&
+      (typ_trav = calc_typ_trav(&ray, 2), block_flags[typ_trav] >> BLOCK_FLAG_4 & 1)
+    )
+      set_main_and_sub_etat(&ray, 0, 61);
+    else
+      set_main_and_sub_etat(&ray, 2, 8);
+    
+    ray_speed_inv = 0;
+    if (!obj && !(ray.main_etat == 0 && ray.sub_etat == 61))
+    {
+      if (ray.flags & FLG(OBJ_FLIP_X))
+        ray.speed_x = -2;
+      else
+        ray.speed_x = 2;
+      ray.speed_y = -3;
+    }
+    else if (!(ray.main_etat == 0 && ray.sub_etat == 61))
+    {
+      obj_type = obj->type;
+      if (obj_type == TYPE_SAXO2)
+        eject_sens = saxo2_get_eject_sens();
+      else if (obj_type == TYPE_SCORPION)
+        eject_sens = sko_get_eject_sens();
+      else if (obj_type == TYPE_BB12)
+        eject_sens = 1;
+      else if (obj_type == TYPE_BB13)
+        eject_sens = -1;
+      else if (obj_type == TYPE_MITE)
+      {
+        if (obj->flags & FLG(OBJ_FLIP_X))
+          eject_sens = 1;
+        else
+          eject_sens = -1;
+      }
+      else if (obj_type == TYPE_BATTEUR_FOU)
+        eject_sens = bat_get_eject_sens(obj);
+      else if (obj_type == TYPE_MAMA_PIRATE)
+        eject_sens = pma_get_eject_sens(obj);
+      else if (obj_type == TYPE_FIRE_LEFT)
+        eject_sens = 1;
+      else if (obj_type == TYPE_FIRE_RIGHT)
+        eject_sens = -1;
+      else
+      {
+        diff_spd_x = obj->speed_x - ray.speed_x;
+        if (diff_spd_x >= 0)
+          eject_sens = diff_spd_x > 0;
+        else
+          eject_sens = -1;
+        if (eject_sens == 0)
+        {
+          if (ray.flags & FLG(OBJ_FLIP_X))
+            eject_sens = -1;
+          else
+            eject_sens = 1;
+        }
+      }
+
+      if (flags[obj->type].flags1 >> OBJ1_BIG_RAY_HIT_KNOCKBACK & 1)
+        new_speed = 5;
+      else if (obj->type == TYPE_SAXO2)
+        new_speed = 4;
+      else
+        new_speed = 2;
+
+      if (eject_sens == 1)
+        ray.speed_x = new_speed;
+      else if (eject_sens == -1)
+        ray.speed_x = -new_speed;
+      ray.speed_y = ~new_speed;
+    }
+
+    in_air_because_hit = true;
+    jump_time = 0;
+    helico_time = -1;
+    ray.gravity_value_1 = 0;
+    ray.gravity_value_2 = 0;
+    ray.field20_0x36 = -1;
+    poing.is_charging = false;
+    decalage_en_cours = 0;
+    ray.nb_cmd = 0;
+    if (RayEvts.flags0 & FLG(RAYEVTS0_SUPER_HELICO))
+      button_released = 1;
+    Reset_air_speed(false);
+  }
+
+  __asm__("nop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", standard_frontZone);
 
