@@ -920,4 +920,111 @@ void DO_COLLISIONS(void)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_OBJ_COLLISIONS); /**/
+#ifndef NONMATCHINGS /* missing_addiu */
+INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_OBJ_COLLISIONS);
+#else
+void DO_OBJ_COLLISIONS(Obj *in_obj, s32 offs)
+{
+  s16 in_x; s16 in_y; s16 in_w; s16 in_h;
+  u8 done;
+  s16 i;
+  Obj *cur_obj;
+  s16 cur_x; s16 cur_y; s16 cur_w; s16 cur_h;
+  
+  GET_ANIM_POS(in_obj, &in_x, &in_y, &in_w, &in_h);
+  done = false;
+  if (in_obj->type == TYPE_FALLING_OBJ || in_obj->type == TYPE_FALLING_OBJ2 || in_obj->type == TYPE_FALLING_OBJ3)
+  {
+    in_x += 10;
+    in_y += 20;
+    in_w += -20;
+    in_h += -25;
+  }
+  else
+  {
+    in_x = offs + in_x;
+    in_y = offs + in_y;
+    in_w -= offs * 2;
+    in_h -= offs * 2;
+  }
+  i = 0;
+  cur_obj = &level.objects[actobj.objects[i]];
+  if (i < actobj.num_active_objects)
+  {
+    do {
+      if (in_obj != cur_obj)
+      {
+        switch(cur_obj->type)
+        {
+        case TYPE_BADGUY1:
+          if (
+            !(cur_obj->main_etat == 2 || (cur_obj->main_etat == 0 && cur_obj->sub_etat == 3)) &&
+            (
+              !(cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].flags & 0x40) &&
+              GET_SPRITE_POS(cur_obj, cur_obj->follow_sprite, &cur_x, &cur_y, &cur_w, &cur_h) &&
+              (s16) inter_box(cur_x, cur_y, cur_w, cur_h, in_x, in_y, in_w, in_h)
+            )
+          )
+          {
+            set_main_and_sub_etat(cur_obj, 0, 4);
+            cur_obj->follow_sprite = 4;
+            cur_obj->follow_y = 0;
+            cur_obj->speed_x = 0;
+            cur_obj->speed_y = 0;
+            cur_obj->offset_hy = 11;
+            cur_obj->flags |= FLG(OBJ_FOLLOW_ENABLED);
+            if (ray.field20_0x36 == in_obj->id)
+              RAY_TOMBE();
+            if (cur_obj->cmd == GO_WAIT)
+            {
+              if ((cur_obj->flags & FLG(OBJ_FLIP_X)))
+                skipToLabel(cur_obj, 3, true);
+              else
+                skipToLabel(cur_obj, 2, true);
+            }
+            set_sub_etat(in_obj, 9);
+            in_obj->flags &= ~FLG(OBJ_ACTIVE);
+            done = true;
+          }
+          break;
+        case TYPE_BOUEE_JOE:
+          if (
+            GET_SPRITE_POS(cur_obj, cur_obj->follow_sprite, &cur_x, &cur_y, &cur_w, &cur_h) &&
+            in_obj->type == TYPE_POI2 &&
+            (s16) inter_box(cur_x, cur_y, cur_w, cur_h, in_x, in_y, in_w, in_h) &&
+            !(cur_obj->main_etat == 2 && cur_obj->sub_etat == 6)
+          )
+          {
+            if (
+              in_obj->flags & FLG(OBJ_FLIP_X) &&
+              (cur_obj->x_pos + cur_obj->offset_bx) - in_obj->x_pos - in_obj->offset_bx > -1
+            )
+            {
+              cur_obj->field56_0x69 = 1;
+              skipToLabel(in_obj, 3, true);
+              cur_obj->speed_x = 8;
+            }
+            if (
+              !(in_obj->flags & FLG(OBJ_FLIP_X)) &&
+              (cur_obj->x_pos + cur_obj->offset_bx) - in_obj->x_pos - in_obj->offset_bx < 0
+            )
+            {
+              cur_obj->field56_0x69 = 1;
+              skipToLabel(in_obj, 4, true);
+              cur_obj->speed_x = -8;
+            }
+          }
+          break;
+        }
+
+        if (done)
+          break;
+      }
+      i++;
+      cur_obj = &level.objects[actobj.objects[i]];
+    } while (i < actobj.num_active_objects);
+  }
+
+  __asm__("nop");
+}
+#endif

@@ -61,6 +61,6 @@ void DO_COLL_RAY_CYMBALE(Obj *param_1);
 void DoAudioStartRaymanCollision(Obj *obj);
 void PS1_DoRaymanCollision(void);
 void DO_COLLISIONS(void);
-void DO_OBJ_COLLISIONS(Obj *param_1, s16 param_2);
+void DO_OBJ_COLLISIONS(Obj *in_obj, s32 offs);
 
 #endif
