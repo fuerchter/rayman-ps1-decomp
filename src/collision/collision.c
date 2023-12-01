@@ -673,7 +673,7 @@ void standard_frontZone(Obj *obj, s16 *x, s16 *w)
   *w = obj->detect_zone + (*w >> 1);
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_DETECT_ZONE_FLAG); /**/
+INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_DETECT_ZONE_FLAG);
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", goToRay);
 
@@ -709,9 +709,13 @@ void unleashMonsterHost(Obj *in_obj)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_COLL_RAY_CYMBALE); /**/
+INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_COLL_RAY_CYMBALE);
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", DoAudioStartRaymanCollision);
+/* 2081C 8014501C -O2 -msoft-float */
+void DoAudioStartRaymanCollision(Obj *obj)
+{
+  manage_snd_event(obj);
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", PS1_DoRaymanCollision); /**/
 
