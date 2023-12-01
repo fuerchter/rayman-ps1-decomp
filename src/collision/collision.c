@@ -721,6 +721,203 @@ void DoAudioStartRaymanCollision(Obj *obj)
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", PS1_DoRaymanCollision);
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_COLLISIONS); /**/
+#ifndef NONMATCHINGS /* missing_addiu */
+INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_COLLISIONS);
+#else
+void DO_COLLISIONS(void)
+{
+    s16 i;
+    Obj *cur_obj;
+    Obj *poing_obj;
+    ObjType obj_type;
+    s16 ray_collided;
+
+    if (ray.field56_0x69 != 0)
+        RAY_KO();
+    else if (ray.iframes_timer == -1 && ray.eta[ray.main_etat][ray.sub_etat].flags & 8)
+    {
+        i = 0;
+        cur_obj = &level.objects[actobj.objects[i]];
+        while (i < actobj.num_active_objects)
+        {
+            if (new_world || new_level || fin_boss)
+                break;
+            
+            obj_type = cur_obj->type;
+            if (
+                !(flags[obj_type].flags0 >> OBJ0_NO_COLLISION & 1) &&
+                cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].flags & 0x20
+            )
+            {
+                if (!((flags[obj_type].flags2 >> OBJ2_DO_NOT_CHECK_RAY_COLLISION) & 1))
+                {
+                    ray_collided = CHECK_BOX_COLLISION(TYPE_RAYMAN, ray_zdc_x, ray_zdc_y, ray_zdc_w, ray_zdc_h, cur_obj);
+                    obj_type = cur_obj->type; /* ??? */
+                    if (
+                        (obj_type == TYPE_RAYON && (cur_obj->anim_frame > 3 || cur_obj->anim_frame == 0)) ||
+                        (cur_obj->type == TYPE_MST_SCROLL && cur_obj->hit_points != 0)
+                    )
+                        ray_collided = -1;
+                    
+                    if (ray_collided != -1)
+                    {
+                        switch (cur_obj->type)
+                        {
+                        case TYPE_DARK2_PINK_FLY:
+                            ToonDonnePoing(cur_obj);
+                            break;
+                        case TYPE_ANNULE_SORT_DARK:
+                            if (
+                                RayEvts.flags1 & (FLG(RAYEVTS1_DEMI)|FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|
+                                                FLG(RAYEVTS1_FORCE_RUN)|FLG(RAYEVTS1_REVERSE)|FLG(RAYEVTS1_FLAG6))
+                            )
+                            {
+                                DO_NOVA(&ray);
+                                if (RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)))
+                                    RayEvts.flags1 |= FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN);
+                                if (RayEvts.flags1 & (FLG(RAYEVTS1_REVERSE)|FLG(RAYEVTS1_FLAG6)))
+                                    RAY_REVERSE_COMMANDS();
+                                if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+                                    RAY_DEMIRAY();
+                                cur_obj->flags &= ~FLG(OBJ_ALIVE);
+                                cur_obj->flags &= ~FLG(OBJ_ACTIVE);
+                            }
+                            break;
+                        case TYPE_HYB_BBF2_LAS:
+                            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+                            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
+                            break;
+                        case TYPE_BLACK_RAY:
+                        case TYPE_BLACK_FIST:
+                            if (ray_stack_is_full == true)
+                                ray.hit_points = 0;
+                            break;
+                        case TYPE_TNT_BOMB:
+                        case TYPE_PIRATE_BOMB:
+                            BombExplosion(cur_obj);
+                            break;
+                        case TYPE_CYMBAL2:
+                        case TYPE_CYMBALE:
+                            DO_COLL_RAY_CYMBALE(cur_obj);
+                            break;
+                        case TYPE_GRAP_BONUS:
+                            DO_NOVA(cur_obj);
+                            RayEvts.flags0 |= FLG(RAYEVTS0_GRAP);
+                            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+                            break;
+                        case TYPE_POING_POWERUP:
+                            poing_obj = &level.objects[poing_obj_id];
+                            if (cur_obj->sub_etat == 7)
+                            {
+                                if (!(RayEvts.flags0 & FLG(RAYEVTS0_POING)))
+                                    poing_obj->init_sub_etat = 8;
+                                else
+                                {
+                                    switch(poing_obj->init_sub_etat)
+                                    {
+                                    case 1:
+                                        poing_obj->init_sub_etat = 8;
+                                        break;
+                                    case 3:
+                                        poing_obj->init_sub_etat = 10;
+                                        break;
+                                    case 5:
+                                        poing_obj->init_sub_etat = 12;
+                                        break;
+                                    }
+                                }
+                            }
+                            else if (cur_obj->sub_etat == 14)
+                            {
+                                if (RayEvts.flags0 & FLG(RAYEVTS0_POING))
+                                {
+                                    switch (poing_obj->init_sub_etat)
+                                    {
+                                    case 1:
+                                        poing_obj->init_sub_etat = 3;
+                                        break;
+                                    case 3:
+                                        poing_obj->init_sub_etat = 5;
+                                        break;
+                                    case 5:
+                                        poing_obj->init_sub_etat = 5;
+                                        break;
+                                    case 8:
+                                        poing_obj->init_sub_etat = 10;
+                                        break;
+                                    case 10:
+                                    case 12:
+                                        poing_obj->init_sub_etat = 12;
+                                        break;
+                                    }
+                                }
+                                else
+                                    poing_obj->init_sub_etat = 1;
+                            }
+                            DO_NOVA(cur_obj);
+                            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+                            RayEvts.flags0 |= FLG(RAYEVTS0_POING);
+                            poing_obj->sub_etat = poing_obj->init_sub_etat;
+                            poing.sub_etat = poing_obj->init_sub_etat;
+                            PlaySnd(11, cur_obj->id);
+                            break;
+                        case TYPE_POWERUP:
+                            DO_NOVA(cur_obj);
+                            ray.hit_points += cur_obj->hit_points;
+                            if (ray.hit_points > status_bar.max_hp)
+                                ray.hit_points = status_bar.max_hp;
+                            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+                            PlaySnd(8, cur_obj->id);
+                            break;
+                        case TYPE_ONEUP:
+                            DO_NOVA(cur_obj);
+                            PlaySnd(194, cur_obj->id);
+                            id_Cling_1up = NOVA_STATUS_BAR();
+                            if (id_Cling_1up == -1)
+                                Add_One_RAY_lives();
+                            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+                            take_bonus(cur_obj->id);
+                            break;
+                        case TYPE_SUPERHELICO:
+                            PlaySnd(213, cur_obj->id);
+                            DO_NOVA(cur_obj);
+                            RayEvts.flags0 |= FLG(RAYEVTS0_SUPER_HELICO);
+                            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+                            break;
+                        case TYPE_GRAINE:
+                            RayEvts.flags0 |= FLG(RAYEVTS0_GRAIN);
+                            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+                            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
+                            PlaySnd(10, cur_obj->id);
+                            break;
+                        case TYPE_DARK_SORT:
+                            DO_DARK_SORT_COLLISION(cur_obj);
+                            break;
+                        }
+
+                        if (
+                            flags[cur_obj->type].flags0 >> OBJ0_HIT_RAY & 1 &&
+                            ray.iframes_timer == -1 &&
+                            !(ray.main_etat == 3 && ray.sub_etat == 32) &&
+                            !(RayEvts.flags1 & FLG(RAYEVTS1_UNUSED_DEATH))
+                        )
+                        {
+                            RAY_HIT(true, cur_obj);
+                            break;
+                        }
+                    }
+                }
+            }
+            i++;
+            cur_obj = &level.objects[actobj.objects[i]];
+        }
+    }
+    else if (ray.iframes_timer >= 0)
+        ray.iframes_timer--;
+    PS1_DoRaymanCollision();
+
+    __asm__("nop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_OBJ_COLLISIONS); /**/

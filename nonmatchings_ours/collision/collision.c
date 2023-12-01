@@ -2508,7 +2508,8 @@ void DO_COLL_RAY_CYMBALE(Obj *param_1)
 }
 
 /* cases 0xd1/0xd2 and default are optimized together somehow
-did not yet try gotos-only for both */
+did not yet try gotos-only for both
+DoFlammeRaymanCollision, DoRaymanCollisionDefault on android */
 /*INCLUDE_ASM("asm/nonmatchings/collision/collision", PS1_DoRaymanCollision);*/
 
 /*void DO_NOVA(Obj *obj);
