@@ -2506,3 +2506,303 @@ void DO_COLL_RAY_CYMBALE(Obj *param_1)
         }
     }
 }
+
+/* cases 0xd1/0xd2 and default are optimized together somehow
+did not yet try gotos-only for both */
+/*INCLUDE_ASM("asm/nonmatchings/collision/collision", PS1_DoRaymanCollision);*/
+
+/*void DO_NOVA(Obj *obj);
+int NOVA_STATUS_BAR(void);
+void restoreGameState(SaveState *save);
+void set_SNSEQ_list(short param_1);*/
+
+void PS1_DoRaymanCollision(void)
+{
+    Obj *temp_v1_2;
+    Obj *temp_v1_3;
+    Obj *var_s0;
+    s16 *temp_s3;
+    s16 temp_v0;
+    s16 temp_v0_2;
+    s16 temp_v0_4;
+    s16 temp_v1_5;
+    s16 temp_v1_6;
+    s16 var_v0;
+    s32 temp_a0;
+    s32 var_a0;
+    s32 var_a1;
+    s16 var_s6;
+    u8 temp_a0_2;
+    u8 temp_v0_3;
+    u8 temp_v1;
+    u8 temp_v1_4;
+    s16 test_1;
+
+    var_s6 = 0;
+    var_s0 = &level.objects[actobj.objects[0]];
+    if (actobj.num_active_objects > 0)
+    {
+        /* iframes_timer actually loaded around here */
+        do
+        {
+            temp_a0_2 = var_s0->type;
+            if (
+                (((u8) flags[temp_a0_2].flags2 >> 4) & 1) &&
+                (var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 0x20) &&
+                ((ray.main_etat != 3) || (ray.sub_etat != 0x20))
+            )
+            {
+                if ((temp_a0_2 == 0x51) || (temp_a0_2 == 0xA9))
+                {
+                    var_v0 = 0;
+                }
+                else
+                {
+                    var_v0 = CHECK_BOX_COLLISION(0x0017, ray_zdc_x, ray_zdc_y, ray_zdc_w, (s16) (s32) ray_zdc_h, var_s0);
+                }
+                if (var_v0 != -1)
+                {
+                    temp_v1 = var_s0->type;
+                    switch (temp_v1)
+                    {
+                    case 0x1E:
+                        DoAudioStartRaymanCollision(var_s0);
+                        
+                        break;
+                    case 0xA1:
+                        PlaySnd(0x000E, var_s0->id);
+                        set_sub_etat(var_s0, 0x17);
+                        if (bonus_map != 0)
+                        {
+                            nb_wiz--;
+                            temp_v0_3 = nb_wiz_collected + 1;
+                            nb_wiz_collected = temp_v0_3;
+                            status_bar.num_wiz = temp_v0_3;
+                            if (nb_wiz == 0)
+                            {
+                                loop_time = -0x0020;
+                                INIT_FADE_OUT();
+                            }
+                        }
+                        else
+                        {
+                            status_bar.num_wiz += 1;
+                        }
+                        if ((u8) status_bar.num_wiz >= 0x64U)
+                        {
+                            DO_NOVA(var_s0);
+                            if (bonus_map != 0)
+                            {
+                                id_Cling_1up = -1;
+                            }
+                            else
+                            {
+                                id_Cling_1up = NOVA_STATUS_BAR();
+                            }
+                            if (id_Cling_1up == -1)
+                            {
+                                Add_One_RAY_lives();
+                            }
+                            life_becoz_wiz = 1;
+                            status_bar.num_wiz += 0x9C;
+                        }
+                        start_pix_gerbe(var_s0->screen_x_pos + 0xA, var_s0->screen_y_pos + 0xA);
+                        
+                        break;
+                    case 0x8E:
+                        DO_NOVA(var_s0);
+                        PlaySnd(0x00C2, var_s0->id);
+                        if (id_Cling_1up != -1)
+                        {
+                            Add_One_RAY_lives();
+                            temp_v1_3 = &level.objects[id_Cling_1up];
+                            temp_v1_3->flags &= ~0x400;
+                        }
+                        temp_v0_4 = NOVA_STATUS_BAR();
+                        id_Cling_1up = temp_v0_4;
+                        if (temp_v0_4 == -1)
+                        {
+                            Add_One_RAY_lives();
+                        }
+                        var_s0->flags &= ~0x400;
+                        take_bonus(var_s0->id);
+                        
+                        break;
+                    case 0x52:
+                        DO_NOVA(var_s0);
+                        if (id_Cling_Pow != -1)
+                        {
+                            ray.hit_points = 4;
+                            status_bar.max_hp = 4;
+                            temp_v1_2 = &level.objects[id_Cling_Pow];
+                            temp_v1_2->flags &= ~0x400;
+                        }
+                        temp_v0 = NOVA_STATUS_BAR();
+                        id_Cling_Pow = temp_v0;
+                        if (temp_v0 == -1)
+                        {
+                            ray.hit_points = 4;
+                            status_bar.max_hp = 4;
+                        }
+                        var_s0->flags &= ~0x400;
+                        PlaySnd(0x000C, var_s0->id);
+                        
+                        break;
+                    case 0x8D:
+                        temp_v1_4 = var_s0->sub_etat;
+                        var_s0->flags &= ~0x400;
+                        
+                        switch (temp_v1_4)
+                        {
+                        case 32:
+                            set_SNSEQ_list(0);
+                            
+                            break;
+                        case 21:
+                            set_SNSEQ_list(1);
+                            
+                            break;
+                        case 22:
+                            set_SNSEQ_list(2);
+                            
+                            break;
+                        case 23:
+                            set_SNSEQ_list(3);
+                            
+                            break;
+                        case 24:
+                            set_SNSEQ_list(4);
+                            
+                            break;
+                        case 25:
+                            set_SNSEQ_list(5);
+                            
+                            break;
+                        case 26:
+                            set_SNSEQ_list(6);
+                            
+                            break;
+                        case 27:
+                            set_SNSEQ_list(7);
+                            
+                            break;
+                        case 28:
+                            set_SNSEQ_list(8);
+                            
+                            break;
+                        case 29:
+                            set_SNSEQ_list(9);
+                            
+                            break;
+                        case 30:
+                            set_SNSEQ_list(0x000A);
+                            
+                            break;
+                        }
+                        break;
+                    case 0xA4:
+                        var_s0->flags &= ~0x800;
+                        var_s0->flags &= ~0x400;
+                        unleashMonsterHost(var_s0);
+                        
+                        break;
+                    case 0x89:
+                        
+                        if (reduced_rayman_id != -1)
+                        {
+                            if (var_s0->hit_points == var_s0->init_hit_points)
+                            {
+                                DO_NOVA(var_s0);
+                                var_s0->speed_x = 0;
+                                var_s0->speed_y = 0;
+                                var_s0->hit_points--;
+                                RAY_DEMIRAY();
+                                
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                        break;
+                    case 0x2A:
+                        TEST_SIGNPOST();
+                        life_becoz_wiz = 0;
+                        break;
+                    case 0xA9:
+                    case 0x51:
+                        DO_COLL_RAY_CYMBALE(var_s0);
+                        break;
+                    case 0x6C:
+                        ToonDonnePoing(var_s0);
+                        break;
+                    case 0xd1:
+                    case 0xd2:
+                        test_1 = ray.iframes_timer;
+                        if ((test_1 >= 0xa) || (test_1 == -1))
+                        {
+                            RAY_HIT(1, var_s0);
+                            if (ray_mode != 3)
+                            {
+                                ray.iframes_timer = 0xa;
+                            }
+                        }
+                        else
+                        {
+                            RAY_HIT(0, var_s0);
+                            ray.iframes_timer = test_1;
+                            /**temp_s3 = (s16) (u16) *temp_s3;*/
+                        }
+                        break;
+                    case 0x7C:
+                        if (bonus_map != 0)
+                        {
+                            status_bar.num_wiz = nb_wiz_save;
+                            nb_wiz_save = 0;
+                            departlevel = 0;
+                            fix_numlevel(&ray);
+                            break;
+                        }
+                        if (((ray.main_etat != 2) || ((ray.sub_etat != 8))) && ((ray.hit_points != 0xFF)))
+                        {
+                            if (gele == 0)
+                            {
+                                restoreGameState(&save2);
+                                new_world = 1;
+                                if (life_becoz_wiz != 0)
+                                {
+                                    if (--status_bar.num_lives == -1)
+                                    {
+                                        status_bar.num_lives = 0;
+                                    }
+                                    life_becoz_wiz = 0;
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        test_1 = ray.iframes_timer;
+                        if ((test_1 >= 0x3c) || (test_1 == -1))
+                        {
+                            RAY_HIT(1, var_s0);
+                            if (ray_mode != 3 && ray_mode != 4)
+                            {
+                                ray.iframes_timer = 0x3c;
+                            }
+                        }
+                        else
+                        {
+                            RAY_HIT(0, var_s0);
+                            ray.iframes_timer = test_1;
+                            /**temp_s3 = (s16) (u16) *temp_s3;*/
+                        }
+                        break;
+                    }
+                }
+            }
+            var_s6 = var_s6 + 1;
+            var_s0 = &level.objects[actobj.objects[var_s6]];
+        } while (var_s6 < actobj.num_active_objects);
+    }
+}

@@ -14,7 +14,9 @@ extern s16 Mus_obj_id;
 extern u8 Nb_total_cages;
 extern s16 prise_branchee;
 extern s16 ray_speed_inv;
-
+extern SaveState save2;
+extern s16 id_Cling_Pow;
+extern u8 life_becoz_wiz;
 
 /* 1B1F0 8013F9F0 -O2 -msoft-float */
 void PS1_SetZDC(s16 x, s16 y, u8 w, u8 h, u8 flags, u8 sprite)
@@ -717,7 +719,7 @@ void DoAudioStartRaymanCollision(Obj *obj)
   manage_snd_event(obj);
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", PS1_DoRaymanCollision); /**/
+INCLUDE_ASM("asm/nonmatchings/collision/collision", PS1_DoRaymanCollision);
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_COLLISIONS); /**/
 
