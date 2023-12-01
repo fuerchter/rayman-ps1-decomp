@@ -8,6 +8,7 @@
 #include "bonus_35FB4.h"
 #include "collision/block_22C84.h"
 #include "obj/mus_wait.h"
+#include "obj/joe_command.h"
 
 typedef struct ZDC
 {

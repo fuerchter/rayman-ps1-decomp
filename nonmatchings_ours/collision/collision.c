@@ -1007,6 +1007,835 @@ void DO_POING_COLLISION(void)
     Obj *var_s0;
     s16 temp_a0;
     s16 temp_v0;
+    s32 temp_v0_2;
+    s32 temp_v0_5;
+    s16 temp_v0_6;
+    s16 var_a1;
+    s32 var_s2_2;
+    s16 var_s5;
+    s16 var_v0_2;
+    s32 temp_a1;
+    s32 temp_v0_4;
+    s32 temp_v1_2;
+    u8 var_v0;
+    s32 var_v0_5;
+    s32 var_v1;
+    u32 temp_v1_3;
+    u32 var_v0_3;
+    u8 temp_a1_2;
+    u8 temp_s5;
+    u8 temp_v0_8;
+    u8 temp_v1;
+    s32 temp_v1_4;
+    u8 temp_v1_5;
+    s32 temp_v1_6;
+    s32 temp_v1_7;
+    s32 var_s2;
+    s16 test_1;
+    s32 test_2;
+    s32 test_3;
+    int new_var;
+
+    /*var_s2 = saved_reg_s2;*/
+    temp_s1 = &level.objects[poing_obj_id];
+    var_v0 = 0;
+    GET_SPRITE_POS(temp_s1, 0, &sp18, &sp1A, &sp1C, &sp1E);
+    if ((temp_v0 = temp_s1->speed_x) > 0 || temp_s1->speed_x < 0)
+    {
+        var_v0 = PS1_BTYPAbsPos(temp_s1->x_pos + temp_s1->offset_bx, temp_s1->y_pos + ((s32) (temp_s1->offset_by + temp_s1->offset_hy) >> 1));
+    }
+    temp_a1 = ((u8) block_flags[var_v0] >> 1) & 1;
+    var_s5 = 0;
+    if (temp_a1 != 0)
+    {
+        do_boum();
+        fin_poing_follow(temp_s1, 1);
+        return;
+    }
+    var_s0 = &level.objects[actobj.objects[var_s5]];
+    if (temp_a1 < actobj.num_active_objects)
+    {
+        test_1 = 2;
+        test_2 = ~0x4000;
+        test_3 = 1;
+        do
+        {
+            if ((new_world != 0) || (new_level != 0) || (fin_boss != 0))
+                break;
+        
+            if ((var_s0->display_prio != 0) && (var_s0->hit_points != 0) && (var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 8))
+            {
+                temp_v0_2 = CHECK_BOX_COLLISION(0x005E, sp18, sp1A, (s16) sp1C, (s16) (s32) (s16) sp1E, var_s0);
+                if (temp_v0_2 != -1)
+                {
+                    temp_v1 = var_s0->type;
+                    temp_s5 = var_s0->hit_points;
+                    switch (temp_v1)
+                    {
+                    case 0xDF:
+                        if ((temp_v0_2 == 6) && (poing.is_returning == 0) && (var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 1))
+                        {
+                            poing.damage = 1;
+                            obj_hurt(var_s0);
+                            if (var_s0->hit_points != 0)
+                            {
+                                if (var_s0->sub_etat == 2)
+                                {
+                                    set_sub_etat(var_s0, 4);
+                                }
+                                else
+                                {
+                                    set_sub_etat(var_s0, 0xD);
+                                }
+                            }
+                            else
+                            {
+                                if (var_s0->sub_etat == 2)
+                                {
+                                    level.objects[var_s0->field24_0x3e].flags &= ~0x400;
+                                    DO_NOVA(&level.objects[var_s0->field24_0x3e]);
+                                }
+                                set_sub_etat(var_s0, 8);
+                                var_s0->field23_0x3c = 1;
+                            }
+                        }
+                        break;
+                    case 0xDA:
+                        if ((var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 1) && ((temp_v0_2 == 3) || (temp_v0_2 == 6)))
+                        {
+                            poing.damage = 1;
+                            obj_hurt(var_s0);
+                            if (var_s0->hit_points == 0)
+                            {
+                                skipToLabel(var_s0, 2, 1);
+                                var_s0->field23_0x3c = 1;
+                            }
+                            else
+                            {
+                                var_a1_2 = 4;
+                                skipToLabel(var_s0, var_a1_2, 1);
+                            }
+                        }
+                        break;
+                    case 0x62:
+                    case 0xD5:
+                        doMereDenisHit(var_s0, temp_v0_2);
+                        break;
+                    case 0xD4:
+                        DO_DARK_POING_COLLISION(var_s0, temp_v0_2);
+                        break;
+                    case 0x78:
+                        if (temp_v0_2 == (s16) 2)
+                        {
+                            DO_BAT_POING_COLLISION(var_s0);
+                        }
+                        break;
+                    case 0xBB:
+                        if (temp_v0_2 == 5)
+                        {
+                            DO_PMA_POING_COLLISION(var_s0);
+                        }
+                        break;
+                    case 0x32:
+                    case 0xE3:
+                        doMoskitoHit(var_s0, temp_v0_2);
+                        break;
+                    case 0x8E:
+                        if ((RayEvts.flags0 & 0x80) && (ray_mode != 3))
+                        {
+                            temp_s1->field20_0x36 = (s16) (u16) var_s0->id;
+                        }
+                        break;
+                    case 0x8C:
+                        if ((RayEvts.flags0 & 0x80) && (ray_mode != 3))
+                        {
+                            temp_a1_2 = var_s0->offset_by;
+                            temp_v1_2 = (ray.y_pos + ray.offset_by) - var_s0->y_pos;
+                            temp_v0_4 = temp_v1_2 - temp_a1_2;
+                            if (temp_v0_4 >= 0)
+                            {
+                                if (temp_v0_4 < 0xFA)
+                                {
+                                    goto block_47;
+                                }
+                            }
+                            else if ((temp_a1_2 - temp_v1_2) < 0xFA)
+                            {
+block_47:
+                                SET_RAY_BALANCE();
+                                id_obj_grapped = (s16) (u16) var_s0->id;
+                                temp_v0_5 = ANGLE_RAYMAN(var_s0);
+                                var_s0->follow_x = temp_v0_5;
+                                if (temp_v0_5 >= 0x101)
+                                    var_s0->field24_0x3e = -1;
+                                else if (temp_v0_5 < 0x101)
+                                {
+                                    if(temp_v0_5 == 0x0100 && !(ray.flags & 0x4000))
+                                        var_s0->field24_0x3e = -1;
+                                    else
+                                        var_s0->field24_0x3e = 1;
+                                }
+                                else /* ??? */
+                                    var_s0->field24_0x3e = 1;
+                                
+                                if ((var_s0->main_etat == 0) && (var_s0->sub_etat == 0))
+                                {
+                                    skipToLabel(var_s0, 0, 1);
+                                }
+                                poing.is_active = 0;
+                                poing.is_returning = 0;
+                                temp_s1->flags &= ~0x400;
+                                temp_s1->flags &= ~0x800;
+                                fin_poing_follow(temp_s1, 0U);
+                            }
+                        }
+                        break;
+                    case 0x98:
+                        if ((var_s0->main_etat != 0) || (var_s0->sub_etat != 2))
+                        {
+                            set_main_and_sub_etat(var_s0, 1, 1);
+                            temp_v1_3 = var_s0->flags;
+                            if (!(temp_v1_3 & 0x4000))
+                            {
+                                var_s0->flags = temp_v1_3 | 0x4000;
+                                skipToLabel(var_s0, 3, 1);
+                            }
+                            else
+                            {
+                                var_s0->flags = temp_v1_3 & ~0x4000;
+                                skipToLabel(var_s0, 2, 1);
+                            }
+                            
+                        }
+                        break;
+                    case 0x7B:
+                        obj_hurt(var_s0);
+                        if (var_s0->hit_points == 0)
+                        {
+                            set_main_and_sub_etat(var_s0, 0, 4);
+                            var_s0->speed_y = 0;
+                            temp_v0_6 = temp_s1->speed_x;
+                            if (temp_v0_6 >= 0)
+                            {
+                                if (temp_v0_6 > 0)
+                                {
+                                    var_v0_3 = var_s0->flags;
+                                    var_v0_3 = var_v0_3 & ~0x4000;
+                                }
+                                else if ((temp_s1->flags & 0x4000))
+                                {
+                                    var_v0_3 = var_s0->flags & ~0x4000;
+                                }
+                                else
+                                {
+                                    var_v0_3 = var_s0->flags | 0x4000;
+                                }
+                            }
+                            else
+                                var_v0_3 = var_s0->flags | 0x4000;
+                        block_67:
+                            var_s0->flags = var_v0_3;
+                            allocateBlacktoonEyes(var_s0);
+                            if (var_s0->flags & 0x4000)
+                            {
+                                skipToLabel(var_s0, 2, 1);
+                            }
+                            else
+                            {
+                                skipToLabel(var_s0, 3, 1);
+                            }
+                            break;
+                        }
+                        break;
+                    case 0x65:
+                        if ((temp_v0_2 == 4) && (var_s0->sub_etat == 5))
+                        {
+                            temp_v0_6 = temp_s1->speed_x;
+                            if ((temp_v0_6 >= 0) && ((temp_v0_6 > 0) || (temp_s1->flags & 0x4000)))
+                            {
+                                set_sub_etat(var_s0, 9);
+                            }
+                            else
+                            {
+                                set_sub_etat(var_s0, 6);
+                            }
+                        }
+                        break;
+                    case 0x91:
+                        if (--var_s0->hit_points)
+                        {
+                            set_sub_etat(var_s0, 5);
+                            var_s0->iframes_timer = 0x0032;
+                        }
+                        else
+                        {
+                            set_sub_etat(var_s0, 6);
+                        }
+                        break;
+                    case 0x4D:
+                    case 0xEF:
+                        DO_PAR_POING_COLLISION(var_s0, temp_v0_2);
+                        break;
+                    case 0x48:
+                        DO_NGW_POING_COLLISION(var_s0, temp_v0_2);
+                        break;
+                    case 0x3A:
+                        obj_hurt(var_s0);
+                        if (var_s0->hit_points == 0)
+                        {
+                            var_s0->init_main_etat = 0;
+                            var_s0->init_sub_etat = 8;
+                            var_s0->init_x_pos = (s16) (u16) var_s0->x_pos;
+                            var_s0->init_y_pos = (s16) (u16) var_s0->y_pos;
+                            set_sub_etat(var_s0, 0xC);
+                            var_s0->init_flag = 7;
+                            ALLOCATE_MEDAILLON_TOON();
+                            lidol_to_allocate = 5;
+                            lidol_source_obj = var_s0;
+                            Nb_total_cages += 1;
+                            take_bonus(var_s0->id);
+                        }
+                        else
+                        {
+                            set_sub_etat(var_s0, 0xA);
+                        }
+                        break;
+                    case 0x2E:
+                        if (temp_v0_2 == 9)
+                        {
+                            DO_BBMONT_TOUCHE(var_s0);
+                        }
+                        break;
+                    case 0x5A:
+                    case 0x5B:
+                    case 0x5C:
+                    case 0x5D:
+                    case 0xB6:
+                        DO_NOTE_TOUCHEE(var_s0, temp_v0_2);
+                        break;
+                    case 0x60:
+                        DO_TOTEM_TOUCHE(var_s0, temp_v0_2);
+                        break;
+                    case 0x6F:
+                        if ((var_s0->main_etat == 0) && (Mus_obj_id >= 0))
+                        {
+                            PlaySnd(0x0053, var_s0->id);
+                            var_s0->hit_points--;
+                            switch (var_s0->hit_points)
+                            {
+                            case 3:
+                                set_sub_etat(var_s0, 4);
+                                allocateEclatPS(var_s0, 7);
+                                set_sub_etat(&level.objects[Mus_obj_id], 6);
+                                break;
+                            case 2:
+                                set_sub_etat(var_s0, 6);
+                                allocateEclatPS(var_s0, 8);
+                                break;
+                            case 1:
+                                set_sub_etat(var_s0, 8);
+                                allocateEclatPS(var_s0, 9);
+                                break;
+                            case 0:
+                                if (level.objects[Mus_obj_id].sub_etat == 6)
+                                {
+                                    PlaySnd(0x0053, var_s0->id);
+                                    set_sub_etat(var_s0, 9);
+                                    level.objects[Mus_obj_id].sub_etat = 3;
+                                    level.objects[Mus_obj_id].init_sub_etat = 4;
+                                    var_s0->init_sub_etat = 0x0A;
+                                }
+                                break;
+                            }
+                        }
+                        break;
+                    case 0x6D:
+                        if (var_s0->main_etat == 0)
+                        {
+                            obj_hurt(var_s0);
+                            if (var_s0->hit_points == 0)
+                            {
+                                DO_PI_EXPLOSION(var_s0);
+                                var_s0->flags &= ~0x800;
+                                if (ray.field20_0x36 == var_s0->id)
+                                {
+                                    ray.field20_0x36 = -1;
+                                    var_s0->ray_dist = 0x03E8;
+                                    set_main_and_sub_etat(&ray, 2, 2);
+                                }
+                                var_v1 = -0x401;
+                                var_s0->flags &= var_v1;
+                            }
+                            else
+                            {
+                                set_sub_etat(var_s0, 1);
+                                var_s0->anim_frame = 0;
+                            }
+                        }
+                        break;
+                    case 0xA6:
+                        DO_LEV_POING_COLLISION(var_s0, temp_v0_2);
+                        break;
+                    case 0x41:
+                        obj_hurt(var_s0);
+                        if (var_s0->hit_points == 0)
+                        {
+                            set_main_and_sub_etat(var_s0, 0, 7);
+                            var_s0->anim_frame = 0;
+                            var_v1 = 0xFFFF7FFF;
+                            var_s0->flags &= var_v1;
+                            break;
+                        }
+                        if ((var_s0->main_etat == 0) && ((temp_v1_5 = var_s0->sub_etat, (((u32) (temp_v1_5 - 2) < 2U) != 0)) || ((u32) (temp_v1_5 - 4) < 2U)))
+                        {
+                            var_s0->cmd_context_index = 0xFF;
+                        }
+                        var_s0->field23_0x3c = 0;
+                        if (level.objects[poing_obj_id].speed_x > 0)
+                        {
+                            skipToLabel(var_s0, 3, 1);
+                            var_v0_3 = var_s0->flags | 0x4000;
+                        }
+                        else
+                        {
+                            skipToLabel(var_s0, 1, 1);
+                            var_v0_3 = var_s0->flags;
+                            var_v0_3 &= ~0x4000;
+                        }
+                        var_s0->flags = var_v0_3;
+                        pushToLabel(var_s0, 6, 1);
+                        var_s0->anim_frame = 0;
+                        pushToLabel(var_s0, 7, 1);
+                        break;
+                    case 0x28:
+                    case 0x7A:
+                        obj_hurt(var_s0);
+                        if (var_s0->hit_points != 0)
+                        {
+                            skipToLabel(var_s0, 5, 1);
+                            var_s0->gravity_value_2 = 7;
+                            var_s0->change_anim_mode = 2;
+                            temp_v0_6 = temp_s1->speed_x;
+                            if (temp_v0_6 > 0)
+                            {
+                                var_v0_3 = var_s0->flags;
+                                var_v0_3 &= ~0x4000;
+                                var_s0->flags = var_v0_3;
+                            }
+                            else if (temp_v0_6 < 0)
+                            {
+                                var_s0->flags |= 0x4000;
+                            }
+                        }
+                        else
+                        {
+                            set_main_and_sub_etat(var_s0, 0, 3);
+                            var_v1 = 0xFFFF7FFF;
+                            var_s0->flags &= var_v1;
+                            break;
+                        }
+                        break;
+                    case 0x24:
+                    case 0x2F:
+                    case 0x45:
+                        set_sub_etat(var_s0, 1);
+                        DO_STONE_EXPLOSION(var_s0);
+                        break;
+                    case 0x23:
+                    case 0x2B:
+                        DO_PNG_COLL_STONEMAN(var_s0);
+                        break;
+                    case 0x38:
+                    case 0xAC:
+                        DO_PNG_COLL_STONEWOMAN(var_s0);
+                        break;
+                    case 0x1:
+                        if (temp_v0_2 == var_s0->hit_sprite)
+                        {
+                            temp_v0_6 = temp_s1->speed_x;
+                            if (temp_v0_6 > 0)
+                            {
+                                set_sub_etat(var_s0, 0x19);
+                            }
+                            else if (temp_v0_6 < 0)
+                            {
+                                set_sub_etat(var_s0, 0x1A);
+                            }
+                        }
+                        break;
+                    case 0x6:
+                    case 0x8:
+                    case 0x86:
+                    case 0xA7:
+                    case 0xB1:
+                        temp_v1_6 = var_s0->type;
+                        switch (temp_v1_6)
+                        {
+                        case 0x86:
+                        case 0xA7:
+                        case 0x8:
+                            PlaySnd(0x002C, var_s0->id);
+                            break;
+                        case 0xB1:
+                        case 0x6:
+                            PlaySnd(0x008B, var_s0->id);
+                            break;
+                        }
+                        
+                        switch (poing.sub_etat)
+                        {
+                        case 1:
+                        case 3:
+                        case 5:
+                            var_s2 = poing.damage;
+                            break;
+                        case 8:
+                        case 10:
+                        case 12:
+                            var_s2 = poing.damage - 2;
+                        case 2:
+                        case 4:
+                        case 6:
+                        case 7:
+                        case 9:
+                        case 11:
+                            break;
+                        }
+                        var_v0_5 = var_s2 * 4;
+                        var_s2 = var_v0_5 + var_s2 + 0xA;
+                        if (temp_s1->speed_x < 0)
+                        {
+                            var_s2 = -var_s2;
+                        }
+                        make_my_fruit_go_down(var_s0, var_s2);
+                        break;
+                    case 0x25:
+                        set_main_and_sub_etat(var_s0, 0, 1);
+                        var_s0->cmd = 0;
+                        break;
+                    case 0x14:
+                        if (temp_v0_2 == 0)
+                        {
+                            poing.damage = 1;
+                            obj_hurt(var_s0);
+                            if (var_s0->hit_points == 0)
+                            {
+                                var_a1_2 = 4;
+                                skipToLabel(var_s0, 4, 1);
+                                break;
+                            }
+                            var_a1_2 = 3;
+                            skipToLabel(var_s0, 3, 1);
+                            break;
+                        }
+                        var_a1_2 = 2;
+                        skipToLabel(var_s0, 2, 1);
+                        break;
+                    case 0xC:
+                    case 0xE:
+                        if (var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 1)
+                        {
+                        case 0xA:
+                            obj_hurt(var_s0);
+                            if (var_s0->hit_points != 0)
+                            {
+                                var_s0->speed_x = 0;
+                                var_s0->speed_y = 0;
+                                set_main_and_sub_etat(var_s0, 0, 1);
+                            }
+                            else
+                            {
+                                set_main_and_sub_etat(var_s0, 0, 3);
+                            }
+                            if (var_s0->type == 0x0A)
+                            {
+                                DESACTIVE_FISH_COLLIS(var_s0);
+                            }
+                            if (!(var_s0->flags & 0x4000))
+                            {
+                                var_s0->cmd = 0;
+                            }
+                            else
+                            {
+                                var_s0->cmd = 1;
+                            }
+                        }
+                        break;
+                    case 0x9:
+                    case 0xA5:
+                        if ((temp_v0_2 == 0x00FF) || (var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 1))
+                        {
+                            obj_hurt(var_s0);
+                            if (var_s0->hit_points == 0)
+                            {
+                                set_main_and_sub_etat(var_s0, 0, 3);
+                                skipToLabel(var_s0, 2, 1);
+                                var_s0->y_pos = (u16) var_s0->y_pos - 2;
+                                var_s0->flags &= 0xFFFF7FFF;
+                            }
+                            else
+                            {
+                                if (temp_s1->flags & 0x4000)
+                                {
+                                    temp_v0_6 = temp_s1->speed_x;
+                                    if (temp_v0_6 >= 0)
+                                    {
+                                        var_a1_3 = 3;
+                                        skipToLabel(var_s0, var_a1_3, 1);
+                                    }
+                                    else if (temp_v0_6 < -1)
+                                    {
+                                        var_a1_3 = 2;
+                                        skipToLabel(var_s0, var_a1_3, 1);
+                                    }
+                                }
+                                else
+                                {
+                                    temp_v0_6 = temp_s1->speed_x;
+                                    var_a1_3 = 3;
+                                    if (temp_v0_6 >= 2)
+                                    {
+                                        skipToLabel(var_s0, var_a1_3, 1);
+                                    }
+                                    else if (temp_v0_6 <= 0)
+                                    {
+                                        var_a1_3 = 2;
+                                        skipToLabel(var_s0, var_a1_3, 1);
+                                    }
+                                }
+                                var_s0->speed_x = 0;
+                                var_s0->speed_y = -4;
+                                var_s0->y_pos = (u16) var_s0->y_pos - 2;
+                                set_main_and_sub_etat(var_s0, 2, 2);
+                                PlaySnd(0x001C, var_s0->id);
+                            }
+                        }
+                        break;
+                    case 0x0:
+                        obj_hurt(var_s0);
+                        temp_v0_6 = temp_s1->speed_x;
+                        if (temp_v0_6 > 0)
+                        {
+                            skipToLabel(var_s0, 3, 1);
+                        }
+                        else if (temp_v0_6 < 0)
+                        {
+                            skipToLabel(var_s0, 2, 1);
+                        }
+                        var_s0->speed_x = 0;
+                        var_s0->y_pos = (u16) var_s0->y_pos - 2;
+                        if (var_s0->hit_points != 0)
+                        {
+                            var_s0->speed_y = -4;
+                            var_a2 = 2;
+                            if (var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 0x40)
+                            {
+                                var_a2 = 0xA;
+                            }
+                            set_main_and_sub_etat(var_s0, 2, var_a2);
+                            PlaySnd(0x001C, var_s0->id);
+                            break;
+                        }
+                        var_s0->speed_y = -8;
+                        var_a2_2 = 3;
+                        if (var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 0x40)
+                        {
+                            var_a2_2 = 6;
+                        }
+                        set_main_and_sub_etat(var_s0, 0, var_a2_2);
+                        break;
+                    case 0x46:
+                        obj_hurt(var_s0);
+                        temp_v0_6 = temp_s1->speed_x;
+                        if (temp_v0_6 > 0)
+                        {
+                            var_v0_3 = var_s0->flags;
+                            var_v0_3 &= ~0x4000;
+                            var_s0->flags = var_v0_3;
+                        }
+                        else if (temp_v0_6 < 0)
+                        {
+                            var_v0_3 = var_s0->flags | 0x4000;
+                            var_s0->flags = var_v0_3;
+                        }
+                        if (var_s0->hit_points == 0)
+                        {
+                            set_main_and_sub_etat(var_s0, 0, 1);
+                            var_v1 = 0xFFFF7FFF;
+                            var_s0->cmd = 2;
+                            var_s0->flags &= var_v1;
+                            break;
+                        }
+                        var_s0->y_pos = (u16) var_s0->y_pos - 2;
+                        skipToLabel(var_s0, 4, 1);
+                        break;
+                    case 0x3C:
+                    case 0x3D:
+                        obj_hurt(var_s0);
+                        temp_v0_6 = temp_s1->speed_x;
+                        if (temp_v0_6 > 0)
+                        {
+                            var_v0_3 = var_s0->flags;
+                            var_v0_3 &= ~0x4000;
+                            var_s0->flags = var_v0_3;
+                        }
+                        else if (temp_v0_6 < 0)
+                        {
+                            var_v0_3 = var_s0->flags | 0x4000;
+                            var_s0->flags = var_v0_3;
+                        }
+                        if (var_s0->hit_points != 0)
+                        {
+                            var_s0->y_pos = (u16) var_s0->y_pos - 2;
+                            skipToLabel(var_s0, 4, 1);
+                            break;
+                        }
+                        set_main_and_sub_etat(var_s0, 0, 3);
+                        var_v1 = 0xFFFF7FFF;
+                        var_s0->cmd = 0;
+                        var_s0->flags &= var_v1;
+                        break;
+                    case 0x74:
+                    case 0x75:
+                    case 0x76:
+                        obj_hurt(var_s0);
+                        temp_v0_6 = temp_s1->speed_x;
+                        if (temp_v0_6 > 0)
+                        {
+                            var_v0_3 = var_s0->flags;
+                            var_v0_3 &= ~0x4000;
+                            var_s0->flags = var_v0_3;
+                        }
+                        else if (temp_v0_6 < 0)
+                        {
+                            var_v0_3 = var_s0->flags | 0x4000;
+                            var_s0->flags = var_v0_3;
+                        }
+                        if (var_s0->hit_points != 0)
+                        {
+                            var_a1_2 = 5;
+                            if (!(var_s0->flags & 0x4000))
+                            {
+                                var_a1_2 = 6;
+                            }
+                            skipToLabel(var_s0, var_a1_2, 1);
+                            break;
+                        }
+                        set_main_and_sub_etat(var_s0, 0, 2);
+                        var_v1 = 0xFFFF7FFF;
+                        var_s0->flags &= var_v1;
+                        break;
+                    case 0xD9:
+                        if (temp_v0_2 == 1)
+                        {
+                            temp_v0_6 = temp_s1->speed_x;
+                            if (temp_v0_6 > 0)
+                            {
+                                var_v0_3 = var_s0->flags;
+                                var_v0_3 &= ~0x4000;
+                                var_s0->flags = var_v0_3;
+                            }
+                            else if (temp_v0_6 < 0)
+                            {
+                                var_v0_3 = var_s0->flags | 0x4000;
+                                var_s0->flags = var_v0_3;
+                            }
+                        case 0x64:
+                            if (temp_v0_2 == 1)
+                            {
+                                obj_hurt(var_s0);
+                                if (var_s0->hit_points != 0)
+                                {
+                                    var_a1_2 = 4;
+                                    skipToLabel(var_s0, 4, 1);
+                                    break;
+                                }
+                                set_main_and_sub_etat(var_s0, 0, 3);
+                                var_v1 = 0xFFFF7FFF;
+                                var_s0->flags &= var_v1;
+                                break;
+                            }
+                        }
+                        break;
+                    case 0x96:
+                        DO_SKO_HIT(var_s0, temp_v0_2);
+                        break;
+                    case 0xAE:
+                    case 0xB8:
+                    case 0xE1:
+                    case 0xE2:
+                        DO_PIRATE_POELLE_POING_COLLISION(var_s0, temp_v0_2);
+                        break;
+                    case 0xE7:
+                    case 0xE8:
+                        DO_HYB_BBF2_POING_COLLISION(var_s0, temp_v0_2);
+                        break;
+                    case 0xC3:
+                        DO_SPIDER_PLAFOND_POING_COLLISION(var_s0, temp_v0_2);
+                        break;
+                    case 0xE4:
+                        if ((var_s0->screen_x_pos < (temp_s1->screen_x_pos + 0x1E)) && (var_s0->main_etat == 0) && (var_s0->sub_etat == 0))
+                        {
+                            skipToLabel(var_s0, 2, 1);
+                            var_s0->init_sub_etat = 2;
+                            prise_branchee = 1;
+                            finBosslevel[1] |= 4;
+                        }
+                        break;
+                    case 0x84:
+                        if ((var_s0->main_etat != 2) || (var_s0->sub_etat != 0x12))
+                        {
+                            skipToLabel(var_s0, 0xC, 1);
+                            var_s0->speed_x = 0;
+                            var_s0->speed_y = 0;
+                            var_s0->hit_points = 0;
+                        }
+                        break;
+                    case 0x81:
+                        temp_v1_7 = var_s0->hit_points;
+                        if ((temp_v1_7 == 2) || (temp_v1_7 == 4))
+                        {
+                            var_s0->hit_points--;
+                        }
+                        break;
+                    }
+                    do_boum();
+                    var_s0->gravity_value_1 = 0;
+                    temp_v0_5 = var_s0->eta[var_s0->main_etat][var_s0->sub_etat].anim_speed >> 4;
+                    if ((u32) ((temp_v0_5) - 0xA) >= 2U)
+                    {
+                        var_s0->gravity_value_2 = 0;
+                    }
+                    if ((var_s0->hit_points == temp_s5) && (flags[var_s0->type].flags3 & 1))
+                    {
+                        PlaySnd(0x00D6, var_s0->id);
+                    }
+                    break;
+                }
+            }
+            var_s5++;
+            var_s0 = &level.objects[actobj.objects[var_s5]];
+        } while (var_s5 < actobj.num_active_objects);
+        
+    }
+}
+
+void DO_POING_COLLISION(void)
+{
+    s16 sp18;
+    s16 sp1A;
+    u16 sp1C;
+    u16 sp1E;
+    u8 var_a1_2;
+    u8 var_a1_3;
+    u8 var_a1_4;
+    u8 var_a2;
+    u8 var_a2_2;
+    Obj *temp_s1;
+    Obj *temp_v0_3;
+    Obj *var_s0;
+    s16 temp_a0;
+    s16 temp_v0;
     s16 temp_v0_10;
     s16 temp_v0_11;
     s16 temp_v0_12;
