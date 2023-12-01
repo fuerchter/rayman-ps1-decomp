@@ -40,5 +40,6 @@ typedef struct SaveState
 } SaveState;
 
 extern SaveState save1;
+extern SaveState save2;
 
 #endif

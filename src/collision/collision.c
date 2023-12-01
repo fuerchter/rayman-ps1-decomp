@@ -2,22 +2,6 @@
 
 /* 10000 (dist) could be a #define */
 
-s16 GET_SPRITE_POS(Obj *obj,s32 spriteIndex,s16 *x,s16 *y,u16 *w,u16 *h);
-
-extern s16 ZDCPTR;
-extern ZDC zdc_tab[512];
-extern u16 type_zdc[256];
-extern s16 bagD[20];
-extern s16 bagW[20];
-extern s16 bagH[20];
-extern s16 Mus_obj_id;
-extern u8 Nb_total_cages;
-extern s16 prise_branchee;
-extern s16 ray_speed_inv;
-extern SaveState save2;
-extern s16 id_Cling_Pow;
-extern u8 life_becoz_wiz;
-
 /* 1B1F0 8013F9F0 -O2 -msoft-float */
 void PS1_SetZDC(s16 x, s16 y, u8 w, u8 h, u8 flags, u8 sprite)
 {

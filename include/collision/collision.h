@@ -4,7 +4,10 @@
 #include "common.h"
 #include "obj_update.h"
 #include "world_map_95CC.h"
+#include "world_map_677C0.h"
 #include "bonus_35FB4.h"
+#include "collision/block_22C84.h"
+#include "obj/mus_wait.h"
 
 typedef struct ZDC
 {
@@ -16,11 +19,24 @@ typedef struct ZDC
     u8 sprite;
 } ZDC;
 
+/* .data */
+extern ZDC zdc_tab[512];
+extern u16 type_zdc[256];
+
+/* .data */
+extern s16 bagD[20];
+extern s16 bagW[20];
+extern s16 bagH[20];
+
+/**/
 extern s16 ray_zdc_x;
 extern s16 ray_zdc_y;
 extern s16 ray_zdc_w;
 extern s16 ray_zdc_h;
 extern u8 in_air_because_hit;
+extern s16 ZDCPTR;
+extern s16 ray_speed_inv;
+extern u8 life_becoz_wiz;
 
 void PS1_SetZDC(s16 x, s16 y, u8 w, u8 h, u8 flags, u8 sprite);
 void PS1_SetTypeZDC(ObjType type, u16 param_2, s32 param_3);

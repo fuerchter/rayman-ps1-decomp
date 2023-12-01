@@ -23,5 +23,6 @@ extern u8 ray_last_ground_btyp;
 
 s32 OBJ_IN_ZONE(Obj *obj); /* ret: s32 or s16 (based on what, handle_GO_TEST?) */
 s32 myRand(s32 param_1);  /* ret: s32 or s16 (based on what?) */
+s16 GET_SPRITE_POS(Obj *obj, s32 index, s16 *x ,s16 *y, u16 *w, u16 *h);
 
 #endif
