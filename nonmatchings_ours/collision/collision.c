@@ -970,7 +970,7 @@ void SET_RAY_DIST_BAG(Obj *obj)
   obj->ray_dist = var_a1;
 }
 
-/* one bad instruction and reg swaps, try standard version next? */
+/* standard version, then gotos-only below... no idea yet how to fix remaining issue */
 /*INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_POING_COLLISION);*/
 
 /*void DO_BAT_POING_COLLISION(Obj *obj);
