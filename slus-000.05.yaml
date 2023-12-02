@@ -309,9 +309,10 @@ segments:
       #done - [0xAA77C, .data, data/display_ui] #801CEF7C
       - [0xAA7A4, data]
       #done - [0xAA7A8, .data, data/obj/mama_pirate] #801CEFA8
-      - [0xAA7C0, data]
+      #done - [0xAA7C0, .data, data/sound_AA7C0] #801CEFC0
       #done - [0xAA7C8, .data, data/cheats_AA7C8] #801CEFC8
-      - [0xAA7CC, data]
+      #done - [0xAA7CC, .data, data/sound_AA7CC] #801CEFCC
+      - [0xAA7E0, data]
       #done - [0xAA8A0, .data, data/obj/bb1_AA8A0] #801CF0A0
       - [0xAA8A4, data]
       #done - [0xAA8D8, .data, data/cheats_AA8D8] #801CF0D8
