@@ -288,6 +288,8 @@ segments:
       - [0x9CA5C, data]
       #done - [0x9CA74, .data, data/collision/block_9CA74] #801C1274
       - [0x9CA94, data]
+      #done - [0x9E49C, .data, data/collision/block_9E49C] #801C2C9C
+      - [0x9E69C, data]
       #done - [0x9E914, .data, data/collision/bit_util] #801C3114
       - [0x9EB18, data]
       #- [0x9F448, .data, data/demo_9FD4] #801C3C48 TODO: move this to data/ dir once it can be used
@@ -317,6 +319,8 @@ segments:
       - [0xAA7E0, data]
       #done - [0xAA8A0, .data, data/obj/bb1_AA8A0] #801CF0A0
       - [0xAA8A4, data]
+      #done - [0xAA8C8, .data, data/loading_AA8C8] #801CF0C8
+      - [0xAA8D8, data]
       #done - [0xAA8D8, .data, data/cheats_AA8D8] #801CF0D8
       #done - [0xAA8DC, .data, data/depart_dead_AA8DC] #801CF0DC
       - [0xAA8E0, data]
