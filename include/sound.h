@@ -65,10 +65,10 @@ extern u8 frame_snd[256];
 extern u8 frame_snd_bis[256];
 extern s16 snd_bis[256];
 extern u8 PS1_SoundVabIds[256];
-extern s16 D_801C7C78[7]; /* SsSepOpen seq_num? number of elements? */
-extern s16 PS1_SepVols[24]; /* number of elements? */
-extern SepInfo PS1_SepInfos[24]; /* number of elements? */
-extern s16 D_801C7D20[8];
+extern s16 D_801C7C78[8]; /* SsSepOpen seq_num? number of elements? */
+extern s16 PS1_SepVols[26]; /* number of elements? */
+extern SepInfo PS1_SepInfos[25]; /* number of elements? */
+extern s16 D_801C7D20[8]; /* number of elements? */
 extern s16 PS1_AudioTable[14];
 extern u8 voice_is_working[24];
 

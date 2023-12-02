@@ -292,6 +292,9 @@ segments:
       - [0x9FB74, data]
       #- [0xA0338, .data, data/loading_A0338] #801C4B38 not enough funcs implemented yet
       - [0xA29C0, data]
+      #done - [0xA2A58, .data, data/obj_util] #801C7258
+      #- [0xA2A78, .data, data/sound_A2A78] #801C7278
+      - [0xA3564, data]
       #done - [0xA35A4, .data, data/obj/saxo] #801C7DA4
       - [0xA369C, data]
       #done - [0xA36B8, .data, data/command_A36B8] #801c7eb8

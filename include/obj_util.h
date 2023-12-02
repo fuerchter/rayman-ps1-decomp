@@ -6,9 +6,9 @@
 #include "obj_update.h"
 #include "ray/ray_32398.h"
 
-/* .data, types? */
-extern s16 D_801C7258;
-extern s16 D_801C7268;
+/* .data */
+extern s16 PS1_Toon_Speeds_x[8]; /* not sure if 7 or 8 in size */
+extern s16 PS1_Toon_Speeds_y[8];
 
 /**/
 extern u8 lidol_to_allocate;

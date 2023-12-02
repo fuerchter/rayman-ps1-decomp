@@ -33,6 +33,8 @@ PS1_World_VabId2 = 0x801F9A78;
 PS1_World_SepAcc = 0x801E58C8;
 PS1_SepInfos = 0x801C7CBC;
 PS1_SepVols = 0x801c7c88;
+PS1_Toon_Speeds_x = 0x801C7258;
+PS1_Toon_Speeds_y = 0x801C7268;
 
 D_801C438C = 0x801C438C;
 D_801CEE10 = 0x801cee10;

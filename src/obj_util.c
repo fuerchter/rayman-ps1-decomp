@@ -40,7 +40,6 @@ void allocate_toons(Obj *src_obj, u8 count)
   s16 i;
   Obj *max_obj;
   u8 layers;
-  s32 unk_1;
   s16 spr_x;
   s16 spr_y;
   s16 spr_w;
@@ -63,9 +62,8 @@ void allocate_toons(Obj *src_obj, u8 count)
       obj->gravity_value_1 = 0;
       obj->gravity_value_2 = 5;
       obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
-      unk_1 = i * 2;
-      obj->speed_y = *(s16 *)((s32)&D_801C7268 + unk_1);
-      obj->speed_x = *(s16 *)((s32)&D_801C7258 + unk_1);
+      obj->speed_y = PS1_Toon_Speeds_y[i];
+      obj->speed_x = PS1_Toon_Speeds_x[i];
       if (obj->speed_x >= 1)
       {
         obj->eta[2][0].speed_x_right = obj->speed_x;
