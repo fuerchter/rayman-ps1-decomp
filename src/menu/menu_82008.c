@@ -8,6 +8,8 @@ generates division checks if:
 -uninitialized local var is involved
 
 still to see more
+
+PS1_display_y2 is vert spacing on options screen
 */
 
 /* 82184 801A6984 -O2 -msoft-float */
