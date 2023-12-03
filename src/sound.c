@@ -26,6 +26,8 @@ extern s16 D_801CEEB6; /* go through FUN_80130684 first */
 extern s32 *D_801D7840;
 extern s16 D_801F7C80;
 
+/* replace constant 24 with size of voice_table somehow??? */
+
 
 /* 41084 80165884 -O2 -msoft-float */
 void PS1_StopPlayingAllSnd(void)
@@ -260,8 +262,8 @@ s16 get_pile_obj(s16 id)
 /* 41F24 80166724 -O2 -msoft-float */
 s16 FUN_80166724(s16 id)
 {
-  VoiceTableEntry *cur = &voice_table[0];
   s16 i = 0;
+  VoiceTableEntry *cur = &voice_table[i];
   
   while (cur->id != id && i < 24)
   {

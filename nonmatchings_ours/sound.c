@@ -209,12 +209,12 @@ code_r0x80166684:
 /* 41F90 80166790 -O2 -msoft-float */
 s32 FUN_80166790(s16 id)
 {
-  s16 *cur = &voice_table[0].field3_0x6;
   s16 i = 0;
+  s16 *cur = &voice_table[i].field3_0x6;
   
   while (*cur != id && i < 24)
   {
-    cur += 6; /* this is almost certainly incorrect */
+    cur += sizeof(VoiceTableEntry) / sizeof(s16); /* this is almost certainly incorrect */
     i++;
   }
   if (i == 24)

@@ -931,7 +931,7 @@ block_57:
     ray_inertia_speed(var_s0, var_s2, temp_a2, ray_wind_force);
 }
 
-/* only keeping this so i don't have to fill in struct fields again, kinda clueless still */
+/* kinda clueless still. m2c (1600), then ghidra. also tried modelling after android, but no luck */
 /*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", CAN_RAY_HANG_BLOC);*/
 
 void CAN_RAY_HANG_BLOC(void)
@@ -979,35 +979,143 @@ void CAN_RAY_HANG_BLOC(void)
                 {
                     var_s7 = temp_s1;
                 }
-                if ((((MUR(temp_fp) << 0x10) != 0) || ((MUR(var_s5) << 0x10) != 0) || ((MUR(temp_s1) << 0x10) != 0)) && (ray.main_etat == 2) && (jump_time >= 9))
+                if (
+                    (
+                        ((MUR(temp_fp)) != 0) || ((MUR(var_s5)) != 0) ||
+                        ((MUR(temp_s1)) != 0)
+                    ) &&
+                    (ray.main_etat == 2) && (jump_time >= 9)
+                )
                 {
                     if (
-                        ((AIR(temp_s2) << 0x10) != 0) &&
-                        ((AIR(temp_s1) << 0x10) != 0) &&
-                        ((AIR(temp_s4) << 0x10) != 0) &&
-                        ((AIR(temp_s6) << 0x10) != 0) &&
-                        ((AIR(var_s7) << 0x10) != 0) &&
-                        ((MUR(temp_fp) << 0x10) != 0)
+                        ((AIR(temp_s2)) != 0) && ((AIR(temp_s1)) != 0) &&
+                        ((AIR(temp_s4)) != 0) && ((AIR(temp_s6)) != 0) &&
+                        ((AIR(var_s7)) != 0) && ((MUR(temp_fp)) != 0)
                     )
                     {
-                        var_a0 = (s16) temp_v0_1;
-                        goto block_35;
+                            Make_Ray_Hang(temp_v0_1, (s16) temp_s0);
                     }
-                    if ((ray.scale == 0) && (((s32) temp_v0_1 >= 2) || !(ray.flags & 0x4000)) && ((var_v0 = var_s5 << 0x10, (((mp.width - 3) < (s32) temp_v0_1) == 0)) || (var_v0 = var_s5 << 0x10, ((ray.flags & 0x4000) != 0))))
+                    else if (
+                        (ray.scale == 0) &&
+                        (((s32) temp_v0_1 >= 2) || !(ray.flags & 0x4000)) &&
+                        (
+                            ((((mp.width - 3) < (s32) temp_v0_1) == 0)) ||
+                            (((ray.flags & 0x4000) != 0))
+                        )
+                    )
                     {
-                        
-                        temp_s0_2 = var_v0 >> 0x10;
-                        if (((AIR(temp_s2 - temp_s0_2) << 0x10) != 0) && ((AIR(temp_s1 - temp_s0_2) << 0x10) != 0) && ((AIR(temp_s4 - temp_s0_2) << 0x10) != 0) && ((AIR(temp_s6 - temp_s0_2) << 0x10) != 0) && ((AIR(var_s7 - temp_s0_2) << 0x10) != 0) && ((MUR(temp_fp - temp_s0_2) << 0x10) != 0))
+                        if (
+                            ((AIR(temp_s2 - var_s5)) != 0) && ((AIR(temp_s1 - var_s5)) != 0) &&
+                            ((AIR(temp_s4 - var_s5)) != 0) && ((AIR(temp_s6 - var_s5)) != 0) &&
+                            ((AIR(var_s7 - var_s5)) != 0) && ((MUR(temp_fp - var_s5)) != 0))
                         {
-                            var_a0 = (s16) temp_v0_1 - (temp_s0_2 * 0x10);
-block_35:
-                            Make_Ray_Hang(var_a0, (s16) temp_s0);
+                            Make_Ray_Hang((s16) temp_v0_1 - (var_s5 * 0x10), (s16) temp_s0);
                         }
                     }
                 }
             }
         }
     }
+}
+
+void CAN_RAY_HANG_BLOC(void)
+
+{
+  s16 temp_v0_1;
+  short sVar2;
+  short var_s5;
+  int temp_v0_2;
+  int iVar5;
+  s16 temp_s0_1;
+  int temp_s1;
+  int temp_s4;
+  int temp_s6;
+  int iVar10;
+  s16 temp_s0_2;
+  
+  if (((RayEvts.flags0 & FLG(RAYEVTS0_HANG)) != FLG_RAYEVTS0_NONE) &&
+     ((RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))) ==
+      FLG_RAYEVTS1_NONE)) {
+    temp_v0_1 = ray.offset_bx + ray.x_pos;
+    temp_v0_2 = (temp_v0_1 << 0x10) >> 0x14;
+    if ((0 < temp_v0_2) && (temp_v0_2 <= mp.width + -2)) {
+      temp_s0_1 = ray.offset_hy + ray.y_pos + 0x20;
+      temp_s0_2 = temp_s0_1;
+      if (ray.scale != 0) {
+        set_proj_center(temp_v0_1,ray.y_pos + ray.offset_by);
+        temp_s0_2 = get_proj_y(ray.scale,temp_s0_1);
+      }
+      var_s5 = -1;
+      if ((ray.flags & FLG(OBJ_FLIP_X)) != FLG_OBJ_NONE) {
+        var_s5 = 1;
+      }
+      iVar5 = mp.width;
+      temp_v0_2 = temp_v0_2 + ((int)(temp_s0_2 >> 4)) * iVar5;
+      temp_s6 = (temp_v0_2 - iVar5) + var_s5;
+      temp_s4 = temp_v0_2 + iVar5;
+      if (-1 < temp_s6) {
+        temp_s1 = temp_s4 + iVar5;
+        iVar10 = temp_v0_2 + var_s5;
+        iVar5 = temp_s1 + iVar5;
+        if (ray.scale != 0) {
+          iVar5 = temp_s1;
+        }
+
+        if ((((MUR(iVar10) != 0) || (MUR(var_s5))) ||
+            (MUR(temp_s1))) && ((ray.main_etat == 2 && (8 < jump_time))))
+        {
+
+          if (!((((AIR(temp_v0_2) == 0) ||
+               ((AIR(temp_s1) == 0 || (AIR(temp_s4) == 0)))) ||
+              (AIR(temp_s6) == 0)) ||
+             ((AIR(iVar5) == 0 || (MUR(iVar10) == 0))))) {
+            temp_v0_2 = temp_v0_1;
+          }
+          else {
+            if (ray.scale != 0) {
+              return;
+            }
+            if (((temp_v0_1 >> 4) < 2) && ((ray.flags & FLG(OBJ_FLIP_X)) != FLG_OBJ_NONE)
+               ) {
+              return;
+            }
+            if ((mp.width + -3 < (temp_v0_1 >> 4)) &&
+               ((ray.flags & FLG(OBJ_FLIP_X)) == FLG_OBJ_NONE)) {
+              return;
+            }
+            temp_s0_1 = var_s5;
+            var_s5 = AIR(temp_v0_2 - temp_s0_1);
+            if (var_s5 == 0) {
+              return;
+            }
+            var_s5 = AIR(temp_s1 - temp_s0_1);
+            if (var_s5 == 0) {
+              return;
+            }
+            var_s5 = AIR(temp_s4 - temp_s0_1);
+            if (var_s5 == 0) {
+              return;
+            }
+            var_s5 = AIR(temp_s6 - temp_s0_1);
+            if (var_s5 == 0) {
+              return;
+            }
+            var_s5 = AIR(iVar5 - temp_s0_1);
+            if (var_s5 == 0) {
+              return;
+            }
+            var_s5 = MUR(iVar10 - temp_s0_1);
+            if (var_s5 == 0) {
+              return;
+            }
+            temp_v0_2 = temp_v0_1 + temp_s0_1 * -0x10;
+          }
+          Make_Ray_Hang(temp_v0_2,temp_s0_2);
+        }
+      }
+    }
+  }
+  return;
 }
 
 /*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE_ANIM);*/
