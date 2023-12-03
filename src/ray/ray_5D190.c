@@ -865,7 +865,144 @@ void RAY_RESPOND_TO_DIR(s16 flip_x)
 }
 #endif
 
+/* 60A58 80185258 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_NOTHING);
+#else
+void RAY_RESPOND_TO_NOTHING(void)
+{
+    u8 flag_set;
+    ObjState *sel_eta_1;
+    ObjState *sel_eta_2;
+    s32 unk_1;
+    Animation *sel_anim;
+
+    switch (ray.main_etat)
+    {
+    case 1:
+        if (
+            !(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40 && (FUN_80133984(0) || FUN_801339f4(0))) &&
+            !(ray.sub_etat == 4 || ray.sub_etat == 5) && !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))))
+        {
+            set_main_etat(&ray, 0);
+            if (ray.sub_etat == 8 || ray.sub_etat == 10)
+                set_sub_etat(&ray, 47);
+            else if (ray.sub_etat == 9 || ray.sub_etat == 11)
+                set_sub_etat(&ray, 48);
+            else if (ray.sub_etat == 3 || ray.sub_etat == 7)
+                set_sub_etat(&ray, 36);
+            else if (!(FUN_80133984(0) || FUN_801339f4(0)))
+                set_sub_etat(&ray, 0);
+        }
+        RAY_SWIP();
+        break;
+    case 0:
+        ray.speed_x = 0;
+        if (ray.field23_0x3c != -1 && ray.sub_etat == 0)
+        {
+            if (ray.field23_0x3c == 1)
+                set_sub_etat(&ray, 49);
+            else
+                set_sub_etat(&ray, 3);
+        }
+        if (ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40 && !(FUN_801339f4(0) || FUN_80133984(0)))
+        {
+            if (!((block_flags[(u8) calc_typ_trav(&ray, 2)] >> BLOCK_FLAG_4) & 1))
+            {
+                if (!(ray.main_etat == 0 && ray.sub_etat == 60))
+                    set_main_and_sub_etat(&ray, 0, 60);
+            }
+            else if (!(ray.main_etat == 0 && (ray.sub_etat == 15 || ray.sub_etat == 61)))
+            {
+                sel_anim = &ray.animations[ray.anim_index];
+                set_main_and_sub_etat(&ray, 0, 15);
+                ray.anim_frame = sel_anim->frames_count + 0xFF;
+            }
+        }
+        else
+        {
+            if(ray.sub_etat == 37 && __builtin_abs(decalage_en_cours) <= 128)
+                set_sub_etat(&ray, 38);
+            else if (
+                ray.sub_etat == 20 &&
+                (flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10,
+                    (flag_set && ray.anim_frame == 0) ||
+                    (!flag_set && ray.anim_frame == ray.animations[ray.anim_index].frames_count - 1)
+                ) &&
+                horloge[ray.eta[ray.main_etat][ray.sub_etat].anim_speed & 0xF] == 0
+            )
+            {
+                if (((block_flags[(u8) calc_typ_trav(&ray, 2)] >> BLOCK_FLAG_4) & 1))
+                {
+                    sel_eta_1 = &ray.eta[ray.main_etat][ray.sub_etat];
+                    unk_1 = ((sel_eta_1->flags >> 4 ^ 1) & 1) * 0x10;
+                    sel_eta_1->flags = sel_eta_1->flags & 0xEF | unk_1;
+                    FUN_80150c5c(&ray, 1);
+                    sel_eta_2 = &ray.eta[ray.main_etat][ray.sub_etat];
+                    unk_1 = ((sel_eta_2->flags >> 4 ^ 1) & 1) * 0x10;
+                    sel_eta_2->flags = sel_eta_2->flags & 0xEF | unk_1;    
+                }
+            }
+            else if (ray.sub_etat == 59 || ray.sub_etat == 62 || ray.sub_etat == 63)
+            {
+                flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10;
+                if(
+                    (flag_set && ray.anim_frame == 0 ||
+                    !flag_set && ray.anim_frame == ray.animations[ray.anim_index].frames_count - 1) &&
+                    horloge[ray.eta[ray.main_etat][ray.sub_etat].anim_speed & 0xF] == 0
+                )
+                {
+                    compteur_attente = 0;
+                    set_sub_etat(&ray, 0);
+                }
+            }
+            else if (
+                (ray.sub_etat == 0 || ray.sub_etat == 1 || ray.sub_etat == 2) &&
+                ++compteur_attente >= 500
+            )
+                set_sub_etat(&ray, 59);
+        }
+        RAY_SWIP();
+        break;
+    case 4:
+        if (ray.sub_etat == 2 || ray.sub_etat == 3)
+        {
+            set_sub_etat(&ray, 0);
+            ray.speed_y = 0;
+        }
+        break;
+    case 2:
+        compteur_attente = 0;
+        D_801F5588 = 0;
+        if (ray.sub_etat != 8)
+            ray.speed_x = 0;
+        if (ray.sub_etat != 15 && ray.nb_cmd == 0)
+            ray_inertia_speed(0, 0, 0, ray_wind_force);
+        else
+            ray_inertia_speed(8, 0, 0, ray_wind_force);
+        break;
+    case 6:
+        decalage_en_cours = 0;
+        joy_done++;
+        ray.flags |= FLG(OBJ_FLIP_X);
+        if (ray.gravity_value_1 == 0)
+        {
+            if (ray.speed_x > 0)
+                ray.speed_x--;
+            else if (ray.speed_x < 0)
+                ray.speed_x++;
+
+            if (ray.speed_y > 0)
+                ray.speed_y--;
+            else if (ray.speed_y < 0)
+                ray.speed_y++;
+        }
+        break;
+    }
+
+    __asm__("nop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 /* 61254 80185A54 -O2 -msoft-float */
 void PS1_RespondShoulderR(void)
