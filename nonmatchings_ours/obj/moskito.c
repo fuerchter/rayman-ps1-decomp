@@ -468,7 +468,8 @@ block_52:
     }
 }
 
-/* how to convert goto into actual loop (without offsets becoming negative)? */
+/* how to convert goto into actual loop (without offsets becoming negative)? 
+also tried ghidra base, tried with void */
 /* 70C64 80195464 -O2 -msoft-float */
 /*INCLUDE_ASM("asm/nonmatchings/obj/moskito", allocateMoskitoFruit);*/
 

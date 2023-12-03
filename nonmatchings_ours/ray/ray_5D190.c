@@ -1457,6 +1457,8 @@ block_31:
     return unk_1;
 }
 
+/* tried gotos-only but not very useful it seemed
+tried to bring control flow closer to ghidra but not been successful, "var_a1_2 = var_s3 + 1;" is annoying */
 /*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RayEstIlBloque);*/
 
 s32 RayEstIlBloque(void)
@@ -1587,6 +1589,7 @@ block_30:
     return var_s4;
 }
 
+/* matches, but do{}while(0); */
 /*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", DO_SURF_CHANGE_HAIRS);*/
 
 void DO_SURF_CHANGE_HAIRS(void)
@@ -1594,48 +1597,55 @@ void DO_SURF_CHANGE_HAIRS(void)
     s16 flip_x_1;
     s32 flip_x_2;
     u8 var_v0;
-    s32 test_1;
-    s32 test_2;
 
     if ((ray.main_etat == 0) && (ray.sub_etat == 0x28))
     {
+        
         if (ray.flags & 0x4000)
         {
             flip_x_1 = 1;
         }
         else
             flip_x_1 = -1;
-        /*flip_x_2 = flip_x_1;*/
+        flip_x_2 = flip_x_1;
         if (ray.speed_x >= 0)
         {
             if (ray.speed_x > 0)
             {
-                if (flip_x_1 != 1)
+do {
+                if (flip_x_2 == 1)
                 {
-                    var_v0 = 0x50;
+                    ray.anim_index = 0x4F;
                 }
                 else
-                    var_v0 = 0x4F;
+                {
+                    ray.anim_index = 0x50;
+                }
+} while (0);
             }
             else
             {
-                if (flip_x_1 == 0)
+                if (flip_x_2 == 0)
                 {
-                    var_v0 = 0x4F;
+                    ray.anim_index = 0x4F;
                 }
                 else
-                    var_v0 = 0x50;
+                {
+                    ray.anim_index = 0x50;
+                }
             }
+
         }
         else
         {
-            if (flip_x_1 == -1)
+            if (flip_x_2 == -1)
             {
-                var_v0 = 0x4F;
+                ray.anim_index = 0x4F;
             }
             else
-                var_v0 = 0x50;
+            {
+                ray.anim_index = 0x50;
+            }
         }
-        ray.anim_index = var_v0;
     }
 }
