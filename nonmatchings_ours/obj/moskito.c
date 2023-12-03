@@ -1,5 +1,6 @@
 #include "obj/moskito.h"
 
+/* matches, but block_52 */
 /* 6FDC8 801945C8 -O2 -msoft-float */
 /*INCLUDE_ASM("asm/nonmatchings/obj/moskito", prepareNewMoskitoAttack);*/
 
@@ -353,15 +354,14 @@ block_52:
                 {
                     arg0->flags &= ~0x4000;
                     arg0->x_pos = (temp_v0_7 = arg0->x_pos + 0x30); /* gross, undo? */
-                    var_v0 = (scroll_start_x - arg0->offset_bx) - 0x30;
+                    bossXToReach = (scroll_start_x - arg0->offset_bx) - 0x30;
                 }
                 else
                 {
                     arg0->flags |= 0x4000;
                     arg0->x_pos = arg0->x_pos - 0x30;
-                    var_v0 = (scroll_end_x - arg0->offset_bx) + 0x170;
+                    bossXToReach = (scroll_end_x - arg0->offset_bx) + 0x170;
                 }
-                bossXToReach = var_v0;
                 curAct_tmp_4 = currentBossAction;
                 floor_1 = floorLine - 0xE6;
                 arg0->y_pos = floor_1;
@@ -381,15 +381,14 @@ block_52:
                 {
                     arg0->flags &= ~0x4000;
                     arg0->x_pos = (temp_v0_7 = arg0->x_pos + 0x50); /* gross, undo? */
-                    new_x_2 = (scroll_start_x - arg0->offset_bx) - 0x50;
+                    bossXToReach = (scroll_start_x - arg0->offset_bx) - 0x50;
                 }
                 else
                 {
                     arg0->flags |= 0x4000;
                     arg0->x_pos = arg0->x_pos - 0x60;
-                    new_x_2 = (scroll_end_x - arg0->offset_bx) + 0x180;
+                    bossXToReach = (scroll_end_x - arg0->offset_bx) + 0x180;
                 }
-                bossXToReach = new_x_2;
                 curAct_tmp_5 = currentBossAction;
                 floor_2 = floorLine - 0xB4;
                 arg0->y_pos = floor_2;
