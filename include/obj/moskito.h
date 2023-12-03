@@ -18,7 +18,7 @@ extern u8 fistAvoided;
 extern u8 mstMustLeaveScreenToProceed;
 
 void getIdealStingCoords(Obj *obj, s16 *out_x, s16 *out_y);
-u8 closeEnoughToSting(Obj *arg0, u16 arg1, u16 arg2);
+u8 closeEnoughToSting(Obj *obj, u16 min_x, u16 min_y);
 void PS1_setBossScrollLimits_moskito(Obj *obj);
 u8 moskitoCanAttak(Obj *obj);
 s16 setMoskitoAtScrollBorder(Obj *obj, u8 param_2);

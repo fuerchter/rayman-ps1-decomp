@@ -1,27 +1,5 @@
 #include "obj/moskito.h"
 
-/* 6F988 80194188 -O2 -msoft-float */
-/*INCLUDE_ASM("asm/nonmatchings/obj/moskito", closeEnoughToSting);*/
-
-u8 closeEnoughToSting(Obj *arg0, u16 arg1, u16 arg2)
-{
-    s16 sting_x;
-    s16 sting_y;
-    s16 var_a0;
-    s16 var_v1;
-    u8 var_v0;
-
-    getIdealStingCoords(arg0, &sting_x, &sting_y);
-    var_v0 = 0;
-    sting_x = __builtin_abs((s16) (sting_x - arg0->x_pos));
-    sting_y = __builtin_abs((s16) (sting_y - arg0->y_pos));
-    if (sting_x < arg1)
-    {
-        var_v0 = sting_y < arg2;
-    }
-    return var_v0;
-}
-
 /* 6FDC8 801945C8 -O2 -msoft-float */
 /*INCLUDE_ASM("asm/nonmatchings/obj/moskito", prepareNewMoskitoAttack);*/
 

@@ -19,7 +19,19 @@ void getIdealStingCoords(Obj *obj, s16 *out_x, s16 *out_y)
   *out_y = calc_y - 112;
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/moskito", closeEnoughToSting);
+/* 6F988 80194188 -O2 -msoft-float */
+u8 closeEnoughToSting(Obj *obj, u16 min_x, u16 min_y)
+{
+    s16 sting_x; s16 sting_y;
+
+    getIdealStingCoords(obj, &sting_x, &sting_y);
+    sting_x = __builtin_abs((s16) (sting_x - obj->x_pos));
+    sting_y = __builtin_abs((s16) (sting_y - obj->y_pos));
+    if (sting_x < min_x && sting_y < min_y)
+        return true;
+    else
+        return false;
+}
 
 /* 6FA3C 8019423C -O2 -msoft-float */
 /*s16 firstFloorBelow();*/
