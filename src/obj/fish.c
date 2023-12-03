@@ -110,4 +110,83 @@ void DESACTIVE_FISH_COLLIS(Obj *fish)
   }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/fish", DO_PYRANHA);
+/* 37DA4 8015C5A4 -O2 -msoft-float */
+void DO_PYRANHA(Obj *in_obj)
+{
+  u8 can_free;
+  s32 in_y_pos;
+  s32 in_y;
+  Obj *cur_obj;
+  s16 i;
+  u8 nb_obj;
+  
+  DO_ONE_CMD(in_obj);
+  can_free = false;
+  if (in_obj->main_etat == 0)
+  {
+    if (in_obj->y_pos + in_obj->offset_by + 20 < ymap + 240)
+      in_obj->timer++;
+    if (in_obj->sub_etat == 3)
+      in_obj->speed_y = 0;
+    else if (in_obj->sub_etat == 9)
+    {
+      in_y_pos = in_obj->y_pos;
+      in_y = in_obj->y_pos + in_obj->offset_hy;
+      in_obj->speed_y = 6;
+      if (
+        ymap + 240 < in_y ||
+        in_y_pos + in_obj->offset_by + 14 > mp.height * 16
+      )
+      {
+        if (in_y_pos + in_obj->offset_by + 14 > mp.height * 16)
+          allocate_splash(in_obj);
+        in_obj->timer = 0;
+        in_obj->flags &= ~FLG(OBJ_ACTIVE);
+        in_obj->y_pos = ymap + 240;
+        in_obj->flags &= ~FLG(OBJ_ALIVE);
+        can_free = can_free_fish(in_obj);
+      }
+    }
+    else if (in_obj->y_pos + in_obj->offset_by < ymap)
+    {
+      in_obj->flags &= ~FLG(OBJ_ACTIVE);
+      in_obj->y_pos = ymap + 240;
+      in_obj->flags &= ~FLG(OBJ_ALIVE);
+      can_free = can_free_fish(in_obj);
+    }
+  }
+  if (in_obj->timer == 100)
+    can_free = can_free_fish(in_obj);
+  if (can_free)
+  {
+    cur_obj = level.objects;
+    nb_obj = level.nb_objects;
+    for (i = 0; nb_obj > i; i++)
+    {
+      if (
+        cur_obj->type == TYPE_FISH &&
+        cur_obj->init_x_pos == in_obj->init_x_pos &&
+        !(cur_obj->flags & FLG(OBJ_ACTIVE))
+      )
+      {
+        cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+        cur_obj->y_pos = ymap + 240;
+        cur_obj->x_pos = in_obj->init_x_pos;
+        if (cur_obj->y_pos + cur_obj->offset_by > ((mp.height - 1) << 4))
+        {
+          cur_obj->y_pos = - cur_obj->offset_by + ((mp.height - 1) << 4);
+          allocate_splash(cur_obj);
+        }
+        cur_obj->main_etat = in_obj->init_main_etat;
+        cur_obj->sub_etat = in_obj->init_sub_etat;
+        cur_obj->hit_points = in_obj->init_hit_points;
+        cur_obj->timer = 0;
+        cur_obj->flags |= FLG(OBJ_READ_CMDS);
+        calc_obj_pos(cur_obj);
+        skipToLabel(cur_obj, 1, true);
+        break;
+      }
+      cur_obj++;
+    }
+  }
+}

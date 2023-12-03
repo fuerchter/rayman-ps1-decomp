@@ -16,14 +16,14 @@ typedef struct GrpStar
 } GrpStar;
 
 /* .data */
-extern u8 PS1_star_spr[8] __attribute__((aligned(2)));
+/*extern u8 PS1_star_spr[8] __attribute__((aligned(2)));
 extern u8 s__801cef84[2];
 extern u8 PS1_TingsToGet_Col;
 extern u8 PS1_TingsToGet_ColAdd;
 extern u8 s_time_801cef88[5];
 extern u8 s__801cef90[2] __attribute__((aligned(4)));
 extern u8 s_go__801cef94[7] __attribute__((aligned(4)));
-extern u8 s_the_end_801cef9c[8];
+extern u8 s_the_end_801cef9c[8];*/
 
 /**/
 extern GrpStar grp_stars[30];

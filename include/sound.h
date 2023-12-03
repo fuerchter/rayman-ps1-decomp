@@ -68,7 +68,7 @@ extern u8 PS1_SoundVabIds[256];
 extern s16 D_801C7C78[8]; /* SsSepOpen seq_num? number of elements? */
 extern s16 PS1_SepVols[26]; /* number of elements? */
 extern SepInfo PS1_SepInfos[25]; /* number of elements? */
-extern s16 D_801C7D20[8]; /* number of elements? */
+extern s16 D_801C7D20[8]; /* TODO: number of elements? */
 extern s16 PS1_AudioTable[14]; /* bad starting point based on D_801C7D20? */
 extern u8 voice_is_working[24];
 
