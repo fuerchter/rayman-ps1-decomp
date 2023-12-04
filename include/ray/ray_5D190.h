@@ -4,6 +4,7 @@
 #include "common.h"
 #include "psyq_3_0/MEMORY.H"
 #include "ray/ray_32398.h"
+#include "ray/angle_rayman.h"
 #include "obj/black_ray_command.h"
 #include "obj/stonebomb.h"
 #include "obj_util.h"

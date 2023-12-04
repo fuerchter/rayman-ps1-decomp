@@ -1193,9 +1193,7 @@ void abs_sinus_cosinus(s16 tab_index, s16 *param_2, s16 *param_3)
     {
         *param_3 = costab[512 - tab_index];
         if (tab_index > 384)
-        {
             *param_2 = costab[tab_index - 384];
-        }
         else
             *param_2 = -costab[tab_index - 128];
     }
@@ -1220,7 +1218,69 @@ void SET_RAY_BALANCE(void)
   ray.speed_y = 0;
 }
 
+#ifndef NONMATCHINGS /* div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_GOING_BALANCE);
+#else
+void RAY_GOING_BALANCE(Obj *obj)
+{
+    s16 unk_1;
+    s16 unk_2;
+    s32 unk_3;
+    s32 unk_4;
+    s16 follow_x;
+    s16 follow_y;
+    s16 diff_x = (ray.x_pos + ray.offset_bx) - obj->x_pos - obj->offset_bx;
+    s16 diff_y = (ray.y_pos + ray.offset_by) - obj->y_pos - obj->offset_by;
+    s32 dist = diff_x * diff_x + diff_y * diff_y;
+
+    if (ray.sub_etat == 0)
+    {
+        if (dist > 4512U)
+        {
+            set_sub_etat(&ray, 1);
+            obj->timer = 0;
+            ray.speed_y = 0;
+            ray.speed_x = 0;
+            decalage_en_cours = 0;
+            follow_x = ANGLE_RAYMAN(obj);
+            obj->follow_x = follow_x;
+            if (follow_x > 256 || (follow_x == 256 && !(ray.flags & FLG(OBJ_FLIP_X))))
+                obj->field24_0x3e = -1;
+            else
+                obj->field24_0x3e = 1;
+            
+            abs_sinus_cosinus(follow_x, &unk_1, &unk_2);
+            if (__builtin_abs(unk_2) > 2)
+            {
+                if (__builtin_abs(unk_1) > 2)
+                {
+                    unk_3 = (diff_x << 9) / unk_1;
+                    unk_4 = (diff_y << 9) / unk_2;
+                    follow_y = (__builtin_abs(unk_3) + __builtin_abs(unk_4)) >> 1;
+                }
+                else
+                    follow_y = __builtin_abs(diff_y);
+            }
+            else
+                follow_y = __builtin_abs(diff_x);
+            obj->follow_y = follow_y;
+        }
+        else
+        {
+            ray.speed_x = 0;
+            ray.gravity_value_1++;
+            ray.speed_y -= obj->speed_y;
+            if (ray.gravity_value_1 > 2)
+            {
+                ray.speed_y++;
+                ray.gravity_value_1 = 0;
+            }
+        }
+    }
+
+    __asm__("nop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE);
 
