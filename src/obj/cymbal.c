@@ -68,30 +68,16 @@ void DO_2_PARTS_CYMBAL(Obj *cym_obj)
                 diff_x_2 = link_obj->x_pos - cym_obj->x_pos;
                 diff_y = link_obj->y_pos - cym_obj->y_pos;
                 if (diff_x_2 > 6)
-                {
                     link_obj->speed_x = -4;
-                    return;
-                }
                 else if (diff_x_2 < -6)
-                {
                     link_obj->speed_x = 4;
-                    return;
-                }
                 else if (diff_x_2 > 0)
-                {
                     link_obj->speed_x = -1;
-                    return;
-                }
                 else if (diff_x_2 < 0)
-                {
                     link_obj->speed_x = 1;
-                    return;
-                }
                 else
-                    link_obj->speed_x = 0;
-
-                if(link_obj->speed_x == 0)
                 {
+                    link_obj->speed_x = 0;
                     if (diff_y < -8)
                         link_obj->speed_y = 4;
                     else if (diff_y > 8)
@@ -118,8 +104,7 @@ void DO_2_PARTS_CYMBAL(Obj *cym_obj)
                     }
                     else
                         link_obj->speed_y = 1;
-                }
- 
+                } 
             }
             else
             {
