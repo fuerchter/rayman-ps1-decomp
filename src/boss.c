@@ -30,7 +30,7 @@ void setBossReachingSpeeds(Obj *obj, u8 horloge_ind, u8 unk_x, u8 unk_y)
             diff_x_abs = __builtin_abs(diff_x_1);
             diff_y_abs = __builtin_abs(diff_y_1);
             unk_2 = MAX_1(diff_x_abs, diff_y_abs);
-            unk_1 = MIN(unk_2, unk_1);
+            unk_1 = MIN_1(unk_2, unk_1);
             unk_3 = ashl16(unk_2, 4) / unk_1;
             unk_4 = ashl16(diff_x_1, 4) / unk_3;
             unk_5 = ashl16(diff_y_1, 4) / unk_3;

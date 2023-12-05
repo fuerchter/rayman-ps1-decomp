@@ -3,8 +3,8 @@
 
 #include "common.h"
 #include "common/obj.h"
-#include "collision/block_22C84.h"
 #include "timers.h"
+#include "collision/block_22C84.h"
 #include "moteur_init_end.h"
 
 extern s16 bossScrollStartX;
@@ -37,6 +37,6 @@ extern u8 WaitForAnim;
 void setBossReachingSpeeds(Obj *obj, u8 param_2, u8 param_3, u8 param_4);
 s16 testActionEnd(Obj *obj);
 void FUN_8018b78c(s16 *param_1, s16 *param_2, s16 *param_3, s16 *param_4, u8 param_5);
-/*s16 firstFloorBelow(Obj *obj);*/
+s16 firstFloorBelow(Obj *obj);
 
 #endif

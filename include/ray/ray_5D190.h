@@ -3,15 +3,12 @@
 
 #include "common.h"
 #include "common/obj.h"
-#include "common/level.h"
-#include "common/ray.h"
-#include "psyq_3_0/MEMORY.H"
-#include "ray/ray_32398.h"
-#include "ray/angle_rayman.h"
-#include "obj/black_ray_command.h"
+#include "main_moteur.h"
+#include "obj_init_kill.h"
 #include "obj/stonebomb.h"
-#include "obj_util.h"
 #include "collision/bit_util.h"
+#include "obj_util.h"
+#include "obj/black_ray_command.h"
 
 /* TODO: bitfields? */
 typedef u8 RayEvts_0;
