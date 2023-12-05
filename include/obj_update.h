@@ -3,9 +3,6 @@
 
 #include "common.h"
 #include "common/obj.h"
-#include "common/level.h"
-#include "display.h"
-#include "obj_init_kill.h"
 
 typedef struct ObjHandlers
 {

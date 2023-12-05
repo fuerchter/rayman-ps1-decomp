@@ -5,7 +5,6 @@
 #include "common/obj.h"
 #include "common/ray.h"
 #include "obj_init_kill.h"
-#include "obj_update.h"
 #include "ray/ray_32398.h"
 
 /* .data */

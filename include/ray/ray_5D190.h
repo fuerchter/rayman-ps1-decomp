@@ -7,13 +7,11 @@
 #include "common/ray.h"
 #include "psyq_3_0/MEMORY.H"
 #include "ray/ray_32398.h"
-/*#include "ray/angle_rayman.h"*/
+#include "ray/angle_rayman.h"
 #include "obj/black_ray_command.h"
 #include "obj/stonebomb.h"
 #include "obj_util.h"
 #include "collision/bit_util.h"
-
-s16 ANGLE_RAYMAN(Obj *obj);
 
 /* TODO: bitfields? */
 typedef u8 RayEvts_0;

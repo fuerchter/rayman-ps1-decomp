@@ -2,7 +2,7 @@
 #define FOND_10B3C_H
 
 #include "common.h"
-#include "display.h"
+#include "common/obj.h"
 
 typedef struct BackgroundPosition
 {

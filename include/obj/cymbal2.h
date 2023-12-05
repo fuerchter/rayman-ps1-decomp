@@ -4,7 +4,6 @@
 #include "common.h"
 #include "common/obj.h"
 #include "common/level.h"
-#include "obj_update.h"
 #include "gendoor.h"
 
 void START_2_PARTS_CYMBAL_ACTION(Obj *obj);

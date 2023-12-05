@@ -5,7 +5,6 @@
 #include "common/obj.h"
 #include "common/level.h"
 #include "common/ray.h"
-#include "obj_update.h"
 #include "ray/ray_32398.h"
 #include "obj/poing.h"
 #include "cam_scroll_340A4.h"

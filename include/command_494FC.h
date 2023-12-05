@@ -3,7 +3,6 @@
 
 #include "common.h"
 #include "common/obj.h"
-#include "obj_update.h"
 
 void DO_ONE_CMD_WAIT(Obj *obj);
 void DO_ONE_CMD_LR_ATTENTE(Obj *obj);

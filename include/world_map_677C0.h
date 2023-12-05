@@ -4,7 +4,6 @@
 #include "common.h"
 #include "common/obj.h"
 #include "common/ray.h"
-#include "obj_update.h"
 #include "ray/ray_32398.h"
 #include "moteur_update.h"
 #include "cam_scroll_29B5C.h"

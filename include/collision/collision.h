@@ -5,7 +5,6 @@
 #include "common/obj.h"
 #include "common/level.h"
 #include "common/ray.h"
-#include "obj_update.h"
 #include "world_map_95CC.h"
 #include "world_map_677C0.h"
 #include "bonus_35FB4.h"
