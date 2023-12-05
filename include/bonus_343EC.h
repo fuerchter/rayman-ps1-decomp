@@ -2,6 +2,7 @@
 #define BONUS_343EC_H
 
 #include "common.h"
+#include "common/ray.h"
 #include "psyq_3_0/LIBGPU.H"
 #include "psyq_3_0/STDIO.H"
 #include "world_map_95CC.h"

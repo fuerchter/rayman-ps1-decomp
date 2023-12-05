@@ -2,6 +2,7 @@
 #define CHEATS_H
 
 #include "common.h"
+#include "common/ray.h"
 #include "ray/ray_5D190.h"
 
 /* .data */

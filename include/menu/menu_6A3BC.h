@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "common/ray.h"
 #include "menu/menu_7EEE4.h"
 #include "menu/menu_7F4B4.h"
 #include "obj/dark_729F0.h"

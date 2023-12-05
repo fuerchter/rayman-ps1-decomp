@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "common/ray.h"
 #include "ray/ray_32398.h"
 
 void move_fruit_in_water(Obj *obj);

@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "common/ray.h"
 #include "world_map_95CC.h"
 
 void DO_WIZARD(Obj *obj);
