@@ -2,20 +2,12 @@
 #define RAY_32398_H
 
 #include "common.h"
-#include "common/obj.h"
-#include "common/level.h"
-#include "common/ray.h"
-#include "ray/ray_5D190.h"
 #include "ray/ray_30A64.h"
-#include "demo_9FD4.h"
-#include "world_map_95CC.h"
+#include "ray/ray_5D190.h"
 #include "moteur_init_end.h"
-#include "save.h"
-#include "obj/corde.h"
-#include "collision/collision.h"
 #include "continue.h"
-#include "main_moteur.h"
-#include "obj/eau.h"
+#include "collision/collision.h"
+#include "save.h"
 
 /**/
 extern u8 PS1_ShoulderL;

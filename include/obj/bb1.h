@@ -3,11 +3,13 @@
 
 #include "common.h"
 #include "common/obj.h"
-#include "common/level.h"
 #include "common/ray.h"
-#include "ray/ray_32398.h"
+#include "common/level.h"
+#include "obj/poing.h"
+#include "timers.h"
 #include "boss.h"
-#include "collision/block_22C84.h"
+#include "cam_scroll_29B5C.h"
+#include "world_map_677C0.h"
 
 typedef struct BB1Data
 {

@@ -2,7 +2,7 @@
 #define CAM_SCROLL_340A4_H
 
 #include "common.h"
-#include "ray/ray_32398.h"
+#include "common/ray.h"
 
 /**/
 extern s16 NumScrollObj;

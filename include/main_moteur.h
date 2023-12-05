@@ -3,14 +3,14 @@
 
 #include "common.h"
 #include "psyq_3_0/LIBGPU.H"
-#include "psyq_3_0/LIBCD.H"
-#include "psyq_3_0/LIBETC.H"
 #include "demo_9FD4.h"
-#include "obj/fee_3D76C.h"
-#include "input_ED20.h"
-#include "vignet.h"
-#include "music.h"
 #include "cheats.h"
+#include "display.h"
+#include "input_ED20.h"
+#include "obj/fee_3D76C.h"
+#include "music.h"
+#include "vignet.h"
+#include "moteur_init_end.h"
 
 /* .data */
 extern RECT PS1_MemoryUsageRect;

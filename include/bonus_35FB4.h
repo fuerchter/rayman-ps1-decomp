@@ -2,8 +2,10 @@
 #define BONUS_35FB4_H
 
 #include "common.h"
+#include "ray/ray_30A64.h"
 #include "num_level_36260.h"
 #include "bonus_343EC.h"
+#include "moteur_init_end.h"
 
 extern u8 bonus_perfect[24];
 extern s16 loop_time;

@@ -3,9 +3,8 @@
 
 #include "common.h"
 #include "common/obj.h"
-#include "common/level.h"
 #include "common/ray.h"
-#include "ray/ray_32398.h"
+#include "common/level.h"
 #include "gendoor.h"
 
 void DO_CYMBAL_COMMAND(Obj *obj);

@@ -2,11 +2,9 @@
 #define NUM_LEVEL_36260_H
 
 #include "common.h"
-#include "common/obj.h"
-#include "common/level.h"
 #include "common/ray.h"
-#include "ray/ray_32398.h"
-#include "obj/poing.h"
+#include "moteur_init_end.h"
+#include "world_map_677C0.h"
 #include "cam_scroll_340A4.h"
 
 extern s16 departlevel;

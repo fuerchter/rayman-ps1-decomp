@@ -6,6 +6,7 @@
 #include "common/level.h"
 #include "num_level_36260.h"
 #include "boss.h"
+#include "collision/collision.h"
 
 /* 801c8050 - 801c84d8 might be general boss data? */
 /* same with 801cf0bc - 801cf0ca though */

@@ -9,6 +9,8 @@
 #include "collision/bit_util.h"
 #include "obj_util.h"
 #include "obj/black_ray_command.h"
+#include "collision/collision.h"
+#include "obj/corde.h"
 
 /* TODO: bitfields? */
 typedef u8 RayEvts_0;
