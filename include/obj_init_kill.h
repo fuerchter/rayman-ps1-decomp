@@ -66,31 +66,6 @@ typedef struct ActiveObjects
     s16 num_active_objects;
 } ActiveObjects;
 
-typedef u8 ObjActiveFlag;
-#define ACTIVE_DEAD 0
-#define ACTIVE_REINIT 1
-#define ACTIVE_SPECIAL 2
-
-#define FLG_ACTIVE_ALIVE 0
-
-/* couldn't get 6A180 8018E980 FIN_WORLD_CHOICE, handle_RESERVED_GO_BRANCHTRUE or skipToLabel to match with actual bitfields */
-typedef u32 ObjFlags;
-#define OBJ_FLAG_0 8
-#define OBJ_CMD_TEST 9
-#define OBJ_ALIVE 10
-#define OBJ_ACTIVE 11
-#define OBJ_LINKED 12
-#define OBJ_FLAG_5 13
-#define OBJ_FLIP_X 14
-#define OBJ_READ_CMDS 15
-#define OBJ_FOLLOW_ENABLED 16
-#define OBJ_FLAG_9 17
-#define OBJ_FLAG_A 18
-#define OBJ_FLAG_B 19
-
-#define FLG_OBJ_NONE 0
-#define FLG_OBJ_ANIM_COUNT_MASK 0xFF
-
 /* .data */
 extern ObjTypeFlags flags[256];
 extern s16 zonediffx[256];

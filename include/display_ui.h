@@ -2,6 +2,7 @@
 #define DISPLAY_UI_H
 
 #include "common.h"
+#include "common/obj.h"
 #include "psyq_3_0/LIBGPU.H"
 #include "world_map_677C0.h"
 #include "card.h"

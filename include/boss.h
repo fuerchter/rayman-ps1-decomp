@@ -2,6 +2,7 @@
 #define BOSS_H
 
 #include "common.h"
+#include "common/obj.h"
 #include "collision/block_22C84.h"
 #include "timers.h"
 #include "moteur_init_end.h"

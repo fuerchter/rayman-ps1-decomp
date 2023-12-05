@@ -2,6 +2,7 @@
 #define BLOCK_22C84_H
 
 #include "common.h"
+#include "common/obj.h"
 #include "obj_update.h"
 
 typedef struct MapData {

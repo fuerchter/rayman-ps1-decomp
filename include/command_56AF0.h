@@ -2,6 +2,7 @@
 #define COMMAND_56AF0_H
 
 #include "common.h"
+#include "common/obj.h"
 #include "obj_update.h"
 
 typedef struct CommandTableEntry

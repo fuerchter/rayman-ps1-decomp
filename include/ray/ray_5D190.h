@@ -2,6 +2,7 @@
 #define RAY_5D190_H
 
 #include "common.h"
+#include "common/obj.h"
 #include "psyq_3_0/MEMORY.H"
 #include "ray/ray_32398.h"
 /*#include "ray/angle_rayman.h"*/

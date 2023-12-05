@@ -2,6 +2,7 @@
 #define MOSKITO_H
 
 #include "common.h"
+#include "common/obj.h"
 #include "num_level_36260.h"
 #include "boss.h"
 

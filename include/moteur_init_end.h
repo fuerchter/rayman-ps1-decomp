@@ -2,6 +2,7 @@
 #define MOTEUR_INIT_END
 
 #include "common.h"
+#include "common/obj.h"
 
 extern s16 bonus_map;
 extern s16 xmapmax;

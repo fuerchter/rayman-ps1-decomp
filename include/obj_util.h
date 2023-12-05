@@ -2,6 +2,7 @@
 #define OBJ_UTIL_H
 
 #include "common.h"
+#include "common/obj.h"
 #include "obj_init_kill.h"
 #include "obj_update.h"
 #include "ray/ray_32398.h"

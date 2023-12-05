@@ -2,6 +2,7 @@
 #define LOADING_DA64_H
 
 #include "common.h"
+#include "common/obj.h"
 #include "display.h"
 #include "obj_update.h"
 #include "collision/block_22C84.h"

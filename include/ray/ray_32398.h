@@ -2,6 +2,7 @@
 #define RAY_32398_H
 
 #include "common.h"
+#include "common/obj.h"
 #include "ray/ray_5D190.h"
 #include "ray/ray_30A64.h"
 #include "demo_9FD4.h"

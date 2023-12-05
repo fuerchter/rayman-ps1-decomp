@@ -2,6 +2,7 @@
 #define FISH_H
 
 #include "common.h"
+#include "common/obj.h"
 #include "world_map_677C0.h"
 #include "gendoor.h"
 
