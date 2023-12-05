@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "common/level.h"
 #include "ray/ray_32398.h"
 #include "boss.h"
 #include "collision/block_22C84.h"

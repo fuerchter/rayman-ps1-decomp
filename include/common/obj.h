@@ -487,10 +487,4 @@ typedef struct Obj {
     ObjFlags flags;
 } Obj;
 
-typedef struct LevelData
-{
-    Obj * objects;
-    u8 nb_objects;
-} LevelData;
-
 #endif

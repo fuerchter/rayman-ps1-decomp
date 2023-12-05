@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "common/level.h"
 #include "obj_update.h"
 #include "ray/ray_32398.h"
 #include "obj/poing.h"

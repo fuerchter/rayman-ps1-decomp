@@ -2,6 +2,7 @@
 #define FEE_3D76C_H
 
 #include "common.h"
+#include "common/level.h"
 #include "obj/fee_4DFD0.h"
 #include "main.h"
 

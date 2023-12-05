@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "common/level.h"
 #include "psyq_3_0/LIBSND.H"
 #include "obj_update.h"
 #include "loading_794DC.h"

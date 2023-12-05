@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "common/level.h"
 #include "num_level_36260.h"
 #include "boss.h"
 

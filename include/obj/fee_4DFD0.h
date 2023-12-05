@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "common/level.h"
 #include "text_24E10.h"
 #include "timers.h"
 #include "ray/ray_5D190.h"

@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "common/level.h"
 #include "psyq_3_0/MEMORY.H"
 #include "ray/ray_32398.h"
 /*#include "ray/angle_rayman.h"*/

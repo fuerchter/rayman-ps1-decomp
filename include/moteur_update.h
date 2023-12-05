@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "common/level.h"
 #include "obj_update.h"
 #include "world_map_95CC.h"
 

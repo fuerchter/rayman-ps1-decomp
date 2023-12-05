@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "common/level.h"
 #include "display.h"
 #include "obj_update.h"
 #include "collision/block_22C84.h"
