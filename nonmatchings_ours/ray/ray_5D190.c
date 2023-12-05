@@ -518,56 +518,45 @@ block_128:
     return;
 }
 
+/* matches, but too many unknown locals */
 /*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", ray_inertia_speed);*/
 
-s16 ashr16(s16 param_1, s32 param_2);
-s32 ashl16(s16 param_1, s32 param_2);
+/*s16 ashr16(s16 param_1, u32 param_2);
+s32 ashl16(s16 param_1, u32 param_2);*/
 
-/* goal: somewhere from 600-800? not sure i didn't break this somehow */
-void ray_inertia_speed(u32 param_1, s16 param_2, s16 prevSpeedX, s16 param_4)
+void ray_inertia_speed(u8 param_1, s16 param_2, s16 prev_speed_x, s16 param_4)
 {
-    s16 temp_s0;
+
     s16 temp_s3_2;
     s16 temp_v1;
     s16 var_a1;
     s32 var_s0;
     s16 var_s2;
     s16 var_s6;
-    s16 var_v0;
     s16 var_v1;
-    s32 temp_lo;
-    s32 temp_lo_2;
     s16 temp_s0_2;
     s32 temp_s1;
     s32 temp_s1_2;
-    s32 temp_s3;
+    s16 temp_s3_1;
     s32 temp_v0;
-    s32 temp_v0_2;
-    s32 var_v0_3;
-    s32 var_v0_4;
-    u8 new_var;
-    int new_var2;
+    s32 new_var2;
 
-    temp_s0 = param_1 & 0xFF;
-    if (temp_s0 == 0)
+    if (param_1 == 0)
     {
-        decalage_en_cours = prevSpeedX;
+        decalage_en_cours = prev_speed_x;
         var_s2 = 0;
     }
     else
     {
-        temp_s3 = ashr32(prevSpeedX * temp_s0, 8);
-        var_s2 = ashr16(temp_s0, 3);
-        var_v1 = var_s2;
         new_var2 = 6;
-        temp_s0 = temp_s3;
+        temp_s3_1 = ashr32(prev_speed_x * param_1, 8);
+        var_s2 = ashr16(param_1, 3);
+        var_v1 = var_s2;
         if (var_v1 == 0)
-        {
             var_v1 = 1;
-        }
         var_s2 = var_v1;
         temp_s0_2 = ashl16(param_2, 2);
-        temp_s3_2 = ashl16(param_4, 3) + (temp_s0 + temp_s0_2);
+        temp_s3_2 = ashl16(param_4, 3) + (temp_s3_1 + temp_s0_2);
         temp_v1 = num_world - 1;
         switch (temp_v1)
         {
@@ -583,89 +572,61 @@ void ray_inertia_speed(u32 param_1, s16 param_2, s16 prevSpeedX, s16 param_4)
         }
         if (temp_s3_2 > 0)
         {
-            if ((s16)temp_s0 > 0)
-            {
-                var_s0 = prevSpeedX;
-            }
+            if (temp_s3_1 > 0)
+                var_s0 = prev_speed_x;
             else
-            {
                 var_s0 = 0;
-            }
             temp_s1 = ashl16(param_4, 8);
-            if ((temp_s0_2 << 0x10) > 0)
+            if (temp_s0_2 > 0)
             {
-                temp_v0 = ashl16((s16) param_2 + var_s6, 8);
-                var_s0 = var_s0 + temp_v0 / var_s2 + temp_s1;
+                temp_v0 = ashl16(param_2 + var_s6, 8);
+                temp_v0 = var_s0 + temp_v0 / var_s2 + temp_s1;
             }
             else
-            {
-                var_s0 = var_s0 + temp_s1;
-            }
-            var_a1 = var_s0;
-            if (decalage_en_cours > var_a1)
-            {
-                var_a1 = decalage_en_cours;
-            }
-            goto block_32;
+                temp_v0 = var_s0 + temp_s1;
+            var_a1 = temp_v0;
+            MAX_3(var_a1, decalage_en_cours);
+
         }
         else if (temp_s3_2 < 0)
         {
-            var_s0 = 0;
-            if ((s16) temp_s0 < 0)
-            {
-                var_s0 = prevSpeedX;
-            }
+            if (temp_s3_1 < 0)
+                var_s0 = prev_speed_x;
+            else
+                var_s0 = 0;
             temp_s1_2 = ashl16(param_4, 8);
             if (temp_s0_2 < 0)
             {
-                temp_v0_2 = ashl16(param_2 - var_s6, 8);
-                var_s0 = var_s0 + temp_v0_2 / var_s2 + temp_s1_2;
+                temp_v0 = ashl16(param_2 - var_s6, 8);
+                temp_v0 = var_s0 + temp_v0 / var_s2 + temp_s1_2;
             }
             else
-            {
-                var_s0 = var_s0 + temp_s1_2;
-            }
-            var_a1 = var_s0;
-            var_v0_3 = temp_s3_2 << 0x10;
-            if (decalage_en_cours < var_a1)
-            {
-                var_a1 = decalage_en_cours;
-            }
+                temp_v0 = var_s0 + temp_s1_2;
+            var_a1 = temp_v0;
+            MIN_3(var_a1, decalage_en_cours);
         }
         else
-        {
-            var_a1 = (s16) (u16) decalage_en_cours;
-block_32:
-            var_v0_3 = temp_s3_2 << 0x10;
-        }
-        if (var_v0_3 != 0)
+            var_a1 = decalage_en_cours;
+        if (temp_s3_2 != 0)
         {
             if (var_a1 > 0)
             {
                 if (decalage_en_cours < var_a1)
-                {
                     decalage_en_cours += temp_s3_2;
-                }
-                var_v0_4 = var_a1 < decalage_en_cours;
+                MIN_3(decalage_en_cours, var_a1);
             }
             else
             {
                 if (var_a1 < decalage_en_cours)
-                {
                     decalage_en_cours += temp_s3_2;
-                }
-                var_v0_4 = decalage_en_cours < var_a1;
-            }
-            if (var_v0_4 != 0)
-            {
-                decalage_en_cours = var_a1;
+                MAX_3(decalage_en_cours, var_a1);
             }
         }
     }
     if (decalage_en_cours != 0)
     {
         ray.speed_x = instantSpeed(ashr16(decalage_en_cours, 4));
-        if ((((u8) block_flags[calc_typ_travd(&ray, 0) & 0xFF] >> 4) & 1) && (ray.main_etat != 2))
+        if (block_flags[(u8) calc_typ_travd(&ray, 0)] >> BLOCK_FLAG_4 & 1 && ray.main_etat != 2)
         {
             ray.speed_x = 0;
             decalage_en_cours = 0;
@@ -673,29 +634,19 @@ block_32:
         }
     }
     else
-    {
         ray.speed_x = 0;
-    }
-    new_var = ray.main_etat;
-    if (((new_var < 2U) || (ray.main_etat == 3)) && (ray.field20_0x36 == -1))
-    {
+
+    if ((ray.main_etat == 0 || ray.main_etat == 1 || ray.main_etat == 3) && ray.field20_0x36 == -1)
         CALC_MOV_ON_BLOC(&ray);
-    }
-    if ((ray.main_etat == 2) && (ray.sub_etat == 0x0F))
-    {
+    
+    if (ray.main_etat == 2 && ray.sub_etat == 15)
         var_s2 += 2;
-    }
     if (decalage_en_cours >= var_s2)
-    {
         decalage_en_cours -= var_s2;
-        return;
-    }
-    if (-var_s2 >= decalage_en_cours)
-    {
+    else if (decalage_en_cours <= -var_s2)
         decalage_en_cours += var_s2;
-        return;
-    }
-    decalage_en_cours = 0;
+    else
+        decalage_en_cours = 0;
 }
 
 /*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_SWIP);*/
@@ -733,11 +684,7 @@ void RAY_SWIP(void)
             ray.field20_0x36 = -1;
         }
         temp_v1 = temp_s1->ray_dist;
-        var_v0 = temp_v1; /* abs? */
-        if (temp_v1 < 0)
-        {
-            var_v0 = -var_v0;
-        }
+        var_v0 = __builtin_abs(temp_v1); /* abs? */
         if ((var_v0 >= 9) || (temp_v1 < 0) || (ray.field20_0x36 == -1))
         {
             rayMayLandOnAnObject(&sp10, ray.field20_0x36);
@@ -910,6 +857,16 @@ block_57:
                     break;
                 }
                 break;
+            case 20:
+            case 21:
+                var_s0 = var_s4;
+                var_s2 = -4;
+                break;
+            case 22:
+            case 23:
+                var_s0 = var_s4;
+                var_s2 = 4;
+                break;
             case 2:
             case 3:
             case 4:
@@ -918,8 +875,16 @@ block_57:
             case 7:
             case 12:
             case 14:
-                /* not sure about this */
                 var_s0 = var_a1;
+                var_s2 = 0;
+                break;
+            case 18:
+                var_s0 = var_s4;
+                var_s2 = -6;
+                break;
+            case 19:
+                var_s0 = var_s4;
+                var_s2 = 6;
                 break;
             }
         }
@@ -1118,6 +1083,8 @@ void CAN_RAY_HANG_BLOC(void)
   return;
 }
 
+/* looked at android (abs), played around with gotos-only
+tried replacing var_v0 with returns, tried replacing temp_v1 */
 /*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE_ANIM);*/
 
 s16 RAY_BALANCE_ANIM(s16 arg0)

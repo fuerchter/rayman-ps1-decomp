@@ -4,11 +4,13 @@
 #include "common.h"
 #include "psyq_3_0/MEMORY.H"
 #include "ray/ray_32398.h"
-#include "ray/angle_rayman.h"
+/*#include "ray/angle_rayman.h"*/
 #include "obj/black_ray_command.h"
 #include "obj/stonebomb.h"
 #include "obj_util.h"
 #include "collision/bit_util.h"
+
+s16 ANGLE_RAYMAN(Obj *obj);
 
 /* TODO: bitfields? */
 typedef u8 RayEvts_0;
@@ -85,7 +87,7 @@ void set_air_speed(u8 main_etat, u8 sub_etat, s16 param_3, u8 param_4);
 void Reset_air_speed(u8 is_rolling_speed);
 void determineRayAirInertia(void);
 void ray_jump(void);
-void ray_inertia_speed(u32 param_1, s16 param_2, s16 prevSpeedX, s16 param_4);
+void ray_inertia_speed(u8 param_1, s16 param_2, s16 prev_speed_x, s16 param_4);
 void RAY_SWIP(void);
 void RAY_STOP(void);
 void RAY_HELICO(void);
