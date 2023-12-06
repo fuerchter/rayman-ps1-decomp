@@ -6,6 +6,7 @@
 #include "moteur_init_end.h"
 #include "world_map_677C0.h"
 #include "cam_scroll_340A4.h"
+#include "ray/ray_5D190.h"
 
 extern s16 departlevel;
 extern u8 finBosslevel[2];

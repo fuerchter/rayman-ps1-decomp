@@ -7,7 +7,6 @@
 #include "cam_scroll_29B5C.h"
 #include "world_map_95CC.h"
 #include "menu/menu_card_7C028.h"
-#include "text_24E10.h"
 #include "ray/ray_5D190.h"
 #include "victoire.h"
 #include "continue.h"

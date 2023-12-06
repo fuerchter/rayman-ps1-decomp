@@ -2,8 +2,8 @@
 #define RAY_32398_H
 
 #include "common.h"
+#include "common/rayevts.h"
 #include "ray/ray_30A64.h"
-#include "ray/ray_5D190.h"
 #include "moteur_init_end.h"
 #include "continue.h"
 #include "collision/collision.h"

@@ -2,8 +2,10 @@
 #define CHEATS_H
 
 #include "common.h"
+#include "common/rayevts.h"
 #include "main_moteur.h"
 #include "ray/ray_30A64.h"
+#include "ray/ray_5D190.h"
 
 /* .data */
 extern s16 D_801CEFC8;

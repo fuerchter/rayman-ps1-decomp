@@ -5,7 +5,9 @@
 #include "common/obj.h"
 #include "common/level.h"
 #include "common/ray.h"
+#include "common/rayevts.h"
 #include "world_map_95CC.h"
+#include "ray/ray_5D190.h"
 
 extern Obj *star_ray_der;
 extern Obj *star_ray_dev;

@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "common/rayevts.h"
 #include "text_24E10.h"
 #include "timers.h"
 #include "world_map_95CC.h"

@@ -2,10 +2,11 @@
 #define DEMO_9FD4_H
 
 #include "common.h"
-#include "ray/ray_5D190.h"
+#include "common/rayevts.h"
 #include "video.h"
 #include "num_level_36260.h"
 #include "menu/menu_7F4B4.h"
+#include "ray/ray_5D190.h"
 
 typedef struct Record
 {

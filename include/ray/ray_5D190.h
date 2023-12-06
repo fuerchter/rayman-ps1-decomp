@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "common/rayevts.h"
 #include "main_moteur.h"
 #include "obj_init_kill.h"
 #include "obj/stonebomb.h"
@@ -11,37 +12,6 @@
 #include "obj/black_ray_command.h"
 #include "collision/collision.h"
 #include "obj/corde.h"
-
-/* TODO: bitfields? */
-typedef u8 RayEvts_0;
-#define RAYEVTS0_POING 0
-#define RAYEVTS0_HANG 1
-#define RAYEVTS0_HELICO 2
-#define RAYEVTS0_SUPER_HELICO 3
-#define RAYEVTS0_HANDSTAND_DASH 4
-#define RAYEVTS0_HANDSTAND 5
-#define RAYEVTS0_GRAIN 6
-#define RAYEVTS0_GRAP 7
-
-#define FLG_RAYEVTS0_NONE 0
-
-typedef u8 RayEvts_1;
-#define RAYEVTS1_RUN 0
-#define RAYEVTS1_DEMI 1
-#define RAYEVTS1_LUCIOLE 2
-#define RAYEVTS1_FORCE_RUN_TOGGLE 3
-#define RAYEVTS1_FORCE_RUN 4
-#define RAYEVTS1_REVERSE 5
-#define RAYEVTS1_FLAG6 6
-#define RAYEVTS1_UNUSED_DEATH 7
-
-#define FLG_RAYEVTS1_NONE 0
-
-typedef struct RaymanEvents
-{
-    RayEvts_0 flags0;
-    RayEvts_1 flags1;
-} RaymanEvents;
 
 typedef s16 RayMode;
 #define MODE_NONE 0
@@ -54,7 +24,6 @@ typedef s16 RayMode;
 extern RaymanEvents PS1_DefaultRayEvts; /* originally in include/main.h */
 
 /**/
-extern RaymanEvents RayEvts;
 extern RaymanEvents SauveRayEvtsDemo; /* originally in include/demo_9FD4.h */
 extern u8 ray_on_poelle;
 extern s16 decalage_en_cours;

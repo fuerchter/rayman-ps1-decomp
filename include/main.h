@@ -2,6 +2,7 @@
 #define MAIN_H
 
 #include "common.h"
+#include "common/rayevts.h"
 #include "psyq_3_0/LIBETC.H"
 #include "psyq_3_0/LIBAPI.H"
 #include "demo_9FD4.h"
