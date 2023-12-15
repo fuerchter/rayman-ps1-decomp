@@ -400,9 +400,10 @@ typedef u8 ObjType;
 #define TYPE_INVALID 255
 
 typedef u8 ObjActiveFlag;
-#define ACTIVE_DEAD 0
-#define ACTIVE_REINIT 1
-#define ACTIVE_SPECIAL 2
+#define ACTIVE_ALIVE 0
+#define ACTIVE_DEAD 1
+#define ACTIVE_REINIT 2
+#define ACTIVE_SPECIAL 4
 
 #define FLG_ACTIVE_ALIVE 0
 

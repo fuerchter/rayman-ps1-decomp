@@ -661,7 +661,86 @@ void standard_frontZone(Obj *obj, s16 *x, s16 *w)
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_DETECT_ZONE_FLAG);
 
+/* 201D8 801449D8 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/collision", goToRay);
+#else
+void goToRay(Obj *obj)
+{
+  s32 follow_sprite;
+  
+  PlaySnd(204, obj->id);
+  switch(obj->type)
+  {
+  case TYPE_STALAG:
+    if (obj->sub_etat == 4)
+      calc_obj_dir(obj);
+    else
+      obj->flags &= ~FLG(OBJ_FLIP_X);
+    break;
+  case TYPE_PLATFORM:
+  case TYPE_FALLPLAT:
+  case TYPE_LIFTPLAT:
+  case TYPE_MOVE_PLAT:
+  case TYPE_INST_PLAT:
+  case TYPE_CRUMBLE_PLAT:
+  case TYPE_BOING_PLAT:
+  case TYPE_ONOFF_PLAT:
+  case TYPE_AUTOJUMP_PLAT:
+  case TYPE_OUYE:
+  case TYPE_SIGNPOST:
+  case TYPE_MOVE_OUYE:
+  case TYPE_STONEBOMB2:
+  case TYPE_CAGE:
+  case TYPE_MOVE_START_NUA:
+  case TYPE_BIG_BOING_PLAT:
+  case TYPE_STONEBOMB3:
+  case TYPE_JAUGEUP:
+  case TYPE_MORNINGSTAR_MOUNTAI:
+  case TYPE_MARTEAU:
+  case TYPE_MOVE_MARTEAU:
+  case TYPE_GROSPIC:
+  case TYPE_PI:
+  case TYPE_ONEUP:
+  case TYPE_KILLING_EYES:
+  case TYPE_RUBIS:
+  case TYPE_MARK_AUTOJUMP_PLAT:
+    obj->flags &= ~FLG(OBJ_FLIP_X);
+    break;
+  case TYPE_BADGUY1:
+  case TYPE_BADGUY2:
+  case TYPE_BADGUY3:
+    calc_obj_dir(obj);
+    if (obj->flags & FLG(OBJ_FLIP_X))
+      skipToLabel(obj, 3, true);
+    else
+      skipToLabel(obj, 2, true);
+    break;
+  case TYPE_BLACKTOON1:
+    follow_sprite = obj->follow_sprite;
+    if (
+      follow_sprite < 2 ||
+      (follow_sprite >= 4 && ((s16) follow_sprite >= 8 || follow_sprite < 6)))
+    {
+      calc_obj_dir(obj);
+      if (obj->flags & FLG(OBJ_FLIP_X))
+        skipToLabel(obj, 3, true);
+      else
+        skipToLabel(obj, 2, true);
+    }
+    break;
+  case TYPE_BIG_CLOWN:
+    calc_obj_dir(obj);
+    skipToLabel(obj, 7, true);
+    break;
+  default:
+    calc_obj_dir(obj);
+    break;
+  }
+
+  __asm__("nop");
+}
+#endif
 
 /* 20304 80144B04 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
