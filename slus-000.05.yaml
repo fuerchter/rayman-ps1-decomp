@@ -246,7 +246,7 @@ segments:
       - [0x67130, asm, obj/blacktoon1] #8018b930
       - [0x677C0, c, world_map_677C0] #8018bfc0
       - [0x6A3BC, c, menu/menu_6A3BC] #8018ebbc
-      - [0x6C6E4, asm, obj/scorpion] #80190ee4
+      - [0x6C6E4, c, obj/scorpion] #80190ee4
       - [0x6E5E0, asm, collision/block_6E5E0] #80192de0
       - [0x6F914, c, obj/moskito] #80194114
       - [0x71680, asm, obj/batteur_fou] #80195e80
