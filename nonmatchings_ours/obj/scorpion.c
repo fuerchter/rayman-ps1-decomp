@@ -113,3 +113,72 @@ void allocate_rayon(s16 x, s16 y)
     set_sub_etat(cur_obj, 0);
   }
 }
+
+/* matches, but too many unknowns, "test" var */
+/*INCLUDE_ASM("asm/nonmatchings/obj/scorpion", do_sko_rayon);*/
+
+void do_sko_rayon(void)
+{
+    Obj *ecroule_obj;
+    s16 diff_y_1;
+    s16 diff_x_1;
+    s16 dist;
+    s16 diff_x_2;
+    s16 diff_y_2;
+    s16 diff_x_abs;
+    s16 diff_y_abs;
+    s32 temp_lo;
+    s32 temp_lo_2;
+    s32 temp_v0_3;
+    s32 temp_v0_4;
+    s32 temp_v0_5;
+    s32 temp_v0_6;
+    s16 var_v1_2;
+    s16 test;
+
+    if (sko_rayon_on != 0)
+    {
+        D_801E4E10 = 3;
+        sko_rayon_on--;
+        ecroule_obj = &level.objects[sko_ecroule_plat];
+        diff_x_1 = sko_final_x - sko_rayon_x;
+        diff_x_abs = __builtin_abs(diff_x_1);
+        diff_y_1 = sko_final_y - sko_rayon_y;
+        diff_y_abs = __builtin_abs(diff_y_1);
+        diff_y_2 = diff_y_1;
+        diff_x_2 = diff_x_1;
+        dist = diff_x_abs + diff_y_abs;
+        if (dist < 8)
+        {
+            set_main_etat(ecroule_obj, 2);
+            set_sub_etat(ecroule_obj, 2);
+        }
+        if (dist > 0)
+        {
+            temp_v0_3 = ashl16(diff_x_1, D_801E4E10);
+            temp_lo = temp_v0_3 / dist;
+            diff_x_2 = temp_lo;
+            temp_v0_4 = ashl16(diff_y_1, D_801E4E10);
+            temp_lo_2 = temp_v0_4 / dist;
+            diff_y_2 = temp_lo_2;
+        }
+        var_v1_2 = horloge[4] == 0 && sko_rayon_on < 50;
+        if (var_v1_2 != 0)
+        {
+            temp_v0_5 = diff_x_2 - sko_rayon_dx;
+            if (temp_v0_5 >= 0)
+                sko_rayon_dx += (temp_v0_5 > 0);
+            else
+                sko_rayon_dx -= (test = 1);
+            temp_v0_6 = diff_y_2 - sko_rayon_dy;
+            if (temp_v0_6 >= 0)
+                sko_rayon_dy += (temp_v0_6 > 0);
+            else
+                sko_rayon_dy -= (test = 1);
+        }
+        sko_rayon_x += sko_rayon_dx;
+        sko_rayon_y += sko_rayon_dy;
+        if (horloge[3] == 0 && dist != 0)
+            allocate_rayon(sko_rayon_x, sko_rayon_y);
+    }
+}
