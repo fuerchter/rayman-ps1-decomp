@@ -40,6 +40,8 @@ options:
   extensions_path: tools/splat_ext
 
   subalign: 2
+  ld_align_segment_vram_end: False
+  ld_align_section_vram_end: False
 
   string_encoding: ASCII
   data_string_encoding: ASCII
