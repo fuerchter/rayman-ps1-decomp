@@ -242,11 +242,8 @@ void DO_SKO_PHASE_1(Obj *obj)
 /* 6DAF0 801922F0 -O2 -msoft-float */
 void DO_SKO_PHASE_2(Obj *obj)
 {
-    s16 main_etat;
-    s16 sub_etat;
-
-    main_etat = obj->main_etat;
-    sub_etat = obj->sub_etat;
+    s16 main_etat = obj->main_etat;
+    s16 sub_etat = obj->sub_etat;
     do_sko_rayon();
     switch (main_etat)
     {
@@ -300,7 +297,41 @@ void DO_SKO_PHASE_2(Obj *obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SKO_PHASE_3);
+/* 6DCC0 801924C0 -O2 -msoft-float */
+void DO_SKO_PHASE_3(Obj *obj)
+{
+    s16 main_etat = obj->main_etat;
+    s16 sub_etat = obj->sub_etat;
+    do_sko_rayon();
+    switch (main_etat)
+    {
+    case 0:
+        switch (sub_etat)
+        {
+        case 4:
+            if (obj->anim_frame == 27 && sko_nb_frap == 1)
+            {
+                sko_nb_frap++;
+                sko_enfonce_enable = 2;
+            }
+            break;
+        case 2:
+            if (sko_nb_frap == 0)
+            {
+                sko_nb_frap++;
+                skipToLabel(obj, 11, 1);
+            }
+            else if (sko_nb_frap == 2)
+            {
+                set_main_etat(obj, 1);
+                set_sub_etat(obj, 15);
+                obj->speed_x = 3;
+            }
+            break;
+        }
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SKO_PINCE);
 
