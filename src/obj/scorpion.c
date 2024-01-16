@@ -85,9 +85,49 @@ INCLUDE_ASM("asm/nonmatchings/obj/scorpion", do_sko_rayon);
 
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", do_sko_rayon2);
 
+/* 6D1D0 801919D0 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", start_sko_rayon);
+#else
+void start_sko_rayon(s16 obj_x, s16 obj_y)
+{
+    Obj *ecroule_obj;
 
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", start_sko_rayon2);
+    ecroule_plat_index++;
+    sko_ecroule_plat = ecroule_rubis_list[ecroule_rubis_order[ecroule_plat_index]];
+    ecroule_obj = &level.objects[sko_ecroule_plat];
+    if (sko_rayon_on != 0xFF)
+        sko_rayon_on = 60;
+    sko_rayon_x = obj_x - 80;
+    sko_rayon_dx = -4;
+    sko_rayon_y = obj_y - 10;
+    sko_rayon_dy = 4;
+    sko_final_x = ecroule_obj->offset_bx + ecroule_obj->x_pos - 120;
+    sko_final_y = ecroule_obj->offset_hy + ecroule_obj->y_pos - 120;
+    allocate_rayon(sko_rayon_x, sko_rayon_y);
+
+    __asm__("nop\nnop");
+}
+#endif
+
+/* 6D2E0 80191AE0 -O2 -msoft-float */
+void start_sko_rayon2(s16 obj_x, s16 obj_y)
+{
+    Obj* final_obj;
+
+    if (poing.is_active)
+        final_obj = &level.objects[poing_obj_id];
+    else
+        final_obj = &ray;
+    sko_rayon_on = 120;
+    sko_rayon_x = obj_x - 80;
+    sko_rayon_dx = -4;
+    sko_rayon_y = obj_y - 10;
+    sko_rayon_dy = 2;
+    sko_final_x = final_obj->offset_bx + final_obj->x_pos - 120;
+    sko_final_y = final_obj->offset_hy + final_obj->y_pos - 120;
+    allocate_rayon(sko_rayon_x, sko_rayon_y);
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", lance_pince);
 
