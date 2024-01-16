@@ -16,7 +16,7 @@ void do_sko_rayon(void);
 void do_sko_rayon2(void);
 void start_sko_rayon(s16 obj_x, s16 obj_y);
 void start_sko_rayon2(s16 obj_x, s16 obj_y);
-void lance_pince(Obj *param_1);
+void lance_pince(Obj *sko_obj);
 s32 sko_get_eject_sens(void);
 void DO_SOL_ENFONCE(void);
 void DO_SKO_PHASE_0(Obj *param_1);

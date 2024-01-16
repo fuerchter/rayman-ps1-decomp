@@ -129,9 +129,24 @@ void start_sko_rayon2(s16 obj_x, s16 obj_y)
     allocate_rayon(sko_rayon_x, sko_rayon_y);
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", lance_pince);
+/* 6D3B4 80191BB4 -O2 -msoft-float */
+void lance_pince(Obj *sko_obj)
+{
+    Obj *pince_obj = &level.objects[sko_pince_obj_id];
+    pince_obj->flags |= FLG(OBJ_ALIVE);
+    pince_obj->x_pos = sko_obj->x_pos;
+    pince_obj->y_pos = sko_obj->y_pos;
+    pince_obj->speed_x = -128;
+    pince_obj->speed_y = 0;
+    calc_obj_pos(pince_obj);
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", sko_get_eject_sens);
+/* 6D424 80191C24 -O2 -msoft-float */
+s32 sko_get_eject_sens(void)
+{
+    ray.iframes_timer = 40;
+    return -1;
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SOL_ENFONCE);
 
