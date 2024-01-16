@@ -12,7 +12,6 @@ extern u8 sko_nb_lave;
 extern s16 sko_pince_obj_id;
 extern s16 D_801C83A4[8];
 extern s16 D_801C83B4[8];
-
 extern s16 D_801E4E10;
 extern s16 sko_final_x;
 extern s16 sko_final_y;
@@ -21,6 +20,11 @@ extern s16 sko_rayon_dy;
 extern s16 sko_rayon_on;
 extern s16 sko_rayon_x;
 extern s16 sko_rayon_y;
+extern s32 pixels_enfonce;
+extern s16 sko_last_action;
+extern s16 sko_nb_frap;
+extern s16 sko_nb_hit;
+extern s16 sko_phase;
 
 s32 myRand(s32 param_1);
 Obj * allocateNOVA(void);
@@ -150,7 +154,63 @@ s32 sko_get_eject_sens(void)
 
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SOL_ENFONCE);
 
+/* 6D7FC 80191FFC -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SKO_PHASE_0);
+#else
+void DO_SKO_PHASE_0(Obj *sko_obj)
+{
+    s16 sko_sub_etat;
+    Obj *ecroule_obj;
+
+    sko_sub_etat = sko_obj->sub_etat;
+    ecroule_obj = &level.objects[sko_ecroule_plat];
+    if (sko_obj->main_etat == 0 && sko_sub_etat >= 2)
+    {
+        if (sko_sub_etat >= 4)
+        {
+            if (sko_sub_etat == 4 && sko_obj->anim_frame == 27 && screen_trembling == 0)
+            {
+                screen_trembling = 1;
+                sko_nb_frap++;
+                if (ecroule_obj->sub_etat == 7)
+                {
+                    set_main_etat(ecroule_obj, 2);
+                    set_sub_etat(ecroule_obj, 2);
+                    ecroule_plat_index++;
+                    sko_ecroule_plat = ecroule_rubis_list[ecroule_rubis_order[ecroule_plat_index]];
+                }
+                if (sko_nb_frap == sko_sub_etat)
+                    skipToLabel(sko_obj, 4, 1);
+                if (sko_nb_frap == 5)
+                {
+                    sko_nb_frap = 0;
+                    sko_nb_hit = 0;
+                    sko_phase++;
+                    skipToLabel(sko_obj, 5, 1);
+                    ecroule_plat_index--;
+                }
+            }
+        }
+        else
+        {
+            if (sko_last_action == 4)
+            {
+                set_sub_etat(sko_obj, 8);
+                sko_last_action = 8;
+            }
+            else
+            {
+                set_sub_etat(sko_obj, 4);
+                skipToLabel(sko_obj, 3, 1);
+                sko_last_action = 4;
+            }
+        }
+    }
+
+    __asm__("nop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SKO_PHASE_1);
 
