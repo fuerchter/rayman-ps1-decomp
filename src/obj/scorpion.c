@@ -212,9 +212,93 @@ void DO_SKO_PHASE_0(Obj *sko_obj)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SKO_PHASE_1);
+/* 6D9FC 801921FC -O2 -msoft-float */
+void DO_SKO_PHASE_1(Obj *obj)
+{
+    s16 sub_etat = obj->sub_etat;
+    if (
+      obj->main_etat == 0 && sub_etat == 4 &&
+      obj->anim_frame == 27 && screen_trembling == 0
+    )
+    {
+        screen_trembling = 1;
+        sko_nb_frap++;
+        if (ray.main_etat == 5)
+        {
+            set_main_etat(&ray, 2);
+            set_sub_etat(&ray, 2);
+        }
+        if (sko_nb_frap == 3)
+        {
+            sko_rayon_on = 0;
+            sko_phase++;
+            skipToLabel(obj, 6, 1);
+            sko_nb_frap = 0;
+            obj->anim_frame = 0;
+        }
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SKO_PHASE_2);
+/* 6DAF0 801922F0 -O2 -msoft-float */
+void DO_SKO_PHASE_2(Obj *obj)
+{
+    s16 main_etat;
+    s16 sub_etat;
+
+    main_etat = obj->main_etat;
+    sub_etat = obj->sub_etat;
+    do_sko_rayon();
+    switch (main_etat)
+    {
+    case 0:
+        switch (sub_etat)
+        {
+        case 4:
+            switch (sko_nb_frap)
+            {
+            case 0:
+                if (obj->anim_frame == 27)
+                {
+                    sko_nb_frap++;
+                    sko_enfonce_enable = 1;
+                }
+                break;
+            case 1:
+                if (obj->anim_frame == 27)
+                {
+                    sko_nb_frap++;
+                    screen_trembling = 1;
+                }
+                break;
+            }
+            break;
+        case 2:
+        case 3:
+            set_sub_etat(obj, 5);
+            break;
+        case 7:
+            if (obj->anim_frame == 9 && sko_rayon_on == 0)
+            {
+                start_sko_rayon(obj->x_pos, obj->y_pos);
+                if (++sko_nb_frap == 5)
+                {
+                    skipToLabel(obj, 7, 1);
+                    sko_nb_frap = 0;
+                    sko_phase++;
+                }
+            }
+            break;
+        }
+        break;
+    default:
+        if (
+            main_etat == 1 && sub_etat == 15 &&
+            obj->nb_cmd == sko_nb_hit
+        )
+            obj->nb_cmd = 0;
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SKO_PHASE_3);
 
