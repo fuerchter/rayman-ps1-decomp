@@ -517,4 +517,53 @@ void DO_SKO(Obj *obj)
 
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", SKO_ray_in_zone);
 
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SKO_HIT);
+/*INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SKO_HIT);*/
+
+void DO_SKO_HIT(Obj *obj)
+{
+    s16 main_etat = obj->main_etat;
+    s16 sub_etat = obj->sub_etat;
+    switch (sko_phase)
+    {
+    case 0:
+        if (main_etat == 0)
+        {
+            switch (sub_etat)
+            {
+            case 0:
+                set_sub_etat(obj, 1);
+                skipToLabel(obj, 2, 1);
+                obj->change_anim_mode = 0;
+                obj->anim_frame = 81;
+                sko_nb_frap = 0;
+                break;
+            case 1:
+                MAX_2(obj->anim_frame, 81);
+                break;
+            case 2:
+            case 3:
+                set_sub_etat(obj, 4);
+                skipToLabel(obj, 3, 1);
+                break;
+            }
+        }
+        break;
+    case 1:
+        if (main_etat == 0)
+        {
+            obj->x_pos += 2;
+            sko_nb_hit++;
+            switch (sub_etat)
+            {
+            case 2:
+            case 3:
+                obj->nb_cmd = 0;
+                break;
+            }
+        }
+        break;
+    case 2:
+    case 3:
+        break;
+    }
+}
