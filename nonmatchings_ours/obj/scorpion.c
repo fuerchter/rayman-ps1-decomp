@@ -346,32 +346,3 @@ block_19:
     sko_ecran_tremble = 0x3c;
   }
 }
-
-/* matches, but sko_phase??? */
-/*INCLUDE_ASM("asm/nonmatchings/obj/scorpion", SKO_ray_in_zone);*/
-
-/* 6E3F0 80192BF0 -O2 -msoft-float */
-void SKO_ray_in_zone(Obj *obj)
-{
-    s16 main_etat = obj->main_etat;
-    s16 sub_etat = obj->sub_etat;
-    if (sko_phase != 1 && sko_phase < 2 && sko_phase == 0)
-    {
-        if (main_etat == 0)
-        {
-            switch(sub_etat)
-            {
-            case 0:
-                set_sub_etat(obj, 1);
-                skipToLabel(obj, 2, true);
-                sko_nb_frap = 0;
-                break;
-            case 2:
-            case 3:
-                set_sub_etat(obj, 4);
-                skipToLabel(obj, 3, true);
-                break;
-            }
-        }
-    }
-}

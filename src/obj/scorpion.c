@@ -515,10 +515,40 @@ void DO_SKO(Obj *obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", SKO_ray_in_zone);
+/* 6E3F0 80192BF0 -O2 -msoft-float */
+void SKO_ray_in_zone(Obj *obj)
+{
+    s16 main_etat = obj->main_etat;
+    s16 sub_etat = obj->sub_etat;
+    switch (sko_phase)
+    {
+    case 0:
+        if (main_etat == 0)
+        {
+            switch(sub_etat)
+            {
+            case 0:
+                set_sub_etat(obj, 1);
+                skipToLabel(obj, 2, true);
+                sko_nb_frap = 0;
+                break;
+            case 2:
+            case 3:
+                set_sub_etat(obj, 4);
+                skipToLabel(obj, 3, true);
+                break;
+            }
+        }
+        break;
+    case 1:
+        break;
+    case 2:
+    case 3:
+        break;
+    }
+}
 
-/*INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SKO_HIT);*/
-
+/* 6E4A4 80192CA4 -O2 -msoft-float */
 void DO_SKO_HIT(Obj *obj)
 {
     s16 main_etat = obj->main_etat;
