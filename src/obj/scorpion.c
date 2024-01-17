@@ -160,11 +160,8 @@ INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SKO_PHASE_0);
 #else
 void DO_SKO_PHASE_0(Obj *sko_obj)
 {
-    s16 sko_sub_etat;
-    Obj *ecroule_obj;
-
-    sko_sub_etat = sko_obj->sub_etat;
-    ecroule_obj = &level.objects[sko_ecroule_plat];
+    s16 sko_sub_etat = sko_obj->sub_etat;
+    Obj *ecroule_obj = &level.objects[sko_ecroule_plat];
     if (sko_obj->main_etat == 0 && sko_sub_etat >= 2)
     {
         if (sko_sub_etat >= 4)
@@ -333,9 +330,75 @@ void DO_SKO_PHASE_3(Obj *obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SKO_PINCE);
+/* 6DDC0 801925C0 -O2 -msoft-float */
+void DO_SKO_PINCE(Obj *obj)
+{
+  u8 sub_etat;
+  s32 pince_id;
+  
+  if (obj->main_etat == 0)
+  {
+    sub_etat = obj->sub_etat;
+    if (sub_etat == 8)
+    {
+      if (obj->anim_frame == 65)
+      {
+        lance_pince(obj);
+        set_sub_etat(obj, 9);
+        skipToLabel(obj, 9, true);
+      }
+    }
+    else if (sub_etat == 9)
+    {
+      pince_id = sko_pince_obj_id;
+      level.objects[pince_id].speed_x += 2;
+      if (-level.objects[pince_id].speed_x == -110)
+        set_sub_etat(obj, 10);
+    }
+    else if (sub_etat == 10 && obj->anim_frame == 7)
+    {
+      pince_id = sko_pince_obj_id;
+      level.objects[pince_id].flags &= ~FLG(OBJ_ALIVE);
+      level.objects[pince_id].x_pos = -32000;
+      level.objects[pince_id].y_pos = -32000;
+    }
+  }
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SCORPION_COLLISION);
+/* 6DF18 80192718 -O2 -msoft-float */
+void DO_SCORPION_COLLISION(Obj *obj)
+{
+  s16 iVar1 = -1;
+  s16 rayon_x = sko_rayon_x + 120;
+  s16 rayon_y = sko_rayon_y + 120;
+
+  s16 unk_1 = 11;
+  if (!(obj->main_etat == 0 && (obj->sub_etat == unk_1 || obj->sub_etat == 12)))
+  {
+    iVar1 = BOX_IN_COLL_ZONES(
+        150,
+        rayon_x, rayon_y,
+        16, 16,
+        obj
+    );
+  }
+
+  if (iVar1 != -1)
+  {
+    set_sub_etat(obj, 11);
+    allocate_8_petits_rayons(sko_rayon_x, sko_rayon_y);
+    sko_rayon_x = 33536;
+    sko_rayon_y = 33536;
+    sko_rayon_on = 0;
+    obj->hit_points--;
+    if (obj->hit_points == 1)
+      skipToLabel(obj, 13, true);
+    if (obj->hit_points == 0)
+      set_sub_etat(obj, 12);
+  }
+}
+
+
 
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SCORPION_MORT);
 
