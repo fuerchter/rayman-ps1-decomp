@@ -8,6 +8,7 @@
 #include "cam_scroll_29B5C.h"
 #include "moteur_init_end.h"
 #include "command_56AF0.h"
+#include "command_494FC.h"
 
 void swap(s32 ind_1, s32 ind_2);
 void set_rubis_list(void);
@@ -25,8 +26,8 @@ void DO_SKO_PHASE_1(Obj *obj);
 void DO_SKO_PHASE_2(Obj *obj);
 void DO_SKO_PHASE_3(Obj *obj);
 void DO_SKO_PINCE(Obj *obj);
-void DO_SCORPION_COLLISION(Obj *param_1);
-void DO_SCORPION_MORT(s32 param_1);
+void DO_SCORPION_COLLISION(Obj *obj);
+void DO_SCORPION_MORT(Obj *obj);
 void DO_SKO(Obj *obj);
 void SKO_ray_in_zone(Obj *obj);
 void DO_SKO_HIT(Obj *obj);

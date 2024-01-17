@@ -398,11 +398,122 @@ void DO_SCORPION_COLLISION(Obj *obj)
   }
 }
 
+/* 6E034 80192834 -O2 -msoft-float */
+void DO_SCORPION_MORT(Obj *obj)
+{
+    finBosslevel[0] |= 1 << 6;
+    if (
+        obj->main_etat == 0 && obj->sub_etat == 12 &&
+        obj->anim_frame > 126
+    )
+    {
+        obj->anim_frame = 129;
+        fin_boss = true;
+        TEST_SIGNPOST();
+    }
+}
 
+/* 6E0B0 801928B0 -O2 -msoft-float */
+void DO_SKO(Obj *obj)
+{
+    s16 main_etat = obj->main_etat;
+    s16 sub_etat = obj->sub_etat;
+    Obj *cur_obj;
+    s16 i;
+    u8 nb_objs;
+    
+    if (main_etat == 0 && sub_etat == 1)
+    {
+        if (obj->anim_frame == 0)
+            PlaySnd(172, obj->id);
+        if (obj->anim_frame == 50)
+            PlaySnd(173, obj->id);
+        if (obj->anim_frame == 100)
+            PlaySnd(177, obj->id);
+    }
 
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SCORPION_MORT);
-
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SKO);
+    if (num_level == 10)
+    {
+        DO_ONE_CMD(obj);
+        if (!rubis_list_calculated)
+            set_rubis_list();
+        DO_SKO_PINCE(obj);
+        DO_SOL_ENFONCE();
+        if ((obj->x_pos + obj->offset_bx < ray.x_pos) && ray_mode != MODE_MORT_DE_RAYMAN)
+            RAY_HIT(true, obj);
+        switch (sko_phase)
+        {
+        case 0:
+            DO_SKO_PHASE_0(obj);
+            break;
+        case 1:
+            DO_SKO_PHASE_1(obj);
+            break;
+        case 2:
+            DO_SKO_PHASE_2(obj);
+            break;
+        case 3:
+            DO_SKO_PHASE_3(obj);
+            break;
+        }
+    }
+    else if (num_level == 11)
+    {
+        if (!rubis_list_calculated)
+        {
+            scrollLocked = true;
+            obj->hit_points = obj->init_hit_points;
+            cur_obj = level.objects;
+            i = 0;
+            nb_objs = level.nb_objects;
+            while (i < nb_objs)
+            {
+                if (cur_obj->type == TYPE_SKO_PINCE)
+                {
+                    sko_pince_obj_id = i;
+                    break;
+                }
+                cur_obj++;
+                i++;
+            }
+            skipToLabel(obj, 12, true);
+            set_main_etat(obj, 0);
+            set_sub_etat(obj, 5);
+            rubis_list_calculated = true;
+            sko_phase = 4;
+        }
+        DO_ONE_CMD(obj);
+        do_sko_rayon2();
+        DO_SKO_PINCE(obj);
+        DO_SCORPION_COLLISION(obj);
+        DO_SCORPION_MORT(obj);
+        /* TODO: better way to write this? */
+        if (main_etat == 0 && sub_etat > 1)
+        {
+            if (sub_etat > 3)
+            {
+                if (sub_etat == 7 && obj->anim_frame == 9 && sko_rayon_on == 0)
+                {
+                    sko_rayon_on = 0xFF;
+                    start_sko_rayon2(obj->x_pos, obj->y_pos);
+                }
+            }
+            else
+            {
+                if (sko_last_action == 5)
+                {
+                    set_sub_etat(obj, 8);
+                    sko_last_action = 8;
+                }
+                else
+                {
+                    set_sub_etat(obj, 5);
+                    sko_last_action = 5;
+                }
+            }
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", SKO_ray_in_zone);
 
