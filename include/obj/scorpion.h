@@ -9,6 +9,37 @@
 #include "moteur_init_end.h"
 #include "command_56AF0.h"
 #include "command_494FC.h"
+#include "collision/block_22C84.h"
+#include "collision/etat.h"
+
+/* .data */
+extern s16 D_801C83A4[8];
+extern s16 D_801C83B4[8];
+
+/**/
+extern u8 ecroule_rubis_list[8];
+extern u8 ecroule_plat_index;
+extern u8 ecroule_rubis_order[24];
+extern s16 rubis_list_calculated;
+extern s32 sko_ecran_tremble;
+extern s16 sko_ecroule_plat;
+extern u8 sko_enfonce_enable;
+extern u8 sko_lave_obj[20];
+extern u8 sko_nb_lave;
+extern s16 sko_pince_obj_id;
+extern s16 D_801E4E10;
+extern s16 sko_rayon_on;
+extern s16 sko_rayon_x;
+extern s16 sko_rayon_y;
+extern s16 sko_rayon_dx;
+extern s16 sko_rayon_dy;
+extern s16 sko_final_x;
+extern s16 sko_final_y;
+extern s32 pixels_enfonce;
+extern s16 sko_last_action;
+extern s16 sko_nb_frap;
+extern s16 sko_nb_hit;
+extern s16 sko_phase;
 
 void swap(s32 ind_1, s32 ind_2);
 void set_rubis_list(void);
