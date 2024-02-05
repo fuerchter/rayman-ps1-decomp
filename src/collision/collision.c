@@ -603,6 +603,7 @@ void RAY_HIT(u8 hurt, Obj *obj)
         eject_sens = -1;
       else
       {
+        /* sgn() call on android */
         diff_spd_x = obj->speed_x - ray.speed_x;
         if (diff_spd_x >= 0)
           eject_sens = diff_spd_x > 0;
@@ -1058,6 +1059,7 @@ void DO_OBJ_COLLISIONS(Obj *in_obj, s32 offs)
             !(cur_obj->main_etat == 2 && cur_obj->sub_etat == 6)
           )
           {
+            /* sgn() on android */
             if (
               in_obj->flags & FLG(OBJ_FLIP_X) &&
               (cur_obj->x_pos + cur_obj->offset_bx) - in_obj->x_pos - in_obj->offset_bx > -1

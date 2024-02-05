@@ -237,6 +237,7 @@ void do_sko_rayon2(void)
 
         if (timer_zero)
         {
+            /* these are sgn() calls on android */
             temp_v0_5 = diff_x - sko_rayon_dx;
             if (temp_v0_5 >= 0)
                 sko_rayon_dx += (temp_v0_5 > 0);

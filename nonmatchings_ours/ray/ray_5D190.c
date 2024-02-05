@@ -1783,6 +1783,7 @@ void DO_SURF_CHANGE_HAIRS(void)
         else
             flip_x_1 = -1;
         flip_x_2 = flip_x_1;
+        /* sgn() on android, tried replacing it with those but didn't match */
         if (ray.speed_x >= 0)
         {
             if (ray.speed_x > 0)
