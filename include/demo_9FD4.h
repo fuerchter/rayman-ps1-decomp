@@ -23,7 +23,7 @@ typedef struct Record
 /* .data */
 extern u8 DemoRecord[6][300];
 extern s16 DemoRecordSize[6];
-extern s16 DemoRecordWorld[6];
+extern s16 DemoRecordWolrd[6];
 extern s16 DemoRecordMap[6];
 
 /**/

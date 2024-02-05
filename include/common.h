@@ -4,7 +4,7 @@
 #include "psyq_3_0/SYS/TYPES.H"
 #include "include_asm.h"
 
-/*#define NONMATCHINGS*/
+#define NONMATCHINGS
 
 #define FLG(x) (1 << x)
 #define MAX_1(x, y) ((x) > (y) ? (x) : (y))

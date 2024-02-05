@@ -243,7 +243,7 @@ void DISPLAY_SAVE_POING(void)
 #ifndef NONMATCHINGS /* div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/display_ui", display_time);
 #else
-/*? PS1_sprintf(u8, ? *, ?, s32 *);
+/*? PS1_itoa(u8, ? *, ?, s32 *);
 ? display_sprite(Obj *, s32, ?, ?, s32);
 ? display_text(u16 *, ?, ?, ?, s32);
 ? strcat(u16 *, ? *);*/
@@ -271,7 +271,7 @@ void display_time(s16 time)
         {
             __builtin_memcpy(text, s__801cef90, sizeof(s__801cef90));
             ray.flags &= ~FLG(OBJ_ACTIVE);
-            PS1_sprintf(nb_wiz, &nb_wiz_text, 0xA);
+            PS1_itoa(nb_wiz, &nb_wiz_text, 0xA);
             strcat(&text, &nb_wiz_text);
             strcat(&text, " tings to get/");
             if (horloge[8] < 4)

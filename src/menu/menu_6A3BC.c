@@ -131,7 +131,7 @@ void INIT_CONTINUE(void)
   Obj *mapobj_2;
   Obj *mapobj_3;
   
-  loop_nb_frames = 0;
+  loop_nb_trames = 0;
   loop_timing = 10;
   fin_continue = 0;
   compteur = 0;
@@ -297,7 +297,7 @@ void INIT_VIGNET(void)
 
   __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 
-  loop_nb_frames = 0;
+  loop_nb_trames = 0;
   loop_timing = 5;
   new_txt_fee = 0;
   INIT_TEXT_TO_DISPLAY();
