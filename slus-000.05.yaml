@@ -288,45 +288,45 @@ segments:
       - [0x98048, asm, psyq_3_0/libgpu] #801bc848
       - [0x9BC24, asm, psyq_3_0/libpress] #801c0424
       - [0x9CA5C, data]
-      - [0x9CA74, .data, data/collision/block_9CA74] #801C1274
+      #done - [0x9CA74, .data, data/collision/block_9CA74] #801C1274
       - [0x9CA94, data]
-      - [0x9E49C, .data, data/collision/block_9E49C] #801C2C9C
+      #done - [0x9E49C, .data, data/collision/block_9E49C] #801C2C9C
       - [0x9E69C, data]
-      - [0x9E914, .data, data/collision/bit_util] #801C3114
+      #done - [0x9E914, .data, data/collision/bit_util] #801C3114
       - [0x9EB18, data]
       #- [0x9F448, .data, data/demo_9FD4] #801C3C48 TODO: move this to data/ dir once it can be used
       - [0x9FB74, data]
       #- [0xA0338, .data, data/loading_A0338] #801C4B38 not enough funcs implemented yet
       - [0xA29C0, data]
-      - [0xA2A58, .data, data/obj_util] #801C7258
+      #done - [0xA2A58, .data, data/obj_util] #801C7258
       - [0xA2A78, data]
       #- [0xA2A78, .data, data/sound_A2A78] #801C7278
       - [0xA3564, data]
-      - [0xA35A4, .data, data/obj/saxo] #801C7DA4
+      #done - [0xA35A4, .data, data/obj/saxo] #801C7DA4
       - [0xA369C, data]
-      - [0xA36B8, .data, data/command_A36B8] #801c7eb8
-      - [0xA3850, .data, data/obj/bb1_A3850] #801C8050
+      #done - [0xA36B8, .data, data/command_A36B8] #801c7eb8
+      #done - [0xA3850, .data, data/obj/bb1_A3850] #801C8050
       - [0xA38F8, data]
-      - [0xAA5F4, .data, data/world_map_AA5F4] #801CEDF4
+      #done - [0xAA5F4, .data, data/world_map_AA5F4] #801CEDF4
       - [0xAA5FC, data]
       #- [0xAA5FC, .data, data/cam_scroll_AA5FC] #801CEDFC not enough funcs implemented yet
       - [0xAA608, data]
       #- [0xAA610, .data, data/text_AA610] #801CEE10 both vars here seem to end up at 801CEE10? not sure how it would be, when let_shadow is done
       - [0xAA614, data]
-      - [0xAA77C, .data, data/display_ui] #801CEF7C
+      #done - [0xAA77C, .data, data/display_ui] #801CEF7C
       - [0xAA7A4, data]
-      - [0xAA7A8, .data, data/obj/mama_pirate] #801CEFA8
-      - [0xAA7C0, .data, data/sound_AA7C0] #801CEFC0
-      - [0xAA7C8, .data, data/cheats_AA7C8] #801CEFC8
-      - [0xAA7CC, .data, data/sound_AA7CC] #801CEFCC
+      #done - [0xAA7A8, .data, data/obj/mama_pirate] #801CEFA8
+      #done - [0xAA7C0, .data, data/sound_AA7C0] #801CEFC0
+      #done - [0xAA7C8, .data, data/cheats_AA7C8] #801CEFC8
+      #done - [0xAA7CC, .data, data/sound_AA7CC] #801CEFCC
       - [0xAA7E0, data]
-      - [0xAA8A0, .data, data/obj/bb1_AA8A0] #801CF0A0
+      #done - [0xAA8A0, .data, data/obj/bb1_AA8A0] #801CF0A0
       - [0xAA8A4, data]
-      - [0xAA8C8, .data, data/loading_AA8C8] #801CF0C8
+      #done - [0xAA8C8, .data, data/loading_AA8C8] #801CF0C8
       - [0xAA8D8, data]
-      - [0xAA8D8, .data, data/cheats_AA8D8] #801CF0D8
-      - [0xAA8DC, .data, data/depart_dead_AA8DC] #801CF0DC
+      #done - [0xAA8D8, .data, data/cheats_AA8D8] #801CF0D8
+      #done - [0xAA8DC, .data, data/depart_dead_AA8DC] #801CF0DC
       - [0xAA8E0, data]
-      - [0xAA918, .data, data/menu/menu_AA918] #801CF118
+      #done - [0xAA918, .data, data/menu/menu_AA918] #801CF118
       - [0xAA920, data]
   - [0xAB000]
