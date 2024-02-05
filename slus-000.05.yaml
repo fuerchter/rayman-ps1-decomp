@@ -172,7 +172,7 @@ segments:
       - [0x3CB5C, asm, unknown/3CB5C] #8016135c, particle effect (tings e.g.)?
       - [0x3CE78, c, obj/cymbal2] #80161678
       - [0x3CF08, c, obj/cage] #80161708
-      - [0x3CFA0, asm, obj/medaillon_toon] #801617A0
+      - [0x3CFA0, c, obj/medaillon_toon] #801617A0
       - [0x3D384, asm, unknown/3D384] #80161B84
       - [0x3D738, asm, num_level_3D738] #80161F38
       - [0x3D76C, c, obj/fee_3D76C] #80161f6c
