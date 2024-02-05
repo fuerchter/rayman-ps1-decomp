@@ -112,128 +112,97 @@ void PS1_DisplayPlateau(void)
   } while (i < 24);
 }
 
-/* matches, but gotos, WorldInfo state casts... */
+/* matches, but WorldInfo state casts... */
 /* 67BE8 8018C3E8 -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_MEDAILLONS);*/
 
 void DO_MEDAILLONS(void)
 {
-    s16 iVar3;
-    Obj *mapObj_0;
-    WorldInfo *pbVar2;
-    u8 bVar1;
+    s16 i;
+    Obj *cur_obj;
+    WorldInfo *cur_wi;
+    u8 nb_cages;
     u8 flag_set;
 
-    if ((chemin_percent < 100) && (horloge[2] != 0)) {
-        chemin_percent = chemin_percent + 1;
-    }
-    iVar3 = 0;
-    mapObj_0 = mapobj;
-    pbVar2 = t_world_info;
-    do
+    if (chemin_percent < 100 && horloge[2] != 0)
+        chemin_percent++;
+    i = 0;
+    cur_obj = mapobj;
+    cur_wi = &t_world_info[0];
+    while(i < 24)
     {
-        CalcObjPosInWorldMap(mapObj_0);
-        if (((*(u32 *)(&pbVar2->state) & 4) != 0) && (0x62 < chemin_percent))
+        CalcObjPosInWorldMap(cur_obj);
+        if ((*(u32 *)(&cur_wi->state) & 4) && chemin_percent > 98)
         {
-            *(u32 *)(&pbVar2->state) = *(u32 *)(&pbVar2->state) & 0xfffffffb | 1;
-            set_sub_etat(mapObj_0,0x2e);
+            *(u32 *)(&cur_wi->state) = *(u32 *)(&cur_wi->state) & ~(1 << 2) | 1;
+            set_sub_etat(cur_obj, 46);
         }
         if (
-            (s16)iVar3 == 0x11 &&
-            mapObj_0->sub_etat != 0x3b &&
-            mapObj_0->sub_etat != 0x2e &&
-            (*(u32 *)(&pbVar2->state) & 1) != 0
+            i == 17 &&
+            cur_obj->sub_etat != 59 && cur_obj->sub_etat != 46 &&
+            *(u32 *)(&cur_wi->state) & 1
         )
-        {
-            set_sub_etat(mapObj_0,0x3b);
-        }
+            set_sub_etat(cur_obj, 59);
         else if (
-            ((((u16)(iVar3 - 0x12) < 2 ||
-            (u16)(iVar3 - 0x14) < 2) ||
-            (u16)(iVar3 - 0x16) < 2) &&
-            ((mapObj_0->sub_etat != 0x3a && (mapObj_0->sub_etat != 0x2e)))) &&
-            ((*(u32 *)(&pbVar2->state) & 1) != 0)
+            (i == 18 || i == 19 || i == 20 || i == 21 || i == 22 || i == 23) &&
+            !(cur_obj->sub_etat == 58 || cur_obj->sub_etat == 46) &&
+            *(u32 *)(&cur_wi->state) & 1
         )
-        {
-            set_sub_etat(mapObj_0,0x3a);
-        }
+            set_sub_etat(cur_obj, 58);
         else
         {
-            bVar1 = pbVar2->nb_cages;
-            if ((5 < bVar1) && (mapObj_0->sub_etat == 0x33))
-            {
-                flag_set = mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].flags & 0x10;
-                if(
-                    (!flag_set || mapObj_0->anim_frame == 0) &&
-                    (flag_set || (u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1)
+            nb_cages = cur_wi->nb_cages;
+            if (
+                nb_cages > 5 && cur_obj->sub_etat == 51 &&
+                (flag_set = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].flags & 0x10,
+                    (!flag_set || cur_obj->anim_frame == 0) &&
+                    (flag_set || cur_obj->anim_frame == cur_obj->animations[cur_obj->anim_index].frames_count - 1) &&
+                    horloge[cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_speed & 0xf] == 0
                 )
-                {
-                    if (horloge[mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].anim_speed & 0xf] == 0) {
-                        set_sub_etat(mapObj_0,0x34);
-                        goto LAB_8018c9d8;
-                    }
-                }
-
-            }
-            if ((4 < bVar1) && (mapObj_0->sub_etat == 0x32)) {
-                flag_set = mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].flags & 0x10;
-                if(
-                    (!flag_set || mapObj_0->anim_frame == 0) &&
-                    (flag_set || (u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1)
+            )
+                set_sub_etat(cur_obj, 52);
+            else if (
+                nb_cages > 4 && cur_obj->sub_etat == 50 &&
+                (flag_set = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].flags & 0x10,
+                    (!flag_set || cur_obj->anim_frame == 0) &&
+                    (flag_set || cur_obj->anim_frame == cur_obj->animations[cur_obj->anim_index].frames_count - 1) &&
+                    horloge[cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_speed & 0xf] == 0
                 )
-                {
-                    if (horloge[mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].anim_speed & 0xf] == 0) {
-                        set_sub_etat(mapObj_0,0x33);
-                        goto LAB_8018c9d8;
-                    }
-                }
-            }
-            if ((3 < bVar1) && (mapObj_0->sub_etat == 0x31)) {
-                flag_set = mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].flags & 0x10;
-                if(
-                    (!flag_set || mapObj_0->anim_frame == 0) &&
-                    (flag_set || (u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1)
+            )
+                set_sub_etat(cur_obj, 51);
+            else if (
+                nb_cages > 3 && cur_obj->sub_etat == 49 &&
+                (flag_set = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].flags & 0x10,
+                    (!flag_set || cur_obj->anim_frame == 0) &&
+                    (flag_set || cur_obj->anim_frame == cur_obj->animations[cur_obj->anim_index].frames_count - 1) &&
+                    horloge[cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_speed & 0xf] == 0
                 )
-                {
-                    if (horloge[mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].anim_speed & 0xf] == 0) {
-                        set_sub_etat(mapObj_0,0x32);
-                        goto LAB_8018c9d8;
-                    }
-                }
-            }
-            if ((2 < bVar1) && (mapObj_0->sub_etat == 0x30)) {
-                flag_set = mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].flags & 0x10;
-                if(
-                    (!flag_set || mapObj_0->anim_frame == 0) &&
-                    (flag_set || (u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1)
+            )
+                set_sub_etat(cur_obj, 50);
+            else if (
+                nb_cages > 2 && cur_obj->sub_etat == 48 &&
+                (flag_set = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].flags & 0x10,
+                    (!flag_set || cur_obj->anim_frame == 0) &&
+                    (flag_set || cur_obj->anim_frame == cur_obj->animations[cur_obj->anim_index].frames_count - 1) &&
+                    horloge[cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_speed & 0xf] == 0
                 )
-                {
-                    if (horloge[mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].anim_speed & 0xf] == 0) {
-                        set_sub_etat(mapObj_0,0x31);
-                        goto LAB_8018c9d8;
-                    }
-                }
-            }
-            if ((1 < bVar1) && (mapObj_0->sub_etat == 0x2f)) {
-                flag_set = mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].flags & 0x10;
-                if(
-                    (!flag_set || mapObj_0->anim_frame == 0) &&
-                    (flag_set || (u32)mapObj_0->anim_frame == mapObj_0->animations[mapObj_0->anim_index].frames_count - 1)
+            )
+                set_sub_etat(cur_obj, 49);
+            else if (
+                nb_cages > 1 && cur_obj->sub_etat == 47 &&
+                (flag_set = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].flags & 0x10,
+                    (!flag_set || cur_obj->anim_frame == 0) &&
+                    (flag_set || cur_obj->anim_frame == cur_obj->animations[cur_obj->anim_index].frames_count - 1) &&
+                    horloge[cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_speed & 0xf] == 0
                 )
-                {
-                    if (horloge[mapObj_0->eta[mapObj_0->main_etat][mapObj_0->sub_etat].anim_speed & 0xf] == 0) {
-                        set_sub_etat(mapObj_0,0x30);
-                        goto LAB_8018c9d8;
-                    }
-                }
-            }
+            )
+                set_sub_etat(cur_obj, 48);
         }
-    LAB_8018c9d8:
-        DO_ANIM(mapObj_0);
-        mapObj_0 = mapObj_0 + 1;
-        iVar3 = iVar3 + 1;
-        pbVar2 = pbVar2 + 1;
-    } while(0x17 >= iVar3);
+        DO_ANIM(cur_obj);
+        cur_obj++;
+        i++;
+        cur_wi++;
+    }
 }
 
 /* matches, but both s__801cf0a8 and local_60 would need to be 16-bit types? don't trust this yet */
