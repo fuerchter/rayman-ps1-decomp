@@ -89,7 +89,7 @@ void TEST_SIGNPOST(void)
       }
     }
   }
-  else if (ray.main_etat == 6)
+  else if (ray.main_etat == 6) /* on moskito, al3? */
   {
     if (ray.sub_etat != 14)
     {

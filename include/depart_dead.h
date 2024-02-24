@@ -5,7 +5,7 @@
 #include "main.h"
 
 /* .data */
-extern u8 D_801CF0DC;
+extern u8 PS1_ShouldFadeOutWorldIntro;
 
 void DEPART_WORLD(void);
 void DEPART_LEVEL(void);

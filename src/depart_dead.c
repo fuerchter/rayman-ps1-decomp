@@ -38,11 +38,11 @@ void DEPART_WORLD(void)
         if (new_world)
         {
             D_801CEDFC = 1;
-            PS1_PlaySnd(D_801C7D20[num_world_choice], 1);
+            PS1_PlaySnd(PS1_NewWorldMusic[num_world_choice], 1);
             FUN_8019fb84();
             load_world(num_world_choice);
             INIT_MOTEUR_WORLD();
-            D_801CF0DC = true;
+            PS1_ShouldFadeOutWorldIntro = true;
         }
         else
             FUN_8019fa94(1);
@@ -79,10 +79,10 @@ void DEPART_LEVEL(void)
         LOAD_FND();
         load_level();
         LOAD_VIGNET_GAME();
-        if (D_801CF0DC)
+        if (PS1_ShouldFadeOutWorldIntro)
         {
             DO_FADE_OUT();
-            D_801CF0DC = false;
+            PS1_ShouldFadeOutWorldIntro = false;
         }
     }
     in_pause = false;

@@ -98,7 +98,7 @@ void PS1_StopPlayingSnd(s16 sep_ind)
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/sound", PS1_SongIsPlaying);
 #else
-s16 PS1_SongIsPlaying(s16 sep_ind)
+s32 PS1_SongIsPlaying(s16 sep_ind)
 {
   __asm__("nop\nnop");
   return SsIsEos(PS1_SepInfos[sep_ind].access_num, PS1_SepInfos[sep_ind].seq_num);

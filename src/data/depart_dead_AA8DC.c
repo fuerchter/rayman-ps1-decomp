@@ -1,3 +1,3 @@
 #include "depart_dead.h"
 
-u8 D_801CF0DC = false;
+u8 PS1_ShouldFadeOutWorldIntro = false;

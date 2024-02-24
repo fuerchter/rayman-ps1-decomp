@@ -56,7 +56,7 @@ void main(void)
           INIT_MOTEUR_LEVEL(new_level);
           init_fee();
           init_moustique();
-          PS1_StopPlayingSnd(D_801C7D20[num_world]);
+          PS1_StopPlayingSnd(PS1_NewWorldMusic[num_world]);
           while (!fin_du_jeu && !new_level && !new_world)
           {
             DEPART_DEAD_LOOP();

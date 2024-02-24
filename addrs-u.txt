@@ -34,6 +34,10 @@ PS1_SepInfos = 0x801C7CBC;
 PS1_SepVols = 0x801c7c88;
 PS1_Toon_Speeds_x = 0x801C7258;
 PS1_Toon_Speeds_y = 0x801C7268;
+PS1_CanPlayDeathMusic = 0x801cee9e;
+PS1_ShouldFadeOutWorldIntro = 0x801cf0dc;
+PS1_CurTrack = 0x801f9a18;
+PS1_NewWorldMusic = 0x801c7d20;
 
 D_801C438C = 0x801C438C;
 D_801CEE10 = 0x801cee10;

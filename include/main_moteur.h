@@ -24,7 +24,7 @@ extern u8 in_pause;
 extern u8 PS1_Ingame;
 
 /* .data, BAD ALIGNMENT */
-extern s16 D_801CEE9E;
+extern s16 PS1_CanPlayDeathMusic;
 extern s16 D_801CEEA0;
 extern u8 D_801CEEA2;
 

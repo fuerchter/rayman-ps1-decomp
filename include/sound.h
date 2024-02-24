@@ -71,8 +71,8 @@ extern u8 PS1_SoundVabIds[256];
 extern s16 D_801C7C78[8]; /* SsSepOpen seq_num? number of elements? */
 extern s16 PS1_SepVols[26]; /* number of elements? */
 extern SepInfo PS1_SepInfos[25]; /* number of elements? */
-extern s16 D_801C7D20[8]; /* TODO: number of elements? */
-extern s16 PS1_AudioTable[14]; /* bad starting point based on D_801C7D20? */
+extern s16 PS1_NewWorldMusic[8]; /* TODO: number of elements? */
+extern s16 PS1_AudioTable[14]; /* bad starting point based on PS1_NewWorldMusic? */
 extern u8 voice_is_working[24];
 
 /* .data */
@@ -115,7 +115,7 @@ void PS1_LoadAllFixSound(void);
 void PS1_LoadWorldSound(s16 param_1);
 void PS1_PlaySnd(s16 sep_ind, s16 l_count);
 void PS1_StopPlayingSnd(s16 sep_ind);
-s16 PS1_SongIsPlaying(s16 sep_ind);
+s32 PS1_SongIsPlaying(s16 sep_ind);
 void FUN_80166018(void);
 void SetVolumeSound(s16 vol);
 void FUN_801660ac(void);
