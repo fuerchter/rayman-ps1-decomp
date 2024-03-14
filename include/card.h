@@ -2,6 +2,7 @@
 #define CARD_H
 
 #include "common.h"
+#include "psyq_3_0/KERNEL.H"
 
 typedef struct CardFrame0
 {
@@ -20,5 +21,32 @@ typedef struct LoadInfoRay {
 } LoadInfoRay;
 
 extern LoadInfoRay loadInfoRay[6];
+
+u8 PS1_InitPAD(void);
+s32 PS1_TestSwCARD(void);
+void PS1_TestSwCARDOnce(void);
+s32 PS1_TestHwCARD(void);
+void PS1_TestHwCARDOnce(void);
+s32 PS1_TestCard(u8 par_chan);
+s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *dir);
+s32 PS1_CardFilenameChecksum(u32 chan);
+void PS1_InitializeCard(u8 chan);
+s32 PS1_FormatFs(u32 param_1);
+void PS1_InitSaveRayAndFilenames(u32 param_1);
+s32 PS1_WriteSave(u8 chan_par, u32 slot_par);
+u8 * FUN_8016b2e8(u32 param_1, u8 param_2, u8 *param_3);
+u8 SaveGameOnDisk(u32 param_1);
+s32 SaveFileRead(s32 fd, void *buf, s16 n);
+void PS1_LoadSave(s32 param_1, u8 *param_2);
+void LoadGameOnDisk(u32 param_1);
+s32 LoadInfoGame(u32 save);
+void FUN_8016bbe4(void);
+u8 PS1_GetNbreSave3(u32 param_1);
+u8 PS1_CardFilenameChecksumChanged(void);
+u8 PS1_TestCardZero(void);
+u8 PS1_CardUnformatted(void);
+u8 PS1_GetNbreSave2(void);
+s32 FUN_8016be9c(void);
+void FUN_8016bec0(void);
 
 #endif
