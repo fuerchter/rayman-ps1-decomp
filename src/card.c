@@ -1,5 +1,7 @@
 #include "card.h"
 
+s32 strncmp(u8 *s1, u8 *s2, s32 n);
+
 const u8 s__Testing_memory_card_in_slot_d_8012ac14[] = "\nTesting memory card in slot %d\n\n";
 const u8 s_Card_exist_8012ac38[] = "Card exist\n";
 const u8 s_No_card_8012ac44[] = "No card\n";
@@ -78,6 +80,7 @@ extern s32 PS1_HwCARD_EvSpIOE;
 extern s32 PS1_HwCARD_EvSpNEW;
 extern s32 PS1_HwCARD_EvSpTIMOUT;
 extern s32 PS1_Checksum;
+extern u8 PS1_SaveFilenames[3][32];
 
 /* 45A7C 8016A27C -O2 -msoft-float */
 u8 PS1_InitPAD(void)
@@ -245,7 +248,32 @@ u8 PS1_FormatFs(u8 param_1)
   }
 }
 
-INCLUDE_ASM("asm/nonmatchings/card", PS1_InitSaveRayAndFilenames);
+/* 462F4 8016AAF4 -O2 -msoft-float */
+void PS1_InitSaveRayAndFilenames(u8 param_1)
+{
+    struct DIRENTRY dirs[15];
+    u8 name_start[8];
+    s32 nbre_files;
+    u8 cnt1;
+    u8 cnt2 = 0;
+    
+    sprintf(name_start, s_bu02x_801cf040, param_1);
+    nbre_files = PS1_GetNbreFiles(name_start, dirs);
+    for (cnt1 = 0; cnt1 < nbre_files; cnt1++)
+    {
+        if (strncmp(dirs[cnt1].name, s_BISLUS00005_8012aca8, 12) == 0)
+        {
+            strncpy(save_ray[cnt2 + 1], &dirs[cnt1].name[12], 3);
+            strncpy(&PS1_SaveFilenames[cnt2][0], name_start, 6);
+            strncpy(&PS1_SaveFilenames[cnt2][5], dirs[cnt1].name, 21);
+            cnt2++;
+            if (cnt2 > 2)
+                break;
+        }
+    }
+    for (; cnt1 = cnt2, cnt2 < 3; cnt2++)
+        *PS1_SaveFilenames[cnt2] = *save_ray[cnt2 + 1] = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/card", PS1_WriteSave);
 

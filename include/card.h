@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "psyq_3_0/KERNEL.H"
+#include "menu/menu_7F4B4.h"
 
 typedef struct CardFrame0
 {
@@ -32,7 +33,7 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *dir);
 s32 PS1_CardFilenameChecksum(u8 chan);
 void PS1_InitializeCard(u8 chan);
 u8 PS1_FormatFs(u8 param_1);
-void PS1_InitSaveRayAndFilenames(u32 param_1);
+void PS1_InitSaveRayAndFilenames(u8 param_1);
 s32 PS1_WriteSave(u8 chan_par, u32 slot_par);
 u8 * FUN_8016b2e8(u32 param_1, u8 param_2, u8 *param_3);
 u8 SaveGameOnDisk(u32 param_1);

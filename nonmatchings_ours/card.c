@@ -1,6 +1,9 @@
 #include "card.h"
 
-/* matches, but doubled counter vars... */
+/*
+matches, but doubled counter vars...
+removing cnt2_2 on decomp.me still matches, but not locally
+*/
 /*INCLUDE_ASM("asm/nonmatchings/card", PS1_CardFilenameChecksum);*/
 
 s32 PS1_CardFilenameChecksum(u8 chan)
