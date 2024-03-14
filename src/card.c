@@ -60,6 +60,11 @@ const u8 s_bu02xss_8012ae38[] = "bu%02x:%s%s";
 extern s32 D_801CF01C;
 extern s32 D_801CF020;
 extern u8 s_Error_801cf024[7];
+extern u8 s__801cf02c[2];
+extern u8 s_no_card_801cf030[8];
+extern u8 s_error_801cf038[6];
+extern u8 s_bu02x_801cf040[8];
+extern u8 s__Done_801cf048[7];
 
 /**/
 extern u8 D_801F7F08[34];
@@ -72,6 +77,7 @@ extern s32 PS1_HwCARD_EvSpERROR;
 extern s32 PS1_HwCARD_EvSpIOE;
 extern s32 PS1_HwCARD_EvSpNEW;
 extern s32 PS1_HwCARD_EvSpTIMOUT;
+extern s32 PS1_Checksum;
 
 /* 45A7C 8016A27C -O2 -msoft-float */
 u8 PS1_InitPAD(void)
@@ -134,10 +140,8 @@ void PS1_TestHwCARDOnce(void)
   TestEvent(PS1_HwCARD_EvSpNEW);
 }
 
-/*INCLUDE_ASM("asm/nonmatchings/card", PS1_TestCard);*/
-
 /* 45CB4 8016A4B4 -O2 -msoft-float */
-s32 PS1_TestCard(u8 par_chan)
+u8 PS1_TestCard(u8 par_chan)
 {
     s32 test_res;
 
@@ -189,12 +193,57 @@ s32 PS1_TestCard(u8 par_chan)
 }
 
 INCLUDE_ASM("asm/nonmatchings/card", PS1_GetNbreFiles);
+/* have not had any luck. start from gotos-only? */
 
 INCLUDE_ASM("asm/nonmatchings/card", PS1_CardFilenameChecksum);
 
-INCLUDE_ASM("asm/nonmatchings/card", PS1_InitializeCard);
+/* 4607C 8016A87C -O2 -msoft-float */
+void PS1_InitializeCard(u8 chan)
+{
+    EnterCriticalSection();
+    PS1_SwCARD_EvSpIOE = OpenEvent(SwCARD, EvSpIOE, EvMdNOINTR, null);
+    PS1_SwCARD_EvSpERROR = OpenEvent(SwCARD, EvSpERROR, EvMdNOINTR, null);
+    PS1_SwCARD_EvSpTIMOUT = OpenEvent(SwCARD, EvSpTIMOUT, EvMdNOINTR, null);
+    PS1_SwCARD_EvSpNEW = OpenEvent(SwCARD, EvSpNEW, EvMdNOINTR, null);
+    PS1_HwCARD_EvSpIOE = OpenEvent(HwCARD, EvSpIOE, EvMdNOINTR, null);
+    PS1_HwCARD_EvSpERROR = OpenEvent(HwCARD, EvSpERROR, EvMdNOINTR, null);
+    PS1_HwCARD_EvSpTIMOUT = OpenEvent(HwCARD, EvSpTIMOUT, EvMdNOINTR, null);
+    PS1_HwCARD_EvSpNEW = OpenEvent(HwCARD, EvSpNEW, EvMdNOINTR, null);
+    EnableEvent(PS1_SwCARD_EvSpIOE);
+    EnableEvent(PS1_SwCARD_EvSpERROR);
+    EnableEvent(PS1_SwCARD_EvSpTIMOUT);
+    EnableEvent(PS1_SwCARD_EvSpNEW);
+    EnableEvent(PS1_HwCARD_EvSpIOE);
+    EnableEvent(PS1_HwCARD_EvSpERROR);
+    EnableEvent(PS1_HwCARD_EvSpTIMOUT);
+    EnableEvent(PS1_HwCARD_EvSpNEW);
+    ExitCriticalSection();
+    InitCARD(1);
+    StartCARD();
+    _bu_init();
+    _card_auto(1);
+    if (PS1_TestCard(chan) == 2)
+        PS1_Checksum = PS1_CardFilenameChecksum(chan);
+}
 
-INCLUDE_ASM("asm/nonmatchings/card", PS1_FormatFs);
+/* 46270 8016AA70 -O2 -msoft-float */
+u8 PS1_FormatFs(u8 param_1)
+{
+  u8 fs[8];
+  
+  FntPrint(s__FORMATING_8012ac84);
+  sprintf(fs, s_bu02x_801cf040, param_1);
+  if (format(fs) == 1)
+  {
+    FntPrint(s__Done_801cf048);
+    return 0;
+  }
+  else
+  {
+    FntPrint(s__Error_in_formatting_8012ac90);
+    return 0xFF;
+  }
+}
 
 INCLUDE_ASM("asm/nonmatchings/card", PS1_InitSaveRayAndFilenames);
 
