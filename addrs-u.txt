@@ -168,6 +168,7 @@ s_error_801cf038 = 0x801cf038;
 s_bu02x_801cf040 = 0x801cf040;
 s__Done_801cf048 = 0x801cf048;
 s_Maga_801cf050 = 0x801cf050;
+s_ss_801cf058 = 0x801cf058;
 
 ray = 0x801f61a0;
 //ray_obj_sprites = 0x801f61a0;

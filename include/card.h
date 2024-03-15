@@ -4,6 +4,7 @@
 #include "common.h"
 #include "common/rayevts.h"
 #include "psyq_3_0/KERNEL.H"
+#include "psyq_3_0/SYS/FILE.H"
 #include "menu/menu_7F4B4.h"
 
 typedef struct CardFrame0
@@ -31,7 +32,7 @@ void PS1_TestSwCARDOnce(void);
 s32 PS1_TestHwCARD(void);
 void PS1_TestHwCARDOnce(void);
 u8 PS1_TestCard(u8 par_chan);
-s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *dir);
+s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file);
 s32 PS1_CardFilenameChecksum(u8 chan);
 void PS1_InitializeCard(u8 chan);
 u8 PS1_FormatFs(u8 param_1);
@@ -44,7 +45,7 @@ void PS1_LoadSave(s32 param_1, u8 *param_2);
 void LoadGameOnDisk(u8 slot);
 s32 LoadInfoGame(u8 slot);
 void FUN_8016bbe4(void);
-u8 PS1_GetNbreSave3(u32 param_1);
+u8 PS1_GetNbreSave3(u8 param_1);
 u8 PS1_CardFilenameChecksumChanged(void);
 u8 PS1_TestCardZero(void);
 u8 PS1_CardUnformatted(void);

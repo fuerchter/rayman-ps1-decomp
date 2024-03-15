@@ -10,7 +10,6 @@
 #define MAX_1(x, y) ((x) > (y) ? (x) : (y))
 #define MAX_2(x, y) if (x < y) x = y;
 #define MAX_3(x, y) if (y > x) x = y;
-#define MIN(x, y) ((x) < (y) ? (x) : (y))
 #define MIN_1(x, y) ((x) < (y) ? (x) : (y))
 #define MIN_2(x, y) if (x > y) x = y;
 #define MIN_3(x, y) if (y < x) x = y;

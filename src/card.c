@@ -5,6 +5,8 @@ warning: passing arg 2 of `strncmp' discards `const' from pointer target type
 in functions:
 PS1_InitSaveRayAndFilenames
 FUN_8016b2e8
+
+change "s_BISLUS00005_8012aca8, 12" in strncmps to use sizeof instead?
 */
 
 const u8 s__Testing_memory_card_in_slot_d_8012ac14[] = "\nTesting memory card in slot %d\n\n";
@@ -73,6 +75,7 @@ extern u8 s_error_801cf038[6];
 extern u8 s_bu02x_801cf040[8];
 extern u8 s__Done_801cf048[7];
 extern u8 s_Maga_801cf050[5];
+extern u8 s_ss_801cf058[5];
 
 /**/
 extern u8 D_801F7F08[34];
@@ -354,7 +357,7 @@ INCLUDE_ASM("asm/nonmatchings/card", LoadInfoGame);
 s32 LoadInfoGame(u8 slot)
 {
     u8 unk_1[32];
-    s32 file = open(PS1_SaveFilenames[slot - 1], 1); /* TODO: slot - 1 macro? */
+    s32 file = open(PS1_SaveFilenames[slot - 1], O_RDONLY); /* TODO: slot - 1 macro? */
     u8 file_buffer[128];
     s32 i;
 
@@ -413,7 +416,36 @@ void FUN_8016bbe4(void)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/card", PS1_GetNbreSave3);
+/* 47488 8016BC88 -O2 -msoft-float */
+u8 PS1_GetNbreSave3(u8 param_1)
+{
+  u8 saves_found = 0;
+  u8 blocks_used = 0;
+  s32 nbre_files;
+  struct DIRENTRY files[15];
+  u8 name_start[8];
+  u8 i;
+  u8 buf[128];
+  u8 dev_name[32];
+  s32 fd;
+  u8 res;
+
+  sprintf(name_start, s_bu02x_801cf040, param_1);
+  nbre_files = PS1_GetNbreFiles(name_start, files);
+  for (i = 0; i < nbre_files; i++)
+  {
+    sprintf(dev_name, s_ss_801cf058, name_start, files[i].name);
+    fd = open(dev_name, O_RDONLY);
+    SaveFileRead(fd, buf, sizeof(buf));
+    blocks_used += buf[3];
+    close(fd);
+    if (strncmp(files[i].name, s_BISLUS00005_8012aca8, 12) == 0)
+      saves_found++;
+  }
+  res = saves_found - (u8) (blocks_used - 15); /* underflow? couldn't retype */
+  MIN_2(res, 3);
+  return res;
+}
 
 INCLUDE_ASM("asm/nonmatchings/card", PS1_CardFilenameChecksumChanged);
 
