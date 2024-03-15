@@ -29,6 +29,7 @@ s32 PS1_CardFilenameChecksum(u8 chan)
     return sum;
 }
 
+/* returns u8 instead? see SaveGameOnDisk and betw1 var */
 /*INCLUDE_ASM("asm/nonmatchings/card", PS1_WriteSave);*/
 
 s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
@@ -161,4 +162,24 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
     betw1 = 0xfc;
   }
   return betw1;
+}
+
+/* matches, but second counter/gross loop */
+/*INCLUDE_ASM("asm/nonmatchings/card", SaveFileRead);*/
+
+s32 SaveFileRead(s32 fd, void *buf, s16 n)
+{
+  s32 num_read;
+  s32 cnt_1 = 0;
+  u8 cnt_2;
+  
+  while (true)
+  {
+    num_read = (s16) read(fd, buf, n);
+    cnt_2 = cnt_1;
+    if (num_read != -1 || cnt_2 >= 10)
+      break;
+    cnt_1++;
+  }
+  return num_read;
 }

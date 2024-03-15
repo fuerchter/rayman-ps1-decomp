@@ -89,7 +89,7 @@ extern s32 PS1_HwCARD_EvSpNEW;
 extern s32 PS1_HwCARD_EvSpTIMOUT;
 extern s32 PS1_Checksum;
 extern u8 PS1_SaveFilenames[3][32];
-extern u8 D_801F6100[8];
+extern u8 D_801F6100[8]; /* TODO: fake? */
 extern u8 save_zone[2688];
 extern u8 wi_save_zone[24];
 
@@ -318,7 +318,23 @@ u8 *FUN_8016b2e8(u8 param_1, u8 param_2, u8 *param_3)
   return null;
 }
 
-INCLUDE_ASM("asm/nonmatchings/card", SaveGameOnDisk);
+/* 46BFC 8016B3FC -O2 -msoft-float */
+s32 SaveGameOnDisk(u8 slot)
+{
+    u8 filename[32];
+    s32 res = NBRE_SAVE;
+
+    if (res != 0)
+    {
+        PS1_CheckCardChanged();
+        strcpy(filename, PS1_SaveFilenames[slot - 1]);
+        if (filename[0] != '\0')
+            delete(&filename);
+        strncpy(&PS1_SaveFilenames[slot - 1][17], save_ray[slot], 3);
+        res = (u8) PS1_WriteSave(0, slot);
+    }
+    return res;
+}
 
 INCLUDE_ASM("asm/nonmatchings/card", SaveFileRead);
 
