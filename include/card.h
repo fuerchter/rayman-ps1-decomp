@@ -2,6 +2,7 @@
 #define CARD_H
 
 #include "common.h"
+#include "common/rayevts.h"
 #include "psyq_3_0/KERNEL.H"
 #include "menu/menu_7F4B4.h"
 
@@ -40,7 +41,7 @@ u8 * FUN_8016b2e8(u8 param_1, u8 param_2, u8 *param_3);
 s32 SaveGameOnDisk(u8 slot);
 s32 SaveFileRead(s32 fd, void *buf, s16 n);
 void PS1_LoadSave(s32 param_1, u8 *param_2);
-void LoadGameOnDisk(u32 param_1);
+void LoadGameOnDisk(u8 slot);
 s32 LoadInfoGame(u32 save);
 void FUN_8016bbe4(void);
 u8 PS1_GetNbreSave3(u32 param_1);

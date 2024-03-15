@@ -340,7 +340,15 @@ INCLUDE_ASM("asm/nonmatchings/card", SaveFileRead);
 
 INCLUDE_ASM("asm/nonmatchings/card", PS1_LoadSave);
 
-INCLUDE_ASM("asm/nonmatchings/card", LoadGameOnDisk);
+/* 470E4 8016B8E4 -O2 -msoft-float */
+void LoadGameOnDisk(u8 slot)
+{
+  if (NBRE_SAVE != 0)
+  {
+    PS1_CheckCardChanged();
+    PS1_LoadSave(0, PS1_SaveFilenames[slot - 1]);
+  }
+}
 
 INCLUDE_ASM("asm/nonmatchings/card", LoadInfoGame);
 
