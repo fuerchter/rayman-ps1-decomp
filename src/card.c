@@ -7,8 +7,6 @@ PS1_InitSaveRayAndFilenames
 FUN_8016b2e8
 */
 
-s32 strncmp(u8 *s1, u8 *s2, s32 n);
-
 const u8 s__Testing_memory_card_in_slot_d_8012ac14[] = "\nTesting memory card in slot %d\n\n";
 const u8 s_Card_exist_8012ac38[] = "Card exist\n";
 const u8 s_No_card_8012ac44[] = "No card\n";
@@ -350,7 +348,48 @@ void LoadGameOnDisk(u8 slot)
   }
 }
 
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/card", LoadInfoGame);
+#else
+s32 LoadInfoGame(u8 slot)
+{
+    u8 unk_1[32];
+    s32 file = open(PS1_SaveFilenames[slot - 1], 1); /* TODO: slot - 1 macro? */
+    u8 file_buffer[128];
+    s32 i;
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop");
+
+    if (file == -1)
+        return 1;
+    else
+    {
+        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        __builtin_memcpy(&nb_continue, file_buffer, sizeof(nb_continue));
+        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        __builtin_memcpy(&wi_save_zone, file_buffer, sizeof(wi_save_zone));
+        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        __builtin_memcpy(&RayEvts, file_buffer, sizeof(RayEvts));
+        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        __builtin_memcpy(&poing, file_buffer, sizeof(poing));
+        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        __builtin_memcpy(&status_bar, file_buffer, sizeof(status_bar));
+        close(file);
+
+        loadInfoRay[slot - 1].num_continues = nb_continue;
+        loadInfoRay[slot - 1].num_cages = 0;
+        for (i = 0; i < 24; i++)
+            loadInfoRay[slot - 1].num_cages += wi_save_zone[i] >> 2 & 7;
+        loadInfoRay[slot - 1].num_lives = status_bar.num_lives;
+        loadInfoRay[slot - 1].num_wiz = status_bar.num_wiz;
+        return 0;
+    }
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/card", FUN_8016bbe4);
 

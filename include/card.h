@@ -42,7 +42,7 @@ s32 SaveGameOnDisk(u8 slot);
 s32 SaveFileRead(s32 fd, void *buf, s16 n);
 void PS1_LoadSave(s32 param_1, u8 *param_2);
 void LoadGameOnDisk(u8 slot);
-s32 LoadInfoGame(u32 save);
+s32 LoadInfoGame(u8 slot);
 void FUN_8016bbe4(void);
 u8 PS1_GetNbreSave3(u32 param_1);
 u8 PS1_CardFilenameChecksumChanged(void);

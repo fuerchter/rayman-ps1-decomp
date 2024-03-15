@@ -186,7 +186,7 @@ void LOAD_ALL_FIX(void)
 }
 
 /* 79A98 8019E298 -O2 -msoft-float */
-#ifndef NONMATCHINGS
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/loading_794DC", load_world);
 #else
 void load_world(s16 world)

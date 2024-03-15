@@ -184,15 +184,17 @@ s32 SaveFileRead(s32 fd, void *buf, s16 n)
   return num_read;
 }
 
-/* matches, but options_jeu is not very clean */
+/*
+matches, but options_jeu is not very clean
+write the others as memcpys also...
+*/
 /*INCLUDE_ASM("asm/nonmatchings/card", PS1_LoadSave);*/
 
 void PS1_LoadSave(s32 param_1, u8 *param_2)
 {
+    s32 file = open(param_2, 1);
     u8 file_buffer[128];
-    s32 file;
-
-    file = open(param_2, 1);
+    
     if (file != -1)
     {
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
