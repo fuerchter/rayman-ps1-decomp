@@ -1,5 +1,12 @@
 #include "card.h"
 
+/* TODO:
+warning: passing arg 2 of `strncmp' discards `const' from pointer target type
+in functions:
+PS1_InitSaveRayAndFilenames
+FUN_8016b2e8
+*/
+
 s32 strncmp(u8 *s1, u8 *s2, s32 n);
 
 const u8 s__Testing_memory_card_in_slot_d_8012ac14[] = "\nTesting memory card in slot %d\n\n";
@@ -67,6 +74,7 @@ extern u8 s_no_card_801cf030[8];
 extern u8 s_error_801cf038[6];
 extern u8 s_bu02x_801cf040[8];
 extern u8 s__Done_801cf048[7];
+extern u8 s_Maga_801cf050[5];
 
 /**/
 extern u8 D_801F7F08[34];
@@ -81,6 +89,9 @@ extern s32 PS1_HwCARD_EvSpNEW;
 extern s32 PS1_HwCARD_EvSpTIMOUT;
 extern s32 PS1_Checksum;
 extern u8 PS1_SaveFilenames[3][32];
+extern u8 D_801F6100[8];
+extern u8 save_zone[2688];
+extern u8 wi_save_zone[24];
 
 /* 45A7C 8016A27C -O2 -msoft-float */
 u8 PS1_InitPAD(void)
@@ -252,6 +263,7 @@ u8 PS1_FormatFs(u8 param_1)
 void PS1_InitSaveRayAndFilenames(u8 param_1)
 {
     struct DIRENTRY dirs[15];
+    struct DIRENTRY *cur_dir;
     u8 name_start[8];
     s32 nbre_files;
     u8 cnt1;
@@ -261,11 +273,12 @@ void PS1_InitSaveRayAndFilenames(u8 param_1)
     nbre_files = PS1_GetNbreFiles(name_start, dirs);
     for (cnt1 = 0; cnt1 < nbre_files; cnt1++)
     {
-        if (strncmp(dirs[cnt1].name, s_BISLUS00005_8012aca8, 12) == 0)
+        cur_dir = &dirs[cnt1];
+        if (strncmp(cur_dir->name, s_BISLUS00005_8012aca8, 12) == 0)
         {
-            strncpy(save_ray[cnt2 + 1], &dirs[cnt1].name[12], 3);
+            strncpy(save_ray[cnt2 + 1], &cur_dir->name[12], 3);
             strncpy(&PS1_SaveFilenames[cnt2][0], name_start, 6);
-            strncpy(&PS1_SaveFilenames[cnt2][5], dirs[cnt1].name, 21);
+            strncpy(&PS1_SaveFilenames[cnt2][5], cur_dir->name, 21);
             cnt2++;
             if (cnt2 > 2)
                 break;
@@ -277,7 +290,33 @@ void PS1_InitSaveRayAndFilenames(u8 param_1)
 
 INCLUDE_ASM("asm/nonmatchings/card", PS1_WriteSave);
 
-INCLUDE_ASM("asm/nonmatchings/card", FUN_8016b2e8);
+/* 46AE8 8016B2E8 -O2 -msoft-float */
+u8 *FUN_8016b2e8(u8 param_1, u8 param_2, u8 *param_3)
+{
+  struct DIRENTRY dirs[15];
+  struct DIRENTRY *cur_dir;
+  u8 name_start[8];
+  s32 nbre_files;
+  u8 cnt1;
+  u8 cnt2 = 0;
+
+  sprintf(&name_start, s_bu02x_801cf040, param_1);
+  nbre_files = PS1_GetNbreFiles(name_start, dirs);
+  for (cnt1 = 0; cnt1 < nbre_files; cnt1++)
+  {
+    cur_dir = &dirs[cnt1];
+    if (strncmp(cur_dir->name, s_BISLUS00005_8012aca8, 12) == 0)
+    {
+      cnt2++;
+      if (cnt2 == param_2)
+      {
+        sprintf(param_3, s_bu02xss_8012ae38, param_1, s_BISLUS00005_8012aca8, &cur_dir->name[12]);
+        return param_3;
+      }
+    }
+  }
+  return null;
+}
 
 INCLUDE_ASM("asm/nonmatchings/card", SaveGameOnDisk);
 
