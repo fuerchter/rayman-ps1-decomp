@@ -447,11 +447,32 @@ u8 PS1_GetNbreSave3(u8 param_1)
   return res;
 }
 
-INCLUDE_ASM("asm/nonmatchings/card", PS1_CardFilenameChecksumChanged);
+/* 475C4 8016BDC4 -O2 -msoft-float */
+u8 PS1_CardFilenameChecksumChanged(void)
+{
+  return PS1_Checksum != PS1_CardFilenameChecksum(0);
+}
 
-INCLUDE_ASM("asm/nonmatchings/card", PS1_TestCardZero);
+/* 475F4 8016BDF4 -O2 -msoft-float */
+u8 PS1_TestCardZero(void)
+{
+  return PS1_TestCard(0) == 0;
+}
 
-INCLUDE_ASM("asm/nonmatchings/card", PS1_CardUnformatted);
+/* 47618 8016BE18 -O2 -msoft-float */
+u8 PS1_CardUnformatted(void)
+{
+  s32 unk_1 = true; /* least ugly permuter suggestion imo */
+  if (unk_1 && PS1_TestCard(0) != 2)
+  {
+    VSync(0);
+    VSync(0);
+    VSync(0);
+    return PS1_TestCard(0) != 2;
+  }
+  else
+    return 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/card", PS1_GetNbreSave2);
 
