@@ -260,23 +260,23 @@ u8 PS1_FormatFs(u8 param_1)
 /* 462F4 8016AAF4 -O2 -msoft-float */
 void PS1_InitSaveRayAndFilenames(u8 param_1)
 {
-    struct DIRENTRY dirs[15];
-    struct DIRENTRY *cur_dir;
+    struct DIRENTRY files[15];
+    struct DIRENTRY *cur_file;
     u8 name_start[8];
     s32 nbre_files;
     u8 cnt1;
     u8 cnt2 = 0;
     
     sprintf(name_start, s_bu02x_801cf040, param_1);
-    nbre_files = PS1_GetNbreFiles(name_start, dirs);
+    nbre_files = PS1_GetNbreFiles(name_start, files);
     for (cnt1 = 0; cnt1 < nbre_files; cnt1++)
     {
-        cur_dir = &dirs[cnt1];
-        if (strncmp(cur_dir->name, s_BISLUS00005_8012aca8, 12) == 0)
+        cur_file = &files[cnt1];
+        if (strncmp(cur_file->name, s_BISLUS00005_8012aca8, 12) == 0)
         {
-            strncpy(save_ray[cnt2 + 1], &cur_dir->name[12], 3);
+            strncpy(save_ray[cnt2 + 1], &cur_file->name[12], 3);
             strncpy(&PS1_SaveFilenames[cnt2][0], name_start, 6);
-            strncpy(&PS1_SaveFilenames[cnt2][5], cur_dir->name, 21);
+            strncpy(&PS1_SaveFilenames[cnt2][5], cur_file->name, 21);
             cnt2++;
             if (cnt2 > 2)
                 break;
@@ -291,24 +291,24 @@ INCLUDE_ASM("asm/nonmatchings/card", PS1_WriteSave);
 /* 46AE8 8016B2E8 -O2 -msoft-float */
 u8 *FUN_8016b2e8(u8 param_1, u8 param_2, u8 *param_3)
 {
-  struct DIRENTRY dirs[15];
-  struct DIRENTRY *cur_dir;
+  struct DIRENTRY files[15];
+  struct DIRENTRY *cur_file;
   u8 name_start[8];
   s32 nbre_files;
   u8 cnt1;
   u8 cnt2 = 0;
 
   sprintf(&name_start, s_bu02x_801cf040, param_1);
-  nbre_files = PS1_GetNbreFiles(name_start, dirs);
+  nbre_files = PS1_GetNbreFiles(name_start, files);
   for (cnt1 = 0; cnt1 < nbre_files; cnt1++)
   {
-    cur_dir = &dirs[cnt1];
-    if (strncmp(cur_dir->name, s_BISLUS00005_8012aca8, 12) == 0)
+    cur_file = &files[cnt1];
+    if (strncmp(cur_file->name, s_BISLUS00005_8012aca8, 12) == 0)
     {
       cnt2++;
       if (cnt2 == param_2)
       {
-        sprintf(param_3, s_bu02xss_8012ae38, param_1, s_BISLUS00005_8012aca8, &cur_dir->name[12]);
+        sprintf(param_3, s_bu02xss_8012ae38, param_1, s_BISLUS00005_8012aca8, &cur_file->name[12]);
         return param_3;
       }
     }
@@ -391,7 +391,27 @@ s32 LoadInfoGame(u8 slot)
 }
 #endif
 
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/card", FUN_8016bbe4);
+#else
+void FUN_8016bbe4(void)
+{
+    u8 *filename;
+
+    if (NBRE_SAVE != 0)
+    {
+        PS1_CheckCardChanged();
+        filename = PS1_SaveFilenames[fichier_selectionne - 1];
+        if (filename[0] != '\0')
+            delete(filename);
+        PS1_Checksum = PS1_CardFilenameChecksum(0);
+        *save_ray[fichier_selectionne] = '\0';
+        *PS1_SaveFilenames[fichier_selectionne - 1] = '\0';
+    }
+
+    __asm__("nop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/card", PS1_GetNbreSave3);
 
@@ -406,42 +426,3 @@ INCLUDE_ASM("asm/nonmatchings/card", PS1_GetNbreSave2);
 INCLUDE_ASM("asm/nonmatchings/card", FUN_8016be9c);
 
 INCLUDE_ASM("asm/nonmatchings/card", FUN_8016bec0);
-
-/*INCLUDE_RODATA("asm/nonmatchings/card", s__Testing_memory_card_in_slot_d_8012ac14);
-
-INCLUDE_RODATA("asm/nonmatchings/card", s_Card_exist_8012ac38);
-
-INCLUDE_RODATA("asm/nonmatchings/card", s_No_card_8012ac44);
-
-INCLUDE_RODATA("asm/nonmatchings/card", s_New_card_8012ac50);
-
-INCLUDE_RODATA("asm/nonmatchings/card", s_Formatted_8012ac5c);
-
-INCLUDE_RODATA("asm/nonmatchings/card", s_Unformatted_8012ac68);
-
-INCLUDE_RODATA("asm/nonmatchings/card", s_unformat_8012ac78);
-
-INCLUDE_RODATA("asm/nonmatchings/card", s__FORMATING_8012ac84);
-
-INCLUDE_RODATA("asm/nonmatchings/card", s__Error_in_formatting_8012ac90);
-
-INCLUDE_RODATA("asm/nonmatchings/card", s_BISLUS00005_8012aca8);
-
-INCLUDE_RODATA("asm/nonmatchings/card", PS1_SaveIcon1);
-
-INCLUDE_RODATA("asm/nonmatchings/card", PS1_SaveIcon2and3);
-
-INCLUDE_RODATA("asm/nonmatchings/card", PS1_SaveIconPalette);
-
-INCLUDE_RODATA("asm/nonmatchings/card", s__Saving_file_8012add8);
-
-INCLUDE_RODATA("asm/nonmatchings/card", s_bu02xss4u_8012ade8);
-
-INCLUDE_RODATA("asm/nonmatchings/card", s_Rayman_s_03d_8012adf8);
-
-INCLUDE_RODATA("asm/nonmatchings/card", s__Cant_open_file_8012ae0c);
-
-INCLUDE_RODATA("asm/nonmatchings/card", s__Cannot_create_file_8012ae20);
-
-INCLUDE_RODATA("asm/nonmatchings/card", s_bu02xss_8012ae38);
-*/
