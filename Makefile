@@ -5,15 +5,15 @@
 #	arrays/structs involved in missing_addiu: horloge, block_flags, t_world_info, cptr_tab, D_801C7D20, PS1_AlwaysObjects, text_to_display, atak, SerieDatak
 #missing_nop
 #div_nop_swap
+#	og psyq 3.0 cc1psx.exe seems to fix div_nop_swap:
+#	DISPLAY_TEXT_FEE (this has an actual swap, some have a missing_nop?)
+#	display_time, DISPLAY_SAVE_SPRITES, DISPLAY_CONTINUE_SPR, doMoskitoHit, setBossReachingSpeeds, DO_COMMANDE_PAD
 
 #TODO:
 #DISPLAY_UI HAS TO BE BUILT WITH .DATA ON NONMATCHING BUILD
 
 #check out -psx patched old-gcc to possibly clean up DO_WORLD_MAP, DETER_WORLD_AND_LEVEL world_index assign
 #skipTestArgs, readTestArgs share issues
-#og psyq 3.0 cc1psx.exe seems to fix div_nop_swap:
-#DISPLAY_TEXT_FEE (this has an actual swap, some have a missing_nop?)
-#display_time, DISPLAY_SAVE_SPRITES, DISPLAY_CONTINUE_SPR, doMoskitoHit, setBossReachingSpeeds, DO_COMMANDE_PAD
 
 #see DO_BBL_COMMAND for slightly nicer way of writing block_flags[mp.map[...]]
 #apply MAX/MIN macros to code from before then

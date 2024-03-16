@@ -1,5 +1,8 @@
 #include "loading_E99C.h"
 
+const u8 s_FILE_INFO_sd___801272a8[] = "FILE_INFO %s[%d] =\r\n{\r\n";
+const u8 s__s_void0x08x_void0x_801272c0[] = "\t{\"%s\", (void*)0x%08x, (void*)0x%08x, {{%d,%d,%d,%d},%ld,\"%s\"}},\r\n";
+
 /* E818 80133018 -O2 -msoft-float */
 void FUN_80133018(void)
 {
@@ -8,19 +11,17 @@ void FUN_80133018(void)
   CdReadyCallback(null);
 }
 
-/* using const vars for this rodata would have caused
-warning: passing arg 2 of `sprintf' discards `const' from pointer target type */
 /* E848 80133048 -O2 -msoft-float */
 void FUN_80133048(s32 param_1, FileInfo *files, u8 count)
 {
     u8 i;
 
-    D_801CEEEC = &D_801CEEEC[sprintf(D_801CEEEC, "FILE_INFO %s[%d] =\r\n{\r\n", param_1, count)];
+    D_801CEEEC = &D_801CEEEC[sprintf(D_801CEEEC, s_FILE_INFO_sd___801272a8, param_1, count)];
     for (i = 0; i < count; i++)
     {
         D_801CEEEC = &D_801CEEEC[sprintf(
             D_801CEEEC,
-            "\t{\"%s\", (void*)0x%08x, (void*)0x%08x, {{%d,%d,%d,%d},%ld,\"%s\"}},\r\n",
+            s__s_void0x08x_void0x_801272c0,
             files[i].path,
             files[i].dest,
             files[i].dest_debug,
