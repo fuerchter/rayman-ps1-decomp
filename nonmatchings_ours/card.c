@@ -184,10 +184,7 @@ s32 SaveFileRead(s32 fd, void *buf, s16 n)
   return num_read;
 }
 
-/*
-matches, but options_jeu is not very clean
-write the others as memcpys also...
-*/
+/* matches, but options_jeu as memcpy somehow? */
 /*INCLUDE_ASM("asm/nonmatchings/card", PS1_LoadSave);*/
 
 void PS1_LoadSave(s32 param_1, u8 *param_2)
@@ -202,7 +199,7 @@ void PS1_LoadSave(s32 param_1, u8 *param_2)
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
-        nb_continue = file_buffer[0];
+        __builtin_memcpy(&nb_continue, file_buffer, sizeof(nb_continue));
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(&wi_save_zone, file_buffer, sizeof(wi_save_zone));
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
@@ -212,7 +209,7 @@ void PS1_LoadSave(s32 param_1, u8 *param_2)
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(&status_bar, file_buffer, sizeof(status_bar));
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
-        ray.hit_points = file_buffer[0];
+        __builtin_memcpy(&ray.hit_points, file_buffer, sizeof(ray.hit_points));
         SaveFileRead(file, save_zone, sizeof(save_zone));
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(bonus_perfect, file_buffer, sizeof(bonus_perfect));
@@ -231,13 +228,13 @@ void PS1_LoadSave(s32 param_1, u8 *param_2)
         options_jeu.field13_0x22 = *(u16 *)(file_buffer + 34);
         options_jeu.field14_0x24 = *(u16 *)(file_buffer + 36);
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
-        world_index = file_buffer[0];
+        __builtin_memcpy(&world_index, file_buffer, sizeof(world_index));
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(&xwldmapsave, file_buffer, sizeof(xwldmapsave));
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(&ywldmapsave, file_buffer, sizeof(ywldmapsave));
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
-        dir_on_wldmap = file_buffer[0];
+        __builtin_memcpy(&dir_on_wldmap, file_buffer, sizeof(dir_on_wldmap));
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(finBosslevel, file_buffer, sizeof(finBosslevel));
         close(file);
