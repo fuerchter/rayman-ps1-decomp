@@ -2,7 +2,7 @@
 
 /*
 matches, but doubled counter vars...
-removing cnt2_2 on decomp.me still matches, but not locally
+removing cnt2_2 on decomp.me still matches but not locally
 */
 /*INCLUDE_ASM("asm/nonmatchings/card", PS1_CardFilenameChecksum);*/
 

@@ -1,6 +1,7 @@
 #include "card.h"
 
 /* TODO:
+(only once strncmp is declared)
 warning: passing arg 2 of `strncmp' discards `const' from pointer target type
 in functions:
 PS1_InitSaveRayAndFilenames
@@ -301,7 +302,7 @@ u8 *FUN_8016b2e8(u8 param_1, u8 param_2, u8 *param_3)
   u8 cnt1;
   u8 cnt2 = 0;
 
-  sprintf(&name_start, s_bu02x_801cf040, param_1);
+  sprintf(name_start, s_bu02x_801cf040, param_1);
   nbre_files = PS1_GetNbreFiles(name_start, files);
   for (cnt1 = 0; cnt1 < nbre_files; cnt1++)
   {
@@ -351,6 +352,7 @@ void LoadGameOnDisk(u8 slot)
   }
 }
 
+/* 47134 8016B934 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/card", LoadInfoGame);
 #else
@@ -394,6 +396,7 @@ s32 LoadInfoGame(u8 slot)
 }
 #endif
 
+/* 473E4 8016BBE4 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/card", FUN_8016bbe4);
 #else
@@ -448,7 +451,7 @@ u8 PS1_GetNbreSave3(u8 param_1)
 }
 
 /* 475C4 8016BDC4 -O2 -msoft-float */
-u8 PS1_CardFilenameChecksumChanged(void)
+s16 PS1_CardFilenameChecksumChanged(void)
 {
   return PS1_Checksum != PS1_CardFilenameChecksum(0);
 }
@@ -474,8 +477,21 @@ u8 PS1_CardUnformatted(void)
     return 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/card", PS1_GetNbreSave2);
+/* 4767C 8016BE7C -O2 -msoft-float */
+u8 PS1_GetNbreSave2(void)
+{
+  return PS1_GetNbreSave3(0);
+}
 
-INCLUDE_ASM("asm/nonmatchings/card", FUN_8016be9c);
+/* 4769C 8016BE9C -O2 -msoft-float */
+s16 FUN_8016be9c(void)
+{
+  return PS1_CardFilenameChecksumChanged();
+}
 
-INCLUDE_ASM("asm/nonmatchings/card", FUN_8016bec0);
+/* 476C0 8016BEC0 -O2 -msoft-float */
+void FUN_8016bec0(void)
+{
+  PS1_FormatFs(0);
+  PS1_Checksum = PS1_CardFilenameChecksum(0);
+}
