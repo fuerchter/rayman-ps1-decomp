@@ -66,35 +66,6 @@ const u8 s__Cant_open_file_8012ae0c[] = "\nCan't open file\n";
 const u8 s__Cannot_create_file_8012ae20[] = "\nCannot create file\n";
 const u8 s_bu02xss_8012ae38[] = "bu%02x:%s%s";
 
-/* .data */
-extern s32 D_801CF01C;
-extern s32 D_801CF020;
-extern u8 s_Error_801cf024[7];
-extern u8 s__801cf02c[2];
-extern u8 s_no_card_801cf030[8];
-extern u8 s_error_801cf038[6];
-extern u8 s_bu02x_801cf040[8];
-extern u8 s__Done_801cf048[7];
-extern u8 s_Maga_801cf050[5];
-extern u8 s_ss_801cf058[5];
-
-/**/
-extern u8 D_801F7F08[34];
-extern u8 PS1_PadRecieveBuffer[34];
-extern s32 PS1_SwCARD_EvSpERROR;
-extern s32 PS1_SwCARD_EvSpIOE;
-extern s32 PS1_SwCARD_EvSpNEW;
-extern s32 PS1_SwCARD_EvSpTIMOUT;
-extern s32 PS1_HwCARD_EvSpERROR;
-extern s32 PS1_HwCARD_EvSpIOE;
-extern s32 PS1_HwCARD_EvSpNEW;
-extern s32 PS1_HwCARD_EvSpTIMOUT;
-extern s32 PS1_Checksum;
-extern u8 PS1_SaveFilenames[3][32];
-extern u8 D_801F6100[8]; /* TODO: fake? */
-extern u8 save_zone[2688];
-extern u8 wi_save_zone[24];
-
 /* 45A7C 8016A27C -O2 -msoft-float */
 u8 PS1_InitPAD(void)
 {

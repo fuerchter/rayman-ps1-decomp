@@ -6,6 +6,8 @@
 #include "psyq_3_0/KERNEL.H"
 #include "psyq_3_0/SYS/FILE.H"
 #include "menu/menu_7F4B4.h"
+#include "input_ED20.h"
+#include "save.h"
 
 typedef struct CardFrame0
 {
@@ -24,7 +26,31 @@ typedef struct LoadInfoRay {
     u8 num_continues;
 } LoadInfoRay;
 
+/* .data */
+extern s32 D_801CF01C;
+extern s32 D_801CF020;
+extern u8 s_Error_801cf024[7];
+extern u8 s__801cf02c[2];
+extern u8 s_no_card_801cf030[8];
+extern u8 s_error_801cf038[6];
+extern u8 s_bu02x_801cf040[8];
+extern u8 s__Done_801cf048[7];
+extern u8 s_Maga_801cf050[5];
+extern u8 s_ss_801cf058[5];
+
+/**/
 extern LoadInfoRay loadInfoRay[6];
+extern u8 D_801F7F08[34];
+extern s32 PS1_SwCARD_EvSpERROR;
+extern s32 PS1_SwCARD_EvSpIOE;
+extern s32 PS1_SwCARD_EvSpNEW;
+extern s32 PS1_SwCARD_EvSpTIMOUT;
+extern s32 PS1_HwCARD_EvSpERROR;
+extern s32 PS1_HwCARD_EvSpIOE;
+extern s32 PS1_HwCARD_EvSpNEW;
+extern s32 PS1_HwCARD_EvSpTIMOUT;
+extern s32 PS1_Checksum;
+extern u8 PS1_SaveFilenames[3][32];
 
 u8 PS1_InitPAD(void);
 s32 PS1_TestSwCARD(void);

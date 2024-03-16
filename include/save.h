@@ -39,7 +39,10 @@ typedef struct SaveState
     u8 num_wiz;
 } SaveState;
 
+/**/
 extern SaveState save1;
 extern SaveState save2;
+extern u8 save_zone[2688];
+extern u8 wi_save_zone[24];
 
 #endif
