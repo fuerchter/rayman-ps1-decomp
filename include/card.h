@@ -52,7 +52,7 @@ extern s32 PS1_HwCARD_EvSpTIMOUT;
 extern s32 PS1_Checksum;
 extern u8 PS1_SaveFilenames[3][32];
 
-u8 PS1_InitPAD(void);
+s32 PS1_InitPAD(void);
 s32 PS1_TestSwCARD(void);
 void PS1_TestSwCARDOnce(void);
 s32 PS1_TestHwCARD(void);

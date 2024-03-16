@@ -67,7 +67,7 @@ const u8 s__Cannot_create_file_8012ae20[] = "\nCannot create file\n";
 const u8 s_bu02xss_8012ae38[] = "bu%02x:%s%s";
 
 /* 45A7C 8016A27C -O2 -msoft-float */
-u8 PS1_InitPAD(void)
+s32 PS1_InitPAD(void)
 {
     InitPAD(PS1_PadRecieveBuffer, D_801CF01C, D_801F7F08, D_801CF020);
     VSync(0);
