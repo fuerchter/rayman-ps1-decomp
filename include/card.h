@@ -64,7 +64,7 @@ void PS1_InitializeCard(u8 chan);
 u8 PS1_FormatFs(u8 param_1);
 void PS1_InitSaveRayAndFilenames(u8 param_1);
 s32 PS1_WriteSave(u8 chan_par, u8 slot_par);
-u8 * FUN_8016b2e8(u8 param_1, u8 param_2, u8 *param_3);
+u8 *FUN_8016b2e8(u8 param_1, u8 param_2, u8 *param_3);
 s32 SaveGameOnDisk(u8 slot);
 s32 SaveFileRead(s32 fd, void *buf, s16 n);
 void PS1_LoadSave(s32 param_1, u8 *param_2);

@@ -460,19 +460,19 @@ void DO_SKO(Obj *obj)
         DO_SKO_PINCE(obj);
         DO_SCORPION_COLLISION(obj);
         DO_SCORPION_MORT(obj);
-        /* TODO: better way to write this? */
-        if (main_etat == 0 && sub_etat > 1)
+        if (main_etat == 0)
         {
-            if (sub_etat > 3)
+            switch (sub_etat)
             {
-                if (sub_etat == 7 && obj->anim_frame == 9 && sko_rayon_on == 0)
+            case 7:
+                if (obj->anim_frame == 9 && sko_rayon_on == 0)
                 {
                     sko_rayon_on = 0xFF;
                     start_sko_rayon2(obj->x_pos, obj->y_pos);
                 }
-            }
-            else
-            {
+                break;
+            case 2:
+            case 3:
                 if (sko_last_action == 5)
                 {
                     set_sub_etat(obj, 8);
@@ -483,6 +483,7 @@ void DO_SKO(Obj *obj)
                     set_sub_etat(obj, 5);
                     sko_last_action = 5;
                 }
+                break;
             }
         }
     }
