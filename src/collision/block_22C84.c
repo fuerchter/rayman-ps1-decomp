@@ -1,10 +1,22 @@
 #include "collision/block_22C84.h"
 
+s16 PS1_BTYPAbsPos(s32, s32); /* see on_block_chdir() */
+
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", get_center_x);
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", get_center_y);
 
+/* 22F80 80147780 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", on_block_chdir);
+#else
+u8 on_block_chdir(Obj *obj, s16 offs_bx, s16 offs_by)
+{
+    __asm__("nop");
+
+    return block_flags[PS1_BTYPAbsPos(obj->x_pos + offs_bx, obj->y_pos + offs_by)] >> BLOCK_CH_DIR & 1;
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", CALC_FOLLOW_SPRITE_SPEED);
 
