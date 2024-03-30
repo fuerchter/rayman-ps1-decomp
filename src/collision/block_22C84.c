@@ -22,7 +22,64 @@ INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", CALC_FOLLOW_SPRITE_SPEED);
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", GET_SPRITE_POS);
 
-INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", GET_RAY_ZDC);
+/* 23204 80147A04 -O2 -msoft-float */
+void GET_RAY_ZDC(Obj *ray, s16 *x, s16 *y, s16 *w, s16 *h)
+{
+    u8 main_etat = ray->main_etat;
+    s32 frame;
+
+    if (ray->eta[main_etat][ray->sub_etat].flags & 0x40)
+    {
+        *x = ray->x_pos + 72;
+        *y = ray->y_pos + 64;
+        *w = 16;
+        *h = 14;
+    }
+    else if (main_etat == 5)
+    {
+        *x = ray->x_pos + 72;
+        *y = ray->y_pos + 40;
+        *w = 16;
+        *h = 46;
+    }
+    else if (main_etat == 7)
+    {
+        frame = ray->anim_frame;
+        if (frame > 32)
+            frame -= 32;
+        frame -= 10;
+        if ((s16) frame < 13U)
+        {
+            *x = ray->x_pos + 64;
+            *y = ray->y_pos + 54;
+            *w = 36;
+            *h = 20;
+        }
+        else
+        {
+            *x = ray->x_pos + 70;
+            *y = ray->y_pos + 40;
+            *w = 20;
+            *h = 40;
+        }
+    }
+    else
+    {
+        *x = ray->x_pos + 72;
+        *y = ray->y_pos + 24;
+        *w = 16;
+        *h = 54;
+    }
+    if (ray->scale != 0)
+    {
+        set_proj_center(ray->x_pos + ray->offset_bx, ray->y_pos + ray->offset_by);
+        *x = get_proj_x(ray->scale, *x);
+        *y = get_proj_y(ray->scale, *y);
+        *w = get_proj_dist2(ray->scale, *w);
+        *h = get_proj_dist2(ray->scale, *h);
+        set_proj_center(ray->screen_x_pos + ray->offset_bx, ray->screen_y_pos + ray->offset_by);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", GET_BB1_ZDCs);
 
