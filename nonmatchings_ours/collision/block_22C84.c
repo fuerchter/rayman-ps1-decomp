@@ -99,3 +99,84 @@ s16 get_center_y(Obj *obj)
         return 0x28;
     }
 }
+
+/* matches, but var_a2, the whole if/else suck */
+/*INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", CALC_FOLLOW_SPRITE_SPEED);*/
+
+void CALC_FOLLOW_SPRITE_SPEED(Obj *obj, Animation *anim1, Animation *anim2, s16 param_4)
+{
+  AnimationLayer *layer2;
+  AnimationLayer *layer1;
+  s32 temp_v1;
+  s32 var_a2;
+  s32 var_a3;
+  u16 temp_a0;
+  u8 foll_spr;
+  u8 new_var;
+
+  foll_spr = obj->follow_sprite;
+  layer1 = &anim1->layers[(anim1->layers_count & 0x3FFF) * obj->anim_frame];
+  layer2 = &anim2->layers[(anim2->layers_count & 0x3FFF) * param_4];
+  
+  new_var = obj->sprites[layer1[foll_spr].sprite].width;
+  if (obj->flags & FLG(OBJ_FLIP_X))
+  {
+    temp_v1 = (u16) obj->x_pos + (obj->offset_bx * 2) - new_var;
+    var_a2 = temp_v1 - layer1[foll_spr].x_pos;
+    var_a3 = temp_v1 - layer2[foll_spr].x_pos;
+  }
+  else
+  {
+    temp_a0 = obj->x_pos;
+    var_a2 = temp_a0;
+    var_a2 = var_a2 + layer1[foll_spr].x_pos;
+    var_a3 = temp_a0 + layer2[foll_spr].x_pos;
+  }
+  obj->follow_y = (layer1[foll_spr].y_pos + obj->y_pos) - (layer2[foll_spr].y_pos + obj->y_pos);
+  obj->follow_x = var_a2 - var_a3;
+}
+
+/*INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", GET_SPRITE_POS);*/
+
+s16 GET_SPRITE_POS(Obj *obj, s16 index, s16 *x, s16 *y, u16 *w, u16 *h)
+{
+    Animation *temp_v0;
+    Sprite *temp_t0;
+    s16 var_a1;
+    s32 var_v0;
+    u8 var_v1;
+    u8 temp_v1;
+    AnimationLayer *temp_t2;
+    s16 new_var;
+    s32 new_var2;
+
+    temp_v0 = &obj->animations[obj->anim_index];
+    temp_t2 = &(&temp_v0->layers[(temp_v0->layers_count & 0x3FFF) * obj->anim_frame])[index];
+    temp_v1 = temp_t2->sprite;
+    temp_t0 = &obj->sprites[temp_v1];
+    if ((temp_v1 != 0) && (temp_t0->id != 0))
+    {
+        *w = temp_t0->sprite_width;
+        *h = temp_t0->sprite_height;
+        if (obj->flags & 0x4000)
+        {
+            new_var2 = temp_t0->sprite_pos & 0xF;
+            var_v1 = obj->x_pos;
+            var_v0 = ((obj->offset_bx * 2) - (new_var2 + temp_t2->x_pos)) - temp_t0->width;
+        }
+        else
+        {
+            var_v1 = temp_t0->sprite_pos & 0xF;
+            var_v0 = temp_t2->x_pos + (u16) obj->x_pos;
+        }
+        *x = var_v1 + var_v0;
+        var_a1 = 1;
+        new_var = obj->y_pos;
+        *y = temp_t2->y_pos + (temp_t0->sprite_pos >> 4) + new_var;
+    }
+    else
+    {
+        var_a1 = 0;
+    }
+    return var_a1;
+}
