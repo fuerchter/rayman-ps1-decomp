@@ -36,8 +36,6 @@ extern u8 *D_801C3544;
 
 /**/
 extern Obj *mapobj;
-extern s16 xmap;
-extern s16 ymap;
 extern Obj raylittle;
 extern u8 chemin_percent;
 extern u8 dir_on_wldmap;

@@ -107,6 +107,7 @@ void GET_BB1_ZDCs(Obj *obj, s16 *x_1, s16 *y_1, s16 *w_1, s16 *h_1, s16 *x_2, s1
         GET_SPRITE_POS(obj, 0, x_1, y_1, w_1, h_1);
 }
 
+/* 235E8 80147DE8 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", myRand);
 #else
