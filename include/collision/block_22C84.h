@@ -29,7 +29,7 @@ void CALC_FOLLOW_SPRITE_SPEED(Obj *obj, Animation *anim1, Animation *anim2, s16 
 s16 GET_SPRITE_POS(Obj *obj, s16 index, s16 *x, s16 *y, s16 *w, s16 *h);
 void GET_RAY_ZDC(Obj *ray, s16 *x, s16 *y, s16 *w, s16 *h);
 void GET_BB1_ZDCs(Obj *obj, s16 *x_1, s16 *y_1, s16 *w_1, s16 *h_1, s16 *x_2, s16 *y_2, s16 *w_2, s16 *h_2);
-s32 myRand(s32 param_1);  /* ret: s32 or s16 (based on what?) */
+s32 myRand(s16 max_incl); /* ret: s32 (based on DO_MAIN_LOOP?) */
 void calc_obj_dir(Obj *obj);
 s32 OBJ_IN_ZONE(Obj *obj); /* ret: s32 or s16 (based on what, handle_GO_TEST?) */
 void calc_obj_pos(Obj *obj);

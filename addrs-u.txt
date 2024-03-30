@@ -38,6 +38,7 @@ PS1_CanPlayDeathMusic = 0x801cee9e;
 PS1_ShouldFadeOutWorldIntro = 0x801cf0dc;
 PS1_CurTrack = 0x801f9a18;
 PS1_NewWorldMusic = 0x801c7d20;
+PS1_RandSum = 0x801f5200;
 
 D_801C438C = 0x801C438C;
 D_801CEE10 = 0x801cee10;

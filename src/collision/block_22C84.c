@@ -1,5 +1,9 @@
 #include "collision/block_22C84.h"
 
+/**/
+extern u16 PS1_RandSum;
+extern s16 RandomIndex;
+
 s16 PS1_BTYPAbsPos(s32, s32); /* see on_block_chdir() */
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", get_center_x);
@@ -103,7 +107,21 @@ void GET_BB1_ZDCs(Obj *obj, s16 *x_1, s16 *y_1, s16 *w_1, s16 *h_1, s16 *x_2, s1
         GET_SPRITE_POS(obj, 0, x_1, y_1, w_1, h_1);
 }
 
+#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", myRand);
+#else
+s32 myRand(s16 max_incl)
+{
+  s16 max_loc;
+  
+  __asm__("nop\nnop");
+
+  max_loc = max_incl + 1;
+  PS1_RandSum += RandArray[RandomIndex & (sizeof(RandArray) / sizeof(s16) - 1)];
+  RandomIndex++;
+  return (s16) (PS1_RandSum % (max_loc));
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", calc_obj_dir);
 
