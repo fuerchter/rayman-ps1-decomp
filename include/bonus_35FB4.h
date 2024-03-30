@@ -2,6 +2,7 @@
 #define BONUS_35FB4_H
 
 #include "common.h"
+#include "common/world_map.h"
 #include "ray/ray_30A64.h"
 #include "num_level_36260.h"
 #include "bonus_343EC.h"

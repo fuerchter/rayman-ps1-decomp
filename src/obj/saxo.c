@@ -393,7 +393,7 @@ void DO_NOTE_REBOND(Obj *obj)
             obj->speed_y--;
 
         obj->gravity_value_1 = 10 - obj->gravity_value_1;
-        calc_obj_pos();
+        calc_obj_pos(obj);
         break;
     }
 }
