@@ -123,9 +123,29 @@ s32 myRand(s16 max_incl)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", calc_obj_dir);
+/* 23674 80147E74 -O2 -msoft-float */
+void calc_obj_dir(Obj *obj)
+{
+    if (ray.x_pos + ray.offset_bx - obj->x_pos - obj->offset_bx > 0)
+        obj->flags |= FLG(OBJ_FLIP_X);
+    else
+        obj->flags &= ~FLG(OBJ_FLIP_X);
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", OBJ_IN_ZONE);
+/* 236C4 80147EC4 -O2 -msoft-float */
+s32 OBJ_IN_ZONE(Obj *obj)
+{
+    switch(obj->type)
+    {
+    case TYPE_BADGUY2:
+    case TYPE_BADGUY3:
+    case TYPE_LIDOLPINK:
+    case TYPE_LIDOLPINK2:
+        return obj->detect_zone_flag == 1;
+    default:
+        return obj->detect_zone_flag != 0;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", calc_obj_pos);
 

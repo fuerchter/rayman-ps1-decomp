@@ -4,6 +4,7 @@
 #include "common.h"
 #include "common/obj.h"
 #include "common/world_map.h"
+#include "common/ray.h"
 
 typedef struct MapData {
     s16 width;
