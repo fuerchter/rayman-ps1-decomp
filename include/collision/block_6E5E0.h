@@ -2,10 +2,12 @@
 #define BLOCK_6E5E0_H
 
 #include "common.h"
+#include "common/ray.h"
 #include "obj_update.h"
 #include "collision/etat.h"
+#include "collision/bit_util.h"
 
-u8 MURDUR(s16 param_1, s16 param_2);
+u8 MURDUR(s16 x, s16 y);
 s16 dist_to_bloc_floor(s16 btyp, s16 x, s16 y);
 s16 bloc_floor(s16 btyp, s16 x, s16 y);
 s32 calc_typ_trav(Obj *obj, u8 param_2);
