@@ -35,7 +35,7 @@ void calc_obj_dir(Obj *obj);
 s32 OBJ_IN_ZONE(Obj *obj); /* ret: s32 or s16 (based on what, handle_GO_TEST?) */
 void calc_obj_pos(Obj *obj);
 void makeUturn(Obj *obj);
-u16 BTYP(s16 xPos, s16 yPos);
+u16 BTYP(s16 x, s16 y);
 void calc_btyp_square(Obj *obj);
 void DO_OBJ_REBOND_EN_X(Obj *obj);
 u32 calc_btyp(Obj *obj);

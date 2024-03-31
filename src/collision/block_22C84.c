@@ -374,7 +374,13 @@ void makeUturn(Obj *obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", BTYP);
+/* 23CAC 801484AC -O2 -msoft-float */
+u16 BTYP(s16 x, s16 y)
+{
+    if (x >= 0 && (x <= mp.width - 1) && y >= 0 && (y <= mp.height - 1))
+        return mp.map[x + y * mp.width] >> 10;
+    return BTYP_NONE;
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", calc_btyp_square);
 
