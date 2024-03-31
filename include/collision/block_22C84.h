@@ -5,6 +5,8 @@
 #include "common/obj.h"
 #include "common/world_map.h"
 #include "common/ray.h"
+#include "common/rayevts.h"
+#include "collision/bit_util.h"
 
 typedef struct MapData {
     s16 width;

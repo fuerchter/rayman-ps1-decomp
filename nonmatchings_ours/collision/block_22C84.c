@@ -180,3 +180,55 @@ s16 GET_SPRITE_POS(Obj *obj, s16 index, s16 *x, s16 *y, u16 *w, u16 *h)
     }
     return var_a1;
 }
+
+/* matches, but... */
+/*INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", calc_btyp_square);*/
+
+void calc_btyp_square(Obj *obj)
+{
+  u8 bVar1;
+  ushort uVar2;
+  BlockType BVar3;
+  u8 uVar4;
+  short y_2;
+  short x_3;
+  short x_4;
+  short x_5;
+  u8 x_offs;
+  int x_2;
+  int y_offs;
+  int y_1;
+  s16 x_1;
+  s16 x_test;
+  
+  x_3 = obj->type;
+  if (x_3 == TYPE_RAYMAN)
+  {
+    if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+      x_offs = 4;
+    else
+      x_offs = 8;
+  }
+  else
+    x_offs = 16;
+
+  y_1 = (s16) ((obj->offset_by + (ushort)obj->y_pos));
+  x_1 = (s16) (obj->offset_bx + obj->x_pos);
+  y_2 = ashr16(y_1,4);
+  x_2 = x_1;
+  x_3 = ashr16(x_2,4);
+  x_4 = ashr16(x_2 - x_offs,4);
+  x_5 = ashr16(x_2 + x_offs,4);
+  obj->btypes[3] = BTYP(x_3,y_2 + -1);
+  obj->btypes[1] = BTYP(x_4,y_2);
+  if (obj->main_etat == 2) {
+    uVar4 = BTYP(x_3,y_2);
+    obj->btypes[0] = bloc_floor(uVar4,(s16)(x_2 + (x_2 / 16) * -0x10),
+                       (s16)(y_1 + (y_1 / 16) * -0x10));
+  }
+  else {
+    obj->btypes[0] = BTYP(x_3,y_2);
+  }
+  obj->btypes[2] = BTYP(x_5,y_2);
+  obj->btypes[4] = BTYP(x_3,y_2 + 1);
+}

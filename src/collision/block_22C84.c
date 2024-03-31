@@ -384,6 +384,20 @@ u16 BTYP(s16 x, s16 y)
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", calc_btyp_square);
 
+/* 23F10 80148710 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", DO_OBJ_REBOND_EN_X);
+#else
+void DO_OBJ_REBOND_EN_X(Obj *obj)
+{
+  __asm__("nop\nnop");
+
+  if (
+    block_flags[obj->btypes[2]] >> BLOCK_FLAG_4 & 1 ||
+    block_flags[obj->btypes[1]] >> BLOCK_FLAG_4 & 1
+  )
+    obj->speed_x = -obj->speed_x;
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", calc_btyp);
