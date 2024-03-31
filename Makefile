@@ -11,6 +11,7 @@
 
 #TODO:
 #DISPLAY_UI HAS TO BE BUILT WITH .DATA ON NONMATCHING BUILD
+#think i may have "tagged" a func or two in block_22C84.c with their rodata addresses by mistake?
 
 #check out -psx patched old-gcc to possibly clean up DO_WORLD_MAP, DETER_WORLD_AND_LEVEL world_index assign
 #skipTestArgs, readTestArgs share issues

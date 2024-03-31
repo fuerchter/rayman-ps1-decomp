@@ -24,7 +24,7 @@ extern s16 RandArray[256];
 
 /**/
 extern MapData mp;
-extern u8 ray_last_ground_btyp;
+extern u8 ray_last_ground_btyp; /* bool or enum with only 0 and 1, not sure*/
 extern u16 PS1_RandSum;
 extern s16 RandomIndex;
 
