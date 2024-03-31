@@ -1,11 +1,5 @@
 #include "collision/block_22C84.h"
 
-/**/
-extern u16 PS1_RandSum;
-extern s16 RandomIndex;
-
-s16 PS1_BTYPAbsPos(s32, s32); /* see on_block_chdir() */
-
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", get_center_x);
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", get_center_y);

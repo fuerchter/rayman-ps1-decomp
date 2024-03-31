@@ -7,6 +7,7 @@
 #include "common/ray.h"
 #include "common/rayevts.h"
 #include "collision/bit_util.h"
+#include "collision/etat.h"
 
 typedef struct MapData {
     s16 width;
@@ -24,6 +25,8 @@ extern s16 RandArray[256];
 /**/
 extern MapData mp;
 extern u8 ray_last_ground_btyp;
+extern u16 PS1_RandSum;
+extern s16 RandomIndex;
 
 s16 get_center_x(Obj *obj);
 s16 get_center_y(Obj *obj);
