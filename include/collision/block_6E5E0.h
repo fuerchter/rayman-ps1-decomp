@@ -6,8 +6,8 @@
 #include "collision/etat.h"
 
 u8 MURDUR(s16 param_1, s16 param_2);
-s16 dist_to_bloc_floor(u16 btyp, s16 x, s16 y);
-s32 bloc_floor(u16 param_1, s16 param_2, s16 param_3);
+s16 dist_to_bloc_floor(s16 btyp, s16 x, s16 y);
+s16 bloc_floor(s16 btyp, s16 x, s16 y);
 s32 calc_typ_trav(Obj *obj, u8 param_2);
 u8 calc_typ_travd(Obj *obj, u8 param_2);
 void TEST_FIN_BLOC(Obj *obj);

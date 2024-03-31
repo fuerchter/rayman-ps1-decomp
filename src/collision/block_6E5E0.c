@@ -10,11 +10,11 @@ u8 MURDUR(s16 param_1, s16 param_2)
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", dist_to_bloc_floor);
 #else
-s16 dist_to_bloc_floor(u16 btyp, s16 x, s16 y)
+s16 dist_to_bloc_floor(s16 btyp, s16 x, s16 y)
 {
     __asm__("nop");
 
-    switch ((s16) btyp)
+    switch (btyp)
     {
     case BTYP_SOLID_RIGHT_45:
     case BTYP_SLIPPERY_RIGHT_45:
@@ -55,7 +55,12 @@ s16 dist_to_bloc_floor(u16 btyp, s16 x, s16 y)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", bloc_floor);
+/* 6E6BC 80192EBC -O2 -msoft-float */
+s16 bloc_floor(s16 btyp, s16 x, s16 y)
+{
+    s16 lt_z = -(dist_to_bloc_floor(btyp, x, y) <= 0);
+    return btyp & lt_z;
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", calc_typ_trav);
 
