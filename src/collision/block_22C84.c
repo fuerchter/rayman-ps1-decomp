@@ -148,9 +148,231 @@ s32 OBJ_IN_ZONE(Obj *obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", calc_obj_pos);
+/* 23730 80147F30 -O2 -msoft-float */
+void calc_obj_pos(Obj *obj)
+{
+    obj->screen_y_pos = obj->y_pos - ymap;
+    obj->screen_x_pos = obj->x_pos - xmap;
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", makeUturn);
+/* 2375C 80147F5C -O2 -msoft-float */
+void makeUturn(Obj *obj)
+{
+    u8 label = 0xFF;
+    u8 foll_spr;
+    Obj *unk_1;
+    
+    switch(obj->type)
+    {
+    case TYPE_BLACKTOON1:
+        foll_spr = obj->follow_sprite;
+        if (foll_spr == 1 || foll_spr == 2 || obj->follow_sprite == 4 || obj->follow_sprite == 7)
+        {
+            if (obj->cmd == GO_LEFT)
+            {
+                label = 3;
+                obj->flags |= FLG(OBJ_FLIP_X);
+            }
+            else if (obj->cmd == GO_RIGHT)
+            {
+                label = 2;
+                obj->flags &= ~FLG(OBJ_FLIP_X);
+            }
+        }
+        break;
+    case TYPE_MITE:
+        if (!(obj->main_etat == 0 && obj->sub_etat == 3))
+        {
+            label = 3;
+            obj->field20_0x36 = 0;
+        }
+        break;
+    case TYPE_BADGUY1:
+        if (
+            !(obj->main_etat == 0 &&
+            (obj->sub_etat == 3 || obj->sub_etat == 1 || obj->sub_etat == 4 ||
+            obj->sub_etat == 5 || obj->sub_etat == 6))
+        )
+        {
+            if (obj->cmd == GO_LEFT)
+            {
+                label = 1;
+                obj->flags |= FLG(OBJ_FLIP_X);
+            }
+            else if (obj->cmd == GO_RIGHT)
+            {
+                label = 0;
+                obj->flags &= ~FLG(OBJ_FLIP_X);
+            }
+        }
+        break;
+    case TYPE_BADGUY2:
+    case TYPE_BADGUY3:
+        if (!(obj->main_etat == 0 && (obj->sub_etat == 3 || obj->sub_etat == 1)))
+        {
+            if (obj->flags & FLG(OBJ_READ_CMDS))
+            {
+                if (obj->cmd == GO_LEFT)
+                {
+                    label = 1;
+                    obj->flags |= FLG(OBJ_FLIP_X);
+
+                }
+                else if (obj->cmd == GO_RIGHT)
+                {
+                    label = 0;
+                    obj->flags &= ~FLG(OBJ_FLIP_X);
+                }
+            }
+            else
+            {
+                if (obj->cmd == GO_LEFT)
+                {
+                    label = 6;
+                    obj->flags |= FLG(OBJ_FLIP_X);
+                }
+                else if (obj->cmd == GO_RIGHT)
+                {
+                    label = 5;
+                    obj->flags &= ~FLG(OBJ_FLIP_X);
+                }
+            }
+        }
+        break;
+    case TYPE_GENEBADGUY:
+        if (!(obj->main_etat == 0 && obj->sub_etat == 3))
+        {
+            if (obj->cmd == GO_LEFT)
+            {
+                label = 1;
+                obj->flags |= FLG(OBJ_FLIP_X);
+            }
+            else if (obj->cmd == GO_RIGHT)
+            {
+                label = 0;
+                obj->flags &= ~FLG(OBJ_FLIP_X);
+            }
+        }
+        break;
+    case TYPE_STONEMAN1:
+    case TYPE_STONEMAN2:
+        if (obj->cmd == GO_LEFT)
+        {
+            label = 5;
+            obj->flags |= FLG(OBJ_FLIP_X);
+        }
+        else if (obj->cmd == GO_RIGHT)
+        {
+            label = 4;
+            obj->flags &= ~FLG(OBJ_FLIP_X);
+        }
+        break;
+    case TYPE_TROMPETTE:
+        if (!(obj->main_etat == 0 && obj->sub_etat == 1))
+        {
+            if (obj->flags & FLG(OBJ_READ_CMDS))
+            {
+                if (obj->cmd == GO_LEFT)
+                {
+                    label = 1;
+                    obj->flags |= FLG(OBJ_FLIP_X);
+                }
+                else if (obj->cmd == GO_RIGHT)
+                {
+                    label = 0;
+                    obj->flags &= ~FLG(OBJ_FLIP_X);
+                }
+            }
+        }
+        break;
+    case TYPE_BIG_CLOWN:
+    case TYPE_WAT_CLOWN:
+        if (obj->flags & FLG(OBJ_READ_CMDS))
+        {
+            if (obj->cmd == GO_LEFT)
+            {
+                label = 1;
+                obj->flags |= FLG(OBJ_FLIP_X);
+            }
+            else if (obj->cmd == GO_RIGHT)
+            {
+                label = 0;
+                obj->flags &= ~FLG(OBJ_FLIP_X);
+            }
+        }
+        break;
+    case TYPE_SPIDER:
+        if (obj->cmd == GO_LEFT)
+        {
+            label = 2;
+            obj->flags |= FLG(OBJ_FLIP_X);
+        }
+        else
+        {
+            label = 0;
+            obj->flags &= ~FLG(OBJ_FLIP_X);
+        }
+        break; 
+    case TYPE_MITE2:
+        if (!(obj->flags & FLG(OBJ_FLIP_X)))
+            obj->flags |= FLG(OBJ_FLIP_X);
+        else
+            obj->flags &= ~FLG(OBJ_FLIP_X);
+
+        if (!(obj->main_etat == 0 && obj->sub_etat == 3))
+        {
+            label = 3;
+            obj->field20_0x36 = 0;
+        }
+        break;
+    case TYPE_CAISSE_CLAIRE:
+        if (!(obj->main_etat == 0 && obj->sub_etat == 2))
+        {
+            set_main_and_sub_etat(obj, 1, 1);
+            if (!(obj->flags & FLG(OBJ_FLIP_X)))
+            {
+                obj->flags |= FLG(OBJ_FLIP_X);
+                label = 3;
+            }
+            else
+            {
+                obj->flags &= ~FLG(OBJ_FLIP_X);
+                label = 2;
+            }
+        }
+        break;
+    case TYPE_WALK_NOTE_1:
+        if (obj->cmd == GO_LEFT)
+        {
+            label = 2;
+            obj->flags |= FLG(OBJ_FLIP_X);
+        }
+        else if (obj->cmd == GO_RIGHT)
+        {
+            label = 1;
+            obj->flags &= ~FLG(OBJ_FLIP_X);
+        }
+        break;
+    case TYPE_SPIDER_PLAFOND:
+        /* TODO: clean up somehow? */
+        unk_1 = obj;
+        if (!(obj->main_etat == 0 && (obj->sub_etat == 24 || unk_1->sub_etat == 18 || obj->sub_etat == 19)))
+        {
+            set_main_and_sub_etat(obj, 0, 24);
+            obj->speed_y = 0;
+            obj->speed_x = 0;
+            obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | ((1 - (obj->flags >> OBJ_FLIP_X & 1) & 1) << OBJ_FLIP_X);
+        }
+        break;
+    }
+
+    if (label != 0xFF)
+    {
+        obj->x_pos -= obj->speed_x;
+        obj->speed_x = 0;
+        skipToLabel(obj, label, true);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", BTYP);
 
