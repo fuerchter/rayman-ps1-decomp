@@ -195,13 +195,13 @@ void determineRayAirInertia(void)
     }
     switch(ray_last_ground_btyp)
     {
-    case 0:
+    case false:
         if (__builtin_abs(decalage_en_cours) <= 256)
             ray.nb_cmd = 0;
         else
             ray.nb_cmd = 1;
         break;
-    case 1:
+    case true:
         ray.nb_cmd = 0;
         break;
     }
@@ -757,7 +757,7 @@ void RAY_RESPOND_TO_DIR(s16 flip_x)
         else if (
             ((ray.flags >> OBJ_FLIP_X & 1) != flip_x) &&
             ray.sub_etat != 11 && ray.sub_etat != 50 && ray.sub_etat != 51 &&
-            ray_last_ground_btyp != 1
+            ray_last_ground_btyp != true
         )
             set_main_and_sub_etat(&ray, 1, 4);
         if (!(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40))
@@ -781,7 +781,7 @@ void RAY_RESPOND_TO_DIR(s16 flip_x)
         {
             if ((ray.flags >> OBJ_FLIP_X & 1) != flip_x)
             {
-                if (ray_last_ground_btyp != 1)
+                if (ray_last_ground_btyp != true)
                     set_main_and_sub_etat(&ray, 1, 4);
                 else
                     set_main_and_sub_etat(&ray, 1, 0);

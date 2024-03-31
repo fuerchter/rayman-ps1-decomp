@@ -65,7 +65,7 @@ void INIT_RAY(u8 new_level)
   ray.timer = 0;
   flag_9 = ~FLG(OBJ_FLAG_9);
   ray.flags |= FLG(OBJ_FLIP_X);
-  ray_last_ground_btyp = 1;
+  ray_last_ground_btyp = true;
   remoteRayXToReach = 33536;
   ray_stack_is_full = false;
   ray_pos_in_stack = 0;

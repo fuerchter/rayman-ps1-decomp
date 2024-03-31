@@ -400,4 +400,143 @@ void DO_OBJ_REBOND_EN_X(Obj *obj)
 }
 #endif
 
+/* 3F0C 8012870C -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", calc_btyp);
+#else
+u32 calc_btyp(Obj *obj)
+{
+    u8 btyp;
+    u8 btypes_1_2_solid;
+    s32 ray_x; s32 ray_y;
+    BlockType *ray_btypes;
+    BlockType *new_btyp;
+    u8 foll_spr;
+
+    calc_btyp_square(obj);
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop");
+
+    if (obj->type == TYPE_RAYMAN)
+    {
+        ray.field23_0x3c = -1;
+        switch (ray.btypes[0])
+        {
+        case BTYP_NONE:
+        case BTYP_CHDIR:
+            break;
+        case BTYP_SOLID_RIGHT_45:
+        case BTYP_SOLID_LEFT_45:
+        case BTYP_SOLID_RIGHT1_30:
+        case BTYP_SOLID_RIGHT2_30:
+        case BTYP_SOLID_LEFT1_30:
+        case BTYP_SOLID_LEFT2_30:
+        case BTYP_LIANE:
+        case BTYP_SOLID_PASSTHROUGH:
+        case BTYP_SOLID:
+            ray_last_ground_btyp = true;
+            break;
+        case BTYP_SLIPPERY_RIGHT_45:
+        case BTYP_SLIPPERY_LEFT_45:
+        case BTYP_SLIPPERY_RIGHT1_30:
+        case BTYP_SLIPPERY_RIGHT2_30:
+        case BTYP_SLIPPERY_LEFT1_30:
+        case BTYP_SLIPPERY_LEFT2_30:
+        case BTYP_SLIPPERY:
+            ray_last_ground_btyp = false;
+            break;
+        }
+    }
+    
+    if (!(block_flags[obj->btypes[0]] >> BLOCK_SOLID & 1))
+    {
+        if (obj->type == TYPE_RAYMAN)
+            btyp = mp.map[ray.ray_dist] >> 10;
+        else
+            btyp = PS1_BTYPAbsPos(obj->x_pos + obj->offset_bx, obj->y_pos + obj->offset_by);
+
+        if (obj->main_etat == 2 && !(block_flags[btyp] >> BLOCK_SOLID & 1))
+            btyp = PS1_BTYPAbsPos(obj->x_pos + obj->offset_bx, obj->y_pos + obj->offset_by + 16);
+
+        if (!(block_flags[btyp] >> BLOCK_SOLID & 1))
+        {
+            btypes_1_2_solid = (block_flags[obj->btypes[1]] >> BLOCK_SOLID & 1) | (block_flags[obj->btypes[2]] & (1 << BLOCK_SOLID));
+            if (btypes_1_2_solid == 3) /* both 1 and 2 have solid flag */
+            {
+                if (((obj->offset_bx + (u16) obj->x_pos) & 0xF) < 8)
+                    btypes_1_2_solid = 1;
+                else
+                    btypes_1_2_solid = 2;
+            }
+
+            if (btypes_1_2_solid != 0)
+            {
+                btypes_1_2_solid--;
+                if (obj->type == TYPE_RAYMAN)
+                {
+                    if (ray_last_ground_btyp == true)
+                    {
+                        ray_x = ray.x_pos + ray.offset_bx;
+                        if (btypes_1_2_solid)
+                            ray_x += 16;
+                        else
+                            ray_x -= 16;
+                        ray_y = ray.y_pos + ray.offset_by - 16;
+                        if (!(block_flags[(u8) PS1_BTYPAbsPos(ray_x, ray_y)] >> BLOCK_SOLID & 1))
+                        {
+                            if (ray.main_etat != 2)
+                            {
+                                /* ??? don't understand */
+                                if (btypes_1_2_solid != (ray.flags >> OBJ_FLIP_X & 1))
+                                    obj->field23_0x3c = 0;
+                                else
+                                    obj->field23_0x3c = 1;
+                            }
+                            
+                            ray_btypes = ray.btypes;
+                            if (btypes_1_2_solid)
+                                new_btyp = &ray_btypes[2];
+                            else
+                                new_btyp = &ray_btypes[1];
+                            ray_btypes[0] = *new_btyp;
+                        }
+                    }
+                }
+                else
+                {
+                    if (
+                        (obj->flags >> OBJ_FLIP_X & 1) != btypes_1_2_solid &&
+                        obj->main_etat != 2 &&
+                        (
+                            (obj->type == TYPE_BADGUY1 && obj->flags & FLG(OBJ_READ_CMDS)) ||
+                            obj->type == TYPE_BADGUY2 || obj->type == TYPE_BADGUY3 || obj->type == TYPE_GENEBADGUY ||
+                            obj->type == TYPE_STONEMAN1 || obj->type == TYPE_STONEMAN2 ||
+                            obj->type == TYPE_BIG_CLOWN || obj->type == TYPE_WAT_CLOWN ||
+                            (obj->type == TYPE_SPIDER && obj->field23_0x3c != 0) ||
+                            obj->type == TYPE_TROMPETTE || obj->type == TYPE_MITE || obj->type == TYPE_MITE2 ||
+                            obj->type == TYPE_CAISSE_CLAIRE || obj->type == TYPE_WALK_NOTE_1 || obj->type == TYPE_SPIDER_PLAFOND ||
+                            (obj->type == TYPE_BLACKTOON1 &&
+                                (foll_spr = obj->follow_sprite, foll_spr == 1 || foll_spr == 4 || (foll_spr == 7 && obj->field56_0x69 == 2)) &&
+                                !(obj->main_etat == 0 && obj->sub_etat == 4)
+                            )
+                        )
+                    )
+                    {
+                        makeUturn(obj);
+                        obj->btypes[0] = BTYP_SOLID;
+                    }
+                }
+            }
+            btyp = obj->btypes[0];
+            return btyp;
+        }
+        else
+            return btyp;
+    }
+    else
+    {
+        btyp = obj->btypes[0];
+        return btyp;
+    }
+}
+#endif
