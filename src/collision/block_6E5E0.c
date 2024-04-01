@@ -244,9 +244,57 @@ void TEST_FIN_BLOC(Obj *obj)
 }
 #endif
 
+/* 6F0F8 801938F8 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", TEST_IS_ON_RESSORT_BLOC);
+#else
+s32 TEST_IS_ON_RESSORT_BLOC(Obj *obj)
+{
+    s32 res = false;
 
+    if (
+        obj->btypes[0] == BTYP_RESSORT && obj->speed_y > -1 &&
+        (obj->type == TYPE_RAYMAN || flags[obj->type].flags2 >> OBJ2_JUMP_ON_RESSORT_BLOCK & 1)
+    )
+        res = true;
+
+    __asm__("nop");
+    return res;
+}
+#endif
+
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", IS_ON_RESSORT_BLOC);
+#else
+s32 IS_ON_RESSORT_BLOC(Obj *obj)
+{
+    s32 res;
+    
+    __asm__("nop");
+
+    res = false;
+    if (obj->btypes[0] == BTYP_RESSORT && obj->speed_y >= 0)
+    {
+        if (obj->type == TYPE_RAYMAN)
+        {
+            res = true;
+            button_released = res; /* ... */
+            set_main_and_sub_etat(&ray, 0, 0);
+            ray_jump();
+            PlaySnd(249, -1);
+            jump_time = 12;
+            ray.speed_y -= 3;
+            allocatePaillette(&ray);
+        }
+        else if (flags[obj->type].flags2 >> OBJ2_JUMP_ON_RESSORT_BLOCK & 1)
+        {
+            res = true;
+            obj_jump(obj);
+        }
+    }
+    return res;
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", CALC_MOV_ON_BLOC);
 
