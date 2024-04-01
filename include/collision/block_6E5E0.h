@@ -8,6 +8,8 @@
 #include "collision/etat.h"
 #include "collision/bit_util.h"
 #include "collision/block_22C84.h"
+#include "ray/ray_5D190.h"
+#include "command_56AF0.h"
 
 u8 MURDUR(s16 x, s16 y);
 s16 dist_to_bloc_floor(s16 btyp, s16 x, s16 y);

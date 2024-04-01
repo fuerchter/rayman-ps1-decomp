@@ -135,7 +135,114 @@ u8 calc_typ_travd(Obj *obj, u8 param_2)
 }
 #endif
 
+/* 6EC34 80193434 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", TEST_FIN_BLOC);
+#else
+void TEST_FIN_BLOC(Obj *obj)
+{
+    __asm__("nop");
+
+    if (!(block_flags[obj->btypes[0]] >> BLOCK_SOLID & 1))
+    {
+        switch (obj->type)
+        {
+        case TYPE_RAYMAN:
+            if (ray.main_etat == 1 && ray.sub_etat == 1)
+                set_main_and_sub_etat(obj, 2, 6);
+            else if (ray.main_etat == 1 && ray.sub_etat == 6)
+                set_main_and_sub_etat(obj, 2, 23);
+            else
+            {
+                IS_RAY_ON_LIANE();
+                if (
+                    !(hand_btyp == BTYP_LIANE || hand_btypd == BTYP_LIANE || hand_btypg == BTYP_LIANE ||
+                    ray.main_etat == 5)
+                )
+                {
+                    if (ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40)
+                    {
+                        ray.speed_y = 0;
+                        ray.y_pos += 16;
+                        ray.screen_y_pos += 16;
+                    }
+
+                    if (ray_on_poelle)
+                    {
+                        if (ray.main_etat == 0 && ray.sub_etat == 40)
+                            set_main_and_sub_etat(obj, 2, 26);
+                        else
+                            set_main_and_sub_etat(obj, 2, 28);
+                    }
+                    else
+                    {
+                        if (ray.main_etat == 1 && (ray.sub_etat == 9 || ray.sub_etat == 11))
+                            ray.flags = (ray.flags & ~FLG(OBJ_FLIP_X)) | ((ray.flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X;
+                        if (__builtin_abs(ray.speed_x) < 3)
+                        {
+                            Reset_air_speed(false);
+                            if (!(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40))
+                                set_main_and_sub_etat(obj, 2, 24);
+                            else
+                                set_main_and_sub_etat(obj, 2, 33);
+                        }
+                        else
+                        {
+                            Reset_air_speed(true);
+                            set_main_and_sub_etat(obj, 2, 32);
+                        }
+                    }
+                    jump_time = 0;
+                    if (ray_last_ground_btyp == false || ray_wind_force != 0)
+                        ray.nb_cmd = 1;
+                    else
+                        ray.nb_cmd = 0;
+                }
+            }
+            break;
+        case TYPE_LIDOLPINK:
+            set_main_and_sub_etat(obj, 2, 2);
+            skipToLabel(obj, 2, true);
+            break;
+        case TYPE_BADGUY1:
+            set_main_etat(obj, 2);
+            if (obj->sub_etat != 2)
+                set_sub_etat(obj, 2);
+            else
+                set_sub_etat(obj, 10);
+            break;
+        case TYPE_BADGUY2:
+        case TYPE_BADGUY3:
+            set_main_and_sub_etat(obj, 2, 2);
+            break;
+        case TYPE_STONEDOG:
+        case TYPE_STONEDOG2:
+            skipToLabel(obj, 2, true);
+            obj->gravity_value_2 = 7;
+            obj->speed_y = 0;
+            break;
+        case TYPE_MITE:
+            skipToLabel(obj, 0, true);
+            break;
+        case TYPE_SPIDER:
+            obj->cmd_context_index = 0xFF;
+            set_main_and_sub_etat(obj, 2, 0);
+            skipToLabel(obj, 8, true);
+            obj->speed_x = 0;
+            obj->speed_y = 0;
+            break;
+        case TYPE_STONEWOMAN:
+            set_main_and_sub_etat(obj, 2, 4);
+            skipToLabel(obj, 15, false);
+            break;
+        }
+        obj->field24_0x3e = 0;
+        obj->gravity_value_1 = 0;
+        if (!(obj->type == TYPE_STONEDOG || obj->type == TYPE_STONEDOG2))
+            obj->gravity_value_2 = 0;
+    }
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", TEST_IS_ON_RESSORT_BLOC);
 
