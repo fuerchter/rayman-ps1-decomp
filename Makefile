@@ -10,6 +10,7 @@
 #	display_time, DISPLAY_SAVE_SPRITES, DISPLAY_CONTINUE_SPR, doMoskitoHit, setBossReachingSpeeds, DO_COMMANDE_PAD
 
 #TODO:
+#on next tools update, add splat through pypi https://github.com/ethteck/splat/blob/3fdd75f1836a159e89c776816817aec96b2f55d6/README.md, update my readme with it
 #DISPLAY_UI HAS TO BE BUILT WITH .DATA ON NONMATCHING BUILD
 #think i may have "tagged" a func or two in block_22C84.c with their rodata addresses by mistake?
 #skipToLabel callers: consistently use bool define as third param

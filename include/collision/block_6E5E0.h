@@ -20,6 +20,6 @@ void TEST_FIN_BLOC(Obj *obj);
 s32 TEST_IS_ON_RESSORT_BLOC(Obj *obj);
 s32 IS_ON_RESSORT_BLOC(Obj *obj);
 void CALC_MOV_ON_BLOC(Obj *obj);
-void recale_position(Obj *param_1);
+void recale_position(Obj *obj);
 
 #endif

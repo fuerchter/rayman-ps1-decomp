@@ -58,8 +58,8 @@ s16 dist_to_bloc_floor(s16 btyp, s16 x, s16 y)
 /* 6E6BC 80192EBC -O2 -msoft-float */
 s16 bloc_floor(s16 btyp, s16 x, s16 y)
 {
-    s16 lt_z = -(dist_to_bloc_floor(btyp, x, y) <= 0);
-    return btyp & lt_z;
+    s16 ltez = -(dist_to_bloc_floor(btyp, x, y) <= 0);
+    return btyp & ltez;
 }
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", calc_typ_trav);
@@ -263,6 +263,7 @@ s32 TEST_IS_ON_RESSORT_BLOC(Obj *obj)
 }
 #endif
 
+/* 6F15C 8019395C -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", IS_ON_RESSORT_BLOC);
 #else
@@ -297,5 +298,61 @@ s32 IS_ON_RESSORT_BLOC(Obj *obj)
 #endif
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", CALC_MOV_ON_BLOC);
+/* skipped */
 
+/* 6F7E4 80193FE4 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", recale_position);
+#else
+void recale_position(Obj *obj)
+{
+    /* also see y_floor(), not sure why it does this */
+    s16 y = obj->offset_by + obj->y_pos & ~0xf;
+    s16 x = obj->offset_bx + obj->x_pos & 0xf;
+    s16 btyp = PS1_BTYPAbsPos(obj->x_pos + obj->offset_bx, obj->y_pos + obj->offset_by);
+    s16 unk_1;
+
+    switch(btyp)
+    {
+    case BTYP_SOLID_RIGHT_45:
+    case BTYP_SLIPPERY_RIGHT_45:
+        unk_1 = 15 - x;
+        break;
+    case BTYP_SOLID_LEFT_45:
+    case BTYP_SLIPPERY_LEFT_45:
+        unk_1 = x;
+        break;
+    case BTYP_SOLID_RIGHT1_30:
+    case BTYP_SLIPPERY_RIGHT1_30:
+        unk_1 = 15 - (x >> 1);
+        break;
+    case BTYP_SOLID_RIGHT2_30:
+    case BTYP_SLIPPERY_RIGHT2_30:
+        unk_1 = 7 - (x >> 1);
+        break;
+    case BTYP_SOLID_LEFT1_30:
+    case BTYP_SLIPPERY_LEFT1_30:
+        unk_1 = x >> 1;
+        break;
+    case BTYP_SOLID_LEFT2_30:
+    case BTYP_SLIPPERY_LEFT2_30:
+        unk_1 = 8 + (x >> 1);
+        break;
+    case BTYP_NONE:
+    case BTYP_CHDIR:
+    case BTYP_RESSORT:
+    case BTYP_SOLID_PASSTHROUGH:
+    case BTYP_SOLID:
+    case BTYP_SLIPPERY:
+    default:
+        unk_1 = 0;
+        break;
+    }
+    if (obj->type != TYPE_RAYMAN)
+        obj->y_pos = y + unk_1 - obj->offset_by;
+    else
+        obj->speed_y = y + unk_1 - obj->offset_by - obj->y_pos;
+
+    __asm__("nop");
+}
+#endif

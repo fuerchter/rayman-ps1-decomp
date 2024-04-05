@@ -138,9 +138,8 @@ INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", y_floor);
 #else
 s16 y_floor(s16 x, s16 y)
 {
-  u8 btyp;
+  u8 btyp = PS1_BTYPAbsPos(x, y);
   
-  btyp = PS1_BTYPAbsPos(x, y);
   while (!(block_flags[btyp] >> BLOCK_SOLID & 1))
   {
     y += 16;
