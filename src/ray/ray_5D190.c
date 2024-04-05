@@ -1218,6 +1218,7 @@ void SET_RAY_BALANCE(void)
   ray.speed_y = 0;
 }
 
+/* 619C0 801861C0 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_GOING_BALANCE);
 #else

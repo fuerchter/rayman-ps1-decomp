@@ -5,6 +5,7 @@ void calc_obj_pos(Obj *obj);
 Obj * findfirstObject(ObjType objType);
 void start_pix_gerbe(s32 param_1, s32 param_2);*/
 
+/* 6C6E4 80190EE4 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", swap);
 #else

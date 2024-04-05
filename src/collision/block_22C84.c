@@ -394,7 +394,7 @@ void DO_OBJ_REBOND_EN_X(Obj *obj)
 }
 #endif
 
-/* 3F0C 8012870C -O2 -msoft-float */
+/* 23F80 80148780 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", calc_btyp);
 #else
