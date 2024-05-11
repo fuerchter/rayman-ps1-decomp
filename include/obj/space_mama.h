@@ -7,11 +7,12 @@
 #include "boss.h"
 #include "timers.h"
 #include "cam_scroll_29B5C.h"
+#include "command_56AF0.h"
 
 void findMereDenisWeapon(void);
 void PS1_setBossScrollLimits_spacemama(Obj *obj);
-/*u8 mereDenisCanAttak(Obj *obj);*/
-s32 setMereDenisAtScrollBorder(Obj *obj, u8 param_2);
+s32 mereDenisCanAttak(Obj *obj);
+s32 setMereDenisAtScrollBorder(Obj *obj, u8 flip_x);
 void setCirclePointToReach(void);
 void allocateMereDenisBombChips(Obj *param_1);
 void mereDenisExplodeBombs(void);
