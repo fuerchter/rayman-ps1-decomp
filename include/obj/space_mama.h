@@ -26,9 +26,9 @@ void snapLaserToWeapon(Obj *laser_obj, u8 param_2); /* call param_2 something li
 void allocateSpaceMamaLaser(Obj *param_1);
 void doMereDenisCommand(Obj *obj);
 void changeMereDenisPhase(void);
-void fitSaveCurrentAction(void);
+void fitSaveCurrentAction(Obj *obj);
 void doMereDenisHit(Obj *obj, s16 sprite);
-void mereDenisBigLaserCommand(Obj *obj, u8 param_2);
-void mereDenisBombCommand(Obj *obj);
+void mereDenisBigLaserCommand(Obj *laser_obj);
+void mereDenisBombCommand(Obj *bomb_obj);
 
 #endif

@@ -277,12 +277,109 @@ void doMereDenisCommand(Obj *obj)
     obj->flags &= ~FLG(OBJ_FLAG_0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/space_mama", changeMereDenisPhase);
+/* 666A4 8018AEA4 -O2 -msoft-float */
+void changeMereDenisPhase(void)
+{
+  u8 old_encounter;
+  u8 *encounter;
+  u8 *action;
+  
+  if (bossEncounter == 8 || bossEncounter == 9)
+  {
+    encounter = &saveBossEncounter;
+    action = &saveCurrentBossAction;
+  }
+  else
+  {
+    encounter = &bossEncounter;
+    action = &currentBossAction;
+  }
+  old_encounter = *encounter;
+
+  switch (*encounter)
+  {
+  case 1:
+    if (currentPhaseHitCounter > 1 && stepsForward > 2)
+    {
+      *encounter = 2;
+      stepsForward = 0;
+    }
+    break;
+  case 2:
+    if (currentPhaseHitCounter > 2)
+      *encounter = 3;
+    break;
+  case 3:
+  case 4:
+  case 5:
+  case 6: /* set to this at some point in prepareNewMereDenisAttack, not sure if max for space_mama*/
+    break;
+  }
+
+  if (old_encounter != *encounter)
+  {
+    *action = 0;
+    currentPhaseHitCounter = 0;
+  }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/space_mama", fitSaveCurrentAction);
 
 INCLUDE_ASM("asm/nonmatchings/obj/space_mama", doMereDenisHit);
 
-INCLUDE_ASM("asm/nonmatchings/obj/space_mama", mereDenisBigLaserCommand);
+/* 66A64 8018B264 -O2 -msoft-float */
+void mereDenisBigLaserCommand(Obj *laser_obj)
+{
+    u8 max_frame;
+    Obj *unk_obj;
+    ObjState *unk_eta;
 
-INCLUDE_ASM("asm/nonmatchings/obj/space_mama", mereDenisBombCommand);
+    switch (laser_obj->sub_etat)
+    {
+    case 3:
+    case 5:
+        max_frame = 0;
+        break;
+    case 4:
+        max_frame = 7;
+        break;
+    case 2:
+        max_frame = 14;
+        break;
+    }
+
+    if (laser_obj->anim_frame <= max_frame)
+        snapLaserToWeapon(laser_obj, false);
+    else
+    {
+        unk_obj = &level.objects[laser_obj->field20_0x36];
+        if (unk_obj->field20_0x36 == laser_obj->id)
+        {
+            unk_eta = &unk_obj->eta[unk_obj->main_etat][unk_obj->sub_etat];
+            switch (unk_obj->anim_index)
+            {
+            case 46:
+                unk_eta->anim_index = 1;
+                break;
+            case 47:
+                unk_eta->anim_index = 0;      
+                break;  
+            case 48:
+                unk_eta->anim_index = 28;
+                break;        
+            }
+        }
+    }
+    SET_X_SPEED(laser_obj);
+}
+
+/* 66B98 8018B398 -O2 -msoft-float */
+void mereDenisBombCommand(Obj *bomb_obj)
+{
+    if (bomb_obj->timer != 0)
+    {
+        bomb_obj->timer--;
+        if (bomb_obj->timer == 0)
+            allocateMereDenisBombChips(bomb_obj);
+    }
+}
