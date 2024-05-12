@@ -377,7 +377,7 @@ u8 handle_GO_TEST(Obj *obj)
             obj->flags &= ~FLG(OBJ_CMD_TEST);
         break;
     case 1:
-        if ((s16)myRand(obj->field23_0x3c) == 0)
+        if ((s16) myRand(obj->field23_0x3c) == 0)
             obj->flags |= FLG(OBJ_CMD_TEST);
         else
             obj->flags &= ~FLG(OBJ_CMD_TEST);

@@ -21,7 +21,7 @@ void mereDenisExplodeBombs(void);
 void mereDenisDropBomb(Obj *smama_obj);
 void snapWeaponAnimState(Obj *obj, u8 sub_etat);
 void swapMereDenisCollZones(Obj *obj, u8 smama2);
-u8 prepareNewMereDenisAttack(Obj *param_1);
+u8 prepareNewMereDenisAttack(Obj *smama_obj);
 void snapLaserToWeapon(Obj *param_1, u8 param_2);
 void allocateSpaceMamaLaser(Obj *param_1, ObjType param_2);
 void doMereDenisCommand(Obj *obj);

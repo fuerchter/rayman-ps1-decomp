@@ -375,7 +375,7 @@ void DO_SCORPION_COLLISION(Obj *obj)
 /* 6E034 80192834 -O2 -msoft-float */
 void DO_SCORPION_MORT(Obj *obj)
 {
-    finBosslevel[0] |= 1 << 6;
+    finBosslevel[0] |= FLG(6);
     if (
         obj->main_etat == 0 && obj->sub_etat == 12 &&
         obj->anim_frame > 126
