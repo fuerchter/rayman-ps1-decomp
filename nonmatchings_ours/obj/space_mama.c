@@ -79,3 +79,154 @@ void allocateMereDenisBombChips(Obj *param_1)
     param_1->flags &= ~0x800;
     param_1->flags &= ~0x400;
 }
+
+/* matches, but __builtin_abs section */
+/*INCLUDE_ASM("asm/nonmatchings/obj/space_mama", mereDenisDropBomb);*/
+
+void mereDenisDropBomb(Obj *smama_obj)
+{
+  s16 ray_x;
+  s16 smama_x_1; s16 smama_x_2;
+  Obj *cur_obj;
+  s16 j; u8 i;
+  s16 nb_objs;
+  u8 new_sub_etat;
+  u8 new_flip_x;
+  
+  if (currentBombSequence == 0xfe && lastDroppedBombXCenterPos == -32000)
+  {
+    ray_x = ray.x_pos + ray.offset_bx;
+    smama_x_1 = smama_obj->x_pos + smama_obj->offset_bx;
+    if ((ray_x >= smama_x_1 - 8) && (ray_x <= smama_x_1 + 8))
+    {
+      cur_obj = level.objects;
+      j = 0;
+      nb_objs = level.nb_objects;
+      while (j < nb_objs)
+      {
+        if (cur_obj->type == TYPE_SMA_BOMB && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+        {
+          cur_obj->sub_etat = 0;
+          cur_obj->flags &= ~FLG(OBJ_FLIP_X);
+          cur_obj->x_pos = smama_x_1 - cur_obj->offset_bx;
+          cur_obj->y_pos = smama_obj->y_pos + smama_obj->offset_by - cur_obj->offset_by - 33;
+          cur_obj->timer = 50;
+          cur_obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+          break;
+        }
+        cur_obj++;
+        j++;
+      }
+      currentBombSequence = 0xff;
+      lastDroppedBombXCenterPos = smama_x_1;
+    }
+  }
+  else
+  {
+    for (i = 0; i < sizeof(lastDroppedBombIdInSequence); i++)
+    {
+      if (lastDroppedBombIdInSequence[i] == 7)
+      {
+        currentBombSequence = 0xff;
+        lastDroppedBombIdInSequence[i] = 0xff;
+        lastDroppedBombXCenterPos = -32000;
+      }
+      else
+      {
+        smama_x_2 = smama_obj->x_pos + smama_obj->offset_bx;
+        if (i == 0)
+        {
+          /* tried __builtin_abs. pc also does abs */
+          #define OPT_2
+          #ifdef OPT_1
+          if (__builtin_abs(smama_x_2 - lastDroppedBombXCenterPos) < 0x25) {
+            return;
+          }
+          #endif
+          #ifdef OPT_2
+          if (smama_x_2 - lastDroppedBombXCenterPos < 0) {
+            if (-(smama_x_2 - lastDroppedBombXCenterPos) < 0x25) {
+              return;
+            }
+          }
+          else
+          {
+            if (smama_x_2 - lastDroppedBombXCenterPos < 0x25) {
+              do {} while (0);
+              return;
+            }
+          }
+          #endif
+          #ifdef OPT_3 /* ghidra unmodified */
+          iVar2 = smama_x_2 - lastDroppedBombXCenterPos;
+          if (iVar2 < 0) {
+            iVar2 = lastDroppedBombXCenterPos - smama_x_2;
+          }
+          if (iVar2 < 0x25) {
+            return;
+          }
+          #endif
+        }
+        lastDroppedBombIdInSequence[i]++;
+        switch(bombSequences[currentBombSequence][i][lastDroppedBombIdInSequence[i]])
+        {
+        case 0:
+        case 4:
+          new_sub_etat = 0;
+          new_flip_x = 0;
+          break;
+        case 1:
+        case 5:
+          new_sub_etat = 2;
+          new_flip_x = smama_obj->flags >> OBJ_FLIP_X & 1;
+          break;
+        case 2:
+          new_sub_etat = 6;
+          new_flip_x = smama_obj->flags >> OBJ_FLIP_X & 1;
+          break;
+        case 6:
+          new_sub_etat = 6;
+          new_flip_x = (smama_obj->flags >> OBJ_FLIP_X ^ 1) & 1;
+          break;
+        case 3:
+        case 7:
+          new_sub_etat = 4;
+          new_flip_x = (smama_obj->flags >> OBJ_FLIP_X ^ 1) & 1;
+          break;
+        case 8:
+          smama_x_2 = 0;
+          droppedBombIds[i][lastDroppedBombIdInSequence[i]] = -1;
+          break;
+        default:
+          break;
+        }
+
+        if (smama_x_2 != 0)
+        {
+          cur_obj = level.objects;
+          j = 0;
+          nb_objs = level.nb_objects;
+          while (j < nb_objs)
+          {
+            if (cur_obj->type == TYPE_SMA_BOMB && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+            {
+              cur_obj->sub_etat = new_sub_etat;
+              cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | (new_flip_x & 1) << OBJ_FLIP_X;
+              droppedBombIds[i][lastDroppedBombIdInSequence[i]] = j;
+              cur_obj->anim_frame = 0;
+              cur_obj->x_pos = smama_x_2 - cur_obj->offset_bx;
+              cur_obj->y_pos = (smama_obj->y_pos + smama_obj->offset_by - cur_obj->offset_by) + (i - 6) * 11;
+              cur_obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+              break;
+            }
+            cur_obj++;
+            j++;
+          }
+          if (j >= nb_objs)
+            droppedBombIds[i][lastDroppedBombIdInSequence[i]] = -1;
+        }
+        lastDroppedBombXCenterPos = smama_obj->x_pos + smama_obj->offset_bx;
+      }
+    }
+  }
+}

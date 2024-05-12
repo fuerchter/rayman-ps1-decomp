@@ -10,11 +10,15 @@ extern s16 circleIndex;
 extern s16 circleX;
 extern s16 circleY;
 extern s16 droppedBombIds[8][8];
+extern s16 **bombSequences[7];
+extern u8 currentBombSequence;
+extern u8 lastDroppedBombIdInSequence[8];
+extern s16 lastDroppedBombXCenterPos;
 
 /* 640F0 801888F0 -O2 -msoft-float */
 void findMereDenisWeapon(void)
 {
-    Obj *cur_obj = level.objects;
+    Obj *cur_obj = &level.objects[0];
     s32 nb_objs = level.nb_objects;
     s16 i = 0;
 
@@ -152,9 +156,29 @@ void mereDenisExplodeBombs(void)
 
 INCLUDE_ASM("asm/nonmatchings/obj/space_mama", mereDenisDropBomb);
 
-INCLUDE_ASM("asm/nonmatchings/obj/space_mama", snapWeaponAnimState);
+/* 64D48 80189548 -O2 -msoft-float */
+void snapWeaponAnimState(Obj *obj, u8 sub_etat)
+{
+    set_main_and_sub_etat(obj, 0, sub_etat);
+    obj->anim_frame = 0;
+    obj->anim_index = obj->eta[0][sub_etat].anim_index;
+}
 
+/* 64DA0 801895A0 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/space_mama", swapMereDenisCollZones);
+#else
+void swapMereDenisCollZones(Obj *obj, u8 smama2)
+{
+    __asm__("nop");
+
+    if (!smama2)
+        obj->type = TYPE_SPACE_MAMA;
+    else
+        obj->type = TYPE_SPACE_MAMA2;
+    obj->zdc = type_zdc[obj->type];
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj/space_mama", prepareNewMereDenisAttack);
 
