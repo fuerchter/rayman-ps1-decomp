@@ -712,3 +712,69 @@ block_98:
     }
     return action;
 }
+
+/*INCLUDE_ASM("asm/nonmatchings/obj/space_mama", allocateSpaceMamaLaser);*/
+
+void allocateSpaceMamaLaser(Obj *param_1)
+{
+    Obj *var_a3;
+    Obj *cur_obj;
+    s16 temp_v0;
+    s16 i;
+    Obj *var_s0;
+    u32 temp_v1;
+    u8 var_a1;
+    u8 sub_etat;
+    s32 nb_objs;
+    int new_var;
+    u8 obj_type;
+
+    switch (currentLaserSize)
+    {
+    case 1:
+        sub_etat = 3;
+        obj_type = 0xC0;
+        break;
+    case 2:
+        sub_etat = 4;
+        obj_type = 0xC0;
+        break;
+    case 3:
+        sub_etat = 2;
+        obj_type = 0xC0;
+        break;
+    case 4:
+        sub_etat = 4;
+        obj_type = 0xF4;
+        break;
+    }
+    cur_obj = &level.objects[0];
+    i = 0;
+    nb_objs = level.nb_objects;
+    while (i < nb_objs)
+    {
+        if ((cur_obj->type == obj_type) && !(cur_obj->flags & 0x800))
+        {
+            if (param_1->type == 0xD5)
+            {
+                param_1 = &level.objects[mereDenis_weapon_id];
+            }
+            cur_obj->field20_0x36 = param_1->id;
+            cur_obj->field24_0x3e = laserSourceSprNumInAnim;
+            temp_v1 = cur_obj->flags & 0xFFFF7FFF;
+            cur_obj->flags = temp_v1;
+            cur_obj->anim_frame = 0;
+            cur_obj->sub_etat = sub_etat;
+            cur_obj->flags = (temp_v1 & ~0x4000) | (param_1->flags & 0x4000);
+            param_1->field20_0x36 = cur_obj->id;
+            snapLaserToWeapon(cur_obj, 1U);
+            cur_obj->flags |= 0xC00;
+            calc_obj_pos(cur_obj);
+            break;
+        }
+        cur_obj += 1;
+        i = i + 1;
+    }
+    laserSourceSprNumInAnim = 0xFF;
+    currentLaserSize = 0;
+}

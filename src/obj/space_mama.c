@@ -66,7 +66,7 @@ void PS1_setBossScrollLimits_spacemama(Obj *obj)
 }
 
 /* 642C0 80188AC0 -O2 -msoft-float */
-s32 mereDenisCanAttak(Obj *obj)
+u8 mereDenisCanAttak(Obj *obj)
 {
     if (!scrollLocked)
     {
@@ -189,11 +189,93 @@ void swapMereDenisCollZones(Obj *obj, u8 smama2)
 
 INCLUDE_ASM("asm/nonmatchings/obj/space_mama", prepareNewMereDenisAttack);
 
-INCLUDE_ASM("asm/nonmatchings/obj/space_mama", snapLaserToWeapon);
+/* 6619C 8018A99C -O2 -msoft-float */
+void snapLaserToWeapon(Obj *laser_obj, u8 param_2)
+{
+    Obj *unk_obj = &level.objects[laser_obj->field20_0x36];
+    s16 x; s16 y; s16 w; s16 h;
+    u8 sub_etat;
+    ObjState *eta;
+
+    GET_SPRITE_POS(unk_obj, laser_obj->field24_0x3e, &x, &y, &w, &h);
+    if (param_2)
+    {
+        sub_etat = unk_obj->sub_etat;
+        eta = &unk_obj->eta[unk_obj->main_etat][sub_etat];
+        switch (sub_etat)
+        {
+        case 17:
+            eta->anim_index = 47;
+            break;
+        case 18:
+            eta->anim_index = 46;
+            break;
+        case 35:
+            eta->anim_index = 48;
+            break;
+        }
+        unk_obj->anim_index = eta->anim_index;
+        laser_obj->x_pos = x - laser_obj->offset_bx;
+        if (unk_obj->flags & FLG(OBJ_FLIP_X))
+        {
+            laser_obj->cmd = GO_RIGHT;
+            laser_obj->x_pos += w - 5;
+        }
+        else
+        {
+            laser_obj->cmd = GO_LEFT;
+            laser_obj->x_pos += 5;
+        }
+    }
+    laser_obj->speed_y = 0;
+    laser_obj->y_pos = y + (h >> 1) - ((laser_obj->offset_by + laser_obj->offset_hy) / 2) + 2;
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/space_mama", allocateSpaceMamaLaser);
 
-INCLUDE_ASM("asm/nonmatchings/obj/space_mama", doMereDenisCommand);
+/* 664CC 8018ACCC -O2 -msoft-float */
+void doMereDenisCommand(Obj *obj)
+{
+    if (mere_denis_wait_time != 0)
+        mere_denis_wait_time--;
+    else if (mereDenisCanAttak(obj))
+    {
+        if (bossSafeTimer != 0)
+            bossSafeTimer--;
+        
+        if (!(obj->flags & FLG(OBJ_FLAG_0)))
+        {
+            if (obj->cmd == GO_WAIT)
+            {
+                if (laserSourceSprNumInAnim != 0xFF)
+                    allocateSpaceMamaLaser(obj);
+                bossXToReach = -32000;
+                bossYToReach = -32000;
+                circleIndex = -32000;
+                obj->speed_x = 0;
+                obj->speed_y = 0;
+            }
+            else
+            {
+                laserSourceSprNumInAnim = 0xFF;
+                if (circleIndex != -32000)
+                    setCirclePointToReach();
+                else if (
+                    timerBeforeFirstBomb == 0 &&
+                    currentBombSequence != 0xFF &&
+                    obj->main_etat == 0 && obj->sub_etat == 15
+                )
+                    mereDenisDropBomb(obj);
+                else if (timerBeforeFirstBomb != 0)
+                    timerBeforeFirstBomb--;
+                setBossReachingSpeeds(obj, bossReachingTimer, bossReachingAccuracyX, bossReachingAccuracyY);
+            }
+            testActionEnd(obj);
+        }
+        prepareNewMereDenisAttack(obj);
+    }
+    obj->flags &= ~FLG(OBJ_FLAG_0);
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/space_mama", changeMereDenisPhase);
 
