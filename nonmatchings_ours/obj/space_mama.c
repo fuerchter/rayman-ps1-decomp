@@ -4,6 +4,8 @@
 /* worse than default m2c output? was 1930 */
 /*INCLUDE_ASM("asm/nonmatchings/obj/space_mama", allocateMereDenisBombChips);*/
 
+Obj * allocateExplosion(Obj *obj);
+
 void allocateMereDenisBombChips(Obj *param_1)
 {
     Obj *cur_obj;

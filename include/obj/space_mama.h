@@ -11,6 +11,27 @@
 #include "command_56AF0.h"
 #include "collision/collision.h"
 
+/* .data */
+extern s16 **bombSequences[7];
+extern u8 *mereDenisActionSequences[11];
+
+/**/
+extern s16 machine_obj_id;
+extern s16 mereDenis_weapon_id;
+extern s16 circleIndex;
+extern s16 circleX;
+extern s16 circleY;
+extern s16 droppedBombIds[8][8];
+extern u8 currentBombSequence;
+extern u8 lastDroppedBombIdInSequence[8];
+extern s16 lastDroppedBombXCenterPos;
+extern u8 currentLaserSize;
+extern u8 currentPhaseHitCounter;
+extern u8 laserSourceSprNumInAnim;
+extern s32 mere_denis_wait_time;
+extern u8 stepsForward;
+extern u8 timerBeforeFirstBomb;
+
 void findMereDenisWeapon(void);
 void PS1_setBossScrollLimits_spacemama(Obj *obj);
 u8 mereDenisCanAttak(Obj *obj);

@@ -1,27 +1,5 @@
 #include "obj/space_mama.h"
 
-s16 cosinus(s16);
-s16 sinus(s16);
-Obj * allocateExplosion(Obj *obj);
-
-extern s16 machine_obj_id;
-extern s16 mereDenis_weapon_id;
-extern s16 circleIndex;
-extern s16 circleX;
-extern s16 circleY;
-extern s16 droppedBombIds[8][8];
-extern s16 **bombSequences[7];
-extern u8 currentBombSequence;
-extern u8 lastDroppedBombIdInSequence[8];
-extern s16 lastDroppedBombXCenterPos;
-extern u8 currentLaserSize;
-extern u8 currentPhaseHitCounter;
-extern u8 laserSourceSprNumInAnim;
-extern u8 *mereDenisActionSequences[11];
-extern s32 mere_denis_wait_time;
-extern u8 stepsForward;
-extern u8 timerBeforeFirstBomb;
-
 /* 640F0 801888F0 -O2 -msoft-float */
 void findMereDenisWeapon(void)
 {
