@@ -61,5 +61,9 @@ DRAWENV *PutDrawEnv(DRAWENV *env);
 void SetPolyFT4(POLY_FT4 *p) ;
 void SetSemiTrans(void *p, int abe) ;
 void SetShadeTex(void *p, int tge) ;
+extern void AddPrim(void *ot, void *p) ;
+extern void SetPolyFT4(POLY_FT4 *p) ;
+extern void SetSemiTrans(void *p, int abe) ;
+extern void SetShadeTex(void *p, int tge) ;
 
 #endif

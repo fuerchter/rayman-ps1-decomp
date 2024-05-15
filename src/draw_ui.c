@@ -1,4 +1,4 @@
-#include "display_ui.h"
+#include "draw_ui.h"
 
 /* TODO: Display struct */
 extern s32 PS1_CurrentDisplay;
@@ -93,7 +93,7 @@ void display_grp_stars(void)
 
 /* 19D20 8013E520 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_TEXT_FEE);
+INCLUDE_ASM("asm/nonmatchings/draw_ui", DISPLAY_TEXT_FEE);
 #else
 void DISPLAY_TEXT_FEE(void)
 {
@@ -157,7 +157,7 @@ void DISPLAY_TEXT_FEE(void)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/display_ui", DisplayJumellesNormal);
+INCLUDE_ASM("asm/nonmatchings/draw_ui", DisplayJumellesNormal);
 
 /* 1A338 8013EB38 -O2 */
 /*? FUN_80139014(s16, s16, s16, s16, s32, s32);*/
@@ -169,7 +169,7 @@ void PS1_DisplayWorldMapBg1(s16 x1, s16 y1, s16 x2, s16 y2)
 
 /* 1A388 8013EB88 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_SAVE_SPRITES);
+INCLUDE_ASM("asm/nonmatchings/draw_ui", DISPLAY_SAVE_SPRITES);
 #else
 /*? display_sprite(Obj *, s16, s16, s32, s32);
 ? display_text(u8 *, s16, s32, ?, s32);
@@ -241,7 +241,7 @@ void DISPLAY_SAVE_POING(void)
 
 /* 1A9D8 8013F1D8 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/display_ui", display_time);
+INCLUDE_ASM("asm/nonmatchings/draw_ui", display_time);
 #else
 /*? PS1_itoa(u8, ? *, ?, s32 *);
 ? display_sprite(Obj *, s32, ?, ?, s32);
@@ -397,7 +397,7 @@ void PS1_LoadPts(void)
 /* modulo but no tge... */
 /* 1AFFC 8013F7FC -O2 */
 #ifndef NONMATCHINGS /* div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/display_ui", DISPLAY_CONTINUE_SPR);
+INCLUDE_ASM("asm/nonmatchings/draw_ui", DISPLAY_CONTINUE_SPR);
 #else
 /*? display2(Obj *);
 ? display_sprite(Obj *, s32, ?, ?, s32);

@@ -5,7 +5,7 @@
 #include "psyq_3_0/LIBGPU.H"
 #include "demo_9FD4.h"
 #include "cheats.h"
-#include "display.h"
+#include "draw.h"
 #include "input_ED20.h"
 #include "obj/fee_3D76C.h"
 #include "music.h"

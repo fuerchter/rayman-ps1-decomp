@@ -298,7 +298,7 @@ void changeMereDenisPhase(void)
   case 3:
   case 4:
   case 5:
-  case 6: /* set to this at some point in prepareNewMereDenisAttack, not sure if max for space_mama*/
+  case 6: /* set to this at some point in prepareNewMereDenisAttack, not sure if max for space_mama */
     break;
   }
 

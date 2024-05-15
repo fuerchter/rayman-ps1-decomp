@@ -65,7 +65,8 @@ segments:
       #- [0x1580, .rodata, data/loading_A0338] #80125d80
       - [0x2AA8, .rodata, loading_E99C] #801272A8
       - [0x2B04, rodata]
-      - [0x2FFC, .rodata, display_ui] #801277fc
+      - [0x2FDC, .rodata, draw] #801277DC
+      - [0x2FFC, .rodata, draw_ui] #801277fc
       - [0x300C, .rodata, collision/collision] #8012780C
       - [0x3F0C, .rodata, collision/block_22C84] #8012870c
       - [0x3F88, .rodata, obj/mama_pirate] #80128788
@@ -120,9 +121,9 @@ segments:
       - [0xED20, asm, input_ED20] #80133520
       - [0x10B3C, asm, fond_10B3C] #8013533C
       - [0x14AD8, asm, loading_tex] #801392D8 TODO: re-did split (start and end), but still not 100% certain
-      - [0x14FF4, asm, display] #801397F4
+      - [0x14FF4, c, draw] #801397F4
       - [0x18118, asm, text_18118] #8013c918
-      - [0x19A38, c, display_ui] #8013e238
+      - [0x19A38, c, draw_ui] #8013e238
       - [0x1B1F0, c, collision/collision] #8013f9f0
       - [0x21D30, asm, collision/bit_util] #80146530
       - [0x22754, asm, collision/proj] #80146f54
@@ -171,7 +172,7 @@ segments:
       - [0x3B264, asm, snow] #8015FA64
       - [0x3C3A8, asm, obj/eyes_3C3A8] #80160ba8
       - [0x3C6E4, asm, obj/mite_badguy] #80160EE4
-      - [0x3CB5C, asm, unknown/3CB5C] #8016135c, particle effect (tings e.g.)?
+      - [0x3CB5C, asm, pix_gerbe] #8016135c, https://discord.com/channels/658598667695161364/1065409911758008420/1162715877590962176 '"gerber" is slang for "to vomit"'
       - [0x3CE78, c, obj/cymbal2] #80161678
       - [0x3CF08, c, obj/cage] #80161708
       - [0x3CFA0, c, obj/medaillon_toon] #801617A0
@@ -315,7 +316,7 @@ segments:
       - [0xAA608, data]
       #- [0xAA610, .data, data/text_AA610] #801CEE10 both vars here seem to end up at 801CEE10? not sure how it would be, when let_shadow is done
       - [0xAA614, data]
-      #done - [0xAA77C, .data, data/display_ui] #801CEF7C
+      #done - [0xAA77C, .data, data/draw_ui] #801CEF7C
       - [0xAA7A4, data]
       #done - [0xAA7A8, .data, data/obj/mama_pirate] #801CEFA8
       #done - [0xAA7C0, .data, data/sound_AA7C0] #801CEFC0
