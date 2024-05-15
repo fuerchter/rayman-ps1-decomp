@@ -8,9 +8,6 @@ INCLUDE_ASM("asm/nonmatchings/main", main);
 extern s32 *D_801F4380;
 extern s32 D_8005866C; /* data from PS1_LoadFiles seems to end up in here */
 extern u8 D_801E4D48;
-extern s32 PS1_CurrentDisplay;
-extern u8 PS1_Display1;
-extern u8 PS1_Display2;
 
 extern u8 PS1_Ingame; /* TODO: put near PS1_CheckPauseAndCheatInputs */
 
@@ -69,7 +66,7 @@ void main(void)
               DO_MAIN_LOOP();
 
             if (PS1_CurrentDisplay == &PS1_Display1)
-              next_display = &PS1_Display1 + 0x6CBC;
+              next_display = &PS1_Display1 + 1;
             else
               next_display = &PS1_Display1;
             PS1_CurrentDisplay = next_display;

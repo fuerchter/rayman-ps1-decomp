@@ -3,8 +3,6 @@
 void FUN_801802d8(void) {}
 
 /* 5BAE0 801802E0 -O2 -msoft-float */
-extern s32 PS1_CurrentDisplay; /* TODO: Display struct mostly unknown */
-extern u8 PS1_Display1;
 extern s32 PS1_PrevPrim;
 
 /* belongs to 548CC? used as array index for map_drawing_environment_primitives? (0x70 in Display struct) */
@@ -25,12 +23,12 @@ void SYNCHRO_LOOP(s16 (*func)())
     
     new_disp_1 = &PS1_Display1;
     if (PS1_CurrentDisplay == (&PS1_Display1))
-      new_disp_1 = &PS1_Display1 + 0x6CBC;
+      new_disp_1 = &PS1_Display1 + 1;
     PS1_CurrentDisplay = new_disp_1;
     DrawSync(0);
     VSync(0);
-    PutDispEnv((DISPENV *) PS1_CurrentDisplay);
-    PutDrawEnv(PS1_CurrentDisplay + 0x14);
+    PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
+    PutDrawEnv(&PS1_CurrentDisplay->drawing_environment);
     
     if (PTR_PS1_MemoryUsageRect_801cee70 == &PS1_MemoryUsageRect)
       new_rect = &PS1_MemoryUsageRect + 1;
@@ -40,10 +38,10 @@ void SYNCHRO_LOOP(s16 (*func)())
     
     if (PS1_MemoryUsageDisplayMode != 0)
       ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 0, 0, 128);
-    ClearOTag(PS1_CurrentDisplay + 0x7F0, 11);
+    ClearOTag(PS1_CurrentDisplay->field327_0x7f0, 11);
     
     if (PS1_CurrentDisplay == &PS1_Display1)
-      new_disp_2 = (&PS1_Display1) + 0x6CBC;
+      new_disp_2 = &PS1_Display1 + 1;
     else
       new_disp_2 = &PS1_Display1;
     
@@ -59,14 +57,14 @@ void SYNCHRO_LOOP(s16 (*func)())
     D_801FA690 = 0;
     PS1_PolygonsCount = 0;
     D_801F81B0 = 0;
-    PS1_PrevPrim = PS1_CurrentDisplay + 0x808;
+    PS1_PrevPrim = PS1_CurrentDisplay->field327_0x7f0 + 6;
     func_done = func();
     if (PS1_MemoryUsageDisplayMode == 2)
       ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 128, 0, 128);
     PS1_CheckPauseAndCheatInputs();
     if (PS1_MemoryUsageDisplayMode == 2)
       ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 128, 0, 128);
-    DrawOTag(PS1_CurrentDisplay + 0x7F0);
+    DrawOTag(PS1_CurrentDisplay->field327_0x7f0);
   }
   while (!func_done);
 }
