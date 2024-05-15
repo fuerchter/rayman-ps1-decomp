@@ -1,14 +1,14 @@
 #include "draw_ui.h"
 
 /* TODO: Display struct */
-extern s32 PS1_CurrentDisplay;
+/*extern s32 PS1_CurrentDisplay;*/
 
 /* 19A38 8013E238 -O2 */
 /*? ClearImage(s32, ?, ?, ?);*/
 
 void CLRSCR(void)
 {
-    ClearImage(PS1_CurrentDisplay + 0x14, 0, 0, 0);
+    ClearImage(&(PS1_CurrentDisplay->drawing_environment).clip, 0, 0, 0);
 }
 
 /* 19A6C 8013E26C -O2 */

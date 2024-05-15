@@ -2,7 +2,7 @@
 #define MAIN_MOTEUR_H
 
 #include "common.h"
-#include "psyq_3_0/LIBGPU.H"
+#include "common/display.h"
 #include "demo_9FD4.h"
 #include "cheats.h"
 #include "draw.h"

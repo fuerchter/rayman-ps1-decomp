@@ -2,8 +2,6 @@
 
 extern u8 PS1_DrawSpriteSemiTrans;
 extern void *PS1_PrevPrim;
-extern s32 PS1_CurrentDisplay; /* TODO: see synchro_loop.c, main.c and others */
-extern u8 PS1_Display1;
 
 INCLUDE_ASM("asm/nonmatchings/draw", PS1_DrawColoredSprite);
 

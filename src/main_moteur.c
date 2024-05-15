@@ -17,37 +17,34 @@ void DO_GROS_MOTEUR_NORMAL(void)
 }
 
 /* AE28 8012F628 -O2 -msoft-float */
-extern s32 PS1_CurrentDisplay; /* TODO: see synchro_loop.c, main.c and others */
-extern u8 PS1_Display1;
-extern u8 PS1_Display2;
 extern s16 D_801E4BE0;
 
 void DO_MAIN_LOOP(void)
 {
   s16 i;
-  u8 *new_disp_1;
-  u8 *new_disp_2;
+  Display *new_disp_1;
+  Display *new_disp_2;
   RECT *new_rect;
   
   if (PS1_CurrentDisplay == &PS1_Display1)
-    new_disp_1 = &PS1_Display1 + 0x6cbc;
+    new_disp_1 = &PS1_Display1 + 1;
   else
     new_disp_1 = &PS1_Display1;
   
   for (i = 0; i < PS1_PolygonIndexTableCount; i++)
   {
-    SetPolyFT4(new_disp_1 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144));
-    SetSemiTrans(new_disp_1 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144), 0);
-    SetShadeTex(new_disp_1 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144), 1);
+    SetPolyFT4(&new_disp_1->polygons[PS1_PolygonIndexTable[i]]);
+    SetSemiTrans(&new_disp_1->polygons[PS1_PolygonIndexTable[i]], 0);
+    SetShadeTex(&new_disp_1->polygons[PS1_PolygonIndexTable[i]], 1);
   }
   PS1_PolygonIndexTableCount = 0;
   
   if (PS1_CurrentDisplay == &PS1_Display1)
-    new_disp_2 = &PS1_Display1 + 0x6cbc;
+    new_disp_2 = &PS1_Display1 + 1;
   else
     new_disp_2 = &PS1_Display1;
   PS1_CurrentDisplay = new_disp_2;
-  ClearOTag(PS1_CurrentDisplay + 0x7F0, 11);
+  ClearOTag(PS1_CurrentDisplay->field327_0x7f0, 11);
   D_801E4BE0 = 0x19;
   D_801F4A28 = 0;
   D_801FA690 = 0;
@@ -113,8 +110,8 @@ void DO_MAIN_LOOP(void)
     VSync(0);
     VSync(0);
   }
-  PutDispEnv((DISPENV *) PS1_CurrentDisplay);
-  PutDrawEnv(PS1_CurrentDisplay + 0x14);
+  PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
+  PutDrawEnv(&PS1_CurrentDisplay->drawing_environment);
   
   if (PTR_PS1_MemoryUsageRect_801cee70 == &PS1_MemoryUsageRect)
     new_rect = &PS1_MemoryUsageRect + 1;
@@ -127,7 +124,7 @@ void DO_MAIN_LOOP(void)
   DrawSync(0);
   if (PS1_MemoryUsageDisplayMode == 2)
     ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 128, 0, 128);
-  DrawOTag(PS1_CurrentDisplay + 0x7F0);
+  DrawOTag(&PS1_CurrentDisplay->field327_0x7f0);
   PS1_CheckPauseAndCheatInputs();
   if (dead_time != 64 && PS1_CanPlayDeathMusic != 0)
   {

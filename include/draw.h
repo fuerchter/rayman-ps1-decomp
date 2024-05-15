@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "common/obj.h"
-#include "psyq_3_0/LIBGPU.H"
+#include "common/display.h"
 #include "main_moteur.h"
 
 extern s16 D_801F4A28;
