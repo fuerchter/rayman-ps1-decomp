@@ -181,7 +181,26 @@ void DISPLAY_FIXE(s16 left_time)
         display_bar_boss(PS1_BossObj);
 }
 
+/* 16554 8013AD54 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/draw", FUN_8013ad54);
+#else
+void FUN_8013ad54(s16 param_1, s16 param_2, s16 param_3)
+{
+    Obj *sbar_obj = &level.objects[sbar_obj_id];
+    u8 spr_3 = (param_1 % 10);
+    u8 spr_2 = (param_1 / 10) % 10;
+    u8 spr_1 = (param_1 / 100);
+    s32 spr_add = 28; /* TODO: did not get this in DISPLAY_FIXE, so define instead? */
+    s32 display_mode = 0;
+    
+    display_sprite(sbar_obj, spr_1 + spr_add, param_2, param_3, display_mode);
+    display_sprite(sbar_obj, spr_2 + spr_add, param_2 + 16, param_3, display_mode);
+    display_sprite(sbar_obj, spr_3 + spr_add, param_2 + 32, param_3, display_mode);
+
+    __asm__("nop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/draw", DrawWldPointPlan2Normal);
 
