@@ -488,3 +488,91 @@ void PS1_DrawRay(Sprite *sprite, s16 param_2, s16 param_3, u8 param_4, s16 angle
         PS1_PrevPrim = temp_s4;
     }
 }
+
+/* matches, but gross */
+/*INCLUDE_ASM("asm/nonmatchings/draw", display_bar_boss);*/
+
+void display_bar_boss(Obj *boss_obj)
+{
+    u8 hp;
+    Obj *poing_obj;
+    u8 init_hp;
+    s32 unk_1;
+    s32 unk_2;
+    s32 unk_3;
+    s32 display_mode;
+    u8 sprite;
+
+    if (scrollLocked)
+    {
+        hp = boss_obj->hit_points;
+        if (hp != 0)
+        {
+            poing_obj = &level.objects[poing_obj_id];
+            init_hp = boss_obj->init_hit_points;
+            unk_1 = 6;
+            unk_2 = (29 - init_hp) * unk_1;
+            unk_3 = 20 - unk_2;
+            display_mode = 1;
+            display_sprite(poing_obj, 61, unk_3 - (init_hp - hp) * unk_1, 217, display_mode);
+            display_sprite(poing_obj, 60, 21 - unk_2, 216, display_mode);
+            switch (boss_obj->type)
+            {
+            case TYPE_MOSKITO:
+                sprite = 0x3E;
+                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                break;
+            case TYPE_MOSKITO2:
+                sprite = 0x3E;
+                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                break;
+            case TYPE_BB1:
+                sprite = 0x6A;
+                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                break;
+            case TYPE_BB12:
+                sprite = 0x6A;
+                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                break;
+            case TYPE_SPACE_MAMA:
+                sprite = 0x6C;
+                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                break;
+            case TYPE_SPACE_MAMA2:
+                sprite = 0x6C;
+                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                break;
+            case TYPE_MAMA_PIRATE:
+                sprite = 0x6F;
+                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                break;
+            case TYPE_SCORPION:
+                sprite = 0x6B;
+                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                break;
+            case TYPE_HYB_BBF2_D:
+                sprite = 0x6E;
+                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                break;
+            case TYPE_HYBRIDE_STOSKO:
+                sprite = 0x6E;
+                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                break;
+            case TYPE_HYBRIDE_MOSAMS:
+                sprite = 0x6E;
+                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                break;
+            case TYPE_DARK:
+                sprite = 0x6E;
+                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                break;
+            case TYPE_SAXO:
+            case TYPE_SAXO2:
+                sprite = 0x6D;
+                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                break;
+            }
+            
+        }
+    }
+}

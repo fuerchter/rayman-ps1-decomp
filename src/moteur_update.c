@@ -146,7 +146,7 @@ void DO_MOTEUR2(void)
     if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
     {
         set_zoom_mode(0);
-        ray.scale = 256;
+        ray.scale = 0x100;
         if (ray.flags & FLG(OBJ_FLIP_X))
             set_proj_center(ray.screen_x_pos - 8 + ray.offset_bx, ray.screen_y_pos + ray.offset_by);
         else
