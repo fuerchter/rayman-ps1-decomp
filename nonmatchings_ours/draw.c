@@ -328,3 +328,163 @@ void PS1_DrawScaledSprite(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 param
         PS1_PrevPrim = temp_s1;
     }
 }
+
+/* asm is functionally the same? just not matching... */
+/*INCLUDE_ASM("asm/nonmatchings/draw", PS1_DrawRay);*/
+
+void PS1_DrawRay(Sprite *sprite, s16 param_2, s16 param_3, u8 param_4, s16 angle_ind)
+{
+    u16 sp130;
+    u16 sp138;
+    u16 sp140;
+    u16 sp148;
+    POLY_FT4 *temp_s4;
+    s16 *cur_angle;
+    s16 temp_s1_3;
+    s32 temp_lo;
+    s32 temp_s1_2;
+    s32 temp_v1_1;
+    s32 temp_v1_2;
+    u8 var_s0;
+    s16 *psVar11;
+    s32 temp_s2;
+    s16 temp_s3;
+    u8 bVar2;
+    u8 temp_v0_2;
+    u8 var_fp;
+    u8 var_s5;
+    s16 var_s6;
+    short unk0 [16];
+    short unk20 [16];
+    short unk40 [16];
+    short unk60 [16];
+    short unk80 [16];
+    short unkA0 [16];
+    short unkC0 [16];
+    short unkE0 [16];
+    s16 test_1;
+
+    temp_s4 = &PS1_CurrentDisplay->polygons[PS1_PolygonsCount++];
+    if (sprite->id != 0)
+    {
+        var_s5 = sprite->page_x;
+        sp140 = sprite->page_y;
+        temp_v0_2 = sprite->height;
+        bVar2 = sprite->width;
+        var_s6 = temp_v0_2 + 1;
+        if (D_801E4C20 != 0)
+        {
+            var_s6 = temp_v0_2;
+        }
+        var_fp = (var_s5 + bVar2) - 1;
+        sp148 = (sp140 + var_s6) - 1;
+        sp130 = (param_2 + bVar2) - 1;
+        temp_s4->clut = sprite->clut;
+        sp138 = (param_3 + var_s6) - 1;
+        temp_s4->tpage = sprite->tpage;
+        if ((D_801E4C20 == 1) && (D_801CEF78 == -1))
+        {
+            D_801E4C20 = 1;
+            var_s0 = 0;
+            do
+            {
+                temp_v1_1 = rand() * 2;
+                test_1 = temp_v1_1;
+                D_801CF600[var_s0] = test_1 - ((temp_v1_1 / 4096) * 4096);
+                var_s0 += 1;
+            } while (var_s0 < 16);
+            D_801CEF78 = 0x0096;
+        }
+        if (D_801E4C20 != 0)
+        {
+            cur_angle = &(D_801CF600)[angle_ind];
+            temp_v1_2 = *cur_angle + 0x51;
+            *cur_angle = temp_v1_2 - ((temp_v1_2 / 4096) * 4096);
+            if (angle_ind == 0)
+            {
+                D_801CEF78 = D_801CEF78 - 3;
+            }
+            psVar11 = &unk0[angle_ind]; /* possibility that maybe it gets all of the unk's as pointers here at the start? */
+            temp_s2 = bVar2 >> 1;
+            unk80[angle_ind] = (param_2 + temp_s2);
+            temp_s3 = var_s6 >> 1;
+            unkA0[angle_ind] = (param_3 + (temp_s3));
+            unkC0[angle_ind] = (unk80[angle_ind] + (((D_801CEF78 / 2) * rcos(*cur_angle)) >> 0xC));
+            temp_lo = (D_801CEF78 / 2) * rsin(*cur_angle);
+            temp_s1_2 = D_801CEF78 * 4096;
+            unkE0[angle_ind] = (unkA0[angle_ind] + ((temp_lo) >> 0xC));
+            *psVar11 = unkC0[angle_ind] - temp_s2;
+            unk20[angle_ind] = (unkE0[angle_ind] - temp_s3);
+            unk40[angle_ind] = ((bVar2 + *psVar11) - 1);
+            unk60[angle_ind] = ((var_s6 + unk20[angle_ind]) - 1);
+            temp_s4->x0 = *psVar11;
+            temp_s4->y0 = unk20[angle_ind];
+            temp_s4->x1 = unk40[angle_ind];
+            temp_s4->y1 = unk20[angle_ind];
+            temp_s4->x2 = *psVar11;
+            temp_s4->y2 = unk60[angle_ind];
+            temp_s4->x3 = unk40[angle_ind];
+            temp_s4->y3 = unk60[angle_ind];
+            temp_s1_3 = (temp_s1_2 / 75) * 2;
+            FUN_80139d5c(&temp_s4->x0, &temp_s4->y0, unkC0[angle_ind], unkE0[angle_ind], temp_s1_3);
+            FUN_80139d5c(&temp_s4->x1, &temp_s4->y1, unkC0[angle_ind], unkE0[angle_ind], temp_s1_3);
+            FUN_80139d5c(&temp_s4->x2, &temp_s4->y2, unkC0[angle_ind], unkE0[angle_ind], temp_s1_3);
+            FUN_80139d5c(&temp_s4->x3, &temp_s4->y3, unkC0[angle_ind], unkE0[angle_ind], temp_s1_3);
+        }
+        if (param_4 != 0)
+        {
+            if (D_801E4C20 == 0)
+            {
+                var_s5 -= 1;
+            }
+            temp_s4->u0 = var_fp;
+            temp_s4->v0 = sp140;
+            temp_s4->u1 = var_s5;
+            temp_s4->v1 = sp140;
+            temp_s4->u2 = var_fp;
+            temp_s4->v2 = sp148;
+            temp_s4->u3 = var_s5;
+            temp_s4->v3 = sp148;
+        }
+        else
+        {
+            if (D_801E4C20 == 0)
+            {
+                var_fp += 1;
+            }
+            temp_s4->u0 = var_s5;
+            temp_s4->v0 = sp140;
+            temp_s4->u1 = var_fp;
+            temp_s4->v1 = sp140;
+            temp_s4->u2 = var_s5;
+            temp_s4->v2 = sp148;
+            temp_s4->u3 = var_fp;
+            temp_s4->v3 = sp148;
+        }
+        
+        if (D_801E4C20 != 0)
+        {
+            if (D_801CEF78 <= 0)
+            {
+                D_801E4C20 = 0;
+                D_801CEF78 = -1;
+            }
+        }
+        else
+        {
+            sp130 = sp130 + 1;
+            temp_s4->x0 = param_2;
+            temp_s4->y0 = param_3;
+            temp_s4->x1 = sp130;
+            temp_s4->y1 = param_3;
+            temp_s4->x2 = param_2;
+            temp_s4->y2 = sp138;
+            temp_s4->x3 = sp130;
+            temp_s4->y3 = sp138;
+        }
+        SetShadeTex(temp_s4, 1);
+        SetSemiTrans(temp_s4, 0);
+        AddPrim(PS1_PrevPrim, temp_s4);
+        PS1_PrevPrim = temp_s4;
+    }
+}

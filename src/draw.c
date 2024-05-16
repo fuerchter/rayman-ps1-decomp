@@ -2,6 +2,9 @@
 
 extern u8 PS1_DrawSpriteSemiTrans;
 extern void *PS1_PrevPrim;
+extern s16 D_801CEF78;
+extern s16 D_801CF600[16]; /* list of angles? */
+extern u8 D_801E4C20;
 
 INCLUDE_ASM("asm/nonmatchings/draw", PS1_DrawColoredSprite);
 
@@ -13,8 +16,7 @@ void PS1_DrawSprite(Sprite *sprite, s16 x, s16 y, u8 param_4)
 
 INCLUDE_ASM("asm/nonmatchings/draw", PS1_DrawScaledSprite);
 
-/*INCLUDE_ASM("asm/nonmatchings/draw", FUN_80139d5c);*/
-
+/* 1555C 80139D5C -O2 -msoft-float */
 void FUN_80139d5c(s16 *p_poly_x, s16 *p_poly_y, s16 param_3, s16 param_4, s16 angle)
 {
     s16 old_poly_x = *p_poly_x;
