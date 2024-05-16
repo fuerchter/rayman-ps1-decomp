@@ -5,11 +5,36 @@ extern void *PS1_PrevPrim;
 
 INCLUDE_ASM("asm/nonmatchings/draw", PS1_DrawColoredSprite);
 
-INCLUDE_ASM("asm/nonmatchings/draw", PS1_DrawSprite);
+/* 15340 80139B40 -O2 -msoft-float */
+void PS1_DrawSprite(Sprite *sprite, s16 x, s16 y, u8 param_4)
+{
+    PS1_DrawColoredSprite(sprite, x, y, param_4);
+}
 
 INCLUDE_ASM("asm/nonmatchings/draw", PS1_DrawScaledSprite);
 
-INCLUDE_ASM("asm/nonmatchings/draw", FUN_80139d5c);
+/*INCLUDE_ASM("asm/nonmatchings/draw", FUN_80139d5c);*/
+
+void FUN_80139d5c(s16 *p_poly_x, s16 *p_poly_y, s16 param_3, s16 param_4, s16 angle)
+{
+    s16 old_poly_x = *p_poly_x;
+    s16 old_poly_y = *p_poly_y;
+
+    *p_poly_x = 
+        (old_poly_x * rcos(angle) >> 12) -
+        (old_poly_y * rsin(angle) >> 12) +
+        (
+            (param_3 - (param_3 * rcos(angle) >> 12)) +
+            (param_4 * rsin(angle) >> 12)
+        );
+    *p_poly_y =
+        (old_poly_x * rsin(angle) >> 12) +
+        (old_poly_y * rcos(angle) >> 12) +
+        (
+            (param_4 - (param_4 * rcos(angle) >> 12)) -
+            (param_3 * rsin(angle) >> 12)
+        );
+}
 
 INCLUDE_ASM("asm/nonmatchings/draw", PS1_DrawRay);
 

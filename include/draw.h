@@ -4,6 +4,7 @@
 #include "common.h"
 #include "common/obj.h"
 #include "common/display.h"
+#include "psyq_3_0/LIBGTE.H"
 #include "main_moteur.h"
 
 extern s16 D_801F4A28;
@@ -11,8 +12,8 @@ extern s16 D_801FA690;
 
 void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode);
 void PS1_DrawSprite(Sprite *sprite, s16 x, s16 y, u8 param_4);
-void PS1_DrawScaledSprite(Sprite *sprite, s16 x, s16 y, u8 is_flipped, u16 param_5);
-void FUN_80139d5c(s16 *param_1, s16 *param_2, s16 param_3, s16 param_4, s16 param_5);
+void PS1_DrawScaledSprite(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 param_5);
+void FUN_80139d5c(s16 *p_poly_x, s16 *p_poly_y, s16 param_3, s16 param_4, s16 angle);
 void PS1_DrawRay(Sprite *sprite, s16 param_2, s16 param_3, u8 param_4, s16 param_5);
 void display_sprite(Obj *param_1, u32 sprite, s16 x, s16 y, u8 param_5);
 void display2(Obj *obj);
