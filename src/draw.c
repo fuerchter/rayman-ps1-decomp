@@ -305,17 +305,71 @@ void draw_flocon5_Normal(s16 x0, s16 y0)
     PS1_PrevPrim = sprt;
 }
 
-INCLUDE_ASM("asm/nonmatchings/draw", FUN_8013b294);
+/* 16A94 8013B294 -O2 -msoft-float */
+void FUN_8013b294(s16 x0, s16 y0)
+{
+    SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
 
-INCLUDE_ASM("asm/nonmatchings/draw", FUN_8013b304);
+    sprt->u0 = 48; sprt->v0 = 0;
+    sprt->x0 = x0; sprt->y0 = y0;
+    AddPrim(PS1_PrevPrim, sprt);
+    PS1_PrevPrim = sprt;
+}
 
-INCLUDE_ASM("asm/nonmatchings/draw", draw_pluie4_Normal);
+/* 16B04 8013B304 -O2 -msoft-float */
+void FUN_8013b304(s16 x0, s16 y0)
+{
+    SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
+    
+    sprt->u0 = 56; sprt->v0 = 0;
+    sprt->x0 = x0; sprt->y0 = y0;
+    AddPrim(PS1_PrevPrim, sprt);
+    PS1_PrevPrim = sprt;
+}
 
-INCLUDE_ASM("asm/nonmatchings/draw", draw_pluie5_Normal);
+/* 16B74 8013B374 -O2 -msoft-float */
+void draw_pluie4_Normal(s16 x0, s16 y0)
+{
+    TILE_1 *tile = &PS1_CurrentDisplay->tile1s[(u16) D_801FA690++];
 
-INCLUDE_ASM("asm/nonmatchings/draw", draw_pluie6_Normal);
+    tile->r0 = 95; tile->g0 = 107; tile->b0 = 167;
+    tile->x0 = x0; tile->y0 = y0;
+    AddPrim(PS1_PrevPrim, tile);
+    PS1_PrevPrim = tile;
+}
 
-INCLUDE_ASM("asm/nonmatchings/draw", FUN_8013b4d4);
+/* 16BF8 8013B3F8 -O2 -msoft-float */
+void draw_pluie5_Normal(s16 x0, s16 y0)
+{
+    SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
+
+    sprt->u0 = 0; sprt->v0 = 0;
+    sprt->x0 = x0; sprt->y0 = y0;
+    AddPrim(PS1_PrevPrim, sprt);
+    PS1_PrevPrim = sprt;
+}
+
+/* 16C64 8013B464 -O2 -msoft-float */
+void draw_pluie6_Normal(s16 x0, s16 y0)
+{
+    SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
+
+    sprt->u0 = 24; sprt->v0 = 0;
+    sprt->x0 = x0; sprt->y0 = y0;
+    AddPrim(PS1_PrevPrim, sprt);
+    PS1_PrevPrim = sprt;
+}
+
+/* 16CD4 8013B4D4 -O2 -msoft-float */
+void FUN_8013b4d4(s16 x0, s16 y0)
+{
+    SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
+
+    sprt->u0 = 32; sprt->v0 = 0;
+    sprt->x0 = x0; sprt->y0 = y0;
+    AddPrim(PS1_PrevPrim, sprt);
+    PS1_PrevPrim = sprt;
+}
 
 INCLUDE_ASM("asm/nonmatchings/draw", display_flocons_behind);
 
