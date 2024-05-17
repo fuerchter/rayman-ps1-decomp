@@ -22,7 +22,7 @@ typedef struct Display {
 	u8 field_0x7d9_0x7ef[23];
     u8 * ordering_table[11];
     SPRT_8 tiles[360];
-	SPRT_8 field_0x1e9c_0x321b[312]; /* size? see D_801F4A28? */
+	SPRT_8 field_0x1e9c_0x321b[312]; /* size? see D_801F4A28? could also either be SPRT_8 or SPRT_16, structs are the same */
     TILE_1 tile1s[240];
     SPRT sprites[50];
     POLY_FT4 polygons[200];

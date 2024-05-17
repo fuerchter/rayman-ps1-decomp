@@ -1,7 +1,7 @@
 #include "draw.h"
 
 extern u8 PS1_DrawSpriteSemiTrans;
-extern void *PS1_PrevPrim;
+extern void *PS1_PrevPrim; /* should this be labelled as ordering table instead? */
 extern s16 D_801CEF78;
 extern s16 D_801CF600[16]; /* list of angles? */
 extern u8 D_801E4C20;
@@ -207,10 +207,8 @@ void DrawWldPointPlan2Normal(s16 x0, s16 y0)
 {
     SPRT_8 *p = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
 
-    p->x0 = x0;
-    p->y0 = y0;
-    p->u0 = 64;
-    p->v0 = 0;
+    p->x0 = x0; p->y0 = y0;
+    p->u0 = 64; p->v0 = 0;
     AddPrim(&PS1_CurrentDisplay->ordering_table[5], p);
 }
 
@@ -246,17 +244,66 @@ void DISPLAY_PTS_TO_PLAN2(s32 x1, s32 y1, s32 x2, s32 y2, s16 percentage)
     );
 }
 
-INCLUDE_ASM("asm/nonmatchings/draw", DISPLAY_PLATEAU);
+/* 16820 8013B020 -O2 -msoft-float */
+void DISPLAY_PLATEAU(Obj *obj)
+{
+    display2(obj);
+}
 
-INCLUDE_ASM("asm/nonmatchings/draw", draw_flocon1_Normal);
+/* 16840 8013B040 -O2 -msoft-float */
+void draw_flocon1_Normal(s16 x0, s16 y0)
+{
+    TILE_1 *tile = &PS1_CurrentDisplay->tile1s[(u16) D_801FA690++];
 
-INCLUDE_ASM("asm/nonmatchings/draw", draw_flocon2_Normal);
+    tile->r0 = 187; tile->g0 = 187; tile->b0 = 251;
+    tile->x0 = x0; tile->y0 = y0;
+    AddPrim(PS1_PrevPrim, tile);
+    PS1_PrevPrim = tile;
+}
 
-INCLUDE_ASM("asm/nonmatchings/draw", draw_flocon3_Normal);
+/* 168C0 8013B0C0 -O2 -msoft-float */
+void draw_flocon2_Normal(s16 x0, s16 y0)
+{
+    TILE_1 *tile = &PS1_CurrentDisplay->tile1s[(u16) D_801FA690++];
+    
+    tile->r0 = 199; tile->g0 = 223; tile->b0 = 247;
+    tile->x0 = x0; tile->y0 = y0;
+    AddPrim(PS1_PrevPrim, tile);
+    PS1_PrevPrim = tile;
+}
 
-INCLUDE_ASM("asm/nonmatchings/draw", draw_flocon4_Normal);
+/* 16944 8013B144 -O2 -msoft-float */
+void draw_flocon3_Normal(s16 x0, s16 y0)
+{
+    SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
+    
+    sprt->u0 = 8; sprt->v0 = 0;
+    sprt->x0 = x0; sprt->y0 = y0;
+    AddPrim(PS1_PrevPrim, sprt);
+    PS1_PrevPrim = sprt;
+}
 
-INCLUDE_ASM("asm/nonmatchings/draw", draw_flocon5_Normal);
+/* 169B4 8013B1B4 -O2 -msoft-float */
+void draw_flocon4_Normal(s16 x0, s16 y0)
+{
+    SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
+
+    sprt->u0 = 16; sprt->v0 = 0;
+    sprt->x0 = x0; sprt->y0 = y0;
+    AddPrim(PS1_PrevPrim, sprt);
+    PS1_PrevPrim = sprt;
+}
+
+/* 16A24 8013B224 -O2 -msoft-float */
+void draw_flocon5_Normal(s16 x0, s16 y0)
+{
+    SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
+    
+    sprt->u0 = 40; sprt->v0 = 0;
+    sprt->x0 = x0; sprt->y0 = y0;
+    AddPrim(PS1_PrevPrim, sprt);
+    PS1_PrevPrim = sprt;
+}
 
 INCLUDE_ASM("asm/nonmatchings/draw", FUN_8013b294);
 
