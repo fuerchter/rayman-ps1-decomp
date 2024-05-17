@@ -8,7 +8,7 @@
 #include "psyq_3_0/RAND.H"
 #include "main_moteur.h"
 
-extern s16 D_801F4A28;
+extern s16 D_801F4A28; /* range of possible values? */
 extern s16 D_801FA690;
 
 void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode);
@@ -23,9 +23,9 @@ void DISPLAY_CLING(void);
 void display_bar_boss(Obj *boss_obj);
 void DISPLAY_FIXE(s16 left_time);
 void FUN_8013ad54(s16 param_1, s16 param_2, s16 param_3);
-void DrawWldPointPlan2Normal(s16 param_1, s16 param_2);
+void DrawWldPointPlan2Normal(s16 x0, s16 y0);
 void PS1_DisplayPtsPrim(void);
-void DISPLAY_POINT(s16 param_1, s16 param_2);
+void DISPLAY_POINT(s32 x0, s32 y0);
 void DISPLAY_PTS_TO_PLAN2(s32 x1, s32 y1, s32 x2, s32 y2, s16 percentage);
 void DISPLAY_PLATEAU(Obj *param_1);
 void draw_flocon1_Normal(s16 param_1, s16 param_2);

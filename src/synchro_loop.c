@@ -38,7 +38,7 @@ void SYNCHRO_LOOP(s16 (*func)())
     
     if (PS1_MemoryUsageDisplayMode != 0)
       ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 0, 0, 128);
-    ClearOTag(PS1_CurrentDisplay->field327_0x7f0, 11);
+    ClearOTag(PS1_CurrentDisplay->ordering_table, 11);
     
     if (PS1_CurrentDisplay == &PS1_Display1)
       new_disp_2 = &PS1_Display1 + 1;
@@ -57,14 +57,14 @@ void SYNCHRO_LOOP(s16 (*func)())
     D_801FA690 = 0;
     PS1_PolygonsCount = 0;
     D_801F81B0 = 0;
-    PS1_PrevPrim = PS1_CurrentDisplay->field327_0x7f0 + 6;
+    PS1_PrevPrim = PS1_CurrentDisplay->ordering_table + 6;
     func_done = func();
     if (PS1_MemoryUsageDisplayMode == 2)
       ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 128, 0, 128);
     PS1_CheckPauseAndCheatInputs();
     if (PS1_MemoryUsageDisplayMode == 2)
       ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 128, 0, 128);
-    DrawOTag(PS1_CurrentDisplay->field327_0x7f0);
+    DrawOTag(PS1_CurrentDisplay->ordering_table);
   }
   while (!func_done);
 }

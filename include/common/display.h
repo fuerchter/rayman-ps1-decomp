@@ -20,9 +20,9 @@ typedef struct Display {
 	u8 field_0x6b0_0x7d7[296];
     u8 map_ordering_tables;
 	u8 field_0x7d9_0x7ef[23];
-    u8 * field327_0x7f0[11];
+    u8 * ordering_table[11];
     SPRT_8 tiles[360];
-	u8 field_0x1e9c_0x321b[4992];
+	SPRT_8 field_0x1e9c_0x321b[312]; /* size? see D_801F4A28? */
     TILE_1 tile1s[240];
     SPRT sprites[50];
     POLY_FT4 polygons[200];

@@ -147,7 +147,7 @@ void DISPLAY_FIXE(s16 left_time)
 {
     Obj *div_obj;
 
-    PS1_PrevPrim = &PS1_CurrentDisplay->field327_0x7f0[10];
+    PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[10];
     div_obj = &level.objects[sbar_obj_id];
     if (left_time == -2)
     {
@@ -202,13 +202,49 @@ void FUN_8013ad54(s16 param_1, s16 param_2, s16 param_3)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/draw", DrawWldPointPlan2Normal);
+/* 166AC 8013AEAC -O2 -msoft-float */
+void DrawWldPointPlan2Normal(s16 x0, s16 y0)
+{
+    SPRT_8 *p = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
 
-INCLUDE_ASM("asm/nonmatchings/draw", PS1_DisplayPtsPrim);
+    p->x0 = x0;
+    p->y0 = y0;
+    p->u0 = 64;
+    p->v0 = 0;
+    AddPrim(&PS1_CurrentDisplay->ordering_table[5], p);
+}
 
-INCLUDE_ASM("asm/nonmatchings/draw", DISPLAY_POINT);
+/* 16714 8013AF14 -O2 -msoft-float */
+void PS1_DisplayPtsPrim(void)
+{
+    AddPrim(&PS1_CurrentDisplay->ordering_table[5], &PS1_CurrentDisplay->field3_0x1f0);
+}
 
-INCLUDE_ASM("asm/nonmatchings/draw", DISPLAY_PTS_TO_PLAN2);
+/* 16740 8013AF40 -O2 -msoft-float */
+void DISPLAY_POINT(s32 x0, s32 y0)
+{
+    if (((u16) (x0 - 43) <= 240) && ((u16) (y0 - 54) <= 134))
+        DrawWldPointPlan2Normal((s16) x0, (s16) y0 - 2);
+}
+
+/* 16790 8013AF90 -O2 -msoft-float */
+void DISPLAY_PTS_TO_PLAN2(s32 x1, s32 y1, s32 x2, s32 y2, s16 percentage)
+{
+    s16 x_offs = 52;
+    s16 y_offs = 55;
+    s16 new_x1 = x1 + x_offs - xmap;
+    s16 new_x2 = x2 + x_offs - xmap;
+    s16 new_y1 = y1 + y_offs - ymap;
+    s16 new_y2 = y2 + y_offs - ymap;
+    
+    Bresenham(
+        DISPLAY_POINT,
+        new_x1, new_y1,
+        new_x2, new_y2,
+        7,
+        percentage
+    );
+}
 
 INCLUDE_ASM("asm/nonmatchings/draw", DISPLAY_PLATEAU);
 
