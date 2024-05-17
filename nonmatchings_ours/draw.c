@@ -576,3 +576,256 @@ void display_bar_boss(Obj *boss_obj)
         }
     }
 }
+
+/* matches, but ugly and too many unknowns */
+/*INCLUDE_ASM("asm/nonmatchings/draw", display_flocons_behind);*/
+
+void display_flocons_behind(void)
+{
+    DR_ENV *dr_env;
+    FloconTableEntry *entry;
+    s16 max_ind;
+    s16 ind;
+    s16 temp_a3;
+    s16 temp_t2;
+    s16 unk_2;
+    s16 j;
+    s16 unk_offs;
+    s16 temp_lo_1;
+    s32 var_a0;
+    s32 var_a1;
+    s16 var_s7;
+    u8 **ot_1;
+    s16 old_pcx;
+    s16 old_pcy;
+
+    ot_1 = &PS1_CurrentDisplay->ordering_table[1];
+    PS1_PrevPrim = ot_1;
+    dr_env = &PS1_CurrentDisplay->field4_0x230;
+    AddPrim(ot_1, dr_env);
+    PS1_PrevPrim = dr_env;
+
+    old_pcx = PROJ_CENTER_X;
+    old_pcy = PROJ_CENTER_Y;
+    set_proj_center(160, 170);
+    
+    unk_2 = 6;
+    var_s7 = 3;
+    unk_offs = 32;
+    while (unk_offs < 192) /* 32 - 160 (incl.) in steps of 32 */
+    {
+        unk_2--;
+        temp_lo_1 = 0x10000 / (unk_offs + 0x100);
+        var_a0 = temp_lo_1 * PROJ_CENTER_X;
+        temp_t2 = PROJ_CENTER_X - (var_a0 / 256);
+        var_a1 = temp_lo_1 * PROJ_CENTER_Y;
+        temp_a3 = PROJ_CENTER_Y - (var_a1 / 256);
+
+        ind = floc_ind[var_s7];
+        entry = &flocon_tab[ind];
+        max_ind = ind + nb_floc[var_s7];
+        if (num_world != 1)
+        {
+            if (unk_2 == 5)
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    draw_flocon5_Normal(
+                        (temp_lo_1 * entry->field0_0x0 >> 8) + temp_t2,
+                        (temp_lo_1 * entry->field1_0x2 >> 8) + temp_a3
+                    );
+                    entry++;
+                }
+            }
+            else if (unk_2 == 4)
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    draw_flocon4_Normal(
+                        (temp_lo_1 * entry->field0_0x0 >> 8) + temp_t2,
+                        (temp_lo_1 * entry->field1_0x2 >> 8) + temp_a3
+                    );
+                    entry++;
+                }
+            }
+            else if (unk_2 == 3)
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    draw_flocon3_Normal(
+                        (temp_lo_1 * entry->field0_0x0 >> 8) + temp_t2,
+                        (temp_lo_1 * entry->field1_0x2 >> 8) + temp_a3
+                    );
+                    entry++;
+                }
+            }
+            else if (unk_2 == 2)
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    draw_flocon2_Normal(
+                        (temp_lo_1 * entry->field0_0x0 >> 8) + temp_t2,
+                        (temp_lo_1 * entry->field1_0x2 >> 8) + temp_a3
+                    );
+                    entry++;
+                }
+            }
+            else
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    draw_flocon1_Normal(
+                        (temp_lo_1 * entry->field0_0x0 >> 8) + temp_t2,
+                        (temp_lo_1 * entry->field1_0x2 >> 8) + temp_a3
+                    );
+                    entry++;
+                }
+            }
+        }
+        else
+        {
+            if (unk_2 == 5)
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    draw_pluie6_Normal(
+                        (temp_lo_1 * entry->field0_0x0 >> 8) + temp_t2,
+                        (temp_lo_1 * entry->field1_0x2 >> 8) + temp_a3
+                    );
+                    entry++;
+                }
+            }
+            else if (unk_2 >= 3)
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    draw_pluie5_Normal(
+                        (temp_lo_1 * entry->field0_0x0 >> 8) + temp_t2,
+                        (temp_lo_1 * entry->field1_0x2 >> 8) + temp_a3
+                    );
+                    entry++;
+                }
+            }
+            else
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    draw_pluie4_Normal(
+                        (temp_lo_1 * entry->field0_0x0 >> 8) + temp_t2,
+                        (temp_lo_1 * entry->field1_0x2 >> 8) + temp_a3
+                    );
+                    entry++;
+                }
+            }
+        }
+        unk_offs += 32;
+        var_s7++;
+    }
+    PROJ_CENTER_X = old_pcx;
+    PROJ_CENTER_Y = old_pcy;
+}
+
+/*
+matches, but just as ugly
+oops, didn't remove unused locals yet
+*/
+/*INCLUDE_ASM("asm/nonmatchings/draw", display_flocons_before);*/
+
+void display_flocons_before(void)
+{
+    DR_ENV *dr_env;
+    FloconTableEntry *entry;
+    s16 temp_a1;
+    s16 ind;
+    s16 temp_s4;
+    s16 temp_s5;
+    s16 temp_t1;
+    s16 temp_v0_2;
+    s16 temp_v0_3;
+    s16 temp_v0_4;
+    s16 max_ind;
+    s16 j;
+    s16 var_s1_2;
+    s16 var_s1_3;
+    s16 var_s6;
+    s16 var_s7;
+    s16 var_v0;
+    s32 temp_a0_2;
+    s32 temp_a0_3;
+    s32 temp_a0_4;
+    s16 temp_lo;
+    s32 temp_lo_2;
+    s32 temp_lo_3;
+    s32 temp_lo_4;
+    s32 temp_v0;
+    s32 var_a1;
+    s32 var_v0_2;
+    u16 temp_fp;
+    u8 **ot_7;
+    s16 old_pcx;
+    s16 old_pcy;
+
+    ot_7 = &PS1_CurrentDisplay->ordering_table[7];
+    PS1_PrevPrim = ot_7;
+    dr_env = &PS1_CurrentDisplay->field3_0x1f0;
+    AddPrim(ot_7, dr_env);
+    PS1_PrevPrim = dr_env;
+    
+    old_pcx = PROJ_CENTER_X;
+    old_pcy = PROJ_CENTER_Y;
+    set_proj_center(160, 170);
+
+    var_s7 = 0;
+    var_s6 = -64;
+    while (var_s6 < 32)
+    {
+        ind = floc_ind[var_s7];
+        entry = &flocon_tab[ind];
+        temp_lo = 0x10000 / (var_s6 + 0x100);
+        var_v0_2 = temp_lo * PROJ_CENTER_X;
+        temp_t1 = PROJ_CENTER_X - (var_v0_2 / 256);
+        var_a1 = temp_lo * PROJ_CENTER_Y;
+        temp_a1 = PROJ_CENTER_Y - (var_a1 / 256);
+        max_ind = ind + nb_floc[var_s7];
+        if (num_world != 1)
+        {
+            if (var_s7 == 0)
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    FUN_8013b304(
+                        (temp_lo * entry->field0_0x0 >> 8) + temp_t1,
+                        (temp_lo * entry->field1_0x2 >> 8) + temp_a1
+                    );
+                    entry++;
+                }
+            }
+            else
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    FUN_8013b294(
+                        (temp_lo * entry->field0_0x0 >> 8) + temp_t1,
+                        (temp_lo * entry->field1_0x2 >> 8) + temp_a1
+                    );
+                    entry++;
+                }
+            }
+        }
+        else
+        {
+            for (j = ind; j < max_ind; j++)
+            {
+                FUN_8013b4d4(
+                    (temp_lo * entry->field0_0x0 >> 8) + temp_t1,
+                    (temp_lo * entry->field1_0x2 >> 8) + temp_a1
+                );
+                entry++;
+            }
+        }
+        var_s6 += 32;
+        var_s7++;
+    }
+    PROJ_CENTER_X = old_pcx;
+    PROJ_CENTER_Y = old_pcy;
+}

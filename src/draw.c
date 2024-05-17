@@ -1,11 +1,18 @@
 #include "draw.h"
 
+void set_proj_center(s16 param_1, s16 param_2);
+
 extern u8 PS1_DrawSpriteSemiTrans;
 extern void *PS1_PrevPrim; /* should this be labelled as ordering table instead? */
 extern s16 D_801CEF78;
 extern s16 D_801CF600[16]; /* list of angles? */
 extern u8 D_801E4C20;
 extern Obj *PS1_BossObj;
+extern s16 PROJ_CENTER_X;
+extern s16 PROJ_CENTER_Y;
+extern s16 floc_ind[8];
+extern FloconTableEntry flocon_tab[512];
+extern s16 nb_floc[8];
 
 INCLUDE_ASM("asm/nonmatchings/draw", PS1_DrawColoredSprite);
 

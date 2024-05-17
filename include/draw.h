@@ -7,6 +7,7 @@
 #include "psyq_3_0/LIBGTE.H"
 #include "psyq_3_0/RAND.H"
 #include "main_moteur.h"
+#include "snow.h"
 
 extern s16 D_801F4A28; /* range of possible values? */
 extern s16 D_801FA690; /* range of this one at: 8013c0f8 */
