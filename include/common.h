@@ -7,6 +7,7 @@
 /*#define NONMATCHINGS*/
 
 #define FLG(x) (1 << x)
+#define LEN(x) (sizeof(x) / sizeof(x[0]))
 #define MAX_1(x, y) ((x) > (y) ? (x) : (y))
 #define MAX_2(x, y) if (x < y) x = y;
 #define MAX_3(x, y) if (y > x) x = y;

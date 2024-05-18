@@ -14,6 +14,28 @@ extern s16 floc_ind[8];
 extern FloconTableEntry flocon_tab[512];
 extern s16 nb_floc[8];
 
+extern s16 D_801CEF7A;
+extern s16 D_801E4BE0;
+extern s16 D_801E4DF8;
+extern s16 cymbal_obj_id[12];
+extern u8 nb_cymbal_in_map;
+
+typedef struct PixGerbeItem {
+    s16 x_pos;
+    s16 y_pos;
+    u16 speed_x;
+    s16 speed_y;
+    u8 y_accel;
+    u8 unk_1;
+} PixGerbeItem;
+
+typedef struct PixGerbe {
+    PixGerbeItem items[64];
+    s16 is_active;
+} PixGerbe;
+
+extern PixGerbe pix_gerbe[8];
+
 INCLUDE_ASM("asm/nonmatchings/draw", PS1_DrawColoredSprite);
 
 /* 15340 80139B40 -O2 -msoft-float */

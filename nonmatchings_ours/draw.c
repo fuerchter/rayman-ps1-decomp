@@ -833,20 +833,6 @@ void display_flocons_before(void)
 /* matches, but didn't feel like cleaning up */
 /*INCLUDE_ASM("asm/nonmatchings/draw", display_pix_gerbes);*/
 
-typedef struct Inner {
-    s16 x;
-    s16 y;
-    u8 unk_1[6];
-} Inner;
-
-typedef struct Outer {
-    Inner inner[64];
-    s16 unk_2;
-} Outer;
-
-/*extern s16 pix_gerbe[2568];*/
-extern Outer pix_gerbe[4];
-
 void display_pix_gerbes(void)
 {
     TILE_1 *var_s3;
@@ -854,24 +840,24 @@ void display_pix_gerbes(void)
     s16 var_s7;
     s32 temp_v1_1;
     u8 var_v0_3;
-    Inner *var_s2;
+    PixGerbeItem *var_s2;
     s16 temp_v0_2;
     u8 temp_v1_2;
 
     var_s3 = &PS1_CurrentDisplay->tile1s[(u16) D_801FA690];
-    for (var_s7 = 0; var_s7 < 8; var_s7++)
+    for (var_s7 = 0; var_s7 < (s16) LEN(pix_gerbe); var_s7++)
     {
         temp_v1_1 = var_s7;
-        if (pix_gerbe[temp_v1_1].unk_2 != 0)
+        if (pix_gerbe[temp_v1_1].is_active)
         {
-            var_s2 = pix_gerbe[temp_v1_1].inner;
+            var_s2 = pix_gerbe[temp_v1_1].items;
             var_s5 = 0;
-            while (var_s5 < 0x40) /* sizeof... */
+            while (var_s5 < (s16) LEN(pix_gerbe[temp_v1_1].items))
             {
-                temp_v1_2 = var_s2->unk_1[5];
-                if (temp_v1_2 >= 0x80 && (var_s2->y > 0))
+                temp_v1_2 = var_s2->unk_1;
+                if (temp_v1_2 >= 0x80 && (var_s2->y_pos > 0))
                 {
-                    temp_v0_2 = var_s2->unk_1[2];
+                    temp_v0_2 = (u8) var_s2->speed_y;
                     if (temp_v0_2 >= 0x80)
                     {
                         var_v0_3 = 0x58;
@@ -914,8 +900,8 @@ void display_pix_gerbes(void)
                             var_s3->b0 = 0xfb;
                             break;
                     }
-                    var_s3->x0 = var_s2->x >> 6;
-                    var_s3->y0 = var_s2->y >> 6;
+                    var_s3->x0 = var_s2->x_pos >> 6;
+                    var_s3->y0 = var_s2->y_pos >> 6;
                     if (D_801FA690 < 0xF0U)
                     {
                         AddPrim(PS1_PrevPrim, var_s3);
@@ -928,4 +914,159 @@ void display_pix_gerbes(void)
             }
         }
     }
+}
+
+/*INCLUDE_ASM("asm/nonmatchings/draw", DISPLAY_ALL_OBJECTS);*/
+
+void DISPLAY_ALL_OBJECTS(void)
+
+{
+  short sVar1;
+  Display *pDVar2;
+  Display *pDVar3;
+  s16 uVar4;
+  u_short uVar5;
+  s16 iVar6;
+  ObjType OVar7;
+  uint uVar8;
+  short var_s1;
+  Obj *obj;
+  s16 iVar10;
+  s16 prio;
+  Obj *new_var;
+  s16 test_1;
+  s16 *test_2;
+  ActiveObjects *new_var2;
+  
+  PS1_BossObj = null;
+  prio = 7;
+  PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[6];
+  do {
+    var_s1 = 0;
+    obj = &level.objects[actobj.objects[0]];
+    while (var_s1 < actobj.num_active_objects) {
+        if (prio == 1 && (flags[obj->type].flags0 >> 7 & 1)) {
+            PS1_BossObj = obj;
+        }
+        if (obj->display_prio == prio) {
+            if (num_world == 5 && num_level == 4 && obj->type == TYPE_MEDAILLON_TOON) {
+                PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[10];
+                display2(obj);
+                PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[6];
+            }
+            else
+            {
+                if (obj->type == TYPE_EAU && num_world == 5 && num_level == 8) {
+                    PS1_DrawSpriteSemiTrans = 1;
+                    if (300 <= obj->x_pos) {
+                        display2(obj);
+                    }
+                    PS1_DrawSpriteSemiTrans = 0;
+                }
+                else {
+                    OVar7 = obj->type;
+                    if (OVar7 == TYPE_CYMBALE) {
+                        DISPLAY_CYMBALE(obj,true);
+                    }
+                    else if (((((OVar7 != TYPE_NEIGE) && (OVar7 != TYPE_PALETTE_SWAPPER)) &&
+                            ((OVar7 != TYPE_GENERATING_DOOR &&
+                            ((OVar7 != TYPE_MST_SCROLL || (obj->hit_points == 0)))))) &&
+                            (OVar7 != TYPE_SCROLL_SAX)) && (OVar7 != TYPE_BB1_VIT)) {
+                        if (OVar7 == TYPE_LAVE) {
+                            if (D_801E4DF8 != D_801CEF7A) {
+                                SetPolyG4(&PS1_CurrentDisplay->field5325_0x6094);
+                                SetSemiTrans(&PS1_CurrentDisplay->field5325_0x6094,1);
+                                SetShadeTex(&PS1_CurrentDisplay->field5325_0x6094,1);
+                                pDVar2 = PS1_CurrentDisplay;
+                                (PS1_CurrentDisplay->field5325_0x6094).x0 = 0;
+                                sVar1 = obj->screen_y_pos;
+                                (pDVar2->field5325_0x6094).x1 = 0x140;
+                                (pDVar2->field5325_0x6094).y0 = sVar1 + 0x19;
+                                sVar1 = obj->screen_y_pos;
+                                (pDVar2->field5325_0x6094).x2 = 0;
+                                (pDVar2->field5325_0x6094).y1 = sVar1 + 0x19;
+                                sVar1 = obj->screen_y_pos;
+                                (pDVar2->field5325_0x6094).x3 = 0x140;
+                                (pDVar2->field5325_0x6094).y2 = sVar1 + 0x5a;
+                                sVar1 = obj->screen_y_pos;
+                                (pDVar2->field5325_0x6094).r0 = 0;
+                                pDVar3 = PS1_CurrentDisplay;
+                                (pDVar2->field5325_0x6094).y3 = sVar1 + 0x5a;
+                                (pDVar3->field5325_0x6094).g0 = 0;
+                                (PS1_CurrentDisplay->field5325_0x6094).b0 = 0;
+                                (PS1_CurrentDisplay->field5325_0x6094).r1 = 0;
+                                (PS1_CurrentDisplay->field5325_0x6094).g1 = 0;
+                                (PS1_CurrentDisplay->field5325_0x6094).b1 = 0;
+                                (PS1_CurrentDisplay->field5325_0x6094).r2 = 0xad;
+                                (PS1_CurrentDisplay->field5325_0x6094).g2 = 0;
+                                (PS1_CurrentDisplay->field5325_0x6094).b2 = 0;
+                                (PS1_CurrentDisplay->field5325_0x6094).r3 = 0xb0;
+                                (PS1_CurrentDisplay->field5325_0x6094).g3 = 0;
+                                (PS1_CurrentDisplay->field5325_0x6094).b3 = 0;
+                                AddPrim(PS1_CurrentDisplay->ordering_table + 9,&PS1_CurrentDisplay->field5325_0x6094
+                                    );
+                                (PS1_CurrentDisplay->drawing_environment).tpage = GetTPage(1,1,0x100,0);
+                                pDVar2 = PS1_CurrentDisplay;
+                                
+                                SetDrawEnv(
+                                    &pDVar2->map_drawing_environment_primitives[(u16) D_801E4BE0],
+                                    &pDVar2->drawing_environment
+                                );
+                                AddPrim(
+                                    &PS1_CurrentDisplay->ordering_table[9],
+                                    &PS1_CurrentDisplay->map_drawing_environment_primitives[(u16) D_801E4BE0]
+                                );
+                                D_801E4BE0 = D_801E4BE0 + 1;
+                                D_801CEF7A = D_801E4DF8;
+                            }
+                            PS1_DrawSpriteSemiTrans = 0;
+                            display2(obj);
+                        }
+                        else
+                        {
+                            PS1_DrawSpriteSemiTrans = 0;
+                            display2(obj);
+                            PS1_DrawSpriteSemiTrans = 0;
+                        }
+                    }
+                }
+            }
+        }
+        var_s1 = var_s1 + 1;
+        obj = level.objects + actobj.objects[var_s1];
+    }
+    if (prio == 3) {
+      if (((u8) ray.iframes_timer & 1 || (0x5a < ray.iframes_timer)) &&
+         ((ray.flags & (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE))) == (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE)))) {
+        display2(&ray);
+      }
+      DISPLAY_POING();
+    }
+    else if (prio == 2 && nb_cymbal_in_map != 0 && nb_cymbal_in_map != 0) {
+      for (iVar6 = 0; iVar6 < nb_cymbal_in_map; iVar6++)
+      {
+        if (level.objects[cymbal_obj_id[iVar6]].flags & FLG(OBJ_ACTIVE))
+          DISPLAY_CYMBALE(&level.objects[cymbal_obj_id[iVar6]], false);
+      }
+    }
+    prio = prio + -1;
+    if (prio < 1) {
+        iVar10 = 0;
+        new_var2 = &actobj;
+        test_2 = &actobj.objects[iVar10];
+        obj = level.objects + *test_2;
+        while (iVar10 < new_var2->num_active_objects) {
+            iVar10 = iVar10 + 1;
+            if (obj->display_prio == 0 && (obj->type == TYPE_DUNE)) {
+                display2(obj);
+                PS1_DrawSpriteSemiTrans = 0;
+                return;
+            }
+            test_2 = &actobj.objects[iVar10];
+            obj = level.objects + *test_2;
+        }
+        PS1_DrawSpriteSemiTrans = 0;
+        return;
+    }
+  } while( true );
 }

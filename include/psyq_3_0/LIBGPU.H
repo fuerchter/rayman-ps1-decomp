@@ -104,8 +104,11 @@ extern u_long *ClearOTag(u_long *ot, int n);
 extern void DrawOTag(u_long *p);
 extern DISPENV *PutDispEnv(DISPENV *env);
 extern DRAWENV *PutDrawEnv(DRAWENV *env);
+extern u_short GetTPage(int tp, int abr, int x, int y) ;
 extern void AddPrim(void *ot, void *p) ;
+extern void SetDrawEnv(DR_ENV *dr_env, DRAWENV *env);
 extern void SetPolyFT4(POLY_FT4 *p) ;
+extern void SetPolyG4(POLY_G4 *p) ;
 extern void SetSemiTrans(void *p, int abe) ;
 extern void SetShadeTex(void *p, int tge) ;
 
