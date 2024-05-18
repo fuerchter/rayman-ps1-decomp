@@ -1415,7 +1415,7 @@ void RAY_IN_THE_AIR(void)
     ray_eta = ray.eta;
     if (ray_wind_force != 0)
         ray.nb_cmd = 1;
-    memmove(&pos_stack[1], &pos_stack[0], sizeof(pos_stack) - (1 * sizeof(s16)));
+    memmove(&pos_stack[1], &pos_stack[0], sizeof(pos_stack) - sizeof(s16));
     *pos_stack = ray.x_pos;
     if (ray.sub_etat == 7)
         ray.field20_0x36 = -1;

@@ -124,17 +124,9 @@ void mereDenisExplodeBombs(void)
     s16 id;
     Obj *obj;
 
-    for (
-        var_t0 = 0;
-        var_t0 < (s16) (sizeof(droppedBombIds) / sizeof(droppedBombIds[0]));
-        var_t0++
-    )
+    for (var_t0 = 0; var_t0 < (s16) LEN(droppedBombIds); var_t0++)
     {
-        for (
-            var_v0 = 0;
-            var_v0 < (s16) (sizeof(droppedBombIds[var_t0]) / sizeof(droppedBombIds[var_t0][0]));
-            var_v0++
-        )
+        for (var_v0 = 0; var_v0 < (s16) (LEN(droppedBombIds[var_t0])); var_v0++)
         {
             id = droppedBombIds[var_t0][var_v0];
             if (id != -1)

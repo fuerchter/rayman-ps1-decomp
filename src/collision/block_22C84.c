@@ -112,7 +112,7 @@ s32 myRand(s16 max_incl)
   __asm__("nop\nnop");
 
   max_loc = max_incl + 1;
-  PS1_RandSum += RandArray[RandomIndex & (sizeof(RandArray) / sizeof(s16) - 1)];
+  PS1_RandSum += RandArray[RandomIndex & (LEN(RandArray) - 1)];
   RandomIndex++;
   return (s16) (PS1_RandSum % (max_loc));
 }

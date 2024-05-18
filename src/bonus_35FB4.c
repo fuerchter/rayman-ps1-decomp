@@ -60,12 +60,13 @@ void DO_WIZ_AFTER_BONUS_MAP(void)
 /* 3617C 8015A97C -O2 */
 void init_bonus_perfect(void)
 {
-    s32 cnt;
-    u8* cur;
+    s32 i = LEN(bonus_perfect) - 1;
+    u8 *cur = &bonus_perfect[i];
 
-    cnt = sizeof(bonus_perfect) / sizeof(u8) - 1;
-    cur = &bonus_perfect[cnt];
-    do {
-        *cur = 0; cnt--; cur--;
-    } while (cnt >= 0);
+    while (i >= 0)
+    {
+        *cur = 0;
+        i--;
+        cur--;
+    }
 }
