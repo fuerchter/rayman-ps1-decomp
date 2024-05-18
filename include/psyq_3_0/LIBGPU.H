@@ -96,17 +96,14 @@ typedef struct {
 	short	x0, 	y0;
 } TILE_1;				/* 1x1 Tile */
 
-u_short LoadClut(u_long *clut, int x, int y);
-int ClearImage(RECT *rect, u_char r, u_char g, u_char b);
-int DrawSync(int mode);
-int LoadImage(RECT *rect, u_long *p);
-u_long *ClearOTag(u_long *ot, int n);
-void DrawOTag(u_long *p);
-DISPENV *PutDispEnv(DISPENV *env);
-DRAWENV *PutDrawEnv(DRAWENV *env);
-void SetPolyFT4(POLY_FT4 *p) ;
-void SetSemiTrans(void *p, int abe) ;
-void SetShadeTex(void *p, int tge) ;
+extern u_short LoadClut(u_long *clut, int x, int y);
+extern int ClearImage(RECT *rect, u_char r, u_char g, u_char b);
+extern int DrawSync(int mode);
+extern int LoadImage(RECT *rect, u_long *p);
+extern u_long *ClearOTag(u_long *ot, int n);
+extern void DrawOTag(u_long *p);
+extern DISPENV *PutDispEnv(DISPENV *env);
+extern DRAWENV *PutDrawEnv(DRAWENV *env);
 extern void AddPrim(void *ot, void *p) ;
 extern void SetPolyFT4(POLY_FT4 *p) ;
 extern void SetSemiTrans(void *p, int abe) ;
