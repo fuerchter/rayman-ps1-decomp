@@ -9,7 +9,7 @@
 #include "main_moteur.h"
 #include "snow.h"
 
-extern s16 D_801F4A28; /* range of possible values? */
+extern s16 D_801F4A28; /* range of possible values? reset to 0 every frame */
 extern s16 D_801FA690; /* range of this one at: 8013c0f8 */
 
 void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode);

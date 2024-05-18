@@ -829,3 +829,103 @@ void display_flocons_before(void)
     PROJ_CENTER_X = old_pcx;
     PROJ_CENTER_Y = old_pcy;
 }
+
+/* matches, but didn't feel like cleaning up */
+/*INCLUDE_ASM("asm/nonmatchings/draw", display_pix_gerbes);*/
+
+typedef struct Inner {
+    s16 x;
+    s16 y;
+    u8 unk_1[6];
+} Inner;
+
+typedef struct Outer {
+    Inner inner[64];
+    s16 unk_2;
+} Outer;
+
+/*extern s16 pix_gerbe[2568];*/
+extern Outer pix_gerbe[4];
+
+void display_pix_gerbes(void)
+{
+    TILE_1 *var_s3;
+    s16 var_s5;
+    s16 var_s7;
+    s32 temp_v1_1;
+    u8 var_v0_3;
+    Inner *var_s2;
+    s16 temp_v0_2;
+    u8 temp_v1_2;
+
+    var_s3 = &PS1_CurrentDisplay->tile1s[(u16) D_801FA690];
+    for (var_s7 = 0; var_s7 < 8; var_s7++)
+    {
+        temp_v1_1 = var_s7;
+        if (pix_gerbe[temp_v1_1].unk_2 != 0)
+        {
+            var_s2 = pix_gerbe[temp_v1_1].inner;
+            var_s5 = 0;
+            while (var_s5 < 0x40) /* sizeof... */
+            {
+                temp_v1_2 = var_s2->unk_1[5];
+                if (temp_v1_2 >= 0x80 && (var_s2->y > 0))
+                {
+                    temp_v0_2 = var_s2->unk_1[2];
+                    if (temp_v0_2 >= 0x80)
+                    {
+                        var_v0_3 = 0x58;
+                    }
+                    else
+                    {
+                        var_v0_3 = (temp_v1_2 & 0x7F) + ((temp_v0_2 >> 5) + 4);
+                    }
+
+                    switch (var_v0_3)
+                    {
+                        case 4:
+                            var_s3->r0 = 0x7b;
+                            var_s3->g0 = 0x87;
+                            var_s3->b0 = 0xbb;
+                            break;
+                        case 5:
+                            var_s3->r0 = 0x97;
+                            var_s3->g0 = 0x9f;
+                            var_s3->b0 = 0xdb;
+                            break;
+                        case 6:
+                            var_s3->r0 = 0xbb;
+                            var_s3->g0 = 0xbb;
+                            var_s3->b0 = 0xfb;
+                            break;
+                        case 7:
+                            var_s3->r0 = 0xc7;
+                            var_s3->g0 = 0xd5;
+                            var_s3->b0 = 0xfb;
+                            break;
+                        case 0x58:
+                            var_s3->r0 = 0xff;
+                            var_s3->g0 = 0xbf;
+                            var_s3->b0 = 0xa7;
+                            break;
+                        default:
+                            var_s3->r0 = 0xbb;
+                            var_s3->g0 = 0xbb;
+                            var_s3->b0 = 0xfb;
+                            break;
+                    }
+                    var_s3->x0 = var_s2->x >> 6;
+                    var_s3->y0 = var_s2->y >> 6;
+                    if (D_801FA690 < 0xF0U)
+                    {
+                        AddPrim(PS1_PrevPrim, var_s3);
+                        var_s3++;
+                        D_801FA690++;
+                    }
+                }
+                var_s2++;
+                var_s5++;
+            }
+        }
+    }
+}
