@@ -384,6 +384,35 @@ INCLUDE_ASM("asm/nonmatchings/draw", display_flocons_before);
 
 INCLUDE_ASM("asm/nonmatchings/draw", display_pix_gerbes);
 
-INCLUDE_ASM("asm/nonmatchings/draw", DISPLAY_CYMBALE);
+/* 179B4 8013C1B4 -O2 -msoft-float */
+void DISPLAY_CYMBALE(Obj *obj, u8 param_2)
+{
+    u16 begin; u16 end; u16 i;
+    Sprite *sprite;
+    s16 x; s16 y;
+    Animation *anim = &obj->animations[obj->anim_index];
+    AnimationLayer *layer = &anim->layers[(anim->layers_count & 0x3FFF) * obj->anim_frame];
+    
+    if (!param_2)
+    {
+        end = 5; begin = 3;
+    }
+    else
+    {
+        end = 2; begin = 0;
+    }
+    
+    for (i = begin; i <= end; i++)
+    {
+        sprite = &obj->sprites[layer[i].sprite];
+
+        y = layer[i].y_pos + obj->screen_y_pos;
+        if (sprite->id != 0)
+        {
+            x = layer[i].x_pos + obj->screen_x_pos;
+            PS1_DrawSprite(sprite, x, y, 0);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/draw", DISPLAY_ALL_OBJECTS);

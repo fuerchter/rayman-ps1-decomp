@@ -43,7 +43,7 @@ void FUN_8013b4d4(s16 x0, s16 y0);
 void display_flocons_behind(void);
 void display_flocons_before(void);
 void display_pix_gerbes(void);
-void DISPLAY_CYMBALE(Obj *param_1, u8 param_2);
+void DISPLAY_CYMBALE(Obj *obj, u8 param_2);
 void DISPLAY_ALL_OBJECTS(void);
 
 #endif
