@@ -499,38 +499,32 @@ s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 pa
 
 void SET_RAY_DIST_BAG(Obj *obj)
 {
-  s16 sp18;
-  s16 sp1A;
-  s16 sp1C;
-  s16 sp1E;
-  s16 var_a1;
+  s16 x; s16 y; s16 w; s16 h;
   s16 temp_v0;
-
-  var_a1 = 0;
-  if (obj->sub_etat == 3 || (obj->sub_etat == 6 && obj->anim_frame <= 11))
+  s16 new_dist = 0;
+  if (obj->sub_etat == 3 || (obj->sub_etat == 6 && obj->anim_frame < 12))
   {
-    GET_SPRITE_POS(obj, obj->follow_sprite, &sp18, &sp1A, &sp1C, &sp1E);
-    sp1A += obj->offset_hy;
-    temp_v0 = sp1C;
-    sp1C = 45;
-    sp18 += ((s16) (temp_v0 - sp1C) >> 1);
-    var_a1 = setToleranceDist(sp18, sp1C, sp1A);
+    GET_SPRITE_POS(obj, obj->follow_sprite, &x, &y, &w, &h);
+    y += obj->offset_hy;
+    temp_v0 = w;
+    w = 45;
+    x += ((s16) (temp_v0 - w) >> 1);
+    new_dist = setToleranceDist(x, w, y);
   }
   else
-  {
-    var_a1 = 0x2710;
-  }
+    new_dist = 10000;
+  
   if (ray.field20_0x36 == obj->id && obj->sub_etat == 6 && obj->anim_frame == 11)
   {
     ray.field20_0x36 = -1;
     set_main_and_sub_etat(&ray, 2, 0);
-    var_a1 = 0x2710;
+    new_dist = 10000;
     ray.speed_y -= 10;
   }
-  obj->ray_dist = var_a1;
+  obj->ray_dist = new_dist;
 }
 
-/* standard version, then gotos-only below... no idea yet how to fix remaining issue */
+/* matches, but cleanup */
 /*INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_POING_COLLISION);*/
 
 /*void DO_BAT_POING_COLLISION(Obj *obj);
@@ -553,492 +547,451 @@ s16 ANGLE_RAYMAN(Obj *obj);
 
 void DO_POING_COLLISION(void)
 {
-    s16 sp18;
-    s16 sp1A;
-    u16 sp1C;
-    u16 sp1E;
+    s16 pspr_x;
+    s16 pspr_y;
+    s16 pspr_w;
+    s16 pspr_h;
     u8 var_a1_2;
     u8 var_a1_3;
     u8 var_a1_4;
     u8 var_a2;
     u8 var_a2_2;
-    Obj *temp_s1;
+    Obj *poing_obj;
     Obj *temp_v0_3;
-    Obj *var_s0;
+    Obj *other_obj;
     s16 temp_a0;
-    s16 temp_v0;
-    s32 temp_v0_2;
+    s16 temp_v0_1;
+    s32 sprite;
     s32 temp_v0_5;
-    s16 temp_v0_6;
+    s16 pspeed_x;
     s16 var_a1;
     s32 var_s2_2;
-    s16 var_s5;
+    s16 i;
     s16 var_v0_2;
-    s32 temp_a1;
+    s32 test_4;
     s32 temp_v0_4;
     s32 temp_v1_2;
-    u8 var_v0;
+    u8 btyp;
     s32 var_v0_5;
     s32 var_v1;
     u32 temp_v1_3;
     u32 var_v0_3;
     u8 temp_a1_2;
-    u8 temp_s5;
+    u8 old_hp;
     u8 temp_v0_8;
-    u8 temp_v1;
+    u8 temp_v1_1;
     s32 temp_v1_4;
     u8 temp_v1_5;
     s32 temp_v1_6;
     s32 temp_v1_7;
-    s32 var_s2;
+    s32 fall_x_accel;
     s16 test_1;
     s32 test_2;
     s32 test_3;
     int new_var;
+    u8 correct_pos;
 
-    /*var_s2 = saved_reg_s2;*/
-    temp_s1 = &level.objects[poing_obj_id];
-    var_v0 = 0;
-    GET_SPRITE_POS(temp_s1, 0, &sp18, &sp1A, &sp1C, &sp1E);
-    if ((temp_v0 = temp_s1->speed_x) > 0 || temp_s1->speed_x < 0)
-    {
-        var_v0 = PS1_BTYPAbsPos(temp_s1->x_pos + temp_s1->offset_bx, temp_s1->y_pos + ((s32) (temp_s1->offset_by + temp_s1->offset_hy) >> 1));
-    }
-    temp_a1 = ((u8) block_flags[var_v0] >> 1) & 1;
-    var_s5 = 0;
-    if (temp_a1 != 0)
+    poing_obj = &level.objects[poing_obj_id];
+    btyp = 0;
+    /* TODO: already being weird in multiple ways */
+    GET_SPRITE_POS(poing_obj, 0, &pspr_x, &pspr_y, &pspr_w, &pspr_h);
+    if ((temp_v0_1 = poing_obj->speed_x) > 0 || poing_obj->speed_x < 0)
+        btyp = PS1_BTYPAbsPos(
+            poing_obj->x_pos + poing_obj->offset_bx,
+            poing_obj->y_pos + ((poing_obj->offset_by + poing_obj->offset_hy) >> 1)
+        );
+    if (block_flags[btyp] >> BLOCK_SOLID & 1)
     {
         do_boum();
-        fin_poing_follow(temp_s1, 1);
-        return;
+        fin_poing_follow(poing_obj, true);
     }
-    var_s0 = &level.objects[actobj.objects[var_s5]];
-    if (temp_a1 < actobj.num_active_objects)
+    else
     {
-        test_1 = 2;
-        test_2 = ~0x4000;
-        test_3 = 1;
-        do
+        i = 0;
+        other_obj = &level.objects[actobj.objects[i]];
+        while (i < actobj.num_active_objects)
         {
-            if ((new_world != 0) || (new_level != 0) || (fin_boss != 0))
+            if (new_world != 0 || new_level != 0 || fin_boss != 0)
                 break;
         
-            if ((var_s0->display_prio != 0) && (var_s0->hit_points != 0) && (var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 8))
+            if (
+                other_obj->display_prio != 0 && other_obj->hit_points != 0 &&
+                other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & (1 << 3)
+            )
             {
-                temp_v0_2 = CHECK_BOX_COLLISION(0x005E, sp18, sp1A, (s16) sp1C, (s16) (s32) (s16) sp1E, var_s0);
-                if (temp_v0_2 != -1)
+                sprite = CHECK_BOX_COLLISION(TYPE_POING, pspr_x, pspr_y, pspr_w, pspr_h, other_obj);
+                if (sprite != -1)
                 {
-                    temp_v1 = var_s0->type;
-                    temp_s5 = var_s0->hit_points;
-                    switch (temp_v1)
+                    old_hp = other_obj->hit_points;
+                    switch (other_obj->type)
                     {
-                    case 0xDF:
-                        if ((temp_v0_2 == 6) && (poing.is_returning == 0) && (var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 1))
+                    case TYPE_HYBRIDE_STOSKO:
+                        if (
+                            sprite == 6 && !poing.is_returning &&
+                            other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & (1 << 0)
+                        )
                         {
                             poing.damage = 1;
-                            obj_hurt(var_s0);
-                            if (var_s0->hit_points != 0)
+                            obj_hurt(other_obj);
+                            if (other_obj->hit_points != 0)
                             {
-                                if (var_s0->sub_etat == 2)
-                                {
-                                    set_sub_etat(var_s0, 4);
-                                }
+                                if (other_obj->sub_etat == 2)
+                                    set_sub_etat(other_obj, 4);
                                 else
-                                {
-                                    set_sub_etat(var_s0, 0xD);
-                                }
+                                    set_sub_etat(other_obj, 13);
                             }
                             else
                             {
-                                if (var_s0->sub_etat == 2)
+                                if (other_obj->sub_etat == 2)
                                 {
-                                    level.objects[var_s0->field24_0x3e].flags &= ~0x400;
-                                    DO_NOVA(&level.objects[var_s0->field24_0x3e]);
+                                    level.objects[other_obj->field24_0x3e].flags &= ~FLG(OBJ_ALIVE);
+                                    DO_NOVA(&level.objects[other_obj->field24_0x3e]);
                                 }
-                                set_sub_etat(var_s0, 8);
-                                var_s0->field23_0x3c = 1;
+                                set_sub_etat(other_obj, 8);
+                                other_obj->field23_0x3c = 1;
                             }
                         }
                         break;
-                    case 0xDA:
-                        if ((var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 1) && ((temp_v0_2 == 3) || (temp_v0_2 == 6)))
+                    case TYPE_HYBRIDE_MOSAMS:
+                        if (
+                            other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & (1 << 0) &&
+                            (sprite == 3 || sprite == 6)
+                        )
                         {
                             poing.damage = 1;
-                            obj_hurt(var_s0);
-                            if (var_s0->hit_points == 0)
+                            obj_hurt(other_obj);
+                            if (other_obj->hit_points == 0)
                             {
-                                skipToLabel(var_s0, 2, 1);
-                                var_s0->field23_0x3c = 1;
+                                skipToLabel(other_obj, 2, true);
+                                other_obj->field23_0x3c = 1;
                             }
                             else
+                                skipToLabel(other_obj, 4, true);
+                        }
+                        break;
+                    case TYPE_SPACE_MAMA:
+                    case TYPE_SPACE_MAMA2:
+                        doMereDenisHit(other_obj, sprite);
+                        break;
+                    case TYPE_DARK:
+                        DO_DARK_POING_COLLISION(other_obj, sprite);
+                        break;
+                    case TYPE_BATTEUR_FOU:
+                        if (sprite == 2)
+                            DO_BAT_POING_COLLISION(other_obj);
+                        break;
+                    case TYPE_MAMA_PIRATE:
+                        if (sprite == 5)
+                            DO_PMA_POING_COLLISION(other_obj);
+                        break;
+                    case TYPE_MOSKITO:
+                    case TYPE_MOSKITO2:
+                        doMoskitoHit(other_obj, sprite);
+                        break;
+                    case TYPE_ONEUP:
+                        if (RayEvts.flags0 & FLG(RAYEVTS0_GRAP) && ray_mode != MODE_MORT_DE_RAYMAN)
+                            poing_obj->field20_0x36 = other_obj->id;
+                        break;
+                    case TYPE_PT_GRAPPIN:
+                        if (RayEvts.flags0 & FLG(RAYEVTS0_GRAP) && ray_mode != MODE_MORT_DE_RAYMAN)
+                        {
+                            temp_a1_2 = other_obj->offset_by;
+                            temp_v1_2 = (ray.y_pos + ray.offset_by) - other_obj->y_pos;
+                            /* TODO: how is this not __builtin_abs??? */
+                            if (temp_v1_2 - temp_a1_2 >= 0)
                             {
-                                var_a1_2 = 4;
-                                skipToLabel(var_s0, var_a1_2, 1);
-                            }
-                        }
-                        break;
-                    case 0x62:
-                    case 0xD5:
-                        doMereDenisHit(var_s0, temp_v0_2);
-                        break;
-                    case 0xD4:
-                        DO_DARK_POING_COLLISION(var_s0, temp_v0_2);
-                        break;
-                    case 0x78:
-                        if (temp_v0_2 == (s16) 2)
-                        {
-                            DO_BAT_POING_COLLISION(var_s0);
-                        }
-                        break;
-                    case 0xBB:
-                        if (temp_v0_2 == 5)
-                        {
-                            DO_PMA_POING_COLLISION(var_s0);
-                        }
-                        break;
-                    case 0x32:
-                    case 0xE3:
-                        doMoskitoHit(var_s0, temp_v0_2);
-                        break;
-                    case 0x8E:
-                        if ((RayEvts.flags0 & 0x80) && (ray_mode != 3))
-                        {
-                            temp_s1->field20_0x36 = (s16) (u16) var_s0->id;
-                        }
-                        break;
-                    case 0x8C:
-                        if ((RayEvts.flags0 & 0x80) && (ray_mode != 3))
-                        {
-                            temp_a1_2 = var_s0->offset_by;
-                            temp_v1_2 = (ray.y_pos + ray.offset_by) - var_s0->y_pos;
-                            temp_v0_4 = temp_v1_2 - temp_a1_2;
-                            if (temp_v0_4 >= 0)
-                            {
-                                if (temp_v0_4 < 0xFA)
+                                if (temp_v1_2 - temp_a1_2 < 0xFA)
                                 {
                                     goto block_47;
                                 }
                             }
-                            else if ((temp_a1_2 - temp_v1_2) < 0xFA)
+                            else if (temp_v1_2 - temp_a1_2 < 0 && -(temp_v1_2 - temp_a1_2) < 0xFA)
                             {
 block_47:
                                 SET_RAY_BALANCE();
-                                id_obj_grapped = (s16) (u16) var_s0->id;
-                                temp_v0_5 = ANGLE_RAYMAN(var_s0);
-                                var_s0->follow_x = temp_v0_5;
-                                if (temp_v0_5 >= 0x101)
-                                    var_s0->field24_0x3e = -1;
-                                else if (temp_v0_5 < 0x101)
+                                id_obj_grapped = other_obj->id;
+                                temp_v0_5 = ANGLE_RAYMAN(other_obj);
+                                other_obj->follow_x = temp_v0_5;
+                                if (temp_v0_5 > 256) /* sub 256 then sgn? */
+                                    other_obj->field24_0x3e = -1;
+                                else if (temp_v0_5 <= 256)
                                 {
-                                    if(temp_v0_5 == 0x0100 && !(ray.flags & 0x4000))
-                                        var_s0->field24_0x3e = -1;
+                                    if(temp_v0_5 == 256 && !(ray.flags & FLG(OBJ_FLIP_X)))
+                                        other_obj->field24_0x3e = -1;
                                     else
-                                        var_s0->field24_0x3e = 1;
+                                        other_obj->field24_0x3e = 1;
                                 }
-                                else /* ??? */
-                                    var_s0->field24_0x3e = 1;
+                                else /* TODO: ??? */
+                                    other_obj->field24_0x3e = 1;
                                 
-                                if ((var_s0->main_etat == 0) && (var_s0->sub_etat == 0))
+                                if ((other_obj->main_etat == 0) && (other_obj->sub_etat == 0))
                                 {
-                                    skipToLabel(var_s0, 0, 1);
+                                    skipToLabel(other_obj, 0, true);
                                 }
                                 poing.is_active = 0;
                                 poing.is_returning = 0;
-                                temp_s1->flags &= ~0x400;
-                                temp_s1->flags &= ~0x800;
-                                fin_poing_follow(temp_s1, 0U);
+                                poing_obj->flags &= ~FLG(OBJ_ALIVE);
+                                poing_obj->flags &= ~FLG(OBJ_ACTIVE);
+                                fin_poing_follow(poing_obj, false);
                             }
                         }
                         break;
-                    case 0x98:
-                        if ((var_s0->main_etat != 0) || (var_s0->sub_etat != 2))
+                    case TYPE_CAISSE_CLAIRE:
+                        if (!(other_obj->main_etat == 0 && other_obj->sub_etat == 2))
                         {
-                            set_main_and_sub_etat(var_s0, 1, 1);
-                            temp_v1_3 = var_s0->flags;
-                            if (!(temp_v1_3 & 0x4000))
+                            set_main_and_sub_etat(other_obj, 1, 1);
+                            if (!(other_obj->flags & FLG(OBJ_FLIP_X)))
                             {
-                                var_s0->flags = temp_v1_3 | 0x4000;
-                                skipToLabel(var_s0, 3, 1);
+                                other_obj->flags |= FLG(OBJ_FLIP_X);
+                                skipToLabel(other_obj, 3, true);
                             }
                             else
                             {
-                                var_s0->flags = temp_v1_3 & ~0x4000;
-                                skipToLabel(var_s0, 2, 1);
+                                other_obj->flags &= ~FLG(OBJ_FLIP_X);
+                                skipToLabel(other_obj, 2, true);
                             }
+                        }
+                        break;
+                    case TYPE_BLACKTOON1:
+                        obj_hurt(other_obj);
+                        if (other_obj->hit_points == 0)
+                        {
+                            set_main_and_sub_etat(other_obj, 0, 4);
+                            other_obj->speed_y = 0;
+                            /* TODO: rewriting this like TYPE_MORNINGSTAR_MOUNTAI didn't work */
+                            pspeed_x = poing_obj->speed_x;
+                            if (pspeed_x >= 0)
+                            {
+                                if (pspeed_x > 0)
+                                    other_obj->flags &= ~FLG(OBJ_FLIP_X);
+                                else /* temp_v0_6 == 0 */
+                                {
+                                    if (poing_obj->flags & FLG(OBJ_FLIP_X))
+                                        other_obj->flags &= ~FLG(OBJ_FLIP_X);
+                                    else
+                                        other_obj->flags |= FLG(OBJ_FLIP_X);
+                                }
+                            }
+                            else if (pspeed_x < 0)
+                                other_obj->flags |= FLG(OBJ_FLIP_X);
                             
-                        }
-                        break;
-                    case 0x7B:
-                        obj_hurt(var_s0);
-                        if (var_s0->hit_points == 0)
-                        {
-                            set_main_and_sub_etat(var_s0, 0, 4);
-                            var_s0->speed_y = 0;
-                            temp_v0_6 = temp_s1->speed_x;
-                            if (temp_v0_6 >= 0)
-                            {
-                                if (temp_v0_6 > 0)
-                                {
-                                    var_v0_3 = var_s0->flags;
-                                    var_v0_3 = var_v0_3 & ~0x4000;
-                                }
-                                else if ((temp_s1->flags & 0x4000))
-                                {
-                                    var_v0_3 = var_s0->flags & ~0x4000;
-                                }
-                                else
-                                {
-                                    var_v0_3 = var_s0->flags | 0x4000;
-                                }
-                            }
+                            allocateBlacktoonEyes(other_obj);
+                            if (other_obj->flags & FLG(OBJ_FLIP_X))
+                                skipToLabel(other_obj, 2, true);
                             else
-                                var_v0_3 = var_s0->flags | 0x4000;
-                        block_67:
-                            var_s0->flags = var_v0_3;
-                            allocateBlacktoonEyes(var_s0);
-                            if (var_s0->flags & 0x4000)
-                            {
-                                skipToLabel(var_s0, 2, 1);
-                            }
-                            else
-                            {
-                                skipToLabel(var_s0, 3, 1);
-                            }
+                                skipToLabel(other_obj, 3, true);
                             break;
                         }
                         break;
-                    case 0x65:
-                        if ((temp_v0_2 == 4) && (var_s0->sub_etat == 5))
+                    case TYPE_MORNINGSTAR_MOUNTAI:
+                        if (sprite == 4 && other_obj->sub_etat == 5)
                         {
-                            temp_v0_6 = temp_s1->speed_x;
-                            if ((temp_v0_6 >= 0) && ((temp_v0_6 > 0) || (temp_s1->flags & 0x4000)))
-                            {
-                                set_sub_etat(var_s0, 9);
-                            }
+                            pspeed_x = poing_obj->speed_x;
+                            if (pspeed_x >= 0 && (pspeed_x > 0 || poing_obj->flags & FLG(OBJ_FLIP_X)))
+                                set_sub_etat(other_obj, 9);
                             else
-                            {
-                                set_sub_etat(var_s0, 6);
-                            }
+                                set_sub_etat(other_obj, 6);
                         }
                         break;
-                    case 0x91:
-                        if (--var_s0->hit_points)
+                    case TYPE_KILLING_EYES:
+                        if (--other_obj->hit_points)
                         {
-                            set_sub_etat(var_s0, 5);
-                            var_s0->iframes_timer = 0x0032;
+                            set_sub_etat(other_obj, 5);
+                            other_obj->iframes_timer = 50;
                         }
                         else
+                            set_sub_etat(other_obj, 6);
+                        break;
+                    case TYPE_PIRATE_GUETTEUR:
+                    case TYPE_PIRATE_GUETTEUR2:
+                        DO_PAR_POING_COLLISION(other_obj, sprite);
+                        break;
+                    case TYPE_PIRATE_NGAWE:
+                        DO_NGW_POING_COLLISION(other_obj, sprite);
+                        break;
+                    case TYPE_CAGE:
+                        obj_hurt(other_obj);
+                        if (other_obj->hit_points == 0)
                         {
-                            set_sub_etat(var_s0, 6);
-                        }
-                        break;
-                    case 0x4D:
-                    case 0xEF:
-                        DO_PAR_POING_COLLISION(var_s0, temp_v0_2);
-                        break;
-                    case 0x48:
-                        DO_NGW_POING_COLLISION(var_s0, temp_v0_2);
-                        break;
-                    case 0x3A:
-                        obj_hurt(var_s0);
-                        if (var_s0->hit_points == 0)
-                        {
-                            var_s0->init_main_etat = 0;
-                            var_s0->init_sub_etat = 8;
-                            var_s0->init_x_pos = (s16) (u16) var_s0->x_pos;
-                            var_s0->init_y_pos = (s16) (u16) var_s0->y_pos;
-                            set_sub_etat(var_s0, 0xC);
-                            var_s0->init_flag = 7;
+                            other_obj->init_main_etat = 0;
+                            other_obj->init_sub_etat = 8;
+                            other_obj->init_x_pos = other_obj->x_pos;
+                            other_obj->init_y_pos = other_obj->y_pos;
+                            set_sub_etat(other_obj, 12);
+                            other_obj->init_flag = 7;
                             ALLOCATE_MEDAILLON_TOON();
                             lidol_to_allocate = 5;
-                            lidol_source_obj = var_s0;
-                            Nb_total_cages += 1;
-                            take_bonus(var_s0->id);
+                            lidol_source_obj = other_obj;
+                            Nb_total_cages++;
+                            take_bonus(other_obj->id);
                         }
                         else
+                            set_sub_etat(other_obj, 10);
+                        break;
+                    case TYPE_BB1:
+                        if (sprite == 9)
+                            DO_BBMONT_TOUCHE(other_obj);
+                        break;
+                    case TYPE_NOTE0:
+                    case TYPE_NOTE1:
+                    case TYPE_NOTE2:
+                    case TYPE_BONNE_NOTE:
+                    case TYPE_NOTE3:
+                        DO_NOTE_TOUCHEE(other_obj, sprite);
+                        break;
+                    case TYPE_TOTEM:
+                        DO_TOTEM_TOUCHE(other_obj, sprite);
+                        break;
+                    case TYPE_PI_MUS:
+                        if (other_obj->main_etat == 0 && Mus_obj_id >= 0)
                         {
-                            set_sub_etat(var_s0, 0xA);
-                        }
-                        break;
-                    case 0x2E:
-                        if (temp_v0_2 == 9)
-                        {
-                            DO_BBMONT_TOUCHE(var_s0);
-                        }
-                        break;
-                    case 0x5A:
-                    case 0x5B:
-                    case 0x5C:
-                    case 0x5D:
-                    case 0xB6:
-                        DO_NOTE_TOUCHEE(var_s0, temp_v0_2);
-                        break;
-                    case 0x60:
-                        DO_TOTEM_TOUCHE(var_s0, temp_v0_2);
-                        break;
-                    case 0x6F:
-                        if ((var_s0->main_etat == 0) && (Mus_obj_id >= 0))
-                        {
-                            PlaySnd(0x0053, var_s0->id);
-                            var_s0->hit_points--;
-                            switch (var_s0->hit_points)
+                            PlaySnd(83, other_obj->id);
+                            other_obj->hit_points--;
+                            switch (other_obj->hit_points)
                             {
                             case 3:
-                                set_sub_etat(var_s0, 4);
-                                allocateEclatPS(var_s0, 7);
+                                set_sub_etat(other_obj, 4);
+                                allocateEclatPS(other_obj, 7);
                                 set_sub_etat(&level.objects[Mus_obj_id], 6);
                                 break;
                             case 2:
-                                set_sub_etat(var_s0, 6);
-                                allocateEclatPS(var_s0, 8);
+                                set_sub_etat(other_obj, 6);
+                                allocateEclatPS(other_obj, 8);
                                 break;
                             case 1:
-                                set_sub_etat(var_s0, 8);
-                                allocateEclatPS(var_s0, 9);
+                                set_sub_etat(other_obj, 8);
+                                allocateEclatPS(other_obj, 9);
                                 break;
                             case 0:
                                 if (level.objects[Mus_obj_id].sub_etat == 6)
                                 {
-                                    PlaySnd(0x0053, var_s0->id);
-                                    set_sub_etat(var_s0, 9);
+                                    PlaySnd(83, other_obj->id);
+                                    set_sub_etat(other_obj, 9);
                                     level.objects[Mus_obj_id].sub_etat = 3;
                                     level.objects[Mus_obj_id].init_sub_etat = 4;
-                                    var_s0->init_sub_etat = 0x0A;
+                                    other_obj->init_sub_etat = 10;
                                 }
                                 break;
                             }
                         }
                         break;
-                    case 0x6D:
-                        if (var_s0->main_etat == 0)
+                    case TYPE_PI:
+                        if (other_obj->main_etat == 0)
                         {
-                            obj_hurt(var_s0);
-                            if (var_s0->hit_points == 0)
+                            obj_hurt(other_obj);
+                            if (other_obj->hit_points == 0)
                             {
-                                DO_PI_EXPLOSION(var_s0);
-                                var_s0->flags &= ~0x800;
-                                if (ray.field20_0x36 == var_s0->id)
+                                DO_PI_EXPLOSION(other_obj);
+                                other_obj->flags &= ~FLG(OBJ_ACTIVE);
+                                if (ray.field20_0x36 == other_obj->id)
                                 {
                                     ray.field20_0x36 = -1;
-                                    var_s0->ray_dist = 0x03E8;
+                                    other_obj->ray_dist = 1000;
                                     set_main_and_sub_etat(&ray, 2, 2);
                                 }
-                                var_v1 = -0x401;
-                                var_s0->flags &= var_v1;
+                                other_obj->flags &= ~FLG(OBJ_ALIVE);
                             }
                             else
                             {
-                                set_sub_etat(var_s0, 1);
-                                var_s0->anim_frame = 0;
+                                set_sub_etat(other_obj, 1);
+                                other_obj->anim_frame = 0;
                             }
                         }
                         break;
-                    case 0xA6:
-                        DO_LEV_POING_COLLISION(var_s0, temp_v0_2);
+                    case TYPE_LEVIER:
+                        DO_LEV_POING_COLLISION(other_obj, sprite);
                         break;
-                    case 0x41:
-                        obj_hurt(var_s0);
-                        if (var_s0->hit_points == 0)
+                    case TYPE_SPIDER:
+                        obj_hurt(other_obj);
+                        if (other_obj->hit_points == 0)
                         {
-                            set_main_and_sub_etat(var_s0, 0, 7);
-                            var_s0->anim_frame = 0;
-                            var_v1 = 0xFFFF7FFF;
-                            var_s0->flags &= var_v1;
-                            break;
-                        }
-                        if ((var_s0->main_etat == 0) && ((temp_v1_5 = var_s0->sub_etat, (((u32) (temp_v1_5 - 2) < 2U) != 0)) || ((u32) (temp_v1_5 - 4) < 2U)))
-                        {
-                            var_s0->cmd_context_index = 0xFF;
-                        }
-                        var_s0->field23_0x3c = 0;
-                        if (level.objects[poing_obj_id].speed_x > 0)
-                        {
-                            skipToLabel(var_s0, 3, 1);
-                            var_v0_3 = var_s0->flags | 0x4000;
+                            set_main_and_sub_etat(other_obj, 0, 7);
+                            other_obj->anim_frame = 0;
+                            other_obj->flags &= ~FLG(OBJ_READ_CMDS);
                         }
                         else
                         {
-                            skipToLabel(var_s0, 1, 1);
-                            var_v0_3 = var_s0->flags;
-                            var_v0_3 &= ~0x4000;
+                            if (
+                                other_obj->main_etat == 0 &&
+                                (other_obj->sub_etat == 2 || other_obj->sub_etat == 3 || other_obj->sub_etat == 4 || other_obj->sub_etat == 5)
+                            )
+                                other_obj->cmd_context_index = 0xFF;
+                            other_obj->field23_0x3c = 0;
+                            if (level.objects[poing_obj_id].speed_x > 0)
+                            {
+                                skipToLabel(other_obj, 3, true);
+                                other_obj->flags |= FLG(OBJ_FLIP_X);
+                            }
+                            else
+                            {
+                                skipToLabel(other_obj, 1, true);
+                                other_obj->flags &= ~FLG(OBJ_FLIP_X);
+                            }
+                            pushToLabel(other_obj, 6, true);
+                            other_obj->anim_frame = 0;
+                            pushToLabel(other_obj, 7, true);
                         }
-                        var_s0->flags = var_v0_3;
-                        pushToLabel(var_s0, 6, 1);
-                        var_s0->anim_frame = 0;
-                        pushToLabel(var_s0, 7, 1);
                         break;
-                    case 0x28:
-                    case 0x7A:
-                        obj_hurt(var_s0);
-                        if (var_s0->hit_points != 0)
+                    case TYPE_STONEDOG:
+                    case TYPE_STONEDOG2:
+                        obj_hurt(other_obj);
+                        if (other_obj->hit_points != 0)
                         {
-                            skipToLabel(var_s0, 5, 1);
-                            var_s0->gravity_value_2 = 7;
-                            var_s0->change_anim_mode = 2;
-                            temp_v0_6 = temp_s1->speed_x;
-                            if (temp_v0_6 > 0)
-                            {
-                                var_v0_3 = var_s0->flags;
-                                var_v0_3 &= ~0x4000;
-                                var_s0->flags = var_v0_3;
-                            }
-                            else if (temp_v0_6 < 0)
-                            {
-                                var_s0->flags |= 0x4000;
-                            }
+                            skipToLabel(other_obj, 5, true);
+                            other_obj->gravity_value_2 = 7;
+                            other_obj->change_anim_mode = ANIMMODE_RESET;
+                            pspeed_x = poing_obj->speed_x;
+                            if (pspeed_x > 0)
+                                other_obj->flags &= ~FLG(OBJ_FLIP_X);
+                            else if (pspeed_x < 0)
+                                other_obj->flags |= FLG(OBJ_FLIP_X);
                         }
                         else
                         {
-                            set_main_and_sub_etat(var_s0, 0, 3);
-                            var_v1 = 0xFFFF7FFF;
-                            var_s0->flags &= var_v1;
+                            set_main_and_sub_etat(other_obj, 0, 3);
+                            other_obj->flags &= ~FLG(OBJ_READ_CMDS);
                             break;
                         }
                         break;
-                    case 0x24:
-                    case 0x2F:
-                    case 0x45:
-                        set_sub_etat(var_s0, 1);
-                        DO_STONE_EXPLOSION(var_s0);
+                    case TYPE_STONEBOMB:
+                    case TYPE_STONEBOMB2:
+                    case TYPE_STONEBOMB3:
+                        set_sub_etat(other_obj, 1);
+                        DO_STONE_EXPLOSION(other_obj);
                         break;
-                    case 0x23:
-                    case 0x2B:
-                        DO_PNG_COLL_STONEMAN(var_s0);
+                    case TYPE_STONEMAN1:
+                    case TYPE_STONEMAN2:
+                        DO_PNG_COLL_STONEMAN(other_obj);
                         break;
-                    case 0x38:
-                    case 0xAC:
-                        DO_PNG_COLL_STONEWOMAN(var_s0);
+                    case TYPE_STONEWOMAN2:
+                    case TYPE_STONEWOMAN:
+                        DO_PNG_COLL_STONEWOMAN(other_obj);
                         break;
-                    case 0x1:
-                        if (temp_v0_2 == var_s0->hit_sprite)
+                    case TYPE_PLATFORM:
+                        if (sprite == other_obj->hit_sprite) /* tempted to rename "sprite" */
                         {
-                            temp_v0_6 = temp_s1->speed_x;
-                            if (temp_v0_6 > 0)
-                            {
-                                set_sub_etat(var_s0, 0x19);
-                            }
-                            else if (temp_v0_6 < 0)
-                            {
-                                set_sub_etat(var_s0, 0x1A);
-                            }
+                            pspeed_x = poing_obj->speed_x;
+                            if (pspeed_x > 0)
+                                set_sub_etat(other_obj, 25);
+                            else if (pspeed_x < 0)
+                                set_sub_etat(other_obj, 26);
                         }
                         break;
-                    case 0x6:
-                    case 0x8:
-                    case 0x86:
-                    case 0xA7:
-                    case 0xB1:
-                        temp_v1_6 = var_s0->type;
-                        switch (temp_v1_6)
+                    case TYPE_FALLING_OBJ:
+                    case TYPE_FALLING_OBJ2:
+                    case TYPE_FALLING_OBJ3:
+                    case TYPE_FALLING_YING:
+                    case TYPE_FALLING_YING_OUYE:
+                        switch (other_obj->type)
                         {
-                        case 0x86:
-                        case 0xA7:
-                        case 0x8:
-                            PlaySnd(0x002C, var_s0->id);
+                        case TYPE_FALLING_OBJ:
+                        case TYPE_FALLING_OBJ2:
+                        case TYPE_FALLING_OBJ3:
+                            PlaySnd(44, other_obj->id);
                             break;
-                        case 0xB1:
-                        case 0x6:
-                            PlaySnd(0x008B, var_s0->id);
+                        case TYPE_FALLING_YING:
+                        case TYPE_FALLING_YING_OUYE:
+                            PlaySnd(139, other_obj->id);
                             break;
                         }
                         
@@ -1047,12 +1000,12 @@ block_47:
                         case 1:
                         case 3:
                         case 5:
-                            var_s2 = poing.damage;
+                            fall_x_accel = poing.damage;
                             break;
                         case 8:
                         case 10:
                         case 12:
-                            var_s2 = poing.damage - 2;
+                            fall_x_accel = poing.damage - 2;
                         case 2:
                         case 4:
                         case 6:
@@ -1061,1404 +1014,316 @@ block_47:
                         case 11:
                             break;
                         }
-                        var_v0_5 = var_s2 * 4;
-                        var_s2 = var_v0_5 + var_s2 + 0xA;
-                        if (temp_s1->speed_x < 0)
-                        {
-                            var_s2 = -var_s2;
-                        }
-                        make_my_fruit_go_down(var_s0, var_s2);
+                        fall_x_accel = fall_x_accel * 5 + 10;
+                        if (poing_obj->speed_x < 0)
+                            fall_x_accel = -fall_x_accel;
+                        make_my_fruit_go_down(other_obj, fall_x_accel);
                         break;
-                    case 0x25:
-                        set_main_and_sub_etat(var_s0, 0, 1);
-                        var_s0->cmd = 0;
+                    case TYPE_TARZAN:
+                        set_main_and_sub_etat(other_obj, 0, 1);
+                        other_obj->cmd = GO_LEFT;
                         break;
-                    case 0x14:
-                        if (temp_v0_2 == 0)
+                    case TYPE_GENEBADGUY:
+                        if (sprite == 0)
                         {
                             poing.damage = 1;
-                            obj_hurt(var_s0);
-                            if (var_s0->hit_points == 0)
-                            {
-                                var_a1_2 = 4;
-                                skipToLabel(var_s0, 4, 1);
-                                break;
-                            }
-                            var_a1_2 = 3;
-                            skipToLabel(var_s0, 3, 1);
-                            break;
+                            obj_hurt(other_obj);
+                            if (other_obj->hit_points == 0)
+                                skipToLabel(other_obj, 4, true);
+                            else
+                                skipToLabel(other_obj, 3, true);
                         }
-                        var_a1_2 = 2;
-                        skipToLabel(var_s0, 2, 1);
+                        else
+                            skipToLabel(other_obj, 2, true);
                         break;
-                    case 0xC:
-                    case 0xE:
-                        if (var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 1)
+                    case TYPE_CHASSEUR1:
+                    case TYPE_CHASSEUR2:
+                        /* CLEANUP: NEXT */
+                        if (other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & 1)
                         {
-                        case 0xA:
-                            obj_hurt(var_s0);
-                            if (var_s0->hit_points != 0)
+                    case TYPE_FISH: /* TODO: fall-through? */
+                            obj_hurt(other_obj);
+                            if (other_obj->hit_points != 0)
                             {
-                                var_s0->speed_x = 0;
-                                var_s0->speed_y = 0;
-                                set_main_and_sub_etat(var_s0, 0, 1);
+                                other_obj->speed_x = 0;
+                                other_obj->speed_y = 0;
+                                set_main_and_sub_etat(other_obj, 0, 1);
                             }
                             else
                             {
-                                set_main_and_sub_etat(var_s0, 0, 3);
+                                set_main_and_sub_etat(other_obj, 0, 3);
                             }
-                            if (var_s0->type == 0x0A)
+                            if (other_obj->type == TYPE_FISH)
                             {
-                                DESACTIVE_FISH_COLLIS(var_s0);
+                                DESACTIVE_FISH_COLLIS(other_obj);
                             }
-                            if (!(var_s0->flags & 0x4000))
+                            if (!(other_obj->flags & 0x4000))
                             {
-                                var_s0->cmd = 0;
+                                other_obj->cmd = 0;
                             }
                             else
                             {
-                                var_s0->cmd = 1;
+                                other_obj->cmd = 1;
                             }
                         }
                         break;
-                    case 0x9:
-                    case 0xA5:
-                        if ((temp_v0_2 == 0x00FF) || (var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 1))
+                    case TYPE_BADGUY2:
+                    case TYPE_BADGUY3:
+                        if ((sprite == 0x00FF) || (other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & 1))
                         {
-                            obj_hurt(var_s0);
-                            if (var_s0->hit_points == 0)
+                            obj_hurt(other_obj);
+                            if (other_obj->hit_points == 0)
                             {
-                                set_main_and_sub_etat(var_s0, 0, 3);
-                                skipToLabel(var_s0, 2, 1);
-                                var_s0->y_pos = (u16) var_s0->y_pos - 2;
-                                var_s0->flags &= 0xFFFF7FFF;
+                                set_main_and_sub_etat(other_obj, 0, 3);
+                                skipToLabel(other_obj, 2, true);
+                                other_obj->y_pos = (u16) other_obj->y_pos - 2;
+                                other_obj->flags &= 0xFFFF7FFF;
                             }
                             else
                             {
-                                if (temp_s1->flags & 0x4000)
+                                if (poing_obj->flags & 0x4000)
                                 {
-                                    temp_v0_6 = temp_s1->speed_x;
-                                    if (temp_v0_6 >= 0)
+                                    pspeed_x = poing_obj->speed_x;
+                                    if (pspeed_x >= 0)
                                     {
                                         var_a1_3 = 3;
-                                        skipToLabel(var_s0, var_a1_3, 1);
+                                        skipToLabel(other_obj, var_a1_3, true);
                                     }
-                                    else if (temp_v0_6 < -1)
+                                    else if (pspeed_x < -1)
                                     {
                                         var_a1_3 = 2;
-                                        skipToLabel(var_s0, var_a1_3, 1);
+                                        skipToLabel(other_obj, var_a1_3, true);
                                     }
                                 }
                                 else
                                 {
-                                    temp_v0_6 = temp_s1->speed_x;
+                                    pspeed_x = poing_obj->speed_x;
                                     var_a1_3 = 3;
-                                    if (temp_v0_6 >= 2)
+                                    if (pspeed_x >= 2)
                                     {
-                                        skipToLabel(var_s0, var_a1_3, 1);
+                                        skipToLabel(other_obj, var_a1_3, true);
                                     }
-                                    else if (temp_v0_6 <= 0)
+                                    else if (pspeed_x <= 0)
                                     {
                                         var_a1_3 = 2;
-                                        skipToLabel(var_s0, var_a1_3, 1);
+                                        skipToLabel(other_obj, var_a1_3, true);
                                     }
                                 }
-                                var_s0->speed_x = 0;
-                                var_s0->speed_y = -4;
-                                var_s0->y_pos = (u16) var_s0->y_pos - 2;
-                                set_main_and_sub_etat(var_s0, 2, 2);
-                                PlaySnd(0x001C, var_s0->id);
+                                other_obj->speed_x = 0;
+                                other_obj->speed_y = -4;
+                                other_obj->y_pos = (u16) other_obj->y_pos - 2;
+                                set_main_and_sub_etat(other_obj, 2, 2);
+                                PlaySnd(0x001C, other_obj->id);
                             }
                         }
                         break;
-                    case 0x0:
-                        obj_hurt(var_s0);
-                        temp_v0_6 = temp_s1->speed_x;
-                        if (temp_v0_6 > 0)
+                    case TYPE_BADGUY1:
+                        obj_hurt(other_obj);
+                        pspeed_x = poing_obj->speed_x;
+                        if (pspeed_x > 0)
                         {
-                            skipToLabel(var_s0, 3, 1);
+                            skipToLabel(other_obj, 3, true);
                         }
-                        else if (temp_v0_6 < 0)
+                        else if (pspeed_x < 0)
                         {
-                            skipToLabel(var_s0, 2, 1);
+                            skipToLabel(other_obj, 2, true);
                         }
-                        var_s0->speed_x = 0;
-                        var_s0->y_pos = (u16) var_s0->y_pos - 2;
-                        if (var_s0->hit_points != 0)
+                        other_obj->speed_x = 0;
+                        other_obj->y_pos = (u16) other_obj->y_pos - 2;
+                        if (other_obj->hit_points != 0)
                         {
-                            var_s0->speed_y = -4;
+                            other_obj->speed_y = -4;
                             var_a2 = 2;
-                            if (var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 0x40)
+                            if (other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & 0x40)
                             {
                                 var_a2 = 0xA;
                             }
-                            set_main_and_sub_etat(var_s0, 2, var_a2);
-                            PlaySnd(0x001C, var_s0->id);
+                            set_main_and_sub_etat(other_obj, 2, var_a2);
+                            PlaySnd(0x001C, other_obj->id);
                             break;
                         }
-                        var_s0->speed_y = -8;
+                        other_obj->speed_y = -8;
                         var_a2_2 = 3;
-                        if (var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 0x40)
+                        if (other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & 0x40)
                         {
                             var_a2_2 = 6;
                         }
-                        set_main_and_sub_etat(var_s0, 0, var_a2_2);
+                        set_main_and_sub_etat(other_obj, 0, var_a2_2);
                         break;
-                    case 0x46:
-                        obj_hurt(var_s0);
-                        temp_v0_6 = temp_s1->speed_x;
-                        if (temp_v0_6 > 0)
+                    case TYPE_TROMPETTE:
+                        obj_hurt(other_obj);
+                        pspeed_x = poing_obj->speed_x;
+                        if (pspeed_x > 0)
                         {
-                            var_v0_3 = var_s0->flags;
+                            var_v0_3 = other_obj->flags;
                             var_v0_3 &= ~0x4000;
-                            var_s0->flags = var_v0_3;
+                            other_obj->flags = var_v0_3;
                         }
-                        else if (temp_v0_6 < 0)
+                        else if (pspeed_x < 0)
                         {
-                            var_v0_3 = var_s0->flags | 0x4000;
-                            var_s0->flags = var_v0_3;
+                            var_v0_3 = other_obj->flags | 0x4000;
+                            other_obj->flags = var_v0_3;
                         }
-                        if (var_s0->hit_points == 0)
+                        if (other_obj->hit_points == 0)
                         {
-                            set_main_and_sub_etat(var_s0, 0, 1);
+                            set_main_and_sub_etat(other_obj, 0, 1);
                             var_v1 = 0xFFFF7FFF;
-                            var_s0->cmd = 2;
-                            var_s0->flags &= var_v1;
+                            other_obj->cmd = 2;
+                            other_obj->flags &= var_v1;
                             break;
                         }
-                        var_s0->y_pos = (u16) var_s0->y_pos - 2;
-                        skipToLabel(var_s0, 4, 1);
+                        other_obj->y_pos = (u16) other_obj->y_pos - 2;
+                        skipToLabel(other_obj, 4, true);
                         break;
-                    case 0x3C:
-                    case 0x3D:
-                        obj_hurt(var_s0);
-                        temp_v0_6 = temp_s1->speed_x;
-                        if (temp_v0_6 > 0)
+                    case TYPE_BIG_CLOWN:
+                    case TYPE_WAT_CLOWN:
+                        obj_hurt(other_obj);
+                        pspeed_x = poing_obj->speed_x;
+                        if (pspeed_x > 0)
                         {
-                            var_v0_3 = var_s0->flags;
+                            var_v0_3 = other_obj->flags;
                             var_v0_3 &= ~0x4000;
-                            var_s0->flags = var_v0_3;
+                            other_obj->flags = var_v0_3;
                         }
-                        else if (temp_v0_6 < 0)
+                        else if (pspeed_x < 0)
                         {
-                            var_v0_3 = var_s0->flags | 0x4000;
-                            var_s0->flags = var_v0_3;
+                            var_v0_3 = other_obj->flags | 0x4000;
+                            other_obj->flags = var_v0_3;
                         }
-                        if (var_s0->hit_points != 0)
+                        if (other_obj->hit_points != 0)
                         {
-                            var_s0->y_pos = (u16) var_s0->y_pos - 2;
-                            skipToLabel(var_s0, 4, 1);
+                            other_obj->y_pos = (u16) other_obj->y_pos - 2;
+                            skipToLabel(other_obj, 4, true);
                             break;
                         }
-                        set_main_and_sub_etat(var_s0, 0, 3);
+                        set_main_and_sub_etat(other_obj, 0, 3);
                         var_v1 = 0xFFFF7FFF;
-                        var_s0->cmd = 0;
-                        var_s0->flags &= var_v1;
+                        other_obj->cmd = 0;
+                        other_obj->flags &= var_v1;
                         break;
-                    case 0x74:
-                    case 0x75:
-                    case 0x76:
-                        obj_hurt(var_s0);
-                        temp_v0_6 = temp_s1->speed_x;
-                        if (temp_v0_6 > 0)
+                    case TYPE_CLOWN_TNT:
+                    case TYPE_CLOWN_TNT2:
+                    case TYPE_CLOWN_TNT3:
+                        obj_hurt(other_obj);
+                        pspeed_x = poing_obj->speed_x;
+                        if (pspeed_x > 0)
                         {
-                            var_v0_3 = var_s0->flags;
+                            var_v0_3 = other_obj->flags;
                             var_v0_3 &= ~0x4000;
-                            var_s0->flags = var_v0_3;
+                            other_obj->flags = var_v0_3;
                         }
-                        else if (temp_v0_6 < 0)
+                        else if (pspeed_x < 0)
                         {
-                            var_v0_3 = var_s0->flags | 0x4000;
-                            var_s0->flags = var_v0_3;
+                            var_v0_3 = other_obj->flags | 0x4000;
+                            other_obj->flags = var_v0_3;
                         }
-                        if (var_s0->hit_points != 0)
+                        if (other_obj->hit_points != 0)
                         {
                             var_a1_2 = 5;
-                            if (!(var_s0->flags & 0x4000))
+                            if (!(other_obj->flags & 0x4000))
                             {
                                 var_a1_2 = 6;
                             }
-                            skipToLabel(var_s0, var_a1_2, 1);
+                            skipToLabel(other_obj, var_a1_2, true);
                             break;
                         }
-                        set_main_and_sub_etat(var_s0, 0, 2);
+                        set_main_and_sub_etat(other_obj, 0, 2);
                         var_v1 = 0xFFFF7FFF;
-                        var_s0->flags &= var_v1;
+                        other_obj->flags &= var_v1;
                         break;
-                    case 0xD9:
-                        if (temp_v0_2 == 1)
+                    case TYPE_MITE2:
+                        if (sprite == 1)
                         {
-                            temp_v0_6 = temp_s1->speed_x;
-                            if (temp_v0_6 > 0)
+                            pspeed_x = poing_obj->speed_x;
+                            if (pspeed_x > 0)
                             {
-                                var_v0_3 = var_s0->flags;
+                                var_v0_3 = other_obj->flags;
                                 var_v0_3 &= ~0x4000;
-                                var_s0->flags = var_v0_3;
+                                other_obj->flags = var_v0_3;
                             }
-                            else if (temp_v0_6 < 0)
+                            else if (pspeed_x < 0)
                             {
-                                var_v0_3 = var_s0->flags | 0x4000;
-                                var_s0->flags = var_v0_3;
+                                var_v0_3 = other_obj->flags | 0x4000;
+                                other_obj->flags = var_v0_3;
                             }
-                        case 0x64:
-                            if (temp_v0_2 == 1)
+                    case TYPE_MITE: /* TODO: fall-through? */
+                            if (sprite == 1)
                             {
-                                obj_hurt(var_s0);
-                                if (var_s0->hit_points != 0)
+                                obj_hurt(other_obj);
+                                if (other_obj->hit_points != 0)
                                 {
                                     var_a1_2 = 4;
-                                    skipToLabel(var_s0, 4, 1);
+                                    skipToLabel(other_obj, 4, true);
                                     break;
                                 }
-                                set_main_and_sub_etat(var_s0, 0, 3);
+                                set_main_and_sub_etat(other_obj, 0, 3);
                                 var_v1 = 0xFFFF7FFF;
-                                var_s0->flags &= var_v1;
+                                other_obj->flags &= var_v1;
                                 break;
                             }
                         }
                         break;
-                    case 0x96:
-                        DO_SKO_HIT(var_s0, temp_v0_2);
+                    case TYPE_SCORPION:
+                        DO_SKO_HIT(other_obj, sprite);
                         break;
-                    case 0xAE:
-                    case 0xB8:
-                    case 0xE1:
-                    case 0xE2:
-                        DO_PIRATE_POELLE_POING_COLLISION(var_s0, temp_v0_2);
+                    case TYPE_PIRATE_POELLE:
+                    case TYPE_PIRATE_POELLE_D:
+                    case TYPE_PIRATE_P_45:
+                    case TYPE_PIRATE_P_D_45:
+                        DO_PIRATE_POELLE_POING_COLLISION(other_obj, sprite);
                         break;
-                    case 0xE7:
-                    case 0xE8:
-                        DO_HYB_BBF2_POING_COLLISION(var_s0, temp_v0_2);
+                    case TYPE_HYB_BBF2_D:
+                    case TYPE_HYB_BBF2_G:
+                        DO_HYB_BBF2_POING_COLLISION(other_obj, sprite);
                         break;
-                    case 0xC3:
-                        DO_SPIDER_PLAFOND_POING_COLLISION(var_s0, temp_v0_2);
+                    case TYPE_SPIDER_PLAFOND:
+                        DO_SPIDER_PLAFOND_POING_COLLISION(other_obj, sprite);
                         break;
-                    case 0xE4:
-                        if ((var_s0->screen_x_pos < (temp_s1->screen_x_pos + 0x1E)) && (var_s0->main_etat == 0) && (var_s0->sub_etat == 0))
+                    case TYPE_PRI:
+                        if ((other_obj->screen_x_pos < (poing_obj->screen_x_pos + 0x1E)) && (other_obj->main_etat == 0) && (other_obj->sub_etat == 0))
                         {
-                            skipToLabel(var_s0, 2, 1);
-                            var_s0->init_sub_etat = 2;
+                            skipToLabel(other_obj, 2, true);
+                            other_obj->init_sub_etat = 2;
                             prise_branchee = 1;
                             finBosslevel[1] |= 4;
                         }
                         break;
-                    case 0x84:
-                        if ((var_s0->main_etat != 2) || (var_s0->sub_etat != 0x12))
+                    case TYPE_POI3:
+                        if ((other_obj->main_etat != 2) || (other_obj->sub_etat != 0x12))
                         {
-                            skipToLabel(var_s0, 0xC, 1);
-                            var_s0->speed_x = 0;
-                            var_s0->speed_y = 0;
-                            var_s0->hit_points = 0;
+                            skipToLabel(other_obj, 0xC, true);
+                            other_obj->speed_x = 0;
+                            other_obj->speed_y = 0;
+                            other_obj->hit_points = 0;
                         }
                         break;
-                    case 0x81:
-                        temp_v1_7 = var_s0->hit_points;
+                    case TYPE_PETIT_COUTEAU:
+                        temp_v1_7 = other_obj->hit_points;
                         if ((temp_v1_7 == 2) || (temp_v1_7 == 4))
                         {
-                            var_s0->hit_points--;
+                            other_obj->hit_points--;
                         }
                         break;
                     }
                     do_boum();
-                    var_s0->gravity_value_1 = 0;
-                    temp_v0_5 = var_s0->eta[var_s0->main_etat][var_s0->sub_etat].anim_speed >> 4;
+                    other_obj->gravity_value_1 = 0;
+                    temp_v0_5 = other_obj->eta[other_obj->main_etat][other_obj->sub_etat].anim_speed >> 4;
                     if ((u32) ((temp_v0_5) - 0xA) >= 2U)
                     {
-                        var_s0->gravity_value_2 = 0;
+                        other_obj->gravity_value_2 = 0;
                     }
-                    if ((var_s0->hit_points == temp_s5) && (flags[var_s0->type].flags3 & 1))
+                    if ((other_obj->hit_points == old_hp) && (flags[other_obj->type].flags3 & 1))
                     {
-                        PlaySnd(0x00D6, var_s0->id);
+                        PlaySnd(0x00D6, other_obj->id);
                     }
                     break;
                 }
             }
-            var_s5++;
-            var_s0 = &level.objects[actobj.objects[var_s5]];
-        } while (var_s5 < actobj.num_active_objects);
-        
+            i++;
+            other_obj = &level.objects[actobj.objects[i]];
+        }
     }
-}
-
-void DO_POING_COLLISION(void)
-{
-    s16 sp18;
-    s16 sp1A;
-    u16 sp1C;
-    u16 sp1E;
-    u8 var_a1_2;
-    u8 var_a1_3;
-    u8 var_a1_4;
-    u8 var_a2;
-    u8 var_a2_2;
-    Obj *temp_s1;
-    Obj *temp_v0_3;
-    Obj *var_s0;
-    s16 temp_a0;
-    s16 temp_v0;
-    s16 temp_v0_10;
-    s16 temp_v0_11;
-    s16 temp_v0_12;
-    s16 temp_v0_13;
-    s16 temp_v0_14;
-    s16 temp_v0_15;
-    s16 temp_v0_16;
-    s32 temp_v0_2;
-    s32 temp_v0_5;
-    s16 temp_v0_6;
-    s16 temp_v0_7;
-    s16 temp_v0_9;
-    s16 var_a1;
-    s32 var_s2_2;
-    s16 var_s5;
-    s16 var_v0_2;
-    s32 temp_a1;
-    s32 temp_v0_4;
-    s32 temp_v1_2;
-    u8 var_v0;
-    s32 var_v0_5;
-    s32 var_v1;
-    u32 temp_v1_3;
-    u32 var_v0_3;
-    u8 temp_a1_2;
-    u8 temp_s5;
-    u8 temp_v0_8;
-    u8 temp_v1;
-    s32 temp_v1_4;
-    u8 temp_v1_5;
-    s32 temp_v1_6;
-    s32 temp_v1_7;
-    s32 var_s2;
-    s16 test_1;
-    s32 test_2;
-    s32 test_3;
-
-    /*var_s2 = saved_reg_s2;*/
-    temp_s1 = &level.objects[poing_obj_id];
-    var_v0 = 0;
-    GET_SPRITE_POS(temp_s1, 0, &sp18, &sp1A, &sp1C, &sp1E);
-    temp_v0 = temp_s1->speed_x;
     
-    if (temp_v0 > 0)
-    {
-        goto block_2;
-    }
-    if (temp_v0 >= 0)
-    {
-        goto block_3;
-    }
-block_2:
-    var_v0 = PS1_BTYPAbsPos(temp_s1->x_pos + temp_s1->offset_bx, temp_s1->y_pos + ((s32) (temp_s1->offset_by + temp_s1->offset_hy) >> 1));
-block_3:
-    temp_a1 = ((u8) block_flags[var_v0] >> 1) & 1;
-    var_s5 = 0;
-    if (temp_a1 == 0)
-    {
-        goto block_5;
-    }
-    do_boum();
-    fin_poing_follow(temp_s1, 1U);
-    return;
-block_5:
-    var_s0 = &level.objects[actobj.objects[var_s5]];
-    if (temp_a1 >= actobj.num_active_objects)
-    {
-        goto block_249;
-    }
-    test_1 = 2;
-    test_2 = ~0x4000;
-    test_3 = 1;
-loop_7:
-    if (new_world != 0)
-    {
-        goto block_249;
-    }
-    if (new_level != 0)
-    {
-        goto block_249;
-    }
-    if (fin_boss != 0)
-    {
-        goto block_249;
-    }
-    if (var_s0->display_prio == 0)
-    {
-        goto block_248;
-    }
-    if (var_s0->hit_points == 0)
-    {
-        goto block_248;
-    }
-    if (!(var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 8))
-    {
-        goto block_248;
-    }
-    temp_v0_2 = CHECK_BOX_COLLISION(0x005E, sp18, sp1A, (s16) sp1C, (s16) (s32) (s16) sp1E, var_s0);
-    if (temp_v0_2 == -1)
-    {
-        goto block_247;
-    }
-    temp_v1 = var_s0->type;
-    temp_s5 = var_s0->hit_points;
-    switch (temp_v1)
-    {
-case 0xDF:
-    if (temp_v0_2 != 6)
-    {
-        goto block_242;
-    }
-    if (poing.is_returning != 0)
-    {
-        goto block_242;
-    }
-    if (!(var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 1))
-    {
-        goto block_242;
-    }
-    poing.damage = 1;
-    obj_hurt(var_s0);
-    if (var_s0->hit_points == 0)
-    {
-        goto block_23;
-    }
-    if (var_s0->sub_etat != test_1)
-    {
-        goto block_22;
-    }
-    set_sub_etat(var_s0, 4);
-    goto block_242;
-block_22:
-    set_sub_etat(var_s0, 0xD);
-    goto block_242;
-block_23:
-    if (var_s0->sub_etat != test_1)
-    {
-        goto block_25;
-    }
-    level.objects[var_s0->field24_0x3e].flags &= ~0x400;
-    DO_NOVA(&level.objects[var_s0->field24_0x3e]);
-block_25:
-    set_sub_etat(var_s0, 8);
-    var_s0->field23_0x3c = test_3;
-    goto block_242;
-case 0xDA:
-    if (!(var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 1))
-    {
-        goto block_242;
-    }
-    if (temp_v0_2 == 3)
-    {
-        goto block_29;
-    }
-    if (temp_v0_2 != 6)
-    {
-        goto block_242;
-    }
-block_29:
-    poing.damage = 1;
-    obj_hurt(var_s0);
-    if (var_s0->hit_points == 0)
-    {
-        skipToLabel(var_s0, 2, 1);
-        var_s0->field23_0x3c = 1;
-        goto block_242;
-    }
-    else
-    {
-        skipToLabel(var_s0, 4, 1);
-        goto block_242;
-    }
-case 0x62:
-case 0xD5:
-    doMereDenisHit(var_s0, temp_v0_2);
-    goto block_242;
-case 0xD4:
-    DO_DARK_POING_COLLISION(var_s0);
-    goto block_242;
-case 0x78:
-    if (temp_v0_2 != test_1)
-    {
-        goto block_242;
-    }
-    DO_BAT_POING_COLLISION(var_s0);
-    goto block_242;
-case 0xBB:
-    if (temp_v0_2 != 5)
-    {
-        goto block_242;
-    }
-    DO_PMA_POING_COLLISION(var_s0);
-    goto block_242;
-case 0x32:
-case 0xE3:
-    doMoskitoHit(var_s0);
-    goto block_242;
-case 0x8E:
-    if (!(RayEvts.flags0 & 0x80))
-    {
-        goto block_242;
-    }
-    if (ray_mode == 3)
-    {
-        goto block_242;
-    }
-    temp_s1->field20_0x36 = (s16) (u16) var_s0->id;
-    goto block_242;
-case 0x8C:
-    if ((RayEvts.flags0 & 0x80) && (ray_mode != 3))
-    {
-        temp_a1_2 = var_s0->offset_by;
-        temp_v1_2 = (ray.y_pos + ray.offset_by) - var_s0->y_pos;
-        temp_v0_4 = temp_v1_2 - temp_a1_2;
-        /* should be abs, see DoPTGRAPPINPoingCollision of android */
-        if (temp_v0_4 >= 0)
-        {
-            if (temp_v0_4 < 0xFA)
-            {
-                goto block_47;
-            }
-        }
-        else if ((temp_a1_2 - temp_v1_2) < 0xFA)
-        {
-block_47:
-            SET_RAY_BALANCE();
-            id_obj_grapped = (s16) (u16) var_s0->id;
-            temp_v0_5 = ANGLE_RAYMAN(var_s0);
-            var_s0->follow_x = temp_v0_5;
-            if (temp_v0_5 >= 0x101)
-                var_s0->field24_0x3e = -1;
-            else if (temp_v0_5 < 0x101)
-            {
-                if(temp_v0_5 == 0x0100 && !(ray.flags & 0x4000))
-                    var_s0->field24_0x3e = -1;
-                else
-                    var_s0->field24_0x3e = 1;
-            }
-            else /* ??? */
-                var_s0->field24_0x3e = 1;
-            
-            if ((var_s0->main_etat == 0) && (var_s0->sub_etat == 0))
-            {
-                skipToLabel(var_s0, 0, 1);
-            }
-            poing.is_active = 0;
-            poing.is_returning = 0;
-            temp_s1->flags &= ~0x400;
-            temp_s1->flags &= ~0x800;
-            fin_poing_follow(temp_s1, 0U);
-        }
-    }
-    goto block_242;
-case 0x98:
-    if (var_s0->main_etat != 0)
-    {
-        goto block_57;
-    }
-    if (var_s0->sub_etat == test_1)
-    {
-        goto block_242;
-    }
-block_57:
-    set_main_and_sub_etat(var_s0, 1, 1);
-    temp_v1_3 = var_s0->flags;
-    if (temp_v1_3 & 0x4000)
-    {
-        goto block_59;
-    }
-    var_s0->flags = temp_v1_3 | 0x4000;
-    var_a1_2 = 3;
-    skipToLabel(var_s0, var_a1_2, 1);
-    goto block_242;
-block_59:
-    var_s0->flags = temp_v1_3 & test_2;
-    var_a1_2 = 2;
-    skipToLabel(var_s0, var_a1_2, 1);
-    goto block_242;
-case 0x7B:
-    obj_hurt(var_s0);
-    if (var_s0->hit_points != 0)
-    {
-        goto block_242;
-    }
-    set_main_and_sub_etat(var_s0, 0, 4);
-    var_s0->speed_y = 0;
-    temp_v0_6 = temp_s1->speed_x;
-    if (temp_v0_6 < 0)
-    {
-        goto block_66;
-    }
-    if (temp_v0_6 <= 0)
-    {
-        goto block_64;
-    }
-    var_v0_3 = var_s0->flags;
-    var_v0_3 = var_v0_3 & test_2;
-    goto block_67;
-block_64:
-    if (!(temp_s1->flags & 0x4000))
-    {
-        goto block_66;
-    }
-    var_v0_3 = var_s0->flags & test_2;
-    goto block_67;
-block_66:
-    var_v0_3 = var_s0->flags | 0x4000;
-block_67:
-    var_s0->flags = var_v0_3;
-    allocateBlacktoonEyes(var_s0);
-    if (!(var_s0->flags & 0x4000))
-    {
-        goto block_69;
-    }
-    var_a1_2 = 2;
-    skipToLabel(var_s0, var_a1_2, 1);
-    goto block_242;
-block_69:
-    var_a1_2 = 3;
-    skipToLabel(var_s0, var_a1_2, 1);
-    goto block_242;
-case 0x65:
-    if (temp_v0_2 != 4)
-    {
-        goto block_242;
-    }
-    if (var_s0->sub_etat != 5)
-    {
-        goto block_242;
-    }
-    temp_v0_7 = temp_s1->speed_x;
-    if (temp_v0_7 < 0)
-    {
-        goto block_78;
-    }
-    if (temp_v0_7 > 0)
-    {
-        goto block_75;
-    }
-    if (!(temp_s1->flags & 0x4000))
-    {
-        goto block_78;
-    }
-block_75:
-    set_sub_etat(var_s0, 9);
-    goto block_242;
-case 0x91:
-    temp_v0_8 = var_s0->hit_points - 1;
-    var_s0->hit_points = temp_v0_8;
-    if (!(temp_v0_8 & 0xFF))
-    {
-        goto block_78;
-    }
-    set_sub_etat(var_s0, 5);
-    var_s0->iframes_timer = 0x0032;
-    goto block_242;
-block_78:
-    set_sub_etat(var_s0, 6);
-    goto block_242;
-case 0x4D:
-case 0xEF:
-    DO_PAR_POING_COLLISION(var_s0, temp_v0_2);
-    goto block_242;
-case 0x48:
-    DO_NGW_POING_COLLISION(var_s0);
-    goto block_242;
-case 0x3A:
-    obj_hurt(var_s0);
-    if (var_s0->hit_points != 0)
-    {
-        goto block_83;
-    }
-    var_s0->init_main_etat = 0;
-    var_s0->init_sub_etat = 8;
-    var_s0->init_x_pos = (s16) (u16) var_s0->x_pos;
-    var_s0->init_y_pos = (s16) (u16) var_s0->y_pos;
-    set_sub_etat(var_s0, 0xC);
-    var_s0->init_flag = 7;
-    ALLOCATE_MEDAILLON_TOON();
-    lidol_to_allocate = 5;
-    lidol_source_obj = var_s0;
-    Nb_total_cages += 1;
-    take_bonus(var_s0->id);
-    goto block_242;
-block_83:
-    set_sub_etat(var_s0, 0xA);
-    goto block_242;
-case 0x2E:
-    if (temp_v0_2 != 9)
-    {
-        goto block_242;
-    }
-    DO_BBMONT_TOUCHE(var_s0);
-    goto block_242;
-case 0x5A:
-case 0x5B:
-case 0x5C:
-case 0x5D:
-case 0xB6:
-    DO_NOTE_TOUCHEE(var_s0);
-    goto block_242;
-case 0x60:
-    DO_TOTEM_TOUCHE(var_s0, temp_v0_2);
-    goto block_242;
-case 0x6F:
-    if (var_s0->main_etat != 0)
-    {
-        goto block_242;
-    }
-    if (Mus_obj_id < 0)
-    {
-        goto block_242;
-    }
-    PlaySnd(0x0053, var_s0->id);
-    var_s0->hit_points--;
-    temp_v1_4 = var_s0->hit_points;
-    if (temp_v1_4 == test_2)
-    {
-        goto block_98;
-    }
-    if ((s32) temp_v1_4 >= 2)
-    {
-        goto block_94;
-    }
-    if (temp_v1_4 == 0)
-    {
-        goto block_99;
-    }
-    goto block_242;
-block_94:
-    if (temp_v1_4 == test_1)
-    {
-        goto block_97;
-    }
-    if (temp_v1_4 != 3)
-    {
-        goto block_242;
-    }
-    set_sub_etat(var_s0, 4);
-    allocateEclatPS(var_s0, 7);
-    set_sub_etat(&level.objects[Mus_obj_id], 6);
-    goto block_242;
-block_97:
-    set_sub_etat(var_s0, 6);
-    allocateEclatPS(var_s0, 8);
-    goto block_242;
-block_98:
-    set_sub_etat(var_s0, 8);
-    allocateEclatPS(var_s0, 9);
-    goto block_242;
-block_99:
-    if (level.objects[Mus_obj_id].sub_etat != 6)
-    {
-        goto block_242;
-    }
-    PlaySnd(0x0053, var_s0->id);
-    set_sub_etat(var_s0, 9);
-    level.objects[Mus_obj_id].sub_etat = 3;
-    level.objects[Mus_obj_id].init_sub_etat = 4;
-    var_s0->init_sub_etat = 0x0A;
-    goto block_242;
-case 0x6D:
-    if (var_s0->main_etat != 0)
-    {
-        goto block_242;
-    }
-    obj_hurt(var_s0);
-    if (var_s0->hit_points != 0)
-    {
-        goto block_106;
-    }
-    DO_PI_EXPLOSION(var_s0);
-    var_s0->flags &= ~0x800;
-    if (ray.field20_0x36 != var_s0->id)
-    {
-        goto block_105;
-    }
-    ray.field20_0x36 = -1;
-    var_s0->ray_dist = 0x03E8;
-    set_main_and_sub_etat(&ray, 2, 2);
-block_105:
-    var_v1 = -0x401;
-    var_s0->flags &= var_v1;
-    goto block_242; /* supposed to go somewhere in case 0x64 instead */
-block_106:
-    set_sub_etat(var_s0, 1);
-    var_s0->anim_frame = 0;
-    goto block_242;
-case 0xA6:
-    DO_LEV_POING_COLLISION(var_s0);
-    goto block_242;
-case 0x41:
-    obj_hurt(var_s0);
-    if (var_s0->hit_points != 0)
-    {
-        goto block_110;
-    }
-    set_main_and_sub_etat(var_s0, 0, 7);
-    var_s0->anim_frame = 0;
-    goto block_226;
-block_110:
-    if (var_s0->main_etat != 0)
-    {
-        goto block_114;
-    }
-    temp_v1_5 = var_s0->sub_etat;
-    if ((u32) (temp_v1_5 - 2) < 2U)
-    {
-        goto block_113;
-    }
-    if ((u32) (temp_v1_5 - 4) >= 2U)
-    {
-        goto block_114;
-    }
-block_113:
-    var_s0->cmd_context_index = 0xFF;
-block_114:
-    var_s0->field23_0x3c = 0;
-    if (level.objects[poing_obj_id].speed_x <= 0)
-    {
-        goto block_116;
-    }
-    skipToLabel(var_s0, 3, 1);
-    var_v0_3 = var_s0->flags | 0x4000;
-    goto block_117;
-block_116:
-    skipToLabel(var_s0, 1, 1);
-    var_v0_3 = var_s0->flags;
-    var_v0_3 &= test_2;
-block_117:
-    var_s0->flags = var_v0_3;
-    pushToLabel(var_s0, 6, 1);
-    var_s0->anim_frame = 0;
-    pushToLabel(var_s0, 7, 1);
-    goto block_242;
-case 0x28:
-case 0x7A:
-    obj_hurt(var_s0);
-    if (var_s0->hit_points == 0)
-    {
-        goto block_225;
-    }
-    skipToLabel(var_s0, 5, 1);
-    var_s0->gravity_value_2 = 7;
-    var_s0->change_anim_mode = test_1;
-    temp_v0_9 = temp_s1->speed_x;
-    if (temp_v0_9 <= 0)
-    {
-        goto block_121;
-    }
-    var_s0->flags &= test_2;
-    goto block_242;
-block_121:
-    if (temp_v0_9 >= 0)
-    {
-        goto block_242;
-    }
-    var_s0->flags |= 0x4000;
-    goto block_242;
-case 0x24:
-case 0x2F:
-case 0x45:
-    set_sub_etat(var_s0, 1);
-    DO_STONE_EXPLOSION(var_s0);
-    goto block_242;
-case 0x23:
-case 0x2B:
-    DO_PNG_COLL_STONEMAN(var_s0);
-    goto block_242;
-case 0x38:
-case 0xAC:
-    DO_PNG_COLL_STONEWOMAN(var_s0);
-    goto block_242;
-case 0x1:
-    if (temp_v0_2 != var_s0->hit_sprite)
-    {
-        goto block_242;
-    }
-    temp_v0_10 = temp_s1->speed_x;
-    if (temp_v0_10 <= 0)
-    {
-        goto block_129;
-    }
-    set_sub_etat(var_s0, 0x19);
-    goto block_242;
-block_129:
-    if (temp_v0_10 >= 0)
-    {
-        goto block_242;
-    }
-    set_sub_etat(var_s0, 0x1A);
-    goto block_242;
-case 0x6:
-case 0x8:
-case 0x86:
-case 0xA7:
-case 0xB1:
-    temp_v1_6 = var_s0->type;
-    if (temp_v1_6 == 0x86)
-    {
-        goto block_139;
-    }
-    if ((s32) temp_v1_6 >= 0x87)
-    {
-        goto block_136;
-    }
-    if (temp_v1_6 == 6)
-    {
-        goto block_140;
-    }
-    if (temp_v1_6 == 8)
-    {
-        goto block_139;
-    }
-    goto block_141;
-block_136:
-    if (temp_v1_6 == 0xA7)
-    {
-        goto block_139;
-    }
-    if (temp_v1_6 == 0xB1)
-    {
-        goto block_140;
-    }
-    goto block_141;
-block_139:
-    PlaySnd(0x002C, var_s0->id);
-    goto block_141;
-block_140:
-    PlaySnd(0x008B, var_s0->id);
-block_141:
-    var_v0_5 = var_s2 * 4;
-    switch (poing.sub_etat)
-    {
-case 1:
-case 3:
-case 5:
-    var_s2 = poing.damage;
-    var_v0_5 = var_s2 * 4;
-    break;
-case 8:
-case 10:
-case 12:
-    var_s2 = poing.damage - 2;
-case 2:
-case 4:
-case 6:
-case 7:
-case 9:
-case 11:
-    var_v0_5 = var_s2 * 4;
-    }
-    var_s2 = var_v0_5 + var_s2 + 0xA;
-    if (temp_s1->speed_x < 0)
-    {
-        var_s2 = -var_s2;
-    }
-    make_my_fruit_go_down(var_s0, var_s2);
-    goto block_242;
-case 0x25:
-    set_main_and_sub_etat(var_s0, 0, 1);
-    var_s0->cmd = 0;
-    goto block_242;
-case 0x14:
-    if (temp_v0_2 == 0)
-    {
-        poing.damage = 1;
-        obj_hurt(var_s0);
-        if (var_s0->hit_points == 0)
-        {
-            var_a1_2 = 4;
-            skipToLabel(var_s0, 4, 1);
-            goto block_242;
-        }
-        var_a1_2 = 3;
-        skipToLabel(var_s0, 3, 1);
-        goto block_242;
-    }
-block_153:
-    var_a1_2 = test_1;
-    skipToLabel(var_s0, 2, 1);
-    goto block_242;
-case 0xC:
-case 0xE:
-    if (!(var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 1))
-    {
-        goto block_242;
-    }
-case 0xA:
-    obj_hurt(var_s0);
-    if (var_s0->hit_points == 0)
-    {
-        goto block_157;
-    }
-    var_s0->speed_x = 0;
-    var_s0->speed_y = 0;
-    set_main_and_sub_etat(var_s0, 0, 1);
-    goto block_158;
-block_157:
-    set_main_and_sub_etat(var_s0, 0, 3);
-block_158:
-    if (var_s0->type != 0x0A)
-    {
-        goto block_160;
-    }
-    DESACTIVE_FISH_COLLIS(var_s0);
-block_160:
-    if (var_s0->flags & 0x4000)
-    {
-        goto block_162;
-    }
-    var_s0->cmd = 0;
-    goto block_242;
-block_162:
-    var_s0->cmd = 1;
-    goto block_242;
-case 0x9:
-case 0xA5:
-    if (temp_v0_2 == 0x00FF)
-    {
-        goto block_165;
-    }
-    if (!(var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 1))
-    {
-        goto block_242;
-    }
-block_165:
-    obj_hurt(var_s0);
-    if (var_s0->hit_points != 0)
-    {
-        goto block_167;
-    }
-    set_main_and_sub_etat(var_s0, 0, 3);
-    skipToLabel(var_s0, 2, 1);
-    var_s0->y_pos = (u16) var_s0->y_pos - 2;
-    var_s0->flags &= 0xFFFF7FFF;
-    goto block_242;
-block_167:
-    if (!(temp_s1->flags & 0x4000))
-    {
-        goto block_172;
-    }
-    temp_v0_11 = temp_s1->speed_x;
-    if (temp_v0_11 < 0)
-    {
-        goto block_170;
-    }
-    var_a1_3 = 3;
-    skipToLabel(var_s0, var_a1_3, 1);
-    goto block_177;
-block_170:
-    if (temp_v0_11 >= -1)
-    {
-        goto block_177;
-    }
-    var_a1_3 = 2;
-    skipToLabel(var_s0, var_a1_3, 1);
-    goto block_177;
-block_172:
-    temp_a0 = temp_s1->speed_x;
-    var_a1_3 = 3;
-    if (temp_a0 < 2)
-    {
-        goto block_174;
-    }
-    skipToLabel(var_s0, var_a1_3, 1);
-    goto block_177;
-block_174:
-    if (temp_a0 > 0)
-    {
-        goto block_177;
-    }
-block_175:
-    var_a1_3 = 2;
-block_176:
-    skipToLabel(var_s0, var_a1_3, 1);
-block_177:
-    var_s0->speed_x = 0;
-    var_s0->speed_y = -4;
-    var_s0->y_pos = (u16) var_s0->y_pos - 2;
-    set_main_and_sub_etat(var_s0, 2, 2);
-    PlaySnd(0x001C, var_s0->id);
-    goto block_242;
-case 0x0:
-    obj_hurt(var_s0);
-    temp_v0_12 = temp_s1->speed_x;
-    if (temp_v0_12 <= 0)
-    {
-        goto block_180;
-    }
-    var_a1_4 = 3;
-    skipToLabel(var_s0, var_a1_4, 1);
-    goto block_182;
-block_180:
-    var_a1_4 = 2;
-    if (temp_v0_12 >= 0)
-    {
-        goto block_182;
-    }
-block_181:
-    skipToLabel(var_s0, var_a1_4, 1);
-block_182:
-    var_s0->speed_x = 0;
-    var_s0->y_pos = (u16) var_s0->y_pos - 2;
-    if (var_s0->hit_points == 0)
-    {
-        goto block_187;
-    }
-    var_s0->speed_y = -4;
-    var_a2 = 2;
-    if (!(var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 0x40))
-    {
-        goto block_185;
-    }
-    var_a2 = 0xA;
-block_185:
-    set_main_and_sub_etat(var_s0, 2, var_a2);
-block_186:
-    PlaySnd(0x001C, var_s0->id);
-    goto block_242;
-block_187:
-    var_s0->speed_y = -8;
-    var_a2_2 = 3;
-    if (!(var_s0->eta[var_s0->main_etat][var_s0->sub_etat].flags & 0x40))
-    {
-        goto block_189;
-    }
-    var_a2_2 = 6;
-block_189:
-    set_main_and_sub_etat(var_s0, 0, var_a2_2);
-    goto block_242;
-case 0x46:
-    obj_hurt(var_s0);
-    temp_v0_13 = temp_s1->speed_x;
-    if (temp_v0_13 <= 0)
-    {
-        goto block_192;
-    }
-    var_v0_3 = var_s0->flags;
-    var_v0_3 &= test_2;
-    goto block_194;
-block_192:
-    if (temp_v0_13 >= 0)
-    {
-        goto block_195;
-    }
-    var_v0_3 = var_s0->flags | 0x4000;
-block_194:
-    var_s0->flags = var_v0_3;
-block_195:
-    if (var_s0->hit_points != 0)
-    {
-        goto block_203;
-    }
-    set_main_and_sub_etat(var_s0, 0, 1);
-    var_v1 = 0xFFFF7FFF;
-    var_s0->cmd = test_1;
-    var_s0->flags &= var_v1;
-    goto block_242;
-case 0x3C:
-case 0x3D:
-    obj_hurt(var_s0);
-    temp_v0_14 = temp_s1->speed_x;
-    if (temp_v0_14 <= 0)
-    {
-        goto block_199;
-    }
-    var_v0_3 = var_s0->flags;
-    var_v0_3 &= test_2;
-    goto block_201;
-block_199:
-    if (temp_v0_14 >= 0)
-    {
-        goto block_202;
-    }
-    var_v0_3 = var_s0->flags | 0x4000;
-block_201:
-    var_s0->flags = var_v0_3;
-block_202:
-    if (var_s0->hit_points == 0)
-    {
-        goto block_204;
-    }
-block_203:
-    var_s0->y_pos = (u16) var_s0->y_pos - 2;
-    skipToLabel(var_s0, 4, 1);
-    goto block_242;
-block_204:
-    set_main_and_sub_etat(var_s0, 0, 3);
-    var_v1 = 0xFFFF7FFF;
-    var_s0->cmd = 0;
-    var_s0->flags &= var_v1;
-    goto block_242;
-case 0x74:
-case 0x75:
-case 0x76:
-    obj_hurt(var_s0);
-    temp_v0_15 = temp_s1->speed_x;
-    if (temp_v0_15 <= 0)
-    {
-        goto block_207;
-    }
-    var_v0_3 = var_s0->flags;
-    var_v0_3 &= test_2;
-    goto block_209;
-block_207:
-    if (temp_v0_15 >= 0)
-    {
-        goto block_210;
-    }
-    var_v0_3 = var_s0->flags | 0x4000;
-block_209:
-    var_s0->flags = var_v0_3;
-block_210:
-    if (var_s0->hit_points == 0)
-    {
-        goto block_213;
-    }
-    var_a1_2 = 5;
-    if (var_s0->flags & 0x4000)
-    {
-        skipToLabel(var_s0, var_a1_2, 1);
-        goto block_242;
-    }
-    var_a1_2 = 6;
-    skipToLabel(var_s0, var_a1_2, 1);
-    goto block_242;
-block_213:
-    set_main_and_sub_etat(var_s0, 0, 2);
-    goto block_226;
-case 0xD9:
-    if (temp_v0_2 != test_3)
-    {
-        goto block_242;
-    }
-    temp_v0_16 = temp_s1->speed_x;
-    if (temp_v0_16 <= 0)
-    {
-        goto block_217;
-    }
-    var_v0_3 = var_s0->flags;
-    var_v0_3 &= test_2;
-    goto block_219;
-block_217:
-    if (temp_v0_16 >= 0)
-    {
-        goto block_220;
-    }
-    var_v0_3 = var_s0->flags | 0x4000;
-block_219:
-    var_s0->flags = var_v0_3;
-case 0x64:
-block_220:
-    if (temp_v0_2 != test_3)
-    {
-        goto block_242;
-    }
-    obj_hurt(var_s0);
-    if (var_s0->hit_points == 0)
-    {
-        goto block_225;
-    }
-    var_a1_2 = 4;
-    skipToLabel(var_s0, var_a1_2, 1);
-    goto block_242;
-block_225:
-    set_main_and_sub_etat(var_s0, 0, 3);
-block_226:
-    var_v1 = 0xFFFF7FFF;
-block_227:
-    var_s0->flags &= var_v1;
-    goto block_242;
-case 0x96:
-    DO_SKO_HIT(var_s0);
-    goto block_242;
-case 0xAE:
-case 0xB8:
-case 0xE1:
-case 0xE2:
-    DO_PIRATE_POELLE_POING_COLLISION(var_s0);
-    goto block_242;
-case 0xE7:
-case 0xE8:
-    DO_HYB_BBF2_POING_COLLISION(var_s0);
-    goto block_242;
-case 0xC3:
-    DO_SPIDER_PLAFOND_POING_COLLISION(var_s0);
-    goto block_242;
-case 0xE4:
-    if (var_s0->screen_x_pos >= (temp_s1->screen_x_pos + 0x1E))
-    {
-        goto block_242;
-    }
-    if (var_s0->main_etat != 0)
-    {
-        goto block_242;
-    }
-    if (var_s0->sub_etat != 0)
-    {
-        goto block_242;
-    }
-    skipToLabel(var_s0, 2, 1);
-    var_s0->init_sub_etat = test_1;
-    prise_branchee = 1;
-    finBosslevel[1] |= 4;
-    goto block_242;
-case 0x84:
-    if (var_s0->main_etat != test_1)
-    {
-        goto block_238;
-    }
-    if (var_s0->sub_etat == 0x12)
-    {
-        goto block_242;
-    }
-block_238:
-    skipToLabel(var_s0, 0xC, 1);
-    var_s0->speed_x = 0;
-    var_s0->speed_y = 0;
-    var_s0->hit_points = 0;
-    goto block_242;
-case 0x81:
-    temp_v1_7 = var_s0->hit_points;
-    if (temp_v1_7 == test_1)
-    {
-        goto block_241;
-    }
-    if (temp_v1_7 != 4)
-    {
-        goto block_242;
-    }
-block_241:
-    var_s0->hit_points--;
-    }
-block_242:
-    do_boum();
-    var_s0->gravity_value_1 = 0;
-    if ((u32) (((u8) var_s0->eta[var_s0->main_etat][var_s0->sub_etat].anim_speed >> 4) - 0xA) < 2U)
-    {
-        goto block_244;
-    }
-    var_s0->gravity_value_2 = 0;
-block_244:
-    if (var_s0->hit_points != temp_s5)
-    {
-        goto block_249;
-    }
-    if (!(flags[var_s0->type].flags3 & 1))
-    {
-        goto block_249;
-    }
-    PlaySnd(0x00D6, var_s0->id);
-    return;
-block_247:
-block_248:
-    var_s5 = var_s5 + 1;
-    var_s0 = &level.objects[actobj.objects[var_s5]];
-    if (var_s5 < actobj.num_active_objects)
-    {
-        goto loop_7;
-    }
-block_249:
-    return;
 }
 
 /* some bad instructions and reg swaps. not sure if i botched something */

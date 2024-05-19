@@ -16,7 +16,7 @@ extern u8 lidol_to_allocate;
 extern Obj *lidol_source_obj;
 
 void init_obj_in_the_air(Obj *obj);
-void make_my_fruit_go_down(Obj *obj, s16 to_add_x);
+void make_my_fruit_go_down(Obj *obj, s16 x_accel);
 void allocate_toons(Obj *src_obj, u8 count);
 void special_flags_init(void);
 void switchOff(Obj *obj);

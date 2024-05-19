@@ -19,6 +19,7 @@
 #see DO_BBL_COMMAND for slightly nicer way of writing block_flags[mp.map[...]]
 #apply MAX/MIN macros to code from before then
 #is there a way to inline EOA() (i couldn't find any yet), otherwise use macro? for example check MAIN_NO_MORE_CONTINUE_PRG
+#look for "flag_set" local for current way of writing EOA()
 #try rewriting some while loops as for again (or do{}while() as while), e.g. "allocate*" functions
 
 #hardcoded pointers: main(), loading_794DC.c, data/loading_A0338, FUN_80132864 (unused)

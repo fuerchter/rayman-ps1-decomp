@@ -8,10 +8,10 @@ void init_obj_in_the_air(Obj *obj)
 }
 
 /* 243C4 80148BC4 -O2 -msoft-float */
-void make_my_fruit_go_down(Obj *obj, s16 to_add_x)
+void make_my_fruit_go_down(Obj *obj, s16 x_accel)
 {
   if (obj->main_etat == 2 && __builtin_abs(obj->speed_x) < 32)
-    obj->speed_x += to_add_x;
+    obj->speed_x += x_accel;
   if (obj->type == TYPE_FALLING_YING_OUYE)
   {
     if (obj->main_etat != 2 || obj->sub_etat != 0)

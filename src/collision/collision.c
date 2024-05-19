@@ -539,8 +539,6 @@ s16 setToleranceDist(s16 in_x, s16 in_w, s16 in_y)
 }
 
 /* 1D228 80141A28 -O2 -msoft-float */
-/*INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_RAY_DIST_MULTISPR_CANTCHANGE);*/
-
 void SET_RAY_DIST_MULTISPR_CANTCHANGE(Obj *obj)
 {
   s16 unk_1;
