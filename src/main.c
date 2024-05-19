@@ -13,7 +13,7 @@ extern u8 PS1_Ingame; /* TODO: put near PS1_CheckPauseAndCheatInputs */
 
 void main(void)
 {
-  s32 *next_display;
+  Display *next_display;
   RaymanEvents default_evts;
   
   __asm__("nop");
@@ -29,7 +29,7 @@ void main(void)
     PS1_PromptPad();
   StartPAD();
   ChangeClearPAD(0);
-  D_801F4380 = 0x8005866C;
+  D_801F4380 = (s32 *) 0x8005866C;
   do {
     if (menuEtape != 4)
       INIT_WORLD_INFO();

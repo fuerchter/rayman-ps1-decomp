@@ -5,9 +5,9 @@ void FUN_801802d8(void) {}
 /* 5BAE0 801802E0 -O2 -msoft-float */
 void SYNCHRO_LOOP(s16 (*func)())
 {
-  u8 *new_disp_1;
+  Display *new_disp_1;
   RECT *new_rect;
-  u8 *new_disp_2;
+  Display *new_disp_2;
   s16 i;
   s16 func_done;
 
@@ -33,7 +33,7 @@ void SYNCHRO_LOOP(s16 (*func)())
     
     if (PS1_MemoryUsageDisplayMode != 0)
       ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 0, 0, 128);
-    ClearOTag(PS1_CurrentDisplay->ordering_table, 11);
+    ClearOTag(PS1_CurrentDisplay->ordering_table, LEN(PS1_CurrentDisplay->ordering_table));
     
     if (PS1_CurrentDisplay == &PS1_Display1)
       new_disp_2 = &PS1_Display1 + 1;
@@ -42,9 +42,9 @@ void SYNCHRO_LOOP(s16 (*func)())
     
     for (i = 0; i < PS1_PolygonIndexTableCount; i++)
     {
-      SetPolyFT4(new_disp_2 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144));
-      SetSemiTrans(new_disp_2 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144), 0);
-      SetShadeTex(new_disp_2 + ((PS1_PolygonIndexTable[i] * 0x28) + 0x4144), 1);
+      SetPolyFT4(&new_disp_2->polygons[PS1_PolygonIndexTable[i]]);
+      SetSemiTrans(&new_disp_2->polygons[PS1_PolygonIndexTable[i]], 0);
+      SetShadeTex(&new_disp_2->polygons[PS1_PolygonIndexTable[i]], 1);
     }
     PS1_PolygonIndexTableCount = 0;
     D_801E4BE0 = 0x0019;
@@ -52,7 +52,7 @@ void SYNCHRO_LOOP(s16 (*func)())
     D_801FA690 = 0;
     PS1_PolygonsCount = 0;
     D_801F81B0 = 0;
-    PS1_PrevPrim = PS1_CurrentDisplay->ordering_table + 6;
+    PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[6];
     func_done = func();
     if (PS1_MemoryUsageDisplayMode == 2)
       ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 128, 0, 128);
