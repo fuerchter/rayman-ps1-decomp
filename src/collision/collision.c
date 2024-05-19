@@ -538,7 +538,81 @@ s16 setToleranceDist(s16 in_x, s16 in_w, s16 in_y)
     return dist;
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_RAY_DIST_MULTISPR_CANTCHANGE);
+/* 1D228 80141A28 -O2 -msoft-float */
+/*INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_RAY_DIST_MULTISPR_CANTCHANGE);*/
+
+void SET_RAY_DIST_MULTISPR_CANTCHANGE(Obj *obj)
+{
+  s16 unk_1;
+  s16 i;
+  s16 new_dist;
+  s16 ray_x; s16 ray_y;
+  s16 spr_x; s16 spr_y; s16 spr_w; s16 spr_h;
+  s16 diff_x;
+  s16 sprite;
+  
+  if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+    unk_1 = 4;
+  else
+    unk_1 = 8;
+  i = 0;
+  new_dist = 10000;
+  ray_x = ray.x_pos + ray.offset_bx;
+  ray_y = ray.y_pos + ray.offset_by;
+  
+  if (ray.field20_0x36 == obj->id)
+  {
+    GET_SPRITE_POS(obj, obj->follow_sprite, &spr_x, &spr_y, &spr_w, &spr_h);
+    spr_y += obj->offset_hy;
+    if (obj->type == TYPE_ROULETTE || obj->type == TYPE_ROULETTE2 || obj->type == TYPE_ROULETTE3)
+    {
+      spr_w -= 10;
+      spr_x += 5;
+    }
+
+    if (obj->type == TYPE_TIBETAIN_6 && ray.main_etat == 0 && (obj->anim_frame >= 10 && obj->anim_frame < 40))
+    {
+      diff_x = (ray.x_pos + ray.offset_bx) - (spr_x + (spr_w >> 1));
+      if (diff_x > 0)
+        ray.x_pos--;
+      else if(diff_x < 0)
+        ray.x_pos++;
+      ray_x = ray.x_pos + ray.offset_bx;
+    }
+    new_dist = setToleranceDist(spr_x, spr_w, spr_y);
+  }
+
+  if (new_dist == 10000)
+  {
+    sprite = possible_sprite(obj, i++);
+    while (sprite != 0xFF)
+    {
+      GET_SPRITE_POS(obj, sprite, &spr_x, &spr_y, &spr_w, &spr_h);
+      spr_y += obj->offset_hy;
+      if (obj->type == TYPE_ROULETTE || obj->type == TYPE_ROULETTE2 || obj->type == TYPE_ROULETTE3)
+      {
+        spr_w -= 10;
+        spr_x += 5;
+      }
+
+      if ((ray_x <= spr_x + spr_w + unk_1) && (ray_x >= spr_x - unk_1))
+      {
+        new_dist = ray_y - spr_y;
+        if (obj->type == TYPE_TIBETAIN_6 && (new_dist >= 8 && new_dist <= 10))
+          new_dist = 0;
+      }
+      else
+        new_dist = 10000;
+      
+      if (new_dist != 10000)
+        obj->follow_sprite = sprite;
+
+      sprite = possible_sprite(obj, i++);
+      if(__builtin_abs(new_dist) < 8) break;
+    }
+  }
+  obj->ray_dist = new_dist;
+}
 
 /* 1D594 80141D94 -O2 -msoft-float */
 void SET_RAY_DIST_PI(Obj *obj)
