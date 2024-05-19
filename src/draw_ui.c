@@ -174,11 +174,6 @@ INCLUDE_ASM("asm/nonmatchings/draw_ui", DISPLAY_SAVE_SPRITES);
 extern ? D_801E4D62;
 extern ? D_801E4D63;*/
 
-inline s32 calc_y(s16 y) 
-{
-    return (debut_options + y * (ecarty + 23) - 23);
-}
-
 /* TODO: needs different solution than this inline */
 void DISPLAY_SAVE_SPRITES(s16 x, s16 y)
 {
@@ -188,6 +183,11 @@ void DISPLAY_SAVE_SPRITES(s16 x, s16 y)
     s16 sprite_ind_1;
     s16 sprite_ind_2;
     s16 sprite_ind_3;
+
+    inline s32 calc_y(s16 y) 
+    {
+        return (debut_options + y * (ecarty + 23) - 23);
+    }
 
     loc_mapobj = mapobj;
     num_lives = loadInfoRay[y].num_lives;
