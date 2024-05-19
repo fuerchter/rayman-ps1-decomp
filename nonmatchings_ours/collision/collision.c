@@ -1326,7 +1326,10 @@ block_47:
     
 }
 
-/* some bad instructions and reg swaps. not sure if i botched something */
+/*
+some bad instructions and reg swaps. not sure if i botched something
+only got to ~3740 score with m2c
+*/
 /*INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_DETECT_ZONE_FLAG);*/
 
 void SET_DETECT_ZONE_FLAG(Obj *obj)
@@ -1340,8 +1343,11 @@ void SET_DETECT_ZONE_FLAG(Obj *obj)
   short y;
   s16 w;
   s16 h;
-  s32 new_var;
+  s32 new_var1;
   s32 new_var2;
+  s32 test_1;
+  s32 test_2;
+  s32 test_3;
   
   GET_ANIM_POS(obj,&x,&y,&w,&h);
   /*if (0xea < obj->type - 5) {
@@ -1353,7 +1359,7 @@ LAB_801448fc:
   sVar2 = w >> 1;
   switch(obj->type) {
   case 0x99:
-    x = x + (((s16) h >> 1) - (obj->detect_zone >> 1));
+    x = x + ((h >> 1) - (obj->detect_zone >> 1));
     y = y + -0x10;
     w = obj->detect_zone;
     h = h + 0x40;
@@ -1366,27 +1372,27 @@ LAB_801448fc:
   case 0xef:
     standard_frontZone(obj,&x,&w);
     if ((obj->main_etat == 0) && (obj->sub_etat == 4)) {
-      y = y + (h >> 1);
-      h = h + obj->detect_zone * 4 + (h >> 1);
+      test_1 = (h >> 1);
+      y = y + test_1;
+      h = h + obj->detect_zone * 4 + test_1;
     }
     break;
   case 0x7b:
     new_var2 = -1;
-    bVar5 = obj->follow_sprite;
-    switch(bVar5)
+    switch(obj->follow_sprite)
     {
     case 3:
       if ((obj->main_etat == 0) && (obj->sub_etat == 0)) {
         h = obj->detect_zone + h;
-        y = y - (ushort)obj->detect_zone;
+        y = y - obj->detect_zone;
         w = obj->detect_zone + w;
-        x = x - (ushort)(obj->detect_zone >> 1);
+        x = x - (obj->detect_zone >> 1);
       }
       break;
     case 7:
       if (((obj->main_etat == 1)) && (obj->sub_etat == 1)) {
         x = x + new_var2 + (w >> 1);
-        y = y + ((s16) h >> 1);
+        y = y + (h >> 1);
         w = 0x14;
         h = obj->detect_zone + h;
         if ((obj->flags & FLG(OBJ_FLIP_X)) == FLG_OBJ_NONE) {
@@ -1396,26 +1402,27 @@ LAB_801448fc:
       break;
     case 4:
       y = y - (obj->detect_zone + h);
-      w = (u16) w * 2;
-      x = x - ((s16) w >> 1);
+      test_1 = w >> 1;
+      w = w * 2;
+      x = x - test_1;
       h = obj->detect_zone + h;
       break;
     case 2:
       y = y - (obj->detect_zone + h);
       h = obj->detect_zone + h;
-      w = w + (ushort)obj->detect_zone * 2;
-      x = x - (ushort)obj->detect_zone;
+      w = w + obj->detect_zone * 2;
+      x = x - obj->detect_zone;
       break;
     }
     break;
   case 0x84:
-    new_var = x;
+    new_var1 = x;
     if ((obj->flags & FLG(OBJ_FLIP_X))) {
-      new_var = x + w;
+      new_var1 = x + w;
     }
     else
-      new_var = x - w;
-    x = new_var;
+      new_var1 = x - w;
+    x = new_var1;
     y = y + -0x32;
     h = h + 0x32;
     break;
@@ -1427,21 +1434,21 @@ LAB_801448fc:
     break;
   case 0xb5:
   case 199:
-    x = (ushort)obj->offset_bx + obj->x_pos;
+    x = obj->offset_bx + obj->x_pos;
     w = 0x10;
     y = 0;
     h = mp.height << 4;
     break;
   case 0x3d:
     h = (obj->detect_zone >> 1) + h;
-    y = y - (ushort)(obj->detect_zone >> 1);
+    y = y - (obj->detect_zone >> 1);
     standard_frontZone(obj,&x,&w);
     break;
   case 0xe:
-    h = (ushort)obj->detect_zone;
-    y = y - (ushort)(obj->detect_zone >> 1);
-    w = w + (ushort)obj->detect_zone * 2;
-    x = x - (ushort)obj->detect_zone;
+    h = obj->detect_zone;
+    y = y - (obj->detect_zone >> 1);
+    w = w + obj->detect_zone * 2;
+    x = x - obj->detect_zone;
     break;
   case 5:
   case 0xc:
@@ -1449,21 +1456,21 @@ LAB_801448fc:
   case 0x51:
   case 0xa8:
   case 0xa9:
-    w = w + (ushort)obj->detect_zone * 2;
-    x = x - (ushort)obj->detect_zone;
+    w = w + obj->detect_zone * 2;
+    x = x - obj->detect_zone;
     break;
   case 0x74:
     if (!(obj->flags & 0x4000))
     {
-        x = (u16) x + (((s32) (w) >> 0x1) - ((u8) obj->detect_zone >> 1));
+        x = x + ((w >> 0x1) - ((u8) obj->detect_zone >> 1));
     }
     else
     {
-        x = (u16) x + ((s32) (w) >> 0x1);
+        x = x + (w >> 0x1);
     }
-    w = (ushort)(obj->detect_zone >> 1);
-    y = y + ((s16) h >> 1);
-    h = (ushort)obj->detect_zone + ((s16) h >> 1);
+    w = (obj->detect_zone >> 1);
+    y = y + (h >> 1);
+    h = obj->detect_zone + (h >> 1);
     break;
   case 0x38:
   case 0xac:
@@ -1521,8 +1528,8 @@ LAB_801448fc:
     standard_frontZone(obj,&x,&w);
     break;
   }
-  sVar4 = inter_box((int)x,(int)y,(int)(short)w,(int)(short)h,(int)ray_zdc_x,(int)ray_zdc_y,
-                    (int)ray_zdc_w,(int)ray_zdc_h);
+  sVar4 = inter_box(x,y,w,h,ray_zdc_x,ray_zdc_y,
+                    ray_zdc_w,ray_zdc_h);
   if (sVar4 != 0) {
     bVar5 = obj->detect_zone_flag;
     if (bVar5 == 0 || bVar5 == 1) {
