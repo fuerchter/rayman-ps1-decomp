@@ -348,7 +348,9 @@ s32 BOX_HIT_SPECIAL_ZDC(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
   return res;
 }
 
-/* ??? tried gotos-only, both m2c and ghidra
+/* made some ok progress
+previous comment:
+??? tried gotos-only, both m2c and ghidra
 param_1 is ObjType */
 /*INCLUDE_ASM("asm/nonmatchings/collision/collision", BOX_IN_COLL_ZONES);*/
 
@@ -361,19 +363,19 @@ s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 pa
     s16 sp28;
     s16 sp30;
     Animation *temp_v1_3;
-    ZDC *temp_v0;
+    ZDC *temp_v0_1;
     s16 temp_a1_3;
     s16 temp_v1_4;
-    s16 var_s2;
+    s16 var_s2_1;
     s16 var_s2_2;
     s16 var_v0_3;
-    s32 temp_v0_2;
+    s16 temp_v0_2;
     s32 temp_v1_6;
     s32 var_s5;
-    s32 var_v0;
+    s16 var_v0_1;
     s32 var_v0_2;
-    u16 temp_a1;
-    u16 var_s3;
+    u16 temp_a1_1;
+    s16 nb_zdc;
     u8 temp_a0;
     u8 temp_a1_2;
     u8 temp_v1;
@@ -385,100 +387,66 @@ s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 pa
     sp24 = 0;
     sp22 = 0;
     sp20 = 0;
-    var_s5 = -1;
-    temp_a1 = obj->zdc;
-    if (temp_a1 != 0)
+    var_v0_1 = -1;
+    if (obj->zdc != 0)
     {
-        var_s3 = get_nb_zdc(obj);
+        nb_zdc = get_nb_zdc(obj);
         if (num_world == 1)
         {
-            temp_v1 = obj->type;
-            if ((temp_v1 == 0x32) || (temp_v1 == 0xE3))
-            {
-                if (obj->eta[obj->main_etat][obj->sub_etat].flags & 0x40)
-                {
-                    goto block_6;
-                }
-                goto block_8;
-            }
-block_6:
-            if (obj->type == 0xA5)
-            {
-        
-                if (obj->eta[obj->main_etat][obj->sub_etat].flags & 0x40)
-                {
-block_8:
-                    var_s3 -= 1;
-                }
-            }
+            if (
+              ((obj->type == 0x32 || obj->type == 0xE3) && !(obj->eta[obj->main_etat][obj->sub_etat].flags & 0x40)) ||
+              (obj->type == 0xA5 && obj->eta[obj->main_etat][obj->sub_etat].flags & 0x40)
+            )
+                nb_zdc--;
         }
-        var_s2 = 0;
-        if ((s16) var_s3 > 0)
+        var_s2_1 = 0;
+        /* load param_1 into test_1 here instead? */
+        while (var_s2_1 < nb_zdc)
         {
-            /* load param_1 into test_1 here instead? */
-loop_11:
-            temp_v0 = get_zdc(obj, var_s2);
-            temp_v1_2 = temp_v0->flags;
+            temp_v0_1 = get_zdc(obj, var_s2_1);
+            temp_v1_2 = temp_v0_1->flags;
             if (!(temp_v1_2 & 4) || (param_1 == 0x005E))
             {
                 if (temp_v1_2 & 2)
                 {
                     temp_v1_3 = &obj->animations[obj->anim_index];
-                    temp_a1_2 = temp_v0->sprite;
+                    temp_a1_2 = temp_v0_1->sprite;
                     if (temp_v1_3->layers[(temp_v1_3->layers_count & 0x3FFF) * obj->anim_frame + temp_a1_2].sprite != 0)
                     {
-                        GET_SPRITE_POS(obj, (s32) temp_a1_2, &sp20, &sp22, &sp24, &sp26);
+                        GET_SPRITE_POS(obj, temp_a1_2, &sp20, &sp22, &sp24, &sp26);
                         if (obj->flags & 0x4000)
                         {
-                            sp20 = (u16) sp20 + ((sp24 - temp_v0->width) - (u16) temp_v0->x_pos);
+                            sp20 = sp20 + ((sp24 - temp_v0_1->width) - temp_v0_1->x_pos);
                         }
                         else
                         {
-                            sp20 = (u16) sp20 + (u16) temp_v0->x_pos;
+                            sp20 = sp20 + temp_v0_1->x_pos;
                         }
-                        sp22 = (u16) sp22 + (u16) temp_v0->y_pos;
-                        sp24 = (u16) temp_v0->width;
-                        sp26 = (u16) temp_v0->height;
+                        sp22 = sp22 + temp_v0_1->y_pos;
+                        sp24 = temp_v0_1->width;
+                        sp26 = temp_v0_1->height;
                     }
                 }
                 else
                 {
-                    temp_a1_3 = (u16) obj->x_pos + (u16) temp_v0->x_pos;
+                    temp_a1_3 = obj->x_pos + temp_v0_1->x_pos;
                     sp20 = temp_a1_3;
-                    sp22 = (u16) obj->y_pos + (u16) temp_v0->y_pos;
-                    temp_a0 = temp_v0->width;
-                    sp24 = (u16) temp_a0;
-                    sp26 = (u16) temp_v0->height;
+                    sp22 = obj->y_pos + temp_v0_1->y_pos;
+                    temp_a0 = temp_v0_1->width;
+                    sp24 = temp_a0;
+                    sp26 = temp_v0_1->height;
                     if (obj->flags & 0x4000)
                     {
-                        sp20 = ((obj->offset_bx + (u16) obj->x_pos)) + ((obj->offset_bx + (u16) obj->x_pos)) - (temp_a1_3 + temp_a0);
+                        sp20 = ((obj->offset_bx + obj->x_pos)) + ((obj->offset_bx + obj->x_pos)) - (temp_a1_3 + temp_a0);
                     }
                 }
-                if ((s16) inter_box(param_2, param_3, param_4, param_5, sp20, sp22, sp24, sp26) == 0)
+                if ((s16) inter_box(param_2, param_3, param_4, param_5, sp20, sp22, sp24, sp26))
                 {
-                    goto block_22;
-                }
-                else
-                    var_v0 = temp_v0->sprite << 0x10;
-            }
-            else
-            {
-block_22:
-                temp_v1_4 = var_s2 + 1;
-                var_s2 = temp_v1_4;
-                if (temp_v1_4 >= (s16) var_s3)
-                {
-                    var_v0 = var_s5 << 0x10;
-                }
-                else
-                {
-                    goto loop_11;
+                    var_v0_1 = temp_v0_1->sprite;
+                    break;
                 }
             }
-        }
-        else
-        {
-            goto block_38;
+            var_s2_1++;
         }
     }
     else
@@ -486,48 +454,43 @@ block_22:
         temp_v1_5 = obj->hit_sprite;
         if (temp_v1_5 == 0xFE)
         {
-            GET_OBJ_ZDC(obj, &sp20, &sp22, (s16 *) &sp24, (s16 *) &sp26);
+            GET_OBJ_ZDC(obj, &sp20, &sp22, &sp24, &sp26);
             if (obj->flags & 0x4000)
             {
-                sp20 = ((obj->offset_bx + (u16) obj->x_pos)) + ((obj->offset_bx + (u16) obj->x_pos)) - ((u16) sp20 + sp24);
+                sp20 = ((obj->offset_bx + obj->x_pos)) + ((obj->offset_bx + obj->x_pos)) - (sp20 + sp24);
             }
-            temp_v0_2 = inter_box((s32) param_2, (s32) param_3, (s32) param_4, (s32) (s16) (s32) param_5, (s16) (s32) sp20, (s16) (s32) sp22, (s32) (s16) sp24, (s32) (s16) sp26);
-            
-            if ((temp_v0_2 << 0x10) == 0)
-            {
-                var_s5 = -1;
-            }
+
+            /* check pc? */
+            temp_v0_2 = inter_box(param_2, param_3, param_4, param_5, sp20, sp22, sp24, sp26);
+            if (!temp_v0_2)
+                var_v0_1 = -1;
             else
-                var_s5 = temp_v0_2;
-            goto block_38;
+                var_v0_1 = temp_v0_2;
         }
-        var_v0 = -1 << 0x10;
-        if (temp_v1_5 == 0xFF)
+        else
         {
-            temp_v1_6 = obj->animations[obj->anim_index].layers_count & 0x3FFF;
-            var_s2_2 = 0;
-            if ((s32) temp_a1 < temp_v1_6)
+            var_v0_1 = -1;
+            if (temp_v1_5 == 0xFF)
             {
-loop_34:
-                var_v0_3 = var_s2_2 + 1;
-                if (((in_coll_sprite_list(obj, var_s2_2) << 0x10) == 0) || (var_v0_3 = var_s2_2 + 1, ((GET_SPRITE_ZDC(obj, var_s2_2, &sp20, &sp22, (s16 *) &sp24, (s16 *) &sp26) << 0x10) == 0)) || (var_v0_3 = var_s2_2 + 1, ((inter_box((s32) (s16) (u16) param_2, (s32) param_3, (s32) param_4, (s32) (s16) (s32) param_5, (s16) (s32) sp20, (s16) (s32) sp22, (s32) (s16) sp24, (s32) (s16) sp26) << 0x10) == 0)))
+                var_s2_2 = 0;
+                temp_v1_6 = obj->animations[obj->anim_index].layers_count & 0x3FFF;
+                while (var_s2_2 < temp_v1_6)
                 {
-                    var_s2_2 = var_v0_3;
-                    if (var_v0_3 < temp_v1_6)
+                    if (
+                        in_coll_sprite_list(obj, var_s2_2) &&
+                        (s16) GET_SPRITE_ZDC(obj, var_s2_2, &sp20, &sp22, &sp24, &sp26) != 0 &&
+                        ((s16) inter_box(param_2, param_3, param_4, param_5, sp20, sp22, sp24, sp26))
+                    )
                     {
-                        goto loop_34;
+                        var_v0_1 = var_s2_2;
+                        break;
                     }
-                }
-                else
-                {
-                    var_s5 = (s32) var_s2_2;
+                    var_s2_2++;
                 }
             }
-block_38:
-            var_v0 = var_s5 << 0x10;
         }
     }
-    return var_v0 >> 0x10;
+    return var_v0_1;
 }
 
 /* matches, but do{}while(0); */
