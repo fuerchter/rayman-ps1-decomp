@@ -8,9 +8,23 @@
 #include "psyq_3_0/RAND.H"
 #include "main_moteur.h"
 #include "snow.h"
+#include "collision/proj.h"
+#include "boss.h"
+#include "pix_gerbe.h"
 
+/* .data */
+extern u8 PS1_DrawSpriteSemiTrans;
+extern s16 D_801CEF78;
+extern s16 D_801CEF7A;
+
+extern s16 D_801CF600[16]; /* list of angles? */
+
+/**/
 extern s16 D_801F4A28; /* range of possible values? reset to 0 every frame */
 extern s16 D_801FA690; /* range of this one at: 8013c0f8 */
+extern void *PS1_PrevPrim; /* should this be labelled as ordering table instead? */
+extern u8 D_801E4C20;
+extern s16 D_801E4DF8;
 
 void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode);
 void PS1_DrawSprite(Sprite *sprite, s16 x, s16 y, u8 param_4);

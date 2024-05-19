@@ -945,7 +945,7 @@ void DISPLAY_ALL_OBJECTS(void)
     var_s1 = 0;
     obj = &level.objects[actobj.objects[0]];
     while (var_s1 < actobj.num_active_objects) {
-        if (prio == 1 && (flags[obj->type].flags0 >> 7 & 1)) {
+        if (prio == 1 && (flags[obj->type].flags0 >> OBJ0_BOSS & 1)) {
             PS1_BossObj = obj;
         }
         if (obj->display_prio == prio) {

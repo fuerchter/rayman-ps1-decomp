@@ -43,5 +43,6 @@ extern Display *PS1_CurrentDisplay;
 /**/
 extern Display PS1_Display1;
 extern Display PS1_Display2;
+extern s16 D_801E4BE0; /* used as index for map_drawing_environment_primitives (0x70) */
 
 #endif

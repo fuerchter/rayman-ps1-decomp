@@ -3,11 +3,6 @@
 void FUN_801802d8(void) {}
 
 /* 5BAE0 801802E0 -O2 -msoft-float */
-extern s32 PS1_PrevPrim;
-
-/* belongs to 548CC? used as array index for map_drawing_environment_primitives? (0x70 in Display struct) */
-extern s16 D_801E4BE0;
-
 void SYNCHRO_LOOP(s16 (*func)())
 {
   u8 *new_disp_1;

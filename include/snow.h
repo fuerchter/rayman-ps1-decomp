@@ -12,4 +12,9 @@ typedef struct FloconTableEntry
     u8 field4_0x7;
 } FloconTableEntry;
 
+/**/
+extern s16 floc_ind[8];
+extern FloconTableEntry flocon_tab[512];
+extern s16 nb_floc[8];
+
 #endif

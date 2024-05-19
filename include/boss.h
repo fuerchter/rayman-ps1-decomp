@@ -7,6 +7,9 @@
 #include "collision/block_22C84.h"
 #include "moteur_init_end.h"
 
+/**/
+extern Obj *PS1_BossObj;
+
 extern s16 bossScrollStartX;
 extern s16 bossScrollStartY;
 extern s16 bossScrollEndX;
