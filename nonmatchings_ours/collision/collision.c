@@ -256,108 +256,96 @@ s32 GET_SPRITE_ZDC(Obj *obj, s16 index, s16 *param_3, s16 *param_4, s16 *param_5
     return (s16)var_a1;
 }
 
-/* lots still wrong (stack, control flow, types?) */
+/* matches, but did not find a good place for missing_addiu nop */
+/* 1C3F8 80140BF8 -O2 -msoft-float */
 /*INCLUDE_ASM("asm/nonmatchings/collision/collision", BOX_HIT_SPECIAL_ZDC);*/
 
-void GET_BB1_ZDCs(Obj *obj,short *param_2,short *param_3,short *param_4,short *param_5,
-                 short *param_6,short *param_7,short *param_8,short *param_9);
+/*void GET_BB1_ZDCs(Obj *obj,s16 *param_2,s16 *param_3,s16 *param_4,s16 *param_5,
+                 s16 *param_6,s16 *param_7,s16 *param_8,s16 *param_9);*/
 
-int BOX_HIT_SPECIAL_ZDC(short x,short y,short w,short h,Obj *obj)
+s32 BOX_HIT_SPECIAL_ZDC(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
 {
-  ObjType OVar1;
-  u8 bVar2;
-  short sVar3;
-  int iVar4;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  int iVar8;
-  int iVar9;
-  short local_48;
-  short local_46;
-  short local_44;
-  short local_42;
-  short local_40;
-  short local_3e;
-  ushort local_3c;
-  short local_3a;
-  s32 local_38;
-  short local_30;
-  
-  iVar8 = -1;
-  local_38 = y;
-  local_30 = w;
+  u8 frame;
+  s16 d;
+  s16 bb1_x_1; s16 bb1_y_1; s16 bb1_w_1; s16 bb1_h_1;
+  s16 bb1_x_2; s16 bb1_y_2; s16 bb1_w_2; s16 bb1_h_2;
+  s16 res = -1;
+
   switch(obj->type)
   {
-  case 0x71:
-    bVar2 = obj->anim_frame;
-    if (bagD[bVar2] != -1)
+  case TYPE_BAG1:
+    frame = obj->anim_frame;
+    d = bagD[frame];
+    if (d != -1)
     {
-        iVar5 = y;
-        iVar4 = (obj->x_pos + (uint)obj->offset_bx) - ((s16) bagW[bVar2] >> 0x1);
-        iVar8 = (obj->y_pos + (uint)obj->offset_by + bagD[bVar2]) - bagH[bVar2];
-        iVar6 = w;
-        sVar3 = inter_box(x,iVar5,iVar6,h,iVar4,iVar8,bagW[bVar2],bagH[bVar2]);
-        /*iVar4 = -0x10000;*/
-        if (sVar3 != 0)
-            iVar8 = 1;
+      if ((s16) inter_box(
+        in_x, in_y, in_w, in_h,
+        obj->x_pos + obj->offset_bx - (bagW[frame] >> 0x1),
+        obj->y_pos + obj->offset_by + d - bagH[frame],
+        bagW[frame],
+        bagH[frame]
+      ))
+        res = 1;
     }
     break;
-  case 0xC8:
-  case 0xC9:
-    iVar8 = -1;
-  case 0x2E:
-  case 0xC6:  
-    iVar9 = h;
-    if (iVar9 == ray_zdc_h) {
-      GET_BB1_ZDCs(obj,&local_48,&local_46,&local_44,&local_42,&local_40,&local_3e,&local_3c,
-                   &local_3a);
-      iVar5 = local_38;
-      iVar6 = local_30;
-      sVar3 = inter_box(x,iVar5,iVar6,iVar9,local_48,local_46,local_44,
-                        local_42);
-      if (sVar3 == 0) {
-        iVar4 = local_40;
-        iVar8 = local_3e;
-        sVar3 = inter_box(x,iVar5,iVar6,h,iVar4,iVar8,(short)local_3c,local_3a);
-        /*iVar4 = -0x10000;*/
-        if (sVar3 != 0)
-            iVar8 = 1;
+  case TYPE_BB1:
+  case TYPE_BB12: 
+  case TYPE_BB13:
+  case TYPE_BB14:
+    if (in_h == ray_zdc_h)
+    {
+      GET_BB1_ZDCs(
+        obj,
+        &bb1_x_1, &bb1_y_1, &bb1_w_1, &bb1_h_1,
+        &bb1_x_2, &bb1_y_2, &bb1_w_2, &bb1_h_2
+      );
+      
+      /* TODO: write a bit nicer, not sure how yet */
+      if (!(s16) inter_box(
+        in_x, in_y, in_w, in_h,
+        bb1_x_1, bb1_y_1, bb1_w_1, bb1_h_1
+      ))
+      {
+        if ((s16) inter_box(
+          in_x, in_y, in_w, in_h,
+          bb1_x_2, bb1_y_2, bb1_w_2, bb1_h_2
+        ))
+          res = 1;
       }
       else
-        iVar8 = 1;
+        res = 1;
     }
     else {
-      GET_BB1_ZDCs(obj,&local_48,&local_46,&local_44,&local_42,&local_40,&local_3e,&local_3c,
-                   &local_3a);
-      iVar7 = x;
-      iVar6 = local_38;
-      iVar5 = local_30;
-      sVar3 = inter_box(iVar7,iVar6,iVar5,iVar9,local_48,local_46,local_44,
-                        local_42);
-      if (sVar3 != 0) {
-        iVar8 = 6;
-      }
-      sVar3 = inter_box(iVar7,iVar6,iVar5,iVar9,local_40,local_3e,(short)local_3c,
-                        local_3a);
-      if (sVar3 != 0) {
-        iVar8 = 1;
-      }
-      if ((obj->main_etat == 0) && (obj->sub_etat == 10))
+      GET_BB1_ZDCs(
+        obj,
+        &bb1_x_1, &bb1_y_1, &bb1_w_1, &bb1_h_1,
+        &bb1_x_2, &bb1_y_2, &bb1_w_2, &bb1_h_2
+      );
+
+      if ((s16) inter_box(
+        in_x, in_y, in_w, in_h,
+        bb1_x_1, bb1_y_1, bb1_w_1, bb1_h_1
+      ))
+        res = 6;
+      if ((s16) inter_box(
+        in_x, in_y, in_w, in_h,
+        bb1_x_2, bb1_y_2, bb1_w_2, bb1_h_2
+      ))
+        res = 1;
+      
+      if (obj->main_etat == 0 && obj->sub_etat == 10)
       {
-        GET_SPRITE_POS(obj,9,&local_48,&local_46,&local_42,&local_44);
-        sVar3 = inter_box(iVar7,iVar6,iVar5,iVar9,local_48,local_46,local_44,
-                            local_42);
-        if (sVar3 != 0)
-            iVar8 = 9;
+        GET_SPRITE_POS(obj, 9, &bb1_x_1, &bb1_y_1, &bb1_h_1, &bb1_w_1);
+        if ((s16) inter_box(
+          in_x, in_y, in_w, in_h,
+          bb1_x_1, bb1_y_1, bb1_w_1, bb1_h_1
+        ))
+          res = 9;
       }
     }
     break;
   }
-LAB_80140fac:
-  /*iVar4 = iVar8 << 0x10;*/
-LAB_80140fb0:
-  return (s16) iVar8; /*iVar4 >> 0x10;*/
+  return res;
 }
 
 /* ??? tried gotos-only, both m2c and ghidra
