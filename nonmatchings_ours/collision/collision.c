@@ -1557,9 +1557,7 @@ LAB_801448fc:
   return;
 }
 
-/* cases 0xd1/0xd2 and default are optimized together somehow
-did not yet try gotos-only for both
-DoFlammeRaymanCollision, DoRaymanCollisionDefault on android */
+/* matches, but cleanup */
 /*INCLUDE_ASM("asm/nonmatchings/collision/collision", PS1_DoRaymanCollision);*/
 
 /*void DO_NOVA(Obj *obj);
@@ -1587,13 +1585,14 @@ void PS1_DoRaymanCollision(void)
     u8 temp_v0_3;
     u8 temp_v1;
     u8 temp_v1_4;
-    s16 test_1;
+    s16 var_s1;
+    s16 var_v1;
+    s16 *timer;
 
     var_s6 = 0;
     var_s0 = &level.objects[actobj.objects[0]];
     if (actobj.num_active_objects > 0)
     {
-        /* iframes_timer actually loaded around here */
         do
         {
             temp_a0_2 = var_s0->type;
@@ -1790,22 +1789,30 @@ void PS1_DoRaymanCollision(void)
                         break;
                     case 0xd1:
                     case 0xd2:
-                        test_1 = ray.iframes_timer;
-                        if ((test_1 >= 0xa) || (test_1 == -1))
-                        {
-                            RAY_HIT(1, var_s0);
-                            if (ray_mode != 3)
-                            {
-                                ray.iframes_timer = 0xa;
-                            }
-                        }
-                        else
-                        {
-                            RAY_HIT(0, var_s0);
-                            ray.iframes_timer = test_1;
-                            /**temp_s3 = (s16) (u16) *temp_s3;*/
-                        }
-                        break;
+    var_v1 = ray.iframes_timer;
+    if (var_v1 >= 0xA)
+    {
+        RAY_HIT(1U, var_s0);
+        if (ray_mode != 3)
+        {
+            ray.iframes_timer = 0x000A;
+        }
+    }
+    else if (var_v1 == -1)
+    {
+        RAY_HIT(1U, var_s0);
+        if (ray_mode != 3)
+        {
+            ray.iframes_timer = 0x000A;
+        }
+    }
+    else
+    {
+        RAY_HIT(0U, var_s0);
+        ray.iframes_timer = var_v1;
+    }
+    break;
+
                     case 0x7C:
                         if (bonus_map != 0)
                         {
@@ -1833,22 +1840,26 @@ void PS1_DoRaymanCollision(void)
                         }
                         break;
                     default:
-                        test_1 = ray.iframes_timer;
-                        if ((test_1 >= 0x3c) || (test_1 == -1))
-                        {
-                            RAY_HIT(1, var_s0);
-                            if (ray_mode != 3 && ray_mode != 4)
-                            {
-                                ray.iframes_timer = 0x3c;
-                            }
-                        }
-                        else
-                        {
-                            RAY_HIT(0, var_s0);
-                            ray.iframes_timer = test_1;
-                            /**temp_s3 = (s16) (u16) *temp_s3;*/
-                        }
-                        break;
+    var_v1 = ray.iframes_timer;
+    if (var_v1 >= 0x3C)
+    {
+        RAY_HIT(0U, var_s0);
+        ray.iframes_timer = var_v1;
+    }
+    else if (var_v1 == -1)
+    {
+        RAY_HIT(1U, var_s0);
+        if (!(ray_mode == 3 || ray_mode == 4))
+        {
+            ray.iframes_timer = 0x003C;
+        }
+    }
+    else
+    {
+        RAY_HIT(0U, var_s0);
+        ray.iframes_timer = var_v1;
+    }
+    break;
                     }
                 }
             }
