@@ -77,7 +77,7 @@ void standard_frontZone(Obj *obj, s16 *x, s16 *w);
 void SET_DETECT_ZONE_FLAG(Obj *obj);
 void goToRay(Obj *obj);
 void unleashMonsterHost(Obj *obj);
-void DO_COLL_RAY_CYMBALE(Obj *param_1);
+void DO_COLL_RAY_CYMBALE(Obj *cym_obj);
 void DoAudioStartRaymanCollision(Obj *obj);
 void PS1_DoRaymanCollision(void);
 void DO_COLLISIONS(void);

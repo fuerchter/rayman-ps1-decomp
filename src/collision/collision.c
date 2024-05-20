@@ -1151,7 +1151,108 @@ void unleashMonsterHost(Obj *in_obj)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_COLL_RAY_CYMBALE);
+/* 20400 80144C00 -O2 -msoft-float */
+void DO_COLL_RAY_CYMBALE(Obj *cym_obj)
+{
+    s32 cym_sub_etat;
+    u8 cym_link_id;
+    Obj *cym_link_obj;
+    s16 *cym_speed_y;
+    s16 ray_speed_y;
+    s16 diff_x;
+    s16 sprite = 0; /* i think, BOX_IN_COLL_ZONES returned a sprite? */
+    
+    if (cym_obj->type == TYPE_CYMBAL2)
+    {
+        cym_sub_etat = 10;
+        cym_link_id = link_init[cym_obj->id];
+        if (cym_link_id != cym_obj->id)
+        {
+            cym_link_obj = &level.objects[cym_link_id];
+            if (cym_link_obj->type == TYPE_CYMBAL1)
+            {
+                cym_speed_y = &cym_link_obj->speed_y;
+                if (*cym_speed_y > 128)
+                    *cym_speed_y = 1;
+                else if (*cym_speed_y < -128)
+                    *cym_speed_y = -1;
+                cym_link_obj->y_pos += (u16) cym_link_obj->speed_y * 2;
+                sprite = BOX_IN_COLL_ZONES(TYPE_RAYMAN, ray_zdc_x, ray_zdc_y, ray_zdc_w, ray_zdc_h, cym_link_obj);
+                cym_link_obj->y_pos -= (u16) cym_link_obj->speed_y * 2;
+                ray_speed_y = (u16) cym_link_obj->speed_y * 2;
+            }
+        }
+    }
+    else
+    {
+        sprite = BOX_IN_COLL_ZONES(TYPE_RAYMAN, ray_zdc_x, ray_zdc_y, ray_zdc_w, ray_zdc_h, cym_obj);
+        cym_sub_etat = 1;
+        ray_speed_y = cym_obj->speed_y;
+    }
+    if (sprite != -1)
+    {
+        sprite--;
+        if (ray.main_etat == 2 && !(ray.sub_etat == 1 || ray.sub_etat == 2))
+        {
+            if (ray.sub_etat != 8)
+                set_sub_etat(&ray, 1);
+
+            if (ray_speed_y > 128)
+                ray_speed_y = 1;
+            else if (ray_speed_y < -128)
+                ray_speed_y = -1;
+            ray.y_pos += ray_speed_y;
+            ray.field24_0x3e = 0;
+            ray.speed_y = 0;
+        }
+
+        if(!(ray.main_etat == 2 && ray.sub_etat == 8))
+        {
+            if (
+                !(ray.main_etat == 0 && ray.sub_etat == 61) &&
+                cym_obj->anim_frame >= 20 && cym_obj->anim_frame <= 22 &&
+                cym_obj->main_etat == 0 && cym_obj->sub_etat == cym_sub_etat
+            )
+            {
+                if (
+                    (cym_obj->follow_sprite == 1 || sprite == 1) &&
+                    ray.flags & FLG(OBJ_ALIVE) &&
+                    !(ray.main_etat == 2 && ray.sub_etat == 8) &&
+                    !(ray.main_etat == 0 && ray.sub_etat == 61)
+                )
+                {
+                    diff_x = ray.x_pos + ray.offset_bx - cym_obj->x_pos - cym_obj->offset_bx;
+                    if (__builtin_abs(diff_x) < 25)
+                    {
+                        ray.speed_x = 0;
+                        ray.speed_y = 0;
+                        decalage_en_cours = 0;
+                        ray.flags &= ~FLG(OBJ_ACTIVE);
+                        ray.iframes_timer = -1;
+                        set_main_and_sub_etat(&ray, 0, 0);
+                        ray.field20_0x36 = cym_obj->id;
+                    }
+                    else
+                    {
+                        if (diff_x < 0)
+                            ray.flags |= FLG(OBJ_FLIP_X);
+                        else
+                            ray.flags &= ~FLG(OBJ_FLIP_X);
+                        RAY_HIT(true, cym_obj);
+                    }
+                }
+                else
+                {
+                    if (cym_obj->follow_sprite == 0 || sprite == 0)
+                        ray.flags |= FLG(OBJ_FLIP_X);
+                    else
+                        ray.flags &= ~FLG(OBJ_FLIP_X);
+                    RAY_HIT(true, cym_obj);
+                }
+            }
+        }
+    }
+}
 
 /* 2081C 8014501C -O2 -msoft-float */
 void DoAudioStartRaymanCollision(Obj *obj)
