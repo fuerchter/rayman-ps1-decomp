@@ -41,8 +41,9 @@ void set_rubis_list(void)
   do {
     swapped = false;
     obj_ind = 0;
-    rubis_ind = 1;
-    do {
+    rubis_ind = 1; /* could just use obj_ind + 1 ? */
+    while (obj_ind < 7)
+    {
       if (
         level.objects[ecroule_rubis_list[obj_ind]].x_pos >
         level.objects[ecroule_rubis_list[rubis_ind]].x_pos
@@ -53,13 +54,12 @@ void set_rubis_list(void)
       }
       obj_ind = obj_ind + 1;
       rubis_ind = rubis_ind + 1;
-    } while (obj_ind < 7);
+    }
   } while (swapped);
   if (ModeDemo != 0)
     ecroule_plat_index = 8;
   else {
-    rand_res = myRand(0xb1);
-    ecroule_plat_index = (u8)(rand_res % 3 << 3);
+    ecroule_plat_index = (u8)((s16) myRand(0xb1) % 3 << 3);
   }
   
   sko_ecroule_plat = ecroule_rubis_list[ecroule_rubis_order[ecroule_plat_index]];
@@ -76,41 +76,6 @@ void set_rubis_list(void)
       level.objects[*pbVar6].y_pos = level.objects[*pbVar6].init_y_pos;
       pbVar6 = pbVar6 + 1;
     } while ((int)pbVar6 < (int)&sko_lave_obj[sko_nb_lave]);
-  }
-}
-
-/*INCLUDE_ASM("asm/nonmatchings/obj/scorpion", allocate_rayon);*/
-
-void allocate_rayon(s16 x, s16 y)
-{
-  s16 found;
-  u8 nb_objs;
-  s16 i;
-  Obj *cur_obj;
-  s32 new_var;
-
-  found = false;
-  nb_objs = level.nb_objects;
-  i = 0;
-  cur_obj = &level.objects[0];
-  do {
-    if (cur_obj->type == TYPE_RAYON && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
-      found = true;
-    cur_obj++;
-    i++;
-  } while (!found && i < nb_objs);
-  nb_objs = 1; /* ??? */
-  if (found)
-  {
-    cur_obj--;
-    new_var = cur_obj->flags & ~(FLG(OBJ_FLAG_9));
-    cur_obj->flags = new_var | (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
-    cur_obj->x_pos = x;
-    cur_obj->y_pos = y;
-    cur_obj->speed_x = 0;
-    cur_obj->speed_y = 0;
-    set_main_etat(cur_obj, 3);
-    set_sub_etat(cur_obj, 0);
   }
 }
 

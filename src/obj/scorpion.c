@@ -21,7 +21,34 @@ void swap(s32 ind_1, s32 ind_2)
 
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", set_rubis_list);
 
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", allocate_rayon);
+/* 6CA0C 8019120C -O2 -msoft-float */
+void allocate_rayon(s16 x, s16 y)
+{
+  s16 found = false;
+  u8 nb_objs = level.nb_objects;
+  s16 i = 0;
+  Obj *cur_obj = &level.objects[0];
+
+  do {
+    if (cur_obj->type == TYPE_RAYON && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+      found = true;
+    cur_obj++;
+    i++;
+  } while (!found && i < nb_objs);
+  i = 999; /* can also assign anything to nb_objs and it has same effect */
+  if (found)
+  {
+    cur_obj--;
+    cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+    cur_obj->flags &= ~(FLG(OBJ_FLAG_9));
+    cur_obj->x_pos = x;
+    cur_obj->y_pos = y;
+    cur_obj->speed_x = 0;
+    cur_obj->speed_y = 0;
+    set_main_etat(cur_obj, 3);
+    set_sub_etat(cur_obj, 0);
+  }
+}
 
 /* 6CAE0 801912E0 -O2 -msoft-float */
 void allocate_8_petits_rayons(s16 x, s16 y)
