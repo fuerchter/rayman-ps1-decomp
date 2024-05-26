@@ -1,32 +1,5 @@
 #include "sound.h"
 
-/* functionally the same as far as i can tell */
-/*INCLUDE_ASM("asm/nonmatchings/sound", FUN_801658e0);*/
-
-/* 410E0 801658E0 -O2 -msoft-float */
-void FUN_801658e0(void)
-{
-    s16 temp_v0;
-    s16 var_s1;
-    s16 var_s3;
-    s16 var_v0;
-
-    D_801CEFCC = 0;
-    var_s3 = 0;
-    do
-    {
-        var_s1 = 0;
-        do {
-            if ((SsIsEos(var_s3, var_s1)) != 0)
-            {
-                SsSepStop(var_s3, var_s1);
-            }
-            var_s1 = var_s1 + 1;
-        } while (var_s1 < 0xA);
-        var_s3 = var_s3 + 1;
-    } while (var_s3 < 2);
-}
-
 /* matches, but clean up/figure out unknowns */
 /*INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadAllFixSound);*/
 

@@ -41,7 +41,17 @@ void PS1_StopPlayingAllSnd(void)
   PS1_StopPlayingSnd(6);
 }
 
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_801658e0);
+/* 410E0 801658E0 -O2 -msoft-float */
+void FUN_801658e0(void)
+{
+    s16 seq_num; s16 acc_num;
+
+    D_801CEFCC = 0;
+    for (acc_num = 0; acc_num < 2; acc_num++)
+        for (seq_num = 0; seq_num < 10; seq_num++)
+            if (SsIsEos(acc_num, seq_num))
+                SsSepStop(acc_num, seq_num);
+}
 
 /* 41190 80165990 -O2 -msoft-float */
 void manage_snd_event(Obj *obj)
