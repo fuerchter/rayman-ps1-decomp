@@ -173,7 +173,21 @@ void stop_all_snd(void)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_8016617c);
+/* 4197C 8016617C -O2 -msoft-float */
+void FUN_8016617c(void)
+{
+  s16 i;
+  s16 unk_1;
+  
+  __asm__("nop");
+
+  for (i = 0; i < (s16) LEN(voice_table); i++)
+  {
+    unk_1 = voice_table[i].field3_0x6;
+    if (unk_1 == 6 || unk_1 == 245 || unk_1 == 2)
+      SsUtSetVVol(i, 0, 0);
+  }
+}
 
 /* 41A0C 8016620C -O2 -msoft-float */
 u8 get_pan_snd(Obj *obj)

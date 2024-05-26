@@ -77,23 +77,7 @@ void PS1_LoadWorldSound(s16 param_1)
   }
 }
 
-/*INCLUDE_ASM("asm/nonmatchings/sound", FUN_8016617c);*/
-
-/* 4197C 8016617C -O2 -msoft-float */
-void FUN_8016617c(void)
-{
-  s16 i;
-  short sVar1;
-  
-  for (i = 0; i < 24; i++)
-  {
-    sVar1 = voice_table[i].field3_0x6; /* TODO: this is being read as s16 instead */
-    if (sVar1 == 6 || sVar1 == 0xf5 || sVar1 == 2)
-      SsUtSetVVol(i, 0, 0);
-  }
-}
-
-/* matches, but too much unkown */
+/* matches, but too much unknown */
 /*INCLUDE_ASM("asm/nonmatchings/sound", InitSnd);*/
 
 /* 41BD4 801663D4 -O2 -msoft-float */
