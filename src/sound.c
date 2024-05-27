@@ -168,7 +168,7 @@ void stop_all_snd(void)
 
   __asm__("nop");
   SsUtAllKeyOff(0);
-  for (i = 0; i < 24; i++)
+  for (i = 0; i < (s16) LEN(voice_is_working); i++)
     voice_is_working[i] = false;
 }
 #endif
@@ -385,15 +385,15 @@ void nettoie_pile_snd(void)
 /* 42520 80166D20 -O2 -msoft-float */
 void FUN_80166d20(s16 id)
 {
-  VoiceTableEntry *cur = &voice_table[0];
   s16 i = 0;
+  VoiceTableEntry *cur = &voice_table[i];
   
-  while (cur->id != id && i < 24)
+  while (cur->id != id && i < (s16) LEN(voice_table))
   {
       cur++;
       i++;
   }
-  if (i != 24)
+  if (i != (s16) LEN(voice_table))
     cur->id = -2;
 }
 
@@ -529,7 +529,7 @@ void FUN_80169194(void)
     
     __asm__("nop\nnop");
 
-    for (i = 0; i < 24; i++)
+    for (i = 0; i < (s16) LEN(voice_table); i++)
     {
         sound_ind = voice_table[i].field3_0x6;
         if (
