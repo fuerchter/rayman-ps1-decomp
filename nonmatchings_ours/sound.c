@@ -77,7 +77,7 @@ void PS1_LoadWorldSound(s16 param_1)
   }
 }
 
-/* matches, but too much unknown */
+/* matches, but test_1, the loop with < 8 */
 /*INCLUDE_ASM("asm/nonmatchings/sound", InitSnd);*/
 
 /* 41BD4 801663D4 -O2 -msoft-float */
@@ -85,41 +85,41 @@ void InitSnd(void)
 {
     s16 *var_a0;
     s16 *var_v1;
-    s32 var_s0;
+    s32 i;
     s16 test_1;
 
-    var_s0 = 0;
+    i = 0;
     test_1 = -2;
     var_a0 = stk_obj;
     var_v1 = stk_snd;
-    while (var_s0 < 20)
+    while (i < 20)
     {
         *var_v1 = 0;
         *var_a0 = test_1;
         var_a0++;
-        var_s0++;
+        i++;
         var_v1++;
     }
     pt_pile_snd = 0;
     D_801FA578 = 0;
     indice_ray_wait = 0;
     indice_trz_wait = 2;
-    for(var_s0 = 0; var_s0 < 8; var_s0++)
+    for(i = 0; i < 8; i++)
     {
-        D_801F7D40[var_s0].field0_0x0 = D_801CEFD0[var_s0];
-        D_801F7D40[var_s0].field1_0x1 = -1;
-        D_801F7D40[var_s0].field2_0x2 = 0;
-        D_801F7D40[var_s0].field3_0x3 = 0;
+        D_801F7D40[i].field0_0x0 = D_801CEFD0[i];
+        D_801F7D40[i].field1_0x1 = -1;
+        D_801F7D40[i].field2_0x2 = 0;
+        D_801F7D40[i].field3_0x3 = 0;
     }
-    for(var_s0 = 0; var_s0 < 24; var_s0++)
-        voice_table[var_s0].field0_0x0 = -2;
+    for(i = 0; i < (s16) LEN(voice_table); i++)
+        voice_table[i].id = -2;
     
     SsSetSerialAttr(0, 0, 1);
-    FUN_80166060(options_jeu.Soundfx * 127 / 20);
+    SetVolumeSound(options_jeu.Soundfx * 127 / 20);
     PS1_SetStereoEnabled(options_jeu.StereoEnabled);
     SsUtSetReverbType(2);
     SsUtReverbOn();
-    for(var_s0 = 0; var_s0 < 200; var_s0++)
+    for(i = 0; i < 200; i++)
         VSync(0);
     SsUtSetReverbDepth(20, 20);
 }
@@ -151,7 +151,7 @@ s32 last_snd(s16 param_1)
   else {
 LAB_80166650:
     if (iVar3 == -1) {
-      sVar1 = -1;
+      sVar1 = -1; /* unreachable? */
       goto code_r0x80166684;
     }
   }

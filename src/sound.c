@@ -174,6 +174,9 @@ void stop_all_snd(void)
 #endif
 
 /* 4197C 8016617C -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
+INCLUDE_ASM("asm/nonmatchings/sound", FUN_8016617c);
+#else
 void FUN_8016617c(void)
 {
   s16 i;
@@ -188,6 +191,7 @@ void FUN_8016617c(void)
       SsUtSetVVol(i, 0, 0);
   }
 }
+#endif
 
 /* 41A0C 8016620C -O2 -msoft-float */
 u8 get_pan_snd(Obj *obj)
@@ -299,7 +303,7 @@ s16 FUN_80166724(s16 id)
   return i;
 }
 
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166790);
+INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166790); /* NEXT */
 
 INCLUDE_ASM("asm/nonmatchings/sound", get_voice_obj_snd);
 
