@@ -57,7 +57,7 @@ typedef struct Unk_801f62a0
     /* not sure about these, but every access would otherwise be multiplied by 2 */
     s16 field6_0xc;
     s16 field7_0xe; /* pan? see get_pan_snd, setpan */
-    s32 field8_0x10; /* related with map_time? see nettoie_pile_snd and PlaySnd */
+    s32 field8_0x10; /* u32? related with map_time? see nettoie_pile_snd and PlaySnd */
     s16 field9_0x14;
     s16 field10_0x16;
 } Unk_801f62a0;

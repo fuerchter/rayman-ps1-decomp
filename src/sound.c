@@ -293,17 +293,17 @@ s16 FUN_80166724(s16 id)
   s16 i = 0;
   VoiceTableEntry *cur = &voice_table[i];
   
-  while (cur->id != id && i < 24)
+  while (cur->id != id && i < (s16) LEN(voice_table))
   {
     cur++;
     i++;
   }
-  if (i == 24)
+  if (i == (s16) LEN(voice_table))
     i = -1;
   return i;
 }
 
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166790); /* NEXT */
+INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166790);
 
 INCLUDE_ASM("asm/nonmatchings/sound", get_voice_obj_snd);
 
@@ -342,7 +342,45 @@ void erase_pile_snd(s16 id)
 }
 #endif
 
+/* 422AC 80166AAC -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/sound", nettoie_pile_snd);
+#else
+void nettoie_pile_snd(void)
+{  
+  s16 cur;
+  s32 next;
+  s16 i = 0;
+
+  while (i < pt_pile_snd)
+  {
+    if ((u32) pile_snd[i].field8_0x10 < map_time && pile_snd[i].field8_0x10 != 0)
+    {
+      
+      for (cur = i; cur < pt_pile_snd; cur++)
+      {
+        next = cur + 1;
+        pile_snd[cur].id = pile_snd[next].id;
+        pile_snd[cur].index = pile_snd[next].index;
+        pile_snd[cur].prog = pile_snd[next].prog;
+        pile_snd[cur].tone = pile_snd[next].tone;
+        pile_snd[cur].note = pile_snd[next].note;
+        pile_snd[cur].vol = pile_snd[next].vol;
+        pile_snd[cur].field6_0xc = pile_snd[next].field6_0xc;
+        pile_snd[cur].field7_0xe = pile_snd[next].field7_0xe;
+        pile_snd[cur].field8_0x10 = pile_snd[next].field8_0x10;
+        pile_snd[cur].field9_0x14 = pile_snd[next].field9_0x14;
+      }
+      if (pt_pile_snd > 0)
+        pt_pile_snd--;
+    }
+    else
+      i++;
+  }
+
+  __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 /* 42520 80166D20 -O2 -msoft-float */
 void FUN_80166d20(s16 id)

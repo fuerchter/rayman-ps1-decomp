@@ -186,7 +186,7 @@ became s16 in the meantime (PlaySnd)
 /*INCLUDE_ASM("asm/nonmatchings/sound", get_voice_obj_snd);*/
 
 /* 41FFC 801667FC -O2 -msoft-float */
-s32 get_voice_obj_snd(s16 id, s16 param_2)
+s16 get_voice_obj_snd(s16 id, s16 param_2)
 {
   s16 *psVar1 = &voice_table[0].field3_0x6;
   VoiceTableEntry *pVVar4 = voice_table;
@@ -201,48 +201,6 @@ s32 get_voice_obj_snd(s16 id, s16 param_2)
   if (i == 24)
     i = -1;
   return i;
-}
-
-/*INCLUDE_ASM("asm/nonmatchings/sound", nettoie_pile_snd);*/
-
-/* 422AC 80166AAC -O2 -msoft-float */
-void nettoie_pile_snd(void)
-{
-  int iVar3;
-  s16 iVar4;
-  s16 iVar5;
-  s16 new_var;
-  
-  iVar5 = 0;
-  if (0 < pt_pile_snd) {
-    do {
-      if (((uint)pile_snd[iVar5].field8_0x10 < map_time) &&
-         (pile_snd[iVar5].field8_0x10 != 0)) {
-        iVar4 = iVar5;
-        while (iVar4 < pt_pile_snd) {
-          iVar3 = iVar4 + 1;
-          pile_snd[iVar4].id = pile_snd[iVar3].id;
-          pile_snd[iVar4].index = pile_snd[iVar3].index;
-          pile_snd[iVar4].prog = pile_snd[iVar3].prog;
-          pile_snd[iVar4].tone = pile_snd[iVar3].tone;
-          pile_snd[iVar4].note = pile_snd[iVar3].note;
-          pile_snd[iVar4].vol = pile_snd[iVar3].vol;
-          pile_snd[iVar4].field6_0xc = pile_snd[iVar3].field6_0xc;
-          pile_snd[iVar4].field7_0xe = pile_snd[iVar3].field7_0xe;
-          pile_snd[iVar4].field8_0x10 = pile_snd[iVar3].field8_0x10;
-          pile_snd[iVar4].field9_0x14 = pile_snd[iVar3].field9_0x14;
-          iVar4++;
-        }
-        if (0 < pt_pile_snd) {
-          pt_pile_snd = pt_pile_snd + -1;
-        }
-      }
-      else {
-        iVar5 = iVar5 + 1;
-      }
-    } while (iVar5 < pt_pile_snd);
-  }
-  return;
 }
 
 /* matches, but same issues as FUN_80166790, get_voice_obj_snd */
