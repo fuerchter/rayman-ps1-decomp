@@ -26,9 +26,6 @@ extern s16 D_801CEEB6; /* go through FUN_80130684 first */
 extern s32 *D_801D7840;
 extern s16 D_801F7C80;
 
-/* replace constant 24 with size of voice_table somehow??? */
-
-
 /* 41084 80165884 -O2 -msoft-float */
 void PS1_StopPlayingAllSnd(void)
 {
