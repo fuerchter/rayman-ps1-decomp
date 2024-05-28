@@ -173,28 +173,21 @@ void CALC_FOLLOW_SPRITE_SPEED(Obj *obj, Animation *anim1, Animation *anim2, s16 
   obj->follow_x = var_a2 - var_a3;
 }
 
-/* matches, but... */
+/* matches, but remove x_2??? */
 /*INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", calc_btyp_square);*/
 
 void calc_btyp_square(Obj *obj)
 {
-  u8 bVar1;
-  ushort uVar2;
-  BlockType BVar3;
-  u8 uVar4;
-  short y_2;
+  u8 x_offs;
+  s16 x_1;
+  int y_1;
   short x_3;
+  short y_2;
   short x_4;
   short x_5;
-  u8 x_offs;
   int x_2;
-  int y_offs;
-  int y_1;
-  s16 x_1;
-  s16 x_test;
   
-  x_3 = obj->type;
-  if (x_3 == TYPE_RAYMAN)
+  if (obj->type == TYPE_RAYMAN)
   {
     if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
       x_offs = 4;
@@ -204,8 +197,8 @@ void calc_btyp_square(Obj *obj)
   else
     x_offs = 16;
 
-  y_1 = (s16) ((obj->offset_by + (ushort)obj->y_pos));
-  x_1 = (s16) (obj->offset_bx + obj->x_pos);
+  x_1 = (s16) (obj->x_pos + obj->offset_bx);
+  y_1 = (s16) ((obj->y_pos + obj->offset_by));
   y_2 = ashr16(y_1,4);
   x_2 = x_1;
   x_3 = ashr16(x_2,4);
@@ -214,8 +207,7 @@ void calc_btyp_square(Obj *obj)
   obj->btypes[3] = BTYP(x_3,y_2 + -1);
   obj->btypes[1] = BTYP(x_4,y_2);
   if (obj->main_etat == 2) {
-    uVar4 = BTYP(x_3,y_2);
-    obj->btypes[0] = bloc_floor(uVar4,(s16)(x_2 + (x_2 / 16) * -0x10),
+    obj->btypes[0] = bloc_floor((u8) BTYP(x_3,y_2),(s16)(x_2 + (x_2 / 16) * -0x10),
                        (s16)(y_1 + (y_1 / 16) * -0x10));
   }
   else {
