@@ -5,49 +5,69 @@
 
 s16 get_center_x(Obj *obj)
 {
+  s16 res;
+
   switch(obj->type)
   {
   case 0x2d:
-    return 0x12;
+    res = 0x12;
+    break;
   case 0x6a:
-    return 0x46;
+    res = 0x46;
+    break;
   case 0x16:
-    /* switch instead? */
-    if (num_world != 1) {
-      if (num_world == 2) {
-        return 0x40;
-      }
-      return 0x28;
+    switch (num_world)
+    {
+    case 1:
+        res = 0x28;
+        break;
+    case 2:
+        res = 0x40;
+        break;
+    default:
+        res = 0x28;
+        break;
     }
-    return 0x28; 
+    break;
   case 0xbd:
-    return 0x12;
+    res = 0x12;
+    break;
   case 0x31:
-    return 0x80;
+    res = 0x80;
+    break;
   case 0x7b:
     switch(obj->follow_sprite)
     {
     case 5:
     case 6:
     case 7:
-        return 0x50;
+        res = 0x50;
+        break;
     default:
-        return 0x28;
+        res = 0x28;
+        break;
     }
+    break;
   case 0xe1:
   case 0xe2:
   case 0xb8:
   case 0xae:
-    return 0x50;
+    res = 0x50;
+    break;
   case 0x9a:
   case 0x9b:
   case 0x8a:
-    return 0x68;
+    res = 0x68;
+    break;
   case 0x8c:
-    return 0x24;
+    res = 0x24;
+    break;
   default:
-    return 0x28;
+    res = 0x28;
+    break;
   }
+
+  return res;
 }
 
 /*INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", get_center_y);*/
@@ -56,48 +76,66 @@ s16 get_center_y(Obj *obj)
 {
     u8 bVar1;
     s16 in_a1;
+    s16 res;
 
     switch(obj->type)
     {
     case 0x2d:
-        return 0x12;
+        res = 0x12;
+        break;
     case 0x6a:
-        return 0x28;
+        res = 0x28;
+        break;
+    case 0x16:
+        break;
     case 0xbd:
-        return 0x12;
+        res = 0x12;
+        break;
     case 0x31:
-        return 0x40;
+        res = 0x40;
+        break;
     case 0xc3:
-        return 0x5a;
+        res = 0x5a;
+        break;
+    case 0x7b:
+        /* moving 0x48 to default case instead gets us to ~925 */
+        switch(obj->follow_sprite)
+        {
+        case 5:
+            res = 0x48;
+            break;
+        case 6:
+        case 7:
+            if (obj->speed_y >= 1) {
+                res = 0x40;
+            }
+            else
+                res = 0x4e;
+            break;
+        default:
+            res = in_a1;
+            break;
+        }
+        break;
     case 0xe1:
     case 0xe2:
     case 0xb8:
     case 0xae:
-        return 0x60;
-    case 0x8c:
-        return 0x20;
-    case 0x7b:
-        switch(obj->follow_sprite)
-        {
-        case 5:
-            return 0x48;
-        case 6:
-        case 7:
-            if (obj->speed_y >= 1) {
-                return 0x40;
-            }
-            else
-                return 0x4e;
-        default:
-            return in_a1;
-        }
+        res = 0x60;
+        break;
     case 0x9a:
     case 0x9b:
     case 0x8a:
-        return 0x68;
+        res = 0x68;
+        break;
+    case 0x8c:
+        res = 0x20;
+        break;
     default:
-        return 0x28;
+        res = 0x28;
+        break;
     }
+    return res;
 }
 
 /* matches, but var_a2, the whole if/else suck */
