@@ -173,50 +173,6 @@ void CALC_FOLLOW_SPRITE_SPEED(Obj *obj, Animation *anim1, Animation *anim2, s16 
   obj->follow_x = var_a2 - var_a3;
 }
 
-/* functionally the same? */
-/*INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", GET_SPRITE_POS);*/
-
-s16 GET_SPRITE_POS(Obj *obj, s16 index, s16 *x, s16 *y, s16 *w, s16 *h)
-{
-    Animation *temp_v0;
-    Sprite *temp_t0;
-    s16 var_a1;
-    s32 var_v0;
-    u8 var_v1;
-    u8 temp_v1;
-    AnimationLayer *temp_t2;
-    AnimationLayer *test_1;
-    s16 new_var;
-    s32 new_var2;
-
-    temp_v0 = &obj->animations[obj->anim_index];
-    test_1 = &temp_v0->layers[(temp_v0->layers_count & 0x3FFF) * obj->anim_frame];
-    temp_t2 = &test_1[index];
-    temp_v1 = temp_t2->sprite;
-    temp_t0 = &obj->sprites[temp_v1];
-    if ((temp_v1 != 0) && (temp_t0->id != 0))
-    {
-        *w = temp_t0->sprite_width;
-        *h = temp_t0->sprite_height;
-        if (obj->flags & 0x4000)
-        {
-            *x = obj->x_pos + (((obj->offset_bx * 2) - (temp_t2->x_pos + (temp_t0->sprite_pos & 0xF))) - temp_t0->width);
-        }
-        else
-        {
-            *x = obj->x_pos + temp_t2->x_pos + (temp_t0->sprite_pos & 0xF);
-        }
-        
-        var_a1 = 1;
-        *y = temp_t2->y_pos + (temp_t0->sprite_pos >> 4) + obj->y_pos;
-    }
-    else
-    {
-        var_a1 = 0;
-    }
-    return var_a1;
-}
-
 /* matches, but... */
 /*INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", calc_btyp_square);*/
 
