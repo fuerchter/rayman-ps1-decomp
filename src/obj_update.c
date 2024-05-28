@@ -182,9 +182,85 @@ void do_boing(Obj *obj, u8 main_etat, u8 sub_etat)
 }
 #endif
 
+/* 2CA58 80151258 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj_update", underSlope);
+#else
+u8 underSlope(Obj *obj)
+{
+    u8 res = 0;
+    if (block_flags[obj->btypes[0]] & FLG(BLOCK_FULLY_SOLID))
+        res = block_flags[obj->btypes[3]] >> BLOCK_SLOPE & 1;
 
+    __asm__("nop\nnop");
+    return res;
+}
+#endif
+
+/* 2CAAC 801512AC -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_STONEBOMB_REBOND);
+#else
+void DO_STONEBOMB_REBOND(Obj *obj)
+{
+    s16 new_spd_x; s16 new_spd_y;
+    ObjType obj_type = obj->type;
+    
+    if (obj_type == TYPE_STONEBOMB2)
+    {
+        new_spd_x = 32;
+        new_spd_y = -4;
+    }
+    else if (obj_type == TYPE_STONEBOMB3)
+    {
+        new_spd_x = 48;
+        new_spd_y = -6;
+    }
+
+    if (underSlope(obj))
+        obj->btypes[0] = obj->btypes[3];
+
+    switch (obj->btypes[0])
+    {
+    case BTYP_SOLID_LEFT1_30:
+    case BTYP_SOLID_LEFT2_30:
+    case BTYP_SLIPPERY_LEFT1_30:
+    case BTYP_SLIPPERY_LEFT2_30:
+        obj->speed_y = new_spd_y;
+        obj->speed_x = new_spd_x;
+        break;
+    case BTYP_SOLID_RIGHT1_30:
+    case BTYP_SOLID_RIGHT2_30:
+    case BTYP_SLIPPERY_RIGHT1_30:
+    case BTYP_SLIPPERY_RIGHT2_30:
+        obj->speed_y = new_spd_y;
+        obj->speed_x = -new_spd_x;
+        break;
+    case BTYP_SOLID_LEFT_45:
+    case BTYP_SLIPPERY_LEFT_45:
+        obj->speed_y = new_spd_y + 2;
+        obj->speed_x = new_spd_x + 16;
+        break;
+    case BTYP_SOLID_RIGHT_45:
+    case BTYP_SLIPPERY_RIGHT_45:
+        obj->speed_y = new_spd_y + 2;
+        obj->speed_x = -16 - new_spd_x;
+        break;
+    case BTYP_SOLID_PASSTHROUGH:
+    case BTYP_SOLID:
+    case BTYP_SLIPPERY:
+        obj->speed_y = new_spd_y;
+        break;
+    case BTYP_RESSORT:
+        obj->speed_y = new_spd_y - 3;
+        break;
+    }
+    obj->gravity_value_1 = 0;
+    obj->gravity_value_2 = 2;
+
+    __asm__("nop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_THROWN_BOMB_REBOND);
 
