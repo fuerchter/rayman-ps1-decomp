@@ -12,7 +12,7 @@ void PS1_SetZDC(s16 x, s16 y, u8 w, u8 h, u8 flags, u8 sprite)
     zdc->width = w;
     zdc->height = h;
     zdc->flags = flags;
-    zdc->sprite = sprite + 0xFF; /* ??? */
+    zdc->sprite = sprite - 1;
     ZDCPTR++;
 }
 
