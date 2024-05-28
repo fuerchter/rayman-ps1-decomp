@@ -18,7 +18,45 @@ u8 on_block_chdir(Obj *obj, s16 offs_bx, s16 offs_by)
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", CALC_FOLLOW_SPRITE_SPEED);
 
-INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", GET_SPRITE_POS);
+/* 230E0 801478E0 -O2 -msoft-float */
+s16 GET_SPRITE_POS(Obj *obj, s16 index, s16 *x, s16 *y, s16 *w, s16 *h)
+{
+    Animation *anim;
+    AnimationLayer *layer;
+    u8 sprite_ind;
+    Sprite *sprite;
+    s16 res;
+
+    anim = &obj->animations[obj->anim_index];
+    layer = &anim->layers[(anim->layers_count & 0x3FFF) * obj->anim_frame];
+    layer += index;
+    sprite_ind = layer->sprite;
+    sprite = &obj->sprites[sprite_ind];
+    if (sprite_ind != 0 && sprite->id != 0)
+    {
+        *w = sprite->sprite_width;
+        *h = sprite->sprite_height;
+        if (obj->flags & FLG(OBJ_FLIP_X))
+            *x =
+                obj->x_pos +
+                (
+                    obj->offset_bx * 2 -
+                    (layer->x_pos + (sprite->sprite_pos & 0xF)) -
+                    sprite->width
+                );
+        else
+        {
+            *x =
+                obj->x_pos +
+                layer->x_pos + (sprite->sprite_pos & 0xF);
+        }
+        *y = layer->y_pos + (sprite->sprite_pos >> 4) + obj->y_pos;
+        res = true;
+    }
+    else
+        res = false;
+    return res;
+}
 
 /* 23204 80147A04 -O2 -msoft-float */
 void GET_RAY_ZDC(Obj *ray, s16 *x, s16 *y, s16 *w, s16 *h)
