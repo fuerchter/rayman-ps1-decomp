@@ -23,6 +23,7 @@ void FUN_80150c5c(Obj *obj, u8 param_2)
     }
 }
 
+/* 2C50C 80150D0C -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_ANIM);
 #else
@@ -110,9 +111,76 @@ void DO_ANIM(Obj *obj)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", prof_in_bloc);
+/* 2C89C 8015109C -O2 -msoft-float */
+s16 prof_in_bloc(Obj *obj)
+{
+    s32 y = obj->y_pos + obj->offset_by;
+    return y - (y / 16 * 16);
+}
 
+/* 2C8D0 801510D0 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj_update", do_boing);
+#else
+void do_boing(Obj *obj, u8 main_etat, u8 sub_etat)
+{
+  if (obj->speed_y < 2)
+  {
+    obj->speed_y = 0;
+    set_main_and_sub_etat(obj, main_etat, sub_etat);
+    if (main_etat != 2)
+      recale_position(obj);
+  }
+  else
+  {
+    if (horloge[2] == 0)
+    {
+        switch(obj->btypes[0])
+        {
+        case BTYP_NONE:
+            break;
+        case BTYP_SOLID_RIGHT_45:
+        case BTYP_SLIPPERY_RIGHT_45:
+            obj->speed_y = 1 - (obj->speed_y >> 1);
+            obj->speed_x -= 2;
+            break;
+        case BTYP_SOLID_LEFT_45:
+        case BTYP_SLIPPERY_LEFT_45:
+            obj->speed_y = 1 - (obj->speed_y >> 1);
+            obj->speed_x += 2;
+            break;
+        case BTYP_SOLID_RIGHT1_30:
+        case BTYP_SOLID_RIGHT2_30:
+        case BTYP_SLIPPERY_RIGHT1_30:
+        case BTYP_SLIPPERY_RIGHT2_30:
+            obj->speed_y = 1 - ((obj->speed_y + 1) >> 1);
+            obj->speed_x--;
+            break;
+        case BTYP_SOLID_LEFT1_30:
+        case BTYP_SOLID_LEFT2_30:
+        case BTYP_SLIPPERY_LEFT1_30:
+        case BTYP_SLIPPERY_LEFT2_30:
+            obj->speed_y = 1 - ((obj->speed_y + 1) >> 1);
+            obj->speed_x++;
+            break;
+        case BTYP_SOLID_PASSTHROUGH:
+        case BTYP_SOLID:
+        case BTYP_SLIPPERY:
+            obj->speed_y = -((obj->speed_y + 1) >> 1);
+            break;
+        case BTYP_RESSORT:
+            obj->speed_y = -((obj->speed_y + 3) >> 1);
+            break;
+        }
+    }
+
+    if (obj->speed_y < 0)
+        set_sub_etat(obj, 0);
+  }
+
+  __asm__("nop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", underSlope);
 
