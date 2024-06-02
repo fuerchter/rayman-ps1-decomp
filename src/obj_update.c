@@ -262,7 +262,7 @@ void DO_STONEBOMB_REBOND(Obj *obj)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", DO_THROWN_BOMB_REBOND);
+INCLUDE_ASM("asm/nonmatchings/obj_update", DO_THROWN_BOMB_REBOND); /* NEXT: go back to this, due to DO_FRUIT_REBOND */
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_FRUIT_REBOND);
 
