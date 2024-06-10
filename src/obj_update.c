@@ -716,9 +716,122 @@ void NormalAtter(Obj *obj)
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", OBJ_IN_THE_AIR);
 
+/* 2E458 80152C58 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj_update", test_fall_in_water);
+#else
+void test_fall_in_water(Obj *obj)
+{
+    if (obj->btypes[0] == BTYP_WATER && !(obj->type == TYPE_RAYMAN && ray.main_etat == 6))
+    {
+        if (obj->type == TYPE_MST_FRUIT2)
+            obj->flags &= ~FLG(OBJ_ALIVE);
+        else
+        {
+            if (flags[obj->type].flags2 >> OBJ2_FALL_IN_WATER & 1)
+            {
+                if (!(obj->flags & FLG(OBJ_FLAG_9)))
+                {
+                    allocate_splash(obj);
+                    obj->speed_y = 0;
+                    obj->speed_x = 0;
+                }
+                if (flags[obj->type].flags3 >> OBJ3_DIE_IN_WATER & 1)
+                {
+                    obj->flags &= ~FLG(OBJ_ACTIVE);
+                    obj->y_pos = ymap + 484;
+                }
+            }
+        }
+    }
 
+    __asm__("nop\nnop");
+}
+#endif
+
+/* still rather difficult to read tbh? */
+/* 2E55C 80152D5C -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj_update", MOVE_OBJECT);
+#else
+void MOVE_OBJECT(Obj *obj)
+{    
+    s16 speed_x_1; s16 speed_y_1;
+    s16 speed_x_2; s16 speed_y_2;
+    s16 x_pos_1;
+    s16 x_pos_2;
+    s16 y_pos;
+    u8 unk_1;
+
+    if (*(s32*)&obj->speed_x != 0)
+    {
+        speed_x_1 = obj->speed_x;
+        speed_y_1 = obj->speed_y;
+        if (
+            flags[obj->type].flags2 >> OBJ2_INCREASE_SPEED_X &&
+            obj->field56_0x69 == 1 && horloge[20] == 0
+        )
+        {
+            if (speed_x_1 <= 0)
+                obj->speed_x = speed_x_1 + 1;
+            else
+                obj->speed_x = speed_x_1 - 1;
+            if (obj->speed_x == 0)
+                obj->field56_0x69 = 0;
+        }
+
+        if (obj->type == TYPE_POING)
+        {
+            poing.field0_0x0 += ashl16(speed_y_1, 4);
+            obj->y_pos = poing.field0_0x0 >> 4;
+            obj->x_pos = obj->x_pos + obj->speed_x;
+        }
+        else
+        {
+            if ((flags[obj->type].flags1 >> OBJ1_USE_INSTANT_SPEED_Y) & 1)
+                speed_y_2 = instantSpeed(obj->speed_y);
+            else
+                speed_y_2 = speed_y_1;
+            
+            if ((flags[obj->type].flags1 >> OBJ1_USE_INSTANT_SPEED_X) & 1)
+                speed_x_2 = instantSpeed(obj->speed_x);
+            else
+                speed_x_2 = speed_x_1;
+            
+            if (flags[obj->type].flags2 >> OBJ2_UTURN_ON_BLOCK & 1)
+            {
+                x_pos_1 = obj->x_pos + obj->offset_bx;
+                x_pos_2 = x_pos_1 + speed_x_2;
+                y_pos = obj->y_pos + obj->offset_by - 8;
+                if
+                (
+                    (
+                        !(block_flags[PS1_BTYPAbsPos(x_pos_1, y_pos)] >> BLOCK_FLAG_4 & 1) &&
+                        block_flags[PS1_BTYPAbsPos(x_pos_2, y_pos)] >> BLOCK_FLAG_4 & 1
+                    ) ||
+                    x_pos_2 < 0 || (x_pos_2 > xmapmax + 320)
+                )
+                {
+                    speed_x_2 = -speed_x_2;
+                    obj->speed_x = -obj->speed_x;
+                }
+            }
+            obj->x_pos += speed_x_2;
+            obj->y_pos += speed_y_2;
+        }
+
+        unk_1 = false;
+        if (!(speed_x_2 == 0 && speed_y_2 == 0))
+            unk_1 = true;
+        obj->flags = obj->flags & ~FLG(OBJ_FLAG_B) | (unk_1 << OBJ_FLAG_B);
+        test_fall_in_water(obj);
+    }
+    else
+        obj->flags &= ~FLG(OBJ_FLAG_B);
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_RAY_IN_ZONE);
 
