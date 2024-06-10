@@ -262,12 +262,13 @@ void DO_STONEBOMB_REBOND(Obj *obj)
 }
 #endif
 
+/* 2CBC4 801513C4 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* div_nop_swap, missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_THROWN_BOMB_REBOND);
 #else
 void DO_THROWN_BOMB_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
 {
-    u8 old_type;
+    ObjType old_type;
     u8 under;
     u8 btyp;
     u8 anim_speed;
@@ -386,7 +387,169 @@ void DO_THROWN_BOMB_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
 }
 #endif
 
+/* 2D008 80151808 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* div_nop_swap, missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_FRUIT_REBOND);
+#else
+void DO_FRUIT_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
+{
+    u8 under;
+    u8 btyp;
+    ObjType obj_type;
+    u8 anim_speed;
+    s16 accel_x;
+    s16 speed_x_bnd;
+    s32 mul_45;
+    s32 mul_30;
+    u8 div_45;
+    u8 div_30;
+
+    if (obj->type == TYPE_GRAINE)
+    {
+        accel_x = 1;
+        speed_x_bnd = 1;
+        mul_45 = 1;
+        mul_30 = 1;
+        div_45 = 1;
+        div_30 = 2;
+    }
+    else
+    {
+        accel_x = 5;
+        speed_x_bnd = 4;
+        mul_45 = 5;
+        mul_30 = 3;
+        div_45 = 1;
+        div_30 = 1;
+    }
+
+    if (obj->speed_y >= 0)
+    {
+        if (obj->speed_x > 0)
+            obj->speed_x -= accel_x;
+        else if (obj->speed_x < 0)
+            obj->speed_x += accel_x;
+        
+        if (obj->speed_x >= -speed_x_bnd && obj->speed_x <= speed_x_bnd)
+            obj->speed_x = 0;
+
+        under = underSlope(obj);
+        if (under)
+            btyp = obj->btypes[3];
+        else
+            btyp = obj->btypes[0];
+
+        switch (btyp)
+        {
+        case BTYP_NONE:
+        case BTYP_SLIPPERY:
+            break;
+        case BTYP_SOLID_RIGHT_45:
+        case BTYP_SLIPPERY_RIGHT_45:
+            if (obj->speed_y == 0)
+                obj->speed_y++;
+            obj->speed_x -= mul_45 * obj->speed_y / div_45;
+            break;
+        case BTYP_SOLID_LEFT_45:
+        case BTYP_SLIPPERY_LEFT_45:
+            if (obj->speed_y == 0)
+                obj->speed_y++;
+            obj->speed_x += mul_45 * obj->speed_y / div_45;
+            break;
+        case BTYP_SOLID_RIGHT1_30:
+        case BTYP_SOLID_RIGHT2_30:
+        case BTYP_SLIPPERY_RIGHT1_30:
+        case BTYP_SLIPPERY_RIGHT2_30:
+            if (obj->speed_y == 0)
+                obj->speed_y++;
+            obj->speed_x -= mul_30 * obj->speed_y / div_30;
+            break;
+        case BTYP_SOLID_LEFT1_30:
+        case BTYP_SOLID_LEFT2_30:
+        case BTYP_SLIPPERY_LEFT1_30:
+        case BTYP_SLIPPERY_LEFT2_30:
+            if (obj->speed_y == 0)
+                obj->speed_y++;
+            obj->speed_x += mul_30 * obj->speed_y / div_30;
+            break;
+        case BTYP_RESSORT:
+            if (obj->speed_y == 0)
+                obj->speed_y++;
+            break;
+        }
+
+        if (param_3 > 0)
+        {
+            if (obj->speed_y >= 2)
+            {
+                obj->speed_y = param_3 - obj->speed_y;
+                if (pesanteur)
+                    obj->speed_y++;
+            }
+            else
+            {
+                obj->speed_y = 0;
+                obj->hit_points = 2;
+            }
+        }
+        else
+        {
+            obj_type = obj->type;
+            if (
+                obj_type == TYPE_FALLING_OBJ || obj_type == TYPE_FALLING_OBJ2 || obj_type == TYPE_FALLING_OBJ3 ||
+                obj_type == TYPE_FALLING_YING || obj_type == TYPE_FALLING_YING_OUYE
+            )
+            {
+                if (ray.field20_0x36 == obj->id)
+                {
+                    if (ray.scale == 0)
+                        obj->speed_y = -3;
+                    else
+                        obj->speed_y = -4;
+                }
+                else
+                    obj->speed_y = -5;
+                
+                if (obj->type == TYPE_FALLING_YING_OUYE)
+                    obj->speed_y++;
+            }
+            else
+                obj->speed_y = -3;
+        }
+
+        if (under)
+        {
+            while (
+                PS1_BTYPAbsPos(
+                    obj->x_pos + obj->offset_bx,
+                    obj->y_pos + obj->offset_by
+                ) == obj->btypes[0]
+            )
+                obj->y_pos--;
+            
+            calc_btyp(obj);
+            recale_position(obj);
+        }
+        else if (
+            block_flags[obj->btypes[0]] & FLG(BLOCK_FULLY_SOLID) &&
+            prof_in_bloc(obj) >= 4 && obj->speed_y < 3
+        )
+        {
+            if (obj->speed_y == 0)
+                obj->speed_y = 1;
+        }
+        else
+            recale_position(obj);
+    }
+
+    obj->gravity_value_1 = 0;
+    anim_speed = obj->eta[obj->main_etat][obj->sub_etat].anim_speed >> 4;
+    if (!(anim_speed == 10 || anim_speed == 11))
+        obj->gravity_value_2 = 0;
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", Drop_Atter);
 
