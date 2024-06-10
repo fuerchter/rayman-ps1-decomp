@@ -1,5 +1,7 @@
 #include "obj_update.h"
 
+extern u8 gerbe; /* bool? */
+
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_PESANTEUR);
 
 /* 2C45C 80150C5C -O2 -msoft-float */
@@ -551,15 +553,93 @@ void DO_FRUIT_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", Drop_Atter);
+/* 2D4F8 80151CF8 -O2 -msoft-float */
+void Drop_Atter(Obj *obj)
+{
+    set_main_and_sub_etat(obj, 2, 3);
+    obj->speed_y = 0;
+    obj->speed_x = 0;
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", BadGuyAtter);
+/* 2D52C 80151D2C -O2 -msoft-float */
+void BadGuyAtter(Obj *obj)
+{
+    u8 sub_etat;
+    u8 label;
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", MiteAtter);
+    recale_position();
+    if (obj->hit_points != obj->init_hit_points)
+    {
+        if (obj->eta[obj->main_etat][obj->sub_etat].flags & 0x40)
+            sub_etat = 2;
+        else
+            sub_etat = 11;
+        set_main_and_sub_etat(obj, 1, sub_etat);
+    }
+    else
+    {
+        set_main_and_sub_etat(obj, 1, 0);
+        obj->flags |= FLG(OBJ_READ_CMDS);
+    }
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", Clown_Music_Atter);
+    calc_obj_dir(obj);
+    if (obj->flags & FLG(OBJ_FLIP_X))
+        label = 3;
+    else
+        label = 2;
+    skipToLabel(obj, label, true);
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", LidolPinkAtter);
+/* 2D5F8 80151DF8 -O2 -msoft-float */
+void MiteAtter(Obj *obj)
+{
+    if (obj->speed_y > 0)
+    {
+        recale_position();
+        skipToLabel(obj, 2, true);
+        if (obj->field20_0x36 > 500)
+            obj->field20_0x36 = 0;
+    }
+}
+
+/* 2D658 80151E58 -O2 -msoft-float */
+void Clown_Music_Atter(Obj *obj)
+{
+    if (obj->hit_points != obj->init_hit_points)
+    {
+        if (obj->main_etat == 2 && obj->sub_etat == 1)
+        {
+            set_main_and_sub_etat(obj, 0, 2);
+            obj->speed_x = 0;
+            obj->flags |= FLG(OBJ_READ_CMDS);
+        }
+    }
+    else
+    {
+        set_main_etat(obj, 1);
+        set_sub_etat(obj, 0);
+        obj->flags |= FLG(OBJ_READ_CMDS);
+    }
+
+    obj->speed_y = 0;
+    if (!(obj->flags & FLG(OBJ_FLIP_X)))
+        skipToLabel(obj, 2, true);
+    else
+        skipToLabel(obj, 3, true);
+}
+
+/* 2D71C 80151F1C -O2 -msoft-float */
+void LidolPinkAtter(Obj *obj)
+{
+    if (gerbe && obj->sub_etat == 1)
+        do_boing(obj, 1, 0);
+    else if (obj->sub_etat != 0)
+    {
+        skipToLabel(obj, 1, true);
+        obj->speed_y = 0;
+        recale_position(obj);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", stoneDogAtter);
 

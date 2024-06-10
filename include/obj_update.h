@@ -33,7 +33,7 @@ void DO_THROWN_BOMB_REBOND(Obj *obj, s16 pesanteur, s16 param_3);
 void DO_FRUIT_REBOND(Obj *obj, s16 pesanteur, s16 param_3);
 void Drop_Atter(Obj *obj);
 void BadGuyAtter(Obj *obj);
-void MiteAtter(Obj *param_1);
+void MiteAtter(Obj *obj);
 void Clown_Music_Atter(Obj *obj);
 void LidolPinkAtter(Obj *obj);
 void stoneDogAtter(Obj *obj);
