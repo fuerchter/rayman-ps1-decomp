@@ -11,6 +11,9 @@
 #include "moteur_update.h"
 #include "collision/block_6E5E0.h"
 #include "menu/menu_7F4B4.h"
+#include "obj/bb1.h"
+#include "obj/mama_pirate.h"
+#include "obj/saxo.h"
 
 typedef struct ObjHandlers
 {
