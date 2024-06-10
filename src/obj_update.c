@@ -641,9 +641,54 @@ void LidolPinkAtter(Obj *obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", stoneDogAtter);
+/* 2D790 80151F90 -O2 -msoft-float */
+void stoneDogAtter(Obj *obj)
+{
+    if (obj->sub_etat == 2)
+    {
+        skipToLabel(obj, 4, true);
+        recale_position(obj);
+    }
+}
 
+/* 2D7D0 80151FD0 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj_update", stoneDogBounces);
+#else
+void stoneDogBounces(Obj *obj)
+{
+    s32 x = obj->x_pos + obj->offset_bx;
+    s32 y = obj->y_pos + obj->offset_by;
+    s32 block_l = mp.map[((x - 2) >> 4) + ((y >> 4) * mp.width)] >> 10;
+    s32 block_r = mp.map[((x + 2) >> 4) + ((y >> 4) * mp.width)] >> 10;
+
+    if (
+        obj->main_etat == 2 &&
+        !(block_flags[obj->btypes[0]] >> BLOCK_SOLID & 1) &&
+        (
+            (block_flags[block_l] & FLG(BLOCK_FULLY_SOLID) && !(obj->flags & FLG(OBJ_FLIP_X))) ||
+            (block_flags[block_r] & FLG(BLOCK_FULLY_SOLID) && obj->flags & FLG(OBJ_FLIP_X))
+        )
+    )
+    {
+        if (obj->speed_y < 0)
+        {
+            if (obj->flags & FLG(OBJ_FLIP_X))
+                skipToLabel(obj, 6, true);
+            else
+                skipToLabel(obj, 7, true);
+        }
+        else
+        {
+            obj->x_pos += obj->speed_x / 16;
+            skipToLabel(obj, 4, true);
+            obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | ((obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X;
+        }
+    }
+
+    __asm__("nop\nnop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", Spider_Atter);
 

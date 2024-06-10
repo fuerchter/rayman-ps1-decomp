@@ -37,7 +37,7 @@ void MiteAtter(Obj *obj);
 void Clown_Music_Atter(Obj *obj);
 void LidolPinkAtter(Obj *obj);
 void stoneDogAtter(Obj *obj);
-void stoneDogBounces(s32 param_1);
+void stoneDogBounces(Obj *obj);
 void Spider_Atter(Obj *obj);
 void trompetteAtter(Obj *obj);
 void NormalAtter(Obj *param_1);
