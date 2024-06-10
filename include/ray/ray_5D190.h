@@ -4,6 +4,7 @@
 #include "common.h"
 #include "common/obj.h"
 #include "common/rayevts.h"
+#include "collision/block_22C84.h"
 #include "main_moteur.h"
 #include "obj_init_kill.h"
 #include "obj/stonebomb.h"

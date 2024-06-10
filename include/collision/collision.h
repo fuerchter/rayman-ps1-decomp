@@ -6,10 +6,10 @@
 #include "common/level.h"
 #include "common/ray.h"
 #include "common/rayevts.h"
+#include "common/mapdata.h"
 #include "world_map_95CC.h"
 #include "world_map_677C0.h"
 #include "bonus_35FB4.h"
-#include "collision/block_22C84.h"
 #include "obj/mus_wait.h"
 #include "obj/joe_command.h"
 

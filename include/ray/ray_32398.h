@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/rayevts.h"
+#include "collision/block_22C84.h"
 #include "ray/ray_30A64.h"
 #include "moteur_init_end.h"
 #include "continue.h"

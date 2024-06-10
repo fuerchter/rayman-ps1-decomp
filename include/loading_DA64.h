@@ -8,7 +8,6 @@
 #include "common/mapdata.h"
 #include "draw.h"
 #include "obj_update.h"
-#include "collision/block_22C84.h"
 #include "loading_794DC.h"
 #include "draw_ui.h"
 #include "gendoor.h"

@@ -3,10 +3,10 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "common/mapdata.h"
 #include "collision/bit_util.h"
 #include "timers.h"
 #include "obj_init_kill.h"
-#include "collision/block_22C84.h"
 /* TODO: CIRCULAR, YAY!!! */
 /*#include "sound.h"*/
 #include "moteur_update.h"

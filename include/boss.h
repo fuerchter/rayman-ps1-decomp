@@ -3,8 +3,8 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "common/mapdata.h"
 #include "timers.h"
-#include "collision/block_22C84.h"
 #include "moteur_init_end.h"
 
 /**/

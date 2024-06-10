@@ -4,12 +4,12 @@
 #include "common.h"
 #include "common/obj.h"
 #include "common/level.h"
+#include "common/mapdata.h"
 #include "demo_9FD4.h"
 #include "cam_scroll_29B5C.h"
 #include "moteur_init_end.h"
 #include "command_56AF0.h"
 #include "command_494FC.h"
-#include "collision/block_22C84.h"
 #include "collision/etat.h"
 
 /* .data */
