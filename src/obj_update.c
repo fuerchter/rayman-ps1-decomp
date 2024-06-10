@@ -690,11 +690,29 @@ void stoneDogBounces(Obj *obj)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", Spider_Atter);
+/* 2D998 80152198 -O2 -msoft-float */
+void Spider_Atter(Obj *obj)
+{
+    set_main_and_sub_etat(obj, 1, 0);
+    if (obj->flags & FLG(OBJ_FLIP_X))
+        skipToLabel(obj, 3, true);
+    else
+        skipToLabel(obj, 1, true);
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", trompetteAtter);
+/* 2D9EC 801521EC -O2 -msoft-float */
+void trompetteAtter(Obj *obj)
+{
+    skipToLabel(obj, 8, true);
+    recale_position(obj);
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", NormalAtter);
+/* 2DA20 80152220 -O2 -msoft-float */
+void NormalAtter(Obj *obj)
+{
+    set_main_and_sub_etat(obj, obj->init_main_etat, obj->init_sub_etat);
+    recale_position(obj);
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", OBJ_IN_THE_AIR);
 

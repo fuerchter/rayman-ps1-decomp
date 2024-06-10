@@ -40,7 +40,7 @@ void stoneDogAtter(Obj *obj);
 void stoneDogBounces(Obj *obj);
 void Spider_Atter(Obj *obj);
 void trompetteAtter(Obj *obj);
-void NormalAtter(Obj *param_1);
+void NormalAtter(Obj *obj);
 void OBJ_IN_THE_AIR(Obj *obj);
 void test_fall_in_water(Obj *obj);
 void MOVE_OBJECT(Obj *obj);
