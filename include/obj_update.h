@@ -7,12 +7,10 @@
 #include "collision/bit_util.h"
 #include "timers.h"
 #include "obj_init_kill.h"
-/* TODO: CIRCULAR, YAY!!! */
-/*#include "sound.h"*/
+#include "sound.h"
 #include "moteur_update.h"
-/*#include "collision/block_6E5E0.h"*/
-/* and many more (OBJ_IN_THE_AIR) */
-/*#include "menu/menu_7F4B4.h"*/
+#include "collision/block_6E5E0.h"
+#include "menu/menu_7F4B4.h"
 
 typedef struct ObjHandlers
 {

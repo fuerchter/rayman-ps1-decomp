@@ -5,7 +5,6 @@
 extern u8 gerbe; /* TODO: where to put this? */
 
 s32 calc_typ_trav(Obj *obj,u8 param_2);
-s32 MURDUR(s16 param_1, s16 param_2); /* s16 or RayTestBlocSH needs casts */
 void ChangeLevel(void);
 s32 TEST_IS_ON_RESSORT_BLOC(Obj *obj);
 void recale_position(Obj *param_1);

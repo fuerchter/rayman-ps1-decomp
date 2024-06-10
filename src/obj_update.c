@@ -567,7 +567,7 @@ void BadGuyAtter(Obj *obj)
     u8 sub_etat;
     u8 label;
 
-    recale_position();
+    recale_position(obj);
     if (obj->hit_points != obj->init_hit_points)
     {
         if (obj->eta[obj->main_etat][obj->sub_etat].flags & 0x40)
@@ -595,7 +595,7 @@ void MiteAtter(Obj *obj)
 {
     if (obj->speed_y > 0)
     {
-        recale_position();
+        recale_position(obj);
         skipToLabel(obj, 2, true);
         if (obj->field20_0x36 > 500)
             obj->field20_0x36 = 0;
