@@ -292,7 +292,7 @@ segments:
       - [0x98048, asm, psyq_3_0/libgpu] #801bc848
       - [0x9BC24, asm, psyq_3_0/libpress] #801c0424
       - [0x9CA5C, data]
-      #done - [0x9CA74, .data, data/collision/block_9CA74] #801C1274
+      #done - [0x9CA74, .data, data/collision/mapdata_9CA74] #801C1274
       - [0x9CA94, data]
       #done - [0x9E49C, .data, data/collision/block_9E49C] #801C2C9C
       - [0x9E69C, data]

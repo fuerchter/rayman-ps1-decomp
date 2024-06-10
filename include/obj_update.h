@@ -9,8 +9,10 @@
 #include "collision/block_22C84.h"
 /* TODO: CIRCULAR, YAY!!! */
 /*#include "sound.h"*/
-/*#include "moteur_update.h"*/
+#include "moteur_update.h"
 /*#include "collision/block_6E5E0.h"*/
+/* and many more (OBJ_IN_THE_AIR) */
+/*#include "menu/menu_7F4B4.h"*/
 
 typedef struct ObjHandlers
 {

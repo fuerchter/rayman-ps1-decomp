@@ -6,24 +6,14 @@
 #include "common/world_map.h"
 #include "common/ray.h"
 #include "common/rayevts.h"
+#include "common/mapdata.h"
 #include "collision/bit_util.h"
 #include "collision/etat.h"
-
-typedef struct MapData {
-    s16 width;
-    s16 height;
-    s32 length;
-    u16 *map;
-} MapData;
-
-/* .data */
-extern BlockFlags block_flags[32];
 
 /* .data */
 extern s16 RandArray[256];
 
 /**/
-extern MapData mp;
 extern u8 ray_last_ground_btyp; /* bool or enum with only 0 and 1, not sure*/
 extern u16 PS1_RandSum;
 extern s16 RandomIndex;

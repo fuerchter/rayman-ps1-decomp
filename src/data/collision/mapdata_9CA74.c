@@ -1,4 +1,4 @@
-#include "collision/block_22C84.h"
+#include "common/mapdata.h"
 
 BlockFlags block_flags[] =
 {

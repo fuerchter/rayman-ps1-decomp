@@ -3,6 +3,7 @@
 
 #include "common.h"
 
+/**/
 extern s16 num_world;
 extern s16 num_level;
 extern s16 xmap;

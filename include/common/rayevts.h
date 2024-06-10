@@ -34,6 +34,7 @@ typedef struct RaymanEvents
     RayEvts_1 flags1;
 } RaymanEvents;
 
+/**/
 extern RaymanEvents RayEvts;
 
 #endif
