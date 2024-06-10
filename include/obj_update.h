@@ -29,7 +29,7 @@ s16 prof_in_bloc(Obj *obj);
 void do_boing(Obj *obj, u8 main_etat, u8 sub_etat);
 u8 underSlope(Obj *obj);
 void DO_STONEBOMB_REBOND(Obj *obj);
-void DO_THROWN_BOMB_REBOND(Obj *obj, s16 param_2, u16 param_3);
+void DO_THROWN_BOMB_REBOND(Obj *obj, s16 pesanteur, s16 param_3);
 void DO_FRUIT_REBOND(Obj *obj, s16 param_2, s16 param_3);
 void Drop_Atter(Obj *obj);
 void BadGuyAtter(Obj *obj);

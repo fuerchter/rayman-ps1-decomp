@@ -262,7 +262,129 @@ void DO_STONEBOMB_REBOND(Obj *obj)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", DO_THROWN_BOMB_REBOND); /* NEXT: go back to this, due to DO_FRUIT_REBOND */
+#ifndef NONMATCHINGS /* div_nop_swap, missing_addiu */
+INCLUDE_ASM("asm/nonmatchings/obj_update", DO_THROWN_BOMB_REBOND);
+#else
+void DO_THROWN_BOMB_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
+{
+    u8 old_type;
+    u8 under;
+    u8 btyp;
+    u8 anim_speed;
+    s32 mul_45 = 5;
+    s32 mul_30 = 3;
+    u8 div_45 = 1;
+    u8 div_30 = 1;
+    
+    if (obj->main_etat == 2)
+    {
+        if (obj->sub_etat == 1)
+        {
+            DO_STONE_EXPLOSION();
+            return;
+        }
+        if (obj->sub_etat == 0)
+        {
+            old_type = obj->type;
+            obj->type = TYPE_STONEBOMB2;
+            DO_STONEBOMB_REBOND(obj);
+            obj->type = old_type;
+            return;
+        }
+    }
+
+    if (obj->speed_y >= 0)
+    {
+        under = underSlope(obj);
+        if (under)
+            btyp = obj->btypes[3];
+        else
+            btyp = obj->btypes[0];
+        
+        switch (btyp)
+        {
+        case BTYP_NONE:
+        case BTYP_SLIPPERY:
+            break;
+        case BTYP_SOLID_RIGHT_45:
+        case BTYP_SLIPPERY_RIGHT_45:
+            if (obj->speed_y == 0)
+                obj->speed_y++;
+            obj->speed_x -= mul_45 * obj->speed_y / div_45;
+            break;
+        case BTYP_SOLID_LEFT_45:
+        case BTYP_SLIPPERY_LEFT_45:
+            if (obj->speed_y == 0)
+                obj->speed_y++;
+            obj->speed_x += mul_45 * obj->speed_y / div_45;
+            break;
+        case BTYP_SOLID_RIGHT1_30:
+        case BTYP_SOLID_RIGHT2_30:
+        case BTYP_SLIPPERY_RIGHT1_30:
+        case BTYP_SLIPPERY_RIGHT2_30:
+            if (obj->speed_y == 0)
+                obj->speed_y++;
+            obj->speed_x -= mul_30 * obj->speed_y / div_30;
+            break;
+        case BTYP_SOLID_LEFT1_30:
+        case BTYP_SOLID_LEFT2_30:
+        case BTYP_SLIPPERY_LEFT1_30:
+        case BTYP_SLIPPERY_LEFT2_30:
+            if (obj->speed_y == 0)
+                obj->speed_y++;
+            obj->speed_x += mul_30 * obj->speed_y / div_30;
+            break;
+        case BTYP_RESSORT:
+            if (obj->speed_y == 0)
+                obj->speed_y++;
+            break;
+        }
+        if (param_3 > 0)
+        {
+            if (obj->speed_y >= 2)
+            {
+                obj->speed_y = param_3 - obj->speed_y;
+                if (pesanteur)
+                    obj->speed_y++;
+            }
+            else
+                obj->speed_y = 0;
+        }
+        else
+            obj->speed_y = -3;
+        
+        if (under)
+        {
+            while (
+                PS1_BTYPAbsPos(
+                    obj->x_pos + obj->offset_bx,
+                    obj->y_pos + obj->offset_by
+                ) == obj->btypes[0]
+            )
+                obj->y_pos--;
+            
+            recale_position(obj);
+            calc_btyp(obj);
+        }
+        else if (
+            block_flags[obj->btypes[0]] & FLG(BLOCK_FULLY_SOLID) &&
+            prof_in_bloc(obj) >= 4 && obj->speed_y < 3
+        )
+        {
+            if (obj->speed_y == 0)
+                obj->speed_y = 1;
+        }
+        else
+            recale_position(obj);
+    }
+    obj->gravity_value_1 = 0;
+    anim_speed = obj->eta[obj->main_etat][obj->sub_etat].anim_speed >> 4;
+    if (!(anim_speed == 10 || anim_speed == 11))
+        obj->gravity_value_2 = 0;
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_FRUIT_REBOND);
 

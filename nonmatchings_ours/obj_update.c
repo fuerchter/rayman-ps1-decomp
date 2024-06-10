@@ -109,152 +109,6 @@ s32 DO_PESANTEUR(Obj *obj)
     return res;
 }
 
-/* div garbage */
-/*INCLUDE_ASM("asm/nonmatchings/obj_update", DO_THROWN_BOMB_REBOND);*/
-
-void DO_THROWN_BOMB_REBOND(Obj *obj, s16 param_2, s16 param_3)
-{
-    s16 temp_a2;
-    s16 temp_v0_2;
-    s16 temp_v0_3;
-    s16 temp_v0_4;
-    s16 temp_v0_5;
-    s16 temp_v0_6;
-    s32 temp_v0_7;
-    s16 temp_v1_2;
-    s16 var_v0_2;
-    s32 temp_lo_1;
-    s32 temp_lo_2;
-    s32 temp_lo_3;
-    s32 temp_lo_4;
-    s32 var_v0_1;
-    s32 var_v1_2;
-    s32 var_v1_3;
-    u8 var_v1;
-    u8 temp_s0;
-    u8 under;
-    u8 temp_v1_1;
-    u8 test_1;
-
-    test_1 = 1;
-    if (obj->main_etat == 2)
-    {
-        temp_v1_1 = obj->sub_etat;
-        if (temp_v1_1 == 1)
-        {
-            DO_STONE_EXPLOSION();
-            return;
-        }
-        if (temp_v1_1 == 0)
-        {
-            temp_s0 = obj->type;
-            obj->type = 0x2F;
-            DO_STONEBOMB_REBOND(obj);
-            obj->type = temp_s0;
-            return;
-        }
-        goto block_5;
-    }
-block_5:
-    if (obj->speed_y >= 0)
-    {
-        under = underSlope(obj);
-        if (under)
-        {
-            var_v1 = obj->btypes[3] & 0xFF;
-        }
-        else
-        {
-            var_v1 = obj->btypes[0] & 0xFF;
-        }
-        
-        switch (var_v1)
-        {
-        case 0:
-        case 30:
-            break;
-        case 2:
-        case 18:
-            if (obj->speed_y == 0)
-                obj->speed_y++;
-            var_v1_2 = 5 * obj->speed_y / 1;
-            obj->speed_x -= var_v1_2;
-            break;
-        case 3:
-        case 19:
-            if (obj->speed_y == 0)
-                obj->speed_y++;
-            var_v1_3 = 5 * obj->speed_y / 1;
-            obj->speed_x += var_v1_3;
-            break;
-        case 4:
-        case 5:
-        case 20:
-        case 21:
-            if (obj->speed_y == 0)
-                obj->speed_y++;
-            var_v1_2 = 3 * obj->speed_y / 1;
-            obj->speed_x -= var_v1_2;
-            break;
-        case 6:
-        case 7:
-        case 22:
-        case 23:
-            if (obj->speed_y == 0)
-                obj->speed_y++;
-            var_v1_3 = 3 * obj->speed_y / 1;
-            obj->speed_x += var_v1_3;
-            break;
-        case 9:
-            if (obj->speed_y == 0)
-                obj->speed_y++;
-            break;
-        }
-        if (param_3 > 0)
-        {
-            if (obj->speed_y >= 2)
-            {
-                obj->speed_y = param_3 - obj->speed_y;
-                if (param_2 != 0)
-                {
-                    obj->speed_y++;
-                }
-            }
-            else
-            {
-                obj->speed_y = 0;
-            }
-        }
-        else
-        {
-            obj->speed_y = -3;
-        }
-        if (under)
-        {
-            while (PS1_BTYPAbsPos(obj->x_pos + obj->offset_bx, obj->y_pos + obj->offset_by) == obj->btypes[0])
-                obj->y_pos--;
-            recale_position(obj);
-            calc_btyp(obj);
-        }
-        else if ((block_flags[obj->btypes[0]] & 1) && (prof_in_bloc(obj) >= 4) && (temp_v1_2 = obj->speed_y, ((temp_v1_2 < 3) != 0)))
-        {
-            if (temp_v1_2 == 0)
-            {
-                obj->speed_y = 1;
-            }
-        }
-        else
-        {
-            recale_position(obj);
-        }
-    }
-    obj->gravity_value_1 = 0;
-    if ((u32) (((u8) obj->eta[obj->main_etat][obj->sub_etat].anim_speed >> 4) - 0xA) >= 2U)
-    {
-        obj->gravity_value_2 = 0;
-    }
-}
-
 /* matches, but cleanup*/
 /*INCLUDE_ASM("asm/nonmatchings/obj_update", DO_FRUIT_REBOND);*/
 
@@ -335,38 +189,38 @@ void DO_FRUIT_REBOND(Obj *obj, s16 param_2, s16 param_3)
         }
         switch (var_v1)
         {
-        case 0:
-        case 30:
+        case BTYP_NONE:
+        case BTYP_SLIPPERY:
             break;
-        case 2:
-        case 18:
+        case BTYP_SOLID_RIGHT_45:
+        case BTYP_SLIPPERY_RIGHT_45:
             if (obj->speed_y == 0)
                 obj->speed_y++;
             obj->speed_x -= var_s3 * obj->speed_y / var_s4;
             break;
-        case 3:
-        case 19:
+        case BTYP_SOLID_LEFT_45:
+        case BTYP_SLIPPERY_LEFT_45:
             if (obj->speed_y == 0)
                 obj->speed_y++;
             obj->speed_x += var_s3 * obj->speed_y / var_s4;
             break;
-        case 4:
-        case 5:
-        case 20:
-        case 21:
+        case BTYP_SOLID_RIGHT1_30:
+        case BTYP_SOLID_RIGHT2_30:
+        case BTYP_SLIPPERY_RIGHT1_30:
+        case BTYP_SLIPPERY_RIGHT2_30:
             if (obj->speed_y == 0)
                 obj->speed_y++;
             obj->speed_x -= var_s1 * obj->speed_y / var_s2;
             break;
-        case 6:
-        case 7:
-        case 22:
-        case 23:
+        case BTYP_SOLID_LEFT1_30:
+        case BTYP_SOLID_LEFT2_30:
+        case BTYP_SLIPPERY_LEFT1_30:
+        case BTYP_SLIPPERY_LEFT2_30:
             if (obj->speed_y == 0)
                 obj->speed_y++;
             obj->speed_x += var_s1 * obj->speed_y / var_s2;
             break;
-        case 9:
+        case BTYP_RESSORT:
             if (obj->speed_y == 0)
                 obj->speed_y++;
             break;
