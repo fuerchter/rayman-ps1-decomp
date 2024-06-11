@@ -1022,11 +1022,94 @@ void build_active_table(void)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", Add_One_RAY_lives);
+/* 301D4 801549D4 -O2 -msoft-float */
+void Add_One_RAY_lives(void)
+{
+    status_bar.num_lives++;
+    MIN_2(status_bar.num_lives, 99);
+    
+    if (status_bar.max_hp == 4)
+        ray.hit_points = 4;
+    else
+        ray.hit_points = 2;
+}
 
+/* 3022C 80154A2C -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_CLING_ANIMS);
+#else
+void DO_CLING_ANIMS(void)
+{
+    Obj *obj;
+    u8 flag_set;
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", DO_OBJECTS_ANIMS);
+    if (id_Cling_1up != -1)
+    {
+        obj = &level.objects[id_Cling_1up];
+        if (obj->timer != 0)
+        {
+            obj->anim_frame = 0;
+            obj->timer--;
+        }
+
+        flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
+        if(
+            (flag_set && obj->anim_frame == 0 ||
+            !flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1) &&
+            horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+        )
+        {
+            id_Cling_1up = -1;
+            if (!(ray_mode == MODE_MORT_DE_RAYMAN || ray_mode == MODE_MORT_DE_RAYMAN_ON_MS))
+                Add_One_RAY_lives();
+            obj->flags &= ~FLG(OBJ_ALIVE);
+        }
+    }
+
+    if (id_Cling_Pow != -1)
+    {
+        obj = &level.objects[id_Cling_Pow];
+        if (obj->timer != 0)
+        {
+            obj->anim_frame = 0;
+            obj->timer--;
+        }
+
+        flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
+        if(
+            (flag_set && obj->anim_frame == 0 ||
+            !flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1) &&
+            horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+        )
+        {
+            id_Cling_Pow = -1;
+            if (!(ray_mode == MODE_MORT_DE_RAYMAN || ray_mode == MODE_MORT_DE_RAYMAN_ON_MS))
+            {
+                ray.hit_points = 4;
+                status_bar.max_hp = 4;
+            }
+            obj->flags &= ~FLG(OBJ_ALIVE);
+        }
+    }
+
+    __asm__("nop\nnop");
+}
+#endif
+
+/* 304D4 80154CD4 -O2 -msoft-float */
+void DO_OBJECTS_ANIMS(void)
+{
+    s16 i = 0;
+    Obj *cur_obj = &level.objects[actobj.objects[i]];
+
+    while (i < actobj.num_active_objects)
+    {
+        if (!(cur_obj->type == TYPE_BLACK_RAY || cur_obj->type == TYPE_BLACK_FIST))
+            DO_ANIM(cur_obj);
+        i++;
+        cur_obj = &level.objects[actobj.objects[i]];
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_OBJECTS);
 
