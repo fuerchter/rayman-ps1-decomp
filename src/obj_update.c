@@ -962,7 +962,65 @@ void DO_ONE_OBJECT(Obj *obj)
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", fptr_init);
 
+/* 2FF64 80154764 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj_update", build_active_table);
+#else
+void build_active_table(void)
+{
+    Obj *last_obj;
+    s32 x_left; s32 x_right;
+    s32 y_top; s32 y_bottom;
+    Obj *cur_obj;
+    s16 *cur_actobj;
+    s16 *prev_addr;
+
+    actobj.num_active_objects = 0;
+    actobj.objects[0] = -1;
+    last_obj = &level.objects[level.nb_objects - 1];
+    x_left = xmap - 500;
+    x_right = xmap + 820;
+    y_top = ymap - 500;
+    y_bottom = ymap + 740;
+    for (cur_obj = level.objects; cur_obj <= last_obj; cur_obj++)
+        cur_obj->flags &= ~FLG(OBJ_FLAG_5);
+
+    for (cur_obj = level.objects; cur_obj <= last_obj; cur_obj++)
+    {
+        if (!(cur_obj->flags & FLG(OBJ_FLAG_5)))
+        {
+            if (
+                (flags[cur_obj->type].flags0 >> OBJ0_KEEP_ACTIVE & 1) ||
+                (
+                    cur_obj->x_pos > x_left && cur_obj->x_pos < x_right &&
+                    cur_obj->y_pos > y_top && cur_obj->y_pos < y_bottom
+                )
+            )
+                SET_ACTIVE_FLAG(cur_obj->x_pos - xmap, cur_obj->y_pos - ymap, cur_obj);
+            else
+                cur_obj->flags &= ~FLG(OBJ_ACTIVE);
+        }
+    }
+
+    cur_actobj = &actobj.objects[actobj.num_active_objects];
+    prev_addr = cur_actobj;
+    for (cur_obj = level.objects; cur_obj <= last_obj; cur_obj++)
+    {
+        if (cur_obj->flags & FLG(OBJ_ACTIVE))
+        {
+            cur_obj->screen_x_pos = cur_obj->x_pos - xmap;
+            cur_obj->screen_y_pos = cur_obj->y_pos - ymap;
+            *cur_actobj = cur_obj->id;
+            cur_actobj++;
+        }
+    }
+    *cur_actobj = -1;
+
+    actobj.num_active_objects += cur_actobj - prev_addr;
+
+    __asm__("nop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", Add_One_RAY_lives);
 
