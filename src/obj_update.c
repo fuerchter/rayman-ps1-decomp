@@ -1,6 +1,8 @@
 #include "obj_update.h"
 
 extern u8 gerbe; /* bool? */
+extern s16 joe_exp_probleme;
+extern s16 vignet_joe_affichee;
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_PESANTEUR);
 

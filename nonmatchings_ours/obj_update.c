@@ -500,3 +500,429 @@ void OBJ_IN_THE_AIR(Obj *obj)
         }
     }
 }
+
+/* matches, but clean up */
+/*INCLUDE_ASM("asm/nonmatchings/obj_update", DO_RAY_IN_ZONE);*/
+
+void DO_RAY_IN_ZONE(Obj *obj)
+{
+    s16 sp20;
+    s16 sp22;
+    s16 sp24;
+    s16 sp26;
+    s16 temp_v0;
+    s16 temp_v0_3;
+    s16 temp_v1_4;
+    s16 var_v0;
+    s16 var_v0_2;
+    s32 temp_v0_2;
+    s16 temp_a0;
+    s16 temp_a2;
+    s16 temp_a3;
+    s16 temp_t0;
+    u32 temp_v0_4;
+    u32 temp_v1_12;
+    u8 temp_v1;
+    u8 temp_v1_10;
+    u8 temp_v1_11;
+    u8 temp_v1_13;
+    u8 temp_v1_14;
+    u8 temp_v1_2;
+    u8 temp_v1_3;
+    u8 temp_v1_5;
+    u8 temp_v1_6;
+    u8 temp_v1_7;
+    u8 temp_v1_8;
+    u8 temp_v1_9;
+    u8 var_a1;
+    u8 var_a1_2;
+
+    if ((OBJ_IN_ZONE(obj) << 0x10) != 0)
+    {
+        temp_v1 = obj->type;
+        switch (temp_v1)
+        {
+        case 0x37:
+            if (obj->sub_etat == 1)
+            {
+                set_sub_etat(obj, 5U);
+                return;
+            }
+            break;
+        case 0x35:
+            if ((obj->main_etat != 2) && (obj->sub_etat != 1))
+            {
+                obj->field23_0x3c = 1;
+                skipToLabel(obj, 0U, 1U);
+                obj->gravity_value_2 = 4;
+                return;
+            }
+            break;
+        case 0x99:
+            if (obj->sub_etat == 0)
+            {
+                if (ray.main_etat == 2)
+                {
+                    ray.speed_x = 0;
+                    ray.field24_0x3e = 0;
+                    ray_in_fee_zone = 1;
+                    decalage_en_cours = 0;
+                    return;
+                }
+                else if (ray.main_etat == 0 || ray.main_etat == 1 || (ray.main_etat == 3 && ray.sub_etat == 0x14))
+                {
+                    temp_v0 = (u16) obj->x_pos - (ray.offset_bx + 2);
+                    remoteRayXToReach = temp_v0;
+                    if (ray.x_pos & 1)
+                    {
+                        remoteRayXToReach = temp_v0 | 1;
+                    }
+                    else
+                    {
+                        remoteRayXToReach = temp_v0 & 0xFFFE;
+                    }
+                    ray_in_fee_zone = 0;
+                    return;
+                }
+            }
+            else
+            {
+                ray_in_fee_zone = 0;
+                return;
+            }
+            break;
+        case 0xB7:
+            DO_SAXO3_DEBUT(obj);
+            return;
+        case 0xB5:
+            DO_SAXO_MARCHE((s16) obj->hit_points);
+            return;
+        case 0xC7:
+            DO_BBMONT2_MARCHE((s16) obj->hit_points);
+            return;
+        case 0x93:
+            DO_MST_CHANGE_COMMAND(obj->hit_points);
+            return;
+        case 0x7B:
+            temp_v1_2 = obj->follow_sprite;
+            switch (temp_v1_2)
+            {
+            case 7:
+                temp_v1_3 = obj->main_etat;
+                if ((temp_v1_3 == 1) && (obj->sub_etat == temp_v1_3) && (ray.main_etat != 2))
+                {
+                    var_a1 = 5;
+block_141:
+                    skipToLabel(obj, var_a1, 1U);
+                    return;
+                }
+                break;
+            case 4:
+                if (ray.main_etat != 2)
+                {
+                    GET_ANIM_POS(obj, &sp20, &sp22, &sp24, &sp26);
+                    sp22 -= (obj->detect_zone + sp26);
+                    sp20 -= (sp24 >> 1);
+                    sp24 += sp24;
+                    sp26 += obj->detect_zone;
+                    if (
+                        (obj->main_etat == 1) && (obj->sub_etat == 0) &&
+                        (s16) inter_box(
+                            sp20, sp22, sp24, sp26,
+                            ray_zdc_x, ray_zdc_y, ray_zdc_w, ray_zdc_h
+                        )
+                    )
+                    {
+                        calc_obj_dir(obj);
+                        temp_v1_4 = (u16) ray_zdc_y - obj->offset_hy;
+                        obj->field23_0x3c = temp_v1_4;
+                        if (temp_v1_4 < (obj->y_pos - 0x10))
+                        {
+                            skipToLabel(obj, 4U, 1U);
+                            obj->gravity_value_1 = 0;
+                            obj->gravity_value_2 = 6;
+                            obj->y_pos = (u16) obj->y_pos - 1;
+                            return;
+                        }
+                    }
+                }
+                break;
+            case 3:
+                if ((obj->main_etat == 0) && (obj->sub_etat == 0) && (ray.main_etat != 2))
+                {
+                    calc_obj_dir(obj);
+                    temp_v0_3 = (ray.offset_hy + ray.y_pos) - obj->offset_hy;
+                    obj->field23_0x3c = temp_v0_3;
+                    if (temp_v0_3 < (obj->y_pos - 0x10))
+                    {
+                        skipToLabel(obj, 4U, 1U);
+                        obj->gravity_value_2 = 6;
+                        obj->gravity_value_1 = 0;
+                        obj->timer = 0xFF;
+                        obj->y_pos = (u16) obj->y_pos - 1;
+                        return;
+                    }
+                }
+                break;
+            case 2:
+                if ((obj->main_etat == 0) && (obj->sub_etat == 0) && (ray.main_etat != temp_v1_2))
+                {
+                    calc_obj_dir(obj);
+                    skipToLabel(obj, 4U, 1U);
+                    obj->gravity_value_1 = 0;
+                    obj->gravity_value_2 = 6;
+                    obj->y_pos = (u16) obj->y_pos - 1;
+                    return;
+                }
+                break;
+            }
+            break;
+        case 0x39:
+            if (obj->sub_etat == 4)
+            {
+                var_a1 = 0x63;
+                skipToLabel(obj, var_a1, 1U);
+                return;
+            }
+            break;
+        case 0x3:
+            if (obj->eta[obj->main_etat][obj->sub_etat].flags & 1)
+            {
+                var_a1 = 0;
+                skipToLabel(obj, var_a1, 1U);
+                return;
+            }
+            break;
+        case 0x9:
+        case 0xA5:
+            if (obj->main_etat == 1)
+            {
+                if (obj->sub_etat == 0x0B)
+                {
+                    set_sub_etat(obj, 0x0EU);
+                    return;
+                }
+                /*goto block_57;*/
+            }
+block_57:
+            if ((obj->main_etat != 0) || (obj->sub_etat != 0)) {
+                if (obj->main_etat != 1) {
+                    return;
+                }
+                if (obj->sub_etat != 0) {
+                    return;
+                }
+            }
+            set_main_and_sub_etat(obj, 1U, 0x0BU);
+            temp_v0_4 = obj->flags;
+            obj->flags = temp_v0_4 & 0xFFFF7FFF;
+            if (temp_v0_4 & 0x4000)
+            {
+                var_a1 = 3;
+            }
+            else
+                var_a1 = 2;
+            skipToLabel(obj, var_a1, 1U);
+            return;
+        case 0x0:
+            if (((ray.flags & 0x4000) != (obj->flags & 0x4000)) && (((temp_v1_5 = obj->main_etat, (temp_v1_5 == 1)) && (obj->sub_etat == 0)) || ((temp_v1_5 == 0) && (obj->sub_etat == 0))) && (ray.main_etat == 0) && (ray.sub_etat == 0x12))
+            {
+                obj->speed_x = 0;
+                obj->speed_y = 0;
+                set_main_and_sub_etat(obj, 0U, 2U);
+                if (obj->flags & 0x4000)
+                {
+                    skipToLabel(obj, 8, 1U);
+                }
+                else
+                {
+                    skipToLabel(obj, 7, 1U);
+                }
+                
+                return;
+            }
+            break;
+        case 0x46:
+            if ((obj->timer == 0) && (((temp_v1_6 = obj->main_etat, (temp_v1_6 == 0)) && (obj->sub_etat == 0)) || ((temp_v1_6 == 1) && (obj->sub_etat == 0))))
+            {
+                var_a1 = 5;
+                skipToLabel(obj, var_a1, 1U);
+                return;
+            }
+            break;
+        case 0x3C:
+        case 0x3D:
+            if ((obj->main_etat != 0) || (obj->sub_etat != 0)) {
+                if (obj->main_etat != 1) {
+                    return;
+                }
+                if (obj->sub_etat != 0) {
+                    return;
+                }
+            }
+            skipToLabel(obj, 5, 1U);
+            break;
+        case 0x74:
+            if (obj->field24_0x3e == 0)
+            {
+                skipToLabel(obj, 7U, 1U);
+                obj->timer = 0;
+            case 0x14:
+                obj->field24_0x3e = 1;
+                return;
+            }
+            break;
+        case 0x7A:
+            if ((obj->main_etat != 0) || (obj->sub_etat != 0)) {
+                if (obj->main_etat != 1) {
+                    return;
+                }
+                if (obj->sub_etat != 0) {
+                    return;
+                }
+            }
+            skipToLabel(obj,2,true);
+            obj->gravity_value_2 = 7;
+            obj->gravity_value_1 = 0;
+            return;
+        case 0x23:
+        case 0x2B:
+            if ((obj->main_etat != 0) || ((!(obj->sub_etat == 1 || obj->sub_etat == 2)) && !(obj->sub_etat == 5 || obj->sub_etat == 6) && ((obj->sub_etat != 3)) && (obj->sub_etat != 7) && (obj->sub_etat != 4)))
+            {
+                var_a1 = 7;
+                skipToLabel(obj, var_a1, 1U);
+                return;
+            }
+            break;
+        case 0x84:
+            if (obj->main_etat == 2) {
+                temp_v1_11 = obj->sub_etat;
+                if (temp_v1_11 == 0x10) {
+                    return;
+                }
+                if (temp_v1_11 == 0x11) {
+                    return;
+                }
+                if (temp_v1_11 == 0x12) {
+                    return;
+                }
+            }
+            if ((((((ray.x_pos + ray.offset_bx) - obj->x_pos) - obj->offset_bx) >= 0 && (obj->flags & 0x4000)) || ((((ray.x_pos + ray.offset_bx) - obj->x_pos) - obj->offset_bx) < 0 && !(obj->flags & 0x4000))))
+            {
+                if (obj->flags & 0x4000)
+                    obj->speed_x = 3;
+                else
+                    obj->speed_x = -3;
+                obj->speed_y = -5;
+                set_main_etat(obj, 2U);
+                set_sub_etat(obj, 0x10U);
+                skipToLabel(obj, 0x0B, 1U);
+                return;
+            }
+            return;
+        case 0x41:
+            if ((obj->main_etat == 1) && (obj->sub_etat == 0) && (obj->field24_0x3e == 0))
+            {
+                temp_v1_12 = obj->flags;
+                obj->anim_frame = 0;
+                if (!(temp_v1_12 & 0x4000))
+                {
+                    obj->flags = temp_v1_12 | 0x4000;
+                    skipToLabel(obj, 3, 1U);
+                }
+                else
+                {
+                    obj->flags = temp_v1_12 & ~0x4000;
+                    skipToLabel(obj, 1, 1U);
+                }
+                
+                pushToLabel(obj, 5U, 1U);
+                return;
+            }
+            break;
+        case 0xC:
+        case 0xE:
+            if ((obj->main_etat == 0) && ((temp_v1_13 = obj->sub_etat, (temp_v1_13 == 0)) || (temp_v1_13 == 2)))
+            {
+                obj->speed_x = 0;
+                obj->speed_y = 0;
+                set_main_and_sub_etat(obj, 0U, 2U);
+                obj->flags &= 0xFFFF7FFF;
+                calc_obj_dir(obj);
+                if (obj->flags & 0x4000)
+                {
+                    obj->cmd = 1;
+                    return;
+                }
+                obj->cmd = 0;
+                return;
+            }
+            break;
+        case 0x48:
+            NGW_REACT_TO_RAY_IN_ZONE(obj);
+            return;
+        case 0x4D:
+        case 0xEF:
+            PAR_REACT_TO_RAY_IN_ZONE(obj);
+            return;
+        case 0x98:
+            if ((obj->main_etat == 0) && (obj->sub_etat == 0))
+            {
+                set_main_and_sub_etat(obj, 1U, 0U);
+                if (obj->flags & 0x4000)
+                {
+                    skipToLabel(obj, 3, 1U);
+                }
+                else
+                {
+                    skipToLabel(obj, 2, 1U);
+                }
+                return;
+            }
+            break;
+        case 0x96:
+            SKO_ray_in_zone(obj);
+            return;
+        case 0x78:
+            BAT_ray_in_zone(obj);
+            return;
+        case 0xAE:
+        case 0xB8:
+        case 0xE1:
+        case 0xE2:
+            PIRATE_POELLE_REACT(obj);
+            return;
+        case 0xC3:
+            SPIDER_PLAFOND_REACT(obj);
+            return;
+        case 0xD4:
+            DO_DARK_REACT(obj);
+            return;
+        case 0x59:
+            if (obj->main_etat == 0)
+            {
+                if ((obj->sub_etat == 1) && (joe_exp_probleme == 0))
+                {
+                    vignet_joe_affichee = 0;
+                    skipToLabel(obj, 2U, 1U);
+                    joe_exp_probleme = 1;
+                }
+                if ((obj->main_etat == 0) && (obj->sub_etat == 2))
+                {
+                    var_a1 = 4;
+                    skipToLabel(obj, var_a1, 1U);
+                return;
+                }
+            }
+            break;
+        }
+    }
+    else
+    {
+        if ((obj->detect_zone_flag == 0) && ((temp_v1_14 = obj->type, (temp_v1_14 == 0x0C)) || (temp_v1_14 == 0x0E)) && (obj->main_etat == 0) && (obj->sub_etat == 0x15) && (obj->anim_frame >= (obj->animations[obj->anim_index].frames_count - 1)))
+        {
+            set_main_and_sub_etat(obj, 0U, 0U);
+        }
+    /*default:*/
+    }
+}
