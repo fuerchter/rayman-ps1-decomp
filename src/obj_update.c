@@ -3,6 +3,10 @@
 extern u8 gerbe; /* bool? */
 extern s16 joe_exp_probleme;
 extern s16 vignet_joe_affichee;
+extern ObjHandlers ObjectsFonctions[256];
+extern ObjType ot;
+
+void DO_BALLE(Obj *obj);
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_PESANTEUR);
 
@@ -837,7 +841,39 @@ void MOVE_OBJECT(Obj *obj)
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_RAY_IN_ZONE);
 
+/* 2F3B4 80153BB4 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_ONE_OBJECT);
+#else
+void DO_ONE_OBJECT(Obj *obj)
+{
+    if (flags[ot].flags0 >> OBJ0_BALLE & 1)
+        DO_BALLE(obj);
+    if (flags[ot].flags0 >> OBJ0_DETECT_ZONE & 1)
+        SET_DETECT_ZONE_FLAG(obj);
+    if (flags[ot].flags2 >> OBJ2_MOVE_ON_BLOCK & 1)
+        calc_btyp(obj);
+    if (flags[ot].flags1 >> OBJ1_READ_CMD & 1)
+        GET_OBJ_CMD(obj);
+    else
+        obj->cmd = GO_NOP;
+    
+    ObjectsFonctions[ot].do_obj(obj);
+
+    if (obj->main_etat == 2)
+        OBJ_IN_THE_AIR(obj);
+    if (obj->flags & FLG(OBJ_FOLLOW_ENABLED))
+        SET_RAY_DIST(obj);
+    else
+        obj->ray_dist = 10000;
+    if (flags[ot].flags1 >> OBJ1_SPECIAL_PLATFORM & 1)
+        DO_SPECIAL_PLATFORM(obj);
+    if (flags[ot].flags0 >> OBJ0_DETECT_ZONE & 1)
+        DO_RAY_IN_ZONE(obj);
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", fptr_init);
 
