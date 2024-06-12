@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "psyq_3_0/LIBCD.H"
+#include "psyq_3_0/LIBSND.H"
 
 /**/
 extern s16 D_801E64B0;

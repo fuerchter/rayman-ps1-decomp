@@ -1,5 +1,35 @@
 #include "music.h"
 
+extern u8 s_s_801ceec0[4];
+extern u8 s_idle_801ceec4[5];
+extern u8 s_busy_801ceecc[5];
+extern u8 s_yes_801ceed4[4];
+extern u8 s_no_801ceed8[3];
+extern CdlLOC D_801F41D0[54];
+extern s32 D_801F7CA8;
+extern s16 D_801F84B0;
+extern s16 D_801F9940;
+extern s32 PS1_CurTrack;
+extern s16 PS1_LevelMusic_Level;
+extern s16 PS1_LevelMusic_World;
+extern u8 PS1_Music_Aframe;
+extern u8 PS1_Music_Amin;
+extern u8 PS1_Music_Asec;
+extern s16 PS1_Music_Complete_data;
+extern s16 PS1_Music_Fade;
+extern s32 PS1_Music_Fin[54];
+extern s16 PS1_Music_Ready_data;
+extern s16 PS1_Music_access_num;
+extern u8 PS1_Music_etat;
+extern s16 PS1_Music_fadeout;
+extern s16 PS1_Music_ind_fade;
+extern s32 PS1_Music_intr_compl;
+extern s32 PS1_Music_intr_datar;
+extern u8 PS1_Music_occupe;
+extern u8 PS1_Music_pcom;
+extern u8 PS1_Music_track;
+extern s16 PS1_Music_will_anticip;
+
 const u8 s__CDPlayer_TEST_80125c28[] = "\n\n\n\t\t CD-Player TEST\n";
 const u8 s_Fade02d_80125c40[] = "Fade:%02d ";
 const u8 s_ind_faded_80125c4c[] = "ind_fade:%d\n";
