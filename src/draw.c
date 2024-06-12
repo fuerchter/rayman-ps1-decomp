@@ -98,7 +98,7 @@ void display2(Obj *obj)
                 }
             }
         }
-        PS1_DrawSpriteSemiTrans = 0;
+        PS1_DrawSpriteSemiTrans = false;
     }
 }
 

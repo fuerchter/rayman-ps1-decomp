@@ -331,6 +331,7 @@ segments:
       - [0xAA680, data]
       #done - [0xAA6EC, .data, data/loading_AA6EC] #801ceeec
       - [0xAA6FC, data]
+      #done - [0xAA774, .data, data/draw_AA774] #801CEF74
       #done - [0xAA77C, .data, data/draw_ui] #801CEF7C
       - [0xAA7A4, data]
       #done - [0xAA7A8, .data, data/obj/mama_pirate] #801CEFA8

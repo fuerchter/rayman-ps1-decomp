@@ -28,13 +28,8 @@ extern s16 PS1_CanPlayDeathMusic;
 extern s16 D_801CEEA0;
 extern u8 D_801CEEA2;
 
-/* .data */
-extern s16 PS1_PolygonIndexTableCount;
-
 /**/
 extern u8 gele;
-extern s16 PS1_PolygonIndexTable[200];
-extern s16 PS1_PolygonsCount;
 
 void DO_GROS_MOTEUR_NORMAL(void);
 void DO_MAIN_LOOP(void);
