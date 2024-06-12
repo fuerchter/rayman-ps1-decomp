@@ -12,7 +12,37 @@
 #include "collision/collision.h"
 
 /* .data */
+extern s16 droppedBombLine0[8];
+extern s16 droppedBombLine1[8];
+extern s16 droppedBombLine2[8];
+extern s16 droppedBombLine3[8];
+extern s16 droppedBombLine4[8];
+extern s16 droppedBombLine5[8];
+extern s16 droppedBombLine6[8];
+extern s16 droppedBombLine7[8];
+extern s16 droppedBombLine8[8];
+extern s16 droppedBombLine9[8];
+extern s16 droppedBombLineA[8];
+extern s16 droppedBombLineB[8];
+extern s16 *droppedBombSequence1[8];
+extern s16 *droppedBombSequence2[8];
+extern s16 *droppedBombSequence3[8];
+extern s16 *droppedBombSequence4[8];
+extern s16 *droppedBombSequence5[8];
+extern s16 *droppedBombSequence6[8];
+extern s16 *droppedBombSequence7[8];
 extern s16 **bombSequences[7];
+extern u8 mereDenisDyingSequence[4];
+extern u8 mereDenisMachineHitSequence[4];
+extern u8 mereDenisHitSequence[4];
+extern u8 mereDenisArrivalSequence[8];
+extern u8 mereDenisEncounter1[8];
+extern u8 mereDenisEncounter2[12];
+extern u8 mereDenisEncounter3[56];
+extern u8 mereDenisGoBehindMachine[8];
+extern u8 mereDenisBehindMachine[60];
+extern u8 mereDenisMachineFlies[4];
+extern u8 mereDenisMedley[28];
 extern u8 *mereDenisActionSequences[11];
 
 /**/
