@@ -22,7 +22,7 @@ extern u8 D_801F7D41;
 extern u8 D_801F7D42;
 extern u8 D_801F7D43;
 extern u8 place_sequence[5];
-extern s16 D_801CEEB6; /* go through FUN_80130684 first */
+extern s16 PS1_Music_pcom; /* go through FUN_80130684 first */
 extern s32 *D_801D7840;
 extern s16 D_801F7C80;
 
@@ -555,8 +555,8 @@ void PS1_OnPauseOn(void)
   
   FUN_8016924c();
   D_801CEFD8 = 1;
-  D_801CEEB6 = CdlPause;
-  CdControlB(D_801CEEB6, null, null);
+  PS1_Music_pcom = CdlPause;
+  CdControlB(PS1_Music_pcom, null, null);
   
   for (sep_access_num = 0; sep_access_num < 2; sep_access_num++)
     for (seq_num = 0; seq_num < 10; seq_num++)
