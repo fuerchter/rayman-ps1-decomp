@@ -22,7 +22,7 @@
 #look for "flag_set" local for current way of writing EOA()
 #try rewriting some while loops as for again (or do{}while() as while), e.g. "allocate*" functions
 
-#hardcoded pointers: main(), loading_794DC.c, data/loading_A0338, FUN_80132864 (unused)
+#hardcoded pointers: main(), loading_794DC.c, data/loading_A0338, FUN_80132864 (unused), data/loading_AA6EC
 #for u8 < 2 or >= 2 conditions look at RAY_RESPOND_TO_DOWN e.g.
 #PS1_star_spr adding "__attribute__((aligned(2)))" changed memcpy lw/sw into lwl/lwr etc. the address of it in the exe (or its data) did not change. check this for other data and functions that use it (INIT_LEVEL_STAGE_NAME, CHANGE_STAGE_NAMES)
 #when would someone actually have written do{}while(0); ? if(1) i can understand https://github.com/zeldaret/oot/pull/946 https://github.com/simonlindholm/decomp-permuter/issues/2 https://stackoverflow.com/questions/257418/do-while-0-what-is-it-good-for

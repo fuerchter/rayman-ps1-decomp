@@ -314,6 +314,7 @@ segments:
       - [0xA369C, data]
       #done - [0xA36B8, .data, data/command_A36B8] #801c7eb8
       #done - [0xA3850, .data, data/obj/bb1_A3850] #801C8050
+      - [0xA38F8, data]
       #- [0xA38F8, .data, data/obj/space_mama_A38F8] #801C80F8 TODO: psyq at 801BC288 references D_801C8140 (never added via addrs-u.txt???), so cannot be used currently
       - [0xA3BA4, data]
       #done - [0xA3BA4, .data, data/obj/scorpion_A3BA4] #801C83A4
