@@ -8,7 +8,7 @@ extern u8 s_no_801ceed8[3];
 extern CdlLOC D_801F41D0[54];
 extern s32 D_801F7CA8;
 extern s16 D_801F84B0;
-extern s16 D_801F9940;
+extern s16 D_801F9940; /* enum? */
 extern s32 PS1_CurTrack;
 extern s16 PS1_LevelMusic_Level;
 extern s16 PS1_LevelMusic_World;
@@ -29,6 +29,19 @@ extern u8 PS1_Music_occupe;
 extern u8 PS1_Music_pcom;
 extern u8 PS1_Music_track;
 extern s16 PS1_Music_will_anticip;
+extern s16 D_801F5798;
+extern s16 D_801CEEBC;
+extern s16 D_801E4D10; /* never read */
+extern s32 D_801E5240;
+extern s32 D_801E57C0[54];
+extern s32 D_801F42A8[54];
+extern s16 D_801F5248;
+extern s16 D_801F7ED0;
+extern u8 PS1_Music_LevelHL;
+
+/* no StopPAD or StopCallback in psyq 3.0 headers... */
+void StopPAD(void);
+void StopCallback(void);
 
 const u8 s__CDPlayer_TEST_80125c28[] = "\n\n\n\t\t CD-Player TEST\n";
 const u8 s_Fade02d_80125c40[] = "Fade:%02d ";
@@ -45,7 +58,18 @@ const u8 s_iseosd_80125d2c[] = "iseos:%d\n";
 const u8 s_will_anticips_fadeouts_80125d38[] = "will anticip:%s  fadeout:%s\n";
 const u8 s_2d_markddd_80125d58[] = "%2d mark:%d-%d-%d\n";
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80130048);
+/* B848 80130048 -O2 -msoft-float */
+void FUN_80130048(void)
+{
+    FUN_801a7ae4();
+    StopPAD();
+    ResetGraph(3);
+    stop_cd();
+    CdSync(null, null);
+    SsVabClose(D_801F5798);
+    SsEnd();
+    StopCallback();
+}
 
 INCLUDE_ASM("asm/nonmatchings/music", FUN_801300ac);
 

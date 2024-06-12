@@ -15,6 +15,17 @@
 #define CdlModeDA	0x01	/* 0: CD-DA off		1: CD-DA on	*/
 
 /*
+ * Status Contents
+ */
+#define CdlStatPlay		0x80	/* playing CD-DA */
+#define CdlStatSeek		0x40	/* seeking */
+#define CdlStatRead		0x20	/* reading data sectors */
+#define CdlStatShellOpen	0x10	/* once shell open */
+#define CdlStatSeekError	0x04	/* seek error detected */
+#define CdlStatStandby		0x02	/* spindle motor rotating */
+#define CdlStatError		0x01	/* command error detected */
+
+/*
  * CD-ROM Primitive Commands
  */
 #define CdlNop		0x01	
@@ -40,6 +51,16 @@
 #define CdlSeekL	0x15
 #define CdlSeekP	0x16
 #define CdlReadS	0x1B
+
+/*
+ * Interrupts
+ */
+#define CdlNoIntr	0x00	/* No interrupt */
+#define CdlDataReady	0x01	/* Data Ready */
+#define CdlComplete	0x02	/* Command Complete */
+#define CdlAcknowledge	0x03	/* Acknowledge (reserved) */
+#define CdlDataEnd	0x04	/* End of Data Detected */
+#define CdlDiskError	0x05	/* Error Detected */
 
 /*
  *	Location
@@ -75,6 +96,7 @@ int CdRead(int sectors, u_long *buf, int mode);
 int CdReadSync(int mode, u_char *result);
 int CdSync(int mode, u_char *result);
 int CdMix(CdlATV *vol);
+int CdControl(u_char com, u_char *param, u_char *result);
 int CdControlB(u_char com, u_char *param, u_char *result);
 
 #endif

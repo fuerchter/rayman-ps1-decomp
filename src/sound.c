@@ -554,7 +554,7 @@ void PS1_OnPauseOn(void)
   s16 seq_num;
   
   FUN_8016924c();
-  D_801CEFD8 = 1;
+  D_801CEFD8 = true;
   PS1_Music_pcom = CdlPause;
   CdControlB(PS1_Music_pcom, null, null);
   
@@ -572,14 +572,14 @@ void PS1_OnPauseOff(void)
   s16 i;
   s16 vol;
 
-  if (D_801CEFD8 != 0)
+  if (D_801CEFD8)
     CdControl(CdlPlay, null, null);
   for (i = 0; i <= 24; i++)
   {
     vol = D_801F7C80 * PS1_SepVols[i] >> 7;
     SsSepSetVol(PS1_SepInfos[i].access_num, PS1_SepInfos[i].seq_num, vol, vol);
   }
-  D_801CEFD8 = 0;
+  D_801CEFD8 = false;
 
   __asm__("nop\nnop");
 }

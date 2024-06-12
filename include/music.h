@@ -4,6 +4,8 @@
 #include "common.h"
 #include "psyq_3_0/LIBCD.H"
 #include "psyq_3_0/LIBSND.H"
+#include "psyq_3_0/LIBGPU.H"
+#include "sound.h"
 
 /**/
 extern s16 D_801E64B0;

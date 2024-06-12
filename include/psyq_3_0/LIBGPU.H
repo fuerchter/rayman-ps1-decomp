@@ -96,20 +96,21 @@ typedef struct {
 	short	x0, 	y0;
 } TILE_1;				/* 1x1 Tile */
 
-extern u_short LoadClut(u_long *clut, int x, int y);
-extern int ClearImage(RECT *rect, u_char r, u_char g, u_char b);
-extern int DrawSync(int mode);
-extern int LoadImage(RECT *rect, u_long *p);
-extern u_long *ClearOTag(u_long *ot, int n);
-extern void DrawOTag(u_long *p);
-extern DISPENV *PutDispEnv(DISPENV *env);
-extern DRAWENV *PutDrawEnv(DRAWENV *env);
-extern u_short GetTPage(int tp, int abr, int x, int y) ;
-extern void AddPrim(void *ot, void *p) ;
-extern void SetDrawEnv(DR_ENV *dr_env, DRAWENV *env);
-extern void SetPolyFT4(POLY_FT4 *p) ;
-extern void SetPolyG4(POLY_G4 *p) ;
-extern void SetSemiTrans(void *p, int abe) ;
-extern void SetShadeTex(void *p, int tge) ;
+u_short LoadClut(u_long *clut, int x, int y);
+int ClearImage(RECT *rect, u_char r, u_char g, u_char b);
+int DrawSync(int mode);
+int LoadImage(RECT *rect, u_long *p);
+int ResetGraph(int mode);
+u_long *ClearOTag(u_long *ot, int n);
+void DrawOTag(u_long *p);
+DISPENV *PutDispEnv(DISPENV *env);
+DRAWENV *PutDrawEnv(DRAWENV *env);
+u_short GetTPage(int tp, int abr, int x, int y) ;
+void AddPrim(void *ot, void *p) ;
+void SetDrawEnv(DR_ENV *dr_env, DRAWENV *env);
+void SetPolyFT4(POLY_FT4 *p) ;
+void SetPolyG4(POLY_G4 *p) ;
+void SetSemiTrans(void *p, int abe) ;
+void SetShadeTex(void *p, int tge) ;
 
 #endif

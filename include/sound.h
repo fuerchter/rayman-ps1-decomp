@@ -82,7 +82,7 @@ extern s16 PS1_SoundVolume;
 extern s16 D_801CEFCC;
 extern s16 D_801CEFCE;
 extern u8 D_801CEFD0[8]; /* number of elements? */
-extern s16 D_801CEFD8;
+extern s16 D_801CEFD8; /* bool? toggle for pause and play? see PS1_OnPauseOff, FUN_801300ac */
 extern s16 PS1_CurrentAudio;
 extern s16 D_801CEFDC;
 

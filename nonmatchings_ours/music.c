@@ -2,7 +2,68 @@
 
 /*
 matches, but ...
-unk_1, D_801F41D0 duplicate loads, weird / 16 calculation (same as * 0.64???)
+unk_1, weird / 16 calculation (similar to * 0.64???)
+*/
+/*INCLUDE_ASM("asm/nonmatchings/music", FUN_801300ac);*/
+
+void FUN_801300ac(s32 status, u8 *result)
+{
+    s32 unk_1 = 0xf;
+
+    PS1_Music_intr_datar = status;
+    switch (status)
+    {
+    case CdlDataReady:
+        D_801E4D10 = false;
+        PS1_Music_Ready_data++;
+        PS1_Music_etat = result[0];
+        PS1_Music_track = result[1];
+        PS1_Music_Amin = result[3];
+        PS1_Music_Asec = result[4];
+        PS1_Music_Aframe = result[5];
+        PS1_Music_LevelHL = result[6] + result[7];
+        D_801F7CA8 =
+            (((PS1_Music_Amin / 16) * 10 + (PS1_Music_Amin & unk_1)) << 16) +
+            (((PS1_Music_Asec / 16) * 10 + (PS1_Music_Asec & unk_1)) << 8) +
+            ((PS1_Music_Aframe / 16) * 10 + (PS1_Music_Aframe & unk_1));
+        if (PS1_Music_fadeout && D_801F7CA8 > D_801F42A8[PS1_CurTrack])
+        {
+            PS1_Music_fadeout = false;
+            FUN_80131e40();
+        }
+        if (PS1_Music_will_anticip && D_801F7CA8 > D_801E57C0[PS1_CurTrack])
+        {
+            PS1_Music_will_anticip = false;
+            PS1_PlayMusic();
+        }
+        if (D_801F7ED0 && D_801F7CA8 > D_801E5240)
+        {
+            D_801F7ED0 = false;
+            FUN_80131e40();
+        }
+        if (D_801CEFD8)
+            CdControl(CdlPause, null, null);
+        break;
+    case CdlDiskError:
+        D_801E4D10 = true;
+        D_801CEEBC = true;
+        break;
+    case CdlDataEnd:
+        D_801CEEBC = true;
+        if (D_801F5248)
+        {
+            D_801F5248 = false;
+            D_801F9940 = 0;
+        }
+        if (D_801F9940 == 1)
+            PS1_PlayMusic();
+        break;
+    }
+}
+
+/*
+matches, but ...
+unk_1, D_801F41D0 duplicate loads, weird / 16 calculation (similar to * 0.64???)
 */
 /*INCLUDE_ASM("asm/nonmatchings/music", FUN_80130684);*/
 

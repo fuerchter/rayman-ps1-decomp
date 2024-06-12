@@ -47,6 +47,7 @@ extern short SsVabTransBody (unsigned char*, short);
 extern void  SsSetTableSize (char*, short, short);
 extern void  SsSetTickMode (long);
 extern void  SsStart (void);
+extern void  SsEnd (void);
 
 extern short SsIsEos (short, short);
 extern short SsSepOpen (unsigned long*, short, short);
