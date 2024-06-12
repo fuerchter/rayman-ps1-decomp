@@ -323,6 +323,9 @@ segments:
       - [0xAA608, data]
       #- [0xAA610, .data, data/text_AA610] #801CEE10 both vars here seem to end up at 801CEE10? not sure how it would be, when let_shadow is done
       - [0xAA614, data]
+      #done - [0xAA65C, .data, data/obj/medaillon_toon_AA65C] #801CEE5C
+      - [0xAA660, data] #TODO: does this belong to medaillon_toon?
+      - [0xAA670, data]
       #done - [0xAA6EC, .data, data/loading_AA6EC] #801ceeec
       - [0xAA6FC, data]
       #done - [0xAA77C, .data, data/draw_ui] #801CEF7C
