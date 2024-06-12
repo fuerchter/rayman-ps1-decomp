@@ -348,4 +348,6 @@ segments:
       - [0xAA8E0, data]
       #done - [0xAA918, .data, data/menu/menu_AA918] #801CF118
       - [0xAA920, data]
+      #done - [0xAAE00, .data, data/draw_AAE00] #801CF600
+      - [0xAAE20, data]
   - [0xAB000]
