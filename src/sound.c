@@ -477,7 +477,7 @@ INCLUDE_ASM("asm/nonmatchings/sound", setvol);
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/sound", setpan);
 #else
-void setpan(s16 obj_id)
+void setpan(s16 obj_id, u8 param_2)
 {
   s16 voice_ind;
   s16 pile_ind;

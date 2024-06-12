@@ -109,7 +109,7 @@ s32 DO_PESANTEUR(Obj *obj)
     return res;
 }
 
-/* matches, but cleanup */
+/* matches, but clean up */
 /*INCLUDE_ASM("asm/nonmatchings/obj_update", OBJ_IN_THE_AIR);*/
 
 void OBJ_IN_THE_AIR(Obj *obj)

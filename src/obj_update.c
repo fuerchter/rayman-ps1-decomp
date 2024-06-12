@@ -93,6 +93,8 @@ void doShipCommand(Obj *obj);
 void mereDenisBigLaserCommand(Obj *obj);
 void mereDenisBombCommand(Obj *obj);
 
+s32 FUN_801473dc(Obj *obj);
+
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_PESANTEUR);
 
 /* 2C45C 80150C5C -O2 -msoft-float */
@@ -1111,8 +1113,105 @@ void DO_OBJECTS_ANIMS(void)
     }
 }
 
+/* 30594 80154D94 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_OBJECTS);
+#else
+void DO_OBJECTS(void)
+{
+    s16 i;
+    Obj *cur_obj;
+    u8 unk_1;
+    s16 *cur_obj_id;
+    
+    if (!(id_Cling_1up == -1 && id_Cling_Pow == -1))
+        DO_CLING_ANIMS();
+    if (lidol_to_allocate != 0)
+    {
+        allocate_toons(lidol_source_obj, 7);
+        lidol_to_allocate = 0;
+    }
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", MOVE_OBJECTS);
+    i = 0;
+    cur_obj = &level.objects[actobj.objects[i]];
+    while (i < actobj.num_active_objects)
+    {
+        ot = cur_obj->type;
+        unk_1 = FUN_801473dc(cur_obj);
+        cur_obj_id = &actobj.objects[i];
+        setvol(*cur_obj_id, unk_1);
+        unk_1 = FUN_801473d4(cur_obj);
+        setpan(*cur_obj_id, unk_1);
+        i++;            
+        cur_obj = &level.objects[actobj.objects[i]];
+    }
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", RECALE_ALL_OBJECTS);
+    i = 0;
+    cur_obj = &level.objects[actobj.objects[i]];
+    while (i < actobj.num_active_objects)
+    {
+        ot = cur_obj->type;
+        if (
+            flags[ot].flags3 >> OBJ3_SWITCH_OFF & 1 ||
+            (ot == TYPE_WIZ && cur_obj->sub_etat == 23) ||
+            (ot == TYPE_EXPLOSION && cur_obj->sub_etat == 1) ||
+            (ot == TYPE_DARK2_SORT && cur_obj->sub_etat != 35)
+        )
+            switchOff(cur_obj);
+        if (ot != TYPE_WIZ)
+        {
+            DO_ONE_OBJECT(cur_obj);
+            if (
+                !(flags[ot].flags0 >> OBJ0_BOSS & 1) &&
+                cur_obj->hit_points == 0 &&
+                cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].flags & 8
+            )
+                cur_obj->hit_points++;
+        }
+        i++;
+        cur_obj = &level.objects[actobj.objects[i]];
+    }
+
+    __asm__("nop\nnop");
+}
+#endif
+
+/* 3088C 8015508C -O2 -msoft-float */
+void MOVE_OBJECTS(void)
+{
+    s16 i = 0;
+    Obj *cur_obj = &level.objects[actobj.objects[i]];
+    
+    while (i < actobj.num_active_objects)
+    {
+        MOVE_OBJECT(cur_obj);
+        i++;
+        cur_obj = &level.objects[actobj.objects[i]];
+    }
+}
+
+/* 30930 80155130 -O2 -msoft-float */
+void RECALE_ALL_OBJECTS(void)
+{
+    s16 x; s16 y; s16 w; s16 h;
+    s16 i = 0;
+    Obj *cur_obj = &level.objects[actobj.objects[0]];
+
+    while (i < actobj.num_active_objects)
+    {
+        calc_obj_pos(cur_obj);
+        i++;
+        cur_obj = &level.objects[actobj.objects[i]];
+    }
+
+    if (ray.field20_0x36 != -1)
+    {
+        cur_obj = &level.objects[ray.field20_0x36];
+        if (cur_obj->flags & FLG(OBJ_ACTIVE))
+        {
+            GET_SPRITE_POS(cur_obj, cur_obj->follow_sprite, &x, &y, &w, &h);
+            ray.y_pos = y + cur_obj->offset_hy - ray.offset_by;
+            calc_obj_pos(&ray);
+        }
+    }
+}

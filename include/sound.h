@@ -141,8 +141,8 @@ s16 vol_r(s16 param_1, s16 param_2); /* param_1 is vol? param_2 is pan? see get_
 s16 vol_l(s16 param_1, s16 param_2);
 void PlaySnd(s16 snd, s16 obj_id);
 void PlaySnd_old(s16 snd);
-void setvol(u16 param_1);
-void setpan(s16 obj_id);
+void setvol(u16 param_1, u8 param_2);
+void setpan(s16 obj_id, u8 param_2);
 void FUN_80168f38(s16 param_1);
 void FUN_80168f40(void);
 void FUN_80168f48(void); /* this looks closest to manage_snd on android? */
