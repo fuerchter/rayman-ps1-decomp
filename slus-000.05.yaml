@@ -315,6 +315,8 @@ segments:
       #done - [0xA36B8, .data, data/command_A36B8] #801c7eb8
       #done - [0xA3850, .data, data/obj/bb1_A3850] #801C8050
       - [0xA38F8, data]
+      #done - [0xA3BA4, .data, data/obj/scorpion_A3BA4] #801C83A4
+      - [0xA3BC4, data]
       #done - [0xAA5F4, .data, data/world_map_AA5F4] #801CEDF4
       - [0xAA5FC, data]
       #- [0xAA5FC, .data, data/cam_scroll_AA5FC] #801CEDFC not enough funcs implemented yet
