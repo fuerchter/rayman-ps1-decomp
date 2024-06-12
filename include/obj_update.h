@@ -11,10 +11,26 @@
 #include "moteur_update.h"
 #include "collision/block_6E5E0.h"
 #include "menu/menu_7F4B4.h"
+#include "obj/moskito.h"
 #include "obj/saxo.h"
 #include "obj/bb1.h"
 #include "obj/mama_pirate.h"
+#include "obj/space_mama.h"
 #include "obj/scorpion.h"
+#include "bonus_372E0.h"
+#include "obj/poi_command.h"
+#include "obj/moving_platform_command.h"
+#include "obj/maracas_command.h"
+#include "obj/falling_obj_command.h"
+#include "obj/cymbal.h"
+#include "obj/corde_command.h"
+#include "obj/caisse_claire_command.h"
+#include "obj/cage.h"
+#include "obj/bag1.h"
+#include "obj/fish.h"
+#include "obj/walk_note_command.h"
+#include "obj/medaillon_toon.h"
+#include "obj/joe_command.h"
 
 typedef struct ObjHandlers
 {
@@ -22,6 +38,8 @@ typedef struct ObjHandlers
 } ObjHandlers;
 
 /**/
+extern ObjHandlers ObjectsFonctions[256];
+extern ObjType ot; /* here, or obj_init_kill */
 extern s16 id_Cling_1up;
 extern s16 id_Cling_Pow;
 extern u8 ray_in_fee_zone;

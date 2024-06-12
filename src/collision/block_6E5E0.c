@@ -1,7 +1,7 @@
 #include "collision/block_6E5E0.h"
 
 /* 6E5E0 80192DE0 -O2 -msoft-float */
-u8 MURDUR(s16 x, s16 y)
+s32 MURDUR(s16 x, s16 y)
 {
     return PS1_BTYPAbsPos(x, y) == BTYP_SOLID;
 }

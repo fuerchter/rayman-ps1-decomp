@@ -2,8 +2,6 @@
 
 /* TODO: flip the "_etat !=" in this file */
 
-extern u8 gerbe; /* TODO: where to put this? */
-
 s32 calc_typ_trav(Obj *obj,u8 param_2);
 void ChangeLevel(void);
 s32 TEST_IS_ON_RESSORT_BLOC(Obj *obj);
@@ -1635,7 +1633,7 @@ void snifRayIsDead(Obj *ray_obj)
     {
         lidol_to_allocate = 5;
         lidol_source_obj = ray_obj;
-        gerbe = 1;
+        gerbe = true;
     }
     terminateFistWhenRayDies();
 }
@@ -1936,7 +1934,7 @@ void DO_MORT_DE_RAY(void)
     {
         snifRayIsDead(&ray);
         dead_time = 128;
-        gerbe = 1;
+        gerbe = true;
         ray.flags &= ~FLG(OBJ_ALIVE);
         if (status_bar.num_lives >= 0)
         {

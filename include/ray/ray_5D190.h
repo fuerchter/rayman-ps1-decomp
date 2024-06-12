@@ -47,6 +47,7 @@ extern u8 ray_clic;
 extern s16 D_801E62F0;
 extern s16 ray_between_clic;
 extern s16 D_801F5588;
+extern u8 gerbe; /* bool? electoons on death */
 
 void allocateRayLandingSmoke(void);
 void recale_ray_on_liane(void);
