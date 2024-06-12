@@ -298,6 +298,8 @@ segments:
       - [0x9E494, data]
       #done - [0x9E49C, .data, data/collision/block_9E49C] #801C2C9C
       - [0x9E69C, data]
+      #done - [0x9E79C, .data, data/collision/collision_9E79C] #801C2F9C
+      - [0x9E814, data]
       #done - [0x9E914, .data, data/collision/bit_util] #801C3114
       - [0x9EB18, data]
       #- [0x9F448, .data, data/demo_9FD4] #801C3C48 TODO: move this to data/ dir once it can be used
