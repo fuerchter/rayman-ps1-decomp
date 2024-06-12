@@ -950,7 +950,7 @@ void DO_PMA_POING_COLLISION(Obj *obj)
 }
 
 /* 29118 8014D918 -O2 -msoft-float */
-s32 pma_get_eject_sens(void)
+s32 pma_get_eject_sens(Obj *obj)
 {
   ray.iframes_timer = 40;
   return -1;
@@ -972,7 +972,7 @@ void DO_COU_ATTER(Obj *obj)
         sub_etat = obj->sub_etat;
         if(sub_etat == 10)
         {
-            recale_position();
+            recale_position(obj);
             CouteauxInfos[obj->field23_0x3c].active = true;
             set_main_and_sub_etat(obj, 0, 9);
             obj->speed_x = 0;

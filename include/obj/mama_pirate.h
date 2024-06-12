@@ -67,7 +67,7 @@ void DO_PMA_COMMAND(Obj *obj);
 void init_mama_pirate(Obj *obj);
 void PMA_SORT_DU_CANON(Obj *obj);
 void DO_PMA_POING_COLLISION(Obj *obj);
-s32 pma_get_eject_sens(void);
+s32 pma_get_eject_sens(Obj *obj);
 void DO_COU_ATTER(Obj *obj);
 void DO_PMA_ATTER(Obj *obj);
 
