@@ -294,6 +294,8 @@ segments:
       - [0x9CA5C, data]
       #done - [0x9CA74, .data, data/common/mapdata_9CA74] #801C1274
       - [0x9CA94, data]
+      #done - [0x9D294, .data, data/collision/collision_9D294] #801C1A94
+      - [0x9E494, data]
       #done - [0x9E49C, .data, data/collision/block_9E49C] #801C2C9C
       - [0x9E69C, data]
       #done - [0x9E914, .data, data/collision/bit_util] #801C3114
