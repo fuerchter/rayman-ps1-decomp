@@ -327,6 +327,8 @@ segments:
       #done - [0xAA65C, .data, data/obj/medaillon_toon_AA65C] #801CEE5C
       - [0xAA660, data] #TODO: does this belong to medaillon_toon?
       - [0xAA670, data]
+      #done - [0xAA67C, .data, data/common/display_AA67C] #801CEE7C
+      - [0xAA680, data]
       #done - [0xAA6EC, .data, data/loading_AA6EC] #801ceeec
       - [0xAA6FC, data]
       #done - [0xAA77C, .data, data/draw_ui] #801CEF7C
