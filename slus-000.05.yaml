@@ -317,6 +317,8 @@ segments:
       - [0xAA608, data]
       #- [0xAA610, .data, data/text_AA610] #801CEE10 both vars here seem to end up at 801CEE10? not sure how it would be, when let_shadow is done
       - [0xAA614, data]
+      #done - [0xAA6EC, .data, data/loading_AA6EC] #801ceeec
+      - [0xAA6FC, data]
       #done - [0xAA77C, .data, data/draw_ui] #801CEF7C
       - [0xAA7A4, data]
       #done - [0xAA7A8, .data, data/obj/mama_pirate] #801CEFA8

@@ -8,7 +8,7 @@
 
 /* .data */
 extern u8 *D_801CEEEC;
-/* D_801CEEF0??? */
+extern u8 *D_801CEEF0;
 extern u8 s__801ceef4[7];
 
 void FUN_80133018(void);
