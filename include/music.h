@@ -6,6 +6,7 @@
 #include "psyq_3_0/LIBSND.H"
 #include "psyq_3_0/LIBGPU.H"
 #include "sound.h"
+#include "loading_794DC.h"
 
 /**/
 extern s16 D_801E64B0;

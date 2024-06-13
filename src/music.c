@@ -49,6 +49,11 @@ extern s16 D_801CEEA6;
 extern s16 D_801CEEA8;
 extern CdlLOC D_801F4E68; /* last time i checked held the data that was at 801f41dc? */
 extern u8 PS1_CdMode;
+extern s32 D_801F54B0[54];
+extern s32 D_801F7AA8; /* type? */
+extern s32 D_801F7D88[54];
+extern s32 PS1_TrackSizes[54];
+extern s16 PS1_TracksExist[54];
 
 /* no StopPAD or StopCallback in psyq 3.0 headers... */
 void StopPAD(void);
