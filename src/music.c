@@ -1,5 +1,8 @@
 #include "music.h"
 
+#define PS1_Cd_Sectors_Per_Sec 75
+#define PS1_Cd_Sec_Per_Min 60
+
 extern u8 s_s_801ceec0[4];
 extern u8 s_idle_801ceec4[5];
 extern u8 s_busy_801ceecc[5];
@@ -301,7 +304,14 @@ void FUN_801309b0(void) {}
 
 INCLUDE_ASM("asm/nonmatchings/music", FUN_801309b8);
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80130a98);
+/* C298 80130A98 -O2 -msoft-float */
+void FUN_80130a98(CdlLOC *param_1, CdlLOC *param_2, CdlLOC *param_3)
+{
+    param_3->sector = 0;
+    param_3->second = FUN_801309b8(param_1->sector, param_2->sector, &param_3->sector, PS1_Cd_Sectors_Per_Sec - 1);
+    param_3->minute = FUN_801309b8(param_1->second, param_2->second, &param_3->second, PS1_Cd_Sec_Per_Min - 1);
+    FUN_801309b8(param_1->minute, param_2->minute, &param_3->minute, PS1_Cd_Sec_Per_Min - 1); /* TODO: should this be min/hour instead? */
+}
 
 INCLUDE_ASM("asm/nonmatchings/music", FUN_80130b18);
 
