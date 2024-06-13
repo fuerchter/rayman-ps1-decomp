@@ -39,6 +39,10 @@ PS1_ShouldFadeOutWorldIntro = 0x801cf0dc;
 PS1_CurTrack = 0x801f9a18;
 PS1_NewWorldMusic = 0x801c7d20;
 PS1_RandSum = 0x801f5200;
+PS1_Mark_access_num = 0x801D7A70;
+PS1_Mark_seq_num = 0x801E4BD0;
+PS1_Mark_data = 0x801F8198;
+PS1_Mark_counter = 0x801CEEAA;
 
 D_801C438C = 0x801C438C;
 D_801CEE10 = 0x801cee10;

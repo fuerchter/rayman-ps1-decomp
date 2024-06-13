@@ -38,13 +38,14 @@ extern s32 D_801F42A8[54];
 extern s16 D_801F5248;
 extern s16 D_801F7ED0;
 extern u8 PS1_Music_LevelHL;
-extern s16 D_801CEEAA;
-extern s16 D_801D7A70;
-extern s16 D_801E4BD0;
-extern s16 D_801F8198;
+extern s16 PS1_Mark_counter;
+extern s16 PS1_Mark_access_num;
+extern s16 PS1_Mark_seq_num;
+extern s16 PS1_Mark_data;
 extern s16 D_801CEEA6;
 extern s16 D_801CEEA8;
 extern CdlLOC D_801F4E68; /* last time i checked held the data that was at 801f41dc? */
+extern u8 PS1_CdMode;
 
 /* no StopPAD or StopCallback in psyq 3.0 headers... */
 void StopPAD(void);
@@ -158,12 +159,12 @@ void PS1_CdSyncCallback(s32 status, u8 *result)
 }
 
 /* BC28 80130428 -O2 -msoft-float */
-void FUN_80130428(s16 param_1, s16 param_2, s16 param_3)
+void PS1_Mark_Callback(s16 access_num, s16 seq_num, s16 data)
 {
-    D_801D7A70 = param_1;
-    D_801E4BD0 = param_2;
-    D_801F8198 = param_3;
-    D_801CEEAA++;
+    PS1_Mark_access_num = access_num;
+    PS1_Mark_seq_num = seq_num;
+    PS1_Mark_data = data;
+    PS1_Mark_counter++;
 }
 
 /* BC5C 8013045C -O2 -msoft-float */
@@ -178,7 +179,7 @@ void FUN_8013045c(void)
     {
         D_801CEEA8 = false;
         PS1_Music_pcom = CdlSetloc;
-        CdControl(PS1_Music_pcom, &D_801F4E68, null);
+        CdControl(PS1_Music_pcom, (u_char *)&D_801F4E68, null);
     }
     if (PS1_Music_Fade != 0 && !D_801CEFD8)
         FUN_80131e94();
@@ -204,12 +205,10 @@ void PS1_Cd_Callbacks_Disable(void)
 }
 
 /* BD88 80130588 -O2 -msoft-float */
-void FUN_80130588(void)
+void PS1_Mark_Callback_Disable(void)
 {
     SsSetMarkCallback(PS1_Music_access_num, 0, null);
 }
-
-/*INCLUDE_ASM("asm/nonmatchings/music", FUN_801305b4);*/
 
 /* BDB4 801305B4 -O2 -msoft-float */
 void PS1_Cd_Callbacks_Enable(void)
@@ -218,11 +217,30 @@ void PS1_Cd_Callbacks_Enable(void)
     CdReadyCallback(PS1_CdReadyCallback);
 }
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_801305ec);
+/* BDEC 801305EC -O2 -msoft-float */
+void PS1_Mark_Callback_Enable(void)
+{
+    SsSetMarkCallback(PS1_Music_access_num, 0, PS1_Mark_Callback);
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", PS1_InitMusic);
+/* BE1C 8013061C -O2 -msoft-float */
+void PS1_InitMusic(void)
+{
+    u8 *mode = &PS1_CdMode;
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_8013066c);
+    *mode = CdlModeRept | CdlModeAP | CdlModeDA;
+    PS1_Music_pcom = CdlSetmode;
+    CdControlB(PS1_Music_pcom, mode, null);
+    PS1_InitTracks();
+    PS1_SetMusicVolume(13);
+}
+
+/* BE6C 8013066C -O2 -msoft-float */
+void FUN_8013066c(void)
+{
+    D_801E64B0 = false;
+    PS1_ScrollLockedAudio = false;
+}
 
 /* BE84 80130684 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
