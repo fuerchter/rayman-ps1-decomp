@@ -101,5 +101,7 @@ int CdMix(CdlATV *vol);
 int CdRead(int sectors, u_long *buf, int mode);
 int CdReadSync(int mode, u_char *result);
 int CdSync(int mode, u_char *result);
+u_long CdReadyCallback(void (*func)());
+u_long CdSyncCallback(void (*func)());
 
 #endif

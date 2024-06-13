@@ -38,6 +38,13 @@ extern s32 D_801F42A8[54];
 extern s16 D_801F5248;
 extern s16 D_801F7ED0;
 extern u8 PS1_Music_LevelHL;
+extern s16 D_801CEEAA;
+extern s16 D_801D7A70;
+extern s16 D_801E4BD0;
+extern s16 D_801F8198;
+extern s16 D_801CEEA6;
+extern s16 D_801CEEA8;
+extern CdlLOC D_801F4E68; /* last time i checked held the data that was at 801f41dc? */
 
 /* no StopPAD or StopCallback in psyq 3.0 headers... */
 void StopPAD(void);
@@ -73,9 +80,9 @@ void FUN_80130048(void)
 
 /* B8AC 801300AC -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/music", FUN_801300ac);
+INCLUDE_ASM("asm/nonmatchings/music", PS1_CdReadyCallback);
 #else
-void FUN_801300ac(s32 status, u8 *result)
+void PS1_CdReadyCallback(s32 status, u8 *result)
 {
     PS1_Music_intr_datar = status;
     switch (status)
@@ -128,21 +135,88 @@ void FUN_801300ac(s32 status, u8 *result)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_8013036c);
+/* BB6C 8013036C -O2 -msoft-float */
+void PS1_CdSyncCallback(s32 status, u8 *result)
+{
+    PS1_Music_Complete_data++;
+    PS1_Music_intr_compl = status;
+    if (status == CdlComplete)
+    {
+        D_801E4D10 = false;
+        PS1_Music_Ready_data = 0;
+        if (D_801F9940 == 1 && PS1_Music_pcom == CdlPause && !D_801CEFD8)
+        {
+            if (D_801F5248)
+            {
+                D_801F9940 = 0;
+                D_801F5248 = false;
+            }
+            else
+                PS1_PlayMusic();
+        }
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", func_80130428);
+/* BC28 80130428 -O2 -msoft-float */
+void FUN_80130428(s16 param_1, s16 param_2, s16 param_3)
+{
+    D_801D7A70 = param_1;
+    D_801E4BD0 = param_2;
+    D_801F8198 = param_3;
+    D_801CEEAA++;
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_8013045c);
+/* BC5C 8013045C -O2 -msoft-float */
+void FUN_8013045c(void)
+{
+    if (D_801CEEA6 && !SsIsEos(PS1_Music_access_num, 0))
+    {
+        PS1_PlayMusic();
+        D_801CEEA6 = false;
+    }
+    if (D_801CEEA8)
+    {
+        D_801CEEA8 = false;
+        PS1_Music_pcom = CdlSetloc;
+        CdControl(PS1_Music_pcom, &D_801F4E68, null);
+    }
+    if (PS1_Music_Fade != 0 && !D_801CEFD8)
+        FUN_80131e94();
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80130514);
+/* BD14 80130514 -O2 -msoft-float */
+void PS1_SsSetSerialVolA(s16 vol)
+{
+    SsSetSerialVol(SS_SERIAL_A, vol, vol);
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80130540);
+/* BD40 80130540 -O2 -msoft-float */
+void FUN_80130540(void)
+{
+    ResetCallback();
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80130560);
+/* BD60 80130560 -O2 -msoft-float */
+void PS1_Cd_Callbacks_Disable(void)
+{
+    CdSyncCallback(null);
+    CdReadyCallback(null);
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80130588);
+/* BD88 80130588 -O2 -msoft-float */
+void FUN_80130588(void)
+{
+    SsSetMarkCallback(PS1_Music_access_num, 0, null);
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_801305b4);
+/*INCLUDE_ASM("asm/nonmatchings/music", FUN_801305b4);*/
+
+/* BDB4 801305B4 -O2 -msoft-float */
+void PS1_Cd_Callbacks_Enable(void)
+{
+    CdSyncCallback(PS1_CdSyncCallback);
+    CdReadyCallback(PS1_CdReadyCallback);
+}
 
 INCLUDE_ASM("asm/nonmatchings/music", FUN_801305ec);
 

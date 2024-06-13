@@ -39,6 +39,11 @@
 
 #define SS_SEQ_TABSIZ     172
 
+/*
+ * CallBack
+ */
+typedef void (*SsMarkCallbackProc)(short, short, short);
+
 extern void  SsVabClose (short);          
 extern short SsVabTransCompleted (short);
 extern short SsVabOpenHead (unsigned char*, short);
@@ -63,6 +68,7 @@ extern void  SsSetSerialVol (char, short, short);
 extern void  SsSetStereo (void);                       
 
 extern short SsIsEos (short, short);
+extern void  SsSetMarkCallback (short, short, SsMarkCallbackProc);
 
 extern short SsUtKeyOn (short, short, short, short, short, short, short);
 extern short SsUtKeyOff (short, short, short, short, short);
