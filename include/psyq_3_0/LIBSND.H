@@ -39,7 +39,7 @@
 
 #define SS_SEQ_TABSIZ     172
 
-extern void  SsVabClose (short);
+extern void  SsVabClose (short);          
 extern short SsVabTransCompleted (short);
 extern short SsVabOpenHead (unsigned char*, short);
 extern short SsVabTransBody (unsigned char*, short);
@@ -49,28 +49,30 @@ extern void  SsSetTickMode (long);
 extern void  SsStart (void);
 extern void  SsEnd (void);
 
-extern short SsIsEos (short, short);
+extern void  SsSeqCalledTbyT (void);           
+
 extern short SsSepOpen (unsigned long*, short, short);
 extern void  SsSepPlay (short, short, char, short);
 extern void  SsSepStop (short, short);
-extern void  SsSepClose (short);
 extern void  SsSepSetVol (short, short, short, short);
+extern void  SsSepClose (short);
+
+extern void  SsSetMVol (short, short);              
+extern void  SsSetSerialAttr (char, char, char);     
+extern void  SsSetSerialVol (char, short, short);    
+extern void  SsSetStereo (void);                       
+
+extern short SsIsEos (short, short);
+
+extern short SsUtKeyOn (short, short, short, short, short, short, short);
+extern short SsUtKeyOff (short, short, short, short, short);
+
 extern short SsUtSetVVol (short, short, short);
 extern void  SsUtReverbOn (void);
 extern void  SsUtReverbOff (void);
 extern short SsUtSetReverbType (short);
 extern void  SsUtSetReverbDepth (short, short);
-extern void  SsSeqCalledTbyT (void);
 
-extern void  SsSetMVol (short, short);
-
-extern void  SsSetSerialAttr (char, char, char);
-extern void  SsSetSerialVol (char, short, short);
-
-extern void  SsSetStereo (void);
-
-extern short SsUtKeyOn (short, short, short, short, short, short, short);
-extern short SsUtKeyOff (short, short, short, short, short);
 extern void  SsUtAllKeyOff (short);
 
 #endif

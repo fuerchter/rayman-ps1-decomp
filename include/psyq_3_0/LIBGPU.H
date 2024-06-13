@@ -96,17 +96,17 @@ typedef struct {
 	short	x0, 	y0;
 } TILE_1;				/* 1x1 Tile */
 
-u_short LoadClut(u_long *clut, int x, int y);
+DISPENV *PutDispEnv(DISPENV *env);
+DRAWENV *PutDrawEnv(DRAWENV *env);
 int ClearImage(RECT *rect, u_char r, u_char g, u_char b);
 int DrawSync(int mode);
 int LoadImage(RECT *rect, u_long *p);
 int ResetGraph(int mode);
 u_long *ClearOTag(u_long *ot, int n);
-void DrawOTag(u_long *p);
-DISPENV *PutDispEnv(DISPENV *env);
-DRAWENV *PutDrawEnv(DRAWENV *env);
 u_short GetTPage(int tp, int abr, int x, int y) ;
+u_short LoadClut(u_long *clut, int x, int y);
 void AddPrim(void *ot, void *p) ;
+void DrawOTag(u_long *p);
 void SetDrawEnv(DR_ENV *dr_env, DRAWENV *env);
 void SetPolyFT4(POLY_FT4 *p) ;
 void SetPolyG4(POLY_G4 *p) ;

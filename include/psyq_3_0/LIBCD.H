@@ -15,15 +15,12 @@
 #define CdlModeDA	0x01	/* 0: CD-DA off		1: CD-DA on	*/
 
 /*
- * Status Contents
+ * Status
  */
-#define CdlStatPlay		0x80	/* playing CD-DA */
-#define CdlStatSeek		0x40	/* seeking */
-#define CdlStatRead		0x20	/* reading data sectors */
-#define CdlStatShellOpen	0x10	/* once shell open */
-#define CdlStatSeekError	0x04	/* seek error detected */
-#define CdlStatStandby		0x02	/* spindle motor rotating */
-#define CdlStatError		0x01	/* command error detected */
+#define CdlStatPlay	0x80	/* playing CD-DA */
+#define CdlStatSeek	0x40	/* seeking */
+#define CdlStatRead	0x20	/* reading data sectors */
+#define CdlStatStandby	0x02	/* spindle motor rotating */
 
 /*
  * CD-ROM Primitive Commands
@@ -98,11 +95,11 @@ typedef struct {
 } CdlFILE;
 
 CdlFILE *CdSearchFile(CdlFILE *fp, char *name);
+int CdControl(u_char com, u_char *param, u_char *result);
+int CdControlB(u_char com, u_char *param, u_char *result);
+int CdMix(CdlATV *vol);
 int CdRead(int sectors, u_long *buf, int mode);
 int CdReadSync(int mode, u_char *result);
 int CdSync(int mode, u_char *result);
-int CdMix(CdlATV *vol);
-int CdControl(u_char com, u_char *param, u_char *result);
-int CdControlB(u_char com, u_char *param, u_char *result);
 
 #endif

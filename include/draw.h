@@ -6,6 +6,7 @@
 #include "common/display.h"
 #include "psyq_3_0/LIBGTE.H"
 #include "psyq_3_0/RAND.H"
+#include "psyq_3_0_missing/RAND.H"
 #include "main_moteur.h"
 #include "snow.h"
 #include "collision/proj.h"

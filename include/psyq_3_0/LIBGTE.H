@@ -1,7 +1,7 @@
 #ifndef _LIBGTE_H_
 #define _LIBGTE_H_
 
-extern int rcos(int a);
-extern int rsin(int a);
+int rcos(int a);
+int rsin(int a);
 
 #endif

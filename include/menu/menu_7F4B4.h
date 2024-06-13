@@ -2,7 +2,7 @@
 #define MENU_7F4B4_H
 
 #include "common.h"
-#include "psyq_3_0/STRINGS.H"
+#include "psyq_3_0_missing/STRINGS.H"
 #include "text_24E10.h"
 #include "menu/menu_7EEE4.h"
 #include "fade.h"
