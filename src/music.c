@@ -335,7 +335,23 @@ s32 FUN_80130c58(s32 param_1)
 }
 #endif
 
+/* C500 80130D00 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/music", FUN_80130d00);
+#else
+s32 FUN_80130d00(s32 param_1, s32 param_2)
+{
+    /* add zeroth, first and second 8-bit parts of param_1/param_2? */
+    s32 unk_0 = (param_1 & 0xFF) + (param_2 & 0xFF);
+    s32 unk_1 = ((param_1 >> 8) & 0xFF) + ((param_2 >> 8) & 0xFF);
+    s32 unk_2 = (((param_1 >> 16) & 0xFF) + ((param_2 >> 16) & 0xFF));
+
+    /* then ??? */
+    return ((unk_0 / PS1_Sectors_p_Sec) << 8) + (unk_0 % PS1_Sectors_p_Sec) +
+    ((unk_1 % PS1_Sec_p_Min) << 8) + ((unk_1 / PS1_Sec_p_Min) << 16) +
+    (unk_2 << 16);
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/music", PS1_InitTracks);
 
