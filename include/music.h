@@ -29,7 +29,7 @@ void FUN_801309b0(void);
 u8 FUN_801309b8(u8 param_1, u8 param_2, u8 *param_3, u8 param_4);
 void FUN_80130a98(CdlLOC *param_1, CdlLOC *param_2, CdlLOC *param_3);
 void FUN_80130b18(u32 param_1, CdlLOC *param_2);
-s32 FUN_80130bc4(CdlLOC param_1);
+s32 FUN_80130bc4(CdlLOC loc);
 s32 FUN_80130c58(s32 param_1);
 s32 FUN_80130d00(u32 param_1, u32 param_2);
 void PS1_InitTracks(void);

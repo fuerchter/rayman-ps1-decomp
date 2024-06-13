@@ -1,7 +1,7 @@
 #include "music.h"
 
-#define PS1_Cd_Sectors_Per_Sec 75
-#define PS1_Cd_Sec_Per_Min 60
+#define PS1_Sectors_p_Sec 75
+#define PS1_Sec_p_Min 60
 
 extern u8 s_s_801ceec0[4];
 extern u8 s_idle_801ceec4[5];
@@ -308,16 +308,32 @@ INCLUDE_ASM("asm/nonmatchings/music", FUN_801309b8);
 void FUN_80130a98(CdlLOC *param_1, CdlLOC *param_2, CdlLOC *param_3)
 {
     param_3->sector = 0;
-    param_3->second = FUN_801309b8(param_1->sector, param_2->sector, &param_3->sector, PS1_Cd_Sectors_Per_Sec - 1);
-    param_3->minute = FUN_801309b8(param_1->second, param_2->second, &param_3->second, PS1_Cd_Sec_Per_Min - 1);
-    FUN_801309b8(param_1->minute, param_2->minute, &param_3->minute, PS1_Cd_Sec_Per_Min - 1); /* TODO: should this be min/hour instead? */
+    param_3->second = FUN_801309b8(param_1->sector, param_2->sector, &param_3->sector, PS1_Sectors_p_Sec - 1);
+    param_3->minute = FUN_801309b8(param_1->second, param_2->second, &param_3->second, PS1_Sec_p_Min - 1);
+    FUN_801309b8(param_1->minute, param_2->minute, &param_3->minute, PS1_Sec_p_Min - 1); /* TODO: should this be min/hour instead? */
 }
 
 INCLUDE_ASM("asm/nonmatchings/music", FUN_80130b18);
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80130bc4);
+/* C3C4 80130BC4 -O2 -msoft-float */
+s32 FUN_80130bc4(CdlLOC loc)
+{
+    return btoi(loc.sector) + (btoi(loc.second) << 8) + (btoi(loc.minute) << 16);
+}
 
+/* C458 80130C58 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* div_nop_swap */
 INCLUDE_ASM("asm/nonmatchings/music", FUN_80130c58);
+#else
+s32 FUN_80130c58(s32 param_1)
+{
+    __asm__("nop");
+
+    return (param_1 % PS1_Sectors_p_Sec) +
+    (((param_1 / PS1_Sectors_p_Sec) % PS1_Sec_p_Min) << 8) +
+    ((param_1 / (PS1_Sectors_p_Sec * PS1_Sec_p_Min)) << 16); /* can't say i follow this */
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/music", FUN_80130d00);
 
