@@ -148,3 +148,101 @@ void PS1_InitTracks(void)
     }
   }
 }
+
+/* matches, but too many unknowns, hard to read, unsure about some labels */
+/*INCLUDE_ASM("asm/nonmatchings/music", PS1_PlayMusic);*/
+
+void PS1_PlayMusic(void)
+{
+    s16 done;
+    u8 *mode;
+    CdlLOC unk_3;
+    CdlLOC unk_4;
+    CdlLOC unk_1;
+    CdlLOC *unk_2;
+
+    D_801FA570 = false;
+    done = false;
+    if (++PS1_LevelMusic_Track == 4) /* TODO: what should i take LEN() of? */
+        PS1_LevelMusic_Track = 0;
+    
+    while (!done)
+    {
+        mode = &PS1_CdMode;
+        D_801F9940 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].cmd & 0xF;
+        PS1_Music_will_anticip = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].cmd & 0x10;
+        PS1_Music_fadeout = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].cmd & 0x80;
+        D_801F7ED0 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].cmd & 0x20;
+        switch (D_801F9940)
+        {
+        case 1:
+            D_801CEEBC = false;
+            *mode = CdlModeRept | CdlModeAP | CdlModeDA;
+            PS1_CurTrack = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].flags;
+            if (PS1_TracksExist[PS1_CurTrack])
+            {
+                PS1_Music_pcom = CdlSetmode;
+                CdControl(PS1_Music_pcom, mode, null);
+                unk_2 = &unk_1;
+                if (D_801F7ED0)
+                {
+                    FUN_80130b18(D_801C4B28[D_801CEEA4++], unk_2);
+                    FUN_80130a98(&D_801F41D0[PS1_CurTrack], unk_2, &D_801E4EF8);
+                    if (D_801CEEA4 == (s16) LEN(D_801C4B28))
+                        D_801CEEA4 = 0;
+                    FUN_80130b18(1410, &unk_3);
+                    FUN_80130a98(&D_801E4EF8, &unk_3, &unk_4);
+                    D_801E5240 = FUN_80130bc4(unk_4);
+                    PS1_Music_pcom = CdlSetloc;
+                    CdControl(PS1_Music_pcom, &D_801E4EF8, null);
+                }
+                else
+                {
+                    PS1_Music_pcom = CdlSetloc;
+                    CdControl(PS1_Music_pcom, (u_char *)&D_801F41D0[PS1_CurTrack], null);
+                }
+
+                done = true;
+                if (D_801CEFD8 == 0)
+                {
+                    PS1_Music_pcom = CdlPlay;
+                    CdControl(PS1_Music_pcom, null, null);
+                }
+
+                if (PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].cmd & 0x40)
+                    FUN_80131e5c();
+                else
+                {
+                    PS1_Music_Fade = 0;
+                    PS1_SsSetSerialVolA(PS1_Music_Vol[PS1_CurTrack] * D_801F7C80 >> 7);
+                }
+            }
+            else
+            {
+                D_801F9940 = 0;
+                D_801CEEBC = true;
+                done = true;
+            }
+            break;
+        case 2:
+            D_801F4FA0 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].flags;
+            D_801CEEA6 = true;
+            SsSeqPlay(PS1_Music_access_num, SSPLAY_PLAY, 1);
+            PS1_Mark_Callback_Enable();
+            if (PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].cmd & 0x40)
+            {
+                SsSeqSetVol(PS1_Music_access_num, 0, 0);
+                SsSeqSetCrescendo(PS1_Music_access_num, 127, 240);
+            }
+            FUN_801314c4();
+            done = true;
+            break;
+        case 3:
+            PS1_LevelMusic_Track = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].flags;
+            break;
+        case 0:
+            done = true;
+            break;
+        }
+    }
+}

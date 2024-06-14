@@ -10,7 +10,7 @@ extern u8 s_yes_801ceed4[4];
 extern u8 s_no_801ceed8[3];
 extern CdlLOC D_801F41D0[54];
 extern s32 D_801F7CA8;
-extern s16 D_801F84B0;
+extern s16 PS1_LevelMusic_Track; /* might rename to command instead? */
 extern s16 D_801F9940; /* enum? */
 extern s32 PS1_CurTrack;
 extern s16 PS1_LevelMusic_Level;
@@ -54,12 +54,28 @@ extern s32 D_801F7AA8; /* type? */
 extern s32 D_801F7D88[54];
 extern s32 PS1_TrackSizes[54];
 extern s16 PS1_TracksExist[54];
-extern u8 PS1_LevelMusicTable[1232];
 extern s16 D_801CEEB8;
 extern s16 D_801CEEBA;
 extern s16 D_801E4B78;
 extern s16 D_801FAA50;
 extern s16 D_801F7A90[4];
+
+/* TODO: field names correct? probably not? */
+typedef struct MusicCommand
+{
+    u8 cmd;
+    u8 flags;
+} MusicCommand;
+
+extern MusicCommand PS1_LevelMusicTable[7][22][4];
+
+extern u8 PS1_Music_Vol[112];
+extern s32 D_801C4B28[4];
+extern s16 D_801CEEA4;
+extern CdlLOC D_801E4EF8;
+extern s32 D_801F4FA0;
+extern s16 D_801F7C80;
+extern s16 D_801FA570;
 
 /* no StopPAD or StopCallback in psyq 3.0 headers... */
 void StopPAD(void);
@@ -293,7 +309,7 @@ void FUN_80130684(void)
     D_801F7CA8
   );
   FntPrint(s_Fin_08x_80125d04, PS1_Music_Fin[PS1_CurTrack]);
-  FntPrint(s_Num_seqddd_typd_80125d10, PS1_LevelMusic_World, PS1_LevelMusic_Level, D_801F84B0, D_801F9940);
+  FntPrint(s_Num_seqddd_typd_80125d10, PS1_LevelMusic_World, PS1_LevelMusic_Level, PS1_LevelMusic_Track, D_801F9940);
   FntPrint(s_iseosd_80125d2c, SsIsEos(PS1_Music_access_num, 0));
   
   if (PS1_Music_will_anticip)
@@ -387,38 +403,29 @@ INCLUDE_ASM("asm/nonmatchings/music", FUN_801314c4);
 void FUN_801314c4(void)
 {
     s16 unk_1;
-    u16 unk_2;
-    s32 table_ind;
+    s32 unk_2;
 
     D_801CEEA8 = false;
-    D_801E4B78 = D_801F84B0 + 1;
+    D_801E4B78 = PS1_LevelMusic_Track + 1;
     do
     {
-        unk_1 = D_801CEEB8;
-        D_801CEEB8++;
-        unk_2 = D_801E4B78;
-        table_ind =
-            (unk_2 << 0x10 >> 0xF) +
-            (PS1_LevelMusic_Level * 8) +
-            (PS1_LevelMusic_World * 176);
-        
-        D_801F7A90[unk_1] = unk_2;
-        D_801FAA50 = PS1_LevelMusicTable[table_ind] & 0xF;
+        unk_2 = D_801F7A90[D_801CEEB8++] = D_801E4B78;
+        D_801FAA50 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][unk_2].cmd & 0xF;
         switch (D_801FAA50)
         {
         case 1:
             D_801CEEBA = true;
-            D_801F4E68 = D_801F41D0[PS1_LevelMusicTable[table_ind + 1]];
+            D_801F4E68 = D_801F41D0[PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][unk_2].flags];
             D_801CEEA8 = true;
             break;
         case 3:
-            D_801E4B78 = PS1_LevelMusicTable[table_ind + 1];
+            D_801E4B78 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][unk_2].flags;
             break;
         }
     } while (
         !D_801CEEA8 &&
         (D_801CEEB8 < (s16) LEN(D_801F7A90)) &&
-        !FUN_80131474(&D_801F7A90, D_801CEEB8, D_801E4B78)
+        !FUN_80131474(D_801F7A90, D_801CEEB8, D_801E4B78)
     );
 
     __asm__("nop\nnop\nnop\nnop\nnop\nnop");

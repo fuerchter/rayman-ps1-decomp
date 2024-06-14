@@ -55,6 +55,9 @@ extern void  SsStart (void);
 extern void  SsEnd (void);
 
 extern void  SsSeqCalledTbyT (void);           
+extern void  SsSeqPlay (short, char, short);    
+extern void  SsSeqSetVol (short, short, short);  
+extern void  SsSeqSetCrescendo (short, short, long); 
 
 extern short SsSepOpen (unsigned long*, short, short);
 extern void  SsSepPlay (short, short, char, short);
