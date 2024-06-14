@@ -53,7 +53,7 @@ void stop_cd(void);
 void PS1_Volume_Zero(void);
 void FUN_80131e40(void);
 void FUN_80131e5c(void);
-void FUN_80131e94(void);
+void PS1_Music_Apply_Fade(void);
 void FUN_8013202c(void);
 void change_audio_track_moskito_acc(void);
 void change_audio_track_moskito_dec(void);

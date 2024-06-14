@@ -60,7 +60,6 @@ extern s16 D_801E4B78;
 extern s16 D_801FAA50;
 extern s16 D_801F7A90[4];
 
-/* TODO: field names correct? probably not? */
 typedef struct MusicCommand
 {
     u8 cmd_and_flags;
@@ -76,6 +75,8 @@ extern CdlLOC D_801E4EF8;
 extern s32 D_801F4FA0;
 extern s16 D_801F7C80;
 extern s16 D_801FA570;
+extern s16 D_801C4948[92];
+extern s16 D_801C4A00[92];
 
 /* no StopPAD or StopCallback in psyq 3.0 headers... */
 void StopPAD(void);
@@ -212,7 +213,7 @@ void FUN_8013045c(void)
         CdControl(PS1_Music_pcom, (u_char *)&D_801F4E68, null);
     }
     if (PS1_Music_Fade != 0 && !D_801CEFD8)
-        FUN_80131e94();
+        PS1_Music_Apply_Fade();
 }
 
 /* BD14 80130514 -O2 -msoft-float */
@@ -552,7 +553,53 @@ void FUN_80131e5c(void)
     PS1_Music_ind_fade = 89;
 }
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80131e94);
+/* D694 80131E94 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
+INCLUDE_ASM("asm/nonmatchings/music", PS1_Music_Apply_Fade);
+#else
+void PS1_Music_Apply_Fade(void)
+{
+    s16 vol;
+
+    if (PS1_Music_Fade != 1)
+    {
+        if (PS1_Music_Fade == 2)
+        {
+            if (PS1_Music_ind_fade < 90)
+                vol =
+                    D_801C4948[PS1_Music_ind_fade++] *
+                    D_801F7C80 * PS1_Music_Vol[PS1_CurTrack] >> 14;
+            else
+            {
+                vol = 0;
+                PS1_Music_Fade = 0;
+                PS1_Music_pcom = CdlPause;
+                CdControl(CdlPause, null, null);
+            }
+        }
+    }
+    else
+    {
+        if (PS1_Music_ind_fade > 0)
+        {
+            if (PS1_Music_Ready_data > 0)
+                vol =
+                    D_801C4A00[PS1_Music_ind_fade--] *
+                    D_801F7C80 * PS1_Music_Vol[PS1_CurTrack] >> 14;
+            else
+                vol = 0;
+        }
+        else
+        {
+            vol = D_801F7C80 * PS1_Music_Vol[PS1_CurTrack] >> 7;
+            PS1_Music_Fade = 0;
+        }
+    }
+    SsSetSerialVol(SS_SERIAL_A, vol, vol);
+
+    __asm__("nop\nnop\nnop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/music", FUN_8013202c);
 
