@@ -191,7 +191,7 @@ INCLUDE_ASM("asm/nonmatchings/loading_794DC", load_world);
 #else
 void load_world(s16 world)
 {
-    FUN_80133018();
+    PS1_Disable_all_Callbacks();
     PS1_FileTemp = PS1_LoadFiles(&PS1_WldFiles[world - 1], 0, 1, 0);
     D_801F4410 = (void *)0x8005866C;
     D_801F5160 = (void *)0x8005866C;
@@ -227,7 +227,7 @@ void LOAD_FND(void)
     if (no_fnd != PS1_BackgroundIndexTable[num_world - 1][num_level - 1])
     {
         no_fnd = PS1_BackgroundIndexTable[num_world - 1][num_level - 1];
-        FUN_80133018();
+        PS1_Disable_all_Callbacks();
         PS1_FileTemp = PS1_LoadFiles(PS1_FndFiles, no_fnd, 1, 0);
         unk_1 = D_801E5260; /* warning: assignment from incompatible pointer type */
         D_801F4410 = unk_1;
@@ -242,7 +242,7 @@ void LOAD_FND(void)
 void PS1_LoadImgWorld(void)
 {
   no_fnd = -1;
-  FUN_80133018();
+  PS1_Disable_all_Callbacks();
   PS1_ImgFiles[2].dest = D_801F4380;
   D_801F8180 = D_801F4380;
   PS1_FileTemp = PS1_LoadFiles(PS1_ImgFiles, 2, 1, 0);
@@ -253,7 +253,7 @@ void PS1_LoadImgWorld(void)
 /* 79FE4 8019E7E4 -O2 -msoft-float */
 void PS1_LoadVideoTables(void)
 {
-  FUN_80133018();
+  PS1_Disable_all_Callbacks();
   PS1_FileTemp = PS1_LoadFiles(PS1_VdoFiles, 0, 1, 0);
 }
 
@@ -274,7 +274,7 @@ void LOAD_SCREEN(void)
 {
     D_801F4380 = (void *)0x8005866C;
     PS1_LdrFiles[0].dest = (void *)0x8005866C;
-    FUN_80133018();
+    PS1_Disable_all_Callbacks();
     PS1_FileTemp = PS1_LoadFiles(PS1_LdrFiles, 0, 1, 0);
     plan2_width = 640;
     plan2_height = 262;
@@ -287,7 +287,7 @@ void FUN_8019e914(void)
 {
     D_801F4380 = (void *)0x8005866C;
     PS1_LdrFiles[1].dest = (void *)0x8005866C;
-    FUN_80133018();
+    PS1_Disable_all_Callbacks();
     PS1_FileTemp = PS1_LoadFiles(PS1_LdrFiles, 1, 1, 0);
     plan2_width = 279;
     plan2_height = 90;
@@ -299,7 +299,7 @@ void FUN_8019e914(void)
 void LOAD_CONTINUE_SCREEN(void)
 {
     PS1_ImgFiles[1].dest = D_801F4380;
-    FUN_80133018();
+    PS1_Disable_all_Callbacks();
     PS1_FileTemp = PS1_LoadFiles(PS1_ImgFiles, 1, 1, 0);
     plan2_width = 320;
     plan2_height = 137;
@@ -313,7 +313,7 @@ void PS1_LoadImgSplash(void)
     if (D_801CF0CD == 0)
     {
         PS1_ImgFiles[0].dest = D_801F4380;
-        FUN_80133018();
+        PS1_Disable_all_Callbacks();
         PS1_FileTemp = PS1_LoadFiles(PS1_ImgFiles, 0, 1, 0);
         plan2_width = 320;
         plan2_height = 240;
@@ -329,7 +329,7 @@ void LOAD_SAVE_SCREEN(void)
     if (D_801CF0CD == 0)
     {
         PS1_ImgFiles[0].dest = D_801F4380;
-        FUN_80133018();
+        PS1_Disable_all_Callbacks();
         PS1_FileTemp = PS1_LoadFiles(PS1_ImgFiles, 0, 1, 0);
         plan2_width = 320;
         plan2_height = 240;
@@ -345,7 +345,7 @@ void FUN_8019eb30(void)
     if (D_801CF0CD == 0)
     {
         PS1_ImgFiles[0].dest = D_801F4380;
-        FUN_80133018();
+        PS1_Disable_all_Callbacks();
         PS1_FileTemp = PS1_LoadFiles(PS1_ImgFiles, 0, 1, 0);
         plan2_width = 320;
         plan2_height = 240;
