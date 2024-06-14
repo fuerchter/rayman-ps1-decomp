@@ -2,6 +2,7 @@
 #define _MISSING_LIBETC_H_
 
 int ResetCallback(void) ;
+int StopCallback(void) ;
 int VSync(int mode);
 
 #endif

@@ -2,6 +2,7 @@
 #define _MISSING_LIBAPI_H_
 
 extern long StartPAD(void);
+extern void StopPAD(void);
 
 extern void _96_remove(void);
 

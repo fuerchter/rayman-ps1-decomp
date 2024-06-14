@@ -7,12 +7,90 @@
 #include "psyq_3_0/LIBGPU.H"
 #include "psyq_3_0_missing/LIBGPU.H"
 #include "psyq_3_0_missing/STDLIB.H"
+#include "psyq_3_0_missing/LIBAPI.H"
+#include "psyq_3_0_missing/LIBETC.H"
 #include "sound.h"
 #include "loading_794DC.h"
+
+typedef struct MusicCommand
+{
+    u8 cmd_and_flags;
+    u8 param;
+} MusicCommand;
+
+/* .data */
+extern MusicCommand PS1_LevelMusicTable[7][22][4];
+extern s16 D_801C4948[92];
+extern s16 D_801C4A00[92];
+extern u8 PS1_Music_Vol[112];
+extern s32 D_801C4B28[4];
+
+/* .data */
+extern s16 D_801CEEA4;
+extern s16 D_801CEEA6;
+extern s16 D_801CEEA8;
+extern s16 PS1_Mark_counter;
+extern s16 PS1_Music_access_num;
+extern u8 PS1_Music_pcom;
+extern s16 D_801CEEB8;
+extern s16 D_801CEEBA;
+extern s16 D_801CEEBC;
+extern u8 s_s_801ceec0[4];
+extern u8 s_idle_801ceec4[5];
+extern u8 s_busy_801ceecc[5];
+extern u8 s_yes_801ceed4[4];
+extern u8 s_no_801ceed8[3];
 
 /**/
 extern s16 D_801E64B0;
 extern s16 PS1_ScrollLockedAudio;
+extern CdlLOC D_801F41D0[54];
+extern s32 D_801F7CA8;
+extern s16 PS1_LevelMusic_World;
+extern s16 PS1_LevelMusic_Level;
+extern s16 PS1_LevelMusic_CmdInd;
+extern s16 D_801F9940; /* enum? */
+extern s32 PS1_CurTrack;
+extern u8 PS1_Music_etat;
+extern u8 PS1_Music_track;
+extern u8 PS1_Music_Amin;
+extern u8 PS1_Music_Asec;
+extern u8 PS1_Music_Aframe;
+extern u8 PS1_Music_LevelHL;
+extern s16 PS1_Music_Complete_data;
+extern s16 PS1_Music_Fade;
+extern s32 PS1_Music_Fin[54];
+extern s16 PS1_Music_Ready_data;
+extern s16 PS1_Music_fadeout;
+extern s16 PS1_Music_ind_fade;
+extern s32 PS1_Music_intr_compl;
+extern s32 PS1_Music_intr_datar;
+extern u8 PS1_Music_occupe;
+extern s16 PS1_Music_will_anticip;
+extern s16 D_801F5798;
+extern s16 D_801E4D10; /* never read */
+extern s32 D_801E5240;
+extern s32 D_801E57C0[54];
+extern s32 D_801F42A8[54];
+extern s16 D_801F5248;
+extern s16 D_801F7ED0;
+extern s16 PS1_Mark_access_num;
+extern s16 PS1_Mark_seq_num;
+extern s16 PS1_Mark_data;
+extern CdlLOC D_801F4E68; /* last time i checked held the data that was at 801f41dc? */
+extern u8 PS1_CdMode;
+extern s32 D_801F54B0[54];
+extern s32 D_801F7AA8; /* type? */
+extern s32 D_801F7D88[54];
+extern s32 PS1_TrackSizes[54];
+extern s16 PS1_TracksExist[54];
+extern s16 D_801E4B78;
+extern s16 D_801FAA50;
+extern s16 D_801F7A90[4];
+extern s16 D_801F7C80; /* volume related */
+extern CdlLOC D_801E4EF8;
+extern s32 D_801F4FA0;
+extern s16 D_801FA570;
 
 void FUN_80130048(void);
 void PS1_CdReadyCallback(s32 status, u8 *result);
