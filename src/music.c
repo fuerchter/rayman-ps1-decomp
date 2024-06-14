@@ -434,37 +434,123 @@ void FUN_801314c4(void)
 
 INCLUDE_ASM("asm/nonmatchings/music", PS1_PlayMusic);
 
-INCLUDE_ASM("asm/nonmatchings/music", playLevelMusic);
+/* D3A8 80131BA8 -O2 -msoft-float */
+void playLevelMusic(s16 world, s16 level)
+{
+    D_801CEEBC = false;
+    PS1_Cd_Callbacks_Disable();
+    FUN_8013066c();
+    PS1_Cd_Pause();
+    CdSync(0, null);
+    PS1_Cd_Callbacks_Enable();
+    PS1_LevelMusic_World = world;
+    PS1_LevelMusic_Level = level;
+    PS1_LevelMusic_CmdInd = -1;
+    PS1_PlayMusic();
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", start_cd_gros_rayman);
+/* D428 80131C28 -O2 -msoft-float */
+void start_cd_gros_rayman(void)
+{
+    playLevelMusic(0, 9);
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", start_cd_suspence);
+/* D44C 80131C4C -O2 -msoft-float */
+void start_cd_suspence(void)
+{
+    playLevelMusic(0, 6);
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", start_cd_credits);
+/* D470 80131C70 -O2 -msoft-float */
+void start_cd_credits(void)
+{
+    playLevelMusic(0, 5);
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80131c94);
+/* D494 80131C94 -O2 -msoft-float */
+void FUN_80131c94(void)
+{
+    playLevelMusic(0, 8);
+    stop_all_snd();
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", start_cd_gagne);
+/* D4C0 80131CC0 -O2 -msoft-float */
+void start_cd_gagne(void)
+{
+    D_801F5248 = true;
+    FUN_80131e40();
+    if (PS1_SongIsPlaying(21) == 0)
+    {
+        PS1_StopPlayingAllSnd();
+        stop_all_snd();
+        PS1_PlaySnd(13, 1);
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", PS1_PlayDeathMusic);
+/* D518 80131D18 -O2 -msoft-float */
+void PS1_PlayDeathMusic(void)
+{
+    FUN_8016617c();
+    PS1_StopPlayingAllSnd();
+    playLevelMusic(0, 1);
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", PS1_PlayCDTrack_0_3);
+/* D54C 80131D4C -O2 -msoft-float */
+void PS1_PlayCDTrack_0_3(void)
+{
+    playLevelMusic(0, 3);
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", start_cd_gameover);
+/* D570 80131D70 -O2 -msoft-float */
+void start_cd_gameover(void)
+{
+    playLevelMusic(0, 2);
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", start_cd_continue);
+/* D594 80131D94 -O2 -msoft-float */
+void start_cd_continue(void)
+{
+    playLevelMusic(0, 5);
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80131db8);
+/* D5B8 80131DB8 -O2 -msoft-float */
+s32 FUN_80131db8(void)
+{
+    return D_801CEEBC;
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80131dc8);
+/* D5C8 80131DC8 -O2 -msoft-float */
+void PS1_Cd_Pause(void)
+{
+    CdControl(CdlPause, null, null);
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", stop_cd);
+/* D5F0 80131DF0 -O2 -msoft-float */
+void stop_cd(void)
+{
+    CdControl(CdlStop, null, null);
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80131e18);
+/* D618 80131E18 -O2 -msoft-float */
+void PS1_Volume_Zero(void)
+{
+    SsSetSerialVol(SS_SERIAL_A, 0, 0);
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80131e40);
+/* D640 80131E40 -O2 -msoft-float */
+void FUN_80131e40(void)
+{
+    PS1_Music_Fade = 2;
+    PS1_Music_ind_fade = 0;
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80131e5c);
+/* D65C 80131E5C -O2 -msoft-float */
+void FUN_80131e5c(void)
+{
+    PS1_Volume_Zero();
+    PS1_Music_Fade = 1;
+    PS1_Music_ind_fade = 89;
+}
 
 INCLUDE_ASM("asm/nonmatchings/music", FUN_80131e94);
 
