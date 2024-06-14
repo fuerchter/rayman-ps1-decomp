@@ -10,7 +10,7 @@ extern u8 s_yes_801ceed4[4];
 extern u8 s_no_801ceed8[3];
 extern CdlLOC D_801F41D0[54];
 extern s32 D_801F7CA8;
-extern s16 PS1_LevelMusic_Track; /* might rename to command instead? */
+extern s16 PS1_LevelMusic_CmdInd; /* might rename to command instead? */
 extern s16 D_801F9940; /* enum? */
 extern s32 PS1_CurTrack;
 extern s16 PS1_LevelMusic_Level;
@@ -63,8 +63,8 @@ extern s16 D_801F7A90[4];
 /* TODO: field names correct? probably not? */
 typedef struct MusicCommand
 {
-    u8 cmd;
-    u8 flags;
+    u8 cmd_and_flags;
+    u8 param;
 } MusicCommand;
 
 extern MusicCommand PS1_LevelMusicTable[7][22][4];
@@ -309,7 +309,7 @@ void FUN_80130684(void)
     D_801F7CA8
   );
   FntPrint(s_Fin_08x_80125d04, PS1_Music_Fin[PS1_CurTrack]);
-  FntPrint(s_Num_seqddd_typd_80125d10, PS1_LevelMusic_World, PS1_LevelMusic_Level, PS1_LevelMusic_Track, D_801F9940);
+  FntPrint(s_Num_seqddd_typd_80125d10, PS1_LevelMusic_World, PS1_LevelMusic_Level, PS1_LevelMusic_CmdInd, D_801F9940);
   FntPrint(s_iseosd_80125d2c, SsIsEos(PS1_Music_access_num, 0));
   
   if (PS1_Music_will_anticip)
@@ -406,20 +406,20 @@ void FUN_801314c4(void)
     s32 unk_2;
 
     D_801CEEA8 = false;
-    D_801E4B78 = PS1_LevelMusic_Track + 1;
+    D_801E4B78 = PS1_LevelMusic_CmdInd + 1;
     do
     {
         unk_2 = D_801F7A90[D_801CEEB8++] = D_801E4B78;
-        D_801FAA50 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][unk_2].cmd & 0xF;
+        D_801FAA50 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][unk_2].cmd_and_flags & 0xF;
         switch (D_801FAA50)
         {
         case 1:
             D_801CEEBA = true;
-            D_801F4E68 = D_801F41D0[PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][unk_2].flags];
+            D_801F4E68 = D_801F41D0[PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][unk_2].param];
             D_801CEEA8 = true;
             break;
         case 3:
-            D_801E4B78 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][unk_2].flags;
+            D_801E4B78 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][unk_2].param;
             break;
         }
     } while (

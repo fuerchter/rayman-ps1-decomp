@@ -43,7 +43,7 @@ PS1_Mark_access_num = 0x801D7A70;
 PS1_Mark_seq_num = 0x801E4BD0;
 PS1_Mark_data = 0x801F8198;
 PS1_Mark_counter = 0x801CEEAA;
-PS1_LevelMusic_Track = 0x801F84B0;
+PS1_LevelMusic_CmdInd = 0x801F84B0;
 PS1_Music_Vol = 0x801c4ab8;
 
 D_801C438C = 0x801C438C;

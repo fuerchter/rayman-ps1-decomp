@@ -163,22 +163,22 @@ void PS1_PlayMusic(void)
 
     D_801FA570 = false;
     done = false;
-    if (++PS1_LevelMusic_Track == 4) /* TODO: what should i take LEN() of? */
-        PS1_LevelMusic_Track = 0;
+    if (++PS1_LevelMusic_CmdInd == 4) /* TODO: what should i take LEN() of? */
+        PS1_LevelMusic_CmdInd = 0;
     
     while (!done)
     {
         mode = &PS1_CdMode;
-        D_801F9940 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].cmd & 0xF;
-        PS1_Music_will_anticip = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].cmd & 0x10;
-        PS1_Music_fadeout = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].cmd & 0x80;
-        D_801F7ED0 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].cmd & 0x20;
+        D_801F9940 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].cmd_and_flags & 0xF;
+        PS1_Music_will_anticip = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].cmd_and_flags & 0x10;
+        PS1_Music_fadeout = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].cmd_and_flags & 0x80;
+        D_801F7ED0 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].cmd_and_flags & 0x20;
         switch (D_801F9940)
         {
         case 1:
             D_801CEEBC = false;
             *mode = CdlModeRept | CdlModeAP | CdlModeDA;
-            PS1_CurTrack = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].flags;
+            PS1_CurTrack = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].param;
             if (PS1_TracksExist[PS1_CurTrack])
             {
                 PS1_Music_pcom = CdlSetmode;
@@ -209,7 +209,7 @@ void PS1_PlayMusic(void)
                     CdControl(PS1_Music_pcom, null, null);
                 }
 
-                if (PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].cmd & 0x40)
+                if (PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].cmd_and_flags & 0x40)
                     FUN_80131e5c();
                 else
                 {
@@ -225,11 +225,11 @@ void PS1_PlayMusic(void)
             }
             break;
         case 2:
-            D_801F4FA0 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].flags;
+            D_801F4FA0 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].param;
             D_801CEEA6 = true;
             SsSeqPlay(PS1_Music_access_num, SSPLAY_PLAY, 1);
             PS1_Mark_Callback_Enable();
-            if (PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].cmd & 0x40)
+            if (PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].cmd_and_flags & 0x40)
             {
                 SsSeqSetVol(PS1_Music_access_num, 0, 0);
                 SsSeqSetCrescendo(PS1_Music_access_num, 127, 240);
@@ -238,7 +238,7 @@ void PS1_PlayMusic(void)
             done = true;
             break;
         case 3:
-            PS1_LevelMusic_Track = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_Track].flags;
+            PS1_LevelMusic_CmdInd = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].param;
             break;
         case 0:
             done = true;
