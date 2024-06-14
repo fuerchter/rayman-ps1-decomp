@@ -69,11 +69,11 @@ typedef struct MusicCommand
 extern MusicCommand PS1_LevelMusicTable[7][22][4];
 
 extern u8 PS1_Music_Vol[112];
+extern s16 D_801F7C80; /* also volume related */
 extern s32 D_801C4B28[4];
 extern s16 D_801CEEA4;
 extern CdlLOC D_801E4EF8;
 extern s32 D_801F4FA0;
-extern s16 D_801F7C80;
 extern s16 D_801FA570;
 extern s16 D_801C4948[92];
 extern s16 D_801C4A00[92];
@@ -601,15 +601,53 @@ void PS1_Music_Apply_Fade(void)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_8013202c);
+/* D82C 8013202C -O2 -msoft-float */
+void FUN_8013202c(void)
+{
+    D_801E64B0 = true;
+    PS1_LevelMusic_CmdInd = 1;
+    PS1_PlayMusic();
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", change_audio_track_moskito_acc);
+/* D860 80132060 -O2 -msoft-float */
+void change_audio_track_moskito_acc(void)
+{
+    if (PS1_Music_Ready_data > 0)
+    {
+        PS1_LevelMusic_CmdInd = 1;
+        PS1_PlayMusic();
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", change_audio_track_moskito_dec);
+/* D898 80132098 -O2 -msoft-float */
+void change_audio_track_moskito_dec(void)
+{
+    if (PS1_Music_Ready_data > 0)
+    {
+        PS1_LevelMusic_CmdInd = -1;
+        PS1_PlayMusic();
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/music", change_audio_track_puit);
+/*INCLUDE_ASM("asm/nonmatchings/music", change_audio_track_puit);*/
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80132110);
+void change_audio_track_puit(void)
+{
+    if (PS1_Music_Ready_data > 0)
+    {
+        PS1_ScrollLockedAudio = true;
+        PS1_LevelMusic_CmdInd = 1;
+        PS1_PlayMusic();
+    }
+}
+
+/* D910 80132110 -O2 -msoft-float */
+void FUN_80132110(void)
+{
+    D_801F5248 = true;
+    FUN_80131e40();
+    PS1_PlaySnd(21, 0);
+}
 
 void FUN_80132148(void) {}
 
@@ -619,8 +657,26 @@ void FUN_80132158(void) {}
 
 void FUN_80132160(void) {}
 
+#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap*/
 INCLUDE_ASM("asm/nonmatchings/music", PS1_SetMusicVolume);
+#else
+void PS1_SetMusicVolume(s16 param_1)
+{
+    D_801F7C80 = param_1 * 127 / 20;
+    PS1_SsSetSerialVolA(PS1_Music_Vol[PS1_CurTrack] * D_801F7C80 >> 7);
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_801321fc);
+    __asm__("nop");
+}
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80132244);
+/* D9FC 801321FC -O2 -msoft-float */
+void FUN_801321fc(void)
+{
+    FntPrint(s_2d_markddd_80125d58, PS1_Mark_counter, PS1_Mark_access_num, PS1_Mark_seq_num, PS1_Mark_data);
+}
+
+/* DA44 80132244 -O2 -msoft-float */
+void FUN_80132244(void)
+{
+    exit();
+}

@@ -5,6 +5,8 @@
 #include "psyq_3_0/LIBCD.H"
 #include "psyq_3_0/LIBSND.H"
 #include "psyq_3_0/LIBGPU.H"
+#include "psyq_3_0_missing/LIBGPU.H"
+#include "psyq_3_0_missing/STDLIB.H"
 #include "sound.h"
 #include "loading_794DC.h"
 
