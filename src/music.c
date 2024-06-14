@@ -360,7 +360,18 @@ s32 FUN_80130d00(s32 param_1, s32 param_2)
 
 INCLUDE_ASM("asm/nonmatchings/music", PS1_InitTracks);
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80131474);
+/* CC74 80131474 -O2 -msoft-float */
+u8 FUN_80131474(s16 *param_1, s16 param_2, s16 param_3)
+{
+    do
+    {
+        if (*param_1 == param_3)
+            break;
+        param_3++;
+    } while (param_3 < param_2);
+
+    return param_3 != param_2;
+}
 
 INCLUDE_ASM("asm/nonmatchings/music", FUN_801314c4);
 
