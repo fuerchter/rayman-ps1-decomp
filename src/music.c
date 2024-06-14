@@ -54,6 +54,12 @@ extern s32 D_801F7AA8; /* type? */
 extern s32 D_801F7D88[54];
 extern s32 PS1_TrackSizes[54];
 extern s16 PS1_TracksExist[54];
+extern u8 PS1_LevelMusicTable[1232];
+extern s16 D_801CEEB8;
+extern s16 D_801CEEBA;
+extern s16 D_801E4B78;
+extern s16 D_801FAA50;
+extern s16 D_801F7A90[4];
 
 /* no StopPAD or StopCallback in psyq 3.0 headers... */
 void StopPAD(void);
@@ -361,7 +367,7 @@ s32 FUN_80130d00(s32 param_1, s32 param_2)
 INCLUDE_ASM("asm/nonmatchings/music", PS1_InitTracks);
 
 /* CC74 80131474 -O2 -msoft-float */
-u8 FUN_80131474(s16 *param_1, s16 param_2, s16 param_3)
+s16 FUN_80131474(s16 *param_1, s16 param_2, s16 param_3)
 {
     do
     {
@@ -373,7 +379,51 @@ u8 FUN_80131474(s16 *param_1, s16 param_2, s16 param_3)
     return param_3 != param_2;
 }
 
+/* kinda unreadable still due to unknowns, the shift in table_ind calc */
+/* CCC4 801314C4 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/music", FUN_801314c4);
+#else
+void FUN_801314c4(void)
+{
+    s16 unk_1;
+    u16 unk_2;
+    s32 table_ind;
+
+    D_801CEEA8 = false;
+    D_801E4B78 = D_801F84B0 + 1;
+    do
+    {
+        unk_1 = D_801CEEB8;
+        D_801CEEB8++;
+        unk_2 = D_801E4B78;
+        table_ind =
+            (unk_2 << 0x10 >> 0xF) +
+            (PS1_LevelMusic_Level * 8) +
+            (PS1_LevelMusic_World * 176);
+        
+        D_801F7A90[unk_1] = unk_2;
+        D_801FAA50 = PS1_LevelMusicTable[table_ind] & 0xF;
+        switch (D_801FAA50)
+        {
+        case 1:
+            D_801CEEBA = true;
+            D_801F4E68 = D_801F41D0[PS1_LevelMusicTable[table_ind + 1]];
+            D_801CEEA8 = true;
+            break;
+        case 3:
+            D_801E4B78 = PS1_LevelMusicTable[table_ind + 1];
+            break;
+        }
+    } while (
+        !D_801CEEA8 &&
+        (D_801CEEB8 < (s16) LEN(D_801F7A90)) &&
+        !FUN_80131474(&D_801F7A90, D_801CEEB8, D_801E4B78)
+    );
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/music", PS1_PlayMusic);
 

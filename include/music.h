@@ -34,7 +34,7 @@ s32 FUN_80130bc4(CdlLOC loc);
 s32 FUN_80130c58(s32 param_1);
 s32 FUN_80130d00(s32 param_1, s32 param_2);
 void PS1_InitTracks(void);
-u8 FUN_80131474(s16 *param_1, s16 param_2, s16 param_3);
+s16 FUN_80131474(s16 *param_1, s16 param_2, s16 param_3);
 void FUN_801314c4(void);
 void PS1_PlayMusic(void);
 void playLevelMusic(s16 world, s16 level);
