@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "psyq_3_0/LIBGPU.H"
+#include "psyq_3_0/MEMORY.H"
 #include "common/display.h"
 #include "common/obj.h"
 #include "loading_794DC.h"
