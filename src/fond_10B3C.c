@@ -48,7 +48,7 @@ INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80135d5c);
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_8013613c);
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80136340);
+INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80136340); /* NEXT */
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_801366ac);
 

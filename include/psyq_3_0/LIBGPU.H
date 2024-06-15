@@ -101,6 +101,7 @@ DRAWENV *PutDrawEnv(DRAWENV *env);
 int ClearImage(RECT *rect, u_char r, u_char g, u_char b);
 int DrawSync(int mode);
 int LoadImage(RECT *rect, u_long *p);
+int MoveImage(RECT *rect, int x, int y);
 int ResetGraph(int mode);
 u_long *ClearOTag(u_long *ot, int n);
 u_short GetTPage(int tp, int abr, int x, int y) ;
