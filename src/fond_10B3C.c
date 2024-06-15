@@ -34,6 +34,7 @@ extern s16 PS1_FondHeight;
 extern void *PS1_FondImages[6];
 extern s16 PS1_FondImagesCount;
 extern s16 PS1_FondWidth;
+extern u8 D_801E4BC8;
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_LoadFondSprites);
 
