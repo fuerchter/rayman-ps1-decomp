@@ -55,7 +55,7 @@ INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_801366ac);
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_DisplayFondSprites);
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80137998);
+INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80137998); /* NEXT */
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_GetTileV);
 

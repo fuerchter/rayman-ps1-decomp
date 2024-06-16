@@ -85,7 +85,10 @@ void PS1_LoadFondSprites(void)
   return;
 }
 
-/* https://github.com/BinarySerializer/BinarySerializer.Ray1/blob/7da0e97301dd6502d027ff3c92ec2b5a00ef6e6e/src/BinarySerializer.Ray1/DataTypes/PS1/Vignette/FondSpriteData.cs */
+/*
+close?
+https://github.com/BinarySerializer/BinarySerializer.Ray1/blob/7da0e97301dd6502d027ff3c92ec2b5a00ef6e6e/src/BinarySerializer.Ray1/DataTypes/PS1/Vignette/FondSpriteData.cs
+*/
 /*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_LoadFondDataAndPalettes);*/
 
 void PS1_LoadFondDataAndPalettes(void)
@@ -186,6 +189,7 @@ void PS1_LoadFondDataAndPalettes(void)
     }
 }
 
+/* close */
 /*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_LoadFond);*/
 
 typedef struct Fond
@@ -259,7 +263,7 @@ void PS1_LoadFond(void)
 
 /*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80135ab0);*/
 
-void FUN_80135ab0(s16 param_1, s32 param_2)
+void FUN_80135ab0(s16 param_1, s16 *param_2)
 {
     s32 sp18;
     BackgroundPosition *var_s5;
@@ -333,7 +337,7 @@ void FUN_80135ab0(s16 param_1, s32 param_2)
 
 /*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80135d5c);*/
 
-void FUN_80135d5c(s32 param_1, s32 param_2, s32 param_3, s16 param_4)
+void FUN_80135d5c(s32 param_1, s16 *param_2, s32 param_3, s16 param_4)
 {
   short sVar1_1;
   Display *pDVar2;
@@ -440,6 +444,7 @@ void FUN_80135d5c(s32 param_1, s32 param_2, s32 param_3, s16 param_4)
   return;
 }
 
+/* close */
 /*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_8013613c);*/
 
 void FUN_8013613c(u8 param_1, u32 param_2, u8 param_3, u32 param_4)
@@ -878,4 +883,128 @@ block_95:
     {
         xmap = sp30;
     }
+}
+
+/*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_DisplayFondSprites);*/
+
+void PS1_DisplayFondSprites(void)
+
+{
+  u8 bVar1_1;
+  short sVar2;
+  s16 *puVar3;
+  int iVar4;
+  uint uVar5;
+  short *psVar6;
+  uint uVar7;
+  short *psVar8;
+  s16 *puVar9;
+  u8 bVar10;
+  s16 *puVar11;
+  short *psVar12;
+  u8 *pbVar13;
+  s16 uVar14;
+  short sVar15;
+  int iVar16;
+  s16 local_58 [12];
+  short local_40;
+  short local_3e [11];
+  
+  psVar12 = (short *)&D_801F8008;
+  puVar3 = (s16 *)((int)local_58 - (PS1_FondImagesCount * 2 + 0xeU & 0xfffffff8));
+  if (PS1_FondType == 6) {
+    D_801E4BC8 = 0;
+    sVar15 = PS1_FondHeight - 0xf0;
+    if ((int)(PS1_FondHeight << 0x10) >> 0x12 <= ymapmax) {
+      sVar15 = ((ymap * (((PS1_FondHeight << 0x10) >> 0x10) + -0xf0)) / ymapmax);
+    }
+    uVar5 = D_801F800A;
+    if (uVar5 < 0xff) {
+      local_40 = ((D_801F55B8 + xmap) / (int)uVar5);
+      D_801F55B8 = ((D_801F55B8 + D_801F5788) % (PS1_FondWidth * D_801F800A));
+    }
+    else {
+      local_40 = 0;
+    }
+    uVar5 = D_801F8008;
+    iVar4 = sVar15;
+    psVar8 = local_3e;
+    bVar10 = 1;
+    FUN_8013613c(uVar5 - iVar4,iVar4,0,local_40);
+    if (1 < PS1_BandeBackCount) {
+      pbVar13 = &(&D_801F8008)[4]; /* had extra .unk2 */
+      do {
+        psVar12 = psVar12 + 2;
+        uVar7 = *pbVar13;
+        if (uVar7 < 0xff) {
+          psVar6 = &D_801F55B8 + bVar10;
+          *psVar8 = ((xmap + *psVar6) / (int)uVar7);
+          *psVar6 = ((int)(*psVar6 + (&D_801F5788)[bVar10]) % (PS1_FondWidth * *pbVar13));
+        }
+        else {
+          *psVar8 = 0;
+        }
+        bVar1_1 = *(u8 *)psVar12;
+        pbVar13 = pbVar13 + 4;
+        FUN_8013613c(bVar1_1,(short)uVar5,(short)uVar5 - iVar4,*psVar8);
+                psVar8 = psVar8 + 1;
+        bVar10 = bVar10 + 1;
+        uVar5 = bVar1_1 + uVar5;
+      } while (bVar10 < PS1_BandeBackCount);
+    }
+    psVar12 = &D_801F55B8 + bVar10;
+    *psVar8 = (xmap + *psVar12) * D_801E63FA;
+    iVar16 = ymapmax;
+    *psVar12 = ((int)(*psVar12 + (&D_801F5788)[bVar10]) % PS1_FondWidth);
+    FUN_80135d5c(sVar15,&local_40,(sVar15 - iVar16) + ymap,*(s16 *)&D_801E63F8);
+  }
+  else {
+    bVar10 = 0;
+    if ((PS1_FondType == 7) || (PS1_FondType == 0xc)) {
+      D_801E4BC8 = 0;
+      puVar11 = local_58;
+      puVar9 = puVar3;
+      if (PS1_BandeBackCount != 0) {
+        do {
+          uVar5 = *(u8 *)(psVar12 + 1);
+          iVar4 = ymap / (int)uVar5;
+          uVar14 = (s16)((iVar4) % PS1_FondHeight);
+          *puVar11 = uVar14;
+          uVar5 = 0;
+          puVar11 = puVar11 + 1;
+          if (0 < *psVar12) {
+            do {
+              *puVar9 = uVar14;
+              uVar5 = uVar5 + 1;
+              puVar9 = puVar9 + 1;
+            } while ((int)(uVar5 & 0xff) < *psVar12);
+          }
+          bVar10 = bVar10 + 1;
+          psVar12 = psVar12 + 2;
+        } while (bVar10 < PS1_BandeBackCount);
+      }
+      if (PS1_FondType == 7) {
+        FUN_80136340(puVar3,(int)((ushort)xmap << 0x10) >> 0x13);
+      }
+      else {
+        CLRSCR();
+      }
+      if (PS1_BandeFrontCount != '\0') {
+        *puVar11 = ((int)(ymap * D_801E63FA) % PS1_FondHeight);
+      }
+      if (PS1_FondType == 7) {
+        FUN_80135ab0((int)((ushort)xmap << 0x10) >> 0x13,local_58);
+      }
+      else {
+        FUN_80137cc8((int)((ushort)xmap << 0x10) >> 0x13,local_58);
+      }
+    }
+    else {
+      if (((PS1_FondType == 8) || (PS1_FondType == 0xb)) || (PS1_FondType == 9 || PS1_FondType == 10)) {
+        D_801E4BC8 = 0;
+      }
+      FUN_801366ac();
+    }
+  }
+  return;
 }
