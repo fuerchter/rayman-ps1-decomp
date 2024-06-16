@@ -17,9 +17,9 @@ void FUN_8013613c(u8 param_1, u32 param_2, u8 param_3, u32 param_4);
 void FUN_80136340(s16 *param_1, u32 param_2); /* param_1 is pointer? see PS1_DisplayFondSprites */
 void FUN_801366ac(void);
 void PS1_DisplayFondSprites(void);
-u32 FUN_80137998(u8 param_1, u32 param_2, u32 param_3);
-u32 PS1_GetTileV(u8 param_1, u32 param_2, u32 tile);
-s32 PS1_GetTileU(u32 param_1);
+u8 FUN_80137998(u8 param_1, u8 param_2, s32 param_3);
+u8 PS1_GetTileV(u8 param_1, u8 param_2, s32 tile);
+u8 PS1_GetTileU(s32 param_1);
 void DRAW_MAP(void);
 void FUN_80137cc8(s32 param_1, s16 *param_2); /* param_2 is pointer? see PS1_DisplayFondSprites */
 void allume_vitraux(u8 (*param_1) [5]);
