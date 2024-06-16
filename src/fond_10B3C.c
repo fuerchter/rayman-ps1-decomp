@@ -31,10 +31,11 @@ extern u8 *D_801F8180; /* pointer to something for sure, sometimes set to 801f43
 extern u8 D_801F84E0;
 extern u8 D_801F9900;
 extern s16 PS1_FondHeight;
-extern void *PS1_FondImages[6];
+extern void *PS1_FondImages[6]; /* 0th five bits: r, 1st five bits: g, 2nd five bits b (see 8013726c) */
 extern s16 PS1_FondImagesCount;
 extern s16 PS1_FondWidth;
 extern u8 D_801E4BC8;
+extern u8 PS1_CurrentVitrailClignotement[5];
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_LoadFondSprites);
 
@@ -48,7 +49,7 @@ INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80135d5c);
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_8013613c);
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80136340); /* NEXT */
+INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80136340);
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_801366ac);
 
