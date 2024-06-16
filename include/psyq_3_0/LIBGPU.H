@@ -104,6 +104,7 @@ int LoadImage(RECT *rect, u_long *p);
 int MoveImage(RECT *rect, int x, int y);
 int ResetGraph(int mode);
 u_long *ClearOTag(u_long *ot, int n);
+u_short GetClut(int x, int y) ;
 u_short GetTPage(int tp, int abr, int x, int y) ;
 u_short LoadClut(u_long *clut, int x, int y);
 void AddPrim(void *ot, void *p) ;

@@ -36,6 +36,9 @@ extern s16 PS1_FondImagesCount;
 extern s16 PS1_FondWidth;
 extern u8 D_801E4BC8;
 extern u8 PS1_CurrentVitrailClignotement[5];
+extern u8 D_801F4A40[944]; /* see also loading_DA64.c */
+extern u16 D_801F5440;
+extern u16 D_801F55D8;
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_LoadFondSprites);
 

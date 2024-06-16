@@ -1008,3 +1008,67 @@ void PS1_DisplayFondSprites(void)
   }
   return;
 }
+
+/* close */
+/*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", DRAW_MAP);*/
+
+void DRAW_MAP(void)
+
+{
+  u32 uVar1;
+  u32 uVar2;
+  u_short uVar3;
+  int iVar4;
+  int y_pos;
+  u32 puVar5;
+  int tile_index;
+  uint uVar6;
+  SPRT_8 *puVar7;
+  int x_pos;
+  SPRT_8 *p;
+  SPRT_8 *pSVar7;
+  int iVar8;
+  s16 test_1;
+  u8 **new_var;
+  int new_var2;
+  s32 test_2;
+  
+  iVar4 = -(((((u16) xmap << 0x10) >> 0x10) + ((((u16) xmap << 0x10) >> 0x10) / 16) * -0x10) << 0x10 >> 0x10);
+  y_pos = -(new_var2 = ((((((ushort) ymap) << 0x10) >> 0x10) + ((((((ushort) ymap) << 0x10) >> 0x10) / 16) * (-0x10))) << 0x10) >> 0x10);
+  iVar8 = (((ushort)ymap << 0x10) >> 0x14) * mp.width;
+  test_2 = ((u16) xmap << 0x10) >> 0x14;
+  pSVar7 = PS1_CurrentDisplay->tiles;
+    while (y_pos < (PS1_CurrentDisplay->drawing_environment).clip.h) {
+      tile_index = test_2 + iVar8;
+      x_pos = iVar4;
+        while (x_pos < 0x140) {
+          puVar5 = mp.map[tile_index] & 0x3ff;
+          tile_index = tile_index + 1;
+          if ((puVar5 != 0) && (D_801F4A40[puVar5] != 0xff)) {
+            pSVar7->clut = GetClut(0x300,D_801F4A40[puVar5] + 504);
+            pSVar7->x0 = x_pos;
+            pSVar7->y0 = y_pos;
+            uVar1 = PS1_GetTileU(puVar5);
+            uVar2 = PS1_GetTileV(D_801F5440,D_801F55D8,puVar5);
+            test_1 = FUN_80137998(D_801F5440,D_801F55D8,puVar5);
+            pSVar7->u0 = uVar1;
+            pSVar7->v0 = uVar2;
+            /*new_var = PS1_CurrentDisplay->ordering_table;*/
+            AddPrim(PS1_CurrentDisplay->ordering_table + (test_1 - 6),pSVar7);
+            pSVar7 = pSVar7 + 1;
+          }
+          x_pos = x_pos + 0x10;
+        }
+      y_pos = y_pos + 0x10;
+      iVar8 = iVar8 + mp.width;
+    }
+  AddPrim(PS1_CurrentDisplay->ordering_table + 2,
+          PS1_CurrentDisplay->map_drawing_environment_primitives);
+  AddPrim(PS1_CurrentDisplay->ordering_table + 3,
+          PS1_CurrentDisplay->map_drawing_environment_primitives + 1);
+  AddPrim(PS1_CurrentDisplay->ordering_table + 4,
+          PS1_CurrentDisplay->map_drawing_environment_primitives + 2);
+  AddPrim(PS1_CurrentDisplay->ordering_table + 5,
+          PS1_CurrentDisplay->map_drawing_environment_primitives + 3);
+  return;
+}
