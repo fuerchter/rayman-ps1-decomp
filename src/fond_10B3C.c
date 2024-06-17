@@ -61,7 +61,7 @@ INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_DisplayFondSprites);
 /* 13198 80137998 -O2 -msoft-float */
 u8 FUN_80137998(u8 param_1, u8 param_2, s32 param_3)
 {
-    s16 unk_1 = ((param_1 + 0xFFF8) << 8) + param_2 + (param_3 & ~0xF);
+    s16 unk_1 = ((param_1 - 8) << 8) + param_2 + (param_3 & ~0xF);
 
     if (param_1 < 10 && unk_1 >= 480)
         unk_1 += 32;
@@ -71,7 +71,7 @@ u8 FUN_80137998(u8 param_1, u8 param_2, s32 param_3)
 /* 131F8 801379F8 -O2 -msoft-float */
 u8 PS1_GetTileV(u8 param_1, u8 param_2, s32 tile)
 {
-    s16 unk_1 = ((param_1 + 0xFFF8) << 8) + param_2 + (tile & ~0xF);
+    s16 unk_1 = ((param_1 - 8) << 8) + param_2 + (tile & ~0xF);
 
     if (param_1 < 10 && unk_1 >= 480)
         unk_1 += 32;
@@ -81,7 +81,7 @@ u8 PS1_GetTileV(u8 param_1, u8 param_2, s32 tile)
 /* 1324C 80137A4C -O2 -msoft-float */
 u8 PS1_GetTileU(s32 param_1)
 {
-    return (param_1 & 0xF) * 0x10;
+    return (param_1 & 0xF) * 16;
 }
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", DRAW_MAP);
