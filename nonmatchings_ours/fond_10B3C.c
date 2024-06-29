@@ -1072,3 +1072,277 @@ void DRAW_MAP(void)
           PS1_CurrentDisplay->map_drawing_environment_primitives + 3);
   return;
 }
+
+/* completely off and don't feel like working on this rn */
+/*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80137cc8);*/
+
+extern u8 D_80127734[56];
+extern u8 D_8012776C[56];
+extern u8 D_801277A4[56];
+
+void FUN_80137cc8(s32 param_1, s16 *param_2)
+{
+  u8 bVar1;
+  u_char uVar2;
+  u_char uVar3;
+  u_char uVar4;
+  short sVar5;
+  u_char uVar6;
+  u_char uVar7;
+  u_short uVar8;
+  Display *pDVar9;
+  Sprite *pSVar10;
+  POLY_FT4 *pPVar11;
+  POLY_FT4 *pPVar12;
+  u_char uVar13;
+  int iVar14;
+  s32 uVar15;
+  s32 uVar16;
+  uint uVar17;
+  s32 uVar18;
+  uint uVar19;
+  short sVar20;
+  u8 *pbVar21;
+  POLY_FT4 *pPVar22;
+  s32 *puVar23;
+  POLY_FT4 *pPVar24;
+  POLY_FT4 *psVar25;
+  POLY_FT4 *psVar43;
+  short sVar26;
+  POLY_FT4 *p;
+  POLY_FT4 *p_00;
+  int iVar27;
+  u8 bVar28;
+  int iVar29;
+  uint uVar30;
+  s32 local_d8 [5];
+  u8 local_c4 [36];
+  s32 local_a0 [5];
+  u8 local_8c [36];
+  s32 local_68 [5];
+  u8 local_54 [36];
+  short *local_30;
+  
+  local_30 = param_2;
+  puVar23 = local_d8;
+  pbVar21 = D_80127734;
+  if (true) {
+    __builtin_memcpy(puVar23, pbVar21, 53);
+    /*do {
+      uVar15 = *(s32 *)((int)pbVar21 + 4);
+      uVar16 = *(s32 *)((int)pbVar21 + 8);
+      uVar18 = *(s32 *)((int)pbVar21 + 0xc);
+      *puVar23 = *(s32 *)pbVar21;
+      puVar23[1] = uVar15;
+      puVar23[2] = uVar16;
+      puVar23[3] = uVar18;
+      pbVar21 = (u8 *)((int)pbVar21 + 0x10);
+      puVar23 = puVar23 + 4;
+    } while (pbVar21 != D_80127734 + 0x30);*/
+  }
+  else {
+    /*do {
+      uVar15 = *(s32 *)((int)pbVar21 + 4);
+      uVar16 = *(s32 *)((int)pbVar21 + 8);
+      uVar18 = *(s32 *)((int)pbVar21 + 0xc);
+      *puVar23 = *(s32 *)pbVar21;
+      puVar23[1] = uVar15;
+      puVar23[2] = uVar16;
+      puVar23[3] = uVar18;
+      pbVar21 = (u8 *)((int)pbVar21 + 0x10);
+      puVar23 = puVar23 + 4;
+    } while (pbVar21 != D_80127734 + 0x30);
+    pbVar21 = D_80127734 + 48;*/
+  }
+  puVar23 = local_a0;
+  pbVar21 = D_8012776C;
+  if (true) {
+    __builtin_memcpy(puVar23, pbVar21, 53);
+    /*do {
+      uVar15 = *(s32 *)((int)pbVar21 + 4);
+      uVar16 = *(s32 *)((int)pbVar21 + 8);
+      uVar18 = *(s32 *)((int)pbVar21 + 0xc);
+      *puVar23 = *(s32 *)pbVar21;
+      puVar23[1] = uVar15;
+      puVar23[2] = uVar16;
+      puVar23[3] = uVar18;
+      pbVar21 = (u8 *)((int)pbVar21 + 0x10);
+      puVar23 = puVar23 + 4;
+    } while (pbVar21 != D_8012776C + 0x30);*/
+  }
+  else {
+    /*do {
+      uVar15 = *(s32 *)((int)pbVar21 + 4);
+      uVar16 = *(s32 *)((int)pbVar21 + 8);
+      uVar18 = *(s32 *)((int)pbVar21 + 0xc);
+      *puVar23 = *(s32 *)pbVar21;
+      puVar23[1] = uVar15;
+      puVar23[2] = uVar16;
+      puVar23[3] = uVar18;
+      pbVar21 = (u8 *)((int)pbVar21 + 0x10);
+      puVar23 = puVar23 + 4;
+    } while (pbVar21 != D_8012776C + 0x30);
+    pbVar21 = D_8012776C + 0x30;*/
+  }
+  puVar23 = local_68;
+  pbVar21 = D_801277A4;
+  if (true) {
+    __builtin_memcpy(puVar23, pbVar21, 53);
+    /*do {
+      uVar15 = *(s32 *)((int)pbVar21 + 4);
+      uVar16 = *(s32 *)((int)pbVar21 + 8);
+      uVar18 = *(s32 *)((int)pbVar21 + 0xc);
+      *puVar23 = *(s32 *)pbVar21;
+      puVar23[1] = uVar15;
+      puVar23[2] = uVar16;
+      puVar23[3] = uVar18;
+      pbVar21 = (u8 *)((int)pbVar21 + 0x10);
+      puVar23 = puVar23 + 4;
+    } while (pbVar21 != D_801277A4 + 0x30);*/
+  }
+  else {
+    /*do {
+      uVar15 = *(s32 *)((int)pbVar21 + 4);
+      uVar16 = *(s32 *)((int)pbVar21 + 8);
+      uVar18 = *(s32 *)((int)pbVar21 + 0xc);
+      *puVar23 = *(s32 *)pbVar21;
+      puVar23[1] = uVar15;
+      puVar23[2] = uVar16;
+      puVar23[3] = uVar18;
+      pbVar21 = (u8 *)((int)pbVar21 + 0x10);
+      puVar23 = puVar23 + 4;
+    } while (pbVar21 != D_801277A4 + 0x30);
+    pbVar21 = D_801277A4 + 0x30;*/
+  }
+  iVar27 = 0x18;
+  iVar29 = 0;
+  bVar28 = 0;
+  p_00 = PS1_CurrentDisplay->polygons + PS1_PolygonsCount;
+  psVar43 = p_00;
+  uVar19 = 0;
+  do {
+    pSVar10 = PS1_BackgroundSprites;
+    uVar17 = (uint)*(u8 *)((int)local_d8 + uVar19);
+    if (uVar17 < 10) {
+      uVar30 = (uint)(ushort)local_30[PS1_BackgroundSprites[uVar17].id - 1];
+      iVar14 = (int)PS1_FondHeight;
+      sVar20 = (short)iVar29 - (short)((int)uVar30 % iVar14);
+      iVar14 = (s16) (iVar27 - param_1);
+      psVar25 = psVar43;
+      p = p_00;
+      if ((iVar14 < (int)(PS1_BackgroundSprites[uVar17].width + 0x140)) &&
+         ((int)-(uint)PS1_BackgroundSprites[uVar17].width < iVar14)) {
+        if (*(char *)((int)local_a0 + uVar19) == '\0') {
+          psVar43->u0 = PS1_BackgroundSprites[uVar17].page_x;
+          psVar43->v0 = pSVar10[uVar17].page_y;
+          psVar43->u1 = pSVar10[uVar17].page_x + pSVar10[uVar17].width;
+          psVar43->v1 = pSVar10[uVar17].page_y;
+          psVar43->u2 = pSVar10[uVar17].page_x;
+          psVar43->v2 = pSVar10[uVar17].page_y + pSVar10[uVar17].height;
+          uVar13 = pSVar10[uVar17].page_x + pSVar10[uVar17].width;
+        }
+        else {
+          psVar43->u0 =
+               PS1_BackgroundSprites[uVar17].page_x + PS1_BackgroundSprites[uVar17].width + 0xff;
+          psVar43->v0 = pSVar10[uVar17].page_y;
+          psVar43->u1 = pSVar10[uVar17].page_x - 1;
+          psVar43->v1 = pSVar10[uVar17].page_y;
+          psVar43->u2 = pSVar10[uVar17].page_x + pSVar10[uVar17].width + 0xff;
+          psVar43->v2 = pSVar10[uVar17].page_y + pSVar10[uVar17].height;
+          uVar13 = pSVar10[uVar17].page_x - 1;
+        }
+        psVar43->u3 = uVar13;
+        psVar43->v3 = pSVar10[uVar17].page_y + pSVar10[uVar17].height;
+        sVar26 = (short)(iVar27 - param_1);
+        psVar43->x0 = sVar26;
+        psVar43->y0 = sVar20;
+        bVar1 = pSVar10[uVar17].width;
+        psVar43->y1 = sVar20;
+        psVar43->x2 = sVar26;
+        psVar43->x1 = sVar26 + (ushort)bVar1;
+        psVar43->y2 = sVar20 + (ushort)pSVar10[uVar17].height;
+        psVar43->x3 = sVar26 + (ushort)pSVar10[uVar17].width;
+        pDVar9 = PS1_CurrentDisplay;
+        psVar43->y3 = sVar20 + (ushort)pSVar10[uVar17].height;
+        psVar43->clut = pSVar10[uVar17].clut;
+        p = p_00 + 1;
+        psVar43->tpage = pSVar10[uVar17].tpage;
+        AddPrim(pDVar9->ordering_table,p_00);
+        PS1_PolygonsCount = PS1_PolygonsCount + 1;
+        psVar25 = psVar43 + 1;
+        if ((int)PS1_FondHeight < (int)(uVar30 + 0xf0)) {
+          pPVar11 = p_00;
+          pPVar12 = p;
+          __builtin_memcpy(pPVar12, pPVar11, sizeof(POLY_FT4));
+          /*do {
+            pPVar24 = pPVar12;
+            pPVar22 = pPVar11;
+            uVar13 = pPVar22->r0;
+            uVar2 = pPVar22->g0;
+            uVar3 = pPVar22->b0;
+            uVar4 = pPVar22->code;
+            sVar20 = pPVar22->x0;
+            sVar5 = pPVar22->y0;
+            uVar6 = pPVar22->u0;
+            uVar7 = pPVar22->v0;
+            uVar8 = pPVar22->clut;
+            pPVar24->tag = pPVar22->tag;
+            pPVar24->r0 = uVar13;
+            pPVar24->g0 = uVar2;
+            pPVar24->b0 = uVar3;
+            pPVar24->code = uVar4;
+            pPVar24->x0 = sVar20;
+            pPVar24->y0 = sVar5;
+            pPVar24->u0 = uVar6;
+            pPVar24->v0 = uVar7;
+            pPVar24->clut = uVar8;
+            pPVar11 = (POLY_FT4 *)&pPVar22->x1;
+            pPVar12 = (POLY_FT4 *)&pPVar24->x1;
+          } while (&pPVar22->x1 != &p_00->x3);*/
+          /*sVar20 = pPVar22->y1;
+          uVar13 = pPVar22->u1;
+          uVar2 = pPVar22->v1;
+          uVar8 = pPVar22->tpage;
+          pPVar24->x1 = pPVar22->x1;
+          pPVar24->y1 = sVar20;
+          pPVar24->u1 = uVar13;
+          pPVar24->v1 = uVar2;
+          pPVar24->tpage = uVar8;*/
+          sVar20 = PS1_FondHeight;
+          psVar43->x0 = sVar26;
+          psVar43->y0 = psVar43->y0 + sVar20;
+          bVar1 = pSVar10[uVar17].width;
+          psVar43->u1 = sVar26;
+          psVar43->x1 = psVar43->y0 + sVar20;
+          psVar43->y1 = sVar26 + (ushort)bVar1;
+          psVar43->v1 = (ushort)pSVar10[uVar17].height + psVar43->y0 + sVar20;
+          pDVar9 = PS1_CurrentDisplay;
+          psVar43->y2 = sVar26 + (ushort)pSVar10[uVar17].width;
+          psVar25->y3 = (ushort)pSVar10[uVar17].height + psVar43->y0 + sVar20;
+          AddPrim(pDVar9->ordering_table,p);
+          p = p_00 + 2;
+          psVar25 = psVar43 + 0x28;
+          PS1_PolygonsCount = PS1_PolygonsCount + 1;
+        }
+      }
+      if ((*(char *)((int)local_68 + (uint)bVar28) != '\0') &&
+         (iVar27 = iVar27 + (uint)pSVar10[uVar17].width, *(u8 *)((int)local_d8 + (uint)bVar28) < 3
+         )) {
+        iVar27 = iVar27 + -2;
+      }
+      iVar29 = iVar29 + (uint)pSVar10[uVar17].height;
+      psVar43 = psVar25;
+      p_00 = p;
+      if ((s16) iVar29 == (int)PS1_FondHeight) {
+        iVar29 = 0;
+      }
+    }
+    else {
+      iVar29 = 0;
+      iVar27 = (uint)*(u8 *)((int)local_d8 + uVar19) + iVar27;
+    }
+    bVar28 = bVar28 + 1;
+    uVar19 = (uint)bVar28;
+  } while (bVar28 < 0x35);
+  return;
+}

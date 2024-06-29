@@ -88,7 +88,11 @@ INCLUDE_ASM("asm/nonmatchings/fond_10B3C", DRAW_MAP);
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80137cc8);
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", allume_vitraux);
+/* 13B38 80138338 -O2 -msoft-float */
+void allume_vitraux(u8 (*param_1)[5])
+{
+    __builtin_memcpy(PS1_CurrentVitrailClignotement, param_1, sizeof(*param_1));
+}
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80138360);
 
