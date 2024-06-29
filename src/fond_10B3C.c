@@ -4,8 +4,8 @@
 
 void FUN_8017b260(u32 param_1);
 extern u8 D_801F51BF;
-extern s32 D_801F8170;
-extern s32 D_801F8174;
+extern s32 PS1_TPage_x;
+extern s32 PS1_TPage_y;
 extern u8 D_801FA55F;
 extern u8 NbSprite;
 extern BackgroundPosition *PS1_BackgroundPositions;
@@ -34,11 +34,14 @@ extern s16 PS1_FondHeight;
 extern void *PS1_FondImages[6]; /* 0th five bits: r, 1st five bits: g, 2nd five bits b (see 8013726c) */
 extern s16 PS1_FondImagesCount;
 extern s16 PS1_FondWidth;
-extern u8 D_801E4BC8;
+extern u8 D_801E4BC8; /* used as index into PS1_CurrentDisplay->sprites */
 extern u8 PS1_CurrentVitrailClignotement[5];
 extern u8 D_801F4A40[944]; /* see also loading_DA64.c */
 extern u16 D_801F5440;
 extern u16 D_801F55D8;
+extern u16 D_801C71C0[5];
+extern u8 PS1_Glass_brightness[5];
+extern u8 PS1_Glass_brightness_diff[5];
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_LoadFondSprites);
 
@@ -94,7 +97,60 @@ void allume_vitraux(u8 (*param_1)[5])
     __builtin_memcpy(PS1_CurrentVitrailClignotement, param_1, sizeof(*param_1));
 }
 
+/* 13B60 80138360 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80138360);
+#else
+void FUN_80138360(u8 *vitrail_clignotement)
+{
+    u8 i;
+    BackgroundPosition *bg_pos;
+    Sprite *bg_sprite;
+    DR_ENV *dr_env = PS1_CurrentDisplay->field6_0x2b0;
+
+    for (i = 0; i < NbSprite; i++)
+    {
+        if (vitrail_clignotement[i] != 0)
+        {
+            bg_pos = &PS1_BackgroundPositions[i];
+            bg_sprite = &PS1_BackgroundSprites[i];
+            SetSemiTrans((PS1_CurrentDisplay->sprites + D_801E4BC8), 1);
+            SetShadeTex((PS1_CurrentDisplay->sprites + D_801E4BC8), 0);
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->r0 = PS1_Glass_brightness[i];
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->g0 = PS1_Glass_brightness[i];
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->b0 = PS1_Glass_brightness[i];
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->u0 = bg_sprite->page_x;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->v0 = bg_sprite->page_y;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->w = bg_sprite->width;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->h = bg_sprite->height;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->clut = bg_sprite->clut;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->x0 = bg_pos->x;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->y0 = bg_pos->y;
+            FUN_8017b260((s16) bg_sprite->tpage);
+            AddPrim(PS1_CurrentDisplay->ordering_table, (PS1_CurrentDisplay->sprites + D_801E4BC8));
+            D_801E4BC8++;
+            PS1_CurrentDisplay->drawing_environment.tpage = GetTPage(1, 1, PS1_TPage_x, PS1_TPage_y);
+            SetDrawEnv(dr_env, &PS1_CurrentDisplay->drawing_environment);
+            AddPrim(PS1_CurrentDisplay->ordering_table, dr_env);
+            dr_env++;
+            if (PS1_Glass_brightness[i] == 0xFF)
+                PS1_Glass_brightness_diff[i] = -5;
+            else if (PS1_Glass_brightness[i] == 0)
+                PS1_Glass_brightness_diff[i] = 5;
+            PS1_Glass_brightness[i] += PS1_Glass_brightness_diff[i];
+            if (D_801C71C0[i] == 100)
+            {
+                vitrail_clignotement[i] = 0;
+                D_801C71C0[i] = 0;
+            }
+            else
+                D_801C71C0[i]++;
+        }
+    }
+
+    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80138718);
 

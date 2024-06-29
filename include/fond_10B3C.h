@@ -23,7 +23,7 @@ u8 PS1_GetTileU(s32 param_1);
 void DRAW_MAP(void);
 void FUN_80137cc8(s32 param_1, s16 *param_2); /* param_2 is pointer? see PS1_DisplayFondSprites */
 void allume_vitraux(u8 (*param_1) [5]);
-void FUN_80138360(u8 *vitrailClignotement);
+void FUN_80138360(u8 *vitrail_clignotement);
 void FUN_80138718(u8 param_1);
 void FUN_80138b84(s16 param_1, s16 *param_2, s16 param_3, s16 param_4); /* param_2 is pointer? see caller */
 void PS1_DisplayWorldMapBg2(u16 param_1, u16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6);
