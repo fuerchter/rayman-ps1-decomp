@@ -261,6 +261,7 @@ void PS1_LoadFond(void)
   }
 }
 
+/* matches, but cleanup */
 /*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80135ab0);*/
 
 void FUN_80135ab0(s16 param_1, s16 *param_2)
@@ -272,66 +273,59 @@ void FUN_80135ab0(s16 param_1, s16 *param_2)
     SPRT *var_s0;
     s16 temp_s6;
     s16 temp_s7;
-    u32 var_fp;
+    u8 i;
     Sprite *var_s2;
     u16 temp_s3;
     u8 temp_a1;
 
-    /*sp18 = param_2;*/
     var_s5 = PS1_BackgroundPositions;
-    var_fp = 0;
+    i = 0;
     PS1_PrevPrim = PS1_CurrentDisplay->ordering_table;
     var_s4 = PS1_CurrentDisplay->field6_0x2b0;
     var_s1 = &PS1_CurrentDisplay->sprites[D_801E4BC8];
     var_s2 = PS1_BackgroundSprites;
-    if (NbSprite != 0)
+    var_s0 = var_s1;
+    while (i < NbSprite)
     {
-        
-        var_s0 = var_s1;
-        do
+        temp_a1 = var_s2->id;
+        temp_s3 = param_2[temp_a1 - 1];
+        temp_s7 = var_s5->y - (temp_s3 % PS1_FondHeight);
+        temp_s6 = var_s5->x - param_1;
+        if (PS1_BandeBackCount < temp_a1)
         {
-            temp_a1 = var_s2->id;
-            temp_s3 = *(ushort *)((temp_a1 * 2) + param_2 - 2);
-            temp_s7 = var_s5->y - (temp_s3 % PS1_FondHeight);
-            temp_s6 = var_s5->x - param_1;
-            if (PS1_BandeBackCount < temp_a1)
-            {
-                PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[8];
-            }
-            PS1_CurrentDisplay->drawing_environment.tpage = var_s2->tpage;
-            SetDrawEnv(var_s4, &PS1_CurrentDisplay->drawing_environment);
-            AddPrim(PS1_PrevPrim, var_s4);
-            PS1_PrevPrim = var_s4;
-            var_s0->u0 = var_s2->page_x;
-            var_s0->v0 = var_s2->page_y;
-            var_s0->w = var_s2->width;
-            var_s0->h = var_s2->height;
-            var_s0->code = ((var_s0->code & 0xFD) | 1);
-            var_s0->x0 = temp_s6;
-            var_s0->y0 = temp_s7;
-            var_s0->clut = var_s2->clut;
-            
-            var_s4 += 1;
+            PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[8];
+        }
+        PS1_CurrentDisplay->drawing_environment.tpage = var_s2->tpage;
+        SetDrawEnv(var_s4, &PS1_CurrentDisplay->drawing_environment);
+        AddPrim(PS1_PrevPrim, var_s4);
+        PS1_PrevPrim = var_s4;
+        var_s4++;
+        var_s0->u0 = var_s2->page_x;
+        var_s0->v0 = var_s2->page_y;
+        var_s0->w = var_s2->width;
+        var_s0->h = var_s2->height;
+        var_s0->clut = var_s2->clut;
+        var_s0->code = ((var_s0->code & 0xFD) | 1);
+        var_s0->x0 = temp_s6;
+        var_s0->y0 = temp_s7;
+        AddPrim(PS1_PrevPrim, var_s1);
+        PS1_PrevPrim = var_s1;
+        var_s0++;
+        var_s1++;
+        D_801E4BC8++;
+        if (PS1_FondHeight < (temp_s3 + 240))
+        {
+            __builtin_memcpy(var_s1, var_s0 - 1, sizeof(SPRT));
+            var_s0->y0 += PS1_FondHeight;
             AddPrim(PS1_PrevPrim, var_s1);
             PS1_PrevPrim = var_s1;
-            var_s0 += 1;
-            D_801E4BC8 += 1;
-            var_s1 += 1;
-            if (PS1_FondHeight < (temp_s3 + 0xF0))
-            {
-                __builtin_memcpy(var_s1, var_s0, sizeof(SPRT));
-                var_s0->h = var_s0->h + PS1_FondHeight;
-                AddPrim(PS1_PrevPrim, var_s1);
-                PS1_PrevPrim = var_s1;
-                /*var_s0 = var_s1;*/ /* ??? */
-                var_s0 += 1;
-                var_s1 += 1;
-                D_801E4BC8 += 1;
-            }
-            var_fp += 1;
-            var_s5 += 1;
-            var_s2 += 1;
-        } while ((var_fp & 0xFF) < NbSprite);
+            var_s0++;
+            var_s1++;
+            D_801E4BC8++;
+        }
+        i++;
+        var_s5++;
+        var_s2++;
     }
 }
 
