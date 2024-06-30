@@ -22,7 +22,7 @@ void deactivate_ship_links(void)
 }
 
 /* 31DEC 801565EC -O2 -msoft-float */
-s32 linkListHoldsAGendoor(Obj *obj)
+s16 linkListHoldsAGendoor(Obj *obj)
 {
     s32 res = false;
     u8 linked = link_init[obj->id];
@@ -40,7 +40,7 @@ s32 linkListHoldsAGendoor(Obj *obj)
 }
 
 /* 31E6C 8015666C -O2 -msoft-float */
-s32 FUN_8015666c(Obj *obj)
+s16 FUN_8015666c(Obj *obj)
 {
     ObjType type = obj->type;
 
@@ -57,10 +57,58 @@ s32 FUN_8015666c(Obj *obj)
     return false;
 }
 
+/* 31F10 80156710 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/gendoor", FUN_80156710);
+#else
+s16 FUN_80156710(Obj *obj)
+{
+    s16 type = obj->type;
+
+    __asm__("nop");
+    if (
+        flags[type].flags0 & FLG(OBJ0_ALWAYS) ||
+        type == TYPE_POWERUP ||
+        type == TYPE_TAMBOUR1 || type == TYPE_TAMBOUR2 ||
+        type == TYPE_NEIGE || type == TYPE_PALETTE_SWAPPER || type == TYPE_GRAP_BONUS ||
+        type == TYPE_POING || type == TYPE_POING_POWERUP ||
+        type == TYPE_LIDOLPINK2 || type == TYPE_NEUTRAL || type == TYPE_PLANCHES ||
+        type == TYPE_RIDEAU ||
+        type == TYPE_VAGUE_DEVANT || type == TYPE_VAGUE_DERRIERE ||
+        type == TYPE_LIDOLPINK || type == TYPE_WIZ || type == TYPE_RAYON ||
+        type == TYPE_LAVE || type == TYPE_SCROLL || type == TYPE_SCROLL_SAX ||
+        type == TYPE_PANCARTE || type == TYPE_RAY_POS || type == TYPE_UFO_IDC ||
+        type == TYPE_HYB_BBF2_D || type == TYPE_HYB_BBF2_G || type == TYPE_CORDE_DARK ||
+        type == TYPE_BOUEE_JOE
+    )
+        return true;
+    return false;
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/gendoor", correct_gendoor_link);
 
 INCLUDE_ASM("asm/nonmatchings/gendoor", suppressFromLinkList);
 
-INCLUDE_ASM("asm/nonmatchings/gendoor", correct_link);
+/* 32298 80156A98 -O2 -msoft-float */
+void correct_link(void)
+{
+    Obj *cur_obj = level.objects;
+    s16 i = 0;
+    s16 nb_objs = level.nb_objects;
+
+    while (i < nb_objs)
+    {
+        if (link_init[i] != i)
+        {
+            if (FUN_80156710(cur_obj) || (FUN_8015666c(cur_obj) && !linkListHoldsAGendoor(cur_obj)))
+                suppressFromLinkList(cur_obj);
+            else
+                cur_obj->flags |= FLG(OBJ_LINKED);
+        }
+        else
+            cur_obj->flags &= ~FLG(OBJ_LINKED);
+        cur_obj++;
+        i++;
+    }
+}
