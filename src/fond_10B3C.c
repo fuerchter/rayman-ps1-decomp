@@ -43,6 +43,10 @@ extern u16 D_801C71C0[5];
 extern u8 PS1_Glass_brightness[5];
 extern u8 PS1_Glass_brightness_diff[5];
 extern u8 D_801CEF51;
+extern u8 D_801CEF54[8];
+extern u8 D_801CEF5C[8];
+extern u8 D_801CEF64[8];
+extern u8 D_801CEF6C[8];
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_LoadFondSprites);
 

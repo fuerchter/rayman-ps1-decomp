@@ -1444,3 +1444,119 @@ void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
         } while (var_s3 < NbSprite);
     }
 }
+
+/* matches, but cleanup */
+/*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80138b84);*/
+
+void FUN_80138b84(s16 param_1, s16 *param_2, s16 param_3, s16 param_4)
+{
+    u8 sp10[8];
+    s16 sp18;
+    s16 *sp20;
+    s16 sp28;
+    s16 sp30;
+    u8 i;
+    BackgroundPosition *var_fp;
+    DR_ENV *var_s7;
+    SPRT *var_s5;
+    SPRT *var_s3;
+    s16 temp_s1_2;
+    s16 temp_s2_2;
+    s16 temp_hi;
+    u8 temp_s0_1;
+    s32 temp_s1;
+    s32 temp_v1;
+    s32 var_v0;
+    s32 var_v1;
+    Sprite *var_s4;
+    s16 temp_s2_1;
+    s16 var_a2;
+    s16 var_s6;
+    u32 temp_s0_2;
+    u8 var_a0;
+
+    __builtin_memcpy(sp10, D_801CEF6C, sizeof(D_801CEF6C));
+    i = 0;
+    var_fp = PS1_BackgroundPositions;
+    PS1_PrevPrim = PS1_CurrentDisplay->ordering_table;
+    var_s7 = PS1_CurrentDisplay->field6_0x2b0;
+    var_s5 = PS1_CurrentDisplay->sprites;
+    var_s4 = &PS1_BackgroundSprites[0];
+    var_s3 = &PS1_CurrentDisplay->sprites[0];
+    while (i < NbSprite)
+    {
+        temp_s0_1 = var_s4->id - 1;
+        temp_s2_1 = param_2[temp_s0_1];
+        SetSemiTrans(var_s5, (&D_801F51C0)[temp_s0_1]);
+        SetShadeTex(var_s5, 0);
+        var_s3->r0 = D_801CEF54[temp_s0_1];
+        var_s3->g0 = D_801CEF54[temp_s0_1];
+        var_s3->b0 = D_801CEF54[temp_s0_1];
+        if ((sp10[temp_s0_1] == 0) && !(map_time & 0x81))
+        {
+            if (D_801CEF54[temp_s0_1] == D_801CEF5C[temp_s0_1])
+            {
+                D_801CEF5C[temp_s0_1] = rand() & 0x81;
+                
+                if (D_801CEF5C[temp_s0_1] > D_801CEF54[temp_s0_1])
+                {
+                    var_a0 = 1;
+                }
+                else
+                    var_a0 = 0xFF;
+                D_801CEF64[temp_s0_1] = var_a0;
+            }
+            else
+            {
+                D_801CEF54[temp_s0_1] = D_801CEF54[temp_s0_1] + D_801CEF64[temp_s0_1];
+            }
+            sp10[temp_s0_1] = 1;
+        }
+        FUN_8017b260((s16) var_s4->tpage);
+        var_s4->tpage = GetTPage(1, (&D_801FA560)[temp_s0_1], PS1_TPage_x, PS1_TPage_y);
+        if (temp_s0_1 >= PS1_BandeBackCount)
+        {
+            var_s6 = param_4;
+            var_a2 = param_3;
+            PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[8];
+        }
+        else
+        {
+            var_s6 = PS1_FondWidth;
+            var_a2 = param_1;
+        }
+        temp_hi = temp_s2_1 % var_s6;
+        temp_s2_2 = var_fp->x - temp_hi;
+        temp_s1_2 = var_fp->y - var_a2;
+        PS1_CurrentDisplay->drawing_environment.tpage = var_s4->tpage;
+        SetDrawEnv(var_s7, &PS1_CurrentDisplay->drawing_environment);
+        AddPrim(PS1_PrevPrim, var_s7);
+        PS1_PrevPrim = var_s7;
+        var_s7++;
+        var_s3->u0 = var_s4->page_x;
+        var_s3->v0 = var_s4->page_y;
+        var_s3->w = var_s4->width;
+        var_s3->h = var_s4->height;
+        var_s3->clut = var_s4->clut;
+        var_s3->x0 = temp_s2_2;
+        var_s3->y0 = temp_s1_2;
+        AddPrim(PS1_PrevPrim, var_s5);
+        PS1_PrevPrim = var_s5;
+        var_s3++;
+        var_s5++;
+        D_801E4BC8++;
+        if (PS1_FondWidth < (temp_hi + 0x140))
+        {
+            __builtin_memcpy(var_s5, var_s3 - 1, sizeof(SPRT));
+            var_s3->x0 = var_s6 + var_s3->x0;
+            AddPrim(PS1_PrevPrim, var_s5);
+            PS1_PrevPrim = var_s5;
+            var_s3++;
+            var_s5++;
+            D_801E4BC8++;
+        }
+        i++;
+        var_fp++;
+        var_s4++;
+    }
+}
