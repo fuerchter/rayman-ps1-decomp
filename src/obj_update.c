@@ -15,7 +15,6 @@ void DO_DARK2_SORT_COMMAND(Obj *obj);
 void DO_DARK2_TOONS_COMMAND(Obj *obj);
 void DO_DARK_COMMAND(Obj *obj);
 void DO_DARK_PHASE2_COMMAND(Obj *obj);
-void DO_DARK_SORT_COMMAND(Obj *obj);
 void DO_DROP_COMMAND(Obj *obj);
 void DO_EAU_QUI_MONTE(Obj *obj);
 void DO_ECLAIR_COMMAND(Obj *obj);

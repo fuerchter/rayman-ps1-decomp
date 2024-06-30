@@ -100,6 +100,8 @@ segments:
       - [0x742C, .rodata, collision/block_6E5E0] #8012BC2C
       - [0x77F8, .rodata, obj/moskito] #8012bff8
       - [0x785C, rodata]
+      - [0x7898, .rodata, obj/dark_729F0] #8012c098
+      - [0x7934, rodata]
       - [0x7A30, .rodata, loading_794DC] #8012C230
       - [0x7B68, rodata]
       - [0x7C68, .rodata, demo_7F2BC] #8012c468
@@ -257,7 +259,7 @@ segments:
       - [0x6F914, c, obj/moskito] #80194114
       - [0x71680, asm, obj/batteur_fou] #80195e80
       - [0x72384, asm, obj/pirate_poelle] #80196b84
-      - [0x729F0, asm, obj/dark_729F0] #801971f0
+      - [0x729F0, c, obj/dark_729F0] #801971f0
       - [0x7494C, asm, obj/vitrail] #8019914c
       - [0x74954, asm, obj/ufo_idc] #80199154
       - [0x74FEC, asm, obj/dark_74FEC] #801997ec
