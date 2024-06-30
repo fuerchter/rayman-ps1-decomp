@@ -5,6 +5,7 @@
 #include "common/obj.h"
 #include "common/level.h"
 #include "moteur_init_end.h"
+#include "obj/poing.h"
 #include "boss.h"
 
 typedef struct VitrauxInfo
@@ -24,7 +25,7 @@ extern u8 dark_phase;
 void PlaceDarkPhase1et2(Obj *obj);
 void dark_attaque_suivante(void);
 void init_vitraux(void);
-s32 poing_face_obj(s32 param_1);
+s32 poing_face_obj(Obj *obj);
 void DARK_phase1(Obj *obj);
 void DARK_phase3(Obj *obj);
 void DO_DARK_COMMAND(Obj *obj);

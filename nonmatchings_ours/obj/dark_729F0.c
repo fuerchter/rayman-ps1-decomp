@@ -44,3 +44,31 @@ void init_vitraux(void)
         cur_obj++;
     }
 }
+
+/* matches, but cursed */
+/*INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", poing_face_obj);*/
+
+s32 poing_face_obj(Obj *obj)
+{
+    Obj *temp_v0;
+    s32 temp_a2;
+    s32 var_a3;
+
+    temp_v0 = &level.objects[poing_obj_id];
+    var_a3 = 0;
+    temp_a2 = temp_v0->flags >> 0xE;
+    temp_a2 &= 1;
+    if (((obj->x_pos + obj->offset_bx) - (temp_v0->x_pos + temp_v0->offset_bx)) > 0)
+    {
+        if (temp_a2 == 1)
+        {
+            goto block_4;
+        }
+    }
+    else if (temp_a2 == 0)
+    {
+block_4:
+        var_a3 = 1;
+    }
+    return var_a3;
+}
