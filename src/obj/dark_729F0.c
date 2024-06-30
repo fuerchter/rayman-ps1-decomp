@@ -4,6 +4,11 @@ extern u8 dark_attaque;
 extern u8 dark_sequence[3];
 extern u8 type_dark_attaque;
 extern VitrauxInfo VitrauxInfos[5];
+extern s16 corde_dark_obj_id;
+extern s16 corde_x;
+extern s16 corde_y_bas;
+extern s16 corde_y_haut;
+extern s16 oscille[30];
 
 /* 729F0 801971F0 -O2 -msoft-float */
 void PlaceDarkPhase1et2(Obj *obj)

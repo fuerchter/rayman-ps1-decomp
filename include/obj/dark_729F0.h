@@ -5,6 +5,7 @@
 #include "common/obj.h"
 #include "common/level.h"
 #include "moteur_init_end.h"
+#include "collision/etat.h"
 #include "obj/poing.h"
 #include "boss.h"
 
