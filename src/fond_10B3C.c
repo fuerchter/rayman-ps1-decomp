@@ -4,7 +4,8 @@
 
 void FUN_8017b260(u32 param_1);
 
-extern s32 PS1_TPage_x; /* place either here or with FUN_8017b260 */
+/* place either here or with FUN_8017b260 */
+extern s32 PS1_TPage_x;
 extern s32 PS1_TPage_y;
 
 /* here or with LOAD_FND? */

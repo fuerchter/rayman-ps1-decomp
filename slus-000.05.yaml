@@ -144,7 +144,7 @@ segments:
       - [0x2A07C, asm, obj_init_kill] #8014e87c
       - [0x2C214, c, obj_update] #80150a14
       - [0x30A64, asm, ray/ray_30A64] #80155264
-      - [0x31D3C, asm, gendoor] #8015653c
+      - [0x31D3C, c, gendoor] #8015653c
       - [0x32398, c, ray/ray_32398] #80156b98
       - [0x340A4, c, cam_scroll_340A4] #801588a4
       - [0x343EC, c, bonus_343EC] #80158BEC
