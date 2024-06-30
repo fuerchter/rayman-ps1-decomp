@@ -1346,3 +1346,101 @@ void FUN_80137cc8(s32 param_1, s16 *param_2)
   } while (bVar28 < 0x35);
   return;
 }
+
+/* close */
+/*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80138718);*/
+
+void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
+{
+    BackgroundPosition *temp_s1;
+    DR_ENV *var_s4;
+    Sprite *temp_s2;
+    s16 temp_s1_2;
+    s32 temp_hi;
+    s32 temp_lo;
+    s32 temp_s0;
+    s32 temp_s6;
+    s32 temp_v0;
+    s32 temp_v0_2;
+    s32 temp_v1;
+    s32 var_a0;
+    s32 var_a1;
+    u8 var_s0;
+    u8 var_s3;
+    u16 temp_s5;
+    void *temp_v0_3;
+    u16 new_var;
+    SPRT *test_1;
+
+    var_s3 = 0;
+    var_s4 = PS1_CurrentDisplay->field6_0x2b0;
+    if (NbSprite != 0)
+    {
+        do
+        {
+            temp_s1 = &PS1_BackgroundPositions[var_s3];
+            temp_s2 = &PS1_BackgroundSprites[var_s3];
+            if (param_1 == 0xA)
+            {
+                var_s0 = rand() % param_1;
+            }
+            else
+            {
+                var_s0 = 0;
+            }
+            temp_hi = xmap / (D_801F84E0 + 2) % PS1_FondWidth;
+            temp_s5 = temp_s1->y;
+            temp_s1_2 = temp_s1->x - temp_hi;
+            temp_s6 = temp_hi;
+            SetSemiTrans(&PS1_CurrentDisplay->sprites[D_801E4BC8], 1);
+            
+            if (var_s3 != 3)
+            {
+                
+                var_a0 = D_801E4BC8;
+                var_a1 = 0;
+            }
+            else
+            {
+                
+                var_a0 = D_801E4BC8;
+                var_a1 = 1;
+            }
+            SetShadeTex(&PS1_CurrentDisplay->sprites[var_a0], var_a1);
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->r0 = var_s0 + D_801CEF51;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->g0 = var_s0 + D_801CEF51;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->b0 = var_s0 + D_801CEF51;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->u0 = temp_s2->page_x;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->v0 = temp_s2->page_y;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->w = temp_s2->width;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->h = temp_s2->height;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->clut = temp_s2->clut;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->x0 = temp_s1_2;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->y0 = temp_s5;
+            
+            AddPrim(PS1_CurrentDisplay->ordering_table, &PS1_CurrentDisplay->sprites[D_801E4BC8]);
+            D_801E4BC8 += 1;
+            if (PS1_FondWidth < ((s16) temp_s6 + 0x140))
+            {
+                /*test_1 = &PS1_CurrentDisplay->sprites[D_801E4BC8];*/
+                /*test_1 = &PS1_CurrentDisplay->sprites[0];*/
+                __builtin_memcpy(&PS1_CurrentDisplay->sprites[D_801E4BC8], &PS1_CurrentDisplay->sprites[D_801E4BC8 - 1], sizeof(SPRT));
+                /*temp_v0_3 = (D_801E4BC8 * 0x14) + PS1_CurrentDisplay;
+                PS1_CurrentDisplay->sprites[D_801E4BC8].tag = PS1_CurrentDisplay->sprites[D_801E4BC8 - 1].tag;
+                PS1_CurrentDisplay->sprites[D_801E4BC8].r0 = PS1_CurrentDisplay->sprites[D_801E4BC8 - 1].r0;
+                PS1_CurrentDisplay->sprites[D_801E4BC8].x0 = PS1_CurrentDisplay->sprites[D_801E4BC8 - 1].x0;
+                PS1_CurrentDisplay->sprites[D_801E4BC8].u0 = PS1_CurrentDisplay->sprites[D_801E4BC8 - 1].u0;
+                PS1_CurrentDisplay->sprites[D_801E4BC8].w = PS1_CurrentDisplay->sprites[D_801E4BC8 - 1].w;*/
+                PS1_CurrentDisplay->sprites[D_801E4BC8].x0 = PS1_CurrentDisplay->sprites[D_801E4BC8].x0 + PS1_FondWidth;
+                AddPrim(PS1_CurrentDisplay->ordering_table, &PS1_CurrentDisplay->sprites[D_801E4BC8]);
+                D_801E4BC8 += 1;
+            }
+            var_s3 += 1;
+            FUN_8017b260((s16) temp_s2->tpage);
+            PS1_CurrentDisplay->drawing_environment.tpage = GetTPage(1, 1, PS1_TPage_x, PS1_TPage_y);
+            SetDrawEnv(var_s4, &PS1_CurrentDisplay->drawing_environment);
+            AddPrim(PS1_CurrentDisplay->ordering_table, var_s4);
+            var_s4 += 1;
+        } while (var_s3 < NbSprite);
+    }
+}

@@ -42,6 +42,7 @@ extern u16 D_801F55D8;
 extern u16 D_801C71C0[5];
 extern u8 PS1_Glass_brightness[5];
 extern u8 PS1_Glass_brightness_diff[5];
+extern u8 D_801CEF51;
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_LoadFondSprites);
 
@@ -114,6 +115,7 @@ void FUN_80138360(u8 *vitrail_clignotement)
         {
             bg_pos = &PS1_BackgroundPositions[i];
             bg_sprite = &PS1_BackgroundSprites[i];
+            /* gross... */
             SetSemiTrans((PS1_CurrentDisplay->sprites + D_801E4BC8), 1);
             SetShadeTex((PS1_CurrentDisplay->sprites + D_801E4BC8), 0);
             (PS1_CurrentDisplay->sprites + D_801E4BC8)->r0 = PS1_Glass_brightness[i];
