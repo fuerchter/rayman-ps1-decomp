@@ -11,6 +11,7 @@
 #include "loading_794DC.h"
 #include "draw_ui.h"
 #include "gendoor.h"
+#include "fond_10B3C.h"
 
 typedef struct Font
 {

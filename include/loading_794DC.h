@@ -18,18 +18,6 @@ typedef struct FileInfo
     CdlFILE file;
 } FileInfo;
 
-typedef struct BackgroundPosition
-{
-    s16 x;
-    s16 y;
-} BackgroundPosition;
-
-typedef struct BackgroundData
-{
-    BackgroundPosition sprite_positions[16];
-    Sprite sprites[16];
-} BackgroundData;
-
 /* .data */
 extern s32 *D_801C4374[6];
 extern s32 *D_801C438C[6];

@@ -1,7 +1,6 @@
 #include "loading_DA64.h"
 
 /* unknowns */
-extern s32 D_801F4A40; /* type? see FUN_8013234c */
 extern void *D_801F7E90; /* see loading_794DC, type? Obj * based on FUN_80132424? */
 extern s32 D_801D7868[2]; /* type? */
 extern s32 *D_801F59E0; /* see loading_794DC */
@@ -44,7 +43,7 @@ void FUN_8013234c(u8 *param_1)
     0xD in block after
     hoping this is correct
     */
-    __builtin_memcpy(&D_801F4A40, param_1, 0x3AD);
+    __builtin_memcpy(&PS1_Tile_clut_y_offs, param_1, 0x3AD);
 }
 
 /* DC24 80132424 -O2 -msoft-float */

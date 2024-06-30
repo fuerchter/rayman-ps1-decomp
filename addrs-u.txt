@@ -49,6 +49,7 @@ PS1_TPage_x = 0x801f8170;
 PS1_TPage_y = 0x801f8174;
 PS1_Glass_brightness = 0x801cef44;
 PS1_Glass_brightness_diff = 0x801cef4c;
+PS1_Tile_clut_y_offs = 0x801f4a40;
 
 D_801C438C = 0x801C438C;
 D_801CEE10 = 0x801cee10;

@@ -6,7 +6,60 @@
 #include "psyq_3_0/MEMORY.H"
 #include "common/display.h"
 #include "common/obj.h"
-#include "loading_794DC.h"
+
+typedef struct BackgroundPosition
+{
+    s16 x;
+    s16 y;
+} BackgroundPosition;
+
+typedef struct BackgroundData
+{
+    BackgroundPosition sprite_positions[16];
+    Sprite sprites[16];
+} BackgroundData;
+
+/* .data */
+extern u16 D_801C71C0[5];
+
+/* .data */
+extern u8 PS1_Glass_brightness[5];
+extern u8 PS1_Glass_brightness_diff[5];
+extern u8 D_801CEF51;
+extern u8 D_801CEF54[8];
+extern u8 D_801CEF5C[8];
+extern u8 D_801CEF64[8];
+extern u8 D_801CEF6C[8];
+
+/**/
+extern u8 D_801F51BF;
+extern u8 D_801FA55F;
+extern u8 NbSprite;
+extern BackgroundPosition *PS1_BackgroundPositions;
+extern Sprite *PS1_BackgroundSprites;
+extern u8 PS1_FondType;
+extern u8 PS1_Tile_clut_y_offs[944]; /* see also loading_DA64.c */
+
+/* types of all of these? */
+extern u8 D_801E63F8;
+extern u8 D_801E63FA;
+extern u8 D_801F51C0;
+extern u8 D_801F5788;
+extern u8 D_801F8008; /* D_801F8008 and D_801F800A part of the same array? */
+extern u8 D_801F800A;
+extern u8 D_801FA560;
+extern u8 PS1_BandeBackCount;
+extern u8 PS1_BandeFrontCount;
+extern u8 D_801F4F58;
+extern s16 D_801F55B8; /* u8[10] based on 801f55b8? but then there is 80137450 */
+extern u8 D_801F84E0;
+extern u8 D_801F9900;
+extern s16 PS1_FondHeight;
+extern void *PS1_FondImages[6]; /* 0th five bits: r, 1st five bits: g, 2nd five bits b (see 8013726c) */
+extern s16 PS1_FondImagesCount;
+extern s16 PS1_FondWidth;
+extern u8 D_801E4BC8; /* used as index into PS1_CurrentDisplay->sprites */
+extern u8 PS1_CurrentVitrailClignotement[5];
 
 void PS1_LoadFondSprites(void);
 void PS1_LoadFondDataAndPalettes(void);

@@ -1038,8 +1038,8 @@ void DRAW_MAP(void)
         while (x_pos < 0x140) {
           puVar5 = mp.map[tile_index] & 0x3ff;
           tile_index = tile_index + 1;
-          if ((puVar5 != 0) && (D_801F4A40[puVar5] != 0xff)) {
-            pSVar7->clut = GetClut(0x300,D_801F4A40[puVar5] + 504);
+          if ((puVar5 != 0) && (PS1_Tile_clut_y_offs[puVar5] != 0xff)) {
+            pSVar7->clut = GetClut(0x300,PS1_Tile_clut_y_offs[puVar5] + 504);
             pSVar7->x0 = x_pos;
             pSVar7->y0 = y_pos;
             uVar1 = PS1_GetTileU(puVar5);
