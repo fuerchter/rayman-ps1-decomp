@@ -1554,3 +1554,75 @@ void FUN_80138b84(s16 param_1, s16 *param_2, s16 param_3, s16 param_4)
         var_s4++;
     }
 }
+
+/*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_DisplayWorldMapBg2);*/
+
+void PS1_DisplayWorldMapBg2(s16 param_1,s16 param_2,short param_3,short param_4,short param_5,short param_6)
+{
+  short sVar1;
+  int iVar2;
+  int iVar3;
+  int iVar4;
+  int iVar5;
+  uint uVar6;
+  int iVar7;
+  short sVar8;
+  u8 uVar9;
+  u8 uVar10;
+  RECT local_58;
+  ushort local_50;
+  ushort local_48;
+  short local_40;
+  short local_38;
+  short local_30;
+  
+  uVar10 = (param_6 / 64) + 1;
+  if ((uVar10) != 0) {
+    iVar4 = param_1;
+    do {
+      sVar8 = 0;
+      
+      if ((uVar10) == (param_6 / 64) + 1U) {
+        uVar9 = 0;
+        sVar8 = 0x40;
+      }
+      else
+      {
+        uVar9 = uVar10;
+      }
+        
+      iVar2 = param_6 / 64;
+      if ((uVar9 != (iVar2)) || (sVar8 = -0x40, (param_1 & 0x3f) != 0)) {
+        iVar2 = iVar4 / 64;
+        iVar7 = uVar9 * 0x40 - ((s16) (iVar4 + (iVar2) * -0x40));
+        local_58.x = (PS1_CurrentDisplay->drawing_environment).clip.x + sVar8 + param_3 + iVar7;
+        local_58.y = (PS1_CurrentDisplay->drawing_environment).clip.y + param_4;
+        local_58.w = 0x40;
+        local_58.h = param_5;
+        iVar2 = iVar4 / 64;
+        iVar2 = uVar9 + (iVar2);
+        iVar5 = PS1_FondImagesCount;
+        
+        LoadImage(&local_58,
+                  &PS1_FondImages[iVar2 % iVar5][((param_2 << 0x10) >> 9)]);
+        if (uVar9 == 0) {
+          local_58.x = (PS1_CurrentDisplay->drawing_environment).clip.x + sVar8 + param_3;
+          iVar2 = iVar4 / 64;
+          local_58.w = 0x40 - (param_1 + (iVar2) * -0x40);
+          MoveImage(&local_58,(PS1_CurrentDisplay->drawing_environment).clip.x + param_3,
+                    local_58.y);
+        }
+        if ((uVar9) == (param_6 / 64)) {
+          local_58.x = (PS1_CurrentDisplay->drawing_environment).clip.x + param_3 + sVar8 + iVar7;
+          local_58.w = param_6 - iVar7;
+          MoveImage(&local_58,
+                    iVar7 + (PS1_CurrentDisplay->drawing_environment).clip.x + param_3,
+                    local_58.y);
+        }
+      }
+      uVar10 = uVar10 - 1;
+    } while ((uVar10) != 0);
+  }
+  DrawSync(0);
+  return;
+}
