@@ -5,6 +5,7 @@
 #include "common/obj.h"
 #include "common/level.h"
 #include "obj/bateau_command.h"
+#include "obj_init_kill.h"
 
 /**/
 extern u8 *link_init; /* not sure if this should be here? since non-gendoor things use links? */
