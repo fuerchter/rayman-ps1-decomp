@@ -297,9 +297,35 @@ void DO_DARK_COMMAND(Obj *dark_obj)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DO_DARK_POING_COLLISION);
+/* 73C38 80198438 -O2 -msoft-float */
+void DO_DARK_POING_COLLISION(Obj *obj)
+{
+    if (
+        obj->main_etat == 0 && (obj->sub_etat == 16 || obj->sub_etat == 17) &&
+        obj->display_prio != 0
+    )
+    {
+        obj->hit_points--;
+        if (obj->hit_points == 0)
+            set_main_and_sub_etat(obj, 0, 6);
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DO_DARK_REACT);
+/* 73CB0 801984B0 -O2 -msoft-float */
+void DO_DARK_REACT(Obj *obj)
+{
+    if (obj->main_etat == 0)
+    {
+        if (obj->sub_etat == 7)
+            set_sub_etat(obj, 8);
+        if (obj->sub_etat == 9)
+            set_sub_etat(obj, 10);
+        if (obj->sub_etat == 11)
+            set_sub_etat(obj, 12);
+        if (obj->sub_etat == 13)
+            set_sub_etat(obj, 14);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DO_DARK_SORT_COMMAND);
 
