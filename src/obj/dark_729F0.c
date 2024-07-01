@@ -332,9 +332,99 @@ void DO_DARK_REACT(Obj *obj)
 
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DO_DARK_SORT_COMMAND);
 
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DO_DARK_SORT_COLLISION);
+/* 740D4 801988D4 -O2 -msoft-float */
+void DO_DARK_SORT_COLLISION(Obj *obj)
+{
+    if (obj->hit_points != 0 && !(obj->main_etat == 0 && obj->sub_etat == 4))
+    {
+        obj->hit_points = 0;
+        switch (obj->sub_etat)
+        {
+        case 0:
+            RayEvts.flags1 = RayEvts.flags1 &
+                (
+                    FLG(RAYEVTS0_POING)|FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO)|
+                    FLG(RAYEVTS0_HANDSTAND)|FLG(RAYEVTS0_GRAIN)|FLG(RAYEVTS0_GRAP)
+                ) | FLG(RAYEVTS0_SUPER_HELICO);
+            break;
+        case 1:
+            DO_NOVA(&ray);
+            RayEvts.flags1 &=
+                (FLG(RAYEVTS1_RUN)|FLG(RAYEVTS1_DEMI)|FLG(RAYEVTS1_LUCIOLE)|
+                FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)|FLG(RAYEVTS1_UNUSED_DEATH));
+            RAY_REVERSE_COMMANDS();
+            break;
+        case 2:
+            DO_NOVA(&ray);
+            RAY_DEMIRAY();
+            break;
+        case 3:
+            DO_NOVA(&ray); 
+            RayEvts.flags0 &=
+                (FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO)|FLG(RAYEVTS0_SUPER_HELICO)|
+                FLG(RAYEVTS0_HANDSTAND_DASH)|FLG(RAYEVTS0_HANDSTAND)|FLG(RAYEVTS0_GRAIN)|
+                FLG(RAYEVTS0_GRAP));
+            break;
+        }
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", allocate_DARK_SORT);
+/* many ??? were had */
+/* 741FC 801989FC -O2 -msoft-float */
+void allocate_DARK_SORT(s16 x, s16 y, s16 sub_etat, s16 iframes)
+{
+    s16 unk_1 = 0;
+    s16 unk_2;
+    Obj *cur_obj = &level.objects[0];
+    s16 i = 0;
+    s16 nb_objs = level.nb_objects;
+
+    do
+    {
+        if (cur_obj->type == TYPE_DARK_SORT && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+            unk_1 = 1;
+        cur_obj++;
+        i++;
+    } while (unk_1 == 0 && i < nb_objs);
+    cur_obj--;
+    if (unk_1 != 0)
+    {
+        cur_obj->x_pos = x;
+        cur_obj->y_pos = y;
+        cur_obj->hit_points = 1;
+        cur_obj->iframes_timer = iframes;
+        cur_obj->field23_0x3c = 0;
+        cur_obj->flags |= FLG(OBJ_ACTIVE)|FLG(OBJ_ALIVE);
+        set_main_and_sub_etat(cur_obj, 0, sub_etat);
+        cur_obj->anim_frame = 0;
+    }
+    else
+    {
+        unk_2 = 0;
+        cur_obj = &level.objects[0];
+        i = 0;
+        unk_1 = 0;
+        do
+        {
+            if (cur_obj->type == TYPE_DARK_SORT && unk_2 < cur_obj->anim_frame)
+            {
+                unk_1 = i;
+                unk_2 = cur_obj->anim_frame;
+            }
+            cur_obj++;
+            i++;
+        } while (i < nb_objs);
+        cur_obj = &level.objects[unk_1];
+        cur_obj->x_pos = x;
+        cur_obj->y_pos = y;
+        cur_obj->hit_points = 1;
+        cur_obj->iframes_timer = iframes;
+        cur_obj->field23_0x3c = 0;
+        cur_obj->flags |= FLG(OBJ_ACTIVE)|FLG(OBJ_ALIVE);
+        set_main_and_sub_etat(cur_obj, 0, sub_etat);
+        cur_obj->anim_frame = 0;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", corde_en_bas);
 

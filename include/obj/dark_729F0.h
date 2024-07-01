@@ -34,7 +34,7 @@ void DO_DARK_POING_COLLISION(Obj *obj);
 void DO_DARK_REACT(Obj *obj);
 void DO_DARK_SORT_COMMAND(Obj *param_1, s16 param_2);
 void DO_DARK_SORT_COLLISION(Obj *obj);
-void allocate_DARK_SORT(s16 x, s16 y, u8 sub_etat, s16 iframes);
+void allocate_DARK_SORT(s16 x, s16 y, s16 sub_etat, s16 iframes);
 void corde_en_bas(void);
 void corde_en_haut(u8 param_1);
 void init_corde(Obj *obj);
