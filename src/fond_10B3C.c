@@ -75,7 +75,7 @@ void allume_vitraux(u8 (*param_1)[5])
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80138360);
 #else
-void FUN_80138360(u8 *vitrail_clignotement)
+void FUN_80138360(u8 *vit_clig)
 {
     u8 i;
     BackgroundPosition *bg_pos;
@@ -84,7 +84,7 @@ void FUN_80138360(u8 *vitrail_clignotement)
 
     for (i = 0; i < NbSprite; i++)
     {
-        if (vitrail_clignotement[i] != 0)
+        if (vit_clig[i] != 0)
         {
             bg_pos = &PS1_BackgroundPositions[i];
             bg_sprite = &PS1_BackgroundSprites[i];
@@ -115,7 +115,7 @@ void FUN_80138360(u8 *vitrail_clignotement)
             PS1_Glass_brightness[i] += PS1_Glass_brightness_diff[i];
             if (D_801C71C0[i] == 100)
             {
-                vitrail_clignotement[i] = 0;
+                vit_clig[i] = 0;
                 D_801C71C0[i] = 0;
             }
             else
