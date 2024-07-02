@@ -262,7 +262,7 @@ segments:
       - [0x729F0, c, obj/dark_729F0] #801971f0
       - [0x7494C, asm, obj/vitrail] #8019914c
       - [0x74954, asm, obj/ufo_idc] #80199154
-      - [0x74FEC, asm, obj/dark_74FEC] #801997ec
+      - [0x74FEC, c, obj/dark_74FEC] #801997ec
       - [0x753E8, asm, obj/hybride_mosams_command] #80199be8
       - [0x75600, asm, obj/hybride_stosko] #80199e00
       - [0x75B14, asm, obj/hyb_bbf2] #8019a314
