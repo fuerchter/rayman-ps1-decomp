@@ -1,11 +1,5 @@
 #include "obj/dark_74FEC.h"
 
-extern u8 BBF2DEsk;
-extern u8 BBF2GEsk;
-extern s16 NiveauSol;
-extern s16 YPosBBF2D;
-extern s16 YPosBBF2G;
-
 /* 74FEC 801997EC -O2 -msoft-float */
 void allocateSTOSKO(void)
 {

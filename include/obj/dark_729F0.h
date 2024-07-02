@@ -37,7 +37,7 @@ extern s16 corde_dark_obj_id;
 extern s16 corde_x;
 extern s16 corde_y_bas;
 extern s16 corde_y_haut;
-extern s16 moskitomama_droite_obj_id;
+extern s16 moskitomama_droite_obj_id; /* obj/hyb_bbf2.h instead? same for the other obj_ids? */
 extern s16 moskitomama_gauche_obj_id;
 extern s16 moskitosaxo_obj_id;
 extern s16 stosko_obj_id;
