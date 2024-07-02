@@ -21,6 +21,9 @@ typedef struct RayStack
     u8 scale;
 } RayStack;
 
+/**/
 extern RayStack rayStack[100];
+extern u8 black_pos_in_stack;
+extern s16 black_ray_obj_id;
 
 #endif

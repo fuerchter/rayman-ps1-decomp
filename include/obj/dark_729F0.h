@@ -8,6 +8,7 @@
 #include "collision/etat.h"
 #include "obj/poing.h"
 #include "boss.h"
+#include "obj/black_ray_command.h"
 
 typedef struct VitrauxInfo
 {
@@ -20,8 +21,29 @@ typedef struct VitrauxInfo
     u16 value; /* goes from 100 to 0 */
 } VitrauxInfo;
 
+/* .data */
+extern s16 oscille[30];
+extern u8 vitrail_clignotement[4][5];
+
+/* .data */
+extern u8 dark_sequence[3];
+extern u8 dark_attaque;
+extern u8 type_dark_attaque;
+
 /**/
 extern u8 dark_phase;
+extern VitrauxInfo VitrauxInfos[5];
+extern s16 corde_dark_obj_id;
+extern s16 corde_x;
+extern s16 corde_y_bas;
+extern s16 corde_y_haut;
+extern s16 moskitomama_droite_obj_id;
+extern s16 moskitomama_gauche_obj_id;
+extern s16 moskitosaxo_obj_id;
+extern s16 stosko_obj_id;
+extern u8 D_801E5518;
+extern s16 dark_rayon_dx;
+extern s16 dark_rayon_dy;
 
 void PlaceDarkPhase1et2(Obj *obj);
 void dark_attaque_suivante(void);

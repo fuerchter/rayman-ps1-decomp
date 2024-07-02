@@ -1,26 +1,5 @@
 #include "obj/dark_729F0.h"
 
-extern u8 dark_attaque;
-extern u8 dark_sequence[3];
-extern u8 type_dark_attaque;
-extern VitrauxInfo VitrauxInfos[5];
-extern s16 corde_dark_obj_id;
-extern s16 corde_x;
-extern s16 corde_y_bas;
-extern s16 corde_y_haut;
-extern s16 oscille[30];
-extern u8 vitrail_clignotement[4][5];
-extern s16 moskitomama_droite_obj_id;
-extern s16 moskitomama_gauche_obj_id;
-extern s16 moskitosaxo_obj_id;
-extern s16 stosko_obj_id;
-extern u8 D_801E5518;
-extern s16 dark_rayon_dx;
-extern s16 dark_rayon_dy;
-extern u8 black_pos_in_stack;
-extern u8 black_pos_in_stack;
-extern s16 black_ray_obj_id;
-
 /* 729F0 801971F0 -O2 -msoft-float */
 void PlaceDarkPhase1et2(Obj *obj)
 {
@@ -612,5 +591,7 @@ void goto_phase5(Obj *dark_obj)
     dark_obj->flags &= ~FLG(OBJ_ACTIVE);
     fin_boss = true;
     finBosslevel[0] |= FLG(7);
+
+    __asm__("nop\nnop");
 }
 #endif
