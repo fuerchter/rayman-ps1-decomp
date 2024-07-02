@@ -266,7 +266,7 @@ segments:
       - [0x74954, asm, obj/ufo_idc] #80199154
       - [0x74FEC, c, obj/dark_74FEC] #801997ec
       - [0x753E8, c, obj/hybride_mosams_command] #80199be8
-      - [0x75600, asm, obj/hybride_stosko] #80199e00
+      - [0x75600, c, obj/hybride_stosko] #80199e00
       - [0x75B14, asm, obj/hyb_bbf2] #8019a314
       - [0x76A14, asm, obj/dark_phase2]
       - [0x77E14, asm, obj/fire] #8019c614
