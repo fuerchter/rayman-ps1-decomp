@@ -38,9 +38,9 @@ void allocate_DARK_SORT(s16 x, s16 y, s16 sub_etat, s16 iframes);
 void corde_en_bas(void);
 void corde_en_haut(u8 param_1);
 void init_corde(Obj *obj);
-void goto_phase1(Obj *obj);
-void goto_phase2(Obj *obj);
-void goto_phase3(Obj *param_1);
-void goto_phase5(Obj *obj);
+void goto_phase1(Obj *dark_obj);
+void goto_phase2(Obj *dark_obj);
+void goto_phase3(Obj *dark_obj);
+void goto_phase5(Obj *dark_obj);
 
 #endif

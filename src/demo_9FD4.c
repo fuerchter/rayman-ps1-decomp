@@ -53,7 +53,7 @@ void FinDemoJeu(void)
     num_level = 0;
     num_world_choice = 0;
     num_level_choice = 0;
-    finBosslevel[1] &= 0xF5;
+    finBosslevel[1] &= ~(FLG(1)|FLG(3));
     __builtin_memcpy(&options_jeu, &options_jeu_save, sizeof(OptionsJeu));
     POINTEUR_BOUTONS_OPTIONS_BIS();
     NumDemo++;

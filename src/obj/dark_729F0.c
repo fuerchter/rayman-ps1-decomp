@@ -473,10 +473,144 @@ void init_corde(Obj *obj)
         corde_y_haut = obj->y_pos + obj->offset_by - level.objects[corde_dark_obj_id].offset_by - 148;
 }
 
+/* 74544 80198D44 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", goto_phase1);
+#else
+void goto_phase1(Obj *dark_obj)
+{
+    Obj *corde_dark_obj;
 
+    dark_phase = 1;
+    scroll_end_x = 0;
+    scroll_start_x = 0;
+    scroll_end_y = ymap;
+    scroll_start_y = ymap;
+    flags[dark_obj->type].flags0 &=
+        (FLG(OBJ0_ALWAYS)|FLG(OBJ0_BALLE)|FLG(OBJ0_NO_COLLISION)|
+        FLG(OBJ0_HIT_RAY)|FLG(OBJ0_KEEP_ACTIVE)|
+        FLG(OBJ0_DETECT_ZONE)|FLG(OBJ0_FLAG6));
+    dark_obj->field23_0x3c = 0;
+    scrollLocked = false;
+    RayEvts.flags0 &=
+        (FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO)|FLG(RAYEVTS0_SUPER_HELICO)|
+        FLG(RAYEVTS0_HANDSTAND_DASH)|FLG(RAYEVTS0_HANDSTAND)|
+        FLG(RAYEVTS0_GRAIN)|FLG(RAYEVTS0_GRAP));
+    PlaceDarkPhase1et2(dark_obj);
+    init_corde(dark_obj);
+    if (corde_dark_obj_id != -1)
+    {
+        corde_dark_obj = &level.objects[corde_dark_obj_id];
+        corde_dark_obj->field23_0x3c = 3;
+        corde_dark_obj->iframes_timer = 29;
+    }
+    corde_en_bas();
+    set_main_and_sub_etat(dark_obj, 0, 26);
+
+    __asm__("nop\nnop");
+}
+#endif
+
+/* 74648 80198E48 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", goto_phase2);
+#else
+void goto_phase2(Obj *dark_obj)
+{
+    dark_phase = 2;
+    scroll_end_x = 0;
+    scroll_start_x = 0;
+    scroll_end_y = ymap;
+    scroll_start_y = ymap;
+    flags[dark_obj->type].flags0 &=
+        (FLG(OBJ0_ALWAYS)|FLG(OBJ0_BALLE)|FLG(OBJ0_NO_COLLISION)|
+        FLG(OBJ0_HIT_RAY)|FLG(OBJ0_KEEP_ACTIVE)|
+        FLG(OBJ0_DETECT_ZONE)|FLG(OBJ0_FLAG6));
+    scrollLocked = false;
+    PlaceDarkPhase1et2(dark_obj);
+    init_corde(dark_obj);
+    corde_en_haut(true);
+    dark_obj->field23_0x3c = 0;
+    dark_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+    AllocateDarkPhase2(dark_obj);
 
+    __asm__("nop\nnop");
+}
+#endif
+
+/* 74708 80198F08 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", goto_phase3);
+#else
+void goto_phase3(Obj *dark_obj)
+{
+    s16 y;
 
+    dark_phase = 3;
+    scroll_end_x = 0;
+    scroll_start_x = 0;
+    scroll_end_y = ymap;
+    scroll_start_y = ymap;
+    flags[dark_obj->type].flags0 &=
+        (FLG(OBJ0_ALWAYS)|FLG(OBJ0_BALLE)|FLG(OBJ0_NO_COLLISION)|
+        FLG(OBJ0_HIT_RAY)|FLG(OBJ0_KEEP_ACTIVE)|
+        FLG(OBJ0_DETECT_ZONE)|FLG(OBJ0_FLAG6));
+    scrollLocked = false;
+    PlaceDarkPhase1et2(dark_obj);
+    init_corde(dark_obj);
+    corde_en_haut(false);
+    dark_obj->x_pos = 0;
+    dark_obj->init_x_pos = 0;
+    dark_obj->speed_x = 0;
+    dark_obj->speed_y = 0;
+    dark_obj->field23_0x3c = 0;
+    y = ymap - dark_obj->offset_by - 20; /* could also write this as one-liner with double assignment */
+    dark_obj->y_pos = y;
+    dark_obj->init_y_pos = y;
+    dark_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+    set_main_and_sub_etat(dark_obj, 0, 21);
+    dark_attaque = 0;
+    type_dark_attaque = *dark_sequence;
+
+    __asm__("nop\nnop");
+}
+#endif
+
+/* 74814 80199014 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", goto_phase5);
+#else
+void goto_phase5(Obj *dark_obj)
+{
+    s16 y;
+
+    dark_phase = 5;
+    scroll_end_x = 0;
+    scroll_start_x = 0;
+    scroll_end_y = ymap;
+    scroll_start_y = ymap;
+    flags[dark_obj->type].flags0 &=
+        (FLG(OBJ0_ALWAYS)|FLG(OBJ0_BALLE)|FLG(OBJ0_NO_COLLISION)|
+        FLG(OBJ0_HIT_RAY)|FLG(OBJ0_KEEP_ACTIVE)|
+        FLG(OBJ0_DETECT_ZONE)|FLG(OBJ0_FLAG6));
+    scrollLocked = false;
+    PlaceDarkPhase1et2(dark_obj);
+    init_corde(dark_obj);
+    corde_en_haut(false);
+    if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+    {
+        DO_NOVA(&ray);
+        RAY_DEMIRAY();
+    }
+    dark_obj->x_pos = 0;
+    dark_obj->init_x_pos = 0;
+    dark_obj->field23_0x3c = 0;
+    y = ymap - dark_obj->offset_by - 20;
+    dark_obj->y_pos = y;
+    dark_obj->init_y_pos = y;
+    dark_obj->flags &= ~FLG(OBJ_ALIVE);
+    dark_obj->flags &= ~FLG(OBJ_ACTIVE);
+    fin_boss = true;
+    finBosslevel[0] |= FLG(7);
+}
+#endif
