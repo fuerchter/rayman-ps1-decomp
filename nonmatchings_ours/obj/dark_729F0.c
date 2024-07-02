@@ -255,7 +255,7 @@ block_54:
 /* matches, but cleanup */
 /*INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DO_DARK_SORT_COMMAND);*/
 
-void DO_DARK_SORT_COMMAND(Obj *param_1, s16 param_2)
+void DO_DARK_SORT_COMMAND(Obj *param_1)
 {
     Obj *temp_s0;
     s16 temp_v0;
@@ -275,8 +275,8 @@ void DO_DARK_SORT_COMMAND(Obj *param_1, s16 param_2)
     u8 temp_v1;
     u8 var_v1_1;
 
-    /*var_s3 = saved_reg_s3;*/
-    var_a1 = param_2;
+    /*var_s3 = saved_reg_s3;
+    var_a1 = param_2;*/
     if (param_1->hit_points != 0)
     {
         temp_v1 = param_1->sub_etat;

@@ -426,11 +426,52 @@ void allocate_DARK_SORT(s16 x, s16 y, s16 sub_etat, s16 iframes)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", corde_en_bas);
+/* 7439C 80198B9C -O2 -msoft-float */
+void corde_en_bas(void)
+{
+    Obj *obj;
 
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", corde_en_haut);
+    if (corde_dark_obj_id != -1)
+    {
+        obj = &level.objects[corde_dark_obj_id];
+        obj->x_pos = corde_x;
+        obj->init_x_pos = corde_x;
+        obj->y_pos = corde_y_bas;
+        obj->init_y_pos = corde_y_bas;
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", init_corde);
+/* 743EC 80198BEC -O2 -msoft-float */
+void corde_en_haut(u8 param_1)
+{
+    Obj *corde_dark_obj;
+    Obj *poing_obj;
+
+    if (corde_dark_obj_id != -1)
+    {
+        corde_dark_obj = &level.objects[corde_dark_obj_id];
+        corde_dark_obj->x_pos = corde_x;
+        corde_dark_obj->y_pos = corde_y_haut;
+        if (param_1)
+        {
+            poing_obj = &level.objects[poing_obj_id];
+            set_main_and_sub_etat(poing_obj, 5, 64);
+            poing_obj->x_pos = corde_dark_obj->x_pos + corde_dark_obj->offset_bx - poing_obj->offset_bx;
+            poing_obj->y_pos = corde_dark_obj->y_pos + corde_dark_obj->offset_by - poing_obj->offset_by - 5;
+            poing_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+        }
+    }
+}
+
+/* 744CC 80198CCC -O2 -msoft-float */
+void init_corde(Obj *obj)
+{
+    corde_x = 0;
+    corde_y_bas = obj->y_pos;
+    corde_y_haut = ymap - 184;
+    if (corde_dark_obj_id != -1)
+        corde_y_haut = obj->y_pos + obj->offset_by - level.objects[corde_dark_obj_id].offset_by - 148;
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", goto_phase1);
 
