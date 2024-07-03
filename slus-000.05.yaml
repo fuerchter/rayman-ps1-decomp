@@ -267,8 +267,8 @@ segments:
       - [0x74FEC, c, obj/dark_74FEC] #801997ec
       - [0x753E8, c, obj/hybride_mosams_command] #80199be8
       - [0x75600, c, obj/hybride_stosko] #80199e00
-      - [0x75B14, asm, obj/hyb_bbf2] #8019a314
-      - [0x76A14, asm, obj/dark_phase2]
+      - [0x75B14, c, obj/hyb_bbf2] #8019a314
+      - [0x76A14, asm, obj/dark_phase2] #8019b214
       - [0x77E14, asm, obj/fire] #8019c614
       - [0x78004, asm, obj/dark2_pink_fly] #8019c804
       - [0x78988, asm, obj/pirate_ngawe] #8019d188
