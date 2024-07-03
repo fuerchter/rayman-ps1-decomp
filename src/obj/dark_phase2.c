@@ -2,6 +2,11 @@
 
 extern Obj *dark_obj;
 extern s16 phase_dark2;
+extern u8 TextDark2_Affiche;
+extern s16 XText;
+extern s16 YText;
+extern s16 temps_text;
+extern u8 txt_dark2[104];
 
 const u8 s_youre_doomed_rayman__8012c1e4[] ="/you're doomed rayman .../";
 
@@ -34,7 +39,19 @@ void AllocateDarkPhase2(Obj *mr_drk_obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/dark_phase2", DO_DARK2_AFFICHE_TEXT);
+/* 76B00 8019B300 -O2 -msoft-float */
+void DO_DARK2_AFFICHE_TEXT(void)
+{
+    s32 x; s32 y;
+
+    if (TextDark2_Affiche)
+    {
+        let_shadow = true;
+        x = XText; y = YText;
+        temps_text += 3;
+        display_text_sin(txt_dark2, x, y, temps_text & 0xFFFF, 2, 10);
+    }
+}
 
 /*INCLUDE_RODATA("asm/nonmatchings/obj/dark_phase2", s_youre_doomed_rayman__8012c1e4);*/
 
