@@ -78,4 +78,29 @@ void AllocateTirBBF2(Obj *bbf2_obj)
 
 INCLUDE_ASM("asm/nonmatchings/obj/hyb_bbf2", DO_HYB_BBF2_LAS);
 
-INCLUDE_ASM("asm/nonmatchings/obj/hyb_bbf2", OBJ_IN_COL_ZDC);
+/* 76870 8019B070 -O2 -msoft-float */
+s32 OBJ_IN_COL_ZDC(Obj *obj1, Obj *obj2)
+{
+    s16 x1; s16 y1; s16 w1;
+    s16 x2; s16 y2; s16 w2;
+    s16 h;
+    ZDC *zdc1 = get_zdc(obj1, 0);
+    ZDC *zdc2 = get_zdc(obj2, 0);
+
+    GET_SPRITE_POS(obj1, zdc1->sprite, &x1, &y1, &w1, &h);
+    GET_SPRITE_POS(obj2, zdc2->sprite, &x2, &y2, &w2, &h);
+
+    if (!(obj1->flags & FLG(OBJ_FLIP_X)))
+        x1 += zdc1->x_pos;
+    else
+        x1 = (x1 + w1) - (zdc1->x_pos + zdc1->width);
+    
+    if (!(obj2->flags & FLG(OBJ_FLIP_X)))
+        x2 += zdc2->x_pos;
+    else
+        x2 = (x2 + w2) - (zdc2->width + zdc2->x_pos);
+    y1 += zdc1->y_pos;
+    y2 += zdc2->y_pos;
+
+    return (s16) inter_box(x1, y1, zdc1->width, zdc1->height, x2, y2, zdc2->width, zdc2->height);
+}
