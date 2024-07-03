@@ -39,7 +39,42 @@ void DO_HYB_BBF2_POING_COLLISION(Obj *obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/hyb_bbf2", AllocateTirBBF2);
+/*INCLUDE_ASM("asm/nonmatchings/obj/hyb_bbf2", AllocateTirBBF2);*/
+
+void AllocateTirBBF2(Obj *bbf2_obj)
+{
+    Obj *cur_obj = &level.objects[0];
+    s16 i = 0;
+    s16 nb_objs = level.nb_objects;
+
+    while (i < nb_objs)
+    {
+        if (cur_obj->type == TYPE_HYB_BBF2_LAS && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+        {
+            cur_obj->display_prio = 4;
+            cur_obj->init_x_pos = cur_obj->x_pos = bbf2_obj->x_pos;
+            cur_obj->init_y_pos = cur_obj->y_pos = bbf2_obj->y_pos;
+            if (bbf2_obj->type == TYPE_HYB_BBF2_D)
+            {
+                cur_obj->speed_x = -5;
+                TirBBF2D = cur_obj;
+                cur_obj->flags &= ~FLG(OBJ_FLIP_X);
+            }
+            else
+            {
+                cur_obj->speed_x = 5;
+                TirBBF2G = cur_obj;
+                cur_obj->flags |= FLG(OBJ_FLIP_X);
+            }
+            cur_obj->speed_y = 0;
+            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            cur_obj->field24_0x3e = bbf2_obj->field24_0x3e;
+            break;
+        }
+        cur_obj++;
+        i++;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/hyb_bbf2", DO_HYB_BBF2_LAS);
 
