@@ -5,7 +5,7 @@
 #include "common/obj.h"
 #include "collision/etat.h"
 
-void AllocateDarkPhase2(Obj *obj);
+void AllocateDarkPhase2(Obj *mr_drk_obj);
 void DO_DARK2_AFFICHE_TEXT(void);
 void DO_DARK_PHASE2_COMMAND(Obj *obj);
 void DO_DARK2_SORT_COMMAND(Obj *param_1);
