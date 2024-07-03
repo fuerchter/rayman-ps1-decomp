@@ -33,7 +33,7 @@ INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DARK_phase1);
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DARK_phase3);
 #else
-void DARK_phase3(Obj *dark_obj)
+void DARK_phase3(Obj *mr_drk_obj)
 {
     Obj *boss_obj;
     s16 unk_1;
@@ -114,7 +114,7 @@ void DARK_phase3(Obj *dark_obj)
         break;
     case 3:
         allume_vitraux((u8 (*)[5]) vitrail_clignotement[3]);
-        goto_phase5(dark_obj);
+        goto_phase5(mr_drk_obj);
         break;
     }
 
@@ -126,82 +126,82 @@ void DARK_phase3(Obj *dark_obj)
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DO_DARK_COMMAND);
 #else
-void DO_DARK_COMMAND(Obj *dark_obj)
+void DO_DARK_COMMAND(Obj *mr_drk_obj)
 {
     u8 flag_set;
     s16 dark_x; s16 dark_y; s16 dark_w; s16 dark_h;
     s16 sort_x; s16 sort_y;
 
-    if (dark_obj->main_etat == 0)
+    if (mr_drk_obj->main_etat == 0)
     {
-        if (dark_obj->sub_etat == 39)
+        if (mr_drk_obj->sub_etat == 39)
         {
             switch (dark_phase)
             {
             case 0:
             case 1:
-                goto_phase1(dark_obj);
+                goto_phase1(mr_drk_obj);
                 break;
             case 2:
-                goto_phase2(dark_obj);
+                goto_phase2(mr_drk_obj);
                 break;
             case 3:
-                goto_phase3(dark_obj);
+                goto_phase3(mr_drk_obj);
                 break;
             case 5:
-                goto_phase5(dark_obj);
+                goto_phase5(mr_drk_obj);
                 break;
             }
         }
 
-        if (dark_obj->main_etat == 0)
+        if (mr_drk_obj->main_etat == 0)
         {
-            if (dark_obj->sub_etat == 6)
+            if (mr_drk_obj->sub_etat == 6)
             {
-                if (dark_obj->anim_frame == 4)
-                    dark_obj->speed_y = -4;
+                if (mr_drk_obj->anim_frame == 4)
+                    mr_drk_obj->speed_y = -4;
                 else
                 {
                     if (dark_phase == 4)
                     {
-                        flag_set = dark_obj->eta[dark_obj->main_etat][dark_obj->sub_etat].flags & 0x10;
+                        flag_set = mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].flags & 0x10;
                         if(
-                            ((flag_set && dark_obj->anim_frame == 0) ||
-                            (!flag_set && dark_obj->anim_frame == dark_obj->animations[dark_obj->anim_index].frames_count - 1)) &&
-                            horloge[dark_obj->eta[dark_obj->main_etat][dark_obj->sub_etat].anim_speed & 0xf] == 0
+                            ((flag_set && mr_drk_obj->anim_frame == 0) ||
+                            (!flag_set && mr_drk_obj->anim_frame == mr_drk_obj->animations[mr_drk_obj->anim_index].frames_count - 1)) &&
+                            horloge[mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].anim_speed & 0xf] == 0
                         )
-                            goto_phase5(dark_obj);
+                            goto_phase5(mr_drk_obj);
                     }
                     else
                     {
-                        flag_set = dark_obj->eta[dark_obj->main_etat][dark_obj->sub_etat].flags & 0x10;
+                        flag_set = mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].flags & 0x10;
                         if(
-                            ((flag_set && dark_obj->anim_frame == 0) ||
-                            (!flag_set && dark_obj->anim_frame == dark_obj->animations[dark_obj->anim_index].frames_count - 1)) &&
-                            horloge[dark_obj->eta[dark_obj->main_etat][dark_obj->sub_etat].anim_speed & 0xf] == 0
+                            ((flag_set && mr_drk_obj->anim_frame == 0) ||
+                            (!flag_set && mr_drk_obj->anim_frame == mr_drk_obj->animations[mr_drk_obj->anim_index].frames_count - 1)) &&
+                            horloge[mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].anim_speed & 0xf] == 0
                         )
                         {
-                            dark_obj->flags &= ~FLG(OBJ_ACTIVE);
-                            dark_obj->flags &= ~FLG(OBJ_ALIVE);
+                            mr_drk_obj->flags &= ~FLG(OBJ_ACTIVE);
+                            mr_drk_obj->flags &= ~FLG(OBJ_ALIVE);
                         }
                     }
                 }
             }
             else if (
                 (
-                    dark_obj->sub_etat == 8 || dark_obj->sub_etat == 10 || dark_obj->sub_etat == 12 ||
-                    dark_obj->sub_etat == 14 || dark_obj->sub_etat == 22 || dark_obj->sub_etat == 23 ||
-                    dark_obj->sub_etat == 24
+                    mr_drk_obj->sub_etat == 8 || mr_drk_obj->sub_etat == 10 || mr_drk_obj->sub_etat == 12 ||
+                    mr_drk_obj->sub_etat == 14 || mr_drk_obj->sub_etat == 22 || mr_drk_obj->sub_etat == 23 ||
+                    mr_drk_obj->sub_etat == 24
                 ) &&
-                dark_obj->anim_frame == 22
+                mr_drk_obj->anim_frame == 22
             )
             {
-                GET_SPRITE_POS(dark_obj, 3, &dark_x, &dark_y, &dark_w, &dark_h);
+                GET_SPRITE_POS(mr_drk_obj, 3, &dark_x, &dark_y, &dark_w, &dark_h);
                 dark_rayon_dx = -5;
                 dark_rayon_dy = 0;
                 sort_x = dark_x + (dark_w >> 1) - 96;
                 sort_y = dark_y + (dark_h >> 1) - 128;
-                switch (dark_obj->sub_etat)
+                switch (mr_drk_obj->sub_etat)
                 {
                 case 8:
                     allocate_DARK_SORT(sort_x, sort_y, 0, 1);
@@ -237,21 +237,21 @@ void DO_DARK_COMMAND(Obj *dark_obj)
             }
             else
             {
-                if (dark_obj->main_etat == 0)
+                if (mr_drk_obj->main_etat == 0)
                 {
-                    if (dark_obj->sub_etat == 15)
+                    if (mr_drk_obj->sub_etat == 15)
                     {
-                        if (dark_obj->anim_frame == 0)
+                        if (mr_drk_obj->anim_frame == 0)
                         {
-                            if (horloge[dark_obj->eta[dark_obj->main_etat][dark_obj->sub_etat].anim_speed & 0xF] == 0)
+                            if (horloge[mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].anim_speed & 0xF] == 0)
                             {
-                                DO_NOVA2(dark_obj);
-                                dark_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE)|FLG(OBJ_FLIP_X);
+                                DO_NOVA2(mr_drk_obj);
+                                mr_drk_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE)|FLG(OBJ_FLIP_X);
                             }
                         }
-                        else if (dark_obj->anim_frame == 22)
+                        else if (mr_drk_obj->anim_frame == 22)
                         {
-                            GET_SPRITE_POS(dark_obj, 3, &dark_x, &dark_y, &dark_w, &dark_h);
+                            GET_SPRITE_POS(mr_drk_obj, 3, &dark_x, &dark_y, &dark_w, &dark_h);
                             dark_rayon_dx = -2;
                             dark_rayon_dy = 0;
                             allocate_DARK_SORT(
@@ -262,14 +262,14 @@ void DO_DARK_COMMAND(Obj *dark_obj)
                             );
                         }
                     }
-                    else if (dark_obj->sub_etat == 21)
-                        DARK_phase3(dark_obj);
+                    else if (mr_drk_obj->sub_etat == 21)
+                        DARK_phase3(mr_drk_obj);
                     else if (
-                        dark_obj->sub_etat == 26 || dark_obj->sub_etat == 27 ||
-                        dark_obj->sub_etat == 28 || dark_obj->sub_etat == 29 ||
-                        dark_obj->sub_etat == 40
+                        mr_drk_obj->sub_etat == 26 || mr_drk_obj->sub_etat == 27 ||
+                        mr_drk_obj->sub_etat == 28 || mr_drk_obj->sub_etat == 29 ||
+                        mr_drk_obj->sub_etat == 40
                     )
-                        DARK_phase1(dark_obj);
+                        DARK_phase1(mr_drk_obj);
                 }
             }
         }
@@ -456,7 +456,7 @@ void init_corde(Obj *obj)
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", goto_phase1);
 #else
-void goto_phase1(Obj *dark_obj)
+void goto_phase1(Obj *mr_drk_obj)
 {
     Obj *corde_dark_obj;
 
@@ -465,18 +465,18 @@ void goto_phase1(Obj *dark_obj)
     scroll_start_x = 0;
     scroll_end_y = ymap;
     scroll_start_y = ymap;
-    flags[dark_obj->type].flags0 &=
+    flags[mr_drk_obj->type].flags0 &=
         (FLG(OBJ0_ALWAYS)|FLG(OBJ0_BALLE)|FLG(OBJ0_NO_COLLISION)|
         FLG(OBJ0_HIT_RAY)|FLG(OBJ0_KEEP_ACTIVE)|
         FLG(OBJ0_DETECT_ZONE)|FLG(OBJ0_FLAG6));
-    dark_obj->field23_0x3c = 0;
+    mr_drk_obj->field23_0x3c = 0;
     scrollLocked = false;
     RayEvts.flags0 &=
         (FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO)|FLG(RAYEVTS0_SUPER_HELICO)|
         FLG(RAYEVTS0_HANDSTAND_DASH)|FLG(RAYEVTS0_HANDSTAND)|
         FLG(RAYEVTS0_GRAIN)|FLG(RAYEVTS0_GRAP));
-    PlaceDarkPhase1et2(dark_obj);
-    init_corde(dark_obj);
+    PlaceDarkPhase1et2(mr_drk_obj);
+    init_corde(mr_drk_obj);
     if (corde_dark_obj_id != -1)
     {
         corde_dark_obj = &level.objects[corde_dark_obj_id];
@@ -484,7 +484,7 @@ void goto_phase1(Obj *dark_obj)
         corde_dark_obj->iframes_timer = 29;
     }
     corde_en_bas();
-    set_main_and_sub_etat(dark_obj, 0, 26);
+    set_main_and_sub_etat(mr_drk_obj, 0, 26);
 
     __asm__("nop\nnop");
 }
@@ -494,24 +494,24 @@ void goto_phase1(Obj *dark_obj)
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", goto_phase2);
 #else
-void goto_phase2(Obj *dark_obj)
+void goto_phase2(Obj *mr_drk_obj)
 {
     dark_phase = 2;
     scroll_end_x = 0;
     scroll_start_x = 0;
     scroll_end_y = ymap;
     scroll_start_y = ymap;
-    flags[dark_obj->type].flags0 &=
+    flags[mr_drk_obj->type].flags0 &=
         (FLG(OBJ0_ALWAYS)|FLG(OBJ0_BALLE)|FLG(OBJ0_NO_COLLISION)|
         FLG(OBJ0_HIT_RAY)|FLG(OBJ0_KEEP_ACTIVE)|
         FLG(OBJ0_DETECT_ZONE)|FLG(OBJ0_FLAG6));
     scrollLocked = false;
-    PlaceDarkPhase1et2(dark_obj);
-    init_corde(dark_obj);
+    PlaceDarkPhase1et2(mr_drk_obj);
+    init_corde(mr_drk_obj);
     corde_en_haut(true);
-    dark_obj->field23_0x3c = 0;
-    dark_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
-    AllocateDarkPhase2(dark_obj);
+    mr_drk_obj->field23_0x3c = 0;
+    mr_drk_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+    AllocateDarkPhase2(mr_drk_obj);
 
     __asm__("nop\nnop");
 }
@@ -521,7 +521,7 @@ void goto_phase2(Obj *dark_obj)
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", goto_phase3);
 #else
-void goto_phase3(Obj *dark_obj)
+void goto_phase3(Obj *mr_drk_obj)
 {
     s16 y;
 
@@ -530,24 +530,24 @@ void goto_phase3(Obj *dark_obj)
     scroll_start_x = 0;
     scroll_end_y = ymap;
     scroll_start_y = ymap;
-    flags[dark_obj->type].flags0 &=
+    flags[mr_drk_obj->type].flags0 &=
         (FLG(OBJ0_ALWAYS)|FLG(OBJ0_BALLE)|FLG(OBJ0_NO_COLLISION)|
         FLG(OBJ0_HIT_RAY)|FLG(OBJ0_KEEP_ACTIVE)|
         FLG(OBJ0_DETECT_ZONE)|FLG(OBJ0_FLAG6));
     scrollLocked = false;
-    PlaceDarkPhase1et2(dark_obj);
-    init_corde(dark_obj);
+    PlaceDarkPhase1et2(mr_drk_obj);
+    init_corde(mr_drk_obj);
     corde_en_haut(false);
-    dark_obj->x_pos = 0;
-    dark_obj->init_x_pos = 0;
-    dark_obj->speed_x = 0;
-    dark_obj->speed_y = 0;
-    dark_obj->field23_0x3c = 0;
-    y = ymap - dark_obj->offset_by - 20; /* could also write this as one-liner with double assignment */
-    dark_obj->y_pos = y;
-    dark_obj->init_y_pos = y;
-    dark_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
-    set_main_and_sub_etat(dark_obj, 0, 21);
+    mr_drk_obj->x_pos = 0;
+    mr_drk_obj->init_x_pos = 0;
+    mr_drk_obj->speed_x = 0;
+    mr_drk_obj->speed_y = 0;
+    mr_drk_obj->field23_0x3c = 0;
+    y = ymap - mr_drk_obj->offset_by - 20; /* could also write this as one-liner with double assignment */
+    mr_drk_obj->y_pos = y;
+    mr_drk_obj->init_y_pos = y;
+    mr_drk_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+    set_main_and_sub_etat(mr_drk_obj, 0, 21);
     dark_attaque = 0;
     type_dark_attaque = *dark_sequence;
 
@@ -559,7 +559,7 @@ void goto_phase3(Obj *dark_obj)
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", goto_phase5);
 #else
-void goto_phase5(Obj *dark_obj)
+void goto_phase5(Obj *mr_drk_obj)
 {
     s16 y;
 
@@ -568,27 +568,27 @@ void goto_phase5(Obj *dark_obj)
     scroll_start_x = 0;
     scroll_end_y = ymap;
     scroll_start_y = ymap;
-    flags[dark_obj->type].flags0 &=
+    flags[mr_drk_obj->type].flags0 &=
         (FLG(OBJ0_ALWAYS)|FLG(OBJ0_BALLE)|FLG(OBJ0_NO_COLLISION)|
         FLG(OBJ0_HIT_RAY)|FLG(OBJ0_KEEP_ACTIVE)|
         FLG(OBJ0_DETECT_ZONE)|FLG(OBJ0_FLAG6));
     scrollLocked = false;
-    PlaceDarkPhase1et2(dark_obj);
-    init_corde(dark_obj);
+    PlaceDarkPhase1et2(mr_drk_obj);
+    init_corde(mr_drk_obj);
     corde_en_haut(false);
     if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
     {
         DO_NOVA(&ray);
         RAY_DEMIRAY();
     }
-    dark_obj->x_pos = 0;
-    dark_obj->init_x_pos = 0;
-    dark_obj->field23_0x3c = 0;
-    y = ymap - dark_obj->offset_by - 20;
-    dark_obj->y_pos = y;
-    dark_obj->init_y_pos = y;
-    dark_obj->flags &= ~FLG(OBJ_ALIVE);
-    dark_obj->flags &= ~FLG(OBJ_ACTIVE);
+    mr_drk_obj->x_pos = 0;
+    mr_drk_obj->init_x_pos = 0;
+    mr_drk_obj->field23_0x3c = 0;
+    y = ymap - mr_drk_obj->offset_by - 20;
+    mr_drk_obj->y_pos = y;
+    mr_drk_obj->init_y_pos = y;
+    mr_drk_obj->flags &= ~FLG(OBJ_ALIVE);
+    mr_drk_obj->flags &= ~FLG(OBJ_ACTIVE);
     fin_boss = true;
     finBosslevel[0] |= FLG(7);
 

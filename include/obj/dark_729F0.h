@@ -49,9 +49,9 @@ void PlaceDarkPhase1et2(Obj *obj);
 void dark_attaque_suivante(void);
 void init_vitraux(void);
 s32 poing_face_obj(Obj *obj);
-void DARK_phase1(Obj *dark_obj);
-void DARK_phase3(Obj *dark_obj);
-void DO_DARK_COMMAND(Obj *dark_obj);
+void DARK_phase1(Obj *mr_drk_obj);
+void DARK_phase3(Obj *mr_drk_obj);
+void DO_DARK_COMMAND(Obj *mr_drk_obj);
 void DO_DARK_POING_COLLISION(Obj *obj);
 void DO_DARK_REACT(Obj *obj);
 void DO_DARK_SORT_COMMAND(Obj *param_1);
@@ -60,9 +60,9 @@ void allocate_DARK_SORT(s16 x, s16 y, s16 sub_etat, s16 iframes);
 void corde_en_bas(void);
 void corde_en_haut(u8 param_1);
 void init_corde(Obj *obj);
-void goto_phase1(Obj *dark_obj);
-void goto_phase2(Obj *dark_obj);
-void goto_phase3(Obj *dark_obj);
-void goto_phase5(Obj *dark_obj);
+void goto_phase1(Obj *mr_drk_obj);
+void goto_phase2(Obj *mr_drk_obj);
+void goto_phase3(Obj *mr_drk_obj);
+void goto_phase5(Obj *mr_drk_obj);
 
 #endif

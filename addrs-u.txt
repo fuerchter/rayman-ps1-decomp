@@ -202,6 +202,7 @@ s_idle_801ceec4 = 0x801ceec4;
 s_busy_801ceecc = 0x801ceecc;
 s_yes_801ceed4 = 0x801ceed4;
 s_no_801ceed8 = 0x801ceed8;
+s_youre_doomed_rayman__8012c1e4 = 0x8012c1e4; // type:asciz force_not_migration:True
 
 ray = 0x801f61a0;
 //ray_obj_sprites = 0x801f61a0;

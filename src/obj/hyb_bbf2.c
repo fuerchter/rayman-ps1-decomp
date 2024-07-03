@@ -1,8 +1,5 @@
 #include "obj/hyb_bbf2.h"
 
-extern Obj *TirBBF2D;
-extern Obj *TirBBF2G;
-
 INCLUDE_ASM("asm/nonmatchings/obj/hyb_bbf2", doBBF2command);
 
 /* 76300 8019AB00 -O2 -msoft-float */

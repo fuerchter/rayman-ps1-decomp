@@ -76,7 +76,7 @@ block_4:
 /* matches, but cleanup */
 /*INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DARK_phase1);*/
 
-void DARK_phase1(Obj *dark_obj)
+void DARK_phase1(Obj *mr_drk_obj)
 {
     Obj *temp_s1;
     Obj *var_s2;
@@ -97,7 +97,7 @@ void DARK_phase1(Obj *dark_obj)
     u8 flag_set;
 
     /*var_s2 = saved_reg_s2;*/
-    if ((corde_dark_obj_id != -1) && (dark_obj->main_etat == 0))
+    if ((corde_dark_obj_id != -1) && (mr_drk_obj->main_etat == 0))
     {
         temp_s1 = &level.objects[corde_dark_obj_id];
         if (poing_obj_id != -1)
@@ -108,18 +108,18 @@ void DARK_phase1(Obj *dark_obj)
             var_s2->y_pos = ((temp_s1->offset_by + (u16) temp_s1->y_pos) - var_s2->offset_by) - 5;
             var_s2->flags |= 0xC00;
         }
-        temp_v0 = dark_obj->sub_etat;
+        temp_v0 = mr_drk_obj->sub_etat;
         switch (temp_v0)
         {
         case 40:
-            flag_set = dark_obj->eta[dark_obj->main_etat][dark_obj->sub_etat].flags & 0x10;
+            flag_set = mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].flags & 0x10;
             if(
-                ((flag_set && dark_obj->anim_frame == 0) ||
-                (!flag_set && dark_obj->anim_frame == dark_obj->animations[dark_obj->anim_index].frames_count - 1)) &&
-                horloge[dark_obj->eta[dark_obj->main_etat][dark_obj->sub_etat].anim_speed & 0xf] == 0
+                ((flag_set && mr_drk_obj->anim_frame == 0) ||
+                (!flag_set && mr_drk_obj->anim_frame == mr_drk_obj->animations[mr_drk_obj->anim_index].frames_count - 1)) &&
+                horloge[mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].anim_speed & 0xf] == 0
             )
             {
-                    goto_phase2(dark_obj);
+                    goto_phase2(mr_drk_obj);
                     return;
             }
             break;
@@ -134,22 +134,22 @@ void DARK_phase1(Obj *dark_obj)
                 var_s2->y_pos = ((temp_s1->offset_by + (u16) temp_s1->y_pos) - var_s2->offset_by) - 5;
             }
             
-            flag_set = dark_obj->eta[dark_obj->main_etat][dark_obj->sub_etat].flags & 0x10;
+            flag_set = mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].flags & 0x10;
             if(
-                ((flag_set && dark_obj->anim_frame == 0) ||
-                (!flag_set && dark_obj->anim_frame == dark_obj->animations[dark_obj->anim_index].frames_count - 1)) &&
-                horloge[dark_obj->eta[dark_obj->main_etat][dark_obj->sub_etat].anim_speed & 0xf] == 0
+                ((flag_set && mr_drk_obj->anim_frame == 0) ||
+                (!flag_set && mr_drk_obj->anim_frame == mr_drk_obj->animations[mr_drk_obj->anim_index].frames_count - 1)) &&
+                horloge[mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].anim_speed & 0xf] == 0
             )
             {
 
                     temp_s1->field23_0x3c--;
                     if ((temp_s1->field23_0x3c) == 0)
                     {
-                        set_main_and_sub_etat(dark_obj, 0U, 0x28U);
+                        set_main_and_sub_etat(mr_drk_obj, 0U, 0x28U);
                         return;
                     }
                     temp_s1->iframes_timer = 0;
-                    set_main_and_sub_etat(dark_obj, 0U, 0x1CU);
+                    set_main_and_sub_etat(mr_drk_obj, 0U, 0x1CU);
                     return;
             }
             break;
@@ -164,22 +164,22 @@ void DARK_phase1(Obj *dark_obj)
                 var_s2->y_pos = ((temp_s1->offset_by + (u16) temp_s1->y_pos) - var_s2->offset_by) - 5;
             }
             
-            flag_set = dark_obj->eta[dark_obj->main_etat][dark_obj->sub_etat].flags & 0x10;
+            flag_set = mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].flags & 0x10;
             if(
-                ((flag_set && dark_obj->anim_frame == 0) ||
-                (!flag_set && dark_obj->anim_frame == dark_obj->animations[dark_obj->anim_index].frames_count - 1)) &&
-                horloge[dark_obj->eta[dark_obj->main_etat][dark_obj->sub_etat].anim_speed & 0xf] == 0
+                ((flag_set && mr_drk_obj->anim_frame == 0) ||
+                (!flag_set && mr_drk_obj->anim_frame == mr_drk_obj->animations[mr_drk_obj->anim_index].frames_count - 1)) &&
+                horloge[mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].anim_speed & 0xf] == 0
             )
             {
                 temp_s1->iframes_timer = 0;
-                set_main_and_sub_etat(dark_obj, 0U, 0x1AU);
+                set_main_and_sub_etat(mr_drk_obj, 0U, 0x1AU);
                 return;
             }
 
             if (ray.main_etat == 2)
             {
 block_53:
-                set_main_and_sub_etat(dark_obj, 0U, 0x1BU);
+                set_main_and_sub_etat(mr_drk_obj, 0U, 0x1BU);
                 return;
             }
             break;
@@ -195,13 +195,13 @@ block_53:
             {
                 var_a2 = 1;
             }
-            temp_v1 = dark_obj->sub_etat;
+            temp_v1 = mr_drk_obj->sub_etat;
             switch (temp_v1)
             {
             case 26:
                 if (!(!(var_a2 & 0xFF) && ((ray.main_etat != 2) || (ray.sub_etat != 0))))
                 {
-                    set_main_and_sub_etat(dark_obj, 0U, 0x1BU);
+                    set_main_and_sub_etat(mr_drk_obj, 0U, 0x1BU);
                     return;
                 }
                 else
@@ -210,7 +210,7 @@ block_53:
                     {
                         if ((__builtin_abs(temp_a0) < 0x1E) && (temp_a1_2 < 0xBB8U))
                         {
-                            set_main_and_sub_etat(dark_obj, 0U, 0x1BU);
+                            set_main_and_sub_etat(mr_drk_obj, 0U, 0x1BU);
                             return;
                         }
                         goto block_54;
@@ -231,7 +231,7 @@ block_54:
             case 28:
                 if (!(var_a2 & 0xFF) && (ray.main_etat != 2))
                 {
-                    set_main_and_sub_etat(dark_obj, 0U, 0x1DU);
+                    set_main_and_sub_etat(mr_drk_obj, 0U, 0x1DU);
                     return;
                 }
                 temp_v1_3 = temp_s1->iframes_timer;

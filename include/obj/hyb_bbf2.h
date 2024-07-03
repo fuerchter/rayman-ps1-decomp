@@ -12,6 +12,8 @@ extern u8 BBF2GEsk;
 extern s16 NiveauSol;
 extern s16 YPosBBF2D;
 extern s16 YPosBBF2G;
+extern Obj *TirBBF2D;
+extern Obj *TirBBF2G;
 
 void doBBF2command(Obj *obj, u16 param_2);
 void DO_HYB_BBF2_POING_COLLISION(Obj *obj);

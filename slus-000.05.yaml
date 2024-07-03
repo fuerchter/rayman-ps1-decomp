@@ -103,7 +103,7 @@ segments:
       - [0x7898, .rodata, obj/dark_729F0] #8012c098
       - [0x7934, rodata]
       - [0x7968, .rodata, obj/hybride_mosams_command] #8012C168
-      - [0x79E4, rodata]
+      - [0x79E4, .rodata, obj/dark_phase2] #8012C1E4
       - [0x7A30, .rodata, loading_794DC] #8012C230
       - [0x7B68, rodata]
       - [0x7C68, .rodata, demo_7F2BC] #8012c468
@@ -268,7 +268,7 @@ segments:
       - [0x753E8, c, obj/hybride_mosams_command] #80199be8
       - [0x75600, c, obj/hybride_stosko] #80199e00
       - [0x75B14, c, obj/hyb_bbf2] #8019a314
-      - [0x76A14, asm, obj/dark_phase2] #8019b214
+      - [0x76A14, c, obj/dark_phase2] #8019b214
       - [0x77E14, asm, obj/fire] #8019c614
       - [0x78004, asm, obj/dark2_pink_fly] #8019c804
       - [0x78988, asm, obj/pirate_ngawe] #8019d188
