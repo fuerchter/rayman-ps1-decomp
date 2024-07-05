@@ -9,6 +9,6 @@ void AllocateDarkPhase2(Obj *mr_drk_obj);
 void DO_DARK2_AFFICHE_TEXT(void);
 void DO_DARK_PHASE2_COMMAND(Obj *obj);
 void DO_DARK2_SORT_COMMAND(Obj *param_1);
-void allocate_DARK2_SORT(s16 param_1, s16 param_2, u8 param_3, s16 param_4);
+void allocate_DARK2_SORT(s32 param_1, s16 param_2, s16 param_3, s16 param_4);
 
 #endif

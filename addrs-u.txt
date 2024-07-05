@@ -50,6 +50,15 @@ PS1_TPage_y = 0x801f8174;
 PS1_Glass_brightness = 0x801cef44;
 PS1_Glass_brightness_diff = 0x801cef4c;
 PS1_Tile_clut_y_offs = 0x801f4a40;
+dark2_rayon_dx_1 = 0x801e4bd8;
+dark2_rayon_dy_1 = 0x801e4be8;
+dark2_rayon_dx_2 = 0x801e4bf0;
+dark2_rayon_dy_2 = 0x801e4bf8;
+PosXSin1 = 0x801f4a30;
+PosYSin1 = 0x801f4df8;
+PosXSin2 = 0x801f4e00;
+PosYSin2 = 0x801f4e08;
+
 
 D_801C438C = 0x801C438C;
 D_801CEE10 = 0x801cee10;
@@ -1433,8 +1442,6 @@ y_main_luc = 0x801e4ba8;
 sko_nb_hit = 0x801e4bb0;
 hand_btypg = 0x801e4bb8;
 debut_options = 0x801e4bc0;
-dark2_rayon_dy_1 = 0x801e4be8;
-dark2_rayon_dy_2 = 0x801e4bf8;
 pma_groupe = 0x801e4c00;
 indice_ray_wait = 0x801e4c18;
 YaDesChiens = 0x801e4c28;
