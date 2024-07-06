@@ -56,7 +56,67 @@ s16 get_ZDCPTR(void)
     return ZDCPTR;
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", in_coll_sprite_list);
+/* 1B2E0 8013FAE0 -O2 -msoft-float */
+s16 in_coll_sprite_list(Obj *obj, s16 param_2) /* has ugly stuff, but overall fine? */
+{
+    u8 unk_1[16];
+    s16 i;
+    s16 res = false;
+    
+    switch(obj->type)
+    {
+    case TYPE_GENEBADGUY:
+        unk_1[0] = 0;
+        unk_1[1] = 1;
+        unk_1[2] = 2;
+        unk_1[3] = 0xFF;
+        break;
+    case TYPE_BADGUY3:
+        if (obj->main_etat == 0)
+        {
+            if (obj->sub_etat == 15 || obj->sub_etat == 16 || obj->sub_etat == 17)
+                unk_1[0] = 4;
+            else
+                unk_1[0] = 2;
+        }
+        else
+            unk_1[0] = 2;
+        unk_1[1] = 0xFF;
+        break;
+    case TYPE_MITE:
+    case TYPE_MITE2:
+        unk_1[0] = 1;
+        if (obj->sub_etat == 11)
+        {
+            if (obj->main_etat == 2)
+                unk_1[1] = 3;
+            else
+            {
+                if (obj->anim_frame > 15)
+                    unk_1[1] = 2;
+                else
+                    unk_1[1] = 0xFF;
+            }
+            unk_1[2] = 0xFF;
+        }
+        else
+            unk_1[1] = 0xFF;
+        break;
+    default:
+        unk_1[0] = 0;
+        unk_1[1] = 0xFF;
+        break;
+    }
+
+    i = 0;
+    do
+    {
+        res = param_2 == unk_1[i];
+        i++;
+    } while (unk_1[i] != 0xFF && res != true);
+
+    return res;
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", box_inter_v_line);
 /* ??? think param_6 and 7 might be s32 ??? */
