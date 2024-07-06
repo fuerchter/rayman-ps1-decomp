@@ -442,7 +442,162 @@ void GET_OBJ_ZDC(Obj *obj, s16 *in_x, s16 *in_y, s16 *in_w, s16 *in_h)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", GET_SPRITE_ZDC);
+/* 1C034 80140834 -O2 -msoft-float */
+s16 GET_SPRITE_ZDC(Obj *obj, s16 index, s16 *out_x, s16 *out_y, s16 *out_w, s16 *out_h)
+{
+    s16 type;
+    s32 unk_x; s32 unk_y; s32 unk_w; s32 unk_h;
+    s16 spr_x; s16 spr_y; s16 spr_w; s16 spr_h;
+    s16 succ;
+    s16 temp_h;
+
+    type = obj->type;
+    unk_h = 0;
+    unk_w = 0;
+    unk_y = 0;
+    unk_x = 0;
+    succ = GET_SPRITE_POS(obj, index, &spr_x, &spr_y, &spr_w, &spr_h);
+    if (succ)
+    {
+        switch (type)
+        {
+        case TYPE_CYMBALE:
+            switch (index)
+            {
+            case 3:
+                unk_x = 4;
+                unk_y = 2;
+                unk_w = -4;
+                unk_h = -10;
+                break;
+            case 4:
+                unk_x = 0;
+                unk_y = 2;
+                unk_w = 0;
+                unk_h = -10;
+                break;
+            case 5:
+                unk_x = 0;
+                unk_y = 2;
+                unk_w = -4;
+                unk_h = -10;
+                break;
+            }
+            break;
+        case TYPE_GENEBADGUY:
+            if (
+              (obj->main_etat == 0 && obj->sub_etat == 0) ||
+              (obj->main_etat == 1 && obj->sub_etat == 0)
+            )
+            {
+                switch (index)
+                {
+                case 0:
+                    unk_x = 10;
+                    unk_y = 0;
+                    spr_w = 34;
+                    spr_h = 32;
+                    break;
+                case 1:
+                    unk_x = 4;
+                    unk_y = 0;
+                    spr_w = 26;
+                    break;
+                case 2:
+                    unk_x = 4;
+                    unk_y = 0;
+                    spr_w = 48;
+                    spr_h = 24;
+                    break;
+                }
+            }
+            else if (obj->main_etat == 0 && obj->sub_etat == 1)
+            {
+                spr_x = obj->x_pos + 112;
+                spr_y = obj->y_pos + 184;
+                spr_w = 32;
+                spr_h = 16;
+            }
+            else
+            {
+                spr_w = 0;
+                spr_h = 0;
+                succ = false;
+            }
+            break;
+        case TYPE_BADGUY3:
+            if (index != 2)
+            {
+                if (index == 4)
+                {
+                    unk_x = -3;
+                    unk_y = 0;
+                    spr_w = 21;
+                    spr_h = 10;
+                    break;
+                }
+            }
+            else
+            {
+                unk_x = 1;
+                unk_y = -4;
+                unk_w = -2;
+                unk_h = 6;
+            }
+            break;
+        case TYPE_MITE:
+        case TYPE_MITE2:
+            switch (index)
+            {
+            case 1:
+                if (obj->main_etat == 0)
+                {
+                    if (obj->sub_etat == 9 || obj->sub_etat == 10 || obj->sub_etat == 11)
+                    {
+                        unk_x = -8;
+                        unk_y = 5;
+                        spr_w = 26;
+                        temp_h = 8;
+                    }
+                    else
+                    {
+                        unk_x = 1;
+                        unk_y = -5;
+                        spr_w = 16;
+                        temp_h = 30;
+                    }
+                }
+                else
+                {
+                    unk_x = 1;
+                    unk_y = -5;
+                    spr_w = 16;
+                    temp_h = 30;
+                }
+                spr_h = temp_h;
+                break;
+            case 2:
+                unk_x = 0;
+                unk_y = 7;
+                spr_w = 16;
+                spr_h = 16;
+                break;
+            case 3:
+                unk_x = 0;
+                unk_y = 2;
+                spr_w = 13;
+                spr_h = 9;
+                break;
+            }
+            break;
+        }
+        *out_x = unk_x + spr_x;
+        *out_y = unk_y + spr_y;
+        *out_w = unk_w + spr_w;
+        *out_h = unk_h + spr_h;
+    }
+    return succ;
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", BOX_HIT_SPECIAL_ZDC);
 

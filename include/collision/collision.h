@@ -53,7 +53,7 @@ s32 box_inter_v_line(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 par
 s32 box_inter_h_line(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6, s16 param_7);
 s32 inter_box(s32 x_1, s32 y_1, s32 w_1, s32 h_1, s16 x_2, s16 y_2, s32 w_2, s32 h_2); /* return can be u8/s16/s32 */
 void GET_OBJ_ZDC(Obj *obj, s16 *in_x, s16 *in_y, s16 *in_w, s16 *in_h);
-s32 GET_SPRITE_ZDC(Obj *obj, s16 index, s16 *param_3, s16 *param_4, s16 *param_5, s16 *param_6);
+s16 GET_SPRITE_ZDC(Obj *obj, s16 index, s16 *out_x, s16 *out_y, s16 *out_w, s16 *out_h);
 s32 BOX_HIT_SPECIAL_ZDC(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj);
 s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, Obj *obj);
 s32 COLL_BOX_SPRITE(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj); /* return can be u32/s32? */
