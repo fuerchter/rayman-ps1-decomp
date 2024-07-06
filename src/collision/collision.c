@@ -145,7 +145,7 @@ void GET_RAY_ZDC(Obj *ray,short *x,short *y,short *w,short *h);
 void get_cou_zdc(Obj *param_1,short *param_2,short *param_3,short *param_4,short *param_5);
 void get_spi_zdc(int param_1,short *param_2,short *param_3,s16 *param_4,s16 *param_5);*/
 
-void GET_OBJ_ZDC(Obj *obj, s16 *in_x, s16 *in_y, s16 *in_w, s16 *in_h)
+void GET_OBJ_ZDC(Obj *obj, s16 *out_x, s16 *out_y, s16 *out_w, s16 *out_h)
 {
     s16 anim_x; s16 anim_y; s16 anim_w; s16 anim_h;
     s32 unk_1;
@@ -159,66 +159,66 @@ void GET_OBJ_ZDC(Obj *obj, s16 *in_x, s16 *in_y, s16 *in_w, s16 *in_h)
     switch (obj->type)
     {
     case TYPE_STALAG:
-        GET_SPRITE_POS(obj, 1, in_x, in_y, in_w, in_h);
+        GET_SPRITE_POS(obj, 1, out_x, out_y, out_w, out_h);
         unk_1 = 3;
-        if ((s32) *in_w > *in_h)
+        if ((s32) *out_w > *out_h)
         {
-            *in_x += 4;
-            *in_w -= 8;
-            *in_y += 8;
-            *in_h -= 12;
+            *out_x += 4;
+            *out_w -= 8;
+            *out_y += 8;
+            *out_h -= 12;
         }
         else
         {
-            *in_x = *in_x - unk_1 + (*in_w >> 1);
-            *in_w = 6;
-            *in_y += 16;
-            *in_h -= 32;
+            *out_x = *out_x - unk_1 + (*out_w >> 1);
+            *out_w = 6;
+            *out_y += 16;
+            *out_h -= 32;
         }
         break;
     case TYPE_BLACK_RAY:
-        GET_RAY_ZDC(obj, in_x, in_y, in_w, in_h);
+        GET_RAY_ZDC(obj, out_x, out_y, out_w, out_h);
         break;
     case TYPE_STONECHIP:
         GET_ANIM_POS(obj, &anim_x, &anim_y, &anim_w, &anim_h);
-        *in_x = anim_x + 13;
-        *in_y = anim_y + 13;
-        *in_w = 4;
-        *in_h = 4;
+        *out_x = anim_x + 13;
+        *out_y = anim_y + 13;
+        *out_w = 4;
+        *out_h = 4;
         break;
     case TYPE_POWERUP:
     case TYPE_FALLING_OBJ:
     case TYPE_FALLING_OBJ2:
     case TYPE_FALLING_OBJ3:
         GET_ANIM_POS(obj, &anim_x, &anim_y, &anim_w, &anim_h);
-        *in_x = anim_x + 10;
-        *in_y = anim_y + 10;
-        *in_w = anim_w - 20;
-        *in_h = anim_h - 20;
+        *out_x = anim_x + 10;
+        *out_y = anim_y + 10;
+        *out_w = anim_w - 20;
+        *out_h = anim_h - 20;
         break;
     case TYPE_FLASH:
-        GET_ANIM_POS(obj, in_x, in_y, in_w, in_h);
+        GET_ANIM_POS(obj, out_x, out_y, out_w, out_h);
         unk_2 = 2;
-        *in_x = *in_x - unk_2 + (*in_w >> 1);
-        *in_y = *in_y - unk_2 + (*in_h >> 1);
-        *in_w = 4;
-        *in_h = 4;
+        *out_x = *out_x - unk_2 + (*out_w >> 1);
+        *out_y = *out_y - unk_2 + (*out_h >> 1);
+        *out_w = 4;
+        *out_h = 4;
         break;
     case TYPE_ECLAIR:
     case TYPE_ETINC:
         GET_ANIM_POS(obj, &anim_x, &anim_y, &anim_w, &anim_h);
-        *in_x = anim_x + 10;
-        *in_y = anim_y + 4;
-        *in_w = anim_w - 30;
-        *in_h = anim_h - 8;
+        *out_x = anim_x + 10;
+        *out_y = anim_y + 4;
+        *out_w = anim_w - 30;
+        *out_h = anim_h - 8;
         break;
     case TYPE_CLASH:
     case TYPE_NOTE:
         GET_ANIM_POS(obj, &anim_x, &anim_y, &anim_w, &anim_h);
-        *in_x = anim_x + 2;
-        *in_y = anim_y - 4;
-        *in_w = anim_w - 4;
-        *in_h = anim_h + 3;
+        *out_x = anim_x + 2;
+        *out_y = anim_y - 4;
+        *out_w = anim_w - 4;
+        *out_h = anim_h + 3;
         break;
     case TYPE_BBL:
         old_flip_x = obj->flags >> OBJ_FLIP_X & 1;
@@ -227,41 +227,41 @@ void GET_OBJ_ZDC(Obj *obj, s16 *in_x, s16 *in_y, s16 *in_w, s16 *in_h)
         obj->flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | old_flip_x << OBJ_FLIP_X;
         if (obj->field23_0x3c != 2)
         {
-            *in_x = anim_x + 3;
-            *in_y = anim_y + 20;
-            *in_w = 50;
-            *in_h = 40;
+            *out_x = anim_x + 3;
+            *out_y = anim_y + 20;
+            *out_w = 50;
+            *out_h = 40;
         }
         else
         {
-            *in_x = anim_x + 20;
-            *in_y = anim_y + 35;
-            *in_w = 1;
-            *in_h = 1;
+            *out_x = anim_x + 20;
+            *out_y = anim_y + 35;
+            *out_w = 1;
+            *out_h = 1;
         }
         break;
     case TYPE_MARTEAU:
     case TYPE_MOVE_MARTEAU:
         GET_SPRITE_POS(obj, 2, &anim_x, &anim_y, &anim_w, &anim_h);
-        *in_x = anim_x;
-        *in_y = anim_y;
-        *in_w = 16;
-        *in_h = 32;
+        *out_x = anim_x;
+        *out_y = anim_y;
+        *out_w = 16;
+        *out_h = 32;
         break;
     case TYPE_STONEDOG:
     case TYPE_STONEDOG2:
         GET_ANIM_POS(obj, &anim_x, &anim_y, &anim_w, &anim_h);
-        *in_x = anim_x + 4;
-        *in_y = anim_y + 2;
-        *in_w = anim_w - 8;
-        *in_h = anim_h - 6;
+        *out_x = anim_x + 4;
+        *out_y = anim_y + 2;
+        *out_w = anim_w - 8;
+        *out_h = anim_h - 6;
         break;
     case TYPE_CAGE:
         GET_ANIM_POS(obj, &anim_x, &anim_y, &anim_w, &anim_h);
-        *in_x = anim_x + 8;
-        *in_y = anim_y + 8;
-        *in_w = anim_w - 16;
-        *in_h = anim_h - 16;
+        *out_x = anim_x + 8;
+        *out_y = anim_y + 8;
+        *out_w = anim_w - 16;
+        *out_h = anim_h - 16;
         break;
     case TYPE_STONEMAN1:
     case TYPE_STONEMAN2:
@@ -269,30 +269,30 @@ void GET_OBJ_ZDC(Obj *obj, s16 *in_x, s16 *in_y, s16 *in_w, s16 *in_h)
     case TYPE_STONEWOMAN:
         if (obj->main_etat == 0 && (obj->sub_etat == 3 || obj->sub_etat == 4))
         {
-            *in_x = obj->x_pos;
-            *in_y = obj->y_pos;
-            *in_w = 0;
-            *in_h = 0;
+            *out_x = obj->x_pos;
+            *out_y = obj->y_pos;
+            *out_w = 0;
+            *out_h = 0;
         }
         else
         {
-            *in_x = obj->x_pos + obj->offset_bx - 10;
-            *in_y = obj->y_pos + obj->offset_by - 60;
-            *in_w = 20;
-            *in_h = 50;
+            *out_x = obj->x_pos + obj->offset_bx - 10;
+            *out_y = obj->y_pos + obj->offset_by - 60;
+            *out_w = 20;
+            *out_h = 50;
         }
         break;
     case TYPE_CAGE2:
-        *in_x = obj->x_pos;
-        *in_y = obj->y_pos;
-        *in_w = 0;
-        *in_h = 0;
+        *out_x = obj->x_pos;
+        *out_y = obj->y_pos;
+        *out_w = 0;
+        *out_h = 0;
         break;
     case TYPE_WIZARD1:
-        *in_x = obj->x_pos;
-        *in_y = obj->y_pos;
-        *in_w = 50;
-        *in_h = 110;
+        *out_x = obj->x_pos;
+        *out_y = obj->y_pos;
+        *out_w = 50;
+        *out_h = 110;
         break;
     case TYPE_BIG_CLOWN:
         if (obj->main_etat == 0 && obj->sub_etat == 2 && obj->anim_frame >= 16)
@@ -302,9 +302,9 @@ void GET_OBJ_ZDC(Obj *obj, s16 *in_x, s16 *in_y, s16 *in_w, s16 *in_h)
                 new_x = bc_x_pos + 80;
             else
                 new_x = bc_x_pos + 16;
-            *in_x = new_x;
-            *in_y = obj->y_pos + 40;
-            *in_w = 68;
+            *out_x = new_x;
+            *out_y = obj->y_pos + 40;
+            *out_w = 68;
         }
         else if (obj->main_etat == 0 && obj->sub_etat == 2)
         {
@@ -313,17 +313,17 @@ void GET_OBJ_ZDC(Obj *obj, s16 *in_x, s16 *in_y, s16 *in_w, s16 *in_h)
                 new_x = bc_x_pos + 80;
             else
                 new_x = bc_x_pos + 48;
-            *in_x = new_x;
-            *in_y = obj->y_pos + 38;
-            *in_w = 32;
+            *out_x = new_x;
+            *out_y = obj->y_pos + 38;
+            *out_w = 32;
         }
         else
         {
-            *in_x = obj->x_pos + 64;
-            *in_y = obj->y_pos + 38;
-            *in_w = 32;
+            *out_x = obj->x_pos + 64;
+            *out_y = obj->y_pos + 38;
+            *out_w = 32;
         }
-        *in_h = 48;
+        *out_h = 48;
         break;
     case TYPE_DROP:
         GET_SPRITE_POS(obj, 0, &anim_x, &anim_y, &anim_w, &anim_h);
@@ -331,59 +331,59 @@ void GET_OBJ_ZDC(Obj *obj, s16 *in_x, s16 *in_y, s16 *in_w, s16 *in_h)
         {
             if (obj->sub_etat == 2)
             {
-                *in_x = anim_x + 5;
-                *in_y = anim_y + 28;
-                *in_w = 6;
-                *in_h = 22;
+                *out_x = anim_x + 5;
+                *out_y = anim_y + 28;
+                *out_w = 6;
+                *out_h = 22;
             }
             else if(obj->sub_etat == 1)
             {
-                *in_x = anim_x + 6;
-                *in_y = anim_y + 18;
-                *in_w = 13;
-                *in_h = 11;
+                *out_x = anim_x + 6;
+                *out_y = anim_y + 18;
+                *out_w = 13;
+                *out_h = 11;
             }
             else if(obj->sub_etat == 0)
             {
-                *in_x = anim_x + 7;
-                *in_y = anim_y + 8;
-                *in_w = 19;
-                *in_h = 11;
+                *out_x = anim_x + 7;
+                *out_y = anim_y + 8;
+                *out_w = 19;
+                *out_h = 11;
             }
         }
         break;
     case TYPE_TROMPETTE:
         GET_ANIM_POS(obj, &anim_x, &anim_y, &anim_w, &anim_h);
-        *in_x = anim_x + 24;
-        *in_y = anim_y + 14;
-        *in_w = anim_w - 48;
-        *in_h = anim_h - 27;
+        *out_x = anim_x + 24;
+        *out_y = anim_y + 14;
+        *out_w = anim_w - 48;
+        *out_h = anim_h - 27;
         break;
     case TYPE_TNT_BOMB:
-        *in_x = obj->x_pos + 76;
-        *in_y = obj->y_pos + 85;
-        *in_w = 8;
-        *in_h = 8;
+        *out_x = obj->x_pos + 76;
+        *out_y = obj->y_pos + 85;
+        *out_w = 8;
+        *out_h = 8;
         break;
     case TYPE_EXPLOSION:
-        *in_x = obj->x_pos;
-        *in_y = obj->y_pos;
+        *out_x = obj->x_pos;
+        *out_y = obj->y_pos;
         if (obj->sub_etat == 0)
         {
-            *in_w = 22;
-            *in_h = 22;
-            *in_x += 68;
-            *in_y += 65;
+            *out_w = 22;
+            *out_h = 22;
+            *out_x += 68;
+            *out_y += 65;
             break;
         }
-        *in_w = 0;
-        *in_h = 0;
+        *out_w = 0;
+        *out_h = 0;
         break;
     case TYPE_COUTEAU:
-        get_cou_zdc(obj, in_x, in_y, in_w, in_h);
+        get_cou_zdc(obj, out_x, out_y, out_w, out_h);
         break;
     case TYPE_SPIDER_PLAFOND:
-        get_spi_zdc(obj, in_x, in_y, in_w, in_h);
+        get_spi_zdc(obj, out_x, out_y, out_w, out_h);
         break;
     case TYPE_POI3:
         if (
@@ -391,50 +391,50 @@ void GET_OBJ_ZDC(Obj *obj, s16 *in_x, s16 *in_y, s16 *in_w, s16 *in_h)
             (obj->sub_etat == 15 || obj->sub_etat == 12 || obj->sub_etat == (unk_3 = 13))
         )
         {
-            *in_x = obj->x_pos + 54;
+            *out_x = obj->x_pos + 54;
             new_y = obj->y_pos + 55;
         }
         else
         {
-            *in_x = obj->x_pos + 74;
+            *out_x = obj->x_pos + 74;
             new_y = obj->y_pos + 45;
         }
-        *in_y = new_y;
-        *in_w = 14;
-        *in_h = 21;
+        *out_y = new_y;
+        *out_w = 14;
+        *out_h = 21;
         break;
     case TYPE_PETIT_COUTEAU:
         if (obj->hit_points == 1)
         {
-            *in_x = obj->x_pos + 138;
-            *in_y = obj->y_pos + 138;
-            *in_w = 43;
-            *in_h = 15;
+            *out_x = obj->x_pos + 138;
+            *out_y = obj->y_pos + 138;
+            *out_w = 43;
+            *out_h = 15;
         }
         if (obj->hit_points == 2)
         {
-            *in_x = obj->x_pos + 131;
-            *in_y = obj->y_pos + 88;
-            *in_w = 17;
-            *in_h = 49;
+            *out_x = obj->x_pos + 131;
+            *out_y = obj->y_pos + 88;
+            *out_w = 17;
+            *out_h = 49;
         }
         if (obj->hit_points == 3)
         {
-            *in_x = obj->x_pos + 62;
-            *in_y = obj->y_pos + 138;
-            *in_w = 43;
-            *in_h = 16;
+            *out_x = obj->x_pos + 62;
+            *out_y = obj->y_pos + 138;
+            *out_w = 43;
+            *out_h = 16;
         }
         if (obj->hit_points == 4)
         {
-            *in_x = obj->x_pos + 96;
-            *in_y = obj->y_pos + 87;
-            *in_w = 17;
-            *in_h = 48;
+            *out_x = obj->x_pos + 96;
+            *out_y = obj->y_pos + 87;
+            *out_w = 17;
+            *out_h = 48;
         }
         break;
     default:
-        GET_ANIM_POS(obj, in_x, in_y, in_w, in_h);
+        GET_ANIM_POS(obj, out_x, out_y, out_w, out_h);
         break;
     }
 
