@@ -16,7 +16,34 @@ u8 on_block_chdir(Obj *obj, s16 offs_bx, s16 offs_by)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", CALC_FOLLOW_SPRITE_SPEED);
+/* 22FE0 801477E0 -O2 -msoft-float */
+void CALC_FOLLOW_SPRITE_SPEED(Obj *obj, Animation *anim_1, Animation *anim_2, s16 anim_frame_2)
+{
+    u8 width_1;
+    s32 unk_1;
+    s32 x_1;
+    s32 x_2;
+    s32 unk_2;
+    u8 foll_spr = obj->follow_sprite;
+    AnimationLayer *layer_1 = &anim_1->layers[(anim_1->layers_count & 0x3FFF) * obj->anim_frame];
+    AnimationLayer *layer_2 = &anim_2->layers[(anim_2->layers_count & 0x3FFF) * anim_frame_2];
+
+    width_1 = obj->sprites[layer_1[foll_spr].sprite].width;
+    if (obj->flags & FLG(OBJ_FLIP_X))
+    {
+        unk_1 = (u16) obj->x_pos + (obj->offset_bx * 2) - width_1;
+        x_2 = unk_1 - layer_2[foll_spr].x_pos;
+        x_1 = unk_1 - layer_1[foll_spr].x_pos;
+    }
+    else
+    {
+        unk_2 = (u16) obj->x_pos;
+        x_1 = unk_2 + layer_1[foll_spr].x_pos;
+        x_2 = unk_2 + layer_2[foll_spr].x_pos;
+    }
+    obj->follow_y = (layer_1[foll_spr].y_pos + obj->y_pos) - (layer_2[foll_spr].y_pos + obj->y_pos);
+    obj->follow_x = x_1 - x_2;
+}
 
 /* 230E0 801478E0 -O2 -msoft-float */
 s16 GET_SPRITE_POS(Obj *obj, s16 index, s16 *x, s16 *y, s16 *w, s16 *h)
