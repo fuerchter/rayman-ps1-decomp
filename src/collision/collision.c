@@ -934,7 +934,34 @@ void SET_RAY_DIST_PI(Obj *obj)
   obj->ray_dist = new_dist;
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_RAY_DIST_BAG);
+/* 1D66C 80141E6C -O2 -msoft-float */
+void SET_RAY_DIST_BAG(Obj *obj)
+{
+  s16 x; s16 y; s16 w; s16 h;
+  s16 new_w;
+  s16 new_dist = 0;
+  
+  if (obj->sub_etat == 3 || (obj->sub_etat == 6 && obj->anim_frame < 12))
+  {
+    GET_SPRITE_POS(obj, obj->follow_sprite, &x, &y, &w, &h);
+    new_w = 45;
+    y += obj->offset_hy;
+    x += ((s16) (w - new_w) >> 1);
+    w = new_w;
+    new_dist = setToleranceDist(x, w, y);
+  }
+  else
+    new_dist = 10000;
+  
+  if (ray.field20_0x36 == obj->id && obj->sub_etat == 6 && obj->anim_frame == 11)
+  {
+    ray.field20_0x36 = -1;
+    set_main_and_sub_etat(&ray, 2, 0);
+    new_dist = 10000;
+    ray.speed_y -= 10;
+  }
+  obj->ray_dist = new_dist;
+}
 
 /* 1D798 80141F98 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */

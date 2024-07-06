@@ -58,7 +58,7 @@ s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 pa
     s16 var_s2_2;
     s16 var_v0_3;
     s16 temp_v0_2;
-    s32 temp_v1_6;
+    s16 temp_v1_6;
     s32 var_s5;
     s16 var_v0_1;
     s32 var_v0_2;
@@ -70,6 +70,7 @@ s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 pa
     u8 temp_v1_2;
     u8 temp_v1_5;
     s32 test_1;
+    s32 test_2;
 
     sp26 = 0;
     sp24 = 0;
@@ -99,7 +100,8 @@ s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 pa
                 {
                     temp_v1_3 = &obj->animations[obj->anim_index];
                     temp_a1_2 = temp_v0_1->sprite;
-                    if (temp_v1_3->layers[(temp_v1_3->layers_count & 0x3FFF) * obj->anim_frame + temp_a1_2].sprite != 0)
+                    test_2 = (temp_v1_3->layers_count & 0x3FFF) * obj->anim_frame + temp_a1_2 * 4;
+                    if (temp_v1_3->layers[test_2].sprite != 0)
                     {
                         GET_SPRITE_POS(obj, temp_a1_2, &sp20, &sp22, &sp24, &sp26);
                         if (obj->flags & 0x4000)
@@ -149,15 +151,13 @@ s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 pa
             }
 
             /* check pc? */
-            temp_v0_2 = inter_box(param_2, param_3, param_4, param_5, sp20, sp22, sp24, sp26);
-            if (!temp_v0_2)
+            var_v0_1 = inter_box(param_2, param_3, param_4, param_5, sp20, sp22, sp24, sp26);
+            if (!var_v0_1)
                 var_v0_1 = -1;
-            else
-                var_v0_1 = temp_v0_2;
         }
         else
         {
-            var_v0_1 = -1;
+            /*var_v0_1 = -1;*/
             if (temp_v1_5 == 0xFF)
             {
                 var_s2_2 = 0;
@@ -172,6 +172,7 @@ s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 pa
                     {
                         var_v0_1 = var_s2_2;
                         break;
+                        do { } while (0); /* TODO: ??? */
                     }
                     var_s2_2++;
                 }
@@ -179,37 +180,6 @@ s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 pa
         }
     }
     return var_v0_1;
-}
-
-/* matches, but clean up */
-/* 1D66C 80141E6C -O2 -msoft-float */
-/*INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_RAY_DIST_BAG);*/
-
-void SET_RAY_DIST_BAG(Obj *obj)
-{
-  s16 x; s16 y; s16 w; s16 h;
-  s16 temp_v0;
-  s16 new_dist = 0;
-  if (obj->sub_etat == 3 || (obj->sub_etat == 6 && obj->anim_frame < 12))
-  {
-    GET_SPRITE_POS(obj, obj->follow_sprite, &x, &y, &w, &h);
-    y += obj->offset_hy;
-    temp_v0 = w;
-    w = 45;
-    x += ((s16) (temp_v0 - w) >> 1);
-    new_dist = setToleranceDist(x, w, y);
-  }
-  else
-    new_dist = 10000;
-  
-  if (ray.field20_0x36 == obj->id && obj->sub_etat == 6 && obj->anim_frame == 11)
-  {
-    ray.field20_0x36 = -1;
-    set_main_and_sub_etat(&ray, 2, 0);
-    new_dist = 10000;
-    ray.speed_y -= 10;
-  }
-  obj->ray_dist = new_dist;
 }
 
 /* matches, but cleanup */
