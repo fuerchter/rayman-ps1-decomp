@@ -12,6 +12,7 @@
 #include "bonus_35FB4.h"
 #include "obj/mus_wait.h"
 #include "obj/joe_command.h"
+#include "ray/angle_rayman.h"
 
 typedef struct ZDC
 {

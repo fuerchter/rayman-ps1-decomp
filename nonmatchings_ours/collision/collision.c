@@ -201,53 +201,24 @@ void DO_TOTEM_TOUCHE(Obj *obj,s16 param_2);
 void doMoskitoHit(Obj *obj);
 void fin_poing_follow(Obj *obj,u8 param_2);
 u8 PS1_BTYPAbsPos(s32 x,s32 y);*/
-s16 ANGLE_RAYMAN(Obj *obj);
 
 void DO_POING_COLLISION(void)
 {
-    s16 pspr_x;
-    s16 pspr_y;
-    s16 pspr_w;
-    s16 pspr_h;
-    u8 var_a1_2;
-    u8 var_a1_3;
-    u8 var_a1_4;
-    u8 var_a2;
-    u8 var_a2_2;
+    s16 pspr_x; s16 pspr_y; s16 pspr_w; s16 pspr_h;
+    u8 label;
+    u8 sub_etat;
     Obj *poing_obj;
-    Obj *temp_v0_3;
     Obj *other_obj;
-    s16 temp_a0;
     s16 temp_v0_1;
     s32 sprite;
     s32 temp_v0_5;
     s16 pspeed_x;
-    s16 var_a1;
-    s32 var_s2_2;
     s16 i;
-    s16 var_v0_2;
-    s32 test_4;
-    s32 temp_v0_4;
     s32 temp_v1_2;
     u8 btyp;
-    s32 var_v0_5;
-    s32 var_v1;
-    u32 temp_v1_3;
-    u32 var_v0_3;
     u8 temp_a1_2;
     u8 old_hp;
-    u8 temp_v0_8;
-    u8 temp_v1_1;
-    s32 temp_v1_4;
-    u8 temp_v1_5;
-    s32 temp_v1_6;
-    s32 temp_v1_7;
     s32 fall_x_accel;
-    s16 test_1;
-    s32 test_2;
-    s32 test_3;
-    int new_var;
-    u8 correct_pos;
 
     poing_obj = &level.objects[poing_obj_id];
     btyp = 0;
@@ -256,7 +227,7 @@ void DO_POING_COLLISION(void)
     if ((temp_v0_1 = poing_obj->speed_x) > 0 || poing_obj->speed_x < 0)
         btyp = PS1_BTYPAbsPos(
             poing_obj->x_pos + poing_obj->offset_bx,
-            poing_obj->y_pos + ((poing_obj->offset_by + poing_obj->offset_hy) >> 1)
+            poing_obj->y_pos + (poing_obj->offset_by + poing_obj->offset_hy >> 1)
         );
     if (block_flags[btyp] >> BLOCK_SOLID & 1)
     {
@@ -269,12 +240,12 @@ void DO_POING_COLLISION(void)
         other_obj = &level.objects[actobj.objects[i]];
         while (i < actobj.num_active_objects)
         {
-            if (new_world != 0 || new_level != 0 || fin_boss != 0)
+            if (new_world || new_level || fin_boss)
                 break;
         
             if (
                 other_obj->display_prio != 0 && other_obj->hit_points != 0 &&
-                other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & (1 << 3)
+                other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & FLG(3)
             )
             {
                 sprite = CHECK_BOX_COLLISION(TYPE_POING, pspr_x, pspr_y, pspr_w, pspr_h, other_obj);
@@ -286,7 +257,7 @@ void DO_POING_COLLISION(void)
                     case TYPE_HYBRIDE_STOSKO:
                         if (
                             sprite == 6 && !poing.is_returning &&
-                            other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & (1 << 0)
+                            other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & FLG(0)
                         )
                         {
                             poing.damage = 1;
@@ -332,7 +303,7 @@ void DO_POING_COLLISION(void)
                         doMereDenisHit(other_obj, sprite);
                         break;
                     case TYPE_DARK:
-                        DO_DARK_POING_COLLISION(other_obj, sprite);
+                        DO_DARK_POING_COLLISION(other_obj);
                         break;
                     case TYPE_BATTEUR_FOU:
                         if (sprite == 2)
@@ -344,7 +315,7 @@ void DO_POING_COLLISION(void)
                         break;
                     case TYPE_MOSKITO:
                     case TYPE_MOSKITO2:
-                        doMoskitoHit(other_obj, sprite);
+                        doMoskitoHit(other_obj);
                         break;
                     case TYPE_ONEUP:
                         if (RayEvts.flags0 & FLG(RAYEVTS0_GRAP) && ray_mode != MODE_MORT_DE_RAYMAN)
@@ -382,12 +353,10 @@ block_47:
                                 else /* TODO: ??? */
                                     other_obj->field24_0x3e = 1;
                                 
-                                if ((other_obj->main_etat == 0) && (other_obj->sub_etat == 0))
-                                {
+                                if (other_obj->main_etat == 0 && other_obj->sub_etat == 0)
                                     skipToLabel(other_obj, 0, true);
-                                }
-                                poing.is_active = 0;
-                                poing.is_returning = 0;
+                                poing.is_active = false;
+                                poing.is_returning = false;
                                 poing_obj->flags &= ~FLG(OBJ_ALIVE);
                                 poing_obj->flags &= ~FLG(OBJ_ACTIVE);
                                 fin_poing_follow(poing_obj, false);
@@ -422,7 +391,7 @@ block_47:
                             {
                                 if (pspeed_x > 0)
                                     other_obj->flags &= ~FLG(OBJ_FLIP_X);
-                                else /* temp_v0_6 == 0 */
+                                else /* pspeed_x == 0 */
                                 {
                                     if (poing_obj->flags & FLG(OBJ_FLIP_X))
                                         other_obj->flags &= ~FLG(OBJ_FLIP_X);
@@ -452,7 +421,7 @@ block_47:
                         }
                         break;
                     case TYPE_KILLING_EYES:
-                        if (--other_obj->hit_points)
+                        if (--other_obj->hit_points != 0)
                         {
                             set_sub_etat(other_obj, 5);
                             other_obj->iframes_timer = 50;
@@ -495,7 +464,7 @@ block_47:
                     case TYPE_NOTE2:
                     case TYPE_BONNE_NOTE:
                     case TYPE_NOTE3:
-                        DO_NOTE_TOUCHEE(other_obj, sprite);
+                        DO_NOTE_TOUCHEE(other_obj);
                         break;
                     case TYPE_TOTEM:
                         DO_TOTEM_TOUCHE(other_obj, sprite);
@@ -696,10 +665,9 @@ block_47:
                         break;
                     case TYPE_CHASSEUR1:
                     case TYPE_CHASSEUR2:
-                        /* CLEANUP: NEXT */
                         if (other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & 1)
                         {
-                    case TYPE_FISH: /* TODO: fall-through? */
+                    case TYPE_FISH: /* TODO: kinda gross fall-through? */
                             obj_hurt(other_obj);
                             if (other_obj->hit_points != 0)
                             {
@@ -708,70 +676,55 @@ block_47:
                                 set_main_and_sub_etat(other_obj, 0, 1);
                             }
                             else
-                            {
                                 set_main_and_sub_etat(other_obj, 0, 3);
-                            }
+
                             if (other_obj->type == TYPE_FISH)
-                            {
                                 DESACTIVE_FISH_COLLIS(other_obj);
-                            }
-                            if (!(other_obj->flags & 0x4000))
-                            {
-                                other_obj->cmd = 0;
-                            }
+
+                            if (!(other_obj->flags & FLG(OBJ_FLIP_X)))
+                                other_obj->cmd = GO_LEFT;
                             else
-                            {
-                                other_obj->cmd = 1;
-                            }
+                                other_obj->cmd = GO_RIGHT;
                         }
                         break;
                     case TYPE_BADGUY2:
                     case TYPE_BADGUY3:
-                        if ((sprite == 0x00FF) || (other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & 1))
+                        if (
+                            (sprite == 0xFF) ||
+                            (other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & FLG(0))
+                        )
                         {
                             obj_hurt(other_obj);
                             if (other_obj->hit_points == 0)
                             {
                                 set_main_and_sub_etat(other_obj, 0, 3);
                                 skipToLabel(other_obj, 2, true);
-                                other_obj->y_pos = (u16) other_obj->y_pos - 2;
-                                other_obj->flags &= 0xFFFF7FFF;
+                                other_obj->y_pos -= 2;
+                                other_obj->flags &= ~FLG(OBJ_READ_CMDS);
                             }
                             else
                             {
-                                if (poing_obj->flags & 0x4000)
+                                if (poing_obj->flags & FLG(OBJ_FLIP_X))
                                 {
                                     pspeed_x = poing_obj->speed_x;
                                     if (pspeed_x >= 0)
-                                    {
-                                        var_a1_3 = 3;
-                                        skipToLabel(other_obj, var_a1_3, true);
-                                    }
+                                        skipToLabel(other_obj, 3, true);
                                     else if (pspeed_x < -1)
-                                    {
-                                        var_a1_3 = 2;
-                                        skipToLabel(other_obj, var_a1_3, true);
-                                    }
+                                        skipToLabel(other_obj, 2, true);
                                 }
                                 else
                                 {
                                     pspeed_x = poing_obj->speed_x;
-                                    var_a1_3 = 3;
                                     if (pspeed_x >= 2)
-                                    {
-                                        skipToLabel(other_obj, var_a1_3, true);
-                                    }
+                                        skipToLabel(other_obj, 3, true);
                                     else if (pspeed_x <= 0)
-                                    {
-                                        var_a1_3 = 2;
-                                        skipToLabel(other_obj, var_a1_3, true);
-                                    }
+                                        skipToLabel(other_obj, 2, true);
                                 }
                                 other_obj->speed_x = 0;
                                 other_obj->speed_y = -4;
-                                other_obj->y_pos = (u16) other_obj->y_pos - 2;
+                                other_obj->y_pos -= 2;
                                 set_main_and_sub_etat(other_obj, 2, 2);
-                                PlaySnd(0x001C, other_obj->id);
+                                PlaySnd(28, other_obj->id);
                             }
                         }
                         break;
@@ -779,58 +732,48 @@ block_47:
                         obj_hurt(other_obj);
                         pspeed_x = poing_obj->speed_x;
                         if (pspeed_x > 0)
-                        {
                             skipToLabel(other_obj, 3, true);
-                        }
                         else if (pspeed_x < 0)
-                        {
                             skipToLabel(other_obj, 2, true);
-                        }
                         other_obj->speed_x = 0;
-                        other_obj->y_pos = (u16) other_obj->y_pos - 2;
+                        other_obj->y_pos -= 2;
                         if (other_obj->hit_points != 0)
                         {
                             other_obj->speed_y = -4;
-                            var_a2 = 2;
                             if (other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & 0x40)
-                            {
-                                var_a2 = 0xA;
-                            }
-                            set_main_and_sub_etat(other_obj, 2, var_a2);
-                            PlaySnd(0x001C, other_obj->id);
+                                sub_etat = 10;
+                            else
+                                sub_etat = 2;
+                            set_main_and_sub_etat(other_obj, 2, sub_etat);
+                            PlaySnd(28, other_obj->id);
                             break;
                         }
-                        other_obj->speed_y = -8;
-                        var_a2_2 = 3;
-                        if (other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & 0x40)
+                        else
                         {
-                            var_a2_2 = 6;
+                            other_obj->speed_y = -8;
+                            if (other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & 0x40)
+                                sub_etat = 6;
+                            else
+                                sub_etat = 3;
+                            set_main_and_sub_etat(other_obj, 0, sub_etat);
                         }
-                        set_main_and_sub_etat(other_obj, 0, var_a2_2);
                         break;
                     case TYPE_TROMPETTE:
                         obj_hurt(other_obj);
                         pspeed_x = poing_obj->speed_x;
                         if (pspeed_x > 0)
-                        {
-                            var_v0_3 = other_obj->flags;
-                            var_v0_3 &= ~0x4000;
-                            other_obj->flags = var_v0_3;
-                        }
+                            other_obj->flags &= ~FLG(OBJ_FLIP_X);
                         else if (pspeed_x < 0)
-                        {
-                            var_v0_3 = other_obj->flags | 0x4000;
-                            other_obj->flags = var_v0_3;
-                        }
+                            other_obj->flags |= FLG(OBJ_FLIP_X);
+                        
                         if (other_obj->hit_points == 0)
                         {
                             set_main_and_sub_etat(other_obj, 0, 1);
-                            var_v1 = 0xFFFF7FFF;
-                            other_obj->cmd = 2;
-                            other_obj->flags &= var_v1;
+                            other_obj->flags &= ~FLG(OBJ_READ_CMDS);
+                            other_obj->cmd = GO_WAIT;
                             break;
                         }
-                        other_obj->y_pos = (u16) other_obj->y_pos - 2;
+                        other_obj->y_pos -= 2;
                         skipToLabel(other_obj, 4, true);
                         break;
                     case TYPE_BIG_CLOWN:
@@ -838,26 +781,21 @@ block_47:
                         obj_hurt(other_obj);
                         pspeed_x = poing_obj->speed_x;
                         if (pspeed_x > 0)
-                        {
-                            var_v0_3 = other_obj->flags;
-                            var_v0_3 &= ~0x4000;
-                            other_obj->flags = var_v0_3;
-                        }
+                            other_obj->flags &= ~FLG(OBJ_FLIP_X);
                         else if (pspeed_x < 0)
-                        {
-                            var_v0_3 = other_obj->flags | 0x4000;
-                            other_obj->flags = var_v0_3;
-                        }
+                            other_obj->flags |= FLG(OBJ_FLIP_X);
+                        
                         if (other_obj->hit_points != 0)
                         {
-                            other_obj->y_pos = (u16) other_obj->y_pos - 2;
+                            other_obj->y_pos -= 2;
                             skipToLabel(other_obj, 4, true);
-                            break;
                         }
-                        set_main_and_sub_etat(other_obj, 0, 3);
-                        var_v1 = 0xFFFF7FFF;
-                        other_obj->cmd = 0;
-                        other_obj->flags &= var_v1;
+                        else
+                        {
+                            set_main_and_sub_etat(other_obj, 0, 3);
+                            other_obj->flags &= ~FLG(OBJ_READ_CMDS);
+                            other_obj->cmd = GO_LEFT;
+                        }
                         break;
                     case TYPE_CLOWN_TNT:
                     case TYPE_CLOWN_TNT2:
@@ -865,64 +803,49 @@ block_47:
                         obj_hurt(other_obj);
                         pspeed_x = poing_obj->speed_x;
                         if (pspeed_x > 0)
-                        {
-                            var_v0_3 = other_obj->flags;
-                            var_v0_3 &= ~0x4000;
-                            other_obj->flags = var_v0_3;
-                        }
+                            other_obj->flags &= ~FLG(OBJ_FLIP_X);
                         else if (pspeed_x < 0)
-                        {
-                            var_v0_3 = other_obj->flags | 0x4000;
-                            other_obj->flags = var_v0_3;
-                        }
+                            other_obj->flags |= FLG(OBJ_FLIP_X);
+                        
                         if (other_obj->hit_points != 0)
                         {
-                            var_a1_2 = 5;
-                            if (!(other_obj->flags & 0x4000))
+                            
+                            if (!(other_obj->flags & FLG(OBJ_FLIP_X)))
                             {
-                                var_a1_2 = 6;
+                                label = 6;
                             }
-                            skipToLabel(other_obj, var_a1_2, true);
+                            else
+                                label = 5;
+                            skipToLabel(other_obj, label, true);
                             break;
                         }
                         set_main_and_sub_etat(other_obj, 0, 2);
-                        var_v1 = 0xFFFF7FFF;
-                        other_obj->flags &= var_v1;
+                        other_obj->flags &= ~FLG(OBJ_READ_CMDS);
                         break;
                     case TYPE_MITE2:
                         if (sprite == 1)
                         {
                             pspeed_x = poing_obj->speed_x;
                             if (pspeed_x > 0)
-                            {
-                                var_v0_3 = other_obj->flags;
-                                var_v0_3 &= ~0x4000;
-                                other_obj->flags = var_v0_3;
-                            }
+                                other_obj->flags &= ~FLG(OBJ_FLIP_X);
                             else if (pspeed_x < 0)
+                                other_obj->flags |= FLG(OBJ_FLIP_X);
+                        }
+                    case TYPE_MITE:
+                        if (sprite == 1)
+                        {
+                            obj_hurt(other_obj);
+                            if (other_obj->hit_points != 0)
+                                skipToLabel(other_obj, 4, true);
+                            else
                             {
-                                var_v0_3 = other_obj->flags | 0x4000;
-                                other_obj->flags = var_v0_3;
-                            }
-                    case TYPE_MITE: /* TODO: fall-through? */
-                            if (sprite == 1)
-                            {
-                                obj_hurt(other_obj);
-                                if (other_obj->hit_points != 0)
-                                {
-                                    var_a1_2 = 4;
-                                    skipToLabel(other_obj, 4, true);
-                                    break;
-                                }
                                 set_main_and_sub_etat(other_obj, 0, 3);
-                                var_v1 = 0xFFFF7FFF;
-                                other_obj->flags &= var_v1;
-                                break;
+                                other_obj->flags &= ~FLG(OBJ_READ_CMDS);
                             }
                         }
                         break;
                     case TYPE_SCORPION:
-                        DO_SKO_HIT(other_obj, sprite);
+                        DO_SKO_HIT(other_obj);
                         break;
                     case TYPE_PIRATE_POELLE:
                     case TYPE_PIRATE_POELLE_D:
@@ -938,42 +861,40 @@ block_47:
                         DO_SPIDER_PLAFOND_POING_COLLISION(other_obj, sprite);
                         break;
                     case TYPE_PRI:
-                        if ((other_obj->screen_x_pos < (poing_obj->screen_x_pos + 0x1E)) && (other_obj->main_etat == 0) && (other_obj->sub_etat == 0))
+                        if (
+                            other_obj->screen_x_pos < (poing_obj->screen_x_pos + 30) &&
+                            other_obj->main_etat == 0 && other_obj->sub_etat == 0
+                        )
                         {
                             skipToLabel(other_obj, 2, true);
                             other_obj->init_sub_etat = 2;
-                            prise_branchee = 1;
-                            finBosslevel[1] |= 4;
+                            prise_branchee = true;
+                            finBosslevel[1] |= FLG(2);
                         }
                         break;
                     case TYPE_POI3:
-                        if ((other_obj->main_etat != 2) || (other_obj->sub_etat != 0x12))
+                        if (!(other_obj->main_etat == 2 && other_obj->sub_etat == 18))
                         {
-                            skipToLabel(other_obj, 0xC, true);
+                            skipToLabel(other_obj, 12, true);
                             other_obj->speed_x = 0;
                             other_obj->speed_y = 0;
                             other_obj->hit_points = 0;
                         }
                         break;
                     case TYPE_PETIT_COUTEAU:
-                        temp_v1_7 = other_obj->hit_points;
-                        if ((temp_v1_7 == 2) || (temp_v1_7 == 4))
-                        {
+                        if (other_obj->hit_points == 2 || other_obj->hit_points == 4)
                             other_obj->hit_points--;
-                        }
                         break;
                     }
                     do_boum();
                     other_obj->gravity_value_1 = 0;
+                    /* TODO: temp_v0_5 is strange (see other use above) */
                     temp_v0_5 = other_obj->eta[other_obj->main_etat][other_obj->sub_etat].anim_speed >> 4;
-                    if ((u32) ((temp_v0_5) - 0xA) >= 2U)
-                    {
+                    if (!(temp_v0_5 == 10 || temp_v0_5 == 11))
                         other_obj->gravity_value_2 = 0;
-                    }
-                    if ((other_obj->hit_points == old_hp) && (flags[other_obj->type].flags3 & 1))
-                    {
-                        PlaySnd(0x00D6, other_obj->id);
-                    }
+                    
+                    if (other_obj->hit_points == old_hp && (flags[other_obj->type].flags3 & FLG(OBJ3_POING_COLLISION_SND)))
+                        PlaySnd(214, other_obj->id);
                     break;
                 }
             }
@@ -981,7 +902,6 @@ block_47:
             other_obj = &level.objects[actobj.objects[i]];
         }
     }
-    
 }
 
 /*
