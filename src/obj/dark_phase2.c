@@ -1,36 +1,5 @@
 #include "obj/dark_phase2.h"
 
-void AllocateFlammes(s16 param_1);
-
-extern Obj *dark_obj;
-extern s16 phase_dark2;
-extern u8 TextDark2_Affiche;
-extern s16 XText;
-extern s16 YText;
-extern s16 temps_text;
-extern u8 txt_dark2[104];
-extern s16 dark2_rayon_dx_1;
-extern s16 dark2_rayon_dx_2;
-extern s16 PosXSin1;
-extern s16 PosYSin1;
-extern s16 PosXSin2;
-extern s16 PosYSin2;
-extern s16 PosArXToon1;
-extern s16 PosArXToon2;
-extern s16 PosArYToon1;
-extern s16 PosArYToon2;
-extern u8 ToonJustGivePoing;
-extern s16 VitesseYText;
-extern s16 dark2_rayon_dy_1;
-extern s16 dark2_rayon_dy_2;
-extern s16 flamme_droite_id;
-extern s16 flamme_gauche_id;
-extern u8 flammes_actives;
-extern u8 num_dark2_phrase;
-extern u8 sens_sinus_1;
-extern u8 sens_sinus_2;
-extern u8 sinus_actif;
-
 const u8 s_youre_doomed_rayman__8012c1e4[] = "/you're doomed rayman .../";
 
 /* 76A14 8019B214 -O2 -msoft-float */
