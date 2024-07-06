@@ -84,7 +84,7 @@ s16 get_center_x(Obj *obj)
     return res;
 }
 
-/* num attempts: 2 */
+/* attempts: 2 */
 /*INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", get_center_y);*/
 
 s16 get_center_y(Obj *obj)
@@ -167,7 +167,7 @@ s16 get_center_y(Obj *obj)
 
 /*
 matches, but remove x_2???
-num attempts: 2?
+attempts: 2?
 not sure there is a good solution
 */
 /*INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", calc_btyp_square);*/

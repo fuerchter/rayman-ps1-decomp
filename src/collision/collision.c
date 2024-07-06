@@ -119,7 +119,6 @@ s16 in_coll_sprite_list(Obj *obj, s16 param_2) /* has ugly stuff, but overall fi
 }
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", box_inter_v_line);
-/* ??? think param_6 and 7 might be s32 ??? */
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", box_inter_h_line);
 
