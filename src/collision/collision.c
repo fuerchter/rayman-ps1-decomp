@@ -599,7 +599,96 @@ s16 GET_SPRITE_ZDC(Obj *obj, s16 index, s16 *out_x, s16 *out_y, s16 *out_w, s16 
     return succ;
 }
 
+
+/* 1C3F8 80140BF8 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/collision", BOX_HIT_SPECIAL_ZDC);
+#else
+s32 BOX_HIT_SPECIAL_ZDC(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
+{
+  u8 frame;
+  s16 d;
+  s16 bb1_x_1; s16 bb1_y_1; s16 bb1_w_1; s16 bb1_h_1;
+  s16 bb1_x_2; s16 bb1_y_2; s16 bb1_w_2; s16 bb1_h_2;
+  s16 res = -1;
+
+  switch(obj->type)
+  {
+  case TYPE_BAG1:
+    frame = obj->anim_frame;
+    d = bagD[frame]; __asm__("nop");
+    if (d != -1)
+    {
+      if ((s16) inter_box(
+        in_x, in_y, in_w, in_h,
+        obj->x_pos + obj->offset_bx - (bagW[frame] >> 1),
+        obj->y_pos + obj->offset_by + d - bagH[frame],
+        bagW[frame],
+        bagH[frame]
+      ))
+        res = 1;
+    }
+    break;
+  case TYPE_BB1:
+  case TYPE_BB12: 
+  case TYPE_BB13:
+  case TYPE_BB14:
+    if (in_h == ray_zdc_h)
+    {
+      GET_BB1_ZDCs(
+        obj,
+        &bb1_x_1, &bb1_y_1, &bb1_w_1, &bb1_h_1,
+        &bb1_x_2, &bb1_y_2, &bb1_w_2, &bb1_h_2
+      );
+      
+      /* TODO: write a bit nicer, not sure how yet */
+      if (!(s16) inter_box(
+        in_x, in_y, in_w, in_h,
+        bb1_x_1, bb1_y_1, bb1_w_1, bb1_h_1
+      ))
+      {
+        if ((s16) inter_box(
+          in_x, in_y, in_w, in_h,
+          bb1_x_2, bb1_y_2, bb1_w_2, bb1_h_2
+        ))
+          res = 1;
+      }
+      else
+        res = 1;
+    }
+    else {
+      GET_BB1_ZDCs(
+        obj,
+        &bb1_x_1, &bb1_y_1, &bb1_w_1, &bb1_h_1,
+        &bb1_x_2, &bb1_y_2, &bb1_w_2, &bb1_h_2
+      );
+
+      if ((s16) inter_box(
+        in_x, in_y, in_w, in_h,
+        bb1_x_1, bb1_y_1, bb1_w_1, bb1_h_1
+      ))
+        res = 6;
+      if ((s16) inter_box(
+        in_x, in_y, in_w, in_h,
+        bb1_x_2, bb1_y_2, bb1_w_2, bb1_h_2
+      ))
+        res = 1;
+      
+      if (obj->main_etat == 0 && obj->sub_etat == 10)
+      {
+        GET_SPRITE_POS(obj, 9, &bb1_x_1, &bb1_y_1, &bb1_h_1, &bb1_w_1);
+        if ((s16) inter_box(
+          in_x, in_y, in_w, in_h,
+          bb1_x_1, bb1_y_1, bb1_w_1, bb1_h_1
+        ))
+          res = 9;
+      }
+    }
+    break;
+  }
+  return res;
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", BOX_IN_COLL_ZONES);
 
