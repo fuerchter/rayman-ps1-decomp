@@ -3,7 +3,7 @@
 /* 36260 8015AA60 -O2 -msoft-float */
 void new_level_init(void)
 {
-  departlevel = 1;
+  departlevel = true;
   ray_X_main_pos_init = ray.x_pos;
   ray_Y_main_pos_init = ray.y_pos;
   xmapsave = xmap;

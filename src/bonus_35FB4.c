@@ -28,7 +28,7 @@ void DO_PERFECT_BONUS_MAP(void)
     if (loop_time == -1)
     {
         loop_time++;
-        departlevel = 0;
+        departlevel = false;
         start_cd_gagne();
         SYNCHRO_LOOP(&do_perfect_bonus);
         status_bar.num_wiz = nb_wiz_save;
