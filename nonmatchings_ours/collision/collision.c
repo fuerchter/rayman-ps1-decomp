@@ -904,10 +904,7 @@ block_47:
     }
 }
 
-/*
-some bad instructions and reg swaps. not sure if i botched something
-only got to ~3740 score with m2c
-*/
+/* matches, but cleanup */
 /*INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_DETECT_ZONE_FLAG);*/
 
 void SET_DETECT_ZONE_FLAG(Obj *obj)
@@ -923,9 +920,11 @@ void SET_DETECT_ZONE_FLAG(Obj *obj)
   s16 h;
   s32 new_var1;
   s32 new_var2;
+  s32 new_var3;
   s32 test_1;
   s32 test_2;
   s32 test_3;
+  s32 test_4;
   
   GET_ANIM_POS(obj,&x,&y,&w,&h);
   /*if (0xea < obj->type - 5) {
@@ -950,9 +949,9 @@ LAB_801448fc:
   case 0xef:
     standard_frontZone(obj,&x,&w);
     if ((obj->main_etat == 0) && (obj->sub_etat == 4)) {
-      test_1 = (h >> 1);
-      y = y + test_1;
-      h = h + obj->detect_zone * 4 + test_1;
+      y = y + (h >> 1);
+      test_4 = obj->detect_zone * 4 + (h >> 1);
+      h = h + test_4;
     }
     break;
   case 0x7b:
@@ -961,9 +960,9 @@ LAB_801448fc:
     {
     case 3:
       if ((obj->main_etat == 0) && (obj->sub_etat == 0)) {
-        h = obj->detect_zone + h;
+        h = h + obj->detect_zone;
         y = y - obj->detect_zone;
-        w = obj->detect_zone + w;
+        w = w + obj->detect_zone;
         x = x - (obj->detect_zone >> 1);
       }
       break;
@@ -972,7 +971,7 @@ LAB_801448fc:
         x = x + new_var2 + (w >> 1);
         y = y + (h >> 1);
         w = 0x14;
-        h = obj->detect_zone + h;
+        h = h + obj->detect_zone;
         if ((obj->flags & FLG(OBJ_FLIP_X)) == FLG_OBJ_NONE) {
           x = x + -w;
         }
@@ -980,9 +979,8 @@ LAB_801448fc:
       break;
     case 4:
       y = y - (obj->detect_zone + h);
-      test_1 = w >> 1;
-      w = w * 2;
-      x = x - test_1;
+      x = x - (w >> 1);
+      w += w;
       h = obj->detect_zone + h;
       break;
     case 2:
@@ -996,11 +994,13 @@ LAB_801448fc:
   case 0x84:
     new_var1 = x;
     if ((obj->flags & FLG(OBJ_FLIP_X))) {
-      new_var1 = x + w;
+      new_var3 = new_var1 + w;
     }
     else
-      new_var1 = x - w;
-    x = new_var1;
+    {
+      new_var3 = new_var1 - w;
+    }
+    x = new_var3;
     y = y + -0x32;
     h = h + 0x32;
     break;

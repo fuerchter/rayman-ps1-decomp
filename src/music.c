@@ -578,6 +578,7 @@ void FUN_80132158(void) {}
 
 void FUN_80132160(void) {}
 
+/* D968 80132168 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu, div_nop_swap*/
 INCLUDE_ASM("asm/nonmatchings/music", PS1_SetMusicVolume);
 #else
