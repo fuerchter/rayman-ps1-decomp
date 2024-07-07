@@ -7,6 +7,7 @@
 #include "menu/menu_7EEE4.h"
 #include "menu/menu_7F4B4.h"
 #include "obj/dark_729F0.h"
+#include "ray/ray_32398.h"
 
 /* .data */
 extern s32 PS1_Button_Text_Square;
