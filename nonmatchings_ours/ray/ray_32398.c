@@ -1,15 +1,11 @@
 #include "ray/ray_32398.h"
 
+/* matches, but cleanup */
 /*INCLUDE_ASM("asm/nonmatchings/ray/ray_32398", DO_RAYMAN);*/
 
 /*s32 FUN_80133984(?);
 s32 FUN_801339f4(?);*/
 void setvol(ushort param_1, u8);
-
-inline int inline_fn(u8 arg0, int arg1)
-{
-  return arg0 - arg1;
-}
 
 void DO_RAYMAN(void)
 {
@@ -28,6 +24,7 @@ void DO_RAYMAN(void)
     Obj *pOVar3;
     Obj *pOVar2;
     u8 test_2;
+    Obj *new_var2;
 
     v_scroll_speed = 0;
     h_scroll_speed = 0;
@@ -53,43 +50,31 @@ void DO_RAYMAN(void)
             ray.speed_x = 0;
             ray.speed_y = 0;
         }
-        if ((remoteRayXToReach != -0x7D00) && !(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40))
+        if (remoteRayXToReach != -0x7D00 && !(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40))
         {
-            if(ray.main_etat == 0) /* else we should check main_etat == 1 without sub_etat checks? */
+            /* TODO: rewrite... */
+            if (
+                !((
+                    (ray.main_etat != 0 || ray.sub_etat == 4 || ray.sub_etat == 5 || ray.sub_etat == 6 || ray.sub_etat == 7) ||
+                    !(ray.sub_etat != 9 && ray.sub_etat != 10)
+                ) &&
+                (
+                    (ray.main_etat != 1 || (ray.main_etat == 1 && ray.sub_etat == 1)) &&
+                    (ray.main_etat != 3 || ray.sub_etat == 1 || (ray.sub_etat == 2 || ray.sub_etat == 3) || ray.sub_etat == 4)
+                ))
+            )
             {
-                if (
-                  (inline_fn(ray.sub_etat, 4) < 2U) ||
-                  (inline_fn(ray.sub_etat, 6) < 2U) ||
-                  (inline_fn(ray.sub_etat, 9) < 2U)
-                )
+                if (remoteRayXToReach != 0)
                 {
-                    if (
-                      ((ray.main_etat == 1) && (ray.sub_etat != 1)) ||
-                      (
-                        (ray.main_etat == 3) &&
-                        (ray.sub_etat != 1) &&
-                        (inline_fn(ray.sub_etat, 2) >= 2U) &&
-                        (ray.sub_etat != 4)
-                      )
-                    )
-                    {
-                        goto block_24;
-                    }
+                    set_main_and_sub_etat(&ray, 3U, 0x15U);
                 }
                 else
                 {
-block_24:
-                    if (remoteRayXToReach != 0)
-                    {
-                        set_main_and_sub_etat(&ray, 3, 0x15);
-                    }
-                    else
-                    {
-                        set_main_and_sub_etat(&ray, 3, 0x14);
-                    }
+                    set_main_and_sub_etat(&ray, 3U, 0x14U);
                 }
             }
         }
+
         if ((ray.main_etat == 2) && ((ray.sub_etat == 8) || (ray.sub_etat == 0x1F)))
         {
             RAY_IN_THE_AIR();
@@ -108,19 +93,18 @@ block_24:
                     }
                 }
             }
-            else if (inline_fn(ray.sub_etat, 0x14) < 2U)
+            else if (ray.sub_etat == 0x14 || ray.sub_etat == 0x15)
             {
-                remoteControlRay(&ray.main_etat); /* no idea why this helps? */
+                remoteControlRay();
             }
-            temp_v1 = ray.sub_etat;
-            if ((inline_fn(temp_v1, 0x16) >= 2U) && (ray.sub_etat != 0x20))
+            if (ray.sub_etat != 0x16 && ray.sub_etat != 0x17 && (ray.sub_etat != 0x20))
             {
                 RAY_SWIP();
             }
         }
         else
         {
-            if ((ray_on_poelle == 0) && !(RayEvts.flags1 & 0x18) && (ray.main_etat < 2U))
+            if ((ray_on_poelle == 0) && !(RayEvts.flags1 & 0x18) && (ray.main_etat == 0 || ray.main_etat == 1))
             {
                 if ((FUN_801339f4(0) != 0) && (FUN_80133984(0) == 0))
                 {
@@ -240,18 +224,17 @@ block_24:
         if (temp_a1 & 0x60)
         {
           GET_SPRITE_POS(&ray, 5, &sp18, &sp1A, &sp1C, &sp1E);
-          new_var = star_ray_dev;
-          temp_v0 = (sp18 + (((s16) sp1C) >> 0x1)) - new_var->offset_bx;
-          new_var->x_pos = temp_v0;
-          star_ray_der->x_pos = temp_v0;
-          temp_v1 = sp1A - new_var->offset_hy;
-          new_var->y_pos = temp_v1;
-          star_ray_der->display_prio = 3;
+          star_ray_der->x_pos =
+          star_ray_dev->x_pos =
+              (sp18 + (((s16) sp1C) >> 0x1)) - star_ray_dev->offset_bx;
+          star_ray_der->y_pos =
+          star_ray_dev->y_pos =
+              sp1A - star_ray_dev->offset_hy;
+
           star_ray_der->flags |= 0xC00;
-          star_ray_der->y_pos = temp_v1;
-          
-          new_var->display_prio = 1;
-          new_var->flags |= 0xC00;
+          star_ray_der->display_prio = 3;
+          star_ray_dev->flags |= 0xC00;
+          star_ray_dev->display_prio = 1;
         }
         else
         {

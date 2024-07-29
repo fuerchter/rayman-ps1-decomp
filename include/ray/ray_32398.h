@@ -9,6 +9,7 @@
 #include "continue.h"
 #include "collision/collision.h"
 #include "save.h"
+#include "obj/eau.h"
 
 /**/
 extern u8 PS1_ShoulderL;
