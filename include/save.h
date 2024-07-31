@@ -25,7 +25,7 @@ typedef struct SaveState
     s16 ray_y_pos;
     s16 ray_screen_x;
     s16 ray_screen_y;
-    u16 ray_flip_x;
+    s16 ray_flip_x;
     s16 save_obj_id;
     s16 save_obj_x_pos;
     s16 save_obj_y_pos;
