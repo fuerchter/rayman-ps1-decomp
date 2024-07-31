@@ -16,6 +16,9 @@ void doneGameSave(void)
 }
 
 /* 3F190 80163990 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
+INCLUDE_ASM("asm/nonmatchings/save", saveGameState);
+#else
 void saveGameState(Obj *obj, SaveState *state)
 {
     u8 i;
@@ -85,6 +88,7 @@ void saveGameState(Obj *obj, SaveState *state)
 
     __asm__("nop");
 }
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/save", restoreGameState);
 

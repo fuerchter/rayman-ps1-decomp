@@ -80,7 +80,7 @@ segments:
       - [0x5EC0, .rodata, bonus_372E0] #8012A6C0
       - [0x5ED8, rodata]
       - [0x5FE0, .rodata, obj/fee_3D76C] #8012a7e0
-      - [0x6364, rodata]
+      - [0x6364, .rodata, save] #8012ab64
       - [0x6394, .rodata, sound] #8012AB94
       - [0x6414, .rodata, card] #8012ac14
       - [0x6644, rodata]
