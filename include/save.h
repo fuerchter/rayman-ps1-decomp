@@ -3,6 +3,14 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "common/rayevts.h"
+#include "common/level.h"
+#include "common/world_map.h"
+#include "psyq_3_0/MEMORY.H"
+#include "moteur_update.h"
+#include "ray/ray_5D190.h"
+#include "gendoor.h"
+#include "snow.h"
 
 typedef struct SaveState
 {
@@ -12,8 +20,7 @@ typedef struct SaveState
     s16 vent_y;
     s16 x_map;
     s16 y_map;
-    u8 time;
-    u8 field7_0x39;
+    s16 time;
     s16 ray_x_pos;
     s16 ray_y_pos;
     s16 ray_screen_x;
@@ -44,5 +51,17 @@ extern SaveState save1;
 extern SaveState save2;
 extern u8 save_zone[2688];
 extern u8 wi_save_zone[24];
+
+void initGameSave(void);
+void doneGameSave(void);
+void saveGameState(Obj *obj, SaveState *state);
+void restoreGameState(SaveState *save);
+void PS1_PhotographerCollision(void);
+s32 get_offset_in_save_zone(s16 eventIndex);
+void reset_save_zone_level(void);
+void take_bonus(u16 eventIndex);
+u8 bonus_taken(u16 param_1);
+void PS1_WriteWiSaveZone(void);
+void PS1_LoadWiSaveZone(void);
 
 #endif
