@@ -1,5 +1,7 @@
 #include "save.h"
 
+void restore_gendoor_link(void);
+
 extern s16 VENT_X;
 extern s16 VENT_Y;
 
@@ -92,7 +94,56 @@ void saveGameState(Obj *obj, SaveState *state)
 
 INCLUDE_ASM("asm/nonmatchings/save", restoreGameState);
 
-INCLUDE_ASM("asm/nonmatchings/save", PS1_PhotographerCollision);
+/* 3F9C0 801641C0 -O2 -msoft-float */
+void PS1_PhotographerCollision(void)
+{
+    s16 i = 0;
+    Obj *cur_obj = &level.objects[actobj.objects[i]];
+    
+    while (i < actobj.num_active_objects)
+    {
+        if (cur_obj->type == TYPE_PHOTOGRAPHE)
+        {
+            if (cur_obj->sub_etat == 1)
+            {
+                if (++cur_obj->timer == 0)
+                    cur_obj->timer++;
+            }
+            else
+            {
+                if (cur_obj->timer != 0)
+                {
+                    ray.flags |= FLG(OBJ_ACTIVE);
+                    restore_gendoor_link();
+                    saveGameState(cur_obj, &save1);
+                    correct_gendoor_link();
+                    cur_obj->timer = 0;
+                }
+                else
+                {
+                    if (
+                        !(RayEvts.flags1 & FLG(RAYEVTS1_DEMI)) && !(cur_obj->flags & FLG(OBJ_FLAG_0)) && (s16) OBJ_IN_ZONE(cur_obj) &&
+                        ray.field20_0x36 == -1 && decalage_en_cours == 0 &&
+                        ray.main_etat == 0 && ray.sub_etat == 0 &&
+                        (s16) inter_box(
+                            (s16) (cur_obj->x_pos + 42), (s16) (cur_obj->y_pos + 48), 5, 15,
+                            ray_zdc_x, ray_zdc_y, ray_zdc_w, ray_zdc_h
+                        )
+                    )
+                    {
+                        ray.speed_x = 0;
+                        cur_obj->flags |= FLG(OBJ_FLAG_0);
+                        ray.flags &= ~FLG(OBJ_ACTIVE);
+                        skipToLabel(cur_obj, 0, true);
+                    }
+                }
+
+            }
+        }
+        i++;
+        cur_obj = &level.objects[actobj.objects[i]];
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/save", get_offset_in_save_zone);
 
