@@ -4,6 +4,7 @@ void restore_gendoor_link(void);
 
 extern s16 VENT_X;
 extern s16 VENT_Y;
+extern u8 nb_levels_in_world[8];
 
 /* 3F170 80163970 -O2 -msoft-float */
 void initGameSave(void)
@@ -145,11 +146,49 @@ void PS1_PhotographerCollision(void)
     }
 }
 
+/* 3FC20 80164420 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/save", get_offset_in_save_zone);
+#else
+s32 get_offset_in_save_zone(s16 event_index)
+{
+    s32 unk_1 = 0;
+    s16 i = 1;
+    while (i < num_world)
+    {
+        unk_1 += nb_levels_in_world[i] * 32;
+        i++;
+    }
 
-INCLUDE_ASM("asm/nonmatchings/save", reset_save_zone_level);
+    i = 1;
+    while (i < num_level)
+    {
+        unk_1 += 32;
+        i++;
+    }
 
+    __asm__("nop");
+    return (s16) (unk_1 + ashr16(event_index, 3));
+}
+#endif
+
+/* 3FCE4 801644E4 -O2 -msoft-float */
+void reset_save_zone_level(void)
+{
+    memset(&save_zone[(s16) get_offset_in_save_zone(0)], 0, 32);
+}
+
+/* 3FD24 80164524 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/save", take_bonus);
+#else
+void take_bonus(s16 event_index)
+{
+    save_zone[(s16) get_offset_in_save_zone(event_index)] |= ashr16(1 << 7, event_index & 7);
+
+    __asm__("nop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/save", bonus_taken);
 

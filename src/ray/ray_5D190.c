@@ -1547,7 +1547,7 @@ void RAY_IN_THE_AIR(void)
                 {
                     if (
                         RayEvts.flags1 & FLG(RAYEVTS1_RUN) &&
-                        __builtin_abs(ray.speed_x) >= ashr16(ray.eta[1][3].speed_x_right, 4)
+                        __builtin_abs(ray.speed_x) >= (s16) ashr16(ray.eta[1][3].speed_x_right, 4)
                     )
                         set_main_and_sub_etat(&ray, 1, 7);
                     else
