@@ -46,6 +46,9 @@ typedef struct SaveState
     u8 num_wiz;
 } SaveState;
 
+/* .data */
+extern u8 nb_levels_in_world[8];
+
 /**/
 extern SaveState save1;
 extern SaveState save2;

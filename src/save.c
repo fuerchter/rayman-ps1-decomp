@@ -1,11 +1,5 @@
 #include "save.h"
 
-void restore_gendoor_link(void);
-
-extern s16 VENT_X;
-extern s16 VENT_Y;
-extern u8 nb_levels_in_world[8];
-
 /* 3F170 80163970 -O2 -msoft-float */
 void initGameSave(void)
 {

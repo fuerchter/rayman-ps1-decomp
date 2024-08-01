@@ -16,5 +16,7 @@ typedef struct FloconTableEntry
 extern s16 floc_ind[8];
 extern FloconTableEntry flocon_tab[512];
 extern s16 nb_floc[8];
+extern s16 VENT_X;
+extern s16 VENT_Y;
 
 #endif

@@ -13,4 +13,6 @@ extern s16 ray_Y_main_pos_init;
 extern s16 xmapsave;
 extern s16 ymapsave;
 
+void restore_gendoor_link(void);
+
 #endif
