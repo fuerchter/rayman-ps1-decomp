@@ -57,10 +57,10 @@ void doneGameSave(void);
 void saveGameState(Obj *obj, SaveState *state);
 void restoreGameState(SaveState *save);
 void PS1_PhotographerCollision(void);
-s32 get_offset_in_save_zone(s16 event_index);
+s16 get_offset_in_save_zone(s16 event_index);
 void reset_save_zone_level(void);
 void take_bonus(s16 event_index);
-u8 bonus_taken(u16 param_1);
+u8 bonus_taken(s16 event_index);
 void PS1_WriteWiSaveZone(void);
 void PS1_LoadWiSaveZone(void);
 

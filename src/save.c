@@ -150,7 +150,7 @@ void PS1_PhotographerCollision(void)
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/save", get_offset_in_save_zone);
 #else
-s32 get_offset_in_save_zone(s16 event_index)
+s16 get_offset_in_save_zone(s16 event_index)
 {
     s32 unk_1 = 0;
     s16 i = 1;
@@ -168,14 +168,14 @@ s32 get_offset_in_save_zone(s16 event_index)
     }
 
     __asm__("nop");
-    return (s16) (unk_1 + ashr16(event_index, 3));
+    return (unk_1 + ashr16(event_index, 3));
 }
 #endif
 
 /* 3FCE4 801644E4 -O2 -msoft-float */
 void reset_save_zone_level(void)
 {
-    memset(&save_zone[(s16) get_offset_in_save_zone(0)], 0, 32);
+    memset(&save_zone[get_offset_in_save_zone(0)], 0, 32);
 }
 
 /* 3FD24 80164524 -O2 -msoft-float */
@@ -184,13 +184,21 @@ INCLUDE_ASM("asm/nonmatchings/save", take_bonus);
 #else
 void take_bonus(s16 event_index)
 {
-    save_zone[(s16) get_offset_in_save_zone(event_index)] |= ashr16(1 << 7, event_index & 7);
-
+    save_zone[get_offset_in_save_zone(event_index)] |= ashr16(1 << 7, event_index & 7);
     __asm__("nop\nnop");
 }
 #endif
 
+/* 3FD98 80164598 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/save", bonus_taken);
+#else
+u8 bonus_taken(s16 event_index)
+{
+    __asm__("nop");
+    return save_zone[get_offset_in_save_zone(event_index)] & ashr16(1 << 7, event_index & 7);
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/save", PS1_WriteWiSaveZone);
 
