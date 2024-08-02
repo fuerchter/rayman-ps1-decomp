@@ -7,7 +7,7 @@ void PS1_EncryptPassword(void);
 u8 PS1_VerifyDecryptPassword(void);
 void FUN_801a17c8(u8 arg0);
 u8 PS1_GetLevelFromPassword(void);
-void PS1_GeneratePassword_LivesCount(u32 livesCount);
+void PS1_GeneratePassword_LivesCount(u8 lives_count);
 u8 PS1_GetLivesFromPassword(void);
 void PS1_GeneratePassword_nbContinue(u32 param_1);
 u8 PS1_GetContinuesFromPassword(void);

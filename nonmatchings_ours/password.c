@@ -1,5 +1,7 @@
 #include "password.h"
 
+/* inlines should also be extern? https://gcc.gnu.org/onlinedocs/gcc/Inline.html */
+
 /* matches, but surely wrong */
 /*INCLUDE_ASM("asm/nonmatchings/password", PS1_EncryptPassword);*/
 
@@ -107,7 +109,7 @@ s32 PS1_VerifyDecryptPassword(void)
 
 inline int inline_fn(u32 arg0)
 {
-    return arg0 & 4;
+    return arg0 & (1 << 2);
 }
 
 void FUN_801a17c8(u8 arg0)
@@ -117,4 +119,23 @@ void FUN_801a17c8(u8 arg0)
     PS1_CurrentPassword[3] = (PS1_CurrentPassword[3] & ~(1 << 2)) | inline_fn(arg0 >> 0);
     PS1_CurrentPassword[1] = (PS1_CurrentPassword[1] & ~(1 << 2)) | inline_fn(arg0 >> 1);
     PS1_CurrentPassword[0] = (PS1_CurrentPassword[0] & ~(1 << 2)) | inline_fn(arg0 >> 2);
+}
+
+/*INCLUDE_ASM("asm/nonmatchings/password", PS1_GeneratePassword_LivesCount);*/
+
+extern inline int inline_fn(u32 arg0)
+{
+    return arg0 & (1 << 3);
+}
+
+void PS1_GeneratePassword_LivesCount(u8 lives_count)
+{
+    int new_var = 7;
+    PS1_CurrentPassword[3] = (PS1_CurrentPassword[3] & ~(1 << 3)) | ((lives_count & 1) << 3);
+    PS1_CurrentPassword[2] = (PS1_CurrentPassword[2] & ~(1 << 3)) | inline_fn((lives_count << 2));
+    PS1_CurrentPassword[5] = (PS1_CurrentPassword[5] & ~(1 << 3)) | inline_fn((lives_count << 1));
+    PS1_CurrentPassword[1] = (PS1_CurrentPassword[1] & ~(1 << 3)) | inline_fn(lives_count);
+    PS1_CurrentPassword[4] = (PS1_CurrentPassword[4] & ~(1 << 3)) | inline_fn((lives_count >> 1));
+    PS1_CurrentPassword[0] = (PS1_CurrentPassword[0] & ~(1 << 3)) | inline_fn((lives_count >> 2));
+    PS1_CurrentPassword[new_var] = (PS1_CurrentPassword[new_var] & ~(1 << 3)) | inline_fn((lives_count >> 3));
 }
