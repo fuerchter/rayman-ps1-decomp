@@ -101,3 +101,20 @@ s32 PS1_VerifyDecryptPassword(void)
     temp_lo = test_1;
     return var_t4 == temp_lo;
 }
+
+/* matches, but ... */
+/*INCLUDE_ASM("asm/nonmatchings/password", FUN_801a17c8);*/
+
+inline int inline_fn(u32 arg0)
+{
+    return arg0 & 4;
+}
+
+void FUN_801a17c8(u8 arg0)
+{
+    PS1_CurrentPassword[4] = (PS1_CurrentPassword[4] & ~(1 << 2)) | ((arg0 & 1) << 2);
+    PS1_CurrentPassword[2] = (PS1_CurrentPassword[2] & ~(1 << 2)) | inline_fn(arg0 << 1);
+    PS1_CurrentPassword[3] = (PS1_CurrentPassword[3] & ~(1 << 2)) | inline_fn(arg0 >> 0);
+    PS1_CurrentPassword[1] = (PS1_CurrentPassword[1] & ~(1 << 2)) | inline_fn(arg0 >> 1);
+    PS1_CurrentPassword[0] = (PS1_CurrentPassword[0] & ~(1 << 2)) | inline_fn(arg0 >> 2);
+}
