@@ -139,3 +139,24 @@ void PS1_GeneratePassword_LivesCount(u8 lives_count)
     PS1_CurrentPassword[0] = (PS1_CurrentPassword[0] & ~(1 << 3)) | inline_fn((lives_count >> 2));
     PS1_CurrentPassword[new_var] = (PS1_CurrentPassword[new_var] & ~(1 << 3)) | inline_fn((lives_count >> 3));
 }
+
+/* matches, but ... */
+/*INCLUDE_ASM("asm/nonmatchings/password", PS1_GeneratePassword_nbContinue);*/
+
+void PS1_GeneratePassword_nbContinue(u8 param_1)
+{
+    int new_var5;
+    int new_var4;
+    s32 temp_a0;
+    int new_var2;
+    int new_var1;
+
+    temp_a0 = param_1;
+    PS1_CurrentPassword[5] = (PS1_CurrentPassword[5] & ~(1 << 2)) | ((param_1 & (1 << 0)) << 2);
+    new_var1 = (temp_a0 << 1) & (1 << 2);
+    PS1_CurrentPassword[7] = (PS1_CurrentPassword[7] & ~(1 << 2)) | new_var1;
+    new_var5 = temp_a0 & (1 << 2);
+    PS1_CurrentPassword[6] = (PS1_CurrentPassword[6] & ~(1 << 2)) | new_var5;
+    new_var4 = ((u8) temp_a0 << 1) & (1 << 4);
+    PS1_CurrentPassword[9] = (PS1_CurrentPassword[9] & ~(1 << 4)) | new_var4;
+}
