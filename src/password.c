@@ -8,6 +8,10 @@ const u8 s_wrong_password_8012c410[] = "/wrong password/";
 const u8 s_enter_password_8012c424[] = "/enter password/";
 const u8 s_select__return_8012c438[] = "/select : return/";
 
+extern u8 PS1_CurrentPassword[10];
+extern u8 PS1_PasswordVerificationTable[10];
+extern u8 PS1_PasswordXORTable[10];
+
 INCLUDE_ASM("asm/nonmatchings/password", PS1_EncryptPassword);
 
 INCLUDE_ASM("asm/nonmatchings/password", PS1_VerifyDecryptPassword);
