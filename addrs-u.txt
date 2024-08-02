@@ -212,6 +212,13 @@ s_busy_801ceecc = 0x801ceecc;
 s_yes_801ceed4 = 0x801ceed4;
 s_no_801ceed8 = 0x801ceed8;
 s_youre_doomed_rayman__8012c1e4 = 0x8012c1e4; // type:asciz force_not_migration:True
+s_x__validate_password_8012c3b0 = 0x8012c3b0; // type:asciz force_not_migration:True
+s_left__right__move_8012c3c8 = 0x8012c3c8; // type:asciz force_not_migration:True
+s_up__down__browse_8012c3e0 = 0x8012c3e0; // type:asciz force_not_migration:True
+s_x__validate_letter_8012c3f8 = 0x8012c3f8; // type:asciz force_not_migration:True
+s_wrong_password_8012c410 = 0x8012c410; // type:asciz force_not_migration:True
+s_enter_password_8012c424 = 0x8012c424; // type:asciz force_not_migration:True
+s_select__return_8012c438 = 0x8012c438; // type:asciz force_not_migration:True
 
 ray = 0x801f61a0;
 //ray_obj_sprites = 0x801f61a0;
