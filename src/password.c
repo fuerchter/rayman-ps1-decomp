@@ -46,7 +46,15 @@ u8 PS1_GetLivesFromPassword(void)
 
 INCLUDE_ASM("asm/nonmatchings/password", PS1_GeneratePassword_nbContinue);
 
-INCLUDE_ASM("asm/nonmatchings/password", PS1_GetContinuesFromPassword);
+/* 7D2C8 801A1AC8 -O2 -msoft-float */
+u8 PS1_GetContinuesFromPassword(void)
+{
+    return
+        (PS1_CurrentPassword[5] >> 2 & (1 << 0)) +
+        (PS1_CurrentPassword[7] >> 1 & (1 << 1)) +
+        (PS1_CurrentPassword[6] & (1 << 2)) +
+        (PS1_CurrentPassword[9] >> 1 & (1 << 3));
+}
 
 INCLUDE_ASM("asm/nonmatchings/password", PS1_ValidatePassword);
 
