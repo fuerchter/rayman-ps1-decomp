@@ -235,7 +235,34 @@ void FUN_801a3064(void)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/password", FUN_801a3458);
+/* 7EC58 801A3458 -O2 -msoft-float */
+s32 FUN_801a3458(void)
+{
+    s16 x_pos;
+    u8 should_ret = false;
+    
+    CLRSCR();
+    DISPLAY_FOND_MENU();
+    DO_FADE();
+    readinput();
+
+    x_pos = 160;
+    display_text(s_enter_password_8012c424, x_pos, debut_titre, 1, 1);
+    display_text(s_select__return_8012c438, x_pos, D_801E4E48 + 15, 2, 10);
+    FUN_801a3064();
+    FUN_801a2d40();
+    
+    if (SelectButPressed() != 0)
+    {
+        should_ret = true;
+        MENU_RETURN = true;
+
+        while (SelectButPressed())
+            readinput();
+    }
+
+    return should_ret || PS1_ValidPassword;
+}
 
 INCLUDE_ASM("asm/nonmatchings/password", FUN_801a3550);
 
