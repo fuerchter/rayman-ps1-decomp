@@ -91,8 +91,6 @@ void PS1_ClearPassword(void)
     memset(&PS1_CurrentTypingPassword, 0x1F, LEN(PS1_CurrentTypingPassword));
 }
 
-extern u8 PS1_ShouldClearPassword; /* don't understand its use in FUN_8019ebc0 */
-
 /* 7E478 801A2C78 -O2 -msoft-float */
 void FUN_801a2c78(void)
 {

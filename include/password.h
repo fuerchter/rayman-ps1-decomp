@@ -4,6 +4,9 @@
 #include "common.h"
 #include "num_level_36260.h"
 
+/**/
+extern u8 PS1_ShouldClearPassword; /* don't understand its use in FUN_8019ebc0 */
+
 void PS1_EncryptPassword(void);
 s32 PS1_VerifyDecryptPassword(void);
 void FUN_801a17c8(u8 arg0);

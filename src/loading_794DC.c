@@ -26,7 +26,6 @@ extern s32 *D_801F59E0; /* see loading_DA64 */
 extern void *D_801F8190;
 extern void *D_801E4F50;
 extern void *D_801F8180;
-extern u8 PS1_ShouldClearPassword;
 
 /*
 before rodata even, what is this?

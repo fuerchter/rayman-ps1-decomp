@@ -9,6 +9,7 @@
 #include "sound.h"
 #include "fond_10B3C.h"
 #include "menu/menu_6A3BC.h"
+#include "password.h"
 
 typedef struct FileInfo
 {
