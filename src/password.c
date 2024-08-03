@@ -21,6 +21,10 @@ extern s16 D_801E4E40;
 extern s16 D_801E4E48;
 extern u8 D_801E57A8;
 extern u8 PS1_ValidPassword;
+extern u8 PS1_PasswordDisplayTranslateTable[32];
+
+/* .data */
+extern u8 s_ok_801cf108[5];
 
 INCLUDE_ASM("asm/nonmatchings/password", PS1_EncryptPassword);
 
@@ -100,7 +104,7 @@ void FUN_801a2c78(void)
     PS1_display_y1 = 131;
     D_801E4E40 = 174;
     D_801E4E48 = 215;
-    D_801E5748 = 21;
+    PS1_CharXSpacing = 21;
     positionx = 0;
     MENU_RETURN = false;
     positiony = 0;

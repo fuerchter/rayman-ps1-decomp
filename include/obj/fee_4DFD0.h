@@ -8,6 +8,7 @@
 #include "timers.h"
 #include "world_map_95CC.h"
 
+/**/
 extern u8 display_txt_fee;
 extern u8 old_txt_fee;
 extern u8 new_txt_fee;

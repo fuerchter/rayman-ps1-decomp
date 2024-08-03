@@ -274,27 +274,25 @@ void AFFICHE_ECRAN_SAVE(void)
                     {
                         display_text(
                             s__801cf13c,
-                            basex + (cur_char - 1) * D_801E5748 - 10,
+                            basex + (cur_char - 1) * PS1_CharXSpacing - 10,
                             debut_options + cur_save * (ecarty + 23),
-                            1,
-                            3
+                            1, 3
                         );
                     }
                     else if (prev_char == ' ')
                     {
                         display_text(
                             s_801cf141,
-                            basex + (cur_char - 1) * D_801E5748,
+                            basex + (cur_char - 1) * PS1_CharXSpacing,
                             debut_options + cur_save * (ecarty + 23),
-                            1,
-                            3
+                            1, 3
                         );
                     }
                     else
                     {
                         display_text(
                             save_ray_cpy + (cur_char - 1),
-                            basex + (cur_char - 1) * D_801E5748,
+                            basex + (cur_char - 1) * PS1_CharXSpacing,
                             debut_options + cur_save * (ecarty + 23),
                             1,
                             colour
@@ -302,7 +300,7 @@ void AFFICHE_ECRAN_SAVE(void)
                     }
                 }
             }
-            DISPLAY_SAVE_SPRITES((s16) (basex + (D_801E5748 + 11) * 3 - 30), cur_save);
+            DISPLAY_SAVE_SPRITES((s16) (basex + (PS1_CharXSpacing + 11) * 3 - 30), cur_save);
         }
         else
         {
@@ -450,7 +448,7 @@ void INIT_AFFICHE_ECRAN_SAVE(void)
 
     basex = 50;
     debut_titre = 29;
-    D_801E5748 = 21;
+    PS1_CharXSpacing = 21;
     debut_sortie = 167;
     ecarty = y;
     debut_options = y + 59;

@@ -80,8 +80,8 @@ extern s16 fin_saisie_nom;
 extern u8 save_ray[4][4];
 extern s16 sortie_save;
 extern s16 compteur_clignote;
-extern s16 D_801F5448;
-extern s16 D_801E5748;
+extern s16 D_801F5448; /* bool? */
+extern s16 PS1_CharXSpacing;
 extern s16 selection_effectuee;
 extern s16 affiche_bon_ecran;
 

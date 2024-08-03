@@ -6,6 +6,7 @@
 #include "obj/fee_4DFD0.h"
 #include "main.h"
 
+/**/
 extern u8 is_fee;
 
 void INIT_TXT_FEE(void);

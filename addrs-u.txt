@@ -59,6 +59,7 @@ PosYSin1 = 0x801f4df8;
 PosXSin2 = 0x801f4e00;
 PosYSin2 = 0x801f4e08;
 PS1_ShouldClearPassword = 0x801d7878;
+PS1_CharXSpacing = 0x801e5748;
 
 D_801C438C = 0x801C438C;
 D_801CEE10 = 0x801cee10;
@@ -219,6 +220,8 @@ s_x__validate_letter_8012c3f8 = 0x8012c3f8; // type:asciz force_not_migration:Tr
 s_wrong_password_8012c410 = 0x8012c410; // type:asciz force_not_migration:True
 s_enter_password_8012c424 = 0x8012c424; // type:asciz force_not_migration:True
 s_select__return_8012c438 = 0x8012c438; // type:asciz force_not_migration:True
+s_ok_801cf108 = 0x801cf108;
+s_s_801cf110 = 0x801cf110;
 
 ray = 0x801f61a0;
 //ray_obj_sprites = 0x801f61a0;
