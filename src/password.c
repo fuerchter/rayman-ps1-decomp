@@ -32,6 +32,7 @@ extern u8 PS1_PasswordDisplayTranslateTable[32];
 
 /* .data */
 extern u8 s_ok_801cf108[5];
+extern u8 s_s_801cf110[5];
 
 INCLUDE_ASM("asm/nonmatchings/password", PS1_EncryptPassword);
 
@@ -363,8 +364,31 @@ void FUN_801a3550(void)
     }
 }
 
-extern u8 s_s_801cf110[5];
-
+/* 7EDF8 801A35F8 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/password", PS1_GenerateAndDisplayPassword);
+#else
+void PS1_GenerateAndDisplayPassword(void)
+{
+    /* correct sizes? */
+    u8 i;
+    u8 pass [21]; 
+    u8 pass_cen [32];
+
+    PS1_IsPasswordValid = PS1_GeneratePassword();
+    for (i = 0; i < LEN(PS1_CurrentPassword); i++)
+    {
+        pass[i * 2] = PS1_PasswordDisplayTable[PS1_CurrentPassword[i] & 0x1f];
+        pass[i * 2 + 1] = ' ';
+    }
+
+    if (PS1_IsPasswordValid == true)
+        pass[20] = '\0';
+    sprintf(pass_cen, s_s_801cf110, pass);
+    strcpy(text_to_display[0].text, pass_cen);
+
+    __asm__("nop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/password", DEPART_INIT_LOOP);
