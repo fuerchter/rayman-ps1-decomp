@@ -1,6 +1,10 @@
 #include "password.h"
 
-/* uses of 0x1f are either based on LEN(PS1_PasswordDisplayTable) or LEN(PS1_PasswordDisplayTranslateTable) ??? */
+/*
+TODO:
+uses of 0x1f are either based on LEN(PS1_PasswordDisplayTable) or LEN(PS1_PasswordDisplayTranslateTable) ???
+replace x_pos 160 with macro?
+*/
 
 const u8 s_x__validate_password_8012c3b0[] = "/x : validate password/";
 const u8 s_left__right__move_8012c3c8[] = "/left | right : move/";
@@ -119,7 +123,82 @@ void FUN_801a2c78(void)
         PS1_ClearPassword();
 }
 
+/* 7E540 801A2D40 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/password", FUN_801a2d40);
+#else
+void FUN_801a2d40(void)
+{
+    s32 char_ind;
+    u8 character[2];
+    s16 max_clignote = 40;
+    
+    if (compteur < max_compteur)
+    {
+        if (button_released == 0)
+            compteur++;
+        else
+            compteur = 0;
+    }
+    else if (button_released == 0)
+        compteur = delai_repetition + 1;
+    else
+        compteur = 0;
+
+    if (compteur_clignote < max_clignote)
+        compteur_clignote++;
+    else
+        compteur_clignote = 0;
+    
+    for (char_ind = 0; char_ind < (s16) LEN(PS1_CurrentTypingPassword); char_ind++)
+    {
+        character[0] =
+            PS1_PasswordDisplayTable[
+                PS1_PasswordDisplayTranslateTable[
+                    PS1_CurrentTypingPassword[char_ind] & 0x1F
+                ]
+            ];
+        character[1] = '\0';
+        
+        if (positionx == char_ind && positiony == 0)
+        {
+            if (!(D_801F5448 && (compteur_clignote > max_clignote >> 1)))
+                display_text(
+                    character,
+                    basex + (char_ind - 1) * PS1_CharXSpacing,
+                    debut_options, 1, 6
+                );
+        }
+        else
+            display_text(
+                character,
+                basex + (char_ind - 1) * PS1_CharXSpacing,
+                debut_options,
+                1, 1
+            );
+    }
+ 
+    if (positiony == 1)
+    {
+        
+        if (!(D_801F5448 && (compteur_clignote > max_clignote >> 1)))
+            display_text(s_ok_801cf108, 160, PS1_display_y1, 1, 6);
+        display_text(s_x__validate_password_8012c3b0, 160, D_801E4E40, 2, 10);
+        display_text(s_left__right__move_8012c3c8, 160, D_801E4E48, 2, 10);
+    }
+    else if (positiony == 0)
+    {
+        display_text(s_ok_801cf108, 160, PS1_display_y1, 1, 1);
+        display_text(s_up__down__browse_8012c3e0, 160, D_801E4E40, 2, 10);
+        display_text(s_x__validate_letter_8012c3f8, 160, D_801E4E40 + 15, 2, 10);
+        display_text(s_left__right__move_8012c3c8, 160, D_801E4E48, 2, 10);
+    }
+    else
+        display_text(s_wrong_password_8012c410, 160, D_801E4E40, 1, 1);
+
+    __asm__("nop\nnop\nnop");
+}
+#endif
 
 /* 7E864 801A3064 -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
@@ -236,7 +315,7 @@ void FUN_801a3064(void)
 #endif
 
 /* 7EC58 801A3458 -O2 -msoft-float */
-s32 FUN_801a3458(void)
+s32 PS1_MenuPassword(void)
 {
     s16 x_pos;
     u8 should_ret = false;
@@ -264,7 +343,27 @@ s32 FUN_801a3458(void)
     return should_ret || PS1_ValidPassword;
 }
 
-INCLUDE_ASM("asm/nonmatchings/password", FUN_801a3550);
+/* 7ED50 801A3550 -O2 -msoft-float */
+void FUN_801a3550(void)
+{
+    LOAD_SAVE_SCREEN();
+    INIT_FADE_IN();
+    FUN_801a2c78();
+    SYNCHRO_LOOP(PS1_MenuPassword);
+    DO_FADE_OUT();
+    if (PS1_ValidPassword || MENU_RETURN)
+    {
+        if (positiony == 2)
+        {
+            PS1_SaveMode = 2;
+            MENU_RETURN = false;
+        }
+        else
+            PS1_SaveMode = 1;
+    }
+}
+
+extern u8 s_s_801cf110[5];
 
 INCLUDE_ASM("asm/nonmatchings/password", PS1_GenerateAndDisplayPassword);
 

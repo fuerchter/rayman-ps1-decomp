@@ -24,7 +24,7 @@ void PS1_ClearPassword(void);
 void FUN_801a2c78(void);
 void FUN_801a2d40(void);
 void FUN_801a3064(void);
-s32 FUN_801a3458(void);
+s32 PS1_MenuPassword(void);
 void FUN_801a3550(void);
 void PS1_GenerateAndDisplayPassword(void);
 void DEPART_INIT_LOOP(void);
