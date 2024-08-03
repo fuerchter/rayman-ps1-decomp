@@ -58,7 +58,7 @@ PosXSin1 = 0x801f4a30;
 PosYSin1 = 0x801f4df8;
 PosXSin2 = 0x801f4e00;
 PosYSin2 = 0x801f4e08;
-
+PS1_ShouldClearPassword = 0x801d7878;
 
 D_801C438C = 0x801C438C;
 D_801CEE10 = 0x801cee10;

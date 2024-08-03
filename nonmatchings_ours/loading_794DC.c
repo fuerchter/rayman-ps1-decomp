@@ -60,7 +60,7 @@ void load_level(void)
 
 void FUN_8019ebc0(void)
 {
-    if (D_801D7878 != 0)
+    if (PS1_ShouldClearPassword != false)
     {
         switch (Etape_History)
         {
