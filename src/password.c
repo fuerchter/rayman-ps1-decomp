@@ -12,6 +12,7 @@ extern u8 PS1_CurrentPassword[10];
 extern u8 PS1_PasswordVerificationTable[10];
 extern u8 PS1_PasswordXORTable[10];
 extern u8 PS1_Password_TempCageCounts[18];
+extern u8 PS1_IsPasswordValid;
 
 INCLUDE_ASM("asm/nonmatchings/password", PS1_EncryptPassword);
 

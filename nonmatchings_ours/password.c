@@ -419,3 +419,186 @@ u8 PS1_ValidatePassword(void)
     }
     return 2;
 }
+
+/* don't even know where to start. WorldInfo.state, permuter found some inline score improvement again... */
+/*INCLUDE_ASM("asm/nonmatchings/password", PS1_GeneratePassword);*/
+
+u8 PS1_GeneratePassword(void)
+{
+    s32 temp_v0_2;
+    u8 var_t8;
+    s32 var_v1;
+    u32 temp_v1;
+    u8 temp_a1;
+    u8 temp_a2;
+    u8 temp_a3;
+    u8 temp_t0;
+    u8 temp_t1;
+    u8 temp_t2;
+    u8 temp_t3;
+    u8 temp_t4;
+    u8 temp_t5;
+    u8 temp_t6;
+    u8 temp_v0;
+    u8 temp_v0_3;
+    u8 var_a0;
+
+    memset(PS1_CurrentPassword, 0, 0xA);
+    temp_t5 = (*PS1_CurrentPassword & 0xFD) | ((t_world_info[0].nb_cages == 6) * 2);
+    *PS1_CurrentPassword = temp_t5;
+    temp_t6 = (PS1_CurrentPassword[2] & 0xFD) | ((t_world_info[1].nb_cages == 6) * 2);
+    PS1_CurrentPassword[2] = temp_t6;
+    temp_a1 = (PS1_CurrentPassword[4] & 0xFD) | ((t_world_info[2].nb_cages == 6) * 2);
+    PS1_CurrentPassword[4] = temp_a1;
+    temp_a3 = (PS1_CurrentPassword[9] & 0xFD) | ((t_world_info[9].nb_cages == 6) * 2);
+    PS1_CurrentPassword[9] = temp_a3;
+    temp_t3 = (PS1_CurrentPassword[1] & 0xFD) | ((t_world_info[3].nb_cages == 6) * 2);
+    PS1_CurrentPassword[1] = temp_t3;
+    temp_t4 = (PS1_CurrentPassword[3] & 0xFD) | ((t_world_info[4].nb_cages == 6) * 2);
+    PS1_CurrentPassword[3] = temp_t4;
+    temp_a2 = (PS1_CurrentPassword[5] & 0xFD) | ((t_world_info[5].nb_cages == 6) * 2);
+    PS1_CurrentPassword[5] = temp_a2;
+    temp_t2 = (PS1_CurrentPassword[7] & 0xFD) | ((t_world_info[6].nb_cages == 6) * 2);
+    PS1_CurrentPassword[7] = temp_t2;
+    temp_t1 = (PS1_CurrentPassword[6] & 0xFD) | ((t_world_info[7].nb_cages == 6) * 2);
+    PS1_CurrentPassword[6] = temp_t1;
+    temp_t0 = (PS1_CurrentPassword[8] & 0xFD) | ((t_world_info[8].nb_cages == 6) * 2);
+    PS1_CurrentPassword[8] = temp_t0;
+    PS1_CurrentPassword[4] = (temp_a1 & 0xEF) | ((t_world_info[10].nb_cages == 6) * 0x10);
+    *PS1_CurrentPassword = (temp_t5 & 0xEF) | ((t_world_info[11].nb_cages == 6) * 0x10);
+    PS1_CurrentPassword[2] = (temp_t6 & 0xEF) | ((t_world_info[12].nb_cages == 6) * 0x10);
+    PS1_CurrentPassword[1] = (temp_t3 & 0xEF) | ((t_world_info[13].nb_cages == 6) * 0x10);
+    PS1_CurrentPassword[6] = (temp_t1 & 0xEF) | (((u8) *finBosslevel >> 7) * 0x10);
+    PS1_CurrentPassword[5] = (temp_a2 & 0xEF) | ((t_world_info[14].nb_cages == 6) * 0x10);
+    PS1_CurrentPassword[3] = (temp_t4 & 0xEF) | ((t_world_info[15].nb_cages == 6) * 0x10);
+    PS1_CurrentPassword[7] = (temp_t2 & 0xEF) | ((t_world_info[16].nb_cages == 6) * 0x10);
+    PS1_CurrentPassword[8] = (temp_t0 & 0xFB) | (((t_world_info[3].state & 5) != 0) * 4);
+    PS1_CurrentPassword[9] = (temp_a3 & 0xFB) | (((t_world_info[7].state & 5) != 0) * 4);
+    var_t8 = 0x12 + 0xff;
+loop_1:
+    if ((var_t8 == 3) || ((var_t8 == 7)))
+    {
+        var_t8 = var_t8 - 2;
+    }
+    temp_v1 = t_world_info[var_t8].state;
+    if ((temp_v1 & 1) != 1)
+    {
+        var_t8 = var_t8 + 0xFF;
+        if (((temp_v1 >> 2) & 1) != 1)
+        {
+            goto loop_1;
+        }
+    }
+    FUN_801a17c8(var_t8);
+    PS1_CurrentPassword[9] = (PS1_CurrentPassword[9] & 0xF7) | ((*finBosslevel * 4) & 8);
+    PS1_CurrentPassword[6] = (PS1_CurrentPassword[6] & 0xF7) | (((u8) *finBosslevel >> 3) & 8);
+    temp_v0_3 = (PS1_CurrentPassword[8] & 0xEF) | ((finBosslevel[1] * 2) & 0x10);
+    PS1_CurrentPassword[8] = temp_v0_3;
+    PS1_CurrentPassword[8] = (temp_v0_3 & 0xF7) | ((*finBosslevel * 2) & 8);
+    PS1_GeneratePassword_LivesCount(status_bar.num_lives);
+    PS1_GeneratePassword_nbContinue(nb_continue);
+    PS1_IsPasswordValid = PS1_ValidatePassword();
+    temp_v0 = PS1_IsPasswordValid;
+    if (temp_v0 == 1)
+    {
+        PS1_EncryptPassword();
+    }
+    return temp_v0;
+}
+
+/* ??? */
+/*INCLUDE_ASM("asm/nonmatchings/password", PS1_LoadSaveFromPassword);*/
+
+void PS1_LoadSaveFromPassword(void)
+{
+    s32 temp_s0_2;
+    s32 temp_s0_3;
+    s32 temp_s1;
+    s32 temp_s2;
+    s32 temp_v1;
+    s32 var_a0;
+    s32 var_a3;
+    s32 var_v0;
+    s8 temp_a3;
+    s8 temp_a3_2;
+    u32 temp_a1;
+    u32 temp_s3;
+    u8 temp_s0;
+    u8 temp_v0;
+    u8 temp_v0_2;
+    u8 temp_v0_3;
+    u8 temp_v1_2;
+
+    INIT_NEW_GAME();
+    var_a0 = 0;
+    temp_s0 = PS1_GetLevelFromPassword();
+    temp_a1 = temp_s0 & 0xFF;
+    var_v0 = 0 & 0xFF;
+    do
+    {
+        temp_v1 = var_v0;
+        var_a0 += 1;
+        t_world_info[temp_v1].state = t_world_info[temp_v1].state | 1;
+        var_v0 = var_a0 & 0xFF;
+    } while (temp_a1 >= (u32) (var_a0 & 0xFF));
+    temp_s3 = temp_s0 & 0xFF;
+    temp_s0_2 = temp_s3 != 0;
+    t_world_info[7].state = (t_world_info[7].state & ~1) | (((u8) PS1_CurrentPassword[9] >> 2) & 1);
+    t_world_info[3].state = (t_world_info[3].state & ~1) | (((u8) PS1_CurrentPassword[8] >> 2) & 1);
+    t_world_info[18].state = (t_world_info[18].state & ~1) | temp_s0_2;
+    t_world_info[19].state = (t_world_info[19].state & ~1) | ((temp_s3 < 5U) ^ 1);
+    var_a3 = 0;
+    if (temp_s3 >= 7U)
+    {
+        var_a3 = (PS1_CurrentPassword[9] & 4) != 0;
+    }
+    temp_s2 = (temp_s3 < 0xEU) ^ 1;
+    t_world_info[20].state = (t_world_info[20].state & ~1) | var_a3;
+    t_world_info[21].state = (t_world_info[21].state & ~1) | ((temp_s3 < 0xAU) ^ 1);
+    t_world_info[22].state = (t_world_info[22].state & ~1) | temp_s2;
+    t_world_info[23].state = (t_world_info[23].state & ~1) | ((temp_s3 < 0x10U) ^ 1);
+    t_world_info[0].nb_cages = ((s32) (*PS1_CurrentPassword << 0x1E) >> 0x1F) & 6;
+    t_world_info[1].nb_cages = ((s32) (PS1_CurrentPassword[2] << 0x1E) >> 0x1F) & 6;
+    t_world_info[2].nb_cages = ((s32) (PS1_CurrentPassword[4] << 0x1E) >> 0x1F) & 6;
+    /*D_801C33A1 = ((s32) (PS1_CurrentPassword[1] << 0x1E) >> 0x1F) & 6;*/
+    t_world_info[3].nb_cages = ((s32) (PS1_CurrentPassword[1] << 0x1E) >> 0x1F) & 6;
+    t_world_info[4].nb_cages = ((s32) (PS1_CurrentPassword[3] << 0x1E) >> 0x1F) & 6;
+    t_world_info[5].nb_cages = ((s32) (PS1_CurrentPassword[5] << 0x1E) >> 0x1F) & 6;
+    t_world_info[6].nb_cages = ((s32) (PS1_CurrentPassword[7] << 0x1E) >> 0x1F) & 6;
+    /*D_801C33F1 = ((s32) (PS1_CurrentPassword[6] << 0x1E) >> 0x1F) & 6;*/
+    t_world_info[7].nb_cages = ((s32) (PS1_CurrentPassword[6] << 0x1E) >> 0x1F) & 6;
+    t_world_info[10].nb_cages = ((s32) (PS1_CurrentPassword[4] << 0x1B) >> 0x1F) & 6;
+    t_world_info[11].nb_cages = ((s32) (*PS1_CurrentPassword << 0x1B) >> 0x1F) & 6;
+    t_world_info[12].nb_cages = ((s32) (PS1_CurrentPassword[2] << 0x1B) >> 0x1F) & 6;
+    t_world_info[13].nb_cages = ((s32) (PS1_CurrentPassword[1] << 0x1B) >> 0x1F) & 6;
+    t_world_info[14].nb_cages = ((s32) (PS1_CurrentPassword[5] << 0x1B) >> 0x1F) & 6;
+    temp_a3 = ((s32) (PS1_CurrentPassword[8] << 0x1E) >> 0x1F) & 6;
+    t_world_info[8].nb_cages = temp_a3;
+    t_world_info[9].nb_cages = ((s32) (PS1_CurrentPassword[9] << 0x1E) >> 0x1F) & 6;
+    t_world_info[15].nb_cages = ((s32) (PS1_CurrentPassword[3] << 0x1B) >> 0x1F) & 6;
+    t_world_info[16].nb_cages = ((s32) (PS1_CurrentPassword[7] << 0x1B) >> 0x1F) & 6;
+    t_world_info[17].nb_cages = 0;
+    memset(&RayEvts, 0, 2, temp_a3);
+    temp_s1 = (temp_s3 < 4U) ^ 1;
+    temp_v1_2 = (RayEvts.flags0 & 0xFC) | temp_s0_2 | (temp_s1 * 2);
+    RayEvts.flags0 = temp_v1_2;
+    temp_a3_2 = (PS1_CurrentPassword[9] * 0x10) & 0x80;
+    RayEvts.flags0 = (temp_v1_2 & 0x7B) | temp_a3_2 | (((temp_s3 < 8U) ^ 1) * 4);
+    temp_s0_3 = (temp_s3 < 0xBU) ^ 1;
+    RayEvts.flags1 = (RayEvts.flags1 & 0xFE) | temp_s0_3;
+    memset((RaymanEvents *) finBosslevel, 0, 2, temp_a3_2);
+    temp_v0 = (*finBosslevel & 0xFE) | temp_s1;
+    *finBosslevel = temp_v0;
+    temp_v0_2 = (temp_v0 & 0xFD) | (((u8) PS1_CurrentPassword[9] >> 2) & 2);
+    *finBosslevel = temp_v0_2;
+    temp_v0_3 = (((temp_v0_2 & 0xF3) | (((u8) PS1_CurrentPassword[8] >> 1) & 4) | (temp_s0_3 * 8)) & 0xCF) | (((temp_s3 < 0xCU) ^ 1) * 0x10) | (temp_s2 << 5);
+    *finBosslevel = temp_v0_3;
+    *finBosslevel = (temp_v0_3 & 0x3F) | ((PS1_CurrentPassword[6] * 8) & 0x40) | ((PS1_CurrentPassword[6] * 8) & 0x80);
+    finBosslevel[1] = (finBosslevel[1] & 0xF7) | (((u8) PS1_CurrentPassword[8] >> 1) & 8);
+    status_bar.num_lives = PS1_GetLivesFromPassword() & 0xFF;
+    nb_continue = PS1_GetContinuesFromPassword();
+    world_index = 0;
+    xwldmapsave = 0;
+    ywldmapsave = 0x009E;
+    dir_on_wldmap = 1;
+}
