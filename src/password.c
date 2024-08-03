@@ -1,5 +1,7 @@
 #include "password.h"
 
+/* uses of 0x1f are either based on LEN(PS1_PasswordDisplayTable) or LEN(PS1_PasswordDisplayTranslateTable) ??? */
+
 const u8 s_x__validate_password_8012c3b0[] = "/x : validate password/";
 const u8 s_left__right__move_8012c3c8[] = "/left | right : move/";
 const u8 s_up__down__browse_8012c3e0[] = "/up | down : browse/";
@@ -9,6 +11,7 @@ const u8 s_enter_password_8012c424[] = "/enter password/";
 const u8 s_select__return_8012c438[] = "/select : return/";
 
 void display_text(u8 *text, s16 x_pos, s16 y_pos, u8 font_size, u32 param_5);
+s32 StartButPressed(void);
 
 extern u8 PS1_CurrentPassword[10];
 extern u8 PS1_PasswordVerificationTable[10];
@@ -118,7 +121,119 @@ void FUN_801a2c78(void)
 
 INCLUDE_ASM("asm/nonmatchings/password", FUN_801a2d40);
 
+/* 7E864 801A3064 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/password", FUN_801a3064);
+#else
+void FUN_801a3064(void)
+{
+    s32 char_ind;
+    u8 valid_prs = ValidButPressed();
+
+    if ((compteur > delai_repetition || button_released != 0) && positiony != 2)
+    {
+        if ((positiony == 1 && valid_prs) || StartButPressed())
+        {
+            PlaySnd_old(69);
+            for (char_ind = 0; char_ind < (s16) LEN(PS1_CurrentTypingPassword); char_ind++)
+            {
+                PS1_CurrentPassword[char_ind] =
+                    PS1_PasswordDisplayTranslateTable[
+                        PS1_CurrentTypingPassword[char_ind]
+                    ];
+            }
+            if (PS1_AttemptLoadSaveFromPassword() != true)
+                positiony = 2;
+            else
+                PS1_ValidPassword = true;
+        }
+
+        if (!upjoy(0) && !downjoy(0))
+        {
+            if (leftjoy(0))
+            {
+                compteur = 0;
+                if (positiony == 0)
+                {
+                    if (positionx <= 0)
+                    {
+                        positiony = 1;
+                        positionx = 0;
+                    }
+                    else
+                        positionx--;
+                }
+                else
+                {
+                    positiony = 0;
+                    positionx = ((s16) LEN(PS1_CurrentTypingPassword) - 1);
+                }
+                PlaySnd_old(68);
+            }
+            else if (rightjoy(0) || (valid_prs && positiony == 0))
+            {
+                compteur = 0;
+                if (positiony == 0)
+                {
+                    if (positionx >= ((s16) LEN(PS1_CurrentTypingPassword) - 1))
+                    {
+                        positionx = ((s16) LEN(PS1_CurrentTypingPassword) - 1);
+                        positiony = 1;
+                    }
+                    else
+                        positionx++;
+                }
+                else
+                {
+                    positiony = 0;
+                    positionx = 0;
+                }
+
+                if (valid_prs && positiony == 0)
+                    PlaySnd_old(69);
+                else
+                    PlaySnd_old(68);
+            }
+            D_801E57A8 = PS1_CurrentTypingPassword[positionx];
+        }
+        if (!rightjoy(0) && !leftjoy(0) && positiony == 0)
+        {
+            if (upjoy(0))
+            {
+                D_801E57A8++;
+                D_801E57A8 &= 0x1F;
+                if (button_released != 0)
+                    PlaySnd_old(68);
+            }
+            else if (downjoy(0))
+            {
+                D_801E57A8 += 0x1F;
+                D_801E57A8 &= 0x1F;
+                if (button_released != 0)
+                    PlaySnd_old(68);
+            }
+            PS1_CurrentTypingPassword[positionx] = D_801E57A8;
+        }
+    }
+    if (
+        !upjoy(0) && !downjoy(0) &&
+        !rightjoy(0) && !leftjoy(0) &&
+        !valid_prs && !PS1_ValidPassword
+    )
+    {
+        button_released = 1;
+        D_801F5448 = 1;
+        compteur = 0;
+    }
+    else
+    {
+        button_released = 0;
+        D_801F5448 = 0;
+    }
+
+    __asm__("nop\nnop\nnop\nnop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/password", FUN_801a3458);
 
