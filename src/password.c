@@ -370,7 +370,7 @@ INCLUDE_ASM("asm/nonmatchings/password", PS1_GenerateAndDisplayPassword);
 #else
 void PS1_GenerateAndDisplayPassword(void)
 {
-    /* correct sizes? */
+    /* TODO: correct sizes? */
     u8 i;
     u8 pass [21]; 
     u8 pass_cen [32];
@@ -391,4 +391,11 @@ void PS1_GenerateAndDisplayPassword(void)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/password", DEPART_INIT_LOOP);
+/* TODO: bad split? here or menu_7EEE4? */
+/* 7EEB4 801A36B4 -O2 -msoft-float */
+void DEPART_INIT_LOOP(void)
+{
+    menuEtape = 0;
+    dans_la_map_monde = false;
+    PS1_ClearPassword();
+}
