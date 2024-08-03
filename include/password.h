@@ -11,7 +11,7 @@ void PS1_GeneratePassword_LivesCount(u8 lives_count);
 u8 PS1_GetLivesFromPassword(void);
 void PS1_GeneratePassword_nbContinue(u8 param_1);
 u8 PS1_GetContinuesFromPassword(void);
-u8 PS1_ValidatePassword(void);
+/*u8 PS1_ValidatePassword(void);*/
 u8 PS1_GeneratePassword(void);
 void PS1_LoadSaveFromPassword(void);
 u8 PS1_AttemptLoadSaveFromPassword(void);
