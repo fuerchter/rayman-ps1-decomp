@@ -130,7 +130,131 @@ s32 Prio(Obj *obj)
 }
 #endif
 
+/* 2A12C 8014E92C -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj_init_kill", first_obj_init);
+#else
+void first_obj_init(Obj *obj)
+{
+    ObjType type = obj->type;
+    
+    if (
+        flags[type].flags0 & FLG(OBJ0_ALWAYS) ||
+        (
+            (type == TYPE_BADGUY1 || type == TYPE_BADGUY2) &&
+            obj->x_pos < 0
+        )
+    )
+    {
+        obj->x_pos = -32000;
+        obj->y_pos = -32000;
+    }
+    obj->scale = 0;
+    obj->active_flag = ACTIVE_DEAD;
+    obj->init_x_pos = obj->x_pos;
+    obj->init_y_pos = obj->y_pos;
+    obj->init_main_etat = obj->main_etat;
+    obj->init_sub_etat = obj->sub_etat;
+    obj->init_hit_points = obj->hit_points;
+
+    switch (obj->type)
+    {
+    case TYPE_SPACE_MAMA:
+    case TYPE_SPACE_MAMA2:
+        findMereDenisWeapon();
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_FEE:
+        obj->detect_zone = 200;
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_TROMPETTE:
+    case TYPE_MITE2:
+        obj->detect_zone = 160;
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_MOSKITO:
+    case TYPE_MOSKITO2:        
+    case TYPE_WIZARD1:
+    case TYPE_SPIDER:
+        obj->detect_zone = 60;
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_CHASSEUR1:
+    case TYPE_CHASSEUR2:
+    case TYPE_GENEBADGUY:
+    case TYPE_SAXO3:
+        obj->detect_zone = 180;
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_STONEWOMAN:
+    case TYPE_STONEWOMAN2:
+    case TYPE_BIG_CLOWN:
+    case TYPE_MITE:
+        obj->detect_zone = 220;
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_STONEMAN1:
+    case TYPE_STONEDOG:
+    case TYPE_STONEMAN2:
+    case TYPE_MUS_WAIT:
+    case TYPE_PIRATE_NGAWE:
+    case TYPE_BATTEUR_FOU:
+    case TYPE_STONEDOG2:
+        obj->detect_zone = 100;
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_PIRATE_POELLE:
+    case TYPE_PIRATE_P_45:
+        obj->detect_zone = 150;
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_PIRATE_POELLE_D:
+    case TYPE_PIRATE_P_D_45:
+        obj->detect_zone = 50;
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_CLOWN_TNT:
+        obj->detect_zone = 200;
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_STALAG:
+        obj->detect_zone = 250;
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_CYMBALE:
+    case TYPE_CYMBAL1:
+    case TYPE_CYMBAL2:
+        obj->detect_zone = 0;
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_BAG1:
+        obj->field23_0x3c = 0;
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_SCORPION:
+        obj->detect_zone = 160;
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_WAT_CLOWN:
+    case TYPE_MAMA_PIRATE:
+        obj->detect_zone = 150;
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_DARK_PHASE2:
+    case TYPE_DARK:
+        obj->detect_zone = 150;
+        obj->field24_0x3e = 0;
+        break;
+    default:
+        obj->detect_zone = 40;
+        obj->field24_0x3e = 0;
+        break;
+    }
+
+    __asm__("nop\nnop");
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj_init_kill", obj_init);
 
