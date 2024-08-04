@@ -1,5 +1,8 @@
 #include "obj_init_kill.h"
 
+void FUN_80180b04(s32 param_1, u8 param_2);
+s32 vblToEOA(Obj *param_1, u32 factor);
+
 /* 2A07C 8014E87C -O2 -msoft-float */
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/obj_init_kill", Prio);
