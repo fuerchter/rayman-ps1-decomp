@@ -121,11 +121,46 @@ u8 getbit(u8 *buffer, u16 index)
     return buffer[index >> 3] & (1 << (index & 7));
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/bit_util", cosinus);
+/* 224A4 80146CA4 -O2 -msoft-float */
+s16 cosinus(s16 param_1)
+{
+    return sinus(param_1 + 128);
+}
 
+/* 224D0 80146CD0 -O2 -msoft-float */
+#ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/bit_util", sinus);
+#else
+s16 sinus(s16 param_1)
+{
+    s32 unk_1 = param_1 - (param_1 / 512 * 512);
+    s16 unk_2 = unk_1;
+    s16 res;
 
-INCLUDE_ASM("asm/nonmatchings/collision/bit_util", sinYspeed);
+    if (unk_2 < 128)
+        res = costab[128 - unk_2];
+    else if (unk_2 < 256)
+        res = costab[(s16) (unk_2 - 128)];
+    else if (unk_2 < 384)
+        res = -costab[128 - (s16) (unk_2 - 256)];
+    else
+        res = -costab[(s16) (unk_2 - 384)];
+
+    __asm__("nop\nnop\nnop\nnop");
+    return res;
+}
+#endif
+
+/* 225B8 80146DB8 -O2 -msoft-float */
+s16 sinYspeed(Obj *obj, s32 param_2, s16 param_3, s16 *param_4)
+{
+    s16 unk_1 = (*param_4 + param_2) & 4095;
+    s16 diff_y = obj->y_pos - obj->init_y_pos;
+    s32 unk_2 = sinus(unk_1 >> 3) * param_3;
+
+    *param_4 = unk_1;
+    return (unk_2 >> 9) - diff_y;
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/bit_util", ashl16);
 

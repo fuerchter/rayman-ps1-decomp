@@ -23,7 +23,7 @@ void clearbit(u8 *buffer, u16 index);
 u8 getbit(u8 *buffer, u16 index);
 s16 cosinus(s16 param_1);
 s16 sinus(s16 param_1);
-s32 sinYspeed(Obj *obj, s32 param_2, s16 param_3, u16 *param_4);
+s16 sinYspeed(Obj *obj, s32 param_2, s16 param_3, s16 *param_4);
 s32 ashl16(s16 param_1, u32 param_2); 
 s32 ashr16(u16 param_1, u32 param_2);
 s32 ashl32(u32 param_1, u32 param_2);
