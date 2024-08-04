@@ -1,7 +1,5 @@
 #include "collision/bit_util.h"
 
-extern s32 saveobj[16];
-
 /* 21D30 80146530 -O2 -msoft-float */
 void set2bits(s32 *param_1, u8 pos, s32 param_3)
 {

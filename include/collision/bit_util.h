@@ -11,6 +11,9 @@
 /* .data */
 extern s16 costab[258]; /* size correct? */
 
+/**/
+extern s32 saveobj[16];
+
 void set2bits(s32 *param_1, u8 pos, s32 param_3);
 void read2bits(s32 *value, u8 pos, s32 *b1, s32 *b0);
 void save_objects_flags(void);
