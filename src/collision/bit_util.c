@@ -67,9 +67,41 @@ void restore_objects_flags(void)
 
 INCLUDE_ASM("asm/nonmatchings/collision/bit_util", snapToSprite);
 
-INCLUDE_ASM("asm/nonmatchings/collision/bit_util", findfirstObject);
+/* 22360 80146B60 -O2 -msoft-float */
+Obj *findfirstObject(ObjType obj_type)
+{
+    Obj *cur_obj = &level.objects[0];
+    s16 i = 0;
+    s16 nb_objs = level.nb_objects;
 
-INCLUDE_ASM("asm/nonmatchings/collision/bit_util", findfirstInactiveObject);
+    while (i < nb_objs)
+    {
+        if (cur_obj->type == obj_type)
+            break;
+        cur_obj++;
+        i++;
+    }
+
+    return cur_obj;
+}
+
+/* 223B8 80146BB8 -O2 -msoft-float */
+Obj *findfirstInactiveObject(ObjType obj_type)
+{
+    Obj *cur_obj = &level.objects[0];
+    s16 i = 0;
+    s16 nb_objs = level.nb_objects;
+
+    while (i < nb_objs)
+    {
+        if (cur_obj->type == obj_type && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+            break;
+        cur_obj++;
+        i++;
+    }
+
+    return cur_obj;
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/bit_util", setbit);
 
