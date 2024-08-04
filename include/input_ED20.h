@@ -62,4 +62,6 @@ s32 but1pressed();
 s32 but2pressed();
 s32 but3pressed();
 
+s32 StartButPressed(void);
+
 #endif

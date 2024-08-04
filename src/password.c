@@ -14,26 +14,6 @@ const u8 s_wrong_password_8012c410[] = "/wrong password/";
 const u8 s_enter_password_8012c424[] = "/enter password/";
 const u8 s_select__return_8012c438[] = "/select : return/";
 
-void display_text(u8 *text, s16 x_pos, s16 y_pos, u8 font_size, u32 param_5);
-s32 StartButPressed(void);
-
-extern u8 PS1_CurrentPassword[10];
-extern u8 PS1_PasswordVerificationTable[10];
-extern u8 PS1_PasswordXORTable[10];
-extern u8 PS1_Password_TempCageCounts[18];
-extern u8 PS1_IsPasswordValid;
-extern u8 PS1_PasswordDisplayTable[32];
-extern u8 PS1_CurrentTypingPassword[10];
-extern s16 D_801E4E40;
-extern s16 D_801E4E48;
-extern u8 D_801E57A8;
-extern u8 PS1_ValidPassword;
-extern u8 PS1_PasswordDisplayTranslateTable[32];
-
-/* .data */
-extern u8 s_ok_801cf108[5];
-extern u8 s_s_801cf110[5];
-
 INCLUDE_ASM("asm/nonmatchings/password", PS1_EncryptPassword);
 
 INCLUDE_ASM("asm/nonmatchings/password", PS1_VerifyDecryptPassword);
