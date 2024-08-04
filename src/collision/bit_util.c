@@ -103,11 +103,23 @@ Obj *findfirstInactiveObject(ObjType obj_type)
     return cur_obj;
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/bit_util", setbit);
+/* 2242C 80146C2C -O2 -msoft-float */
+void setbit(u8 *buffer, u16 index)
+{
+    buffer[index >> 3] |= 1 << (index & 7);
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/bit_util", clearbit);
+/* 22454 80146C54 -O2 -msoft-float */
+void clearbit(u8 *buffer, u16 index)
+{
+    buffer[index >> 3] &= ~(1 << (index & 7));
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/bit_util", getbit);
+/* 22480 80146C80 -O2 -msoft-float */
+u8 getbit(u8 *buffer, u16 index)
+{
+    return buffer[index >> 3] & (1 << (index & 7));
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/bit_util", cosinus);
 
