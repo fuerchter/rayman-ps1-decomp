@@ -162,10 +162,85 @@ s16 sinYspeed(Obj *obj, s32 param_2, s16 param_3, s16 *param_4)
     return (unk_2 >> 9) - diff_y;
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/bit_util", ashl16);
+/* 2264C 80146E4C -O2 -msoft-float */
+s32 ashl16(s16 value, u8 shift)
+{
+    s32 unk_1;
+    s32 res;
+    s16 sgn_bit = value & (1 << 15);
+    s32 sh = shift;
 
-INCLUDE_ASM("asm/nonmatchings/collision/bit_util", ashr16);
+    if (sgn_bit)
+        unk_1 = -value << sh;
+    else
+        unk_1 = value << sh;
+    
+    if (sgn_bit)
+        res = -unk_1;
+    else
+        res = unk_1;
+        
+    return res;
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/bit_util", ashl32);
+/* 2269C 80146E9C -O2 -msoft-float */
+s32 ashr16(s16 value, u8 shift)
+{
+    s32 res;
+    s32 unk_1;
+    s16 sgn_bit = value & (1 << 15);
+    s32 sh = shift;
+    
+    if (sgn_bit)
+        res = -value >> sh;
+    else
+        res = value >> sh;
 
-INCLUDE_ASM("asm/nonmatchings/collision/bit_util", ashr32);
+    if (sgn_bit)
+        unk_1 = -res;
+    else
+        unk_1 = res;
+    res = unk_1;
+
+    return (s16) res;
+}
+
+/* 226EC 80146EEC -O2 -msoft-float */
+s32 ashl32(s32 value, u8 shift)
+{
+    s32 res;
+    s32 sgn_bit = value & (1 << 31);
+    s32 sh = shift;
+    
+    if (sgn_bit)
+        value = -value << sh;
+    else
+        value = value << sh;
+    
+    if (sgn_bit)
+        res = -value;
+    else
+        res = value;
+    
+    return res;
+}
+
+/* 22720 80146F20 -O2 -msoft-float */
+s32 ashr32(s32 value, u8 shift)
+{
+    s32 res;
+    s32 sgn_bit = value & (1 << 31);
+    s32 sh = shift;
+    
+    if (sgn_bit)
+        value = -value >> sh;
+    else
+        value = value >> sh;
+    
+    if (sgn_bit)
+        res = -value;
+    else
+        res = value;
+    
+    return res;
+}
