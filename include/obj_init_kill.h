@@ -4,6 +4,7 @@
 #include "common.h"
 #include "common/obj.h"
 #include "obj/bateau_command.h"
+#include "obj/space_mama.h"
 
 /*TODO: bitfields?*/
 typedef u8 ObjTypeFlags_0;

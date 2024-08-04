@@ -20,7 +20,7 @@ extern s16 RandomIndex;
 
 s16 get_center_x(Obj *obj);
 s16 get_center_y(Obj *obj);
-u8 on_block_chdir(Obj *obj, s16 offs_bx, s16 offs_by);
+s16 on_block_chdir(Obj *obj, s16 offs_bx, s16 offs_by);
 void CALC_FOLLOW_SPRITE_SPEED(Obj *obj, Animation *anim_1, Animation *anim_2, s16 anim_frame_2);
 s16 GET_SPRITE_POS(Obj *obj, s16 index, s16 *x, s16 *y, s16 *w, s16 *h);
 void GET_RAY_ZDC(Obj *ray, s16 *x, s16 *y, s16 *w, s16 *h);

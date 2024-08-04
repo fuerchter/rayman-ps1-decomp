@@ -8,7 +8,7 @@ INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", get_center_y);
 #ifndef NONMATCHINGS /* missing_addiu */
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", on_block_chdir);
 #else
-u8 on_block_chdir(Obj *obj, s16 offs_bx, s16 offs_by)
+s16 on_block_chdir(Obj *obj, s16 offs_bx, s16 offs_by)
 {
     __asm__("nop");
 
