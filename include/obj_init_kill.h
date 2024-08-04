@@ -2,6 +2,8 @@
 #define OBJ_INIT_KILL_H
 
 #include "common.h"
+#include "common/obj.h"
+#include "obj/bateau_command.h"
 
 /*TODO: bitfields?*/
 typedef u8 ObjTypeFlags_0;
@@ -70,8 +72,21 @@ typedef struct ActiveObjects
 extern ObjTypeFlags flags[256];
 extern s16 zonediffx[256];
 
+/**/
 extern ActiveObjects actobj;
 extern s16 rayman_obj_id;
 extern u8 IsBossThere;
+
+s32 Prio(Obj *obj);
+void first_obj_init(Obj *obj);
+void obj_init(Obj *obj);
+void INIT_OBJECTS(u8 newLevel);
+s32 instantSpeed(s16 speed);
+void SET_X_SPEED(Obj *obj);
+void REINIT_OBJECT(Obj *obj);
+void make_active(Obj *obj, u8 doNova);
+u8 in_action_zone(s16 x, s16 y, Obj *obj, u8 param_4);
+void kill_obj(Obj *obj);
+void SET_ACTIVE_FLAG(s16 x, s16 y, Obj *obj);
 
 #endif
