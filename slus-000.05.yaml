@@ -134,7 +134,7 @@ segments:
       - [0x18118, asm, text_18118] #8013c918
       - [0x19A38, c, draw_ui] #8013e238
       - [0x1B1F0, c, collision/collision] #8013f9f0
-      - [0x21D30, asm, collision/bit_util] #80146530
+      - [0x21D30, c, collision/bit_util] #80146530
       - [0x22754, asm, collision/proj] #80146f54
       - [0x22A98, asm, collision/etat] #80147298
       - [0x22C84, c, collision/block_22C84] #80147484
