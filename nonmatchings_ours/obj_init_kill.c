@@ -905,6 +905,7 @@ void INIT_OBJECTS(u8 newLevel)
 }
 const u8 rodata_INIT_OBJECTS[4] = {};
 
+/* these last two i didn't try too hard on yet */
 /*INCLUDE_ASM("asm/nonmatchings/obj_init_kill", in_action_zone);*/
 
 u8 in_action_zone(s16 x, s16 y, Obj *obj, u8 param_4)
@@ -1035,4 +1036,153 @@ u8 in_action_zone(s16 x, s16 y, Obj *obj, u8 param_4)
     }
     var_v0 = var_s0 ^ 1;
     return var_v0 == 0;
+}
+
+/*INCLUDE_ASM("asm/nonmatchings/obj_init_kill", SET_ACTIVE_FLAG);*/
+
+void SET_ACTIVE_FLAG(s16 x, s16 y, Obj *obj)
+{
+    Obj *temp_s0_2;
+    Obj *temp_s0_4;
+    s32 var_t0;
+    s32 var_v0;
+    s32 var_v0_2;
+    s32 var_v0_3;
+    u32 temp_a0;
+    u32 temp_v1_1;
+    u8 temp_s0_1;
+    u8 temp_v1_2;
+    u8 temp_v1_3;
+    u8 var_a0;
+    u8 var_a0_2;
+    u8 var_a0_3;
+    u8 var_a1;
+    u8 var_a1_2;
+    Obj *temp_s0_3;
+
+    temp_v1_1 = obj->flags;
+    ot = obj->type;
+    temp_s0_1 = (temp_v1_1 >> 0xB) & 1;
+    obj->flags = temp_v1_1 & ~0x800;
+    if (temp_v1_1 & 0x400)
+    {
+        if ((in_action_zone(x, y, obj, temp_s0_1)) != 0)
+        {
+            if (obj->active_timer == 0)
+            {
+                if (
+                    (flags[ot].flags1 & 1) ||
+                    ((temp_v1_2 = obj->active_flag, (temp_v1_2 != 2)) && ((temp_v1_2 != 4) || (ot == 0x0A)))
+                )
+                {
+                    temp_a0 = (obj->flags & ~0x800) | (temp_s0_1 << 0xB);
+                    obj->flags = temp_a0;
+                    if (flags[ot].flags0 & 1)
+                    {
+                        var_a1 = 0;
+                        if (!(temp_a0 & 0x800))
+                        {
+                            var_a1 = flags[obj->type].flags1 & 1;
+                        }
+                        make_active(obj, var_a1);
+                    }
+                    else
+                    {
+                        var_a0 = obj->id;
+                        var_v0 = var_a0 * 8;
+                        do
+                        {
+                            temp_s0_2 = &level.objects[((var_v0 - var_a0))];
+                            var_a1_2 = 0;
+                            if (!(temp_s0_2->flags & 0x800))
+                            {
+                                var_a1_2 = flags[obj->type].flags1 & 1;
+                            }
+                            make_active(temp_s0_2, var_a1_2);
+                            var_a0 = link_init[temp_s0_2->id];
+                            var_v0 = var_a0 * 8;
+                        } while ((var_a0 & 0xFF) != obj->id);
+                    }
+
+                    return;
+                }
+            }
+
+            if (obj->active_timer > 0)
+            {
+                obj->active_timer -= 1;
+            }
+        }
+        else
+        {
+            obj->active_timer = 0;
+            if (((u8) flags[ot].flags2 >> 5) & 1)
+            {
+                kill_obj(obj);
+            }
+            else
+            {
+                temp_v1_3 = obj->active_flag;
+                if (temp_v1_3 == 2)
+                {
+                    obj->active_flag = 1;
+                }
+                else if (temp_v1_3 == 0 || temp_v1_3 == 4)
+                {
+                    if (flags[ot].flags0 & 1)
+                    {
+                        REINIT_OBJECT(obj);
+                    }
+                    else
+                    {
+                        obj->active_flag = 4;
+                        var_a0_2 = obj->id;
+                        obj->flags |= 0x800;
+                        var_t0 = 0;
+                        if (ot != 0x0A)
+                        {
+                            var_v0_2 = var_a0_2 * 8;
+                            while (true)
+                            {
+                                temp_s0_3 = &level.objects[((var_v0_2 - var_a0_2))];
+                                if (temp_s0_3->active_flag == 4)
+                                {
+                                    var_a0_2 = link_init[temp_s0_3->id];
+                                    var_v0_2 = var_a0_2 * 8;
+                                    if ((var_a0_2 & 0xFF) == obj->id)
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    var_t0 = 1;
+                                    break;
+                                }
+                            }
+
+                        }
+                        if ((obj->y_pos + obj->offset_by) < -0x1E)
+                        {
+                            obj->flags &= ~0x800;
+                        }
+                        if (!(var_t0 & 0xFF))
+                        {
+                            var_a0_3 = obj->id;
+                            var_v0_3 = var_a0_3 * 8;
+                            do
+                            {
+                                temp_s0_4 = &level.objects[((var_v0_3 - var_a0_3))];
+                                REINIT_OBJECT(temp_s0_4);
+                                var_a0_3 = link_init[temp_s0_4->id];
+                                var_v0_3 = var_a0_3 * 8;
+                            } while ((var_a0_3 & 0xFF) != obj->id);
+                        }
+                    }
+
+                }
+            }
+
+        }
+    }
 }

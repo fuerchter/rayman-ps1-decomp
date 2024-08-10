@@ -86,7 +86,7 @@ s32 instantSpeed(s16 spd_in); /* return? s16? */
 void SET_X_SPEED(Obj *obj);
 void REINIT_OBJECT(Obj *obj);
 void make_active(Obj *obj, u8 do_nova);
-u8 in_action_zone(s16 x, s16 y, Obj *obj, u8 param_4);
+s16 in_action_zone(s16 x, s16 y, Obj *obj, u8 param_4);
 void kill_obj(Obj *obj);
 void SET_ACTIVE_FLAG(s16 x, s16 y, Obj *obj);
 
