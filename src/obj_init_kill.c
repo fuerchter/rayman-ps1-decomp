@@ -1,13 +1,6 @@
 #include "obj_init_kill.h"
 
-extern s16 black_fist_obj_id;
-extern s16 fee_obj_id;
-extern s16 mst_scroll_obj_id;
-extern u8 first_boss_meet;
-extern s16 zonediffy[256];
-
-void FUN_80180b04(s32 param_1, u8 param_2);
-s32 vblToEOA(Obj *param_1, u32 factor);
+extern u8 first_boss_meet; /* TODO: decide what to do with unknown/2539C */
 
 /* 2A07C 8014E87C -O2 -msoft-float */
 s32 Prio(Obj *obj)

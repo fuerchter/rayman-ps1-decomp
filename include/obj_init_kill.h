@@ -5,6 +5,10 @@
 #include "common/obj.h"
 #include "obj/bateau_command.h"
 #include "obj/space_mama.h"
+#include "obj/black_ray_command.h"
+#include "obj/fee_4DFD0.h"
+#include "obj/mst_scroll.h"
+#include "obj/pirate_guetteur.h"
 
 /*TODO: bitfields?*/
 typedef u8 ObjTypeFlags_0;
@@ -72,6 +76,7 @@ typedef struct ActiveObjects
 /* .data */
 extern ObjTypeFlags flags[256];
 extern s16 zonediffx[256];
+extern s16 zonediffy[256];
 
 /**/
 extern ActiveObjects actobj;
