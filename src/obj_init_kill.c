@@ -309,9 +309,28 @@ void SET_X_SPEED(Obj *obj)
     obj->speed_x = spd_x;
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj_init_kill", REINIT_OBJECT);
+/* 2B878 80150078 -O2 -msoft-float */
+void REINIT_OBJECT(Obj *obj)
+{
+    obj_init(obj);
+    obj->active_flag = ACTIVE_REINIT;
+    obj->flags |= FLG(OBJ_ALIVE);
+    calc_obj_pos(obj);
+    obj->active_timer = 120;
+    obj->flags &= ~FLG(OBJ_ACTIVE);
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj_init_kill", make_active);
+/* 2B8D0 801500D0 -O2 -msoft-float */
+void make_active(Obj *obj, u8 do_nova)
+{
+    if (obj->flags & FLG(OBJ_ALIVE))
+    {
+        obj->flags |= FLG(OBJ_ACTIVE)|FLG(OBJ_FLAG_5);
+        obj->active_flag = ACTIVE_ALIVE;
+        if (do_nova)
+            DO_NOVA();
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj_init_kill", in_action_zone);
 
