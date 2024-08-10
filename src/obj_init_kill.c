@@ -256,9 +256,58 @@ INCLUDE_ASM("asm/nonmatchings/obj_init_kill", obj_init);
 
 INCLUDE_ASM("asm/nonmatchings/obj_init_kill", INIT_OBJECTS);
 
-INCLUDE_ASM("asm/nonmatchings/obj_init_kill", instantSpeed);
+/* 2B698 8014FE98 -O2 -msoft-float */
+s32 instantSpeed(s16 spd_in)
+{
+    s32 to_add;
+    s32 spd_shr = (s16) ashr16(spd_in, 4);
+    s32 spd_abs_max = __builtin_abs(spd_in) & 15;
+    
+    if (spd_abs_max != 0)
+    {
+        to_add =
+            ashr32(spd_abs_max * map_time, 4) -
+            ashr32(spd_abs_max * map_time - spd_abs_max, 4);
+        if (spd_in >= 0)
+        {
+            if (spd_in > 0)
+                spd_shr += to_add;
+        }
+        else
+            spd_shr -= to_add;
+    }
 
-INCLUDE_ASM("asm/nonmatchings/obj_init_kill", SET_X_SPEED);
+    return (s16) spd_shr;
+}
+
+/* 2B764 8014FF64 -O2 -msoft-float */
+void SET_X_SPEED(Obj *obj)
+{
+    ObjState *cur_eta;
+    s16 spd_x;
+    u8 unk_1 = (obj->animations[obj->anim_index].layers_count >> 0xe) + 1;
+
+    if (horloge[unk_1] == 0)
+    {
+        cur_eta = &obj->eta[obj->main_etat][obj->sub_etat];
+        switch (obj->flags >> OBJ_FLIP_X & 1)
+        {
+        case false:
+            spd_x = cur_eta->speed_x_left * unk_1;
+            break;
+        case true:
+            spd_x = cur_eta->speed_x_right * unk_1;
+            break;
+        }
+    }
+    else
+        spd_x = 0;
+
+    if (obj->type == TYPE_RAYMAN && RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+        spd_x = ashr16(spd_x, 1);
+
+    obj->speed_x = spd_x;
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj_init_kill", REINIT_OBJECT);
 

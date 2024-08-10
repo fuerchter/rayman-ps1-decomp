@@ -82,7 +82,7 @@ s32 Prio(Obj *obj);
 void first_obj_init(Obj *obj);
 void obj_init(Obj *obj);
 void INIT_OBJECTS(u8 newLevel);
-s32 instantSpeed(s16 speed);
+s32 instantSpeed(s16 spd_in); /* return? s16? */
 void SET_X_SPEED(Obj *obj);
 void REINIT_OBJECT(Obj *obj);
 void make_active(Obj *obj, u8 doNova);
