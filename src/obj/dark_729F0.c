@@ -8,9 +8,6 @@ void PlaceDarkPhase1et2(Obj *obj)
 }
 
 /* 72A38 80197238 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu, missing_nop */
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", dark_attaque_suivante);
-#else
 void dark_attaque_suivante(void)
 {
     dark_attaque++;
@@ -18,10 +15,7 @@ void dark_attaque_suivante(void)
         type_dark_attaque = dark_sequence[dark_attaque];
     else
         type_dark_attaque = 3;
-
-    __asm__("nop\nnop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", init_vitraux);
 
@@ -30,9 +24,6 @@ INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", poing_face_obj);
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DARK_phase1);
 
 /* 732E8 80197AE8 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DARK_phase3);
-#else
 void DARK_phase3(Obj *mr_drk_obj)
 {
     Obj *boss_obj;
@@ -117,15 +108,9 @@ void DARK_phase3(Obj *mr_drk_obj)
         goto_phase5(mr_drk_obj);
         break;
     }
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 735F8 80197DF8 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DO_DARK_COMMAND);
-#else
 void DO_DARK_COMMAND(Obj *mr_drk_obj)
 {
     u8 flag_set;
@@ -274,10 +259,7 @@ void DO_DARK_COMMAND(Obj *mr_drk_obj)
             }
         }
     }
-
-    __asm__("nop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 73C38 80198438 -O2 -msoft-float */
 void DO_DARK_POING_COLLISION(Obj *obj)
@@ -453,9 +435,6 @@ void init_corde(Obj *obj)
 }
 
 /* 74544 80198D44 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", goto_phase1);
-#else
 void goto_phase1(Obj *mr_drk_obj)
 {
     Obj *corde_dark_obj;
@@ -485,15 +464,9 @@ void goto_phase1(Obj *mr_drk_obj)
     }
     corde_en_bas();
     set_main_and_sub_etat(mr_drk_obj, 0, 26);
-
-    __asm__("nop\nnop");
 }
-#endif
 
 /* 74648 80198E48 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", goto_phase2);
-#else
 void goto_phase2(Obj *mr_drk_obj)
 {
     dark_phase = 2;
@@ -512,15 +485,9 @@ void goto_phase2(Obj *mr_drk_obj)
     mr_drk_obj->field23_0x3c = 0;
     mr_drk_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
     AllocateDarkPhase2(mr_drk_obj);
-
-    __asm__("nop\nnop");
 }
-#endif
 
 /* 74708 80198F08 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", goto_phase3);
-#else
 void goto_phase3(Obj *mr_drk_obj)
 {
     s16 y;
@@ -550,15 +517,9 @@ void goto_phase3(Obj *mr_drk_obj)
     set_main_and_sub_etat(mr_drk_obj, 0, 21);
     dark_attaque = 0;
     type_dark_attaque = *dark_sequence;
-
-    __asm__("nop\nnop");
 }
-#endif
 
 /* 74814 80199014 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", goto_phase5);
-#else
 void goto_phase5(Obj *mr_drk_obj)
 {
     s16 y;
@@ -591,7 +552,4 @@ void goto_phase5(Obj *mr_drk_obj)
     mr_drk_obj->flags &= ~FLG(OBJ_ACTIVE);
     fin_boss = true;
     finBosslevel[0] |= FLG(7);
-
-    __asm__("nop\nnop");
 }
-#endif

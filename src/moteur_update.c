@@ -197,16 +197,10 @@ void RAY_REVERSE_COMMANDS(void)
 }
 
 /* 35B30 8015A330 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/moteur_update", RAY_DEMIRAY);
-#else
 void RAY_DEMIRAY(void)
 {
-  ObjFlags demi;
-  
-  __asm__("nop");
+  ObjFlags demi = ((RayEvts.flags1 >> RAYEVTS1_DEMI ^ 1) & 1) << RAYEVTS1_DEMI;
 
-  demi = ((RayEvts.flags1 >> RAYEVTS1_DEMI ^ 1) & 1) << RAYEVTS1_DEMI;
   RayEvts.flags1 =
     RayEvts.flags1 & (FLG(RAYEVTS1_RUN)|FLG(RAYEVTS1_LUCIOLE)|FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)|
                       FLG(RAYEVTS1_REVERSE)|FLG(RAYEVTS1_FLAG6)|FLG(RAYEVTS1_UNUSED_DEATH)) | demi;
@@ -253,7 +247,6 @@ void RAY_DEMIRAY(void)
   if (block_flags[(u8) calc_typ_trav(&ray, 2)] >> BLOCK_FLAG_4 & 1)
     set_main_and_sub_etat(&ray, 0, 15);
 }
-#endif
 
 /* 35EF0 8015A6F0 -O2 -msoft-float */
 void DO_MOTEUR_GELE(void)

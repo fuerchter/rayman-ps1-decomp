@@ -175,9 +175,6 @@ void DISPLAY_FIXE(s16 left_time)
 }
 
 /* 16554 8013AD54 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/draw", FUN_8013ad54);
-#else
 void FUN_8013ad54(s16 param_1, s16 param_2, s16 param_3)
 {
     Obj *sbar_obj = &level.objects[sbar_obj_id];
@@ -190,10 +187,7 @@ void FUN_8013ad54(s16 param_1, s16 param_2, s16 param_3)
     display_sprite(sbar_obj, spr_1 + spr_add, param_2, param_3, display_mode);
     display_sprite(sbar_obj, spr_2 + spr_add, param_2 + 16, param_3, display_mode);
     display_sprite(sbar_obj, spr_3 + spr_add, param_2 + 32, param_3, display_mode);
-
-    __asm__("nop");
 }
-#endif
 
 /* 166AC 8013AEAC -O2 -msoft-float */
 void DrawWldPointPlan2Normal(s16 x0, s16 y0)

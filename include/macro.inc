@@ -15,10 +15,6 @@
     \label:
 .endm
 
-/*.macro li d,v
-    ori \d,$zero,\v
-.endm*/
-
 /* https://github.com/Xeeynamo/sotn-decomp/blob/e1391f8858c52b344534a047383127c1c5c17410/include/macro.inc#L13 */
 .macro li reg, num
 .if \num < 0x8000 && \num > 0

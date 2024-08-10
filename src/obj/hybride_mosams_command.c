@@ -1,9 +1,6 @@
 #include "obj/hybride_mosams_command.h"
 
 /* 753E8 80199BE8 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/obj/hybride_mosams_command", doMOSAMScommand);
-#else
 void doMOSAMScommand(Obj *obj)
 {
     scrollLocked = true;
@@ -42,7 +39,4 @@ void doMOSAMScommand(Obj *obj)
         setBossReachingSpeeds(obj, bossReachingTimer, bossReachingAccuracyX, bossReachingAccuracyY);
         break;
     }
-
-    __asm__("nop\nnop");
 }
-#endif

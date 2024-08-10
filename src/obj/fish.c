@@ -1,13 +1,9 @@
 #include "obj/fish.h"
 
 /* 37A9C 8015C29C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/fish", allocate_splash);
-#else
 void allocate_splash(Obj *baseObj)
 {
-  short y;
-  u8 uVar3;
+  s16 y;
   s16 i;
   Obj *obj;
   s16 offset_by;
@@ -49,10 +45,7 @@ void allocate_splash(Obj *baseObj)
       i++;
     } while (i < PS1_SplashAlwaysObjectsCount);
   }
-
-  __asm__("nop\nnop");
 }
-#endif
 
 /* 37C18 8015C418 -O2 */
 u8 can_free_fish(Obj *fish)

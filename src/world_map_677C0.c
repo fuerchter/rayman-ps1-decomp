@@ -36,9 +36,6 @@ void DoScrollInWorldMap(s16 h_speed, s16 v_speed)
 }
 
 /* 678DC 8018C0DC -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_DisplayPts);
-#else
 void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y)
 {
     u32 state;
@@ -70,10 +67,7 @@ void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y)
             }
         }
     }
-
-    __asm__("nop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DISPLAY_PLAT_WAY);
 
@@ -82,9 +76,6 @@ INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_DisplayPlateau);
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_MEDAILLONS);
 
 /* 68220 8018CA20 -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_LEVEL_STAGE_NAME);
-#else
 /*? INIT_TXT_BOX(s8 *);
 ? PS1_GenerateAndDisplayPassword();*/
 
@@ -105,10 +96,7 @@ void INIT_LEVEL_STAGE_NAME(void)
   text_to_display[0].width += 10;
   text_to_display[0].height += 6;
   text_to_display[0].color = t_world_info[num_world_choice].color;
-
-  __asm__("nop\nnop\nnop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_STAGE_NAME);
 
@@ -130,9 +118,6 @@ void INIT_STAGE_NAME(void) {
 }
 
 /* 68D34 8018D534 -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", CHANGE_STAGE_NAMES);
-#else
 /*? INIT_LEVEL_STAGE_NAME(s32, s32, ? *, void *);
 ? INIT_WORLD_STAGE_NAME(s32, s32, ? *, void *);*/
 
@@ -145,15 +130,9 @@ void CHANGE_STAGE_NAMES(void)
         __builtin_memcpy(&text_to_display[3], &text_to_display[2], sizeof(TextToDisplay));
         INIT_WORLD_STAGE_NAME();
     }
-
-    __asm__("nop\nnop");
 }
-#endif
 
 /* 68EF4 8018D6F4 -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_CardDisplayPassword);
-#else
 void PS1_CardDisplayPassword(void)
 {
   u8 color;
@@ -193,10 +172,7 @@ void PS1_CardDisplayPassword(void)
   text_to_display[3].y_pos = -50;
   text_to_display[3].field8_0x3d = 0;
   text_to_display[3].is_fond = false;
-
-  __asm__("nop\nnop");
 }
-#endif
 
 /* 691E0 8018D9E0 -O2 */
 void PS1_WorldMapMoveText(void)
@@ -247,52 +223,28 @@ INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_CHEMIN);
 
 /* https://decomp.me/scratch/6ivxi PSYQ3.3 (gcc 2.6.0 + aspsx 2.21) -O1 */
 /* 698B4 8018E0B4 -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_UP);
-#else
 void RESPOND_TO_UP(void)
 {
     num_world_choice = t_world_info[num_world_choice].index_up;
-
-    __asm__("nop");
 }
-#endif
 
 /* 698F0 8018E0F0 -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_DOWN);
-#else
 void RESPOND_TO_DOWN(void)
 {
     num_world_choice = t_world_info[num_world_choice].index_down;
-
-    __asm__("nop");
 }
-#endif
 
 /* 6992C 8018E12C -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_RIGHT);
-#else
 void RESPOND_TO_RIGHT(void)
 {
     num_world_choice = t_world_info[num_world_choice].index_right;
-
-    __asm__("nop");
 }
-#endif
 
 /* 69968 8018E168 -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", RESPOND_TO_LEFT);
-#else
 void RESPOND_TO_LEFT(void)
 {
     num_world_choice = t_world_info[num_world_choice].index_left;
-
-    __asm__("nop");
 }
-#endif
 
 /* 699A4 8018E1A4 -O2 */
 void MoveRayInWorldMap(void)
@@ -318,9 +270,6 @@ void DO_CHEMIN(void)
 }
 
 /* 6A0C8 8018E8C8 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_nop */
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_PASTILLES_SAUVE);
-#else
 void INIT_PASTILLES_SAUVE(void)
 {
   u8 *name;
@@ -335,25 +284,14 @@ void INIT_PASTILLES_SAUVE(void)
   t_world_info[21].level_name = name;
   t_world_info[22].level_name = name;
   t_world_info[23].level_name = name;
-
-  __asm__("nop");
 }
-#endif
 
 /* 6A130 8018E930 -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PASTILLES_SAUVE_SAVED);
-#else
-/*? INIT_PASTILLES_SAUVE();*/
-
 void PASTILLES_SAUVE_SAVED(s16 wld)
 {
     INIT_PASTILLES_SAUVE();
     t_world_info[wld].level_name = PTR_s_game_saved_801c3540;
-
-    __asm__("nop");
 }
-#endif
 
 /* 6A180 8018E980 -O2 */
 /*void INIT_PASTILLES_SAUVE(void);*/
@@ -375,9 +313,6 @@ void FIN_WORLD_CHOICE(void)
 
 /* early returns kinda gross compared to android */
 /* 6A224 8018EA24 -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DETER_WORLD_AND_LEVEL);
-#else
 void DETER_WORLD_AND_LEVEL(void)
 {
   world_index = num_world_choice;
@@ -407,7 +342,4 @@ void DETER_WORLD_AND_LEVEL(void)
     fin_dark = true;
     new_world = true;
   }
-
-  __asm__("nop\nnop");
 }
-#endif

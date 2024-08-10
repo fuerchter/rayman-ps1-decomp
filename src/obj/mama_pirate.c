@@ -13,9 +13,6 @@ void pmamaFollowsShip(Obj *obj)
 }
 
 /* 25DB0 8014A5B0 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", init_couteaux);
-#else
 void init_couteaux(void)
 {
   u8 cout_ind = 0;
@@ -49,45 +46,30 @@ void init_couteaux(void)
       i++;
     } while (i < (s16)nb_objs);
   }
-
-  __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 25EFC 8014A6FC -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", reset_couteaux);
-#else
 void reset_couteaux(void)
 {
   u8 i;
 
-  for(i = 0; i < 5; i++)
+  for(i = 0; i < LEN(CouteauxInfos); i++)
     CouteauxInfos[i].active = false;
-
-  __asm__("nop");
 }
-#endif
 
 /* 25F3C 8014A73C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", check_couteaux);
-#else
 u8 check_couteaux(void)
 {
   u8 nb_active;
   u8 i;
 
-  __asm__("nop\nnop");
-
   nb_active = 0;
-  for(i = 0; i < 5; i++)
+  for(i = 0; i < LEN(CouteauxInfos); i++)
     if (CouteauxInfos[i].active == true)
       nb_active++;
   
   return nb_active == pma_couteaux[pma_sequence[pma_groupe][pma_attaque]];
 }
-#endif
 
 /* 25FD4 8014A7D4 -O2 -msoft-float */
 u8 find_couteau(Obj *obj)
@@ -100,14 +82,9 @@ u8 find_couteau(Obj *obj)
 }
 
 /* 25FF4 8014A7F4 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", x_pos);
-#else
 s32 x_pos(u8 param_1, u8 nb_couteau)
 {
   s16 x;
-  
-  __asm__("nop");
 
   if (nb_couteau == 0)
     x = 0;
@@ -119,7 +96,6 @@ s32 x_pos(u8 param_1, u8 nb_couteau)
   }
   return x;
 }
-#endif
 
 /* 26090 8014A890 -O2 -msoft-float */
 s32 y_pos(s16 param_1, s16 param_2)
@@ -133,9 +109,6 @@ s32 y_pos(s16 param_1, s16 param_2)
   return y;
 }
 
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", y_floor);
-#else
 s16 y_floor(s16 x, s16 y)
 {
   u8 btyp = PS1_BTYPAbsPos(x, y);
@@ -146,15 +119,10 @@ s16 y_floor(s16 x, s16 y)
     btyp = PS1_BTYPAbsPos(x, y);
   }
 
-  __asm__("nop");
   return dist_to_bloc_floor(btyp, x & 0xf, 0) + (y & ~0xf); /* TODO: what do these &s do? */
 }
-#endif
 
 /* 26174 8014A974 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", init_move_couteau);
-#else
 void init_move_couteau(Obj *obj)
 {
   u8 cout_ind;
@@ -200,10 +168,7 @@ void init_move_couteau(Obj *obj)
       break;
     }
   }
-
-  __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", init_lance_couteau);
 
@@ -267,9 +232,6 @@ void update_couteau(Obj *obj)
 }
 
 /* 268E0 8014B0E0 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", get_cou_zdc);
-#else
 void get_cou_zdc(Obj *obj, s16 *x, s16 *y, s16 *w, s16 *h)
 {
   s16 spr_x;
@@ -277,8 +239,6 @@ void get_cou_zdc(Obj *obj, s16 *x, s16 *y, s16 *w, s16 *h)
   s16 spr_w;
   s16 spr_h;
   u8 sub_etat;
-  
-  __asm__("nop"); /* move instruction moved... */
 
   GET_SPRITE_POS(obj, 0, &spr_x, &spr_y, &spr_w, &spr_h);
   *w = 6;
@@ -370,17 +330,12 @@ void get_cou_zdc(Obj *obj, s16 *x, s16 *y, s16 *w, s16 *h)
   *x = -*w;
   *y = -*h;
 }
-#endif
 
 /* 26C98 8014B498 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", pma_attaque_suivante);
-#else
 void pma_attaque_suivante(void)
 {
   u8 i;
   
-  __asm__("nop\nnop\nnop");
   if ((pma_type_attaque - 1 < 2U) && (cou_place++, cou_place > 4))
     cou_place = 0;
   
@@ -405,13 +360,12 @@ void pma_attaque_suivante(void)
   pma_nb_couteau = pma_couteaux[pma_type_attaque];
   pma_touched = false;
   
-  for(i = 0; i < 5; i++)
+  for(i = 0; i < LEN(CouteauxInfos); i++)
   {
     level.objects[CouteauxInfos[i].id].flags &= ~FLG(OBJ_ACTIVE);
     level.objects[CouteauxInfos[i].id].flags &= ~FLG(OBJ_ALIVE);
   }
 }
-#endif
 
 /* 26EDC 8014B6DC -O2 -msoft-float */
 s16 convertspeed(s16 speed)
@@ -422,9 +376,6 @@ s16 convertspeed(s16 speed)
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", lance_couteau_parabolique);
 
 /* 270D8 8014B8D8 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", lance_couteau_droit);
-#else
 void lance_couteau_droit(Obj *obj)
 {
     u8 cout_ind;
@@ -476,15 +427,9 @@ void lance_couteau_droit(Obj *obj)
             }
         }
     }
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 273C4 8014BBC4 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", retour_couteau);
-#else
 void retour_couteau(Obj *obj)
 {
     u8 cout_ind;
@@ -539,15 +484,9 @@ void retour_couteau(Obj *obj)
         else
             CouteauxInfos[cout_ind].field3_0x6--;
     }
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 276F4 8014BEF4 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", PS1_retour_couteau_old);
-#else
 void PS1_retour_couteau_old(Obj *obj)
 {
     u8 cout_ind;
@@ -598,24 +537,16 @@ void PS1_retour_couteau_old(Obj *obj)
             }
         }
     }
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", lance_couteau_lineaire);
 
 /* 28338 8014CB38 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", DO_COU_COMMAND);
-#else
 /*int ashr16(ushort param_1,uint param_2);*/
 
 void DO_COU_COMMAND(Obj *obj)
 {
     u8 flag_set;
-
-    __asm__("nop\nnop");
 
     switch (obj->main_etat)
     {
@@ -692,7 +623,6 @@ void DO_COU_COMMAND(Obj *obj)
         break;
     }
 }
-#endif
 
 /* 28694 8014CE94 -O2 -msoft-float */
 void calc_pma_dir(Obj *obj)
@@ -706,9 +636,6 @@ void calc_pma_dir(Obj *obj)
 }
 
 /* 286F0 8014CEF0 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", DO_PMA_COMMAND);
-#else
 void DO_PMA_COMMAND(Obj *obj)
 {
     s16 main_etat;
@@ -716,8 +643,6 @@ void DO_PMA_COMMAND(Obj *obj)
     u8 flag_set;
     s16 i;
     s16 y;
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 
     scrollLocked = true;
     main_etat = obj->main_etat;
@@ -895,12 +820,8 @@ void DO_PMA_COMMAND(Obj *obj)
         break;
     }
 }
-#endif
 
 /* 28F78 8014D778 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", init_mama_pirate);
-#else
 void init_mama_pirate(Obj *obj)
 {
   init_couteaux();
@@ -921,10 +842,7 @@ void init_mama_pirate(Obj *obj)
   set_main_and_sub_etat(obj, 2, 6);
   obj->anim_frame = 0;
   obj->anim_index = obj->eta[2][6].anim_index;
-
-  __asm__("nop");
 }
-#endif
 
 /* 2905C 8014D85C -O2 -msoft-float */
 void PMA_SORT_DU_CANON(Obj *obj)
@@ -957,15 +875,10 @@ s32 pma_get_eject_sens(Obj *obj)
 }
 
 /* 2912C 8014D92C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", DO_COU_ATTER);
-#else
 void DO_COU_ATTER(Obj *obj)
 {
     u8 sub_etat;
     ObjState *eta;
-
-    __asm__("nop\nnop");
 
     if (obj->main_etat == 2)
     {
@@ -1001,7 +914,6 @@ void DO_COU_ATTER(Obj *obj)
         }
     }
 }
-#endif
 
 /* 2929C 8014DA9C -O2 -msoft-float */
 void DO_PMA_ATTER(Obj *obj)

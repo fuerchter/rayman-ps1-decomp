@@ -1,8 +1,6 @@
 #include "ray/angle_rayman.h"
 
-#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap, missing_nop */
-INCLUDE_ASM("asm/nonmatchings/ray/angle_rayman", ANGLE_RAYMAN);
-#else
+/* 3AC88 8015F488 -O2 -msoft-float */
 s16 ANGLE_RAYMAN(Obj *obj)
 {
     s16 x;
@@ -11,8 +9,6 @@ s16 ANGLE_RAYMAN(Obj *obj)
     u8 y_gt_0;
     u8 tab_val;
     s16 res;
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop");
 
     x = ray.offset_bx + (ray.x_pos - obj->x_pos - obj->offset_bx);
     y = ray.offset_by + (ray.y_pos - obj->y_pos - obj->offset_by);
@@ -60,4 +56,3 @@ s16 ANGLE_RAYMAN(Obj *obj)
     }
     return res;
 }
-#endif

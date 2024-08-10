@@ -84,9 +84,6 @@ void DO_EXPLOSE_NOTE2(Obj *obj)
 }
 
 /* 50F40 80175740 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_NOTE_CMD);
-#else
 /*? PlaySnd(?, s16, s16);
 ? allocateExplosion(Obj *);
 ? set_main_and_sub_etat(Obj *, ?, ?);*/
@@ -97,8 +94,6 @@ void DO_NOTE_CMD(Obj *obj)
     s32 offs_x;
     u8 var_v1;
     u8 temp_v0_2;
-
-    __asm__("nop");
 
     switch (obj->type)
     {
@@ -180,7 +175,6 @@ void DO_NOTE_CMD(Obj *obj)
         break;
     }
 }
-#endif
 
 /* 511C4 801759C4 -O2 -msoft-float */
 /*? calc_obj_pos(Obj *);
@@ -399,9 +393,6 @@ void DO_NOTE_REBOND(Obj *obj)
 }
 
 /* 51828 80176028 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", allocateNote);
-#else
 /*? calc_obj_pos(Obj *, s32);
 ? skipToLabel(Obj *, ?, ?, s16);*/
 
@@ -452,15 +443,9 @@ void allocateNote(Obj *obj)
       i++;
     } while (i < nb_objs_2);
   }
-
-  __asm__("nop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 51A30 80176230 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", PrepareAtak);
-#else
 u8 PrepareAtak(void)
 {
   s16 is;
@@ -476,10 +461,8 @@ u8 PrepareAtak(void)
   else
     IndexAtak++;
 
-  __asm__("nop\nnop\nnop");
   return attaque.next_note;
 }
-#endif
 
 /* 51AE0 801762E0 -O2 -msoft-float */
 void SAXO_TIRE(Obj *obj)
@@ -596,9 +579,6 @@ void DO_SAXO_ATTER(Obj *obj)
 }
 
 /* 52C28 80177428 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO2_COMMAND);
-#else
 /*? CALC_MOV_ON_BLOC(Obj *, s16, s32);
 ? GET_SPRITE_POS(?, u16 *, u16 *, u16 *, ? *);
 ? set_main_and_sub_etat(Obj *, ?, ?);
@@ -615,8 +595,6 @@ void DO_SAXO2_COMMAND(Obj *obj)
     s32 offs_x;
     u8 should_dec;
     s32 next_x;
-
-    __asm__("nop\nnop\nnop\nnop");
 
     scrollLocked = true;
     GET_SPRITE_POS(obj, 2, &Sax.sprite2_x, &Sax.sprite2_y, &sprite_w, &sprite_h);
@@ -810,7 +788,6 @@ void DO_SAXO2_COMMAND(Obj *obj)
     if (next_x < 0 || (xmapmax + 320 - 1) < next_x)
         obj->speed_x = 0;
 }
-#endif
 
 /* 533C8 80177BC8 -O2 -msoft-float */
 void DO_SAXO2_ATTER(Obj *obj)
@@ -835,9 +812,6 @@ void DO_SAXO_MARCHE(s16 hp)
 }
 
 /* 5345C 80177C5C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO3_COMMAND);
-#else
 /*? GET_SPRITE_POS(?, u16 *, u16 *, u16 *, ? *);
 ? set_main_and_sub_etat(Obj *, ?, ?);
 ? set_sub_etat(Obj *, ?, u32);*/
@@ -848,8 +822,6 @@ void DO_SAXO3_COMMAND(Obj *obj)
     s16 sprite_h;
     u16 temp_x;
     s32 temp_flags;
-
-    __asm__("nop\nnop");
 
     GET_SPRITE_POS(obj, 2, &Sax.sprite2_x, &Sax.sprite2_y, &sprite_w, &sprite_h);
     if (obj->flags & FLG(OBJ_FLIP_X))
@@ -909,7 +881,6 @@ void DO_SAXO3_COMMAND(Obj *obj)
         break;
     }
 }
-#endif
 
 /* 53758 80177F58 -O2 -msoft-float */
 void DO_SAXO3_DEBUT(Obj *obj)

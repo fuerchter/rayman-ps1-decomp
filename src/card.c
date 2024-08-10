@@ -324,17 +324,12 @@ void LoadGameOnDisk(u8 slot)
 }
 
 /* 47134 8016B934 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/card", LoadInfoGame);
-#else
 s32 LoadInfoGame(u8 slot)
 {
     u8 unk_1[32];
     s32 file = open(PS1_SaveFilenames[slot - 1], O_RDONLY); /* TODO: slot - 1 macro? */
     u8 file_buffer[128];
     s32 i;
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop");
 
     if (file == -1)
         return 1;
@@ -365,12 +360,8 @@ s32 LoadInfoGame(u8 slot)
         return 0;
     }
 }
-#endif
 
 /* 473E4 8016BBE4 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/card", FUN_8016bbe4);
-#else
 void FUN_8016bbe4(void)
 {
     u8 *filename;
@@ -385,10 +376,7 @@ void FUN_8016bbe4(void)
         *save_ray[fichier_selectionne] = '\0';
         *PS1_SaveFilenames[fichier_selectionne - 1] = '\0';
     }
-
-    __asm__("nop");
 }
-#endif
 
 /* 47488 8016BC88 -O2 -msoft-float */
 u8 PS1_GetNbreSave3(u8 param_1)

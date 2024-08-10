@@ -90,9 +90,6 @@ void display_grp_stars(void)
 }
 
 /* 19D20 8013E520 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/draw_ui", DISPLAY_TEXT_FEE);
-#else
 void DISPLAY_TEXT_FEE(void)
 {
   u8 txt_fee;
@@ -153,7 +150,6 @@ void DISPLAY_TEXT_FEE(void)
       display_box_text(&ttd);
   }
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/draw_ui", DisplayJumellesNormal);
 
@@ -166,15 +162,6 @@ void PS1_DisplayWorldMapBg1(s16 x1, s16 y1, s16 x2, s16 y2)
 }
 
 /* 1A388 8013EB88 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/draw_ui", DISPLAY_SAVE_SPRITES);
-#else
-/*? display_sprite(Obj *, s16, s16, s32, s32);
-? display_text(u8 *, s16, s32, ?, s32);
-extern ? D_801E4D62;
-extern ? D_801E4D63;*/
-
-/* TODO: needs different solution than this inline */
 void DISPLAY_SAVE_SPRITES(s16 x, s16 y)
 {
     Obj *loc_mapobj;
@@ -216,10 +203,7 @@ void DISPLAY_SAVE_SPRITES(s16 x, s16 y)
     x += div_obj.sprites[sprite_ind_2].width;
     display_sprite(&div_obj, sprite_ind_3, x, calc_y(y), 0);
     display_text(s__801cef84, (s16) (x + div_obj.sprites[sprite_ind_3].width), debut_options + (y * (ecarty + 23)), 1, colour);
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 1A8C0 8013F0C0 -O2 */
 /*? display_sprite(Obj *, ?, s32, s32, s32);*/
@@ -238,14 +222,6 @@ void DISPLAY_SAVE_POING(void)
 }
 
 /* 1A9D8 8013F1D8 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/draw_ui", display_time);
-#else
-/*? PS1_itoa(u8, ? *, ?, s32 *);
-? display_sprite(Obj *, s32, ?, ?, s32);
-? display_text(u16 *, ?, ?, ?, s32);
-? strcat(u16 *, ? *);*/
-
 void display_time(s16 time)
 {
     Obj *sbar_obj;
@@ -299,7 +275,6 @@ void display_time(s16 time)
         }
     }
 }
-#endif
 
 /* 1AC60 8013F460 -O2 */
 void PS1_LoadPts(void)
@@ -394,13 +369,6 @@ void PS1_LoadPts(void)
 
 /* modulo but no tge... */
 /* 1AFFC 8013F7FC -O2 */
-#ifndef NONMATCHINGS /* div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/draw_ui", DISPLAY_CONTINUE_SPR);
-#else
-/*? display2(Obj *);
-? display_sprite(Obj *, s32, ?, ?, s32);
-? display_text(? *, ?, ?, ?, s32);*/
-
 void DISPLAY_CONTINUE_SPR(void)
 {
     u32 dig_0;
@@ -420,7 +388,6 @@ void DISPLAY_CONTINUE_SPR(void)
     if (mapobj->flags & FLG(OBJ_ALIVE))
         display2(mapobj);
 }
-#endif
 
 /* 1B0F8 8013F8F8 -O2 */
 /*? display_sprite(Obj *, ?, ?, s32, s32);*/

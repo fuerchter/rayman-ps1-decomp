@@ -1,9 +1,6 @@
 #include "obj/falling_obj_command.h"
 
 /* 5088C 8017508C -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/falling_obj_command", move_fruit_in_water);
-#else
 void move_fruit_in_water(Obj *obj)
 {
   s16 btyp;
@@ -49,10 +46,7 @@ void move_fruit_in_water(Obj *obj)
       }
     }
   }
-
-  __asm__("nop");
 }
-#endif
 
 /* 50A30 80175230 -O2 */
 void DO_FALLING_OBJ_CMD(Obj *obj)

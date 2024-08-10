@@ -17,16 +17,10 @@ void PS1_SetZDC(s16 x, s16 y, u8 w, u8 h, u8 flags, u8 sprite)
 }
 
 /* 1B248 8013FA48 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/collision", PS1_SetTypeZDC);
-#else
 void PS1_SetTypeZDC(ObjType type, u16 param_2, s32 param_3)
 {
     type_zdc[type] = param_2 | (param_3 << 11);
-    
-    __asm__("nop");
 }
-#endif
 
 /* 1B270 8013FA70 -O2 -msoft-float */
 u16 get_nb_zdc(Obj *obj)
@@ -137,9 +131,6 @@ s32 inter_box(s32 x_1, s32 y_1, s32 w_1, s32 h_1, s16 x_2, s16 y_2, s32 w_2, s32
 }
 
 /* 1B600 8013FE00 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/collision", GET_OBJ_ZDC);
-#else
 /*void GET_ANIM_POS(Obj *param_1,short *x,short *y,ushort *w,ushort *h);
 void GET_RAY_ZDC(Obj *ray,short *x,short *y,short *w,short *h);
 void get_cou_zdc(Obj *param_1,short *param_2,short *param_3,short *param_4,short *param_5);
@@ -437,10 +428,7 @@ void GET_OBJ_ZDC(Obj *obj, s16 *out_x, s16 *out_y, s16 *out_w, s16 *out_h)
         GET_ANIM_POS(obj, out_x, out_y, out_w, out_h);
         break;
     }
-
-    __asm__("nop");
 }
-#endif
 
 /* 1C034 80140834 -O2 -msoft-float */
 s16 GET_SPRITE_ZDC(Obj *obj, s16 index, s16 *out_x, s16 *out_y, s16 *out_w, s16 *out_h)
@@ -601,9 +589,6 @@ s16 GET_SPRITE_ZDC(Obj *obj, s16 index, s16 *out_x, s16 *out_y, s16 *out_w, s16 
 
 
 /* 1C3F8 80140BF8 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/collision", BOX_HIT_SPECIAL_ZDC);
-#else
 s32 BOX_HIT_SPECIAL_ZDC(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
 {
   u8 frame;
@@ -616,7 +601,7 @@ s32 BOX_HIT_SPECIAL_ZDC(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
   {
   case TYPE_BAG1:
     frame = obj->anim_frame;
-    d = bagD[frame]; __asm__("nop");
+    d = bagD[frame];
     if (d != -1)
     {
       if ((s16) inter_box(
@@ -688,7 +673,6 @@ s32 BOX_HIT_SPECIAL_ZDC(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
   }
   return res;
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/collision/collision", BOX_IN_COLL_ZONES);
 
@@ -964,9 +948,6 @@ void SET_RAY_DIST_BAG(Obj *obj)
 }
 
 /* 1D798 80141F98 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_RAY_DIST);
-#else
 void SET_RAY_DIST(Obj *obj)
 {
   ObjType type;
@@ -1000,10 +981,7 @@ void SET_RAY_DIST(Obj *obj)
       obj->ray_dist = setToleranceDist(x, w, y);
     }
   }
-
-  __asm__("nop");
 }
-#endif
 
 /* 1D8FC 801420FC -O2 -msoft-float */
 void do_boum(void)
@@ -1170,9 +1148,6 @@ s16 COLL_RAY_PIC(void)
 }
 
 /* 1F3D0 80143BD0 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/collision", COLL_RAY_BLK_MORTEL);
-#else
 void COLL_RAY_BLK_MORTEL(void)
 {
   u16 mp_map;
@@ -1212,10 +1187,7 @@ void COLL_RAY_BLK_MORTEL(void)
       ray.speed_x = 0;
     }
   }
-
-  __asm__("nop");
 }
-#endif
 
 /* 1F5B0 80143DB0 -O2 -msoft-float */
 void RAY_KO(void)
@@ -1227,9 +1199,6 @@ void RAY_KO(void)
 }
 
 /* 1F5F4 80143DF4 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/collision", RAY_HIT);
-#else
 void RAY_HIT(u8 hurt, Obj *obj)
 {
   u16 ray_x_pos;
@@ -1254,8 +1223,8 @@ void RAY_HIT(u8 hurt, Obj *obj)
   if (ray.main_etat == 6)
   {
     set_main_and_sub_etat(&ray, 6, 8);
-    ray.speed_x = 0;
     ray.speed_y = 0;
+    ray.speed_x = 0;
     poing.is_charging = false;
   }
   else if (
@@ -1351,10 +1320,7 @@ void RAY_HIT(u8 hurt, Obj *obj)
       button_released = 1;
     Reset_air_speed(false);
   }
-
-  __asm__("nop\nnop");
 }
-#endif
 
 /* 1FA54 80144254 -O2 -msoft-float */
 void standard_frontZone(Obj *obj, s16 *x, s16 *w)
@@ -1369,9 +1335,6 @@ void standard_frontZone(Obj *obj, s16 *x, s16 *w)
 INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_DETECT_ZONE_FLAG);
 
 /* 201D8 801449D8 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/collision", goToRay);
-#else
 void goToRay(Obj *obj)
 {
   s32 follow_sprite;
@@ -1444,15 +1407,9 @@ void goToRay(Obj *obj)
     calc_obj_dir(obj);
     break;
   }
-
-  __asm__("nop");
 }
-#endif
 
 /* 20304 80144B04 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/collision", unleashMonsterHost);
-#else
 void unleashMonsterHost(Obj *in_obj)
 {
     Obj *linked_obj;
@@ -1476,10 +1433,7 @@ void unleashMonsterHost(Obj *in_obj)
             suppressFromLinkList(linked_obj);
         } while (prev_id != linked_id);
     }
-
-    __asm__("nop");
 }
-#endif
 
 /* 20400 80144C00 -O2 -msoft-float */
 void DO_COLL_RAY_CYMBALE(Obj *cym_obj)
@@ -1591,9 +1545,6 @@ void DoAudioStartRaymanCollision(Obj *obj)
 }
 
 /* 2083C 8014503C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/collision", PS1_DoRaymanCollision);
-#else
 /*void DO_NOVA(Obj *obj);
 int NOVA_STATUS_BAR(void);
 void restoreGameState(SaveState *save);
@@ -1830,14 +1781,9 @@ void PS1_DoRaymanCollision(void)
         i++;
         cur_obj = &level.objects[actobj.objects[i]];
     }
-
-    __asm__("nop\nnop\nnop");
 }
-#endif
 
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_COLLISIONS);
-#else
+/* 210AC 801458AC -O2 -msoft-float */
 void DO_COLLISIONS(void)
 {
     s16 i;
@@ -2029,14 +1975,9 @@ void DO_COLLISIONS(void)
     else if (ray.iframes_timer >= 0)
         ray.iframes_timer--;
     PS1_DoRaymanCollision();
-
-    __asm__("nop\nnop\nnop\nnop\nnop");
 }
-#endif
 
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_OBJ_COLLISIONS);
-#else
+/* 218C0 801460C0 -O2 -msoft-float */
 void DO_OBJ_COLLISIONS(Obj *in_obj, s32 offs)
 {
   s16 in_x; s16 in_y; s16 in_w; s16 in_h;
@@ -2139,7 +2080,4 @@ void DO_OBJ_COLLISIONS(Obj *in_obj, s32 offs)
       cur_obj = &level.objects[actobj.objects[i]];
     } while (i < actobj.num_active_objects);
   }
-
-  __asm__("nop");
 }
-#endif

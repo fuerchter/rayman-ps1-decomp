@@ -5,16 +5,10 @@ INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", get_center_x);
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", get_center_y);
 
 /* 22F80 80147780 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", on_block_chdir);
-#else
 s16 on_block_chdir(Obj *obj, s16 offs_bx, s16 offs_by)
 {
-    __asm__("nop");
-
     return block_flags[PS1_BTYPAbsPos(obj->x_pos + offs_bx, obj->y_pos + offs_by)] >> BLOCK_CH_DIR & 1;
 }
-#endif
 
 /* 22FE0 801477E0 -O2 -msoft-float */
 void CALC_FOLLOW_SPRITE_SPEED(Obj *obj, Animation *anim_1, Animation *anim_2, s16 anim_frame_2)
@@ -167,21 +161,14 @@ void GET_BB1_ZDCs(Obj *obj, s16 *x_1, s16 *y_1, s16 *w_1, s16 *h_1, s16 *x_2, s1
 }
 
 /* 235E8 80147DE8 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", myRand);
-#else
 s32 myRand(s16 max_incl)
 {
-  s16 max_loc;
-  
-  __asm__("nop\nnop");
+  s16 max_loc = max_incl + 1;
 
-  max_loc = max_incl + 1;
   PS1_RandSum += RandArray[RandomIndex & (LEN(RandArray) - 1)];
   RandomIndex++;
   return (s16) (PS1_RandSum % (max_loc));
 }
-#endif
 
 /* 23674 80147E74 -O2 -msoft-float */
 void calc_obj_dir(Obj *obj)
@@ -444,25 +431,16 @@ u16 BTYP(s16 x, s16 y)
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", calc_btyp_square);
 
 /* 23F10 80148710 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", DO_OBJ_REBOND_EN_X);
-#else
 void DO_OBJ_REBOND_EN_X(Obj *obj)
 {
-  __asm__("nop\nnop");
-
   if (
     block_flags[obj->btypes[2]] >> BLOCK_FLAG_4 & 1 ||
     block_flags[obj->btypes[1]] >> BLOCK_FLAG_4 & 1
   )
     obj->speed_x = -obj->speed_x;
 }
-#endif
 
 /* 23F80 80148780 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", calc_btyp);
-#else
 u32 calc_btyp(Obj *obj)
 {
     u8 btyp;
@@ -473,8 +451,6 @@ u32 calc_btyp(Obj *obj)
     u8 foll_spr;
 
     calc_btyp_square(obj);
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop");
 
     if (obj->type == TYPE_RAYMAN)
     {
@@ -598,4 +574,3 @@ u32 calc_btyp(Obj *obj)
         return btyp;
     }
 }
-#endif

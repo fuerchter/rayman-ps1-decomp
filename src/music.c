@@ -32,9 +32,6 @@ void FUN_80130048(void)
 }
 
 /* B8AC 801300AC -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/music", PS1_CdReadyCallback);
-#else
 void PS1_CdReadyCallback(s32 status, u8 *result)
 {
     PS1_Music_intr_datar = status;
@@ -83,10 +80,7 @@ void PS1_CdReadyCallback(s32 status, u8 *result)
             PS1_PlayMusic();
         break;
     }
-
-    __asm__("nop\nnop");
 }
-#endif
 
 /* BB6C 8013036C -O2 -msoft-float */
 void PS1_CdSyncCallback(s32 status, u8 *result)
@@ -195,9 +189,6 @@ void FUN_8013066c(void)
 }
 
 /* BE84 80130684 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80130684);
-#else
 void FUN_80130684(void)
 {
   u8 *occupe_str;
@@ -244,10 +235,7 @@ void FUN_80130684(void)
   else
     fadeout_str = s_no_801ceed8;
   FntPrint(s_will_anticips_fadeouts_80125d38, anticip_str, fadeout_str);
-
-  __asm__("nop\nnop\nnop\nnop");
 }
-#endif
 
 void FUN_801309b0(void) {}
 
@@ -271,23 +259,14 @@ s32 FUN_80130bc4(CdlLOC loc)
 }
 
 /* C458 80130C58 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80130c58);
-#else
 s32 FUN_80130c58(s32 param_1)
 {
-    __asm__("nop");
-
     return (param_1 % PS1_Sectors_p_Sec) +
     (((param_1 / PS1_Sectors_p_Sec) % PS1_Sec_p_Min) << 8) +
     ((param_1 / (PS1_Sectors_p_Sec * PS1_Sec_p_Min)) << 16); /* can't say i follow this */
 }
-#endif
 
 /* C500 80130D00 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80130d00);
-#else
 s32 FUN_80130d00(s32 param_1, s32 param_2)
 {
     /* add zeroth, first and second 8-bit parts of param_1/param_2? */
@@ -300,7 +279,6 @@ s32 FUN_80130d00(s32 param_1, s32 param_2)
     ((unk_1 % PS1_Sec_p_Min) << 8) + ((unk_1 / PS1_Sec_p_Min) << 16) +
     (unk_2 << 16);
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/music", PS1_InitTracks);
 
@@ -319,9 +297,6 @@ s16 FUN_80131474(s16 *param_1, s16 param_2, s16 param_3)
 
 /* kinda unreadable still due to unknowns, the shift in table_ind calc */
 /* CCC4 801314C4 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/music", FUN_801314c4);
-#else
 void FUN_801314c4(void)
 {
     s16 unk_1;
@@ -349,10 +324,7 @@ void FUN_801314c4(void)
         (D_801CEEB8 < (s16) LEN(D_801F7A90)) &&
         !FUN_80131474(D_801F7A90, D_801CEEB8, D_801E4B78)
     );
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/music", PS1_PlayMusic);
 
@@ -475,9 +447,6 @@ void FUN_80131e5c(void)
 }
 
 /* D694 80131E94 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/music", PS1_Music_Apply_Fade);
-#else
 void PS1_Music_Apply_Fade(void)
 {
     s16 vol;
@@ -517,10 +486,7 @@ void PS1_Music_Apply_Fade(void)
         }
     }
     SsSetSerialVol(SS_SERIAL_A, vol, vol);
-
-    __asm__("nop\nnop\nnop\nnop");
 }
-#endif
 
 /* D82C 8013202C -O2 -msoft-float */
 void FUN_8013202c(void)
@@ -579,17 +545,11 @@ void FUN_80132158(void) {}
 void FUN_80132160(void) {}
 
 /* D968 80132168 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap*/
-INCLUDE_ASM("asm/nonmatchings/music", PS1_SetMusicVolume);
-#else
 void PS1_SetMusicVolume(s16 param_1)
 {
     D_801F7C80 = param_1 * 127 / 20;
     PS1_SsSetSerialVolA(PS1_Music_Vol[PS1_CurTrack] * D_801F7C80 >> 7);
-
-    __asm__("nop");
 }
-#endif
 
 /* D9FC 801321FC -O2 -msoft-float */
 void FUN_801321fc(void)

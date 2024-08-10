@@ -13,18 +13,12 @@ void wait_for_dialogue_fee(Obj *obj, s16 time)
 }
 
 /* 4E020 80172820 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/fee_4DFD0", DO_FEE_ETAPE);
-#else
 /*? skipToLabel(Obj *, ?, ?);*/
 
 void DO_FEE_ETAPE(Obj *obj)
 {
-    u8 state;
+    u8 state = obj->field56_0x69;
 
-    __asm__("nop\nnop\nnop");
-
-    state = obj->field56_0x69;
     switch (state)
     {
     case 1:
@@ -71,7 +65,6 @@ void DO_FEE_ETAPE(Obj *obj)
     }
 }
 const u8 rodata_DO_FEE_ETAPE[4] = {};
-#endif
 
 /* 4E1B4 801729B4 -O2 -msoft-float */
 void fee_gives_super_evts(void)
@@ -98,9 +91,6 @@ void fee_gives_super_evts(void)
 }
 
 /* 4E2D0 80172AD0 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/fee_4DFD0", DO_FEE);
-#else
 void DO_FEE(Obj *obj)
 {
     u8 old_txt;
@@ -109,8 +99,6 @@ void DO_FEE(Obj *obj)
     u8 unk_1;
     u8 flag_set;
     s16 y;
-
-    __asm__("nop\nnop\nnop\nnop");
 
     old_txt = display_txt_fee;
     png_or_fee = &level.objects[png_or_fee_id];
@@ -227,4 +215,3 @@ void DO_FEE(Obj *obj)
     }
 }
 const u8 rodata_DO_FEE[4] = {};
-#endif

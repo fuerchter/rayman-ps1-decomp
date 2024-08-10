@@ -13,9 +13,6 @@ void doneGameSave(void)
 }
 
 /* 3F190 80163990 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/save", saveGameState);
-#else
 void saveGameState(Obj *obj, SaveState *state)
 {
     u8 i;
@@ -82,10 +79,7 @@ void saveGameState(Obj *obj, SaveState *state)
     }
     state->dead_time = dead_time;
     state->has_saved = true;
-
-    __asm__("nop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/save", restoreGameState);
 
@@ -141,9 +135,6 @@ void PS1_PhotographerCollision(void)
 }
 
 /* 3FC20 80164420 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/save", get_offset_in_save_zone);
-#else
 s16 get_offset_in_save_zone(s16 event_index)
 {
     s32 unk_1 = 0;
@@ -161,10 +152,8 @@ s16 get_offset_in_save_zone(s16 event_index)
         i++;
     }
 
-    __asm__("nop");
     return (unk_1 + ashr16(event_index, 3));
 }
-#endif
 
 /* 3FCE4 801644E4 -O2 -msoft-float */
 void reset_save_zone_level(void)
@@ -173,26 +162,16 @@ void reset_save_zone_level(void)
 }
 
 /* 3FD24 80164524 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/save", take_bonus);
-#else
 void take_bonus(s16 event_index)
 {
     save_zone[get_offset_in_save_zone(event_index)] |= ashr16(1 << 7, event_index & 7);
-    __asm__("nop\nnop");
 }
-#endif
 
 /* 3FD98 80164598 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/save", bonus_taken);
-#else
 u8 bonus_taken(s16 event_index)
 {
-    __asm__("nop");
     return save_zone[get_offset_in_save_zone(event_index)] & ashr16(1 << 7, event_index & 7);
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/save", PS1_WriteWiSaveZone);
 

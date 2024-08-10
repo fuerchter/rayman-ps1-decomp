@@ -90,9 +90,6 @@ void FUN_8019deac(void)
 }
 
 /* 7971C 8019DF1C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/loading_794DC", FUN_8019df1c);
-#else
 void FUN_8019df1c(s16 param_1)
 {
     s32 index_1;
@@ -141,10 +138,7 @@ void FUN_8019df1c(s16 param_1)
         D_801CF0CA = 0;
         break;
     }
-
-    __asm__("nop\nnop");
 }
-#endif
 
 /* 7981C 8019E01C -O2 -msoft-float */
 void LOAD_BIG_RAYMAN(void)
@@ -185,9 +179,6 @@ void LOAD_ALL_FIX(void)
 }
 
 /* 79A98 8019E298 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/loading_794DC", load_world);
-#else
 void load_world(s16 world)
 {
     PS1_Disable_all_Callbacks();
@@ -211,10 +202,7 @@ void load_world(s16 world)
     D_801E5260 = D_801C438C[world - 1];
     D_801F59E0 = D_801C4374[world - 1];
     PS1_LoadWorldSound(world);
-
-    __asm__("nop\nnop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/loading_794DC", load_level);
 
@@ -357,9 +345,6 @@ void FUN_8019eb30(void)
 INCLUDE_ASM("asm/nonmatchings/loading_794DC", FUN_8019ebc0);
 
 /* 7A688 8019EE88 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/loading_794DC", LOAD_CREDITS_VIGNET);
-#else
 void LOAD_CREDITS_VIGNET(void)
 {
     switch (display_Vignet)
@@ -425,15 +410,9 @@ void LOAD_CREDITS_VIGNET(void)
         D_801CF0CA = 0xFF;
         break;
     }
-
-    __asm__("nop");
 }
-#endif
 
 /* 7A924 8019F124 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/loading_794DC", LOAD_VIGNET_GAME);
-#else
 void LOAD_VIGNET_GAME(void)
 {
     s16 unk_1 = num_world - 1;
@@ -505,7 +484,4 @@ void LOAD_VIGNET_GAME(void)
         }
         break;
     }
-
-    __asm__("nop");
 }
-#endif

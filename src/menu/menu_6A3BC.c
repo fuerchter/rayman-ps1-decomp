@@ -236,9 +236,6 @@ void CHEAT_MODE_CONTINUE(void)
 }
 
 /* 6AD14 8018F514 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", MAIN_CONTINUE_PRG);
-#else
 void MAIN_CONTINUE_PRG(void)
 {
     u8 flag_set;
@@ -384,10 +381,7 @@ void MAIN_CONTINUE_PRG(void)
         CHEAT_MODE_CONTINUE();
     else
         MAIN_NO_MORE_CONTINUE_PRG();
-
-    __asm__("nop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 6B4C4 8018FCC4 -O2 -msoft-float */
 void FIN_CONTINUE_PRG(void)
@@ -412,14 +406,9 @@ void FIN_CONTINUE_PRG(void)
 }
 
 /* 6B568 8018FD68 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", MAIN_NO_MORE_CONTINUE_PRG);
-#else
 void MAIN_NO_MORE_CONTINUE_PRG(void)
 {
   u8 flag_set;
-
-  __asm__("nop");
 
   PROC_EXIT = SelectButPressed() != false;
   flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10;
@@ -433,12 +422,8 @@ void MAIN_NO_MORE_CONTINUE_PRG(void)
   if (PROC_EXIT)
     fin_continue = true;
 }
-#endif
 
 /* 6B6A0 8018FEA0 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_VIGNET);
-#else
 /*void Deter_Option_Caract(char *param_1,short param_2,uint param_3);
 void start_cd_suspence(void);*/
 
@@ -446,8 +431,6 @@ void INIT_VIGNET(void)
 {
   s32 base;
   s32 i;
-
-  __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 
   loop_nb_trames = 0;
   loop_timing = 5;
@@ -509,12 +492,8 @@ void INIT_VIGNET(void)
     i++;
   }
 }
-#endif
 
 /* 6BE68 80190668 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_CREDITS);
-#else
 /*? SaveGameOnDisk(s16);*/
 
 void INIT_CREDITS(void)
@@ -533,15 +512,9 @@ void INIT_CREDITS(void)
     i++;
     credits[i].y_pos = 260;
   } while (credits[i].cmd != 0xff);
-
-  __asm__("nop\nnop");
 }
-#endif
 
 /* 6BF14 80190714 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap, missing_nop */
-INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", DO_CREDITS);
-#else
 void DO_CREDITS(void)
 {
     s32 i;
@@ -592,10 +565,7 @@ void DO_CREDITS(void)
                 PROC_EXIT = true;
         }
     }
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 6C198 80190998 -O2 -msoft-float */
 void INIT_LOADER_ANIM(void)
@@ -612,15 +582,10 @@ void INIT_LOADER_ANIM(void)
 }
 
 /* 6C210 80190A10 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", DO_LOADER_ANIM);
-#else
 void DO_LOADER_ANIM(void)
 {
   u8 anim_speed;
   u8 flag_set;
-
-  __asm__("nop\nnop\nnop");
 
   anim_speed = bigray.eta[bigray.main_etat][bigray.sub_etat].anim_speed;
   bigray.speed_x = 0;
@@ -697,7 +662,6 @@ void DO_LOADER_ANIM(void)
   }
   DO_ANIM(&bigray);
 }
-#endif
 
 /* 6C6A0 80190EA0 -O2 -msoft-float */
 void SPECIAL_INIT(void)

@@ -327,9 +327,6 @@ void changeMoskitoPhase(Obj *obj)
 }
 
 /* 7151C 80195D1C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/obj/moskito", doMoskitoHit);
-#else
 /*? obj_hurt();*/
 
 void doMoskitoHit(Obj *obj)
@@ -377,7 +374,4 @@ void doMoskitoHit(Obj *obj)
         currentBossAction = 0;
         currentBossActionIsOver = true;
     }
-
-    __asm__("nop");
 }
-#endif

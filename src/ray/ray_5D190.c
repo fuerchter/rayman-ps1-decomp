@@ -205,9 +205,6 @@ void determineRayAirInertia(void)
 }
 
 /* 5E15C 8018295C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", ray_jump);
-#else
 void ray_jump(void)
 {
     u8 unk_1;
@@ -309,18 +306,13 @@ void ray_jump(void)
         if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
             ray.speed_y = ashr16(ray.speed_y, 1) - 1;
     }
-    __asm__("nop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", ray_inertia_speed);
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_SWIP);
 
 /* 5EF40 80183740 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_STOP);
-#else
 void RAY_STOP(void)
 {
   u8 main_etat = ray.main_etat;
@@ -357,10 +349,7 @@ void RAY_STOP(void)
     ray.speed_y = 0;
     set_sub_etat(&ray, 0);
   }
-
-  __asm__("nop");
 }
-#endif
 
 /* 5F054 80183854 -O2 -msoft-float */
 void RAY_HELICO(void)
@@ -509,28 +498,16 @@ void Make_Ray_Hang(s16 param_1, s16 param_2)
 }
 
 /* 5F680 80183E80 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", AIR);
-#else
 u16 AIR(s32 param_1)
 {
-  __asm__("nop");
-
   return block_flags[((u16) mp.map[param_1]) >> 10] >> BLOCK_SOLID & 1 ^ 1;
 }
-#endif
 
 /* 5F6C0 80183EC0 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", MUR);
-#else
 u16 MUR(s32 param_1)
 {
-  __asm__("nop");
-
   return block_flags[(u16) mp.map[param_1] >> 10] >> BLOCK_SOLID & 1;
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", CAN_RAY_HANG_BLOC);
 
@@ -570,9 +547,6 @@ void RAY_TOMBE(void)
 }
 
 /* 5FC44 80184444 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_DOWN);
-#else
 void RAY_RESPOND_TO_DOWN(void)
 {
     u8 flag_set;
@@ -648,15 +622,9 @@ void RAY_RESPOND_TO_DOWN(void)
             ray.speed_y++;
         break;
     }
-
-    __asm__("nop\nnop");
 }
-#endif
 
 /* 6002C 8018482C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_UP);
-#else
 void RAY_RESPOND_TO_UP(void)
 {
     switch (ray.main_etat)
@@ -715,15 +683,9 @@ void RAY_RESPOND_TO_UP(void)
             ray.speed_y--;
         break;
     }
-
-    __asm__("nop\nnop");
 }
-#endif
 
 /* 602E8 80184AE8 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_DIR);
-#else
 void RAY_RESPOND_TO_DIR(s16 flip_x)
 {
     Animation *sel_anim;
@@ -857,15 +819,9 @@ void RAY_RESPOND_TO_DIR(s16 flip_x)
             ray.speed_x += flip_x;
         break;
     }
-
-    __asm__("nop\nnop\nnop");
 }
-#endif
 
 /* 60A58 80185258 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_NOTHING);
-#else
 void RAY_RESPOND_TO_NOTHING(void)
 {
     u8 flag_set;
@@ -996,10 +952,7 @@ void RAY_RESPOND_TO_NOTHING(void)
         }
         break;
     }
-
-    __asm__("nop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 61254 80185A54 -O2 -msoft-float */
 void PS1_RespondShoulderR(void)
@@ -1143,9 +1096,6 @@ void RAY_RESPOND_TO_FIRE0(void)
 }
 
 /* 61760 80185F60 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_RESPOND_TO_FIRE1);
-#else
 void RAY_RESPOND_TO_FIRE1(void)
 {
     if (!fin_boss)
@@ -1165,17 +1115,11 @@ void RAY_RESPOND_TO_FIRE1(void)
             break;
         }
     }
-
-    __asm__("nop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE_ANIM);
 
 /* 61870 80186070 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", abs_sinus_cosinus);
-#else
 void abs_sinus_cosinus(s16 tab_index, s16 *param_2, s16 *param_3)
 {
     if (tab_index <= 256)
@@ -1194,10 +1138,7 @@ void abs_sinus_cosinus(s16 tab_index, s16 *param_2, s16 *param_3)
         else
             *param_2 = -costab[tab_index - 128];
     }
-
-    __asm__("nop\nnop");
 }
-#endif
 
 /* 6191C 8018611C -O2 -msoft-float */
 void SET_RAY_BALANCE(void)
@@ -1216,9 +1157,6 @@ void SET_RAY_BALANCE(void)
 }
 
 /* 619C0 801861C0 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_GOING_BALANCE);
-#else
 void RAY_GOING_BALANCE(Obj *obj)
 {
     s16 unk_1;
@@ -1275,10 +1213,7 @@ void RAY_GOING_BALANCE(Obj *obj)
             }
         }
     }
-
-    __asm__("nop\nnop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE);
 
@@ -1371,9 +1306,6 @@ void remoteControlRay(void)
 }
 
 /* 62440 80186C40 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", STOPPE_RAY_CONTRE_PAROIS);
-#else
 void STOPPE_RAY_CONTRE_PAROIS(u8 block)
 {
   if (
@@ -1389,15 +1321,9 @@ void STOPPE_RAY_CONTRE_PAROIS(u8 block)
     ray.field24_0x3e = 0;
     ray.speed_y = 0;
   }
-
-  __asm__("nop");
 }
-#endif
 
 /* 624EC 80186CEC -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_IN_THE_AIR);
-#else
 void RAY_IN_THE_AIR(void)
 {
     u8 may_land_obj;
@@ -1599,10 +1525,7 @@ void RAY_IN_THE_AIR(void)
         ray.hit_points != 0xff
     )
         ChangeLevel();
-
-    __asm__("nop");
 }
-#endif
 
 /* 62E90 80187690 -O2 -msoft-float */
 void terminateFistWhenRayDies(void)
@@ -1657,9 +1580,6 @@ void rayfallsinwater(void)
 }
 
 /* 6305C 8018785C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_DEAD);
-#else
 u8 RAY_DEAD(void)
 {
     u8 flag_set;
@@ -1736,21 +1656,14 @@ u8 RAY_DEAD(void)
     if ((ray.flags & (FLG(OBJ_ACTIVE)|FLG(OBJ_ALIVE))) == (FLG(OBJ_ACTIVE)|FLG(OBJ_ALIVE)))
         unk_1 = !(ray_mode == MODE_MORT_DE_RAYMAN || ray_mode == MODE_MORT_DE_RAYMAN_ON_MS);
 
-    __asm__("nop");
     return unk_1;
 }
-#endif
 
 /* 6346C 80187C6C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_HURT);
-#else
 void RAY_HURT(void)
 {
   u8 flag_set;
   s16 new_iframes;
-
-  __asm__("nop");
 
   test_fin_cling();
   ray.hit_points--;
@@ -1776,12 +1689,8 @@ void RAY_HURT(void)
     jump_time = 0;
   }
 }
-#endif
 
 /* 6356C 80187D6C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RepousseRay);
-#else
 void RepousseRay(void)
 {
     Obj *pa_obj = &level.objects[pierreAcorde_obj_id];
@@ -1811,7 +1720,6 @@ void RepousseRay(void)
             pa_obj->flags &= ~FLG(OBJ_ALIVE);
     }
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RayEstIlBloque);
 
@@ -1888,14 +1796,9 @@ void DO_PIEDS_COLLISION(void) {}
 void allocatePiedBoum(void) {}
 
 /* 63E30 80188630 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", DO_MORT_DE_RAY);
-#else
 void DO_MORT_DE_RAY(void)
 {
     u8 flag_set;
-
-    __asm__("nop");
 
     ray.iframes_timer = -1;
     v_scroll_speed = 0;
@@ -1951,4 +1854,3 @@ void DO_MORT_DE_RAY(void)
     DO_ANIM(&ray);
     stackRay();
 }
-#endif

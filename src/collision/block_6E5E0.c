@@ -7,13 +7,8 @@ s32 MURDUR(s16 x, s16 y)
 }
 
 /* 6E618 80192E18 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", dist_to_bloc_floor);
-#else
 s16 dist_to_bloc_floor(s16 btyp, s16 x, s16 y)
 {
-    __asm__("nop");
-
     switch (btyp)
     {
     case BTYP_SOLID_RIGHT_45:
@@ -53,7 +48,6 @@ s16 dist_to_bloc_floor(s16 btyp, s16 x, s16 y)
     }
     return x - y;
 }
-#endif
 
 /* 6E6BC 80192EBC -O2 -msoft-float */
 s16 bloc_floor(s16 btyp, s16 x, s16 y)
@@ -66,9 +60,6 @@ INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", calc_typ_trav);
 
 /* still pretty unreadable... */
 /* 6EA38 80193238 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", calc_typ_travd);
-#else
 u8 calc_typ_travd(Obj *obj, u8 param_2)
 {
     s16 spd_x_sgn = obj->speed_x; /* ??? */
@@ -130,19 +121,12 @@ u8 calc_typ_travd(Obj *obj, u8 param_2)
     else
         res = 0;
 
-    __asm__("nop");
     return res;
 }
-#endif
 
 /* 6EC34 80193434 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", TEST_FIN_BLOC);
-#else
 void TEST_FIN_BLOC(Obj *obj)
 {
-    __asm__("nop");
-
     if (!(block_flags[obj->btypes[0]] >> BLOCK_SOLID & 1))
     {
         switch (obj->type)
@@ -242,12 +226,8 @@ void TEST_FIN_BLOC(Obj *obj)
             obj->gravity_value_2 = 0;
     }
 }
-#endif
 
 /* 6F0F8 801938F8 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", TEST_IS_ON_RESSORT_BLOC);
-#else
 s32 TEST_IS_ON_RESSORT_BLOC(Obj *obj)
 {
     s32 res = false;
@@ -258,22 +238,14 @@ s32 TEST_IS_ON_RESSORT_BLOC(Obj *obj)
     )
         res = true;
 
-    __asm__("nop");
     return res;
 }
-#endif
 
 /* 6F15C 8019395C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", IS_ON_RESSORT_BLOC);
-#else
 s32 IS_ON_RESSORT_BLOC(Obj *obj)
 {
-    s32 res;
-    
-    __asm__("nop");
+    s32 res = false;
 
-    res = false;
     if (obj->btypes[0] == BTYP_RESSORT && obj->speed_y >= 0)
     {
         if (obj->type == TYPE_RAYMAN)
@@ -295,15 +267,11 @@ s32 IS_ON_RESSORT_BLOC(Obj *obj)
     }
     return res;
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", CALC_MOV_ON_BLOC);
 /* skipped */
 
 /* 6F7E4 80193FE4 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", recale_position);
-#else
 void recale_position(Obj *obj)
 {
     /* also see y_floor(), not sure why it does this */
@@ -352,7 +320,4 @@ void recale_position(Obj *obj)
         obj->y_pos = y + unk_1 - obj->offset_by;
     else
         obj->speed_y = y + unk_1 - obj->offset_by - obj->y_pos;
-
-    __asm__("nop");
 }
-#endif

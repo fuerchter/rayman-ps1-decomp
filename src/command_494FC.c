@@ -106,22 +106,10 @@ void special_pour_liv(Obj *obj)
 }
 
 /* 49844 8016E044 -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/command_494FC", DO_ONE_CMD);
-#else
-/*? CALC_MOV_ON_BLOC(Obj *);
-? DO_ONE_CMD_LR_ATTENTE(Obj *);
-? DO_ONE_CMD_UPDOWN(Obj *);
-? SET_X_SPEED(Obj *);
-? special_pour_liv();*/
-
 void DO_ONE_CMD(Obj *obj)
 {
-  s16 etat;
+  s16 etat = obj->main_etat;
 
-  __asm__("nop");
-  
-  etat = obj->main_etat;
   special_pour_liv(obj);
   switch (obj->cmd)
   {
@@ -158,4 +146,3 @@ void DO_ONE_CMD(Obj *obj)
   }
 }
 const u8 rodata_DO_ONE_CMD[4] = {};
-#endif

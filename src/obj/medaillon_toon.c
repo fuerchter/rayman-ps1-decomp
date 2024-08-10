@@ -61,9 +61,6 @@ void DO_MEDAILLON_TOON_GELE(void)
 }
 
 /* 3D1E8 801619E8 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/medaillon_toon", ALLOCATE_MEDAILLON_TOON);
-#else
 void ALLOCATE_MEDAILLON_TOON(void)
 {
     s16 nb_objs = level.nb_objects;
@@ -90,7 +87,4 @@ void ALLOCATE_MEDAILLON_TOON(void)
         cur_obj++;
         i++;
     }
-
-    __asm__("nop\nnop\nnop\nnop\nnop");
 }
-#endif

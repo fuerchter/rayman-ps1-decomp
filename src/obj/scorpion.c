@@ -6,18 +6,12 @@ Obj * findfirstObject(ObjType objType);
 void start_pix_gerbe(s32 param_1, s32 param_2);*/
 
 /* 6C6E4 80190EE4 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", swap);
-#else
 void swap(s32 ind_1, s32 ind_2)
 {
   u8 temp = ecroule_rubis_list[ind_1];
   ecroule_rubis_list[ind_1] = ecroule_rubis_list[ind_2];
   ecroule_rubis_list[ind_2] = temp;
-  
-  __asm__("nop\nnop\nnop\nnop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", set_rubis_list);
 
@@ -91,9 +85,6 @@ INCLUDE_ASM("asm/nonmatchings/obj/scorpion", do_sko_rayon);
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", do_sko_rayon2);
 
 /* 6D1D0 801919D0 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", start_sko_rayon);
-#else
 void start_sko_rayon(s16 obj_x, s16 obj_y)
 {
     Obj *ecroule_obj;
@@ -110,10 +101,7 @@ void start_sko_rayon(s16 obj_x, s16 obj_y)
     sko_final_x = ecroule_obj->offset_bx + ecroule_obj->x_pos - 120;
     sko_final_y = ecroule_obj->offset_hy + ecroule_obj->y_pos - 120;
     allocate_rayon(sko_rayon_x, sko_rayon_y);
-
-    __asm__("nop\nnop");
 }
-#endif
 
 /* 6D2E0 80191AE0 -O2 -msoft-float */
 void start_sko_rayon2(s16 obj_x, s16 obj_y)
@@ -156,9 +144,6 @@ s32 sko_get_eject_sens(void)
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SOL_ENFONCE);
 
 /* 6D7FC 80191FFC -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SKO_PHASE_0);
-#else
 void DO_SKO_PHASE_0(Obj *sko_obj)
 {
     s16 sko_sub_etat = sko_obj->sub_etat;
@@ -205,10 +190,7 @@ void DO_SKO_PHASE_0(Obj *sko_obj)
             }
         }
     }
-
-    __asm__("nop\nnop");
 }
-#endif
 
 /* 6D9FC 801921FC -O2 -msoft-float */
 void DO_SKO_PHASE_1(Obj *obj)

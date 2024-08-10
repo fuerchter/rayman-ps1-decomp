@@ -150,20 +150,14 @@ void snapWeaponAnimState(Obj *obj, u8 sub_etat)
 }
 
 /* 64DA0 801895A0 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/space_mama", swapMereDenisCollZones);
-#else
 void swapMereDenisCollZones(Obj *obj, u8 smama2)
 {
-    __asm__("nop");
-
     if (!smama2)
         obj->type = TYPE_SPACE_MAMA;
     else
         obj->type = TYPE_SPACE_MAMA2;
     obj->zdc = type_zdc[obj->type];
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj/space_mama", prepareNewMereDenisAttack);
 

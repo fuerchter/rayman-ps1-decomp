@@ -89,9 +89,6 @@ void FUN_80150c5c(Obj *obj, u8 param_2)
 }
 
 /* 2C50C 80150D0C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj_update", DO_ANIM);
-#else
 void DO_ANIM(Obj *obj)
 {
     Animation *new_anim;
@@ -171,10 +168,7 @@ void DO_ANIM(Obj *obj)
 
     changed = (old_frame != obj->anim_frame || old_ind != obj->anim_index);
     obj->flags = (obj->flags & ~FLG(OBJ_FLAG_A)) | (changed << OBJ_FLAG_A);
-
-    __asm__("nop");
 }
-#endif
 
 /* 2C89C 8015109C -O2 -msoft-float */
 s16 prof_in_bloc(Obj *obj)
@@ -184,9 +178,6 @@ s16 prof_in_bloc(Obj *obj)
 }
 
 /* 2C8D0 801510D0 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj_update", do_boing);
-#else
 void do_boing(Obj *obj, u8 main_etat, u8 sub_etat)
 {
   if (obj->speed_y < 2)
@@ -242,30 +233,19 @@ void do_boing(Obj *obj, u8 main_etat, u8 sub_etat)
     if (obj->speed_y < 0)
         set_sub_etat(obj, 0);
   }
-
-  __asm__("nop");
 }
-#endif
 
 /* 2CA58 80151258 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj_update", underSlope);
-#else
 u8 underSlope(Obj *obj)
 {
-    u8 res = 0;
+    u8 res = false;
     if (block_flags[obj->btypes[0]] & FLG(BLOCK_FULLY_SOLID))
         res = block_flags[obj->btypes[3]] >> BLOCK_SLOPE & 1;
 
-    __asm__("nop\nnop");
     return res;
 }
-#endif
 
 /* 2CAAC 801512AC -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj_update", DO_STONEBOMB_REBOND);
-#else
 void DO_STONEBOMB_REBOND(Obj *obj)
 {
     s16 new_spd_x; s16 new_spd_y;
@@ -322,15 +302,9 @@ void DO_STONEBOMB_REBOND(Obj *obj)
     }
     obj->gravity_value_1 = 0;
     obj->gravity_value_2 = 2;
-
-    __asm__("nop");
 }
-#endif
 
 /* 2CBC4 801513C4 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* div_nop_swap, missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj_update", DO_THROWN_BOMB_REBOND);
-#else
 void DO_THROWN_BOMB_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
 {
     ObjType old_type;
@@ -447,15 +421,9 @@ void DO_THROWN_BOMB_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
     anim_speed = obj->eta[obj->main_etat][obj->sub_etat].anim_speed >> 4;
     if (!(anim_speed == 10 || anim_speed == 11))
         obj->gravity_value_2 = 0;
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 2D008 80151808 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* div_nop_swap, missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj_update", DO_FRUIT_REBOND);
-#else
 void DO_FRUIT_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
 {
     u8 under;
@@ -611,10 +579,7 @@ void DO_FRUIT_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
     anim_speed = obj->eta[obj->main_etat][obj->sub_etat].anim_speed >> 4;
     if (!(anim_speed == 10 || anim_speed == 11))
         obj->gravity_value_2 = 0;
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 2D4F8 80151CF8 -O2 -msoft-float */
 void Drop_Atter(Obj *obj)
@@ -715,9 +680,6 @@ void stoneDogAtter(Obj *obj)
 }
 
 /* 2D7D0 80151FD0 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj_update", stoneDogBounces);
-#else
 void stoneDogBounces(Obj *obj)
 {
     s32 x = obj->x_pos + obj->offset_bx;
@@ -748,10 +710,7 @@ void stoneDogBounces(Obj *obj)
             obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | ((obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X;
         }
     }
-
-    __asm__("nop\nnop\nnop");
 }
-#endif
 
 /* 2D998 80152198 -O2 -msoft-float */
 void Spider_Atter(Obj *obj)
@@ -780,9 +739,6 @@ void NormalAtter(Obj *obj)
 INCLUDE_ASM("asm/nonmatchings/obj_update", OBJ_IN_THE_AIR);
 
 /* 2E458 80152C58 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj_update", test_fall_in_water);
-#else
 void test_fall_in_water(Obj *obj)
 {
     if (obj->btypes[0] == BTYP_WATER && !(obj->type == TYPE_RAYMAN && ray.main_etat == 6))
@@ -807,16 +763,10 @@ void test_fall_in_water(Obj *obj)
             }
         }
     }
-
-    __asm__("nop\nnop");
 }
-#endif
 
 /* still rather difficult to read tbh? */
 /* 2E55C 80152D5C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj_update", MOVE_OBJECT);
-#else
 void MOVE_OBJECT(Obj *obj)
 {    
     s16 speed_x_1; s16 speed_y_1;
@@ -891,17 +841,11 @@ void MOVE_OBJECT(Obj *obj)
     }
     else
         obj->flags &= ~FLG(OBJ_FLAG_B);
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", DO_RAY_IN_ZONE);
 
 /* 2F3B4 80153BB4 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj_update", DO_ONE_OBJECT);
-#else
 void DO_ONE_OBJECT(Obj *obj)
 {
     if (flags[ot].flags0 >> OBJ0_BALLE & 1)
@@ -927,17 +871,11 @@ void DO_ONE_OBJECT(Obj *obj)
         DO_SPECIAL_PLATFORM(obj);
     if (flags[ot].flags0 >> OBJ0_DETECT_ZONE & 1)
         DO_RAY_IN_ZONE(obj);
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj_update", fptr_init);
 
 /* 2FF64 80154764 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj_update", build_active_table);
-#else
 void build_active_table(void)
 {
     Obj *last_obj;
@@ -989,10 +927,7 @@ void build_active_table(void)
     *cur_actobj = -1;
 
     actobj.num_active_objects += cur_actobj - prev_addr;
-
-    __asm__("nop");
 }
-#endif
 
 /* 301D4 801549D4 -O2 -msoft-float */
 void Add_One_RAY_lives(void)
@@ -1007,9 +942,6 @@ void Add_One_RAY_lives(void)
 }
 
 /* 3022C 80154A2C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj_update", DO_CLING_ANIMS);
-#else
 void DO_CLING_ANIMS(void)
 {
     Obj *obj;
@@ -1063,10 +995,7 @@ void DO_CLING_ANIMS(void)
             obj->flags &= ~FLG(OBJ_ALIVE);
         }
     }
-
-    __asm__("nop\nnop");
 }
-#endif
 
 /* 304D4 80154CD4 -O2 -msoft-float */
 void DO_OBJECTS_ANIMS(void)
@@ -1084,9 +1013,6 @@ void DO_OBJECTS_ANIMS(void)
 }
 
 /* 30594 80154D94 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj_update", DO_OBJECTS);
-#else
 void DO_OBJECTS(void)
 {
     s16 i;
@@ -1141,10 +1067,7 @@ void DO_OBJECTS(void)
         i++;
         cur_obj = &level.objects[actobj.objects[i]];
     }
-
-    __asm__("nop\nnop");
 }
-#endif
 
 /* 3088C 8015508C -O2 -msoft-float */
 void MOVE_OBJECTS(void)

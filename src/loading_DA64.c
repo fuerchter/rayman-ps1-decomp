@@ -82,14 +82,8 @@ void PS1_LoadLevelEventBlock(void)
 }
 
 /* E064 80132864 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/loading_DA64", FUN_80132864);
-#else
 void FUN_80132864(s16 param_1)
 {
   PS1_LevelMapBlock = (s16 *)0x80780000;
   D_801F59E0 = D_801C4374[param_1 - 1];
-
-  __asm__("nop");
 }
-#endif

@@ -341,14 +341,9 @@ u8 handle_GO_SETTEST(Obj *obj)
 }
 
 /* 5736C 8017BB6C -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", handle_GO_TEST);
-#else
 u8 handle_GO_TEST(Obj *obj)
 {
     s32 flip_x;
-
-    __asm__("nop");
 
     switch (obj->nb_cmd)
     {
@@ -406,44 +401,26 @@ u8 handle_GO_TEST(Obj *obj)
     }
     return true;
 }
-#endif
 
 /* 57528 8017BD28 -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", readOneCommand);
-#else
 u8 readOneCommand(Obj *obj)
 {
-    __asm__("nop");
-    
     obj->cmd_offset++;
     obj->cmd = obj->cmds[obj->cmd_offset];
     return cptr_tab[obj->cmd].read(obj);
 }
-#endif
 
 /* 57598 8017BD98 -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", skipOneCommand);
-#else
 u8 skipOneCommand(Obj *obj)
 {
-    __asm__("nop");
-
     obj->cmd_offset++;
     obj->cmd = obj->cmds[obj->cmd_offset];
     return cptr_tab[obj->cmd].skip(obj);
 }
-#endif
 
 /* 57608 8017BE08 -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", GET_OBJ_CMD);
-#else
 void GET_OBJ_CMD(Obj *obj)
 {
-    __asm__("nop");
-
     if (obj->cmds)
     {
         if ((obj->flags & FLG(OBJ_READ_CMDS)) && --obj->nb_cmd == -1)
@@ -457,7 +434,6 @@ void GET_OBJ_CMD(Obj *obj)
     else
         obj->cmd = GO_NOP;
 }
-#endif
 
 /* 576BC 8017BEBC -O2 */
 void pushCmdContext(Obj *obj, u16 count)

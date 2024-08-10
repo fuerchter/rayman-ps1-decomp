@@ -4,16 +4,6 @@
 extern u8 D_801E4C20;
 
 /* 7B850 801A0050 -O2 -msoft-float */
-/*? DO_VICTOIRE();
-? FUN_8019fa94(?);
-? FUN_8019fb84();
-? INIT_MOTEUR_WORLD();
-? PS1_PlaySnd(s16, ?);
-? load_world(s16);*/
-
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/depart_dead", DEPART_WORLD);
-#else
 void DEPART_WORLD(void)
 {
     if (num_world_choice != num_world)
@@ -47,10 +37,7 @@ void DEPART_WORLD(void)
         else
             FUN_8019fa94(1);
     }
-
-    __asm__("nop");
 }
-#endif
 
 /* 7B978 801A0178 -O2 -msoft-float */
 /*? DO_FADE_OUT();
@@ -100,20 +87,14 @@ void DEPART_DEAD_LOOP(void)
 }
 
 /* 7BABC 801A02BC -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/depart_dead", FIN_DEAD_LOOP);
-#else
 void FIN_DEAD_LOOP(void)
 {
     s16 i;
 
-    __asm__("nop");
-
     if (fin_du_jeu)
     {
-        for (i = 0; i < 24; i++)
+        for (i = 0; i < (s16) LEN(t_world_info); i++)
             t_world_info[i].nb_cages = 0;
         D_801CEDFC = 1;
     }
 }
-#endif

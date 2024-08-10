@@ -1,20 +1,14 @@
 #include "obj/fee_3D76C.h"
 
 /* 3D76C 80161F6C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/fee_3D76C", INIT_TXT_FEE);
-#else
 /*? INIT_TXT_BOX(u8 *);*/
 /*int strlen(char *s);*/ /* missing from 3.0 psyq .h but present in 3.3? */
 
 void INIT_TXT_FEE(void)
 {
   s16 i;
-  
-  __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 
-  i = 0;
-  while (i < 10)
+  for (i = 0; i < (s16) LEN(text_to_display); i++)
   {
     if (strlen(text_to_display[i].text) != 0)
     {
@@ -29,12 +23,11 @@ void INIT_TXT_FEE(void)
     }
     else
       text_to_display[i].field8_0x3d = 0;
-    i++;
   }
   display_txt_fee = 0xff;
   old_txt_fee = 0xff;
 }
-#endif
+
 
 /* 3D89C 8016209C -O2 -msoft-float */
 void allocate_poing_or_fee(void)

@@ -126,9 +126,6 @@ s16 cosinus(s16 param_1)
 }
 
 /* 224D0 80146CD0 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/collision/bit_util", sinus);
-#else
 s16 sinus(s16 param_1)
 {
     s32 unk_1 = param_1 - (param_1 / 512 * 512);
@@ -144,10 +141,8 @@ s16 sinus(s16 param_1)
     else
         res = -costab[(s16) (unk_2 - 384)];
 
-    __asm__("nop\nnop\nnop\nnop");
     return res;
 }
-#endif
 
 /* 225B8 80146DB8 -O2 -msoft-float */
 s16 sinYspeed(Obj *obj, s32 param_2, s16 param_3, s16 *param_4)

@@ -1,9 +1,6 @@
 #include "obj/bag1.h"
 
 /* 4C2C8 80170AC8 -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/bag1", DO_BAG1_COMMAND);
-#else
 /*? DO_ONE_CMD();
 ? allocateLandingSmoke(Obj *);*/
 
@@ -22,7 +19,4 @@ void DO_BAG1_COMMAND(Obj *obj)
     allocateLandingSmoke(obj);
     obj->y_pos -= 86;
   }
-
-  __asm__("nop");
 }
-#endif

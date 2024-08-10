@@ -8,13 +8,8 @@ void DO_CAGE2(Obj *obj)
 }
 
 /* 3CF18 80161718 -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/cage", DO_CAGE);
-#else
 void DO_CAGE(Obj *obj)
 {
-  __asm__("nop");
-
   if (
     obj->main_etat == 0 &&
     obj->sub_etat == 7 &&
@@ -25,4 +20,3 @@ void DO_CAGE(Obj *obj)
     allocateGrille(obj);
   }
 }
-#endif

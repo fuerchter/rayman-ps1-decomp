@@ -47,17 +47,10 @@ void DO_WIZARD(Obj *obj)
 
 /* TODO: inserting nop caused reg swap */
 /* 374A8 8015BCA8 -O2 */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/bonus_372E0", get_next_bonus_level);
-#else
-INCLUDE_ASM("asm/nonmatchings/bonus_372E0", get_next_bonus_level);
-/*s16 get_next_bonus_level(u8 level)
+s16 get_next_bonus_level(u8 level)
 {
-    s16 res;
-    
-    __asm__("nop");
+    s16 res = 0;
 
-    res = 0;
     switch ((s16)(num_world - 1))
     {
     case 0:
@@ -111,7 +104,6 @@ INCLUDE_ASM("asm/nonmatchings/bonus_372E0", get_next_bonus_level);
     }
 
     return res;
-}*/
-#endif
+}
 
 INCLUDE_ASM("asm/nonmatchings/bonus_372E0", TEST_WIZARD);

@@ -38,9 +38,6 @@ void FUN_801a6a04(u8 param_1)
 }
 
 /* 82268 801A6A68 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap, missing_nop */
-INCLUDE_ASM("asm/nonmatchings/menu/menu_82008", DO_COMMANDE_PAD);
-#else
 /* still pretty gross. repeated sections, position == x check then x used as constant */
 void DO_COMMANDE_PAD(void)
 {
@@ -243,15 +240,9 @@ void DO_COMMANDE_PAD(void)
   }
   else
     button_released = 0;
-
-  __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");  
 }
-#endif
 
 /* 82EE4 801A76E4 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/menu/menu_82008", FUN_801a76e4);
-#else
 void FUN_801a76e4(void)
 {
     s16 i;
@@ -281,7 +272,4 @@ void FUN_801a76e4(void)
         text_to_display[i].field8_0x3d = 0;
         INIT_TXT_BOX(&text_to_display[i].text);
     }
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif

@@ -72,9 +72,6 @@ void allume_vitraux(u8 (*param_1)[5])
 }
 
 /* 13B60 80138360 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80138360);
-#else
 void FUN_80138360(u8 *vit_clig)
 {
     u8 i;
@@ -122,10 +119,7 @@ void FUN_80138360(u8 *vit_clig)
                 D_801C71C0[i]++;
         }
     }
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80138718);
 

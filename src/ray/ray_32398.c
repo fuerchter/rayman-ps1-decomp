@@ -139,26 +139,15 @@ void INIT_RAY(u8 new_level)
 }
 
 /* 32898 80157098 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_32398", is_icy_pente);
-#else
 s16 is_icy_pente(u8 block)
 {
-  u8 res;
-
-  __asm__("nop");
-
-  res = 0;
+  u8 res = false;
   if (block_flags[block] >> BLOCK_SLOPE & 1)
     res = block_flags[block] >> BLOCK_SLIPPERY & 1;
   return res;
 }
-#endif
 
 /* 328D0 801570D0 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/ray/ray_32398", STOPPE_RAY_EN_XY);
-#else
 void STOPPE_RAY_EN_XY(void)
 {
   s16 x;
@@ -206,10 +195,7 @@ void STOPPE_RAY_EN_XY(void)
     Reset_air_speed(true);
     Reset_air_speed(false);
   }
-
-  __asm__("nop\nnop\nnop\nnop");
 }
-#endif
 
 /* 32AF8 801572F8 -O2 -msoft-float */
 /* control flow not great? */

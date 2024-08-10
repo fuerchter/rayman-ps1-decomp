@@ -2,9 +2,6 @@
 
 /* TODO: still lots of unknowns */
 /* 66BE8 8018B3E8 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/boss", setBossReachingSpeeds);
-#else
 void setBossReachingSpeeds(Obj *obj, u8 horloge_ind, u8 unk_x, u8 unk_y)
 {
     s16 diff_x_1;
@@ -56,10 +53,7 @@ void setBossReachingSpeeds(Obj *obj, u8 horloge_ind, u8 unk_x, u8 unk_y)
         obj->speed_x = 0;
         obj->speed_y = 0;
     }
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 66EFC 8018B6FC -O2 -msoft-float */
 s16 testActionEnd(Obj *obj)
@@ -101,22 +95,12 @@ void FUN_8018b78c(s16 *param_1, s16 *horloge_ind, s16 *param_3, s16 *param_4, u8
 }
 
 /* 6703C 8018B83C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/boss", firstFloorBelow);
-#else
-/*u8 PS1_BTYPAbsPos(s32 x, s32 y);*/
-
 s16 firstFloorBelow(Obj *obj)
 {
-  s16 x;
-  s16 y;
-  u8 btyp;
-
-  __asm__("nop");
-
-  x = obj->offset_bx + obj->x_pos;
-  y = obj->offset_by + obj->y_pos;
-  btyp = PS1_BTYPAbsPos(x, y);
+  s16 x = obj->offset_bx + obj->x_pos;
+  s16 y = obj->offset_by + obj->y_pos;
+  u8 btyp = PS1_BTYPAbsPos(x, y);
+  
   while (!(block_flags[btyp] >> BLOCK_SOLID & 1) && (y <= ymapmax + 240))
   {
     y += 16;
@@ -125,4 +109,3 @@ s16 firstFloorBelow(Obj *obj)
   
   return dist_to_bloc_floor(btyp, x & 0xf, 0) + (y & ~0xf);
 }
-#endif

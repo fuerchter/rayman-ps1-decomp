@@ -72,9 +72,6 @@ INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadAllFixSound);
 INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadWorldSound);
 
 /* 416B4 80165EB4 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/sound", PS1_PlaySnd);
-#else
 void PS1_PlaySnd(s16 sep_ind, s16 l_count)
 {
   s16 vol = D_801F7C80 * PS1_SepVols[sep_ind] >> 7;
@@ -82,34 +79,20 @@ void PS1_PlaySnd(s16 sep_ind, s16 l_count)
   SsSepSetVol(PS1_SepInfos[sep_ind].access_num, PS1_SepInfos[sep_ind].seq_num, vol, vol);
   SsSeqCalledTbyT();
   SsSepPlay(PS1_SepInfos[sep_ind].access_num, PS1_SepInfos[sep_ind].seq_num, SSPLAY_PLAY, l_count);
-
-  __asm__("nop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 41778 80165F78 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/sound", PS1_StopPlayingSnd);
-#else
 void PS1_StopPlayingSnd(s16 sep_ind)
 {
   if (sep_ind != 25)
     SsSepStop(PS1_SepInfos[sep_ind].access_num, PS1_SepInfos[sep_ind].seq_num);
-
-  __asm__("nop\nnop");
 }
-#endif
 
 /* 417CC 80165FCC -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/sound", PS1_SongIsPlaying);
-#else
 s32 PS1_SongIsPlaying(s16 sep_ind)
 {
-  __asm__("nop\nnop");
   return SsIsEos(PS1_SepInfos[sep_ind].access_num, PS1_SepInfos[sep_ind].seq_num);
 }
-#endif
 
 /* 41818 80166018 -O2 -msoft-float */
 void FUN_80166018(void)
@@ -155,30 +138,20 @@ void FUN_801660e8(void)
 }
 
 /* 41924 80166124 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/sound", stop_all_snd);
-#else
 void stop_all_snd(void)
 {
   s16 i;
 
-  __asm__("nop");
   SsUtAllKeyOff(0);
   for (i = 0; i < (s16) LEN(voice_is_working); i++)
     voice_is_working[i] = false;
 }
-#endif
 
 /* 4197C 8016617C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_8016617c);
-#else
 void FUN_8016617c(void)
 {
   s16 i;
   s16 unk_1;
-  
-  __asm__("nop");
 
   for (i = 0; i < (s16) LEN(voice_table); i++)
   {
@@ -187,7 +160,6 @@ void FUN_8016617c(void)
       SsUtSetVVol(i, 0, 0);
   }
 }
-#endif
 
 /* 41A0C 8016620C -O2 -msoft-float */
 u8 get_pan_snd(Obj *obj)
@@ -230,14 +202,10 @@ u8 get_vol_snd(Obj *obj)
 }
 
 /* 41B3C 8016633C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/sound", PS1_SetSoundVolume);
-#else
 void PS1_SetSoundVolume(s16 vol)
 {
   SetVolumeSound(vol * 127 / 20);
 }
-#endif
 
 /* 41B9C 8016639C -O2 -msoft-float */
 void PS1_SetStereoEnabled(s16 enabled)
@@ -304,9 +272,6 @@ INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166790);
 INCLUDE_ASM("asm/nonmatchings/sound", get_voice_obj_snd);
 
 /* 42094 80166894 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */ 
-INCLUDE_ASM("asm/nonmatchings/sound", erase_pile_snd);
-#else
 void erase_pile_snd(s16 id)
 {
     s16 pile_obj;
@@ -333,15 +298,9 @@ void erase_pile_snd(s16 id)
         if (pt_pile_snd > 0)
             pt_pile_snd--;
     }
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 422AC 80166AAC -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/sound", nettoie_pile_snd);
-#else
 void nettoie_pile_snd(void)
 {  
   s16 cur;
@@ -373,10 +332,7 @@ void nettoie_pile_snd(void)
     else
       i++;
   }
-
-  __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 42520 80166D20 -O2 -msoft-float */
 void FUN_80166d20(s16 id)
@@ -396,15 +352,10 @@ void FUN_80166d20(s16 id)
 INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166d88);
 
 /* 4261C 80166E1C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/sound", vol_r);
-#else
 s16 vol_r(s16 param_1, s16 param_2)
 {
-  __asm__("nop");
   return param_1 * (u32) snd_sqrt_table[param_2] / 256;
 }
-#endif
 
 /* 42658 80166E58 -O2 -msoft-float */
 s16 vol_l(s16 param_1, s16 param_2)
@@ -416,9 +367,6 @@ INCLUDE_ASM("asm/nonmatchings/sound", PlaySnd);
 
 /* TODO: must be macro/inlining going on, surely? */
 /* 43400 80167C00 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/sound", PlaySnd_old);
-#else
 void PlaySnd_old(s16 snd)
 {
   s16 new_id;
@@ -465,17 +413,11 @@ void PlaySnd_old(s16 snd)
     if (sound_table[snd].flags >> 4 & 1)
       voice_is_working[voice_ind] = true;
   }
-
-  __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/sound", setvol);
 
 /* 445D0 80168DD0 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/sound", setpan);
-#else
 void setpan(s16 obj_id, u8 param_2)
 {
   s16 voice_ind;
@@ -503,10 +445,7 @@ void setpan(s16 obj_id, u8 param_2)
     if (pile_ind != -1)
       pile_snd[pile_ind].field7_0xe = pan;
   }
-
-  __asm__("nop\nnop");
 }
-#endif
 
 void FUN_80168f38(s16 param_1) {}
 
@@ -515,15 +454,10 @@ void FUN_80168f40(void) {}
 INCLUDE_ASM("asm/nonmatchings/sound", FUN_80168f48);
 
 /* 44994 80169194 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_80169194);
-#else
 void FUN_80169194(void)
 {
     s16 i;
     s16 sound_ind;
-    
-    __asm__("nop\nnop");
 
     for (i = 0; i < (s16) LEN(voice_table); i++)
     {
@@ -535,7 +469,6 @@ void FUN_80169194(void)
             SsUtSetVVol(i, 0, 0);
     }
 }
-#endif
 
 /* 44A4C 8016924C -O2 -msoft-float */
 void FUN_8016924c(void)
@@ -563,9 +496,6 @@ void PS1_OnPauseOn(void)
 }
 
 /* 44B50 80169350 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/sound", PS1_OnPauseOff);
-#else
 void PS1_OnPauseOff(void)
 {
   s16 i;
@@ -579,7 +509,4 @@ void PS1_OnPauseOff(void)
     SsSepSetVol(PS1_SepInfos[i].access_num, PS1_SepInfos[i].seq_num, vol, vol);
   }
   D_801CEFD8 = false;
-
-  __asm__("nop\nnop");
 }
-#endif

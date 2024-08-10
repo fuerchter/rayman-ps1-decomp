@@ -36,13 +36,8 @@ void DO_PAC_COMMAND(Obj *obj)
 }
 
 /* 4FEF8 801746F8 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/corde_command", DO_CFUMEE_COMMAND);
-#else
 void DO_CFUMEE_COMMAND(Obj *obj)
 {
-  __asm__("nop");
-
   obj->y_pos = ray.y_pos + -98;
   if (
     obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1 &&
@@ -54,4 +49,3 @@ void DO_CFUMEE_COMMAND(Obj *obj)
     obj->flags &= ~FLG(OBJ_ACTIVE);
   }
 }
-#endif

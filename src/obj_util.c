@@ -31,9 +31,6 @@ void make_my_fruit_go_down(Obj *obj, s16 x_accel)
 }
 
 /* 24494 80148C94 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/obj_util", allocate_toons);
-#else
 void allocate_toons(Obj *src_obj, u8 count)
 {
   Obj *obj;
@@ -93,16 +90,11 @@ void allocate_toons(Obj *src_obj, u8 count)
     }
     obj++;
   }
-
-  __asm__("nop\nnop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj_util", special_flags_init);
 
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj_util", switchOff);
-#else
+/* 24894 80149094 -O2 -msoft-float */
 void switchOff(Obj *obj)
 {
   u8 flag_set;
@@ -122,10 +114,7 @@ void switchOff(Obj *obj)
       obj->y_pos = -32000;
     }
   }
-
-  __asm__("nop");
 }
-#endif
 
 /* 2498C 8014918C -O2 -msoft-float */
 void obj_hurt(Obj *obj)

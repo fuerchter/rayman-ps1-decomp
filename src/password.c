@@ -105,9 +105,6 @@ void FUN_801a2c78(void)
 }
 
 /* 7E540 801A2D40 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/password", FUN_801a2d40);
-#else
 void FUN_801a2d40(void)
 {
     s32 char_ind;
@@ -176,15 +173,9 @@ void FUN_801a2d40(void)
     }
     else
         display_text(s_wrong_password_8012c410, 160, D_801E4E40, 1, 1);
-
-    __asm__("nop\nnop\nnop");
 }
-#endif
 
 /* 7E864 801A3064 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/password", FUN_801a3064);
-#else
 void FUN_801a3064(void)
 {
     s32 char_ind;
@@ -290,10 +281,7 @@ void FUN_801a3064(void)
         button_released = 0;
         D_801F5448 = 0;
     }
-
-    __asm__("nop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 7EC58 801A3458 -O2 -msoft-float */
 s32 PS1_MenuPassword(void)
@@ -345,9 +333,6 @@ void FUN_801a3550(void)
 }
 
 /* 7EDF8 801A35F8 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/password", PS1_GenerateAndDisplayPassword);
-#else
 void PS1_GenerateAndDisplayPassword(void)
 {
     /* TODO: correct sizes? */
@@ -366,10 +351,7 @@ void PS1_GenerateAndDisplayPassword(void)
         pass[20] = '\0';
     sprintf(pass_cen, s_s_801cf110, pass);
     strcpy(text_to_display[0].text, pass_cen);
-
-    __asm__("nop\nnop");
 }
-#endif
 
 /* TODO: bad split? here or menu_7EEE4? */
 /* 7EEB4 801A36B4 -O2 -msoft-float */

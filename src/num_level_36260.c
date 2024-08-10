@@ -13,9 +13,6 @@ void new_level_init(void)
 INCLUDE_ASM("asm/nonmatchings/num_level_36260", fix_numlevel);
 
 /* 36D54 8015B554 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/num_level_36260", TEST_SIGNPOST);
-#else
 void TEST_SIGNPOST(void)
 {
   s32 poing_id;
@@ -115,7 +112,4 @@ void TEST_SIGNPOST(void)
       }
     }
   }
-
-  __asm__("nop\nnop");
 }
-#endif

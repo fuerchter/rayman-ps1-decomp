@@ -1,9 +1,6 @@
 #include "cheats.h"
 
 /* 7ABA0 8019F3A0 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* div_nop_swap, missing_nop */
-INCLUDE_ASM("asm/nonmatchings/cheats", PS1_CheckPauseAndCheatInputs);
-#else
 void PS1_CheckPauseAndCheatInputs(void)
 {
     if (PS1_Ingame && PS1_TOUCHE_0x9(0))
@@ -131,7 +128,4 @@ void PS1_CheckPauseAndCheatInputs(void)
         D_801CEFC8 = 0;
         PS1_MemoryUsageDisplayMode = 0;
     }
-
-    __asm__("nop\nnop");
 }
-#endif

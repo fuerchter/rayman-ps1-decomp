@@ -1,16 +1,16 @@
 #include "obj_init_kill.h"
 
+extern s16 black_fist_obj_id;
+extern s16 fee_obj_id;
+extern s16 mst_scroll_obj_id;
+
 void FUN_80180b04(s32 param_1, u8 param_2);
 s32 vblToEOA(Obj *param_1, u32 factor);
 
 /* 2A07C 8014E87C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj_init_kill", Prio);
-#else
 s32 Prio(Obj *obj)
 {
     s32 res;
-    __asm__("nop");
 
     switch(obj->type)
     {
@@ -131,12 +131,8 @@ s32 Prio(Obj *obj)
 
     return res;
 }
-#endif
 
 /* 2A12C 8014E92C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj_init_kill", first_obj_init);
-#else
 void first_obj_init(Obj *obj)
 {
     ObjType type = obj->type;
@@ -254,10 +250,7 @@ void first_obj_init(Obj *obj)
         obj->field24_0x3e = 0;
         break;
     }
-
-    __asm__("nop\nnop");
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/obj_init_kill", obj_init);
 

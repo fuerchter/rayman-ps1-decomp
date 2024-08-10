@@ -36,9 +36,6 @@ void DO_TOTEM_TOUCHE(Obj *obj, s16 sprite)
 }
 
 /* 57950 8017C150 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_TOTEM_COMMAND);
-#else
 void DO_TOTEM_COMMAND(Obj *tot_obj)
 {
     s16 x; s16 y; s16 w; s16 h;
@@ -198,10 +195,7 @@ void DO_TOTEM_COMMAND(Obj *tot_obj)
             break;
         }
     }
-    
-    __asm__("nop\nnop\nnop");
 }
-#endif
 
 /* 57EC4 8017C6C4 -O2 -msoft-float */
 void DO_TOTBT_REBOND(Obj *obj)
@@ -327,9 +321,6 @@ void allocateDog(Obj *bb1_obj)
 }
 
 /* 58278 8017CA78 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", allocateTir);
-#else
 void allocateTir(Obj *bb1_obj, s16 param_2)
 {
   s32 sprite_ind;
@@ -451,15 +442,9 @@ void allocateTir(Obj *bb1_obj, s16 param_2)
       i++;
     } while (i < nb_objs);
   }
-
-  __asm__("nop");
 }
-#endif
 
 /* 58644 8017CE44 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", CreateFirstBBL);
-#else
 void CreateFirstBBL(void)
 {
   Obj *obj;
@@ -495,10 +480,7 @@ void CreateFirstBBL(void)
       i++;
     } while (nb_objs > i);
   }
-
-  __asm__("nop");
 }
-#endif
 
 /* 58784 8017CF84 -O2 -msoft-float */
 void INIT_BBMONT(Obj *obj)
@@ -526,9 +508,6 @@ void INIT_BBMONT(Obj *obj)
 }
 
 /* 5884C 8017D04C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBL_COMMAND);
-#else
 void DO_BBL_COMMAND(Obj *obj)
 {
     s16 new_spd_x;
@@ -628,10 +607,7 @@ void DO_BBL_COMMAND(Obj *obj)
             break;
         }
     }
-
-    __asm__("nop");
 }
-#endif
 
 /* 58B04 8017D304 -O2 -msoft-float */
 void BBMONT_ECLAIR(Obj *bb1_obj)
@@ -692,9 +668,6 @@ void Cree_BBL(Obj *obj)
 }
 
 /* 58F54 8017D754 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", BB_Attaque);
-#else
 void BB_Attaque(Obj *obj)
 {
   switch(NextAtak)
@@ -733,15 +706,9 @@ void BB_Attaque(Obj *obj)
     set_main_and_sub_etat(obj, 0, 22);
     Phase = 13;
   }
-
-  __asm__("nop");
 }
-#endif
 
 /* 5908C 8017D88C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu, missing_nop */
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", Fin_BB_Attaque);
-#else
 void Fin_BB_Attaque(Obj *obj)
 {
   IndAtak++;
@@ -757,10 +724,7 @@ void Fin_BB_Attaque(Obj *obj)
   }
   WaitForFinAtan = SerieAtakBB[IndSerie][IndAtak].wait_for_fin_atan;
   BB_Attaque(obj);
-
-  __asm__("nop\nnop\nnop\nnop");
 }
-#endif
 
 /* 59198 8017D998 -O2 -msoft-float */
 void BB_Atan(Obj *obj)
@@ -872,9 +836,6 @@ void DO_BBMONT2_ATTER(Obj *obj)
 }
 
 /* 5B568 8017FD68 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT3_COMMAND);
-#else 
 /*? CALC_MOV_ON_BLOC(Obj *);
 ? SET_X_SPEED(Obj *);
 ? set_main_and_sub_etat(Obj *, ?, ?);
@@ -883,7 +844,7 @@ extern s32 D_801F4438;*/
 void DO_BBMONT3_COMMAND(Obj *obj)
 {
     u8 eight;
-    __asm__("nop\nnop\nnop");
+
     if (
       obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1) &&
       horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
@@ -974,7 +935,6 @@ void DO_BBMONT3_COMMAND(Obj *obj)
         break;
     }
 }
-#endif
 
 /* 5B8C0 801800C0 -O2 -msoft-float */
 /*? CALC_MOV_ON_BLOC();
@@ -1008,15 +968,10 @@ void DO_BBMONT3_ATTER(Obj *obj)
 }
 
 /* 5B984 80180184 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT4_COMMAND);
-#else
 /*? set_sub_etat(Obj *, ?);*/
 
 void DO_BBMONT4_COMMAND(Obj *obj)
 {
-    __asm__("nop\nnop");
-
     obj->flags |= FLG(OBJ_FLIP_X);
     if (
       obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1) &&
@@ -1038,4 +993,3 @@ void DO_BBMONT4_COMMAND(Obj *obj)
             set_sub_etat(obj, 7);
     }
 }
-#endif

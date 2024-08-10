@@ -58,14 +58,10 @@ s16 FUN_8015666c(Obj *obj)
 }
 
 /* 31F10 80156710 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/gendoor", FUN_80156710);
-#else
 s16 FUN_80156710(Obj *obj)
 {
     s16 type = obj->type;
 
-    __asm__("nop");
     if (
         flags[type].flags0 & FLG(OBJ0_ALWAYS) ||
         type == TYPE_POWERUP ||
@@ -82,9 +78,9 @@ s16 FUN_80156710(Obj *obj)
         type == TYPE_BOUEE_JOE
     )
         return true;
+    
     return false;
 }
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/gendoor", correct_gendoor_link);
 

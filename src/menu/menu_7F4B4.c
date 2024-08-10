@@ -69,9 +69,6 @@ void PS1_TextBoxCardOrPassword(void)
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_InputCardOrPassword);
 
 /* 7FAE8 801A42E8 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_DisplayCardOrPassword);
-#else
 void PS1_DisplayCardOrPassword(void)
 {
     if (compteur < max_compteur)
@@ -106,10 +103,7 @@ void PS1_DisplayCardOrPassword(void)
     }
     display_text(s_x__validate_8012c4bc, 160, 208, 2, 10);
     display_text(s_select__return_8012c4cc, 160, 223, 2, 10);
-
-    __asm__("nop");
 }
-#endif
 
 /* 7FC58 801A4458 -O2 */
 u8 PS1_MenuCardOrPassword(void)
@@ -143,15 +137,11 @@ void PS1_InitCardOrPassword(void)
 }
 
 /* 7FD3C 801A453C -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", saisie_nom_prg);
-#else
 s32 saisie_nom_prg(void)
 {
   u8 done; /* fine as u8 or s16? */
 
   readinput();
-  __asm__("nop");
   SAISIE_NOM();
   readinput();
   AFFICHE_ECRAN_SAVE();
@@ -171,7 +161,6 @@ s32 saisie_nom_prg(void)
   }
   return done;
 }
-#endif
 
 /* 7FE30 801A4630 -O2 -msoft-float */
 s32 selection_save_option_prg(void)
@@ -438,9 +427,6 @@ void SELECTION_SAVE_OPTION(void)
 }
 
 /* 81794 801A5F94 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* div_nop_swap */
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", INIT_AFFICHE_ECRAN_SAVE);
-#else
 void INIT_AFFICHE_ECRAN_SAVE(void)
 {
     u8 fix_stack[8];
@@ -452,15 +438,9 @@ void INIT_AFFICHE_ECRAN_SAVE(void)
     debut_sortie = 167;
     ecarty = y;
     debut_options = y + 59;
-
-    __asm__("nop");
 }
-#endif
 
 /* 81834 801A6034 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu, div_nop_swap, missing_nop */
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", SAISIE_NOM);
-#else
 void SAISIE_NOM(void)
 {
     u8 *cur_save_1;
@@ -560,15 +540,9 @@ void SAISIE_NOM(void)
     }
     if (SelectButPressed() && button_released != 0)
         MENU_RETURN = true;
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
 
 /* 81C84 801A6484 -O2 -msoft-float */
-#ifndef NONMATCHINGS /* missing_addiu */
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", REALISATION_ACTION);
-#else
 void REALISATION_ACTION(void)
 {
     u8 should_load = false;
@@ -628,7 +602,4 @@ void REALISATION_ACTION(void)
         }
         break;
     }
-
-    __asm__("nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop");
 }
-#endif
