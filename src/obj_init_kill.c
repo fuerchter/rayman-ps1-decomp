@@ -3,6 +3,8 @@
 extern s16 black_fist_obj_id;
 extern s16 fee_obj_id;
 extern s16 mst_scroll_obj_id;
+extern u8 first_boss_meet;
+extern s16 zonediffy[256];
 
 void FUN_80180b04(s32 param_1, u8 param_2);
 s32 vblToEOA(Obj *param_1, u32 factor);
@@ -334,6 +336,13 @@ void make_active(Obj *obj, u8 do_nova)
 
 INCLUDE_ASM("asm/nonmatchings/obj_init_kill", in_action_zone);
 
-INCLUDE_ASM("asm/nonmatchings/obj_init_kill", kill_obj);
+/* 2BE38 80150638 -O2 -msoft-float */
+void kill_obj(Obj *obj)
+{
+    obj->x_pos = -32000;
+    obj->y_pos = -32000;
+    obj->active_flag = 1;
+    obj->flags &= ~FLG(OBJ_ALIVE);
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj_init_kill", SET_ACTIVE_FLAG);

@@ -904,3 +904,135 @@ void INIT_OBJECTS(u8 newLevel)
     }
 }
 const u8 rodata_INIT_OBJECTS[4] = {};
+
+/*INCLUDE_ASM("asm/nonmatchings/obj_init_kill", in_action_zone);*/
+
+u8 in_action_zone(s16 x, s16 y, Obj *obj, u8 param_4)
+{
+    Obj *temp_v1_2;
+    s16 temp_v1_3;
+    s16 temp_v1_4;
+    s32 var_s0;
+    s32 var_v0;
+    s16 var_v0_2;
+    s32 var_v1;
+    u16 var_s3;
+    u16 var_s4;
+    u8 temp_v1;
+    u8 var_s6;
+    ObjType new_var;
+
+    var_s0 = 0;
+    var_s4 = (u16) zonediffx[ot];
+    var_s3 = (u16) zonediffy[ot];
+    temp_v1 = flags[ot].flags0;
+    var_s6 = obj->offset_bx;
+    if ((temp_v1 >> 4) & 1)
+    {
+        if ((((temp_v1 >> 7) == 0) || (IsBossThere == 0)))
+        {
+            switch (new_var = ot)
+            {
+            case 0x5E:
+            case 0x99:
+            case 0xD7:
+            case 0xBE:
+            case 0x78:
+            case 0x8F:
+                var_s0 = 1;
+                break;
+            case 0x0a:
+            case 0x61:
+                var_v0_2 = x + 0x11B;
+                if ((var_v0_2) < 0x2D7U)
+                {
+                    var_s0 = 1;
+                }
+                break;
+            case 0xDC:
+                if (((y + (s16) var_s3) >= -0x31) && (((x + 0x11B) & 0xFFFF) < 0x30FU))
+                {
+                    temp_v1_2 = &level.objects[pierreAcorde_obj_id];
+                    if (temp_v1_2->hit_points == 0)
+                    {
+                        temp_v1_2->hit_points = 0x0A;
+                        set_main_and_sub_etat(&level.objects[pierreAcorde_obj_id], 2U, 4U);
+                    }
+                }
+                break;
+            case 0xDB:
+                if (level.objects[pierreAcorde_obj_id].hit_points != 0)
+                {
+                    var_s0 = 1;
+                }
+                break;
+            case 0x9D:
+                if (((x + 0x11B) & 0xFFFF) < 0x30FU)
+                {
+                    var_s0 = 1;
+                }
+                break;
+            case 0x7a:
+                if ((((x + 0x11B) & 0xFFFF) < 0x2D7U) && (((y + 0x63) & 0xFFFF) < 0x15DU))
+                {
+                    var_s0 = 1;
+                }
+                break;
+            case 0xF4:
+            case 0xC0:
+                var_s6 = 0x80;
+                break;
+            default: /* maybe? */
+                if ((((u16) obj->y_pos - 0x32) >= 0x141U) || (var_s0 = 1, (IsBossThere == 0)))
+                {
+                    var_s0 = 2;
+                    if (ray.field20_0x36 == obj->id)
+                    {
+                        ray.field20_0x36 = -1;
+                        obj->ray_dist = 0x03E8;
+                        set_main_and_sub_etat(&ray, 2U, 2U);
+                    }
+                }
+            }
+        }
+    }
+    var_v1 = var_s0;
+    if (var_s0 == 0)
+    {
+        var_s0 = 1;
+        if (param_4 & 0xFF)
+        {
+            var_s4 += 0x3C;
+            var_s3 += 0x3C;
+        }
+        if (
+            (x < (-0x11C - (s16) var_s4)) || (((s16) var_s4 + 0x1BC) < x) ||
+            (y < (-0x90 - (s16) var_s3)) || (((s16) var_s3 + 0x130) < y) ||
+            (temp_v1_3 = obj->y_pos, (((temp_v1_3 + obj->offset_by) < -0x1E) != 0)) ||
+            (((mp.height * 0x10) + 0x1E) < temp_v1_3) ||
+            (temp_v1_4 = obj->x_pos, ((temp_v1_4 + (var_s6 * 2)) < 0)) ||
+            (var_v1 = 1, (((mp.width * 0x10) < temp_v1_4) != 0))
+        )
+        {
+            var_s0 = 0;
+            var_v1 = 0;
+        }
+    }
+    
+    if (var_v1 == 1)
+    {
+        if (((u8) flags[ot].flags0 >> 7) != 0)
+        {
+            IsBossThere = 1;
+            if (
+                (first_boss_meet == 0 && obj->hit_points != 0 && scrollLocked != 0) ||
+                (first_boss_meet != 0 && obj->hit_points == 0)
+            )
+            {
+                Change_Wait_Anim();
+            }
+        }
+    }
+    var_v0 = var_s0 ^ 1;
+    return var_v0 == 0;
+}
