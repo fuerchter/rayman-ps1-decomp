@@ -5,6 +5,10 @@ extern s16 D_801E4C08;
 extern s16 joy_rec_left;
 extern s16 joy_rec_right;
 extern s16 joy_rec_down;
+extern s16 D_801F8428;
+extern s16 D_801F8438;
+extern s16 D_801F8448;
+extern s16 D_801F8430;
 
 /* ED20 80133520 -O2 -msoft-float */
 s32 readinput(void)
@@ -116,13 +120,73 @@ s32 FUN_801337b4(void)
         return false;
 }
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", but0pressed);
+/* F004 80133804 -O2 -msoft-float */
+s32 but0pressed(void)
+{
+    s16 res;
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", but1pressed);
+    if (!PS1_DisableInputs)
+    {
+        if (record.is_playing)
+            res = (u16) D_801F8428;
+        else
+            res = TOUCHE(INPUT_SQUARE);
+        return res;
+    }
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", but2pressed);
+/* F064 80133864 -O2 -msoft-float */
+s32 but1pressed(void)
+{
+    s16 res;
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", but3pressed);
+    if (!PS1_DisableInputs)
+    {
+        if (record.is_playing)
+            res = (u16) D_801F8438;
+        else
+            res = TOUCHE(INPUT_CROSS);
+        return res;
+    }
+    else
+        return false;
+}
+
+/* F0C4 801338C4 -O2 -msoft-float */
+s32 but2pressed(void)
+{
+    s16 res;
+
+    if (!PS1_DisableInputs)
+    {
+        if (record.is_playing)
+            res = (u16) D_801F8448;
+        else
+            res = TOUCHE(INPUT_TRIANGLE);
+        return res;
+    }
+    else
+        return false;
+}
+
+/* F124 80133924 -O2 -msoft-float */
+s32 but3pressed(void)
+{
+    s16 res;
+
+    if (!PS1_DisableInputs)
+    {
+        if (record.is_playing)
+            res = (u16) D_801F8430;
+        else
+            res = TOUCHE(INPUT_CIRCLE);
+        return res;
+    }
+    else
+        return false;
+}
 
 INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133984);
 
