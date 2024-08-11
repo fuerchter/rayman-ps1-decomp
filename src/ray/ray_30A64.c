@@ -1,8 +1,5 @@
 #include "ray/ray_30A64.h"
 
-extern s16 special_ray_mov_win_x_left;
-extern s16 special_ray_mov_win_x_right;
-
 /* 30A64 80155264 -O2 -msoft-float */
 s16 RayCoince(s16 dir)
 {

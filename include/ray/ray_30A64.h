@@ -21,6 +21,8 @@ extern StatusBar status_bar;
 extern s16 sbar_obj_id;
 extern u8 nb_wiz;
 extern u8 nb_wiz_collected;
+extern s16 special_ray_mov_win_x_left; /* TODO: goes in this file? */
+extern s16 special_ray_mov_win_x_right;
 
 s16 RayCoince(s16 dir);
 void move_up_ray(void);
