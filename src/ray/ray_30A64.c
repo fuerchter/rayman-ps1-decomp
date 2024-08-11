@@ -247,9 +247,54 @@ void RecaleRayPosInJumelle(void)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", RAY_TO_THE_RIGHT);
+/* 31690 80155E90 -O2 -msoft-float */
+void RAY_TO_THE_RIGHT(void)
+{
+    s16 max_x;
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", RAY_TO_THE_LEFT);
+    if (ray_mode == MODE_RAY_ON_MS && RayCoince(1))
+    {
+        ray.speed_x = 0;
+        decalage_en_cours = 0;
+    }
+    ray.x_pos += ray.speed_x;
+    max_x = xmap - ray.offset_bx + 300;
+    if (ray.x_pos > max_x)
+    {
+        ray.x_pos = max_x;
+        ray.speed_x = 0;
+        decalage_en_cours = 0;
+        if (ray.main_etat != 2)
+            ray.speed_y = 0;
+    }
+    calc_obj_pos(&ray);
+}
+
+/* 3176C 80155F6C -O2 -msoft-float */
+void RAY_TO_THE_LEFT(void)
+{
+    s32 unk_x;
+    s16 min_x;
+
+    if (ray_mode == MODE_RAY_ON_MS && RayCoince(0))
+    {
+        ray.speed_x = 0;
+        decalage_en_cours = 0;
+    }
+    ray.x_pos += ray.speed_x;
+    if (scroll_x == -1)
+    {
+        unk_x = ray.offset_bx - 20;
+        min_x = xmap - unk_x;
+        if (ray.x_pos < min_x)
+        {
+            ray.x_pos = min_x;
+            decalage_en_cours = 0;
+            if (ray.main_etat != 2)
+                ray.speed_y = 0;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", FUN_80156040);
 
