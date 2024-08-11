@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "common/display.h"
-#include "demo_9FD4.h"
+#include "common/record.h"
 #include "cheats.h"
 #include "draw.h"
 #include "input_ED20.h"

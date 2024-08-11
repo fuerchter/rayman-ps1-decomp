@@ -2,7 +2,7 @@
 #define INPUT_ED20_H
 
 #include "common.h"
-#include "demo_9FD4.h"
+#include "common/record.h"
 
 typedef u32 Input;
 #define INPUT_NONE 0
@@ -115,7 +115,7 @@ s32 FUN_801345c8(void);
 s32 SelectButPressed(void);
 void FUN_80134610(u32 param_1);
 u8 FUN_8013491c(void);
-/*void PS1_DoDemo(Record *record);*/
+void PS1_DoDemo(Record *record);
 void FUN_80134be0(void);
 s32 TOUCHE(Input param_1);
 s32 PS1_SingleTOUCHE(Input param_1);
