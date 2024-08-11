@@ -17,7 +17,7 @@ s32 readinput(void)
 }
 
 /* ED44 80133544 -O2 -msoft-float */
-s32 upjoy(void)
+s32 upjoy(s32 param_1)
 {
     s16 res;
 
@@ -34,7 +34,7 @@ s32 upjoy(void)
 }
 
 /* EDA4 801335A4 -O2 -msoft-float */
-s32 leftjoy(void)
+s32 leftjoy(s32 param_1)
 {
     s16 res;
 
@@ -51,7 +51,7 @@ s32 leftjoy(void)
 }
 
 /* EE04 80133604 -O2 -msoft-float */
-s32 rightjoy(void)
+s32 rightjoy(s32 param_1)
 {
     s16 res;
 
@@ -68,7 +68,7 @@ s32 rightjoy(void)
 }
 
 /* EE64 80133664 -O2 -msoft-float */
-s32 downjoy(void)
+s32 downjoy(s32 param_1)
 {
     s16 res;
 
@@ -85,7 +85,7 @@ s32 downjoy(void)
 }
 
 /* EEC4 801336C4 -O2 -msoft-float */
-s32 FUN_801336c4(void)
+s32 FUN_801336c4(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) PS1_SingleTOUCHE(INPUT_UP);
@@ -94,7 +94,7 @@ s32 FUN_801336c4(void)
 }
 
 /* EF14 80133714 -O2 -msoft-float */
-s32 FUN_80133714(void)
+s32 FUN_80133714(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) PS1_SingleTOUCHE(INPUT_LEFT);
@@ -103,7 +103,7 @@ s32 FUN_80133714(void)
 }
 
 /* EF64 80133764 -O2 -msoft-float */
-s32 FUN_80133764(void)
+s32 FUN_80133764(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) PS1_SingleTOUCHE(INPUT_RIGHT);
@@ -112,7 +112,7 @@ s32 FUN_80133764(void)
 }
 
 /* EFB4 801337B4 -O2 -msoft-float */
-s32 FUN_801337b4(void)
+s32 FUN_801337b4(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) PS1_SingleTOUCHE(INPUT_DOWN);
@@ -121,7 +121,7 @@ s32 FUN_801337b4(void)
 }
 
 /* F004 80133804 -O2 -msoft-float */
-s32 but0pressed(void)
+s32 but0pressed(s32 param_1)
 {
     s16 res;
 
@@ -138,7 +138,7 @@ s32 but0pressed(void)
 }
 
 /* F064 80133864 -O2 -msoft-float */
-s32 but1pressed(void)
+s32 but1pressed(s32 param_1)
 {
     s16 res;
 
@@ -155,7 +155,7 @@ s32 but1pressed(void)
 }
 
 /* F0C4 801338C4 -O2 -msoft-float */
-s32 but2pressed(void)
+s32 but2pressed(s32 param_1)
 {
     s16 res;
 
@@ -172,7 +172,7 @@ s32 but2pressed(void)
 }
 
 /* F124 80133924 -O2 -msoft-float */
-s32 but3pressed(void)
+s32 but3pressed(s32 param_1)
 {
     s16 res;
 
@@ -189,7 +189,7 @@ s32 but3pressed(void)
 }
 
 /* F184 80133984 -O2 -msoft-float */
-s32 FUN_80133984(void)
+s32 FUN_80133984(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return TOUCHE(INPUT_L1) || TOUCHE(INPUT_L2);
@@ -198,7 +198,7 @@ s32 FUN_80133984(void)
 }
 
 /* F1F4 801339F4 -O2 -msoft-float */
-s32 FUN_801339f4(void)
+s32 FUN_801339f4(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return TOUCHE(INPUT_R1) || TOUCHE(INPUT_R2);
@@ -207,7 +207,7 @@ s32 FUN_801339f4(void)
 }
 
 /* F264 80133A64 -O2 -msoft-float */
-u8 PS1_IsInputtingCheatCode(void)
+u8 PS1_IsInputtingCheatCode(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return TOUCHE(INPUT_R1) && TOUCHE(INPUT_R2);
@@ -217,7 +217,7 @@ u8 PS1_IsInputtingCheatCode(void)
 
 /* could also write this with ternary op instead */
 /* F2CC 80133ACC -O2 -msoft-float */
-s32 FUN_80133acc(void)
+s32 FUN_80133acc(s32 param_1)
 {
     if (PS1_DisableInputs)
         return false;
@@ -226,7 +226,7 @@ s32 FUN_80133acc(void)
 }
 
 /* F308 80133B08 -O2 -msoft-float */
-s32 FUN_80133b08(void)
+s32 FUN_80133b08(s32 param_1)
 {
     if (PS1_DisableInputs)
         return false;
@@ -235,7 +235,7 @@ s32 FUN_80133b08(void)
 }
 
 /* F344 80133B44 -O2 -msoft-float */
-s32 FUN_80133b44(void)
+s32 FUN_80133b44(s32 param_1)
 {
     if (PS1_DisableInputs)
         return false;
@@ -244,7 +244,7 @@ s32 FUN_80133b44(void)
 }
 
 /* F380 80133B80 -O2 -msoft-float */
-s32 FUN_80133b80(void)
+s32 FUN_80133b80(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_L1);
@@ -253,7 +253,7 @@ s32 FUN_80133b80(void)
 }
 
 /* F3D0 80133BD0 -O2 -msoft-float */
-s32 FUN_80133bd0(void)
+s32 FUN_80133bd0(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_L2);
@@ -262,7 +262,7 @@ s32 FUN_80133bd0(void)
 }
 
 /* F420 80133C20 -O2 -msoft-float */
-s32 FUN_80133c20(void)
+s32 FUN_80133c20(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_R1);
@@ -271,7 +271,7 @@ s32 FUN_80133c20(void)
 }
 
 /* F470 80133C70 -O2 -msoft-float */
-s32 FUN_80133c70(void)
+s32 FUN_80133c70(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_R2);
@@ -280,7 +280,7 @@ s32 FUN_80133c70(void)
 }
 
 /* F4C0 80133CC0 -O2 -msoft-float */
-s32 FUN_80133cc0(void)
+s32 FUN_80133cc0(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) PS1_SingleTOUCHE(INPUT_L1);
@@ -289,7 +289,7 @@ s32 FUN_80133cc0(void)
 }
 
 /* F510 80133D10 -O2 -msoft-float */
-s32 FUN_80133d10(void)
+s32 FUN_80133d10(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) PS1_SingleTOUCHE(INPUT_L2);
@@ -298,7 +298,7 @@ s32 FUN_80133d10(void)
 }
 
 /* F560 80133D60 -O2 -msoft-float */
-s32 FUN_80133d60(void)
+s32 FUN_80133d60(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) PS1_SingleTOUCHE(INPUT_R1);
@@ -307,7 +307,7 @@ s32 FUN_80133d60(void)
 }
 
 /* F5B0 80133DB0 -O2 -msoft-float */
-s32 FUN_80133db0(void)
+s32 FUN_80133db0(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) PS1_SingleTOUCHE(INPUT_R2);
@@ -316,7 +316,7 @@ s32 FUN_80133db0(void)
 }
 
 /* F600 80133E00 -O2 -msoft-float */
-s32 FUN_80133e00(void)
+s32 FUN_80133e00(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) PS1_SingleTOUCHE(INPUT_SQUARE);
@@ -325,7 +325,7 @@ s32 FUN_80133e00(void)
 }
 
 /* F650 80133E50 -O2 -msoft-float */
-s32 FUN_80133e50(void)
+s32 FUN_80133e50(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) PS1_SingleTOUCHE(INPUT_CROSS);
@@ -334,7 +334,7 @@ s32 FUN_80133e50(void)
 }
 
 /* F6A0 80133EA0 -O2 -msoft-float */
-s32 FUN_80133ea0(void)
+s32 FUN_80133ea0(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) PS1_SingleTOUCHE(INPUT_TRIANGLE);
@@ -343,7 +343,7 @@ s32 FUN_80133ea0(void)
 }
 
 /* F6F0 80133EF0 -O2 -msoft-float */
-s32 FUN_80133ef0(void)
+s32 FUN_80133ef0(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) PS1_SingleTOUCHE(INPUT_CIRCLE);
@@ -351,23 +351,91 @@ s32 FUN_80133ef0(void)
         return false;
 }
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_TOUCHE_0x9);
+/* F740 80133F40 -O2 -msoft-float */
+s32 PS1_TOUCHE_0x9(s32 param_1)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_START);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133f90);
+/* F790 80133F90 -O2 -msoft-float */
+s32 FUN_80133f90(s32 param_1)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_SELECT);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133fe0);
+/* F7E0 80133FE0 -O2 -msoft-float */
+s32 FUN_80133fe0(s32 param_1)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) TOUCHE(INPUT_NONE);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_TOUCHE_0xA);
+/* F830 80134030 -O2 -msoft-float */
+s32 PS1_TOUCHE_0xA(s32 param_1)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_SELECT);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80134080);
+/*INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80134080);*/
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_TOUCHE_0xE);
+s32 FUN_80134080(s32 param_1)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_L1);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_TOUCHE_0xC);
+/*INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_TOUCHE_0xE);*/
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_TOUCHE_0xB);
+s32 PS1_TOUCHE_0xE(s32 param_1)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_L2);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_TOUCHE_0xF);
+/*INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_TOUCHE_0xC);*/
+
+s32 PS1_TOUCHE_0xC(s32 param_1)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_R2);
+    else
+        return false;
+}
+
+/*INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_TOUCHE_0xB);*/
+
+s32 PS1_TOUCHE_0xB(s32 param_1)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_R1);
+    else
+        return false;
+}
+
+/*INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_TOUCHE_0xF);*/
+
+s32 PS1_TOUCHE_0xF(s32 param_1)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) TOUCHE(INPUT_DISABLE_DEBUG);
+    else
+        return false;
+}
 
 INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_TOUCHE_0x12);
 

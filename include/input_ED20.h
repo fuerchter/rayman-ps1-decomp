@@ -20,8 +20,8 @@ typedef u32 Input;
 #define INPUT_R2 12
 #define INPUT_L1 13
 #define INPUT_L2 14
-#define INPUT_DISABLE_DEBUG 15 // unused
-#define INPUT_ENABLE_DEBUG 16 // unused
+#define INPUT_DISABLE_DEBUG 15 /* unused */
+#define INPUT_ENABLE_DEBUG 16 /* unused */
 #define INPUT_START_SELECT 17
 #define INPUT_UNUSED_12 18
 #define INPUT_13 19
@@ -59,63 +59,63 @@ extern s32 PS1_GlobalTimer;
 extern u8 PS1_PadRecieveBuffer[34];
 
 s32 readinput(void);
-s32 upjoy(void);
-s32 leftjoy(void);
-s32 rightjoy(void);
-s32 downjoy(void);
-s32 FUN_801336c4(void);
-s32 FUN_80133714(void);
-s32 FUN_80133764(void);
-s32 FUN_801337b4(void);
-s32 but0pressed(void);
-s32 but1pressed(void);
-s32 but2pressed(void);
-s32 but3pressed(void);
-s32 FUN_80133984(void);
-s32 FUN_801339f4(void);
-u8 PS1_IsInputtingCheatCode(void);
-s32 FUN_80133acc(void);
-s32 FUN_80133b08(void);
-s32 FUN_80133b44(void);
-s32 FUN_80133b80(void);
-s32 FUN_80133bd0(void);
-s32 FUN_80133c20(void);
-s32 FUN_80133c70(void);
-s32 FUN_80133cc0(void);
-s32 FUN_80133d10(void);
-s32 FUN_80133d60(void);
-s32 FUN_80133db0(void);
-s32 FUN_80133e00(void);
-s32 FUN_80133e50(void);
-s32 FUN_80133ea0(void);
-s32 FUN_80133ef0(void);
-s32 PS1_TOUCHE_0x9(void);
-s32 FUN_80133f90(void);
-s32 FUN_80133fe0(void);
-s32 PS1_TOUCHE_0xA(void);
-s32 FUN_80134080(void);
-s32 PS1_TOUCHE_0xE(void);
-s32 PS1_TOUCHE_0xC(void);
-s32 PS1_TOUCHE_0xB(void);
-s32 PS1_TOUCHE_0xF(void);
-s32 PS1_TOUCHE_0x12(void);
-s32 PS1_TOUCHE_0x13(void);
-s32 PS1_TOUCHE_0x14(void);
-s32 PS1_TOUCHE_0x15(void);
-s32 PS1_TOUCHE_0x16(void);
-s32 PS1_TOUCHE_0x17(void);
-s32 PS1_TOUCHE_0x18(void);
-s32 FUN_80134440(void);
-s32 FUN_80134490(void);
-s32 PS1_TOUCHE_0x10(void);
-s32 FUN_80134530(void);
+s32 upjoy(s32 param_1);
+s32 leftjoy(s32 param_1);
+s32 rightjoy(s32 param_1);
+s32 downjoy(s32 param_1);
+s32 FUN_801336c4(s32 param_1);
+s32 FUN_80133714(s32 param_1);
+s32 FUN_80133764(s32 param_1);
+s32 FUN_801337b4(s32 param_1);
+s32 but0pressed(s32 param_1);
+s32 but1pressed(s32 param_1);
+s32 but2pressed(s32 param_1);
+s32 but3pressed(s32 param_1);
+s32 FUN_80133984(s32 param_1);
+s32 FUN_801339f4(s32 param_1);
+u8 PS1_IsInputtingCheatCode(s32 param_1);
+s32 FUN_80133acc(s32 param_1);
+s32 FUN_80133b08(s32 param_1);
+s32 FUN_80133b44(s32 param_1);
+s32 FUN_80133b80(s32 param_1);
+s32 FUN_80133bd0(s32 param_1);
+s32 FUN_80133c20(s32 param_1);
+s32 FUN_80133c70(s32 param_1);
+s32 FUN_80133cc0(s32 param_1);
+s32 FUN_80133d10(s32 param_1);
+s32 FUN_80133d60(s32 param_1);
+s32 FUN_80133db0(s32 param_1);
+s32 FUN_80133e00(s32 param_1);
+s32 FUN_80133e50(s32 param_1);
+s32 FUN_80133ea0(s32 param_1);
+s32 FUN_80133ef0(s32 param_1);
+s32 PS1_TOUCHE_0x9(s32 param_1);
+s32 FUN_80133f90(s32 param_1);
+s32 FUN_80133fe0(s32 param_1);
+s32 PS1_TOUCHE_0xA(s32 param_1);
+s32 FUN_80134080(s32 param_1);
+s32 PS1_TOUCHE_0xE(s32 param_1);
+s32 PS1_TOUCHE_0xC(s32 param_1);
+s32 PS1_TOUCHE_0xB(s32 param_1);
+s32 PS1_TOUCHE_0xF(s32 param_1);
+s32 PS1_TOUCHE_0x12(s32 param_1);
+s32 PS1_TOUCHE_0x13(s32 param_1);
+s32 PS1_TOUCHE_0x14(s32 param_1);
+s32 PS1_TOUCHE_0x15(s32 param_1);
+s32 PS1_TOUCHE_0x16(s32 param_1);
+s32 PS1_TOUCHE_0x17(s32 param_1);
+s32 PS1_TOUCHE_0x18(s32 param_1);
+s32 FUN_80134440(s32 param_1);
+s32 FUN_80134490(s32 param_1);
+s32 PS1_TOUCHE_0x10(s32 param_1);
+s32 FUN_80134530(s32 param_1);
 s32 ValidButPressed(void);
 s32 StartButPressed(void);
 s32 FUN_801345c8(void);
 s32 SelectButPressed(void);
 void FUN_80134610(u32 param_1);
 u8 FUN_8013491c(void);
-void PS1_DoDemo(Record *record);
+/*void PS1_DoDemo(Record *record);*/
 void FUN_80134be0(void);
 s32 TOUCHE(Input param_1);
 s32 PS1_SingleTOUCHE(Input param_1);
