@@ -374,7 +374,7 @@ void RAY_HELICO(void)
             sel_eta->anim_speed = sel_eta->anim_speed & 0xF | 0x30;
             sel_eta = &eta[2][15];
             sel_eta->anim_speed = sel_eta->anim_speed & 0xF | 0x20;
-            ray_Suphelico_bis = 0;
+            ray_Suphelico_bis = false;
             helico_time = -1;
             ray.field24_0x3e = -1;
             ray.timer = 0;
@@ -416,7 +416,7 @@ void RAY_HELICO(void)
             if (ray.sub_etat == 15 && helico_time != 0)
             {
                 ray.gravity_value_1 = 0;
-                ray_Suphelico_bis = 1;
+                ray_Suphelico_bis = true;
                 button_released = 2;
                 sel_eta = &eta[ray.main_etat][ray.sub_etat];
                 sel_eta->anim_speed = sel_eta->anim_speed & 0xF | 0xA0;

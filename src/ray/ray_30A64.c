@@ -1,5 +1,8 @@
 #include "ray/ray_30A64.h"
 
+extern s16 special_ray_mov_win_x_left;
+extern s16 special_ray_mov_win_x_right;
+
 /* 30A64 80155264 -O2 -msoft-float */
 s16 RayCoince(s16 dir)
 {
@@ -93,7 +96,156 @@ void move_down_ray(void)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", RecaleRayPosInJumelle);
+/* 3103C 8015583C -O2 -msoft-float */
+void RecaleRayPosInJumelle(void)
+{
+    s16 unk_y_1; s16 unk_y_2;
+    s32 v_scr_temp;
+    s32 spd_y_abs_1; s16 spd_y_abs_2;
+    s16 unk_x_1; s16 unk_x_2; s16 unk_x_3;
+    Obj *other_obj;
+
+    if (!(ray.main_etat == 3 && ray.sub_etat == 23))
+    {
+        if (scroll_y == -1)
+        {
+            unk_y_1 = ((ray_zdc_h >> 1) - ray.offset_by) + 136;
+            if (
+                !(ray.main_etat == 2 && !(ray.sub_etat == 15 && ray_Suphelico_bis)) &&
+                screen_trembling == 0
+            )
+            {
+                if (v_scroll_speed != 0x00FF || decalage_en_cours != 0)
+                {
+                    unk_y_2 = ray.screen_y_pos - unk_y_1;
+                    v_scr_temp =
+                    v_scroll_speed =
+                        ashr16(unk_y_2, 2);
+                    spd_y_abs_1 = __builtin_abs(ray.speed_y);
+                    if (__builtin_abs(v_scr_temp) >= spd_y_abs_1)
+                    {
+                        MAX_2(spd_y_abs_1, 3);
+                        spd_y_abs_2 = spd_y_abs_1;
+                        if (v_scr_temp > 0)
+                        {
+                            MIN_2(v_scroll_speed, (s16) spd_y_abs_1);
+                        }
+                        else if (v_scr_temp < 0)
+                        {
+                            MAX_2(v_scr_temp, -spd_y_abs_2);
+                            v_scroll_speed = v_scr_temp;
+                        }
+                        else
+                        {
+                            if (unk_y_2 > 0)
+                                v_scroll_speed = 1;
+                            else if (unk_y_2 < 0)
+                                v_scroll_speed = -1;
+                        }
+                    }
+                }
+                else if (ray.main_etat != 1)
+                {
+                    if (ray.screen_y_pos < unk_y_1 + 48)
+                        v_scroll_speed = -4;
+                    else
+                        v_scroll_speed = 0;
+                }
+            }
+            else
+            {
+                if (
+                    (
+                        ymap != scroll_end_y &&
+                        (unk_y_1 < ray.screen_y_pos - ray.speed_y) &&
+                        ray.speed_y > 0
+                    ) ||
+                    (
+                        ymap != scroll_start_y &&
+                        (-ray.offset_hy - 16 >= ray.screen_y_pos) &&
+                        ray.speed_y < 0
+                    )
+                )
+                {
+                    if (ray.speed_y <= 16)
+                        v_scroll_speed = ray.speed_y;
+                    else
+                        v_scroll_speed = 0;
+                }
+            }
+        }
+
+        if (scroll_x == -1)
+        {
+            unk_x_1 = (112 - ray.offset_bx) - special_ray_mov_win_x_left;
+            unk_x_2 = special_ray_mov_win_x_right - (ray.offset_bx - 208);
+            if (decalage_en_cours > 0 || ray.speed_x > 0)
+            {
+                unk_x_3 = ashr16(ray.screen_x_pos - unk_x_1, 2);
+                if (unk_x_3 >= dhspeed)
+                {
+                    if (unk_x_3 > dhspeed)
+                        dhspeed++;
+                }
+                else
+                    dhspeed--;
+            }
+            else if (decalage_en_cours < 0 || ray.speed_x < 0)
+            {
+                unk_x_3 = ashr16(ray.screen_x_pos - unk_x_2, 2);
+                if (unk_x_3 > dhspeed)
+                    dhspeed++;
+                else if (unk_x_3 < dhspeed)
+                    dhspeed--;
+            }
+            else
+            {
+                if (ray.flags & FLG(OBJ_FLIP_X))
+                {
+                    unk_x_3 = ashr16(ray.screen_x_pos - unk_x_1, 2);
+                    if (unk_x_3 >= dhspeed)
+                    {
+                        if (unk_x_3 > dhspeed)
+                            dhspeed++;
+                    }
+                    else
+                        dhspeed--;
+                }
+                else
+                {
+                    unk_x_3 = ashr16(ray.screen_x_pos - unk_x_2, 2);
+                    if (unk_x_3 > dhspeed)
+                        dhspeed++;
+                    else if (unk_x_3 < dhspeed)
+                        dhspeed--;
+                }
+            }
+
+            if (dans_la_map_monde)
+            {
+                if (__builtin_abs(dhspeed) > 4)
+                    dhspeed = dhspeed > 0 ? 4 : -4;
+            }
+
+            h_scroll_speed += ashr16(dhspeed, 2);
+            if (
+                (unk_x_2 > ray.screen_x_pos && ray.speed_x < 0) ||
+                (unk_x_1 < ray.screen_x_pos && ray.speed_x > 0)
+            )
+                h_scroll_speed += ray.speed_x;
+        }
+        
+        if (scroll_y == -1 && ray.field20_0x36 != -1)
+        {
+            other_obj = &level.objects[ray.field20_0x36];
+            if (flags[other_obj->type].flags1 >> OBJ1_USE_INSTANT_SPEED_Y & 1)
+                v_scroll_speed += instantSpeed(other_obj->speed_y);
+            else
+                v_scroll_speed += other_obj->speed_y;
+            v_scroll_speed += other_obj->follow_y;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", RAY_TO_THE_RIGHT);
 
