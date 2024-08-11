@@ -117,7 +117,7 @@ void FUN_80134610(u32 param_1);
 u8 FUN_8013491c(void);
 void PS1_DoDemo(Record *record);
 void FUN_80134be0(void);
-s16 TOUCHE(Input param_1);
+s32 TOUCHE(Input param_1);
 s32 PS1_SingleTOUCHE(Input param_1);
 
 #endif

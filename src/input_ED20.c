@@ -188,17 +188,60 @@ s32 but3pressed(void)
         return false;
 }
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133984);
+/* F184 80133984 -O2 -msoft-float */
+s32 FUN_80133984(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return TOUCHE(INPUT_L1) || TOUCHE(INPUT_L2);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_801339f4);
+/* F1F4 801339F4 -O2 -msoft-float */
+s32 FUN_801339f4(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return TOUCHE(INPUT_R1) || TOUCHE(INPUT_R2);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_IsInputtingCheatCode);
+/* F264 80133A64 -O2 -msoft-float */
+u8 PS1_IsInputtingCheatCode(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return TOUCHE(INPUT_R1) && TOUCHE(INPUT_R2);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133acc);
+/* could also write this with ternary op instead */
+/* F2CC 80133ACC -O2 -msoft-float */
+s32 FUN_80133acc(void)
+{
+    if (PS1_DisableInputs)
+        return false;
+    else
+        return (s16) TOUCHE(INPUT_L1);
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133b08);
+/* F308 80133B08 -O2 -msoft-float */
+s32 FUN_80133b08(void)
+{
+    if (PS1_DisableInputs)
+        return false;
+    else
+        return (s16) TOUCHE(INPUT_R1); 
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133b44);
+/* F344 80133B44 -O2 -msoft-float */
+s32 FUN_80133b44(void)
+{
+    if (PS1_DisableInputs)
+        return false;
+    else
+        return (s16) TOUCHE(INPUT_SELECT); 
+}
 
 INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133b80);
 
