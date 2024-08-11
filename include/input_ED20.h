@@ -2,6 +2,7 @@
 #define INPUT_ED20_H
 
 #include "common.h"
+#include "demo_9FD4.h"
 
 typedef u32 Input;
 #define INPUT_NONE 0
@@ -34,7 +35,7 @@ typedef u32 Input;
 #define INPUT_READ 255
 
 /* TODO: these are also defined in libetc.h */
-typedef u32 PsxPadButtonStates;
+/*typedef u32 PsxPadButtonStates;
 #define PAD_NONE 0
 #define PAD_L2 1
 #define PAD_R2 2
@@ -51,17 +52,72 @@ typedef u32 PsxPadButtonStates;
 #define PAD_UP 4096
 #define PAD_RIGHT 8192
 #define PAD_DOWN 16384
-#define PAD_LEFT 32768
+#define PAD_LEFT 32768*/
 
 /**/
 extern s32 PS1_GlobalTimer;
 extern u8 PS1_PadRecieveBuffer[34];
 
-s32 but0pressed();
-s32 but1pressed();
-s32 but2pressed();
-s32 but3pressed();
-
+s32 readinput(void);
+s32 upjoy(void);
+s32 leftjoy(void);
+s32 rightjoy(void);
+s32 downjoy(void);
+s32 FUN_801336c4(void);
+s32 FUN_80133714(void);
+s32 FUN_80133764(void);
+s32 FUN_801337b4(void);
+s32 but0pressed(void);
+s32 but1pressed(void);
+s32 but2pressed(void);
+s32 but3pressed(void);
+s32 FUN_80133984(void);
+s32 FUN_801339f4(void);
+u8 PS1_IsInputtingCheatCode(void);
+s32 FUN_80133acc(void);
+s32 FUN_80133b08(void);
+s32 FUN_80133b44(void);
+s32 FUN_80133b80(void);
+s32 FUN_80133bd0(void);
+s32 FUN_80133c20(void);
+s32 FUN_80133c70(void);
+s32 FUN_80133cc0(void);
+s32 FUN_80133d10(void);
+s32 FUN_80133d60(void);
+s32 FUN_80133db0(void);
+s32 FUN_80133e00(void);
+s32 FUN_80133e50(void);
+s32 FUN_80133ea0(void);
+s32 FUN_80133ef0(void);
+s32 PS1_TOUCHE_0x9(void);
+s32 FUN_80133f90(void);
+s32 FUN_80133fe0(void);
+s32 PS1_TOUCHE_0xA(void);
+s32 FUN_80134080(void);
+s32 PS1_TOUCHE_0xE(void);
+s32 PS1_TOUCHE_0xC(void);
+s32 PS1_TOUCHE_0xB(void);
+s32 PS1_TOUCHE_0xF(void);
+s32 PS1_TOUCHE_0x12(void);
+s32 PS1_TOUCHE_0x13(void);
+s32 PS1_TOUCHE_0x14(void);
+s32 PS1_TOUCHE_0x15(void);
+s32 PS1_TOUCHE_0x16(void);
+s32 PS1_TOUCHE_0x17(void);
+s32 PS1_TOUCHE_0x18(void);
+s32 FUN_80134440(void);
+s32 FUN_80134490(void);
+s32 PS1_TOUCHE_0x10(void);
+s32 FUN_80134530(void);
+s32 ValidButPressed(void);
 s32 StartButPressed(void);
+s32 FUN_801345c8(void);
+s32 SelectButPressed(void);
+void FUN_80134610(u32 param_1);
+u8 FUN_8013491c(void);
+void PS1_DoDemo(Record *record);
+void FUN_80134be0(void);
+s16 TOUCHE(Input param_1);
+s32 PS1_SingleTOUCHE(Input param_1);
 
 #endif

@@ -66,7 +66,7 @@ segments:
       - [0x156C, rodata]
       #- [0x1580, .rodata, data/loading_A0338] #80125d80
       - [0x2AA8, .rodata, loading_E99C] #801272A8
-      - [0x2B04, rodata]
+      - [0x2B04, .rodata, input_ED20] #80127304
       - [0x2F04, .rodata, fond_10B3C] #80127704
       - [0x2FDC, .rodata, draw] #801277DC
       - [0x2FFC, .rodata, draw_ui] #801277fc
@@ -128,7 +128,7 @@ segments:
       - [0xDA64, c, loading_DA64] #80132264
       - [0xE098, asm, video] #80132898
       - [0xE818, c, loading_E99C] #80133018
-      - [0xED20, asm, input_ED20] #80133520
+      - [0xED20, c, input_ED20] #80133520
       - [0x10B3C, c, fond_10B3C] #8013533C
       - [0x14AD8, asm, loading_tex] #801392D8 TODO: re-did split (start and end), but still not 100% certain
       - [0x14FF4, c, draw] #801397F4
