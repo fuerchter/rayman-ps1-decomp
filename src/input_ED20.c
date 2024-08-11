@@ -80,13 +80,41 @@ s32 downjoy(void)
         return false;
 }
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_801336c4);
+/* EEC4 801336C4 -O2 -msoft-float */
+s32 FUN_801336c4(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_UP);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133714);
+/* EF14 80133714 -O2 -msoft-float */
+s32 FUN_80133714(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_LEFT);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133764);
+/* EF64 80133764 -O2 -msoft-float */
+s32 FUN_80133764(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_RIGHT);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_801337b4);
+/* EFB4 801337B4 -O2 -msoft-float */
+s32 FUN_801337b4(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_DOWN);
+    else
+        return false;
+}
 
 INCLUDE_ASM("asm/nonmatchings/input_ED20", but0pressed);
 
