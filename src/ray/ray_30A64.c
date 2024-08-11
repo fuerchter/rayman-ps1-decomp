@@ -355,6 +355,55 @@ void TEST_FIN_FOLLOW(void)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", RAY_FOLLOW);
+/* 31AA8 801562A8 -O2 -msoft-float */
+void RAY_FOLLOW(void)
+{
+    s16 other_spd_x;
+    s16 other_spd_y;
+    Obj *other_obj = &level.objects[ray.field20_0x36];
+    
+    if (flags[other_obj->type].flags1 >> OBJ1_USE_INSTANT_SPEED_X & 1)
+        other_spd_x = instantSpeed(other_obj->speed_x);
+    else
+        other_spd_x = (u16) other_obj->speed_x;
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", DO_FIXE);
+    if (flags[other_obj->type].flags1 >> OBJ1_USE_INSTANT_SPEED_Y & 1)
+        other_spd_y = instantSpeed(other_obj->speed_y);
+    else
+        other_spd_y = (u16) other_obj->speed_y;
+    
+    ray.speed_x = other_spd_x + ray.speed_x;
+    ray.speed_x += other_obj->follow_x; /* a little strange */
+    ray.speed_y = other_spd_y + (ray.speed_y + other_obj->follow_y);
+    TEST_FIN_FOLLOW();
+    if (!(other_obj->flags & FLG(OBJ_ACTIVE)))
+        ray.field20_0x36 = -1;
+}
+
+/* interesting function... */
+/* 31BE8 801563E8 -O2 -msoft-float */
+void DO_FIXE(void)
+{
+    if (status_bar.max_hp == 2)
+    {
+        status_bar.hp_sprites[0] = 0;
+        status_bar.hp_sprites[1] = ray.hit_points;
+    }
+    else if (ray.hit_points < 3)
+    {
+        status_bar.hp_sprites[0] = 0;
+        status_bar.hp_sprites[1] = ray.hit_points;
+    }
+    else
+    {
+        status_bar.hp_sprites[1] = 2;
+        status_bar.hp_sprites[0] = ray.hit_points - 2;
+    }
+
+    status_bar.lives_digits[1] = status_bar.num_lives % 10;
+    status_bar.lives_digits[0] = status_bar.num_lives / 10;
+    status_bar.num_wiz = status_bar.num_wiz;
+    MIN_2(status_bar.num_wiz, 99);
+    status_bar.wiz_digits[0] = (status_bar.num_wiz / 10);
+    status_bar.wiz_digits[1] = (status_bar.num_wiz % 10U);
+}
