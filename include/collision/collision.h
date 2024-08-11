@@ -2,13 +2,11 @@
 #define COLLISION_H
 
 #include "common.h"
-#include "common/obj.h"
-#include "common/level.h"
 #include "common/ray.h"
+#include "common/level.h"
 #include "common/rayevts.h"
 #include "common/mapdata.h"
-#include "world_map_95CC.h"
-#include "world_map_677C0.h"
+#include "obj_init_kill.h"
 #include "bonus_35FB4.h"
 #include "obj/mus_wait.h"
 #include "obj/joe_command.h"

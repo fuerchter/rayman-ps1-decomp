@@ -2,16 +2,10 @@
 #define RAY_5D190_H
 
 #include "common.h"
-#include "common/obj.h"
+#include "common/ray.h"
 #include "common/rayevts.h"
-#include "collision/block_22C84.h"
-#include "main_moteur.h"
-#include "obj_init_kill.h"
+#include "moteur_update.h"
 #include "obj/stonebomb.h"
-#include "collision/bit_util.h"
-#include "obj_util.h"
-#include "obj/black_ray_command.h"
-#include "collision/collision.h"
 #include "obj/corde.h"
 
 typedef s16 RayMode;

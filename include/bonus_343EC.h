@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/ray.h"
+#include "common/world_map.h"
 #include "psyq_3_0/LIBGPU.H"
 #include "psyq_3_0/STDIO.H"
 #include "world_map_95CC.h"

@@ -2,14 +2,13 @@
 #define WORLD_MAP_677C0_H
 
 #include "common.h"
-#include "common/obj.h"
 #include "common/ray.h"
+#include "common/world_map.h"
+#include "menu/menu_card_7C028.h"
+#include "victoire.h"
 #include "cam_scroll_29B5C.h"
 #include "world_map_95CC.h"
-#include "menu/menu_card_7C028.h"
 #include "ray/ray_5D190.h"
-#include "victoire.h"
-#include "continue.h"
 
 /* TODO: does padding (between color, level_name) matter? it seems to work even without, but why? */
 typedef struct WorldInfo

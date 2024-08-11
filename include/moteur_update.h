@@ -6,8 +6,11 @@
 #include "common/level.h"
 #include "common/ray.h"
 #include "common/rayevts.h"
+#include "common/world_map.h"
 #include "world_map_95CC.h"
 #include "ray/ray_5D190.h"
+#include "cam_scroll_340A4.h"
+#include "main_moteur.h"
 
 extern Obj *star_ray_der;
 extern Obj *star_ray_dev;

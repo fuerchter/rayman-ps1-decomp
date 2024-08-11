@@ -3,19 +3,17 @@
 
 #include "common.h"
 #include "common/obj.h"
-#include "common/mapdata.h"
-#include "collision/bit_util.h"
 #include "timers.h"
-#include "obj_init_kill.h"
-#include "sound.h"
 #include "moteur_update.h"
-#include "collision/block_6E5E0.h"
-#include "menu/menu_7F4B4.h"
-#include "obj/moskito.h"
+
+#include "collision/block_6E5E0.h" /* why do we need to include this? recale_position? */
+#include "obj_util.h"
+
+/* keeping this for nonmatchings_ours */
+/*#include "obj/moskito.h"
 #include "obj/saxo.h"
 #include "obj/bb1.h"
 #include "obj/mama_pirate.h"
-#include "obj/space_mama.h"
 #include "obj/scorpion.h"
 #include "bonus_372E0.h"
 #include "obj/poi_command.h"
@@ -29,8 +27,7 @@
 #include "obj/bag1.h"
 #include "obj/fish.h"
 #include "obj/walk_note_command.h"
-#include "obj/medaillon_toon.h"
-#include "obj/joe_command.h"
+#include "obj/medaillon_toon.h"*/
 
 typedef struct ObjHandlers
 {
