@@ -25,11 +25,11 @@ s16 RayCoince(s16 dir)
         if ((s16) pos_to_check < 3)
         {
             map_ind = (x_pos >> 4) + (mp.width * (y_pos >> 4));
-            if (block_flags[mp.map[map_ind] >> 10] & FLG(BLOCK_FULLY_SOLID))
+            if (block_flags[mp.map[map_ind] >> 10] >> BLOCK_FULLY_SOLID & 1)
                 res = true;
-            if (block_flags[mp.map[++map_ind] >> 10] & FLG(BLOCK_FULLY_SOLID))
+            if (block_flags[mp.map[++map_ind] >> 10] >> BLOCK_FULLY_SOLID & 1)
                 res = true;
-            if (block_flags[mp.map[++map_ind] >> 10] & FLG(BLOCK_FULLY_SOLID))
+            if (block_flags[mp.map[++map_ind] >> 10] >> BLOCK_FULLY_SOLID & 1)
                 res = true;
         }
         break;
@@ -38,11 +38,11 @@ s16 RayCoince(s16 dir)
         if ((s16) pos_to_check > 12)
         {
             map_ind = (x_pos >> 4) + (mp.width * ((y_pos + 64) >> 4));
-            if (block_flags[mp.map[map_ind] >> 10] & FLG(BLOCK_FULLY_SOLID))
+            if (block_flags[mp.map[map_ind] >> 10] >> BLOCK_FULLY_SOLID & 1)
                 res = true;
-            if (block_flags[mp.map[++map_ind] >> 10] & FLG(BLOCK_FULLY_SOLID))
+            if (block_flags[mp.map[++map_ind] >> 10] >> BLOCK_FULLY_SOLID & 1)
                 res = true;
-            if (block_flags[mp.map[++map_ind] >> 10] & FLG(BLOCK_FULLY_SOLID))
+            if (block_flags[mp.map[++map_ind] >> 10] >> BLOCK_FULLY_SOLID & 1)
                 res = true;
         }
         break;
@@ -51,11 +51,11 @@ s16 RayCoince(s16 dir)
         if ((s16) pos_to_check < 3)
         {
             map_ind = ((x_pos >> 4) + (mp.width * ((y_pos + 16) >> 4))) - 1;
-            if (block_flags[mp.map[map_ind] >> 10] & FLG(BLOCK_FULLY_SOLID))
+            if (block_flags[mp.map[map_ind] >> 10] >> BLOCK_FULLY_SOLID & 1)
                 res = true;
-            if (block_flags[mp.map[map_ind += mp.width] >> 10] & FLG(BLOCK_FULLY_SOLID))
+            if (block_flags[mp.map[map_ind += mp.width] >> 10] >> BLOCK_FULLY_SOLID & 1)
                 res = true;
-            if (block_flags[mp.map[map_ind += mp.width] >> 10] & FLG(BLOCK_FULLY_SOLID))
+            if (block_flags[mp.map[map_ind += mp.width] >> 10] >> BLOCK_FULLY_SOLID & 1)
                 res = true;
         }
         break;
@@ -64,11 +64,11 @@ s16 RayCoince(s16 dir)
         if ((s16) pos_to_check > 12)
         {
             map_ind = ((x_pos >> 4) + (mp.width * ((y_pos + 16) >> 4))) + 3;
-            if (block_flags[mp.map[map_ind] >> 10] & FLG(BLOCK_FULLY_SOLID))
+            if (block_flags[mp.map[map_ind] >> 10] >> BLOCK_FULLY_SOLID & 1)
                 res = true;
-            if (block_flags[mp.map[map_ind += mp.width] >> 10] & FLG(BLOCK_FULLY_SOLID))
+            if (block_flags[mp.map[map_ind += mp.width] >> 10] >> BLOCK_FULLY_SOLID & 1)
                 res = true;
-            if (block_flags[mp.map[map_ind += mp.width] >> 10] & FLG(BLOCK_FULLY_SOLID))
+            if (block_flags[mp.map[map_ind += mp.width] >> 10] >> BLOCK_FULLY_SOLID & 1)
                 res = true;
         }
         break;
@@ -296,9 +296,65 @@ void RAY_TO_THE_LEFT(void)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", FUN_80156040);
+/*INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", FUN_80156040);*/
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", TEST_FIN_FOLLOW);
+void FUN_80156040(void)
+{
+    if (num_world == 5 && ray.main_etat == 4)
+    {
+        switch (ray.sub_etat)
+        {
+        case 0:
+        case 1:
+            ray.speed_y = 1;
+            break;
+        case 2:
+            if (horloge[8] != 0)
+                ray.speed_y = 0;
+            else
+                ray.speed_y = 1;
+            break;
+        case 3:
+            ray.speed_y = 2;
+            break;
+        }
+    }
+}
+
+/* 318D8 801560D8 -O2 -msoft-float */
+void TEST_FIN_FOLLOW(void)
+{
+    u16 unk_1;
+    s16 btyp;
+
+    if (block_flags[calc_typ_travd(&ray, false)] >> BLOCK_FULLY_SOLID & 1)
+        ray.speed_x = 0;
+
+    unk_1 = !(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40) * 2;
+    if (ray.speed_y > 0)
+    {
+        ray.y_pos -= ray.speed_y;
+        btyp = PS1_BTYPAbsPos(ray.x_pos + ray.offset_bx, ray.y_pos + ray.offset_by);
+        ray.y_pos += ray.speed_y;
+    }
+    else
+        btyp = (u8) calc_typ_trav(&ray, unk_1);
+    
+    if (block_flags[btyp] >> BLOCK_SOLID & 1)
+    {
+        ray.y_pos -= ray.speed_y;
+        if (!(block_flags[ray.btypes[4]] >> BLOCK_SOLID & 1) && ray.speed_y < 0)
+        {
+            ray.y_pos += 4;
+            ray.speed_y = 0;
+        }
+        else
+            recale_position(&ray);
+        
+        ray.speed_x = 0;
+        ray.field20_0x36 = -1;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", RAY_FOLLOW);
 
