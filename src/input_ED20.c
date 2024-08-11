@@ -243,29 +243,113 @@ s32 FUN_80133b44(void)
         return (s16) TOUCHE(INPUT_SELECT); 
 }
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133b80);
+/* F380 80133B80 -O2 -msoft-float */
+s32 FUN_80133b80(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) TOUCHE(INPUT_L1);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133bd0);
+/* F3D0 80133BD0 -O2 -msoft-float */
+s32 FUN_80133bd0(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) TOUCHE(INPUT_L2);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133c20);
+/* F420 80133C20 -O2 -msoft-float */
+s32 FUN_80133c20(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) TOUCHE(INPUT_R1);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133c70);
+/* F470 80133C70 -O2 -msoft-float */
+s32 FUN_80133c70(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) TOUCHE(INPUT_R2);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133cc0);
+/* F4C0 80133CC0 -O2 -msoft-float */
+s32 FUN_80133cc0(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_L1);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133d10);
+/* F510 80133D10 -O2 -msoft-float */
+s32 FUN_80133d10(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_L2);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133d60);
+/* F560 80133D60 -O2 -msoft-float */
+s32 FUN_80133d60(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_R1);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133db0);
+/* F5B0 80133DB0 -O2 -msoft-float */
+s32 FUN_80133db0(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_R2);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133e00);
+/* F600 80133E00 -O2 -msoft-float */
+s32 FUN_80133e00(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_SQUARE);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133e50);
+/* F650 80133E50 -O2 -msoft-float */
+s32 FUN_80133e50(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_CROSS);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133ea0);
+/* F6A0 80133EA0 -O2 -msoft-float */
+s32 FUN_80133ea0(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_TRIANGLE);
+    else
+        return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80133ef0);
+/* F6F0 80133EF0 -O2 -msoft-float */
+s32 FUN_80133ef0(void)
+{
+    if (!PS1_DisableInputs && !record.is_playing)
+        return (s16) PS1_SingleTOUCHE(INPUT_CIRCLE);
+    else
+        return false;
+}
 
 INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_TOUCHE_0x9);
 
