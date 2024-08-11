@@ -387,8 +387,7 @@ s32 PS1_TOUCHE_0xA(s32 param_1)
         return false;
 }
 
-/*INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80134080);*/
-
+/* F880 80134080 -O2 -msoft-float */
 s32 FUN_80134080(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
@@ -397,8 +396,7 @@ s32 FUN_80134080(s32 param_1)
         return false;
 }
 
-/*INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_TOUCHE_0xE);*/
-
+/* F8D0 801340D0 -O2 -msoft-float */
 s32 PS1_TOUCHE_0xE(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
@@ -407,8 +405,7 @@ s32 PS1_TOUCHE_0xE(s32 param_1)
         return false;
 }
 
-/*INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_TOUCHE_0xC);*/
-
+/* F920 80134120 -O2 -msoft-float */
 s32 PS1_TOUCHE_0xC(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
@@ -417,8 +414,7 @@ s32 PS1_TOUCHE_0xC(s32 param_1)
         return false;
 }
 
-/*INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_TOUCHE_0xB);*/
-
+/* F970 80134170 -O2 -msoft-float */
 s32 PS1_TOUCHE_0xB(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
@@ -427,8 +423,7 @@ s32 PS1_TOUCHE_0xB(s32 param_1)
         return false;
 }
 
-/*INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_TOUCHE_0xF);*/
-
+/* F9C0 801341C0 -O2 -msoft-float */
 s32 PS1_TOUCHE_0xF(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
