@@ -296,9 +296,8 @@ void RAY_TO_THE_LEFT(void)
     }
 }
 
-/*INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", FUN_80156040);*/
-
-void FUN_80156040(void)
+/* 31840 80156040 -O2 -msoft-float */
+void PS1_Ray_Cave_Vines_Slide(void)
 {
     if (num_world == 5 && ray.main_etat == 4)
     {
