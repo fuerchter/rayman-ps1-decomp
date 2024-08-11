@@ -1,4 +1,4 @@
 #!/bin/bash
 
-#psyq 3.0 does not have aspsx 2.21, but this is the closest
-python3 $(dirname -- $0)/../maspsx/maspsx.py --run-assembler --macro-inc --expand-div --aspsx-version=2.21 $@
+#psyq 3.0 does not have aspsx 2.08? but this is the closest
+python3 $(dirname -- $0)/../maspsx/maspsx.py --run-assembler --macro-inc --expand-div --aspsx-version=2.08 $@
