@@ -1,7 +1,7 @@
 #include "ray/ray_30A64.h"
 
 /* 30A64 80155264 -O2 -msoft-float */
-u8 RayCoince(s16 dir)
+s16 RayCoince(s16 dir)
 {
     s16 x_pos;
     s16 y_pos;
@@ -74,11 +74,24 @@ u8 RayCoince(s16 dir)
     return res;
 }
 
-
-
 INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", move_up_ray);
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", move_down_ray);
+/* 30E34 80155634 -O2 -msoft-float */
+void move_down_ray(void)
+{
+    if (ray_mode == MODE_RAY_ON_MS && RayCoince(3))
+        ray.speed_y = 0;
+    
+    ray.y_pos += ray.speed_y;
+    calc_obj_pos(&ray);
+    if (ray.main_etat == 2)
+    {
+        if ((scroll_end_y - ymap > ray.speed_y) && ray.screen_y_pos >= 100)
+            v_scroll_speed = ray.speed_y;
+        else
+            v_scroll_speed = 0;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", RecaleRayPosInJumelle);
 

@@ -4,6 +4,7 @@
 #include "common.h"
 #include "common/mapdata.h"
 #include "common/ray.h"
+#include "collision/collision.h"
 
 typedef struct StatusBar
 {
@@ -21,7 +22,7 @@ extern s16 sbar_obj_id;
 extern u8 nb_wiz;
 extern u8 nb_wiz_collected;
 
-u8 RayCoince(s16 dir);
+s16 RayCoince(s16 dir);
 void move_up_ray(void);
 void move_down_ray(void);
 void RecaleRayPosInJumelle(void);
