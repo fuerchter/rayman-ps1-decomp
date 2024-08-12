@@ -1,5 +1,13 @@
 #include "world_map_677C0.h"
 
+const u8 s_password_8012ba1c[] = "/password/";
+const u8 s_the_dream_forest_8012ba28[] = "/the dream forest/";
+const u8 s_band_land_8012ba3c[] = "/band land/";
+const u8 s_blue_mountains_8012ba48[] = "/blue mountains/";
+const u8 s_picture_city_8012ba5c[] = "/picture city/";
+const u8 s_the_cave_of_skops_8012ba6c[] = "/the cave of skops/";
+const u8 s_candy_chateau_8012ba80[] = "/candy chateau/";
+
 /* 677C0 8018BFC0 -O2 */
 void CalcObjPosInWorldMap(Obj *obj) {
     obj->screen_x_pos = obj->x_pos - xmap + 52;

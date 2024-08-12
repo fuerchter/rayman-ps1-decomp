@@ -1,5 +1,10 @@
 #include "bonus_343EC.h"
 
+const u8 s_d__02d_8012a568[] = "/%d : %-02d/";
+const u8 s_great__8012a578[] = "/great !/";
+const u8 s_your_time_8012a584[] = "/your time:/";
+const u8 s_perfect__8012a594[] = "/perfect !/";
+
 extern Obj *PS1_BonusNovas[2];
 extern Obj *PS1_BonusOneUps[2];
 extern u8 PS1_TimeString[24];
@@ -23,7 +28,7 @@ s32 do_perfect_bonus(void)
     unk_2 = 33;
     sprintf(
       PS1_TimeString,
-      "/%d : %-02d/",
+      s_d__02d_8012a568,
       allowed_time[(s16) (((u16) num_world * 32) - unk_2 + num_level)] - unk_1,
       (map_time - 120) % 60
     );
@@ -31,13 +36,13 @@ s32 do_perfect_bonus(void)
 
   if ((u8) get_bonus_map_complete(num_world, num_level))
   {
-    display_text("/great !/", 160, 80, 0, 4);
-    display_text("/your time:/", 160, 130, 2, 0);
+    display_text(s_great__8012a578, 160, 80, 0, 4);
+    display_text(s_your_time_8012a584, 160, 130, 2, 0);
     display_text(PS1_TimeString, 160, 170, 0, 5);
   }
   else
   {
-    display_text("/perfect !/", 160, 90, 0, 6);
+    display_text(s_perfect__8012a594, 160, 90, 0, 6);
     if (loop_time == 62)
     {
       for (i = 0; i < 1; i++)

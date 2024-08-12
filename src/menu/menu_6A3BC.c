@@ -423,6 +423,17 @@ void MAIN_NO_MORE_CONTINUE_PRG(void)
     fin_continue = true;
 }
 
+const u8 s_tarayzan_gives_rayman_a_magic_s_8012bad0[] = "/tarayzan gives rayman a magic seed/";
+const u8 s_press_the__button_to_use_the_s_8012baf8[] = "/press the ? button to use the seed/";
+const u8 s_the_musician_gives_rayman_8012bb20[] = "/the musician gives rayman/";
+const u8 s_a_super_helicopter_power_8012bb3c[] = "/a super helicopter power/";
+const u8 s_press_the__button_to_use_it_8012bb58[] = "/press the ? button to use it/";
+const u8 s_press__again_to_go_higher_8012bb78[] = "/press ? again to go higher/";
+const u8 s_mr_dark_kidnaps_betilla_the_fai_8012bb98[] = "/mr dark kidnaps betilla the fairy/";
+const u8 s_joe_offers_rayman_a_firefly__8012bbbc[] = "/joe offers rayman a firefly /";
+const u8 s_to_light_up_the_dark_8012bbdc[] = "/to light up the dark/";
+const u8 s_rayman_please_help_me_hurry_8012bbf4[] = "/rayman please help me! hurry!/";
+
 /* 6B6A0 8018FEA0 -O2 -msoft-float */
 /*void Deter_Option_Caract(char *param_1,short param_2,uint param_3);
 void start_cd_suspence(void);*/
@@ -445,30 +456,30 @@ void INIT_VIGNET(void)
   switch(num_world)
   {
   case 1:
-    __builtin_strcpy(text_to_display[0].text, "/tarayzan gives rayman a magic seed/");
-    __builtin_strcpy(text_to_display[1].text, "/press the ? button to use the seed/");
+    __builtin_memcpy(text_to_display[0].text, s_tarayzan_gives_rayman_a_magic_s_8012bad0, sizeof(s_tarayzan_gives_rayman_a_magic_s_8012bad0));
+    __builtin_memcpy(text_to_display[1].text, s_press_the__button_to_use_the_s_8012baf8, sizeof(s_press_the__button_to_use_the_s_8012baf8));
     Deter_Option_Caract(text_to_display[1].text,options_jeu.Action, 11);
     break;
   case 3:
-    __builtin_strcpy(text_to_display[0].text, "/the musician gives rayman/");
-    __builtin_strcpy(text_to_display[1].text, "/a super helicopter power/");
-    __builtin_strcpy(text_to_display[2].text, "/press the ? button to use it/");
-    __builtin_strcpy(text_to_display[3].text, "/press ? again to go higher/");
+    __builtin_memcpy(text_to_display[0].text, s_the_musician_gives_rayman_8012bb20, sizeof(s_the_musician_gives_rayman_8012bb20));
+    __builtin_memcpy(text_to_display[1].text, s_a_super_helicopter_power_8012bb3c, sizeof(s_a_super_helicopter_power_8012bb3c));
+    __builtin_memcpy(text_to_display[2].text, s_press_the__button_to_use_it_8012bb58, sizeof(s_press_the__button_to_use_it_8012bb58));
+    __builtin_memcpy(text_to_display[3].text, s_press__again_to_go_higher_8012bb78, sizeof(s_press__again_to_go_higher_8012bb78));
     Deter_Option_Caract(text_to_display[2].text,options_jeu.Jump, 11);
     Deter_Option_Caract(text_to_display[3].text,options_jeu.Jump, 7);
     break;
   case 4:
     start_cd_suspence();
-    __builtin_strcpy(text_to_display[0].text, "/mr dark kidnaps betilla the fairy/");
+    __builtin_memcpy(text_to_display[0].text, s_mr_dark_kidnaps_betilla_the_fai_8012bb98, sizeof(s_mr_dark_kidnaps_betilla_the_fai_8012bb98));
     break;
   case 5:
     if (num_level == 3)
     {
-      __builtin_strcpy(text_to_display[0].text, "/joe offers rayman a firefly /");
-      __builtin_strcpy(text_to_display[1].text, "/to light up the dark/");
+      __builtin_memcpy(text_to_display[0].text, s_joe_offers_rayman_a_firefly__8012bbbc, sizeof(s_joe_offers_rayman_a_firefly__8012bbbc));
+      __builtin_memcpy(text_to_display[1].text, s_to_light_up_the_dark_8012bbdc, sizeof(s_to_light_up_the_dark_8012bbdc));
     }
     if (num_level == 11)
-      __builtin_strcpy(text_to_display[0].text, "/rayman please help me! hurry!/");
+      __builtin_memcpy(text_to_display[0].text, s_rayman_please_help_me_hurry_8012bbf4, sizeof(s_rayman_please_help_me_hurry_8012bbf4));
     break;
   }
 

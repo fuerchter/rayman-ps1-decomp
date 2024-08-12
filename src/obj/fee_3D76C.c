@@ -1,5 +1,38 @@
 #include "obj/fee_3D76C.h"
 
+const u8 s_hello_rayman_8012a7e0[] = "/hello rayman/";
+const u8 s_im_betilla_the_fairy_8012a7f0[] = "/i'm betilla the fairy/";
+const u8 s_and_im_going_to_help_you_8012a808[] = "/and i'm going to help you/";
+const u8 s_in_your_quest_8012a824[] = "/in your quest./";
+const u8 s_i_can_give_you_a_new_power_8012a838[] = "/i can give you a new power./";
+const u8 s_now_you_can_punch_with_your_fis_8012a858[] = "/now you can punch with your fist/";
+const u8 s_good_luck__8012a87c[] = "/good luck !/";
+const u8 s_press_the__button_to_punch_8012a88c[] = "/press the ? button to punch/";
+const u8 s_the_longer_you_press_8012a8ac[] = "/the longer you press/";
+const u8 s_the_further_you_punch_8012a8c4[] = "/the further you punch/";
+const u8 s_youre_courageous_rayman_8012a8dc[] = "/you're courageous rayman/";
+const u8 s_but_you_will_have_to_keep_at_it_8012a8f8[] = "/but you will have to keep at it/";
+const u8 s_you_now_have_the_power_to_hang_8012a91c[] = "/you now have the power to hang/";
+const u8 s_great_job_rayman_but_youll_be_g_8012a940[] = "/great job rayman but you'll be going/";
+const u8 s_through_more_perilous_traps_8012a968[] = "/through more perilous traps!/";
+const u8 s_i_hope_this_will_help_you_8012a988[] = "/i hope this will help you/";
+const u8 s_to_avoid_the_worst_8012a9a4[] = "/to avoid the worst.../";
+const u8 s_now_you_can_grab_things_8012a9bc[] = "/now you can grab things/";
+const u8 s_with_your_fist_8012a9d8[] = "/with your fist./";
+const u8 s_to_grab_use_the__button_8012a9ec[] = "/to grab use the ? button/";
+const u8 s_things_are_not_going_to_get_8012aa08[] = "/things are not going to get/";
+const u8 s_any_easier_for_you_rayman_8012aa28[] = "/any easier for you rayman/";
+const u8 s_but_this_new_power__8012aa44[] = "/but this new power /";
+const u8 s_will_make_you_stronger_8012aa5c[] = "/will make you stronger.../";
+const u8 s_now_you_can_use_your_hair_8012aa78[] = "/now you can use your hair/";
+const u8 s_as_a_helicopter_8012aa94[] = "/as a helicopter/";
+const u8 s_to_do_it_press__twice_8012aaa8[] = "/to do it press ? twice/";
+const u8 s_things_are_going_to_get_8012aac4[] = "/things are going to get/";
+const u8 s_really_wild_from_now_on_rayman_8012aae0[] = "/really wild from now on rayman/";
+const u8 s_youll_have_to_be_very_quick_8012ab04[] = "/you'll have to be very quick.../";
+const u8 s_now_you_can_run_faster_8012ab28[] = "/now you can run faster/";
+const u8 s_to_run_press__while_walking_8012ab44[] = "/to run press ? while walking/";
+
 /* 3D76C 80161F6C -O2 -msoft-float */
 /*? INIT_TXT_BOX(u8 *);*/
 /*int strlen(char *s);*/ /* missing from 3.0 psyq .h but present in 3.3? */
@@ -92,33 +125,33 @@ void init_fee(void)
       {
         case 3:
           is_fee = true;
-          __builtin_strcpy(text_to_display[0].text, "/hello rayman/");
-          __builtin_strcpy(text_to_display[1].text, "/i'm betilla the fairy/");
-          __builtin_strcpy(text_to_display[2].text, "/and i'm going to help you/");
-          __builtin_strcpy(text_to_display[3].text, "/in your quest./");
-          __builtin_strcpy(text_to_display[4].text, "/i can give you a new power./");
-          __builtin_strcpy(text_to_display[5].text, "/now you can punch with your fist/");
-          __builtin_strcpy(text_to_display[6].text, "/good luck !/");
-          __builtin_strcpy(text_to_display[7].text, "/press the ? button to punch/");
-          __builtin_strcpy(text_to_display[8].text, "/the longer you press/");
-          __builtin_strcpy(text_to_display[9].text, "/the further you punch/");
+          __builtin_memcpy(text_to_display[0].text, s_hello_rayman_8012a7e0, sizeof(s_hello_rayman_8012a7e0));
+          __builtin_memcpy(text_to_display[1].text, s_im_betilla_the_fairy_8012a7f0, sizeof(s_im_betilla_the_fairy_8012a7f0));
+          __builtin_memcpy(text_to_display[2].text, s_and_im_going_to_help_you_8012a808, sizeof(s_and_im_going_to_help_you_8012a808));
+          __builtin_memcpy(text_to_display[3].text, s_in_your_quest_8012a824, sizeof(s_in_your_quest_8012a824));
+          __builtin_memcpy(text_to_display[4].text, s_i_can_give_you_a_new_power_8012a838, sizeof(s_i_can_give_you_a_new_power_8012a838));
+          __builtin_memcpy(text_to_display[5].text, s_now_you_can_punch_with_your_fis_8012a858, sizeof(s_now_you_can_punch_with_your_fis_8012a858));
+          __builtin_memcpy(text_to_display[6].text, s_good_luck__8012a87c, sizeof(s_good_luck__8012a87c));
+          __builtin_memcpy(text_to_display[7].text, s_press_the__button_to_punch_8012a88c, sizeof(s_press_the__button_to_punch_8012a88c));
+          __builtin_memcpy(text_to_display[8].text, s_the_longer_you_press_8012a8ac, sizeof(s_the_longer_you_press_8012a8ac));
+          __builtin_memcpy(text_to_display[9].text, s_the_further_you_punch_8012a8c4, sizeof(s_the_further_you_punch_8012a8c4));
           Deter_Option_Caract(&text_to_display[7].text,options_jeu.Fist,0xb);
           break;
         case 8:
           is_fee = true;
-          __builtin_strcpy(text_to_display[0].text, "/you're courageous rayman/");
-          __builtin_strcpy(text_to_display[1].text, "/but you will have to keep at it/");
-          __builtin_strcpy(text_to_display[5].text, "/you now have the power to hang/");
+          __builtin_memcpy(text_to_display[0].text, s_youre_courageous_rayman_8012a8dc, sizeof(s_youre_courageous_rayman_8012a8dc));
+          __builtin_memcpy(text_to_display[1].text, s_but_you_will_have_to_keep_at_it_8012a8f8, sizeof(s_but_you_will_have_to_keep_at_it_8012a8f8));
+          __builtin_memcpy(text_to_display[5].text, s_you_now_have_the_power_to_hang_8012a91c, sizeof(s_you_now_have_the_power_to_hang_8012a91c));
           break;
         case 17:
           is_fee = true;
-          __builtin_strcpy(text_to_display[0].text, "/great job rayman but you'll be going/");
-          __builtin_strcpy(text_to_display[1].text, "/through more perilous traps!/");
-          __builtin_strcpy(text_to_display[2].text, "/i hope this will help you/");
-          __builtin_strcpy(text_to_display[3].text, "/to avoid the worst.../");
-          __builtin_strcpy(text_to_display[5].text, "/now you can grab things/");
-          __builtin_strcpy(text_to_display[6].text, "/with your fist./");
-          __builtin_strcpy(text_to_display[7].text, "/to grab use the ? button/");
+          __builtin_memcpy(text_to_display[0].text, s_great_job_rayman_but_youll_be_g_8012a940, sizeof(s_great_job_rayman_but_youll_be_g_8012a940));
+          __builtin_memcpy(text_to_display[1].text, s_through_more_perilous_traps_8012a968, sizeof(s_through_more_perilous_traps_8012a968));
+          __builtin_memcpy(text_to_display[2].text, s_i_hope_this_will_help_you_8012a988, sizeof(s_i_hope_this_will_help_you_8012a988));
+          __builtin_memcpy(text_to_display[3].text, s_to_avoid_the_worst_8012a9a4, sizeof(s_to_avoid_the_worst_8012a9a4));
+          __builtin_memcpy(text_to_display[5].text, s_now_you_can_grab_things_8012a9bc, sizeof(s_now_you_can_grab_things_8012a9bc));
+          __builtin_memcpy(text_to_display[6].text, s_with_your_fist_8012a9d8, sizeof(s_with_your_fist_8012a9d8));
+          __builtin_memcpy(text_to_display[7].text, s_to_grab_use_the__button_8012a9ec, sizeof(s_to_grab_use_the__button_8012a9ec));
           Deter_Option_Caract(&text_to_display[7].text,options_jeu.Fist,0x11);
           break;
       }
@@ -128,13 +161,13 @@ void init_fee(void)
       {
         case 11:
           is_fee = true;
-          __builtin_strcpy(text_to_display[0].text, "/things are not going to get/");
-          __builtin_strcpy(text_to_display[1].text, "/any easier for you rayman/");
-          __builtin_strcpy(text_to_display[2].text, "/but this new power /");
-          __builtin_strcpy(text_to_display[3].text, "/will make you stronger.../");
-          __builtin_strcpy(text_to_display[7].text, "/now you can use your hair/");
-          __builtin_strcpy(text_to_display[8].text, "/as a helicopter/");
-          __builtin_strcpy(text_to_display[9].text, "/to do it press ? twice/");
+          __builtin_memcpy(text_to_display[0].text, s_things_are_not_going_to_get_8012aa08, sizeof(s_things_are_not_going_to_get_8012aa08));
+          __builtin_memcpy(text_to_display[1].text, s_any_easier_for_you_rayman_8012aa28, sizeof(s_any_easier_for_you_rayman_8012aa28));
+          __builtin_memcpy(text_to_display[2].text, s_but_this_new_power__8012aa44, sizeof(s_but_this_new_power__8012aa44));
+          __builtin_memcpy(text_to_display[3].text, s_will_make_you_stronger_8012aa5c, sizeof(s_will_make_you_stronger_8012aa5c));
+          __builtin_memcpy(text_to_display[7].text, s_now_you_can_use_your_hair_8012aa78, sizeof(s_now_you_can_use_your_hair_8012aa78));
+          __builtin_memcpy(text_to_display[8].text, s_as_a_helicopter_8012aa94, sizeof(s_as_a_helicopter_8012aa94));
+          __builtin_memcpy(text_to_display[9].text, s_to_do_it_press__twice_8012aaa8, sizeof(s_to_do_it_press__twice_8012aaa8));
           Deter_Option_Caract(&text_to_display[9].text,options_jeu.Jump,0x10);
           break;
       }
@@ -144,11 +177,11 @@ void init_fee(void)
       {
         case 11:
           is_fee = true;
-          __builtin_strcpy(text_to_display[0].text, "/things are going to get/");
-          __builtin_strcpy(text_to_display[1].text, "/really wild from now on rayman/");
-          __builtin_strcpy(text_to_display[2].text, "/you'll have to be very quick.../");
-          __builtin_strcpy(text_to_display[5].text, "/now you can run faster/");
-          __builtin_strcpy(text_to_display[7].text, "/to run press ? while walking/");
+          __builtin_memcpy(text_to_display[0].text, s_things_are_going_to_get_8012aac4, sizeof(s_things_are_going_to_get_8012aac4));
+          __builtin_memcpy(text_to_display[1].text, s_really_wild_from_now_on_rayman_8012aae0, sizeof(s_really_wild_from_now_on_rayman_8012aae0));
+          __builtin_memcpy(text_to_display[2].text, s_youll_have_to_be_very_quick_8012ab04, sizeof(s_youll_have_to_be_very_quick_8012ab04));
+          __builtin_memcpy(text_to_display[5].text, s_now_you_can_run_faster_8012ab28, sizeof(s_now_you_can_run_faster_8012ab28));
+          __builtin_memcpy(text_to_display[7].text, s_to_run_press__while_walking_8012ab44, sizeof(s_to_run_press__while_walking_8012ab44));
           Deter_Option_Caract(&text_to_display[7].text,options_jeu.Action,0xe);
           break; 
       }
