@@ -555,8 +555,110 @@ s32 SelectButPressed(void)
     return (s16) FUN_80133f90(0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80134610);
-/* actual functions start */
+/* FE10 80134610 -O2 -msoft-float */
+void FUN_80134610(u8 param_1)
+{
+    D_801F8448 = false;
+    D_801F8430 = false;
+    D_801F8438 = false;
+    D_801F8428 = false;
+
+    if (param_1 & FLG(0))
+    {
+        switch (options_jeu.Fist)
+        {
+        case 0:
+            D_801F8428 = true;
+            break;
+        case 1:
+            D_801F8438 = true;
+            break;
+        case 2:
+            D_801F8430 = true;
+            break;
+        case 3:
+            D_801F8448 = true;
+            break;
+        }
+    }
+
+    if (param_1 & FLG(1))
+    {
+        switch (options_jeu.Jump)
+        {
+        case 0:
+            D_801F8428 = true;
+            break;
+        case 1:
+            D_801F8438 = true;
+            break;
+        case 2:
+            D_801F8430 = true;
+            break;
+        case 3:
+            D_801F8448 = true;
+            break;
+        }
+    }
+
+    if (param_1 & FLG(2))
+    {
+        switch (options_jeu.Action)
+        {
+        case 0:
+            D_801F8428 = true;
+            break;
+        case 1:
+            D_801F8438 = true;
+            break;
+        case 2:
+            D_801F8430 = true;
+            break;
+        case 3:
+            D_801F8448 = true;
+            break;
+        }
+    }
+
+    if (param_1 & FLG(3))
+    {
+        switch (options_jeu.field6_0x14)
+        {
+        case 0:
+            D_801F8428 = true;
+            break;
+        case 1:
+            D_801F8438 = true;
+            break;
+        case 2:
+            D_801F8430 = true;
+            break;
+        case 3:
+            D_801F8448 = true;
+            break;
+        }
+    }
+
+    if (param_1 & FLG(4))
+        joy_rec_left = true;
+    else
+        joy_rec_left = false;
+    
+    if (param_1 & FLG(5))
+        joy_rec_right = true;
+    else
+        joy_rec_right = false;
+    
+    if (param_1 & FLG(6))
+        D_801E4C08 = true;
+    else
+        D_801E4C08 = false;
+
+    if (param_1 & FLG(7))
+        joy_rec_down = true;
+    else
+        joy_rec_down = false;
+}
 
 INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_8013491c);
 

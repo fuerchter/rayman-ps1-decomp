@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/record.h"
+#include "menu/menu_7F4B4.h"
 
 typedef u32 Input;
 #define INPUT_NONE 0
@@ -113,7 +114,7 @@ s32 ValidButPressed(void);
 s32 StartButPressed(void);
 s32 FUN_801345c8(void);
 s32 SelectButPressed(void);
-void FUN_80134610(u32 param_1);
+void FUN_80134610(u8 param_1);
 u8 FUN_8013491c(void);
 void PS1_DoDemo(Record *record);
 void FUN_80134be0(void);
