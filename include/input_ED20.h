@@ -57,7 +57,7 @@ typedef u32 Input;
 
 /**/
 extern s32 PS1_GlobalTimer;
-extern u8 PS1_PadRecieveBuffer[34];
+extern u8 PS1_PadReceiveBuffer[34];
 
 s32 readinput(void);
 s32 upjoy(s32 param_1);
@@ -114,8 +114,8 @@ s32 ValidButPressed(void);
 s32 StartButPressed(void);
 s32 FUN_801345c8(void);
 s32 SelectButPressed(void);
-void FUN_80134610(u8 param_1);
-u8 FUN_8013491c(void);
+void FUN_80134610(u8 param_1); /* PS1_Demo_SetInputs? */
+u8 FUN_8013491c(void); /* PS1_Demo_GetInputs? names don't make sense based on PS1_DoDemo though? */
 void PS1_DoDemo(Record *record);
 void FUN_80134be0(void);
 s32 TOUCHE(Input param_1);

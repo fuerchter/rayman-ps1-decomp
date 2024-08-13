@@ -686,9 +686,94 @@ u8 FUN_8013491c(void)
     return res;
 }
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_DoDemo);
+/* 10200 80134A00 -O2 -msoft-float */
+void PS1_DoDemo(Record *record)
+{
+    u8 unk_1;
+    s32 cur_offs = record->current_offset;
+    
+    if (record->is_recording)
+    {
+        unk_1 = FUN_8013491c();
+        if (cur_offs == 0)
+        {
+            record->repeat_index = 0;
+            record->data[cur_offs] = unk_1;
+            record->is_finished = false;
+            record->current_offset++;
+        }
+        else
+        {
+            record->repeat_index++;
+            if (
+                record->data[cur_offs - 1] != unk_1 ||
+                record->repeat_index == 0x000000FF ||
+                record->is_finished == true
+            )
+            {
+                record->data[cur_offs] = record->repeat_index; /* loaded as u8? */
+                cur_offs++;
+                record->data[cur_offs] = unk_1;
+                cur_offs++;
+                record->repeat_index = 0;
+                record->current_offset = cur_offs;
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_80134be0);
+                if (record->current_offset >= 10000 || record->is_finished == true)
+                {
+                    record->current_offset--;
+                    record->is_recording = false;
+                }
+            }
+        }
+    }
+    else if (record->is_playing)
+    {
+        if (cur_offs == 0)
+        {
+            record->repeat_index = 0;
+            FUN_80134610(record->data[cur_offs]);
+            cur_offs++;
+            record->repeat_length = record->data[cur_offs];
+            record->current_offset = cur_offs;
+            record->is_finished = false;
+        }
+        else
+        {
+            if (++record->repeat_index == record->repeat_length)
+            {
+                if (record->is_finished == true || (cur_offs + 1 >= record->length))
+                {
+                    record->is_playing = false;
+                    if (ModeDemo == 1)
+                    {
+                        ModeDemo = 2;
+                        new_world = true;
+                    }
+                }
+                else
+                {
+                    cur_offs += 2;
+                    record->repeat_index = 0;
+                    record->repeat_length = record->data[cur_offs];
+                    record->current_offset = cur_offs;
+                }
+            }
+            cur_offs--;
+            FUN_80134610(record->data[cur_offs]);
+        }
+    }
+}
+
+/* 103E0 80134BE0 -O2 -msoft-float */
+void FUN_80134be0(void)
+{
+    vu8 unk_1;
+    vu8 unk_2;
+
+    *(s32 *)&unk_1 = PS1_PadReceiveBuffer[3];
+    unk_2 = PS1_PadReceiveBuffer[2];
+    *(s32 *)&unk_1 ^= 0xFFFF;
+}
 
 INCLUDE_ASM("asm/nonmatchings/input_ED20", TOUCHE);
 
