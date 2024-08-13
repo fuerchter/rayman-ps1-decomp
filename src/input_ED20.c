@@ -660,7 +660,31 @@ void FUN_80134610(u8 param_1)
         joy_rec_down = false;
 }
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", FUN_8013491c);
+/* 1011C 8013491C -O2 -msoft-float */
+u8 FUN_8013491c(void)
+{
+    s32 unk_1 = 0;
+    s32 res = unk_1;
+    
+    if ((s16) but0pressed(0))
+        res |= FLG(0);
+    if ((s16) but1pressed(0))
+        res |= FLG(1);
+    if ((s16) but2pressed(0))
+        res |= FLG(2);
+    if ((s16) but3pressed(0))
+        res |= FLG(3);
+    if ((s16) leftjoy(0))
+        res |= FLG(4);
+    if ((s16) rightjoy(0))
+        res |= FLG(5);
+    if ((s16) upjoy(0))
+        res |= FLG(6);
+    if ((s16) downjoy(0))
+        res |= FLG(7);
+
+    return res;
+}
 
 INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_DoDemo);
 
