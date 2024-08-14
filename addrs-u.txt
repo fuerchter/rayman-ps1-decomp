@@ -1390,7 +1390,6 @@ PS1_DefaultRayEvts = 0x801cee98;
 PS1_Music_access_num = 0x801ceeb0;
 PS1_Music_pcom = 0x801ceeb6;
 PS1_ButtonStates = 0x801ceefc;
-PS1_PrevButtonStates = 0x801cef00;
 PS1_PolygonIndexTableCount = 0x801cef74;
 PS1_DrawSpriteSemiTrans = 0x801cef76;
 pma_couteaux = 0x801cefa8;
