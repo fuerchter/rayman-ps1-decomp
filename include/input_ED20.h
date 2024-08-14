@@ -4,6 +4,7 @@
 #include "common.h"
 #include "common/record.h"
 #include "menu/menu_7F4B4.h"
+#include "fade.h"
 
 typedef u8 Input;
 #define INPUT_NONE 0
@@ -55,9 +56,22 @@ typedef u8 Input;
 #define PAD_DOWN 16384
 #define PAD_LEFT 32768*/
 
+/* .data */
+extern s32 PS1_ButtonStates[17];
+
 /**/
 extern s32 PS1_GlobalTimer;
 extern u8 PS1_PadReceiveBuffer[34];
+extern s16 D_801E4C08;
+extern s16 joy_rec_left;
+extern s16 joy_rec_right;
+extern s16 joy_rec_down;
+extern s16 D_801F8428;
+extern s16 D_801F8430;
+extern s16 D_801F8438;
+extern s16 D_801F8448;
+extern s32 D_801E4B60;
+extern s16 D_801F5688;
 
 s32 readinput(void);
 s32 upjoy(s32 param_1);

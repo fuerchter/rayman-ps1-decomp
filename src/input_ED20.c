@@ -1,18 +1,5 @@
 #include "input_ED20.h"
 
-extern u8 PS1_DisableInputs;
-extern s16 D_801E4C08;
-extern s16 joy_rec_left;
-extern s16 joy_rec_right;
-extern s16 joy_rec_down;
-extern s16 D_801F8428;
-extern s16 D_801F8438;
-extern s16 D_801F8448;
-extern s16 D_801F8430;
-extern s32 PS1_ButtonStates[17];
-extern s32 D_801E4B60;
-extern s16 D_801F5688;
-
 /* ED20 80133520 -O2 -msoft-float */
 s32 readinput(void)
 {
