@@ -5,7 +5,7 @@
 #include "common/record.h"
 #include "menu/menu_7F4B4.h"
 
-typedef u32 Input;
+typedef u8 Input;
 #define INPUT_NONE 0
 #define INPUT_LEFT 1
 #define INPUT_RIGHT 2
@@ -118,7 +118,7 @@ void FUN_80134610(u8 param_1); /* PS1_Demo_SetInputs? */
 u8 FUN_8013491c(void); /* PS1_Demo_GetInputs? names don't make sense based on PS1_DoDemo though? */
 void PS1_DoDemo(Record *record);
 void FUN_80134be0(void);
-s32 TOUCHE(u8 param_1);
+s32 TOUCHE(Input param_1);
 s32 PS1_SingleTOUCHE(Input param_1);
 
 #endif

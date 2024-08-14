@@ -2,7 +2,7 @@
 
 /*INCLUDE_ASM("asm/nonmatchings/input_ED20", TOUCHE);*/
 
-s32 TOUCHE(u8 param_1)
+s32 TOUCHE(Input param_1)
 {
     s16 temp_v0_3;
     s16 var_a2;

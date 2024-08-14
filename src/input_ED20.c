@@ -780,4 +780,11 @@ void FUN_80134be0(void)
 
 INCLUDE_ASM("asm/nonmatchings/input_ED20", TOUCHE);
 
-INCLUDE_ASM("asm/nonmatchings/input_ED20", PS1_SingleTOUCHE);
+/* 10B00 80135300 -O2 -msoft-float */
+s32 PS1_SingleTOUCHE(Input param_1)
+{
+    if (PS1_ButtonStates[0] != PS1_ButtonStates[1])
+        return TOUCHE(param_1);
+    else
+        return false;
+}
