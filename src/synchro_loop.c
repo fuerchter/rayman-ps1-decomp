@@ -33,7 +33,7 @@ void SYNCHRO_LOOP(s16 (*func)())
     
     if (PS1_MemoryUsageDisplayMode != 0)
       ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 0, 0, 128);
-    ClearOTag(PS1_CurrentDisplay->ordering_table, LEN(PS1_CurrentDisplay->ordering_table));
+    ClearOTag((u_long *) PS1_CurrentDisplay->ordering_table, LEN(PS1_CurrentDisplay->ordering_table));
     
     if (PS1_CurrentDisplay == &PS1_Display1)
       new_disp_2 = &PS1_Display1 + 1;
@@ -59,7 +59,7 @@ void SYNCHRO_LOOP(s16 (*func)())
     PS1_CheckPauseAndCheatInputs();
     if (PS1_MemoryUsageDisplayMode == 2)
       ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 128, 0, 128);
-    DrawOTag(PS1_CurrentDisplay->ordering_table);
+    DrawOTag((u_long *) PS1_CurrentDisplay->ordering_table);
   }
   while (!func_done);
 }

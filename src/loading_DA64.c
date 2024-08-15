@@ -56,7 +56,7 @@ void FUN_80132424(void)
 /* DCCC 801324CC -O2 -msoft-float */
 void PS1_LoadAllFixData(void)
 {
-    u8 *cur = PS1_AllFixData;
+    u8 *cur = (u8 *) PS1_AllFixData;
     
     __builtin_memcpy(&alpha, cur, sizeof(Font));
     cur += sizeof(Font);
@@ -70,7 +70,7 @@ void PS1_LoadAllFixData(void)
     cur += sizeof(Obj);
     __builtin_memcpy(&div_obj, cur, sizeof(Obj));
     cur += sizeof(Obj);
-    mapobj = cur;
+    mapobj = (Obj *) cur;
 }
 
 /* DFEC 801327EC -O2 -msoft-float */

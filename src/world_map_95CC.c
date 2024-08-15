@@ -17,9 +17,9 @@ s32 select_level_prg(void)
     readinput();
 
     DISPLAY_FOND_SELECT();
-    display_text(&s_level_801cedf4, 100, 100, 0, colour);
+    display_text(s_level_801cedf4, 100, 100, 0, colour);
     PS1_itoa(level_select, &num, 10);
-    display_text(&num, 200, 100, 0, colour);
+    display_text(num, 200, 100, 0, colour);
 
     if (rightjoy(0) && inter_select == 0)
         level_select++;

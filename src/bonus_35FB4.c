@@ -5,7 +5,7 @@
 
 u8 get_bonus_map_complete(s16 world, s16 level)
 {
-    return getbit(&bonus_perfect, (s16) (level - 1 + ((world - 1) << 5)));
+    return getbit(bonus_perfect, (s16) (level - 1 + ((world - 1) << 5)));
 }
 
 /* 35FEC 8015A7EC -O2 */
@@ -13,7 +13,7 @@ u8 get_bonus_map_complete(s16 world, s16 level)
 
 void set_bonus_map_complete(s16 world, s16 level)
 {
-    setbit(&bonus_perfect, (s16) (level - 1 + ((world - 1) << 5)));
+    setbit(bonus_perfect, (s16) (level - 1 + ((world - 1) << 5)));
 }
 
 /* 36024 8015A824 -O2 */

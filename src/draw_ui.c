@@ -236,7 +236,7 @@ void display_time(s16 time)
     {
         if (D_801CF018 == -1)
         {
-            display_text(&s_time_801cef88, 268, 202, 2, 7);
+            display_text(s_time_801cef88, 268, 202, 2, 7);
             time_div = time / 60;
             display_sprite(sbar_obj, (time_div / 10) + 28, 270, 204, 0);
             display_sprite(sbar_obj, (time_div % 10) + 28, 285, 204, 0);
@@ -265,13 +265,13 @@ void display_time(s16 time)
                 }
 
                 if (D_801CF018 == -1)
-                    display_text(&text, 160, 120, 2, PS1_TingsToGet_Col);
+                    display_text(text, 160, 120, 2, PS1_TingsToGet_Col);
             }
         }
         else if (map_time - 121 < 40U)
         {
             __builtin_memcpy(text, s_go__801cef94, sizeof(s_go__801cef94));
-            display_text(&text, 160, 120, 0, 8);
+            display_text(text, 160, 120, 0, 8);
         }
     }
 }
@@ -377,7 +377,7 @@ void DISPLAY_CONTINUE_SPR(void)
     dig_0 = nb_continue / 10;
     dig_1 = nb_continue % 10;
     if (loop_timing == 0x00FF)
-        display_text(&s_the_end_801cef9c, 177, 182, 2, 0);
+        display_text(s_the_end_801cef9c, 177, 182, 2, 0);
     else
     {
         display_sprite(&div_obj, dig_0 + 28, 184, 162, 0);
