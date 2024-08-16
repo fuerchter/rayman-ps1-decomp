@@ -1,6 +1,6 @@
 #include "command_56AF0.h"
 
-CommandTableEntry cptr_tab[34] =
+CommandTableEntry cptr_tab[] =
 {
   { &readOneArg, &skipOneArg, &handle_SELF_HANDLED },
   { &readOneArg, &skipOneArg, &handle_SELF_HANDLED },

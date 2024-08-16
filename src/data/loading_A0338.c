@@ -1,6 +1,6 @@
 #include "loading_794DC.h"
 
-FileInfo PS1_ImgFiles[3] =
+FileInfo PS1_ImgFiles[] =
 {
   {
     "\\RAY\\IMA\\VIG\\FND02.R16;1",
@@ -22,7 +22,7 @@ FileInfo PS1_ImgFiles[3] =
   }
 };
 
-FileInfo PS1_LdrFiles[2] =
+FileInfo PS1_LdrFiles[] =
 {
   {
     "\\RAY\\IMA\\VIG\\LOGO_UBI.R16;1",
@@ -38,7 +38,7 @@ FileInfo PS1_LdrFiles[2] =
   }
 };
 
-FileInfo PS1_VdoFiles[6] =
+FileInfo PS1_VdoFiles[] =
 {
   {
     "\\VIDEO\\TABLES.VLC;1",
@@ -78,7 +78,7 @@ FileInfo PS1_VdoFiles[6] =
   }
 };
 
-FileInfo PS1_TrkFiles[53] =
+FileInfo PS1_TrkFiles[] =
 {
   {
     "\\MUS2\\FEE.RAW;1",
@@ -395,7 +395,7 @@ FileInfo PS1_TrkFiles[53] =
   }
 };
 
-FileInfo PS1_PreFiles[5] =
+FileInfo PS1_PreFiles[] =
 {
   {
     "\\RAY\\IMA\\VIG\\VIG_PR1.R16;1",
@@ -429,7 +429,7 @@ FileInfo PS1_PreFiles[5] =
   }
 };
 
-FileInfo PS1_CrdFiles[6] =
+FileInfo PS1_CrdFiles[] =
 {
   {
     "\\RAY\\IMA\\CRD\\VAC_CLOR.R16;1",
@@ -469,7 +469,7 @@ FileInfo PS1_CrdFiles[6] =
   }
 };
 
-FileInfo PS1_GamFiles[6] =
+FileInfo PS1_GamFiles[] =
 {
   {
     "\\RAY\\IMA\\VIG\\VIG_TRZ.R16;1",
@@ -509,7 +509,7 @@ FileInfo PS1_GamFiles[6] =
   }
 };
 
-FileInfo PS1_VigWldFiles[6] =
+FileInfo PS1_VigWldFiles[] =
 {
   {
     "\\RAY\\IMA\\VIG\\VIG_01R.R16;1",
@@ -549,7 +549,7 @@ FileInfo PS1_VigWldFiles[6] =
   }
 };
 
-FileInfo PS1_WldFiles[6] =
+FileInfo PS1_WldFiles[] =
 {
   {
     "\\RAY\\JUN\\JUN.XXX;1",
@@ -589,7 +589,7 @@ FileInfo PS1_WldFiles[6] =
   }
 };
 
-FileInfo PS1_MapFiles[126] =
+FileInfo PS1_MapFiles[] =
 {
   {
     "\\RAY\\JUN\\JUN01.XXX;1",
@@ -1349,7 +1349,7 @@ FileInfo PS1_MapFiles[126] =
   }
 };
 
-FileInfo PS1_FndFiles[31] =
+FileInfo PS1_FndFiles[] =
 {
   {
     "\\RAY\\IMA\\FND\\JUNF1.XXX;1",
@@ -1539,7 +1539,7 @@ FileInfo PS1_FndFiles[31] =
   }
 };
 
-FileInfo PS1_VabFiles[7] =
+FileInfo PS1_VabFiles[] =
 {
   {
     "\\RAY\\SND\\RAYFIX.VB;1",
@@ -1585,7 +1585,7 @@ FileInfo PS1_VabFiles[7] =
   }
 };
 
-FileInfo PS1_BigFiles[7] =
+FileInfo PS1_BigFiles[] =
 {
   {
     "\\RAY\\SND\\BIGFIX.ALL;1",
@@ -1631,7 +1631,7 @@ FileInfo PS1_BigFiles[7] =
   }
 };
 
-FileInfo PS1_Vab4sepFiles[7] =
+FileInfo PS1_Vab4sepFiles[] =
 {
   {
     "\\RAY\\SND\\SEPFIX.VB;1",
@@ -1677,7 +1677,7 @@ FileInfo PS1_Vab4sepFiles[7] =
   }
 };
 
-FileInfo PS1_FxsFiles[2] =
+FileInfo PS1_FxsFiles[] =
 {
   {
     "\\RAY\\RAY.XXX;1",
@@ -1693,7 +1693,7 @@ FileInfo PS1_FxsFiles[2] =
   }
 };
 
-FileInfo PS1_IniFiles[1] =
+FileInfo PS1_IniFiles[] =
 {
   "\\RAY\\INI.XXX;1",
   (u8 *)0x800D0000,

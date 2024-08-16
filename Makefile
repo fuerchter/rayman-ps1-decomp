@@ -10,7 +10,6 @@
 #	display_time, DISPLAY_SAVE_SPRITES, DISPLAY_CONTINUE_SPR, doMoskitoHit, setBossReachingSpeeds, DO_COMMANDE_PAD
 
 #TODO:
-#DISPLAY_UI HAS TO BE BUILT WITH .DATA ON NONMATCHING BUILD
 #skipToLabel callers: consistently use bool define as third param
 
 #check out -psx patched old-gcc to possibly clean up DO_WORLD_MAP, DETER_WORLD_AND_LEVEL world_index assign
@@ -40,7 +39,6 @@
 #how to decompile ghidra_psx_ldr generated obj labels/functions in psyq?
 
 #there seems to be an extra section before rodata even (0x80010000 and on)? see loading_794DC?
-#add strings as const instead of used in code... (before commit b0ea40a, look for rodata .s that has .asciz)
 #display_etoile memcpy changed when .data was added, will this happen for others? (INIT_LEVEL_STAGE_NAME e.g.)
 #.data like DemoRecord might need incbin preprocessor stuff, see https://github.com/YohannDR/mzm/blob/e0f6976efb9d4be4b653d1c71ee803a8ef0599b3/tools/preproc/c_file.cpp#L326 ?
 #.bss ? https://github.com/HighwayFrogs/frogger-psx/tree/main/vlo https://github.com/ethteck/splat/wiki/Segments#bss https://github.com/FoxdieTeam/mgs_reversing/tree/df66887a738d28581438b9cb5e77cd762223762d/src/data
