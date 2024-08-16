@@ -311,7 +311,7 @@ segments:
       - [0x9E814, data]
       - [0x9E914, .data, data/collision/bit_util] #801C3114
       - [0x9EB18, data]
-      #- [0x9F448, .data, data/demo_9FD4] #801C3C48 TODO: move this to data/ dir once it can be used
+      - [0x9F448, .data, data/demo_9F448] #801C3C48
       - [0x9FB74, data]
       - [0x9FC78, .data, data/music_9FC78] #801C4478
       - [0xA0338, data]
