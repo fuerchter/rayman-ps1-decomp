@@ -22,7 +22,6 @@ extern u8 D_801F7D41;
 extern u8 D_801F7D42;
 extern u8 D_801F7D43;
 extern u8 place_sequence[5];
-extern s32 *D_801D7840;
 extern s16 D_801F7C80;
 
 /* 41084 80165884 -O2 -msoft-float */

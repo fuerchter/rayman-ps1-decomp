@@ -115,7 +115,7 @@ s32 PS1_LoadFiles(FileInfo *files, s32 file_index, s32 count, s16 param_4)
 }
 
 /* EC98 80133498 -O2 -msoft-float */
-s32 FUN_80133498(FileInfo file, s16 in_vabid, s16 param_3)
+s32 PS1_LoadVabBody(FileInfo file, s16 in_vabid, s16 param_3)
 {
   s32 out_vabid;
   s16 completed;
