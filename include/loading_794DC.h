@@ -2,7 +2,7 @@
 #define LOADING_794DC_H
 
 #include "common.h"
-#include "psyq_3_0/LIBCD.H"
+#include "common/fileinfo.h"
 #include "psyq_3_0/LIBGPU.H"
 #include "loading_DA64.h"
 #include "loading_tex.h"
@@ -10,14 +10,6 @@
 #include "fond_10B3C.h"
 #include "menu/menu_6A3BC.h"
 #include "password.h"
-
-typedef struct FileInfo
-{
-    u8 * path;
-    u8 * dest; /* u32 * based on PS1_LoadFiles/CdRead? */
-    u8 * dest_debug;
-    CdlFILE file;
-} FileInfo;
 
 /* .data */
 extern s32 *D_801C4374[6];

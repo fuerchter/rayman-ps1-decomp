@@ -44,7 +44,7 @@ void PS1_LoadAllFixSound(void)
 /*INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadWorldSound);*/
 
 /* 4145C 80165C5C -O2 -msoft-float */
-s32 FUN_80133498(FileInfo param_1, s16 param_2, u8 *param_3);
+/*s32 FUN_80133498(FileInfo param_1, s16 param_2, u8 *param_3);*/
 
 void PS1_LoadWorldSound(s16 param_1)
 {
@@ -53,7 +53,7 @@ void PS1_LoadWorldSound(s16 param_1)
   
   stop_all_snd();
   PS1_SetStereoEnabled(options_jeu.StereoEnabled);
-  FUN_80166060(options_jeu.Soundfx * 127 / 20);
+  SetVolumeSound(options_jeu.Soundfx * 127 / 20);
   piVar1 = D_801D7840;
   if (*piVar1 != 0)
   {

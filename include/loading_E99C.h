@@ -2,9 +2,10 @@
 #define LOADING_E99C_H
 
 #include "common.h"
+#include "common/fileinfo.h"
+#include "common/world_map.h"
 #include "psyq_3_0/LIBSND.H"
 #include "psyq_3_0/STDIO.H"
-#include "loading_794DC.h"
 
 /* .data */
 extern u8 *D_801CEEEC;

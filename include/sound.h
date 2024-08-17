@@ -8,6 +8,7 @@
 #include "psyq_3_0/LIBSND.H"
 #include "obj_update.h"
 #include "loading_794DC.h"
+#include "loading_E99C.h"
 #include "moteur_update.h"
 
 typedef struct SoundTableEntry
