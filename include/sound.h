@@ -63,6 +63,15 @@ typedef struct Unk_801f62a0
     s16 field10_0x16;
 } Unk_801f62a0;
 
+typedef struct SndFileInfo
+{
+    s32 field0_0x0; /* checked == 3 at 80165a80 and != 0 at 80165cec */
+    s32 ray_vh_offs; /* body is in RAY*.VB */
+    s32 sep_vh_offs; /* body is in SEP*.VB */
+    s32 seq_offs;
+    s32 size;
+} SndFileInfo;
+
 /* .data */
 extern SoundTableEntry sound_table[256];
 extern u8 frame_snd[256];
@@ -88,11 +97,11 @@ extern s16 PS1_CurrentAudio;
 extern s16 D_801CEFDC;
 
 /**/
-extern s16 PS1_AllFix_VabId1;
-extern s16 PS1_AllFix_VabId2;
+extern s16 PS1_AllFix_Ray_VabId;
+extern s16 PS1_AllFix_Sep_VabId;
 extern s16 PS1_AllFix_SepAcc;
-extern s16 PS1_World_VabId1;
-extern s16 PS1_World_VabId2;
+extern s16 PS1_World_Ray_VabId;
+extern s16 PS1_World_Sep_VabId;
 extern s16 PS1_World_SepAcc;
 extern s16 indice_ray_wait;
 extern s16 indice_trz_wait;
@@ -100,7 +109,7 @@ extern s16 stk_obj[20];
 extern s16 stk_snd[20];
 extern VoiceTableEntry voice_table[24];
 extern u8 D_801F6850;
-extern s32 D_801D8B50; /* array? */
+extern SndFileInfo D_801D8B50;
 extern s32 D_801D8B54;
 extern s32 D_801D8B58;
 extern s32 D_801D8B5C;

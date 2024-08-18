@@ -4,32 +4,30 @@
 /*INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadAllFixSound);*/
 
 /* 41224 80165A24 -O2 -msoft-float */
-s32 FUN_80133498(FileInfo param_1, s16 param_2, u8 *param_3);
-s32 PS1_LoadFiles(FileInfo *files,s32 fileIndex,s32 count, s32 a3);
+/*s32 PS1_LoadVabBody(FileInfo param_1, s16 param_2, u8 *param_3);*/
+/*s32 PS1_LoadFiles(FileInfo *files,s32 fileIndex,s32 count, s32 a3);*/
 
 void PS1_LoadAllFixSound(void)
 {
-  s32 *new_var;
-
   if (D_801CEFDC == 0)
   {
     SsUtReverbOff();
-    PS1_BigFiles[0].dest = (u8 *)&D_801D8B50; /* RAY\SND\BIGFIX.ALL */
-    new_var = &D_801D8B50;
-    PS1_FileTemp = PS1_LoadFiles(PS1_BigFiles,0,1, 0);
-    if (*new_var == 3)
+    /* load RAY\SND\BIGFIX.ALL to 801D8B50 */
+    PS1_BigFiles[0].dest = (u8 *) &D_801D8B50;
+    PS1_FileTemp = PS1_LoadFiles(PS1_BigFiles, 0, 1, 0);
+    if (D_801D8B50.field0_0x0 == 3)
     {
-      PS1_AllFix_VabId1 = 0;
-      PS1_AllFix_VabId1 = SsVabOpenHead((u8 *)((int)&D_801D8B50 + D_801D8B54), 0);
-      if (PS1_AllFix_VabId1 != -1)
-        PS1_FileTemp = FUN_80133498(PS1_VabFiles[0], PS1_AllFix_VabId1, 0);
-      PS1_AllFix_VabId2 = 2;
-      PS1_AllFix_VabId2 = SsVabOpenHead((u8 *)((int)&D_801D8B50 + D_801D8B58), 2);
-      if (PS1_AllFix_VabId2 != -1)
-        PS1_FileTemp = FUN_80133498(PS1_Vab4sepFiles[0], PS1_AllFix_VabId2, 0);
+      PS1_AllFix_Ray_VabId = 0;
+      PS1_AllFix_Ray_VabId = SsVabOpenHead(((u8 *) &D_801D8B50) + D_801D8B50.ray_vh_offs, 0);
+      if (PS1_AllFix_Ray_VabId != -1)
+        PS1_FileTemp = PS1_LoadVabBody(PS1_VabFiles[0], PS1_AllFix_Ray_VabId, 0);
+      PS1_AllFix_Sep_VabId = 2;
+      PS1_AllFix_Sep_VabId = SsVabOpenHead(((u8 *) &D_801D8B50) + D_801D8B50.sep_vh_offs, 2);
+      if (PS1_AllFix_Sep_VabId != -1)
+        PS1_FileTemp = PS1_LoadVabBody(PS1_Vab4sepFiles[0], PS1_AllFix_Sep_VabId, 0);
       PS1_AllFix_SepAcc = 0;
-      if (PS1_AllFix_VabId2 != -1)
-        PS1_AllFix_SepAcc = SsSepOpen((u8 *)((int)&D_801D8B50 + D_801D8B5C), PS1_AllFix_VabId2, D_801C7C78[0]);
+      if (PS1_AllFix_Sep_VabId != -1)
+        PS1_AllFix_SepAcc = SsSepOpen(((u8 *) &D_801D8B50) + D_801D8B50.seq_offs, PS1_AllFix_Sep_VabId, D_801C7C78[0]);
     }
     SsUtReverbOn();
     LOAD_CONFIG();
@@ -46,43 +44,34 @@ void PS1_LoadAllFixSound(void)
 /* 4145C 80165C5C -O2 -msoft-float */
 /*s32 PS1_LoadVabBody(FileInfo param_1, s16 param_2, u8 *param_3);*/
 
-typedef struct Unk_801D7840
-{
-    s32 unk_0x0;
-    s32 vab_h1_offs;
-    s32 vab_h2_offs;
-    s32 sep_offs;
-    s32 unk_0x10;
-} Unk_801D7840;
-
-extern Unk_801D7840 *D_801D7840;
+extern SndFileInfo *D_801D7840;
 
 void PS1_LoadWorldSound(s16 param_1)
 {
-  Unk_801D7840 *piVar1;
+  SndFileInfo *piVar1;
   s32 new_var;
   
   stop_all_snd();
   PS1_SetStereoEnabled(options_jeu.StereoEnabled);
   SetVolumeSound(options_jeu.Soundfx * 127 / 20);
   piVar1 = D_801D7840; /* .XXX loaded in load_world? */
-  if (piVar1->unk_0x0 != 0) /* doesn't just seem to take values 0 or 1 */
+  if (piVar1->field0_0x0 != 0) /* doesn't just seem to take values 0 or 1 */
   {
-    PS1_World_VabId1 = 1;
-    SsVabClose(PS1_World_VabId1);
-    PS1_World_VabId2 = 3;
-    SsVabClose(PS1_World_VabId2);
-    PS1_World_VabId1 = SsVabOpenHead(((u8 *) piVar1) + piVar1->vab_h1_offs, PS1_World_VabId1);
-    if (PS1_World_VabId1 != -1)
-      PS1_FileTemp = PS1_LoadVabBody(PS1_VabFiles[param_1], PS1_World_VabId1, 0);
-    PS1_World_VabId2 = SsVabOpenHead(((u8 *) piVar1) + piVar1->vab_h2_offs, PS1_World_VabId2);
-    if (PS1_World_VabId2 != -1)
-      PS1_FileTemp = PS1_LoadVabBody(PS1_Vab4sepFiles[param_1], PS1_World_VabId2, 0);
+    PS1_World_Ray_VabId = 1;
+    SsVabClose(PS1_World_Ray_VabId);
+    PS1_World_Sep_VabId = 3;
+    SsVabClose(PS1_World_Sep_VabId);
+    PS1_World_Ray_VabId = SsVabOpenHead(((u8 *) piVar1) + piVar1->ray_vh_offs, PS1_World_Ray_VabId);
+    if (PS1_World_Ray_VabId != -1)
+      PS1_FileTemp = PS1_LoadVabBody(PS1_VabFiles[param_1], PS1_World_Ray_VabId, 0);
+    PS1_World_Sep_VabId = SsVabOpenHead(((u8 *) piVar1) + piVar1->sep_vh_offs, PS1_World_Sep_VabId);
+    if (PS1_World_Sep_VabId != -1)
+      PS1_FileTemp = PS1_LoadVabBody(PS1_Vab4sepFiles[param_1], PS1_World_Sep_VabId, 0);
     PS1_World_SepAcc = 1;
     SsSepClose(PS1_World_SepAcc);
     PS1_World_SepAcc = SsSepOpen(
-        ((u8 *) piVar1) + piVar1->sep_offs,
-        PS1_World_VabId2,
+        ((u8 *) piVar1) + piVar1->seq_offs,
+        PS1_World_Sep_VabId,
         D_801C7C78[param_1]
     );
   }
