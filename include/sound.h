@@ -25,7 +25,7 @@ typedef struct VoiceTableEntry
     s16 id;
     s16 field1_0x2;
     s16 field2_0x4; /* pan? see get_pan_snd, setpan */
-    s16 field3_0x6; /* sound_table index based on FUN_80168f48? */
+    s16 field3_0x6; /* hard_sound_table index based on FUN_80168f48? */
     u8 field4_0x8;
     u8 field5_0x9;
     u8 field6_0xa;
@@ -73,11 +73,11 @@ typedef struct SndFileInfo
 } SndFileInfo;
 
 /* .data */
-extern SoundTableEntry sound_table[256];
+extern SoundTableEntry hard_sound_table[256];
 extern u8 frame_snd[256];
 extern u8 frame_snd_bis[256];
 extern s16 snd_bis[256];
-extern u8 PS1_SoundVabIds[256];
+extern u8 bank_to_use[256];
 extern s16 D_801C7C78[8]; /* SsSepOpen seq_num? number of elements? */
 extern s16 PS1_SepVols[26]; /* number of elements? */
 extern SepInfo PS1_SepInfos[25]; /* number of elements? */

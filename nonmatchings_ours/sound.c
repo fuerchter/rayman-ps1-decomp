@@ -54,8 +54,8 @@ void PS1_LoadWorldSound(s16 param_1)
   stop_all_snd();
   PS1_SetStereoEnabled(options_jeu.StereoEnabled);
   SetVolumeSound(options_jeu.Soundfx * 127 / 20);
-  piVar1 = D_801D7840; /* .XXX loaded in load_world? */
-  if (piVar1->field0_0x0 != 0) /* doesn't just seem to take values 0 or 1 */
+  piVar1 = D_801D7840; /* .XXX loaded in load_world */
+  if (piVar1->field0_0x0 != 0)
   {
     PS1_World_Ray_VabId = 1;
     SsVabClose(PS1_World_Ray_VabId);
@@ -214,21 +214,21 @@ void PlaySnd(short snd,short obj_id)
   }
   iVar11 = obj_id;
   sVar3 = last_snd(iVar11);
-  if ((snd != sVar3) && ((sound_table[sVar3].flags >> 3 & 1) != 0)) {
+  if ((snd != sVar3) && ((hard_sound_table[sVar3].flags >> 3 & 1) != 0)) {
     erase_pile_snd(iVar11);
     sVar4 = get_voice_obj_snd(iVar11,sVar3);
     iVar6 = sVar4;
     if (-1 < iVar6) {
       sVar4 = voice_table[iVar6].field3_0x6;
-      SsUtKeyOff(iVar6,PS1_SoundVabIds[sVar4],sound_table[sVar4].prog,sound_table[sVar4].tone,
-                 sound_table[sVar4].note);
+      SsUtKeyOff(iVar6,bank_to_use[sVar4],hard_sound_table[sVar4].prog,hard_sound_table[sVar4].tone,
+                 hard_sound_table[sVar4].note);
       voice_table[iVar6].id = -2;
       voice_table[iVar6].field3_0x6 = -1;
       voice_is_working[iVar6] = 0;
     }
   }
   if (((dans_la_map_monde == false) && (snd != 0)) &&
-     ((sVar3 != snd || ((sound_table[sVar3].flags >> 2 & 1) != 0)))) {
+     ((sVar3 != snd || ((hard_sound_table[sVar3].flags >> 2 & 1) != 0)))) {
     iVar11 = obj_id;
     if ((iVar11 == -1) || (iVar11 == rayman_obj_id)) {
       local_40 = get_pan_snd(&ray);
@@ -236,7 +236,7 @@ void PlaySnd(short snd,short obj_id)
     }
     else {
       local_40 = get_pan_snd(level.objects + iVar11);
-      if ((sound_table[snd].flags & 1) == 0)
+      if ((hard_sound_table[snd].flags & 1) == 0)
       {
         local_48 = 0x7f;
       }
@@ -245,65 +245,65 @@ void PlaySnd(short snd,short obj_id)
         local_48 = get_vol_snd(level.objects + iVar11);
       }
     }
-    uVar10 = sound_table[0].prog;
-    tone = sound_table[0].tone;
+    uVar10 = hard_sound_table[0].prog;
+    tone = hard_sound_table[0].tone;
     switch(snd)
     {
     case 0x35:
       if (level.objects[obj_id].type != TYPE_POING_FEE) {
-        uVar10 = sound_table[53].prog;
-        tone = sound_table[53].tone;
-        unaff_s6 = sound_table[53].note;
+        uVar10 = hard_sound_table[53].prog;
+        tone = hard_sound_table[53].tone;
+        unaff_s6 = hard_sound_table[53].note;
       }
       else {
-        unaff_s6 = sound_table[0].note;
+        unaff_s6 = hard_sound_table[0].note;
       }
       break;
     case 0x2f:
       if (num_world != 5) {
-        uVar10 = sound_table[47].prog;
-        tone = sound_table[47].tone;
-        unaff_s6 = sound_table[47].note;
+        uVar10 = hard_sound_table[47].prog;
+        tone = hard_sound_table[47].tone;
+        unaff_s6 = hard_sound_table[47].note;
       }
       else {
-        uVar10 = sound_table[170].prog;
-        tone = sound_table[170].tone;
-        unaff_s6 = sound_table[170].note;
+        uVar10 = hard_sound_table[170].prog;
+        tone = hard_sound_table[170].tone;
+        unaff_s6 = hard_sound_table[170].note;
       }
       break;
     case 0xf:
       indice_ray_wait = indice_ray_wait + 1;
       if (!(2 >= indice_ray_wait)) {
         indice_ray_wait = 0;
-        uVar10 = sound_table[15].prog;
-        tone = sound_table[15].tone;
-        unaff_s6 = sound_table[15].note;
+        uVar10 = hard_sound_table[15].prog;
+        tone = hard_sound_table[15].tone;
+        unaff_s6 = hard_sound_table[15].note;
       }
       erase_pile_snd(0xffffffff);
       break;
     case 0x50:
       indice_trz_wait = indice_trz_wait + 1;
       if (!(1 >= indice_trz_wait)) {
-        uVar10 = sound_table[80].prog;
-        tone = sound_table[80].tone;
-        unaff_s6 = sound_table[80].note;
+        uVar10 = hard_sound_table[80].prog;
+        tone = hard_sound_table[80].tone;
+        unaff_s6 = hard_sound_table[80].note;
         indice_trz_wait = 0;
       }
       break;
     case 0xe:
-      uVar10 = sound_table[14].prog;
-      tone = sound_table[14].tone;
-      unaff_s6 = place_sequence[level.objects[obj_id].sub_etat];
+      uVar10 = hard_sound_table[14].prog;
+      tone = hard_sound_table[14].tone;
+      unaff_s6 = place_sequence[level.objects[obj_id].sub_etat]; /* really accessing 801cefd0 */
       break;
     case 0x13:
-      uVar10 = sound_table[19].prog;
-      tone = sound_table[19].tone;
-      unaff_s6 = sound_table[19].note;
+      uVar10 = hard_sound_table[19].prog;
+      tone = hard_sound_table[19].tone;
+      unaff_s6 = hard_sound_table[19].note;
       break;
     case 0xf5:
-      uVar10 = sound_table[245].prog;
-      tone = sound_table[245].tone;
-      unaff_s6 = sound_table[245].note;
+      uVar10 = hard_sound_table[245].prog;
+      tone = hard_sound_table[245].tone;
+      unaff_s6 = hard_sound_table[245].note;
       break;
     case 0x37:
       uVar10 = 0xffff;
@@ -326,35 +326,35 @@ void PlaySnd(short snd,short obj_id)
       }
       break;
     default:
-      uVar10 = sound_table[snd].prog;
-      tone = sound_table[snd].tone;
-      unaff_s6 = sound_table[snd].note;
+      uVar10 = hard_sound_table[snd].prog;
+      tone = hard_sound_table[snd].tone;
+      unaff_s6 = hard_sound_table[snd].note;
       break;
     }
     if (uVar10 != -1) {
       erase_pile_snd(obj_id);
       uVar12 = local_48;
-      vol_l(PS1_SoundVolume * uVar12 * sound_table[snd].volume >> 0xe,local_40);
-      vol_r(PS1_SoundVolume * uVar12 * sound_table[snd].volume >> 0xe,local_40);
+      vol_l(PS1_SoundVolume * uVar12 * hard_sound_table[snd].volume >> 0xe,local_40);
+      vol_r(PS1_SoundVolume * uVar12 * hard_sound_table[snd].volume >> 0xe,local_40);
       if (frame_snd[snd] == 0) {
 
         if (options_jeu.StereoEnabled != 0) {
-          voll = vol_l(PS1_SoundVolume * uVar12 * sound_table[snd].volume >> 0xe,
+          voll = vol_l(PS1_SoundVolume * uVar12 * hard_sound_table[snd].volume >> 0xe,
                        local_40);
-          volr = vol_r(PS1_SoundVolume * uVar12 * sound_table[snd].volume >> 0xe,
+          volr = vol_r(PS1_SoundVolume * uVar12 * hard_sound_table[snd].volume >> 0xe,
                        local_40);
-          uVar10 = SsUtKeyOn(PS1_SoundVabIds[snd],uVar10,tone,unaff_s6,0,voll,volr);
-          sVar4 = vol_l(PS1_SoundVolume * uVar12 * sound_table[snd].volume >> 0xe,
+          uVar10 = SsUtKeyOn(bank_to_use[snd],uVar10,tone,unaff_s6,0,voll,volr);
+          sVar4 = vol_l(PS1_SoundVolume * uVar12 * hard_sound_table[snd].volume >> 0xe,
                         local_40);
-          sVar5 = vol_r(PS1_SoundVolume * uVar12 * sound_table[snd].volume >> 0xe,
+          sVar5 = vol_r(PS1_SoundVolume * uVar12 * hard_sound_table[snd].volume >> 0xe,
                         local_40);
           SsUtSetVVol(uVar10,sVar4,sVar5);
         }
         else {
-          uVar10 = SsUtKeyOn(PS1_SoundVabIds[snd],uVar10,tone,unaff_s6,0,
-                            (PS1_SoundVolume * uVar12 * sound_table[snd].volume >> 0xe),
-                            (PS1_SoundVolume * uVar12 * sound_table[snd].volume >> 0xe));
-          test_1 = PS1_SoundVolume * uVar12 * sound_table[snd].volume >> 0xe;
+          uVar10 = SsUtKeyOn(bank_to_use[snd],uVar10,tone,unaff_s6,0,
+                            (PS1_SoundVolume * uVar12 * hard_sound_table[snd].volume >> 0xe),
+                            (PS1_SoundVolume * uVar12 * hard_sound_table[snd].volume >> 0xe));
+          test_1 = PS1_SoundVolume * uVar12 * hard_sound_table[snd].volume >> 0xe;
           SsUtSetVVol(uVar10,test_1,test_1);
         }
         if (uVar10 != -1) {
@@ -363,7 +363,7 @@ void PlaySnd(short snd,short obj_id)
           voice_table[uVar10].field1_0x2 = local_48;
           voice_table[uVar10].field2_0x4 = local_40;
           voice_table[uVar10].field3_0x6 = snd;
-          if ((sound_table[snd].flags >> 4 & 1) != 0) {
+          if ((hard_sound_table[snd].flags >> 4 & 1) != 0) {
             voice_is_working[uVar10] = 1;
           }
         }
@@ -377,7 +377,7 @@ void PlaySnd(short snd,short obj_id)
         pile_snd[iVar6].prog = uVar10;
         pile_snd[iVar6].tone = tone;
         pile_snd[iVar6].note = unaff_s6;
-        bVar1 = sound_table[snd].volume;
+        bVar1 = hard_sound_table[snd].volume;
         pile_snd[iVar6].field6_0xc = local_48;
         pile_snd[iVar6].vol = bVar1;
         pile_snd[iVar6].field7_0xe = local_40;
@@ -520,7 +520,7 @@ block_8:
     {
         goto block_12;
     }
-    if (!(((u8) (sound_table[(temp_v0 * 5)].flags) >> 3) & 1))
+    if (!(((u8) (hard_sound_table[(temp_v0 * 5)].flags) >> 3) & 1))
     {
         goto block_12;
     }
@@ -533,7 +533,7 @@ block_8:
     temp_s0 = temp_v0_2 * 0xC;
     temp_v0_3 = voice_table[temp_s0].field3_0x6;
     temp_v1 = temp_v0_3 * 5;
-    SsUtKeyOff(temp_v0_2, (s16) PS1_SoundVabIds[temp_v0_3], sound_table[temp_v0_3].prog, sound_table[temp_v0_3].tone, (s16) (s32) sound_table[temp_v0_3].note);
+    SsUtKeyOff(temp_v0_2, (s16) bank_to_use[temp_v0_3], hard_sound_table[temp_v0_3].prog, hard_sound_table[temp_v0_3].tone, (s16) (s32) hard_sound_table[temp_v0_3].note);
     voice_table[temp_v0_2].id = -2;
     voice_table[temp_s0].field3_0x6 = -1;
     voice_is_working[temp_v0_2] = 0;
@@ -553,7 +553,7 @@ block_12:
         goto block_16;
     }
     var_v0_3 = obj_id_sav << 0x10;
-    if (!(((u8) (sound_table[temp_v0].flags) >> 2) & 1))
+    if (!(((u8) (hard_sound_table[temp_v0].flags) >> 2) & 1))
     {
         goto block_81;
     }
@@ -572,7 +572,7 @@ block_18:
     goto block_20;
 block_19:
     local_40 = get_pan_snd(&level.objects[temp_v1_2]);
-    if (sound_table[snd].flags & 1)
+    if (hard_sound_table[snd].flags & 1)
     {
         goto block_21;
     }
@@ -582,8 +582,8 @@ block_20:
 block_21:
     local_48 = get_vol_snd(&level.objects[temp_v1_2]);
 block_22:
-    var_s0 = sound_table[0].prog;
-    var_s4 = sound_table[0].tone;
+    var_s0 = hard_sound_table[0].prog;
+    var_s4 = hard_sound_table[0].tone;
     if ((s16) snd == 0x0035)
     {
         goto block_39;
@@ -650,13 +650,13 @@ block_39:
     {
         goto block_41;
     }
-    var_s0 = sound_table[53].prog;
-    var_s4 = sound_table[53].tone;
-    var_s6 = sound_table[53].note;
+    var_s0 = hard_sound_table[53].prog;
+    var_s4 = hard_sound_table[53].tone;
+    var_s6 = hard_sound_table[53].note;
     var_v0_5 = var_s0 << 0x10;
     goto block_60;
 block_41:
-    var_s6 = sound_table->note;
+    var_s6 = hard_sound_table->note;
     var_v0_5 = var_s0 << 0x10;
     goto block_60;
 block_42:
@@ -664,15 +664,15 @@ block_42:
     {
         goto block_44;
     }
-    var_s0 = sound_table[47].prog;
-    var_s4 = sound_table[47].tone;
-    var_s6 = sound_table[47].note;
+    var_s0 = hard_sound_table[47].prog;
+    var_s4 = hard_sound_table[47].tone;
+    var_s6 = hard_sound_table[47].note;
     var_v0_5 = var_s0 << 0x10;
     goto block_60;
 block_44:
-    var_s0 = sound_table[170].prog;
-    var_s4 = sound_table[170].tone;
-    var_s6 = sound_table[170].note;
+    var_s0 = hard_sound_table[170].prog;
+    var_s4 = hard_sound_table[170].tone;
+    var_s6 = hard_sound_table[170].note;
     var_v0_5 = var_s0 << 0x10;
     goto block_60;
 block_45:
@@ -683,9 +683,9 @@ block_45:
         goto block_47;
     }
     indice_ray_wait = 0;
-    var_s0 = sound_table[15].prog;
-    var_s4 = sound_table[15].tone;
-    var_s6 = sound_table[15].note;
+    var_s0 = hard_sound_table[15].prog;
+    var_s4 = hard_sound_table[15].tone;
+    var_s6 = hard_sound_table[15].note;
 block_47:
     erase_pile_snd(-1);
     var_v0_5 = var_s0 << 0x10;
@@ -698,28 +698,28 @@ block_48:
     {
         goto block_60;
     }
-    var_s0 = sound_table[80].prog;
-    var_s4 = sound_table[80].tone;
-    var_s6 = sound_table[80].note;
+    var_s0 = hard_sound_table[80].prog;
+    var_s4 = hard_sound_table[80].tone;
+    var_s6 = hard_sound_table[80].note;
     indice_trz_wait = 0;
     var_v0_5 = var_s0 << 0x10;
     goto block_60;
 block_50:
-    var_s0 = sound_table[14].prog;
-    var_s4 = sound_table[14].tone;
+    var_s0 = hard_sound_table[14].prog;
+    var_s4 = hard_sound_table[14].tone;
     var_s6 = place_sequence[level.objects[obj_id_sav].sub_etat];
     var_v0_5 = var_s0 << 0x10;
     goto block_60;
 block_51:
-    var_s0 = sound_table[19].prog;
-    var_s4 = sound_table[19].tone;
-    var_s6 = sound_table[19].note;
+    var_s0 = hard_sound_table[19].prog;
+    var_s4 = hard_sound_table[19].tone;
+    var_s6 = hard_sound_table[19].note;
     var_v0_5 = var_s0 << 0x10;
     goto block_60;
 block_52:
-    var_s0 = sound_table[245].prog;
-    var_s4 = sound_table[245].tone;
-    var_s6 = sound_table[245].note;
+    var_s0 = hard_sound_table[245].prog;
+    var_s4 = hard_sound_table[245].tone;
+    var_s6 = hard_sound_table[245].note;
     var_v0_5 = var_s0 << 0x10;
     goto block_60;
 block_53:
@@ -753,9 +753,9 @@ block_58:
 block_59:
     temp_v0_6 = var_v0_4 >> 0x10;
     temp_v1_3 = temp_v0_6 * 5;
-    var_s0 = sound_table[temp_v0_6].prog;
-    var_s4 = sound_table[temp_v0_6].tone;
-    var_s6 = sound_table[temp_v0_6].note;
+    var_s0 = hard_sound_table[temp_v0_6].prog;
+    var_s4 = hard_sound_table[temp_v0_6].tone;
+    var_s6 = hard_sound_table[temp_v0_6].note;
     var_v0_5 = var_s0 << 0x10;
 block_60:
     temp_fp = var_v0_5 >> 0x10;
@@ -766,8 +766,8 @@ block_60:
     sp38 = (s32) obj_id_sav;
     erase_pile_snd((s16) sp38);
     temp_s2 = (s16) snd * 5;
-    vol_l((s16) ((s32) (PS1_SoundVolume * local_48 * sound_table[snd].volume) >> 0xE), (s16) local_40);
-    vol_r((s16) ((s32) (PS1_SoundVolume * local_48 * sound_table[snd].volume) >> 0xE), (s16) local_40);
+    vol_l((s16) ((s32) (PS1_SoundVolume * local_48 * hard_sound_table[snd].volume) >> 0xE), (s16) local_40);
+    vol_r((s16) ((s32) (PS1_SoundVolume * local_48 * hard_sound_table[snd].volume) >> 0xE), (s16) local_40);
     if (frame_snd[(s16) snd] != 0)
     {
         goto block_68;
@@ -776,16 +776,16 @@ block_60:
     {
         goto block_64;
     }
-    temp_s0_2 = vol_l((s16) ((s32) (PS1_SoundVolume * local_48 * sound_table[snd].volume) >> 0xE), (s16) local_40);
-    temp_s1_2 = SsUtKeyOn((s16) PS1_SoundVabIds[(s16) snd], (s16) temp_fp, (s16) var_s4, (s16) var_s6, 0, (s16) (s32) temp_s0_2, (s16) (s32) vol_r((s16) ((s32) (PS1_SoundVolume * local_48 * sound_table[snd].volume) >> 0xE), (s16) local_40));
-    temp_s0_3 = vol_l((s16) ((s32) (PS1_SoundVolume * local_48 * sound_table[snd].volume) >> 0xE), (s16) local_40);
-    SsUtSetVVol(temp_s1_2, temp_s0_3, vol_r((s16) ((s32) (PS1_SoundVolume * local_48 * sound_table[snd].volume) >> 0xE), (s16) local_40));
+    temp_s0_2 = vol_l((s16) ((s32) (PS1_SoundVolume * local_48 * hard_sound_table[snd].volume) >> 0xE), (s16) local_40);
+    temp_s1_2 = SsUtKeyOn((s16) bank_to_use[(s16) snd], (s16) temp_fp, (s16) var_s4, (s16) var_s6, 0, (s16) (s32) temp_s0_2, (s16) (s32) vol_r((s16) ((s32) (PS1_SoundVolume * local_48 * hard_sound_table[snd].volume) >> 0xE), (s16) local_40));
+    temp_s0_3 = vol_l((s16) ((s32) (PS1_SoundVolume * local_48 * hard_sound_table[snd].volume) >> 0xE), (s16) local_40);
+    SsUtSetVVol(temp_s1_2, temp_s0_3, vol_r((s16) ((s32) (PS1_SoundVolume * local_48 * hard_sound_table[snd].volume) >> 0xE), (s16) local_40));
     var_v0_6 = temp_s1_2 << 0x10;
     goto block_65;
 block_64:
     temp_lo = PS1_SoundVolume * local_48;
-    temp_v0_7 = SsUtKeyOn((s16) PS1_SoundVabIds[(s16) snd], (s16) temp_fp, (s16) var_s4, (s16) var_s6, 0, (s16) ((s32) (temp_lo * sound_table[snd].volume) >> 0xE), (s16) ((s32) (temp_lo * sound_table[snd].volume) >> 0xE));
-    temp_a1 = (s32) (PS1_SoundVolume * local_48 * sound_table[snd].volume) >> 0xE;
+    temp_v0_7 = SsUtKeyOn((s16) bank_to_use[(s16) snd], (s16) temp_fp, (s16) var_s4, (s16) var_s6, 0, (s16) ((s32) (temp_lo * hard_sound_table[snd].volume) >> 0xE), (s16) ((s32) (temp_lo * hard_sound_table[snd].volume) >> 0xE));
+    temp_a1 = (s32) (PS1_SoundVolume * local_48 * hard_sound_table[snd].volume) >> 0xE;
     SsUtSetVVol(temp_v0_7, (s16) temp_a1, (s16) temp_a1);
     var_v0_6 = temp_v0_7 << 0x10;
 block_65:
@@ -800,7 +800,7 @@ block_65:
     voice_table[temp_s0_4].field1_0x2 = (s16) local_48;
     voice_table[temp_s0_4].field2_0x4 = (s16) local_40;
     voice_table[temp_s0_4].field3_0x6 = snd;
-    if (!(((u8) sound_table[snd].flags >> 4) & 1))
+    if (!(((u8) hard_sound_table[snd].flags >> 4) & 1))
     {
         goto block_73;
     }
@@ -816,7 +816,7 @@ block_68:
     pile_snd[pt_pile_snd].tone = (s16) var_s4;
     pile_snd[pt_pile_snd].note = (s16) var_s6;
     pile_snd[pt_pile_snd].field6_0xc = (s16) local_48;
-    pile_snd[pt_pile_snd].vol = sound_table[snd].volume;
+    pile_snd[pt_pile_snd].vol = hard_sound_table[snd].volume;
     pile_snd[pt_pile_snd].field7_0xe = (s16) local_40;
     pile_snd[pt_pile_snd].field8_0x10 = frame_snd[(s16) snd] + map_time;
     if (snd_bis[(s16) snd] == 0)
@@ -1018,7 +1018,7 @@ void setvol(s16 param_1)
         if (
             (param_1 == -1) ||
             (param_1 == rayman_obj_id) ||
-            (temp_v1_1 = sound_table[pile_snd[temp_v0_3].index].flags,
+            (temp_v1_1 = hard_sound_table[pile_snd[temp_v0_3].index].flags,
               (!(temp_v1_1 >> 0 & 1)) ||
               !((temp_v1_1 >> 1) & 1)
             )
@@ -1039,7 +1039,7 @@ void setvol(s16 param_1)
                 vol_l(((PS1_SoundVolume * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE), pile_snd[temp_v0_3].field7_0xe);
                 vol_r(((PS1_SoundVolume * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE), pile_snd[temp_v0_3].field7_0xe);
                 temp_s3_2 = SsUtKeyOn(
-                    PS1_SoundVabIds[pile_snd[temp_v0_3].index],
+                    bank_to_use[pile_snd[temp_v0_3].index],
                     pile_snd[temp_v0_3].prog,
                     pile_snd[temp_v0_3].tone,
                     pile_snd[temp_v0_3].note,
@@ -1055,7 +1055,7 @@ void setvol(s16 param_1)
             }
             else
             {
-                temp_s3_2 = SsUtKeyOn(PS1_SoundVabIds[pile_snd[temp_v0_3].index], pile_snd[temp_v0_3].prog, pile_snd[temp_v0_3].tone, pile_snd[temp_v0_3].note, 0x0040, ((PS1_SoundVolume * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE), ((PS1_SoundVolume * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE));
+                temp_s3_2 = SsUtKeyOn(bank_to_use[pile_snd[temp_v0_3].index], pile_snd[temp_v0_3].prog, pile_snd[temp_v0_3].tone, pile_snd[temp_v0_3].note, 0x0040, ((PS1_SoundVolume * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE), ((PS1_SoundVolume * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE));
                 SsUtSetVVol(temp_s3_2, (PS1_SoundVolume * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE, (PS1_SoundVolume * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE);
             }
             if (temp_s3_2 != -1)
@@ -1065,7 +1065,7 @@ void setvol(s16 param_1)
                 voice_table[temp_s3_2].field1_0x2 = var_s4_1;
                 voice_table[temp_s3_2].field2_0x4 = pile_snd[temp_v0_3].field7_0xe;
                 voice_table[temp_s3_2].field3_0x6 = pile_snd[temp_v0_3].index;
-                if (((u8) sound_table[pile_snd[temp_v0_3].index].flags >> 4) & 1)
+                if (((u8) hard_sound_table[pile_snd[temp_v0_3].index].flags >> 4) & 1)
                 {
                     voice_is_working[temp_s3_2] = 1;
                 }
@@ -1077,10 +1077,10 @@ void setvol(s16 param_1)
                 pile_snd[temp_v0_3].field8_0x10 = temp_s7 + frame_snd_bis[pile_snd[temp_v0_3].index];
                 temp_v0_6 = snd_bis[pile_snd[temp_v0_3].index];
                 pile_snd[temp_v0_3].index = temp_v0_6;
-                pile_snd[temp_v0_3].prog = sound_table[pile_snd[temp_v0_3].index].prog;
-                pile_snd[pt_pile_snd].tone = sound_table[pile_snd[temp_v0_3].index].tone;
-                pile_snd[pt_pile_snd].note = sound_table[pile_snd[temp_v0_3].index].note;
-                pile_snd[pt_pile_snd].vol = sound_table[pile_snd[temp_v0_3].index].volume;
+                pile_snd[temp_v0_3].prog = hard_sound_table[pile_snd[temp_v0_3].index].prog;
+                pile_snd[pt_pile_snd].tone = hard_sound_table[pile_snd[temp_v0_3].index].tone;
+                pile_snd[pt_pile_snd].note = hard_sound_table[pile_snd[temp_v0_3].index].note;
+                pile_snd[pt_pile_snd].vol = hard_sound_table[pile_snd[temp_v0_3].index].volume;
                 pile_snd[temp_v0_3].field9_0x14 = 0; /* TODO: ??? */
             }
             else
@@ -1129,17 +1129,17 @@ void setvol(s16 param_1)
         {
             if (options_jeu.StereoEnabled != 0)
             {
-                vol_l(((PS1_SoundVolume * var_s4_1 * sound_table[voice_table[temp_s3_2].field3_0x6].volume) >> 0xE), temp_s3_1);
-                vol_r(((PS1_SoundVolume * var_s4_1 * sound_table[voice_table[temp_s3_2].field3_0x6].volume) >> 0xE), temp_s3_1);
+                vol_l(((PS1_SoundVolume * var_s4_1 * hard_sound_table[voice_table[temp_s3_2].field3_0x6].volume) >> 0xE), temp_s3_1);
+                vol_r(((PS1_SoundVolume * var_s4_1 * hard_sound_table[voice_table[temp_s3_2].field3_0x6].volume) >> 0xE), temp_s3_1);
                 SsUtSetVVol(
                     temp_s3_2,
-                    vol_l(((PS1_SoundVolume * var_s4_1 * sound_table[voice_table[temp_s3_2].field3_0x6].volume) >> 0xE), temp_s3_1),
-                    vol_r(((PS1_SoundVolume * var_s4_1 * sound_table[voice_table[temp_s3_2].field3_0x6].volume) >> 0xE), temp_s3_1)
+                    vol_l(((PS1_SoundVolume * var_s4_1 * hard_sound_table[voice_table[temp_s3_2].field3_0x6].volume) >> 0xE), temp_s3_1),
+                    vol_r(((PS1_SoundVolume * var_s4_1 * hard_sound_table[voice_table[temp_s3_2].field3_0x6].volume) >> 0xE), temp_s3_1)
                 );
             }
             else
             {
-                temp_a1_3 = (PS1_SoundVolume * (var_s4_1) * sound_table[voice_table[temp_s3_2].field3_0x6].volume) >> 0xE;
+                temp_a1_3 = (PS1_SoundVolume * (var_s4_1) * hard_sound_table[voice_table[temp_s3_2].field3_0x6].volume) >> 0xE;
                 SsUtSetVVol(temp_s3_2, temp_a1_3, temp_a1_3);
             }
 
@@ -1180,12 +1180,12 @@ void FUN_80168f48(void)
         (-1 < iVar3 && !(level.objects[iVar3].flags & FLG(OBJ_ACTIVE))) ||
         (iVar3 == -2 && *psVar4 != -1)
       ) &&
-      ((sound_table[voice_table[iVar6].field3_0x6].flags >> 4 & 1) != 0)
+      ((hard_sound_table[voice_table[iVar6].field3_0x6].flags >> 4 & 1) != 0)
     )
     {
       sVar2 = *psVar4; /* ??? */
-      SsUtKeyOff(iVar6,PS1_SoundVabIds[*psVar4],sound_table[*psVar4].prog,sound_table[*psVar4].tone,
-                 sound_table[*psVar4].note);
+      SsUtKeyOff(iVar6,bank_to_use[*psVar4],hard_sound_table[*psVar4].prog,hard_sound_table[*psVar4].tone,
+                 hard_sound_table[*psVar4].note);
       voice_is_working[iVar6] = 0;
       sVar2 = 0;
       while (sVar2 != 0x14 && stk_obj[sVar2] != pVVar5->id) {

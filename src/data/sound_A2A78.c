@@ -1,6 +1,6 @@
 #include "sound.h"
 
-SoundTableEntry sound_table[] =
+SoundTableEntry hard_sound_table[] =
 {
   { 0, 255, 0, 127, 7 },
   { 53, 15, 0, 80, 3 },
@@ -356,7 +356,7 @@ s16 snd_bis[] =
   -1,  -1,  -1,  70,  -1,  -1,  -1,  -1
 };
 
-u8 PS1_SoundVabIds[] =
+u8 bank_to_use[] =
 {
     0,   0,   0,   1,   1,   0,   0,   0,   0,   0, 
     0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 

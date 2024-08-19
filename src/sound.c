@@ -419,29 +419,29 @@ void PlaySnd_old(s16 snd)
   new_id = -2;
   if (options_jeu.StereoEnabled != 0)
   {
-    vol_l(PS1_SoundVolume * sound_table[snd].volume >> 7, 64);
-    vol_r(PS1_SoundVolume * sound_table[snd].volume >> 7, 64);
-    voll_1 = vol_l(PS1_SoundVolume * sound_table[snd].volume >> 7, 64);
-    volr_1 = vol_r(PS1_SoundVolume * sound_table[snd].volume >> 7, 64);
+    vol_l(PS1_SoundVolume * hard_sound_table[snd].volume >> 7, 64);
+    vol_r(PS1_SoundVolume * hard_sound_table[snd].volume >> 7, 64);
+    voll_1 = vol_l(PS1_SoundVolume * hard_sound_table[snd].volume >> 7, 64);
+    volr_1 = vol_r(PS1_SoundVolume * hard_sound_table[snd].volume >> 7, 64);
     voice_ind = SsUtKeyOn(
-      PS1_SoundVabIds[snd], sound_table[snd].prog,
-      sound_table[snd].tone, sound_table[snd].note,
+      bank_to_use[snd], hard_sound_table[snd].prog,
+      hard_sound_table[snd].tone, hard_sound_table[snd].note,
       0,
       voll_1, volr_1
     );
-    voll_2 = vol_l(PS1_SoundVolume * sound_table[snd].volume >> 7, 64);
-    volr_2 = vol_r(PS1_SoundVolume * sound_table[snd].volume >> 7, 64);
+    voll_2 = vol_l(PS1_SoundVolume * hard_sound_table[snd].volume >> 7, 64);
+    volr_2 = vol_r(PS1_SoundVolume * hard_sound_table[snd].volume >> 7, 64);
     SsUtSetVVol(voice_ind, voll_2, volr_2);
   }
   else
   {
     voice_ind = SsUtKeyOn(
-      PS1_SoundVabIds[snd], sound_table[snd].prog,
-      sound_table[snd].tone, sound_table[snd].note,
+      bank_to_use[snd], hard_sound_table[snd].prog,
+      hard_sound_table[snd].tone, hard_sound_table[snd].note,
       0,
-      PS1_SoundVolume * sound_table[snd].volume >> 7, PS1_SoundVolume * sound_table[snd].volume >> 7
+      PS1_SoundVolume * hard_sound_table[snd].volume >> 7, PS1_SoundVolume * hard_sound_table[snd].volume >> 7
     );
-    vol_both = PS1_SoundVolume * sound_table[snd].volume >> 7;
+    vol_both = PS1_SoundVolume * hard_sound_table[snd].volume >> 7;
     SsUtSetVVol(voice_ind, vol_both, vol_both);
   }
   if (voice_ind != -1)
@@ -449,7 +449,7 @@ void PlaySnd_old(s16 snd)
     voice_table[voice_ind].id = new_id;
     voice_table[voice_ind].field1_0x2 = 64;
     voice_table[voice_ind].field2_0x4 = 64;
-    if (sound_table[snd].flags >> 4 & 1)
+    if (hard_sound_table[snd].flags >> 4 & 1)
       voice_is_working[voice_ind] = true;
   }
 }
@@ -503,7 +503,7 @@ void FUN_80169194(void)
         sound_ind = voice_table[i].field3_0x6;
         if (
           sound_ind == 6 || sound_ind == 245 ||
-          sound_ind == 2 || sound_table[sound_ind].flags >> 4 & 1
+          sound_ind == 2 || hard_sound_table[sound_ind].flags >> 4 & 1
         )
             SsUtSetVVol(i, 0, 0);
     }
