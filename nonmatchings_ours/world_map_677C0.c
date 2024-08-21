@@ -1,6 +1,6 @@
 #include "world_map_677C0.h"
 
-/* WorldInfo.state */
+/* matches, but WorldInfo.state */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_INFO);*/
 
 /* 692CC 8018DACC -O2 */
@@ -20,10 +20,10 @@ void INIT_WORLD_INFO(void)
     var_a2 = 0xfffffffb;
     do
     {
-      /*var_a0 = var_a1;
+      var_a0 = var_a1;
       var_a0 = var_a0 * 0x14;
-      *(s32 *) (&D_801C3364 + var_a0) = (*(s32 *) (&D_801C3364 + var_a0) | 1) & var_a2;*/
-      t_world_info[var_a1].state = (t_world_info[var_a1].state | 1) & var_a2;
+      *(s32 *) (&D_801C3364 + var_a0) = (*(s32 *) (&D_801C3364 + var_a0) | 1) & var_a2;
+      /*t_world_info[var_a1].state = (t_world_info[var_a1].state | 1) & var_a2;*/
       var_a1 = var_a1 + 1;
     }
     while (var_a1 < 0x18);
@@ -42,7 +42,7 @@ void INIT_WORLD_INFO(void)
   INIT_PASTILLES_SAUVE();
 }
 
-/* matches, but WorldInfo state casts... */
+/* matches, but WorldInfo.state casts... */
 /* 679D4 8018C1D4 -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DISPLAY_PLAT_WAY);*/
 
@@ -292,135 +292,107 @@ void INIT_WORLD_STAGE_NAME(void)
     text_to_display[2].height += 2;
 }
 
-/* pretty close */
+/* matches, but WorldInfo.state */
 /* 69468 8018DC68 -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_CHEMIN);*/
 
-/*? INIT_PASTILLES_SAUVE(s32, s32 *, u16);
-? SaveGameOnDisk(s16);
-? obj_init(Obj *);
-? set_main_and_sub_etat(Obj *, ?, ?);
-? set_zoom_mode(?, u8);*/
-extern u8 Nb_total_cages;
-extern s8 dans_la_map_monde;
-extern u8 dir_on_wldmap;
-extern s16 fichier_selectionne;
-extern s8 gele;
-extern Obj *mapobj;
-extern u8 nouvelle_partie;
-extern s16 scroll_end_x;
-extern s16 scroll_end_y;
-extern s16 scroll_start_x;
-extern s16 scroll_start_y;
-extern s16 scroll_x;
-extern s16 scroll_y;
-extern s16 special_ray_mov_win_x_left;
-extern s16 special_ray_mov_win_x_right;
-extern u16 xmapinit;
-extern u16 xwldmapsave;
-extern u16 ymapinit;
-extern u16 ywldmapsave;
-
 void INIT_CHEMIN(void)
 {
-  WorldInfo *wld_inf;
-  u8 init_sub_etat;
-  u32 state;
-  Obj *_obj;
-  u8 worldIndex;
-  Obj *obj;
+  Obj *cur_obj;
+  u8 world_ind;
   s16 i;
-  s16 sVar3;
   u16 frames_count;
   
-  PROC_EXIT = FALSE;
-  dans_la_map_monde = TRUE;
+  PROC_EXIT = false;
+  dans_la_map_monde = true;
   gele = 0;
   i = 0;
-  if (ModeDemo == 0) {
-    new_world = 0;
-    num_world_choice = (s16)world_index;
+  if (ModeDemo == 0)
+  {
+    new_world = false;
+    num_world_choice = world_index;
   }
-  old_num_world = (u8)num_world_choice;
-  worldIndex = 0;
+  old_num_world = num_world_choice;
+  world_ind = 0; /* why does this exist? */
   INIT_LITTLE_RAY();
-  set_main_and_sub_etat(&ray,0,0);
-  ray.x_pos = (t_world_info[num_world_choice].x_pos - ray.offset_bx) + 4;
+  set_main_and_sub_etat(&ray, 0, 0);
+  ray.x_pos = t_world_info[num_world_choice].x_pos - ray.offset_bx + 4;
   ray.y_pos = t_world_info[num_world_choice].y_pos - ray.offset_by + 8;
   ray.speed_x = 0;
   ray.speed_y = 0;
   set_zoom_mode(0);
   chemin_percent = 0;
   Nb_total_cages = 0;
-  _obj = mapobj; /* 0x55 */
-  do {
-    _obj->type = TYPE_MEDAILLON;
-    _obj->init_x_pos = t_world_info[worldIndex].x_pos + -0x4e;
-    _obj->init_y_pos = t_world_info[worldIndex].y_pos + -0x40;
-    _obj->init_main_etat = 5;
-    wld_inf = &t_world_info[worldIndex];
-    state = *(u32*)&wld_inf->state; /* u32? */
-    init_sub_etat = 0x2e;
-    if ((state >> 2 & 1) == 0) {
-      if (t_world_info[worldIndex].nb_cages != 0) {
-        Nb_total_cages = Nb_total_cages + t_world_info[worldIndex].nb_cages;
-        init_sub_etat = 0x2f;
-        if (t_world_info[worldIndex].nb_cages == 6) {
-          init_sub_etat = 0x34;
-        }
 
+  cur_obj = mapobj;
+  while (i < (s16) LEN(t_world_info))
+  {
+    cur_obj->type = TYPE_MEDAILLON;
+    cur_obj->init_x_pos = t_world_info[world_ind].x_pos - 78;
+    cur_obj->init_y_pos = t_world_info[world_ind].y_pos - 64;
+    cur_obj->init_main_etat = 5;
+
+    if (!(*(u32*)&t_world_info[world_ind].state >> 2 & 1))
+    {
+      if (t_world_info[world_ind].nb_cages != 0)
+      {
+        Nb_total_cages += t_world_info[world_ind].nb_cages;
+        
+        if (t_world_info[world_ind].nb_cages == 6)
+          cur_obj->init_sub_etat = 52;
+        else
+          cur_obj->init_sub_etat = 47;
       }
-      else {
-        init_sub_etat = 0x27;
-        if (i == 17) {
-          init_sub_etat = 0x3b;
-          _obj->sub_etat = 0x3b;
-        }
+      else
+      {
+        if (i == 17)
+          cur_obj->init_sub_etat = cur_obj->sub_etat = 59;
+        else
+          cur_obj->init_sub_etat = 39;
       }
     }
-    _obj->init_sub_etat = init_sub_etat;
-    _obj->scale = 0;
-    _obj->offset_bx = 0x50;
-    _obj->offset_by = 0x40;
-    obj_init(_obj);
-    CalcObjPosInWorldMap(_obj);
-    frames_count = _obj->animations[_obj->eta[_obj->main_etat][_obj->sub_etat].anim_index].frames_count;
-    if (frames_count == 0) {
-      /*trap_if(0x1c00);*/
-    }
-    if ((frames_count == 0xffffffff) && (i == -0x80000000)) {
-      /*trap_if(0x5d);*/
-    }
-    worldIndex = worldIndex + 1;
-    _obj->anim_frame = i % frames_count;
-    if (worldIndex > 24) {
-      worldIndex = 24;
-    }
-    _obj = _obj + 1;
-    i = i + 1;
-  } while (i < 24);
-  if (((*(u32*)&t_world_info[17].state & 1) == 0) && (0x65 < Nb_total_cages)) {
-    *(u32*)&t_world_info[17].state = *(u32*)&t_world_info[17].state | 4;
+    else
+      cur_obj->init_sub_etat = 46;
+    
+    cur_obj->scale = 0;
+    cur_obj->offset_bx = 80;
+    cur_obj->offset_by = 64;
+    obj_init(cur_obj);
+    CalcObjPosInWorldMap(cur_obj);
+    frames_count =
+      cur_obj->animations[
+        cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_index
+      ].frames_count;
+    cur_obj->anim_frame = i % frames_count;
+
+    world_ind++;
+    MIN_2(world_ind, LEN(t_world_info));
+    cur_obj++;
+    i++;
   }
-  scroll_end_x = 0x9c;
-  scroll_end_y = 0x9e;
-  scroll_x = 0xffff;
-  scroll_y = 0xffff;
-  special_ray_mov_win_x_left = 0x1e;
-  special_ray_mov_win_x_right = 0x1e;
+
+  if (!(*(u32*)&t_world_info[17].state >> 0 & 1) && Nb_total_cages >= 102)
+    *(u32*)&t_world_info[17].state |= (1 << 2);
+  
+  scroll_end_x = 156;
+  scroll_end_y = 158;
+  scroll_x = -1;
+  scroll_y = -1;
+  special_ray_mov_win_x_left = 30;
+  special_ray_mov_win_x_right = 30;
   scroll_start_x = 0;
   scroll_start_y = 0;
   xmapinit = xmap;
   ymapinit = ymap;
   xmap = xwldmapsave;
   ymap = ywldmapsave;
-  ray.flags = ray.flags & ~OBJ_FLIP_X | (dir_on_wldmap & 1) << 0xe;
+  ray.flags = ray.flags & ~FLG(OBJ_FLIP_X) | (dir_on_wldmap & 1) << OBJ_FLIP_X;
   INIT_PASTILLES_SAUVE();
   INIT_STAGE_NAME();
-  if (nouvelle_partie != FALSE) {
-    if (NBRE_SAVE != 0) {
+  if (nouvelle_partie)
+  {
+    if (NBRE_SAVE != 0)
       SaveGameOnDisk(fichier_selectionne);
-    }
-    nouvelle_partie = FALSE;
+    nouvelle_partie = false;
   }
 }
