@@ -1,6 +1,6 @@
 #include "world_map_677C0.h"
 
-/* matches, but doesn't actually use WorldInfo.state */
+/* WorldInfo.state */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_INFO);*/
 
 /* 692CC 8018DACC -O2 */
@@ -20,9 +20,10 @@ void INIT_WORLD_INFO(void)
     var_a2 = 0xfffffffb;
     do
     {
-      var_a0 = var_a1;
+      /*var_a0 = var_a1;
       var_a0 = var_a0 * 0x14;
-      *(s32 *) (&D_801C3364 + var_a0) = (*(s32 *) (&D_801C3364 + var_a0) | 1) & var_a2;
+      *(s32 *) (&D_801C3364 + var_a0) = (*(s32 *) (&D_801C3364 + var_a0) | 1) & var_a2;*/
+      t_world_info[var_a1].state = (t_world_info[var_a1].state | 1) & var_a2;
       var_a1 = var_a1 + 1;
     }
     while (var_a1 < 0x18);
@@ -231,7 +232,7 @@ void INIT_WORLD_STAGE_NAME(void)
                 }
                 else
                 {
-                    __builtin_strcpy(text_to_display[2].text, "/password/");
+                    __builtin_memcpy(text_to_display[2].text, s_password_8012ba1c, sizeof(s_password_8012ba1c));
                 }
                 break;
             case 1:
@@ -255,27 +256,27 @@ void INIT_WORLD_STAGE_NAME(void)
             }
             break;
         case 1:
-            __builtin_memcpy(text_to_display[2].text, "/the dream forest/", sizeof(text_to_display[2].text));
+            __builtin_memcpy(text_to_display[2].text, s_the_dream_forest_8012ba28, sizeof(text_to_display[2].text));
             new_color = 7;
             break;
         case 2:
-            __builtin_memcpy(text_to_display[2].text, "/band land/", sizeof(text_to_display[2].text));
+            __builtin_memcpy(text_to_display[2].text, s_band_land_8012ba3c, sizeof(text_to_display[2].text));
             new_color = 4;
             break;
         case 3:
-            __builtin_memcpy(text_to_display[2].text, "/blue mountains/", sizeof(text_to_display[2].text));
+            __builtin_memcpy(text_to_display[2].text, s_blue_mountains_8012ba48, sizeof(text_to_display[2].text));
             new_color = 0xd;
             break;
         case 4:
-            __builtin_memcpy(text_to_display[2].text, "/picture city/", sizeof(text_to_display[2].text));
+            __builtin_memcpy(text_to_display[2].text, s_picture_city_8012ba5c, sizeof(text_to_display[2].text));
             new_color = 0;
             break;
         case 5:
-            __builtin_memcpy(text_to_display[2].text, "/the cave of skops/", sizeof(text_to_display[2].text));
+            __builtin_memcpy(text_to_display[2].text, s_the_cave_of_skops_8012ba6c, sizeof(text_to_display[2].text));
             new_color = 2;
             break;
         case 6:
-            __builtin_memcpy(text_to_display[2].text, "/candy chateau/", sizeof(text_to_display[2].text));
+            __builtin_memcpy(text_to_display[2].text, s_candy_chateau_8012ba80, sizeof(text_to_display[2].text));
             new_color = 1;
             break;
     }
