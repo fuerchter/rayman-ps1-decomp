@@ -107,7 +107,7 @@ void SetVolumeSound(s16 vol)
 {
   SsSetSerialAttr(SS_SERIAL_B, SS_MIX, SS_SON);
   SsSetSerialVol(SS_SERIAL_B, vol, vol);
-  PS1_SoundVolume = vol;
+  Volume_Snd = vol;
 }
 
 /* 418AC 801660AC -O2 -msoft-float */
@@ -419,18 +419,18 @@ void PlaySnd_old(s16 snd)
   new_id = -2;
   if (options_jeu.StereoEnabled != 0)
   {
-    vol_l(PS1_SoundVolume * hard_sound_table[snd].volume >> 7, 64);
-    vol_r(PS1_SoundVolume * hard_sound_table[snd].volume >> 7, 64);
-    voll_1 = vol_l(PS1_SoundVolume * hard_sound_table[snd].volume >> 7, 64);
-    volr_1 = vol_r(PS1_SoundVolume * hard_sound_table[snd].volume >> 7, 64);
+    vol_l(Volume_Snd * hard_sound_table[snd].volume >> 7, 64);
+    vol_r(Volume_Snd * hard_sound_table[snd].volume >> 7, 64);
+    voll_1 = vol_l(Volume_Snd * hard_sound_table[snd].volume >> 7, 64);
+    volr_1 = vol_r(Volume_Snd * hard_sound_table[snd].volume >> 7, 64);
     voice_ind = SsUtKeyOn(
       bank_to_use[snd], hard_sound_table[snd].prog,
       hard_sound_table[snd].tone, hard_sound_table[snd].note,
       0,
       voll_1, volr_1
     );
-    voll_2 = vol_l(PS1_SoundVolume * hard_sound_table[snd].volume >> 7, 64);
-    volr_2 = vol_r(PS1_SoundVolume * hard_sound_table[snd].volume >> 7, 64);
+    voll_2 = vol_l(Volume_Snd * hard_sound_table[snd].volume >> 7, 64);
+    volr_2 = vol_r(Volume_Snd * hard_sound_table[snd].volume >> 7, 64);
     SsUtSetVVol(voice_ind, voll_2, volr_2);
   }
   else
@@ -439,9 +439,9 @@ void PlaySnd_old(s16 snd)
       bank_to_use[snd], hard_sound_table[snd].prog,
       hard_sound_table[snd].tone, hard_sound_table[snd].note,
       0,
-      PS1_SoundVolume * hard_sound_table[snd].volume >> 7, PS1_SoundVolume * hard_sound_table[snd].volume >> 7
+      Volume_Snd * hard_sound_table[snd].volume >> 7, Volume_Snd * hard_sound_table[snd].volume >> 7
     );
-    vol_both = PS1_SoundVolume * hard_sound_table[snd].volume >> 7;
+    vol_both = Volume_Snd * hard_sound_table[snd].volume >> 7;
     SsUtSetVVol(voice_ind, vol_both, vol_both);
   }
   if (voice_ind != -1)

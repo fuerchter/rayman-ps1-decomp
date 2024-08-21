@@ -86,7 +86,7 @@ extern s16 PS1_AudioTable[14]; /* bad starting point based on PS1_NewWorldMusic?
 extern u8 voice_is_working[24];
 
 /* .data */
-extern s16 PS1_SoundVolume;
+extern s16 Volume_Snd;
 
 /* .data */
 extern s16 D_801CEFCC;
