@@ -67,7 +67,7 @@ void PS1_setBossScrollLimits_spacemama(Obj *obj);
 u8 mereDenisCanAttak(Obj *obj);
 s32 setMereDenisAtScrollBorder(Obj *obj, u8 flip_x);
 void setCirclePointToReach(void);
-void allocateMereDenisBombChips(Obj *param_1);
+void allocateMereDenisBombChips(Obj *bomb_obj);
 void mereDenisExplodeBombs(void);
 void mereDenisDropBomb(Obj *smama_obj);
 void snapWeaponAnimState(Obj *obj, u8 sub_etat);

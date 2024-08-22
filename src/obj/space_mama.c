@@ -115,7 +115,81 @@ void setCirclePointToReach(void)
         circleIndex = -32000;
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/space_mama", allocateMereDenisBombChips);
+/* 645F4 80188DF4 -O2 -msoft-float */
+void allocateMereDenisBombChips(Obj *bomb_obj)
+{
+    u8 i;
+    Obj *cur_obj;
+    s16 j;
+    s32 nb_objs;
+    u8 unk_1;
+    u8 sub_etat_1;
+    u8 sub_etat_2;
+
+    for (i = 0; i <= 2; i += 2)
+    {
+        cur_obj = level.objects;
+        j = 0;
+        nb_objs = level.nb_objects;
+        while (j < nb_objs)
+        {
+            unk_1 = false;
+            switch (bomb_obj->sub_etat)
+            {
+            case 1:
+                sub_etat_1 = 0;
+                sub_etat_2 = 1;
+                break;
+            case 3:
+            case 5:
+                if (bomb_obj->flags & FLG(OBJ_FLIP_X))
+                {
+                    sub_etat_1 = 4;
+                    sub_etat_2 = 5;
+                }
+                else
+                {
+                    sub_etat_1 = 2;
+                    sub_etat_2 = 3;
+                }
+                break;
+            case 7:
+                if (bomb_obj->flags & FLG(OBJ_FLIP_X))
+                    unk_1 = true;
+                sub_etat_1 = 6;
+                sub_etat_2 = 7;
+                break;
+            }
+
+            if (
+                cur_obj->type == TYPE_SMA_BOMB_CHIP &&
+                !(cur_obj->flags & FLG(OBJ_ACTIVE)) &&
+                (cur_obj->sub_etat == sub_etat_1 || cur_obj->sub_etat == sub_etat_2)
+            )
+            {
+                cur_obj->flags = (cur_obj->flags & ~FLG(OBJ_FLIP_X) | (bomb_obj->flags & FLG(OBJ_FLIP_X)));
+                cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                cur_obj->x_pos = bomb_obj->x_pos;
+                cur_obj->y_pos = bomb_obj->y_pos;
+                set_main_and_sub_etat(
+                    cur_obj, 1, (i == 0 ? sub_etat_1 : sub_etat_2)
+                );
+                calc_obj_pos(cur_obj);
+                skipToLabel(
+                    cur_obj, (unk_1 ? i == 0 : i != 0), true
+                );
+                break;
+            }
+            cur_obj++;
+            j++;
+        }
+    }
+
+    allocateExplosion(bomb_obj);
+    PlaySnd(220, bomb_obj->id);
+    bomb_obj->flags &= ~FLG(OBJ_ACTIVE);
+    bomb_obj->flags &= ~FLG(OBJ_ALIVE);
+}
 
 /* 64810 80189010 -O2 -msoft-float */
 void mereDenisExplodeBombs(void)
