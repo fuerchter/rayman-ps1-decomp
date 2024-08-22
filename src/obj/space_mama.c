@@ -297,7 +297,73 @@ void changeMereDenisPhase(void)
 
 INCLUDE_ASM("asm/nonmatchings/obj/space_mama", fitSaveCurrentAction);
 
-INCLUDE_ASM("asm/nonmatchings/obj/space_mama", doMereDenisHit);
+/* 668E4 8018B0E4 -O2 -msoft-float */
+void doMereDenisHit(Obj *obj, s16 sprite)
+{
+    s16 unk_1;
+    u8 main_etat = obj->main_etat;
+    u8 sub_etat = obj->sub_etat;
+    
+    if ((obj->eta[main_etat][sub_etat].flags & 1) && bossSafeTimer == 0)
+    {
+        switch (main_etat * 0x100 + sub_etat)
+        {
+        case 0x013:
+        case 0x015:
+        case 0x016:
+        case 0x017:
+        case 0x018:
+        case 0x01e:
+        case 0x01f:
+        case 0x022:
+            unk_1 = 0x00FF;
+            break;
+        case 0x002:
+        case 0x006:
+        case 0x00a:
+        case 0x00b:
+        case 0x00d:
+        case 0x00f:
+        case 0x025:
+        case 0x02c:
+            unk_1 = -1;
+            break;
+        default:
+            unk_1 = 1;
+            break;
+        }
+
+        if (unk_1 == sprite)
+        {
+            if (unk_1 == 1)
+            {
+                poing.damage = 1;
+                obj_hurt(obj);
+                currentPhaseHitCounter++;
+                changeMereDenisPhase();
+            }
+
+            if (obj->hit_points != 0)
+            {
+                if (!(bossEncounter == 8 || bossEncounter == 9))
+                {
+                    fitSaveCurrentAction(obj);
+                    if (obj->type == TYPE_SPACE_MAMA)
+                        bossEncounter = 8;
+                    else
+                        bossEncounter = 9;
+                }
+            }
+            else
+                bossEncounter = 10;
+            
+            currentBossAction = 0;
+            bossSafeTimer = 0xFF;
+            currentBossActionIsOver = true;
+            obj->flags |= FLG(OBJ_FLAG_0);
+        }
+    }
+}
 
 /* 66A64 8018B264 -O2 -msoft-float */
 void mereDenisBigLaserCommand(Obj *laser_obj)
