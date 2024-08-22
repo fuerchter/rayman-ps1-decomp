@@ -1,5 +1,7 @@
 #include "music.h"
 
+/* TODO: PS1_TrkFiles and PS1_TracksExist are different size? correct? */
+
 #define PS1_Sectors_p_Sec 75
 #define PS1_Sec_p_Min 60
 

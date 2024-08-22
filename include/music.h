@@ -82,7 +82,7 @@ extern u8 PS1_CdMode;
 extern s32 D_801F54B0[54];
 extern s32 D_801F7AA8; /* type? */
 extern s32 D_801F7D88[54];
-extern s32 PS1_TrackSizes[54];
+extern u32 PS1_TrackSizes[54];
 extern s16 PS1_TracksExist[54];
 extern s16 D_801E4B78;
 extern s16 D_801FAA50;
@@ -113,7 +113,7 @@ void FUN_80130b18(u32 param_1, CdlLOC *param_2);
 s32 FUN_80130bc4(CdlLOC loc);
 s32 FUN_80130c58(s32 param_1);
 s32 FUN_80130d00(s32 param_1, s32 param_2);
-void PS1_InitTracks(void);
+/*u8 PS1_InitTracks(void);*/
 s16 FUN_80131474(s16 *param_1, s16 param_2, s16 param_3);
 void FUN_801314c4(void);
 void PS1_PlayMusic(void);

@@ -70,102 +70,98 @@ u8 FUN_801309b8(u8 param_1, u8 param_2, u8 *param_3, u8 param_4)
 }
 
 /*
-close, but dunno what to do about the remaining issues
-permuter "fixed" the ending by returning volatile unsigned short
+matches, but ... unknowns?
+any common.h return type seems to work
+c89 3.6.6.4 The return statement: behavior is undefined
 */
 /*INCLUDE_ASM("asm/nonmatchings/music", PS1_InitTracks);*/
 
-void PS1_InitTracks(void)
+u8 PS1_InitTracks(void)
 {
-  uint uVar2;
-  uint *puVar3;
-  CdlLOC *uVar4;
-  u_long size;
-  s32 uVar5;
-  s32 uVar6;
-  short *tracksExist;
-  int iVar7;
-  s32 *trackSizes;
-  CdlLOC *pCVar8;
-  s32 cnt_1;
-  CdlLOC local_118;
-  s32 local_110 [54];
-  s32 local_38;
-  s32 local_30;
+  u32 size;
+  s32 unk_1;
+  CdlLOC unk_2;
+  s32 unk_3 [54];
+  s32 unk_4;
+  s32 unk_5;
+  CdlLOC *unk_6;
+  s32 unk_7;
+  s32 unk_8 = true;
+  s32 *track_sizes = PS1_TrackSizes;
+  s16 *tracks_exist = PS1_TracksExist;
+  s32 i = 0;
+
+  while (i < (s16) LEN(PS1_TrkFiles))
+  {
+    size = PS1_TrkFiles[i].file.size;
+    if (size != 0)
+    {
+      *track_sizes = (size >> 11) - 40;
+      *tracks_exist = unk_8;
+    }
+    else
+    {
+      *tracks_exist = false;
+      *track_sizes = 0;
+    }
+    track_sizes++;
+    tracks_exist++;
+    i++;
+  }
+
+  for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
+  {
+    if (PS1_TracksExist[i] != 0)
+    {
+      D_801F41D0[i] = PS1_TrkFiles[i].file.pos;
+      unk_1 = (PS1_TrkFiles[i].file.size >> 11) - 40;
+      PS1_TrackSizes[i] = unk_1;
+      FUN_80130b18(unk_1, &unk_2);
+      unk_3[i] = FUN_80130bc4(unk_2);
+    }
+  }
   
-  trackSizes = PS1_TrackSizes;
-  tracksExist = PS1_TracksExist;
-  cnt_1 = 0;
-  do {
-    size = PS1_TrkFiles[cnt_1].file.size;
-    if (size != 0) {
-      *trackSizes = (size >> 0xb) - 0x28;
-      *tracksExist = 1;
+  unk_4 = FUN_80130c58(1500);
+  for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
+  {
+    if (PS1_TracksExist[i] != 0)
+    {
+      PS1_Music_Fin[i] = FUN_80130d00(FUN_80130bc4(D_801F41D0[i]), unk_3[i]);
+      if (PS1_TrackSizes[i] < 1500)
+        D_801F7D88[i] = FUN_80130d00(FUN_80130bc4(D_801F41D0[i]), unk_3[i]);
+      else
+        D_801F7D88[i] = FUN_80130d00(FUN_80130bc4(D_801F41D0[i]), unk_4);
     }
-    else {
-      *tracksExist = 0;
-      *trackSizes = 0;
+  }
+
+  unk_5 = FUN_80130c58(1388);
+  for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
+  {
+    if (PS1_TracksExist[i] != 0)
+    {
+      unk_3[i] = FUN_80130c58(PS1_TrackSizes[i] - 112);
+      unk_6 = &D_801F41D0[i];
+      D_801F42A8[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_3[i]);
+      if (PS1_TrackSizes[i] < 1500)
+        (&D_801F7AA8)[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_3[i]);
+      else
+        (&D_801F7AA8)[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_5);      
     }
-    trackSizes = trackSizes + 1;
-    cnt_1 = cnt_1 + 1;
-    tracksExist = tracksExist + 1;
-  } while (cnt_1 < 53);
-  cnt_1 = 0;
-  do {
-    if (PS1_TracksExist[cnt_1] != 0) {
-      D_801F41D0[cnt_1] = PS1_TrkFiles[cnt_1].file.pos;
-      iVar7 = ((PS1_TrkFiles[cnt_1].file.size) >> 0xb) - 0x28;
-      PS1_TrackSizes[cnt_1] = iVar7;
-      FUN_80130b18(iVar7,&local_118);
-      local_110[cnt_1] = FUN_80130bc4(local_118);
-    }
-    cnt_1 = cnt_1 + 1;
-  } while (cnt_1 < 0x35);
-  uVar5 = FUN_80130c58(0x5dc);
-  cnt_1 = 0;
-  do {
-    if (PS1_TracksExist[cnt_1] != 0) {
-      PS1_Music_Fin[cnt_1] = FUN_80130d00(FUN_80130bc4(D_801F41D0[cnt_1]),local_110[cnt_1]);
-      if ((uint)PS1_TrackSizes[cnt_1] < 0x5dc) {
-        D_801F7D88[cnt_1] = FUN_80130d00(FUN_80130bc4(D_801F41D0[cnt_1]),local_110[cnt_1]);
-      }
-      else {
-        D_801F7D88[cnt_1] = FUN_80130d00(FUN_80130bc4(D_801F41D0[cnt_1]),uVar5);
-      }
-    }
-    cnt_1 = cnt_1 + 1;
-  } while (cnt_1 < 0x35);
-  local_38 = FUN_80130c58(0x56c);
-  cnt_1 = 0;
-  do {
-    if (PS1_TracksExist[cnt_1] != 0) {
-      local_110[cnt_1] = FUN_80130c58(PS1_TrackSizes[cnt_1] - 112);
-      pCVar8 = &D_801F41D0[cnt_1];
-      D_801F42A8[cnt_1] = FUN_80130d00(FUN_80130bc4(*pCVar8),local_110[cnt_1]);
-      if ((uint)PS1_TrackSizes[cnt_1] < 0x5dc) {
-        (&D_801F7AA8)[cnt_1] = FUN_80130d00(FUN_80130bc4(*pCVar8),local_110[cnt_1]);
-      }
-      else {
-        (&D_801F7AA8)[cnt_1] = FUN_80130d00(FUN_80130bc4(*pCVar8),local_38);
-      }
-      
-    }
-    cnt_1 = cnt_1 + 1;
-  } while (cnt_1 < 0x35);
-  local_30 = FUN_80130c58(0x57c);
-  
-  for (cnt_1 = 0; cnt_1 < 0x35; cnt_1++) {
-    if (PS1_TracksExist[cnt_1] != 0) {
-      local_110[cnt_1] = FUN_80130c58(PS1_TrackSizes[cnt_1] - 96);
-      pCVar8 = &D_801F41D0[cnt_1];
-      D_801E57C0[cnt_1] = FUN_80130d00(FUN_80130bc4(*pCVar8),local_110[cnt_1]);
-      if ((uint)PS1_TrackSizes[cnt_1] < 0x5dc) {
-        D_801F54B0[cnt_1] = FUN_80130d00(FUN_80130bc4(*pCVar8),local_110[cnt_1]);
-      }
-      else {
-        D_801F54B0[cnt_1] = FUN_80130d00(FUN_80130bc4(*pCVar8),local_30);
-      }
-      
+    
+  }
+
+  unk_7 = FUN_80130c58(1404);
+  for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
+  {
+    if (PS1_TracksExist[i] != 0)
+    {
+      unk_3[i] = FUN_80130c58(PS1_TrackSizes[i] - 96);
+      unk_6 = &D_801F41D0[i];
+      D_801E57C0[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_3[i]);
+      if (PS1_TrackSizes[i] < 1500)
+        D_801F54B0[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_3[i]);
+      else
+        D_801F54B0[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_7);      
     }
   }
 }
