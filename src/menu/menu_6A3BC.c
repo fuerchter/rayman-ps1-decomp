@@ -101,7 +101,7 @@ void POINTEUR_BOUTONS_OPTIONS_BIS(void)
 /* 6A890 8018F090 -O2 -msoft-float */
 /*? display_text(? *, s16, s16, s32);*/
 
-void PS1_DisplayPadButton(s16 button, s16 x, s16 y, u8 font_size)
+void PS1_DisplayPadButton(s16 button, s16 x, s16 y, u8 font_size, u8 param_5)
 {
     switch (button)
     {
