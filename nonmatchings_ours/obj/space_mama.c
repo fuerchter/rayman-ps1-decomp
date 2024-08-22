@@ -727,7 +727,7 @@ void allocateSpaceMamaLaser(Obj *param_1)
     u32 temp_v1;
     u8 var_a1;
     u8 sub_etat;
-    s32 nb_objs;
+    s16 nb_objs; /* s16 or s32? */
     int new_var;
     u8 obj_type;
 
@@ -757,12 +757,16 @@ void allocateSpaceMamaLaser(Obj *param_1)
     {
         if ((cur_obj->type == obj_type) && !(cur_obj->flags & 0x800))
         {
-            if (param_1->type == 0xD5)
+            do
             {
-                param_1 = &level.objects[mereDenis_weapon_id];
-            }
-            cur_obj->field20_0x36 = param_1->id;
-            cur_obj->field24_0x3e = laserSourceSprNumInAnim;
+                if (param_1->type == 0xD5)
+                {
+                    param_1 = &level.objects[mereDenis_weapon_id];
+                }
+                cur_obj->field20_0x36 = param_1->id;
+                cur_obj->field24_0x3e = laserSourceSprNumInAnim;
+            } while (0);
+
             temp_v1 = cur_obj->flags & 0xFFFF7FFF;
             cur_obj->flags = temp_v1;
             cur_obj->anim_frame = 0;
@@ -820,6 +824,7 @@ void fitSaveCurrentAction(Obj *obj)
         case 33:
         case 43:
             currentBossAction += 1;
+            /* fall through */
         case 34:
         case 35:
         case 36:
