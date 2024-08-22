@@ -250,7 +250,13 @@ void FUN_80130a98(CdlLOC *param_1, CdlLOC *param_2, CdlLOC *param_3)
     FUN_801309b8(param_1->minute, param_2->minute, &param_3->minute, PS1_Sec_p_Min - 1); /* TODO: should this be min/hour instead? */
 }
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_80130b18);
+/* C318 80130B18 -O2 -msoft-float */
+void FUN_80130b18(u32 param_1, CdlLOC *param_2)
+{
+    param_2->sector = itob(param_1 % PS1_Sectors_p_Sec);
+    param_2->second = itob(param_1 / PS1_Sectors_p_Sec % PS1_Sec_p_Min);
+    param_2->minute = itob(param_1 / PS1_Sectors_p_Sec / PS1_Sec_p_Min);
+}
 
 /* C3C4 80130BC4 -O2 -msoft-float */
 s32 FUN_80130bc4(CdlLOC loc)

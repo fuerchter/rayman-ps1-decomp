@@ -69,22 +69,6 @@ u8 FUN_801309b8(u8 param_1, u8 param_2, u8 *param_3, u8 param_4)
     return var_v0;
 }
 
-/* too many nops somehow... and even worse on current maspsx/decomp.me */
-/*INCLUDE_ASM("asm/nonmatchings/music", FUN_80130b18);*/
-
-void FUN_80130b18(u32 param_1, CdlLOC *param_2)
-{
-    u32 temp_hi_1;
-    u32 temp_hi_2;
-    u32 temp_lo_1;
-    u32 temp_lo_2;
-
-    param_2->sector = itob(param_1 % 75);
-    temp_lo_1 = param_1 / 75;
-    param_2->second = itob(temp_lo_1 % 60);
-    param_2->minute = itob(temp_lo_1 / 60);
-}
-
 /*
 close, but dunno what to do about the remaining issues
 permuter "fixed" the ending by returning volatile unsigned short
