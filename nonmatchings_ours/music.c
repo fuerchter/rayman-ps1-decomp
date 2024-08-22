@@ -1,5 +1,6 @@
 #include "music.h"
 
+/* attempts: 2 */
 /*INCLUDE_ASM("asm/nonmatchings/music", FUN_801309b8);*/
 
 u8 FUN_801309b8(u8 param_1, u8 param_2, u8 *param_3, u8 param_4)
@@ -29,6 +30,42 @@ u8 FUN_801309b8(u8 param_1, u8 param_2, u8 *param_3, u8 param_4)
         *param_3 = itob(temp_v1_1);
         var_v0 = 1;
     }
+    return var_v0;
+}
+
+u8 FUN_801309b8(u8 param_1, u8 param_2, u8 *param_3, u8 param_4)
+{
+    u8 temp_v1_1;
+    u32 temp_a0;
+    u32 temp_a0_2;
+    u32 temp_a1;
+    u8 temp_v1_2;
+    u32 var_a0;
+    u32 var_v1;
+    u8 temp_t0;
+    u8 var_a2;
+    u8 var_v0;
+
+    temp_v1_1 =
+        ((param_1)/16*10 + (param_1)%16) +
+        ((param_2)/16*10 + (param_2)%16) +
+        ((*param_3)/16*10 + (*param_3)%16);
+
+    temp_a0_2 = temp_v1_1 & 0xFF;
+    if ((param_4) >= temp_v1_1)
+    {
+        var_v0 = 0;
+        var_v1 = temp_a0_2 / 10U;
+        var_a0 = temp_a0_2 % 10U;
+    }
+    else
+    {
+        var_v0 = 1;
+        temp_v1_2 = (((u8) temp_v1_1 + 0xFF) - param_4) & 0xFF;
+        var_v1 = temp_v1_2 / 10U;
+        var_a0 = temp_v1_2 % 10U;
+    }
+    *param_3 = (var_v1 * 0x10) + var_a0;
     return var_v0;
 }
 
