@@ -29,9 +29,9 @@ typedef struct WorldInfo
 
 /* .data */
 extern WorldInfo t_world_info[24];
-extern u8 *D_801C353C;
+extern u8 *PTR_s_save_game_801c353c;
 extern u8 *PTR_s_game_saved_801c3540;
-extern u8 *D_801C3544;
+extern u8 *PTR_s_no_save_available_801c3544;
 
 /**/
 extern Obj *mapobj;

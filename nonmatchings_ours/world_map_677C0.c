@@ -83,7 +83,7 @@ void DISPLAY_PLAT_WAY(void)
   } while (i < 24);
 }
 
-/* matches, but WorldInfo state casts... */
+/* matches, but WorldInfo.state casts... */
 /* 67B0C 8018C30C -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_DisplayPlateau);*/
 
@@ -113,7 +113,7 @@ void PS1_DisplayPlateau(void)
   } while (i < 24);
 }
 
-/* matches, but WorldInfo state casts... */
+/* matches, but WorldInfo.state casts... */
 /* 67BE8 8018C3E8 -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_MEDAILLONS);*/
 
@@ -395,4 +395,136 @@ void INIT_CHEMIN(void)
       SaveGameOnDisk(fichier_selectionne);
     nouvelle_partie = false;
   }
+}
+
+/* matches, but WorldInfo.state */
+/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_RAYMAN_IN_WLD_MAP);*/
+
+void DO_RAYMAN_IN_WLD_MAP(void)
+{
+    s16 diff_x;
+    s16 diff_y;
+    s16 unk_0;
+    s16 unk_1;
+    s32 unk_2;
+    s16 unk_3;
+    s32 unk_4;
+    s16 unk_5;
+    Obj *unk_6;
+
+    if (num_world_choice == old_num_world)
+    {
+        if (
+            (s16) but0pressed(0) || (s16) but1pressed(0) ||
+            (s16) but2pressed(0) || (s16) but3pressed(0)
+        )
+        {
+            if (
+                num_world_choice == 18 || num_world_choice == 19 ||
+                num_world_choice == 20 || num_world_choice == 21 ||
+                num_world_choice == 22 || num_world_choice == 23
+            )
+            {
+                if (
+                    NBRE_SAVE != 0 &&
+                    t_world_info[num_world_choice].level_name == PTR_s_save_game_801c353c
+                )
+                {
+                    if (PS1_SaveWldMap())
+                    {
+                        SaveGameOnDisk(fichier_selectionne);
+                        PASTILLES_SAUVE_SAVED(num_world_choice);
+                        CHANGE_STAGE_NAMES();
+                    }
+                    else
+                        PS1_CardDisplayPassword();
+                }
+            }
+            else
+                new_world = true;
+        }
+        else if (rightjoy(0))
+            RESPOND_TO_RIGHT();
+        else if (leftjoy(0))
+            RESPOND_TO_LEFT();
+        else if (downjoy(0))
+            RESPOND_TO_DOWN();
+        else if (upjoy(0))
+            RESPOND_TO_UP();
+
+        if (num_world_choice != old_num_world)
+        {
+            if (*(u32*)&t_world_info[num_world_choice].state & (1 << 0))
+            {
+                ray.timer = 0;
+                set_main_and_sub_etat(&ray, 1, 0);
+                CHANGE_STAGE_NAMES();
+            }
+            else
+                num_world_choice = old_num_world;
+        }
+    }
+    else
+    {
+        diff_x = t_world_info[num_world_choice].x_pos - t_world_info[old_num_world].x_pos;
+        diff_y = t_world_info[num_world_choice].y_pos - t_world_info[old_num_world].y_pos;
+        if (diff_x < 0)
+            ray.flags &= ~FLG(OBJ_FLIP_X);
+        else
+            ray.flags |= FLG(OBJ_FLIP_X);
+        
+        if (diff_x != 0 && diff_y != 0)
+        {
+            if (__builtin_abs(diff_y) > __builtin_abs(diff_x))
+            {
+                unk_0 = __builtin_abs(ray.timer * diff_x / diff_y);
+                unk_1 = ray.timer;
+            }
+            else
+            {
+                unk_1 = __builtin_abs(ray.timer * diff_y / diff_x);
+                unk_0 = ray.timer;
+            }
+        }
+        else if (diff_x == 0)
+            unk_1 = ray.timer;
+        else if (diff_y == 0)
+            unk_0 = ray.timer;
+        ray.timer++;
+
+        unk_2 = unk_0;
+        if (diff_x >= 0)
+            unk_3 = -(diff_x > 0) & unk_2;
+        else
+            unk_3 = -unk_2;
+        unk_4 = unk_1;
+        if (diff_y >= 0)
+            unk_5 = -(diff_y > 0) & unk_4;
+        else
+            unk_5 = -unk_4;
+        
+        ray.speed_x = t_world_info[old_num_world].x_pos + unk_3 - ray.offset_bx - ray.x_pos;
+        ray.speed_y = t_world_info[old_num_world].y_pos + unk_5 - ray.offset_by - (s16) (ray.y_pos - 8);
+        if (
+            __builtin_abs(unk_0) >= __builtin_abs(diff_x) &&
+            __builtin_abs(unk_1) >= __builtin_abs(diff_y)
+        )
+        {
+            old_num_world = num_world_choice;
+            if (ray.main_etat != 0)
+            {
+                set_main_and_sub_etat(&ray, 0, 0);
+                ray.speed_x = 0;
+                ray.speed_y = 0;
+                ray.x_pos = t_world_info[num_world_choice].x_pos - ray.offset_bx;
+                ray.y_pos = t_world_info[num_world_choice].y_pos - ray.offset_by + 8;
+            }
+        }
+    }
+    
+    MoveRayInWorldMap();
+    CalcObjPosInWorldMap(&ray);
+    unk_6 = &ray; /* TODO: clean up somehow */
+    set_proj_center(ray.screen_x_pos + ray.offset_bx, ray.screen_y_pos + ray.offset_by);
+    DO_ANIM(unk_6);
 }

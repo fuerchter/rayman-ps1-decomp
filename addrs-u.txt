@@ -60,6 +60,9 @@ PosXSin2 = 0x801f4e00;
 PosYSin2 = 0x801f4e08;
 PS1_ShouldClearPassword = 0x801d7878;
 PS1_CharXSpacing = 0x801e5748;
+PTR_s_save_game_801c353c = 0x801c353c;
+PTR_s_game_saved_801c3540 = 0x801c3540;
+PTR_s_no_save_available_801c3544 = 0x801c3544;
 
 D_801C438C = 0x801C438C;
 D_801CEE10 = 0x801cee10;
@@ -103,7 +106,6 @@ s_the_cave_of_skops_8012ba6c = 0x8012ba6c; // type:asciz force_not_migration:Tru
 s_candy_chateau_8012ba80 = 0x8012ba80; // type:asciz force_not_migration:True
 s___801cf0a4 = 0x801cf0a4;
 s__801cf0a8 = 0x801cf0a8;
-PTR_s_game_saved_801c3540 = 0x801c3540;
 s__tings_to_get_801277fc = 0x801277fc;
 s__801cef84 = 0x801cef84;
 s_time_801cef88 = 0x801cef88;
