@@ -12,6 +12,7 @@
 #include "collision/proj.h"
 #include "boss.h"
 #include "pix_gerbe.h"
+#include "obj/cymbal.h"
 
 /* .data */
 extern s16 PS1_PolygonIndexTableCount;
