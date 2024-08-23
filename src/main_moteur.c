@@ -34,8 +34,8 @@ void DO_MAIN_LOOP(void)
   for (i = 0; i < PS1_PolygonIndexTableCount; i++)
   {
     SetPolyFT4(&new_disp_1->polygons[PS1_PolygonIndexTable[i]]);
-    SetSemiTrans(&new_disp_1->polygons[PS1_PolygonIndexTable[i]], 0);
-    SetShadeTex(&new_disp_1->polygons[PS1_PolygonIndexTable[i]], 1);
+    SetSemiTrans(&new_disp_1->polygons[PS1_PolygonIndexTable[i]], false);
+    SetShadeTex(&new_disp_1->polygons[PS1_PolygonIndexTable[i]], true);
   }
   PS1_PolygonIndexTableCount = 0;
   

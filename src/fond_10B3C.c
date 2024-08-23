@@ -86,8 +86,8 @@ void FUN_80138360(u8 *vit_clig)
             bg_pos = &PS1_BackgroundPositions[i];
             bg_sprite = &PS1_BackgroundSprites[i];
             /* gross... */
-            SetSemiTrans((PS1_CurrentDisplay->sprites + D_801E4BC8), 1);
-            SetShadeTex((PS1_CurrentDisplay->sprites + D_801E4BC8), 0);
+            SetSemiTrans((PS1_CurrentDisplay->sprites + D_801E4BC8), true);
+            SetShadeTex((PS1_CurrentDisplay->sprites + D_801E4BC8), false);
             (PS1_CurrentDisplay->sprites + D_801E4BC8)->r0 = PS1_Glass_brightness[i];
             (PS1_CurrentDisplay->sprites + D_801E4BC8)->g0 = PS1_Glass_brightness[i];
             (PS1_CurrentDisplay->sprites + D_801E4BC8)->b0 = PS1_Glass_brightness[i];

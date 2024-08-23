@@ -43,8 +43,8 @@ void SYNCHRO_LOOP(s16 (*func)())
     for (i = 0; i < PS1_PolygonIndexTableCount; i++)
     {
       SetPolyFT4(&new_disp_2->polygons[PS1_PolygonIndexTable[i]]);
-      SetSemiTrans(&new_disp_2->polygons[PS1_PolygonIndexTable[i]], 0);
-      SetShadeTex(&new_disp_2->polygons[PS1_PolygonIndexTable[i]], 1);
+      SetSemiTrans(&new_disp_2->polygons[PS1_PolygonIndexTable[i]], false);
+      SetShadeTex(&new_disp_2->polygons[PS1_PolygonIndexTable[i]], true);
     }
     PS1_PolygonIndexTableCount = 0;
     D_801E4BE0 = 0x0019;

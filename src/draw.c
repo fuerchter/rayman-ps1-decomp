@@ -8,7 +8,81 @@ void PS1_DrawSprite(Sprite *sprite, s16 x, s16 y, u8 param_4)
     PS1_DrawColoredSprite(sprite, x, y, param_4);
 }
 
-INCLUDE_ASM("asm/nonmatchings/draw", PS1_DrawScaledSprite);
+/* 15370 80139B70 -O2 -msoft-float */
+void PS1_DrawScaledSprite(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 param_5)
+{
+    s16 page_x; s16 page_y;
+    s16 width; s16 height;
+    s32 unk_width_1; s32 unk_height_1;
+    s16 unk_x_1;
+    s16 unk_x_2;
+    s16 unk_y_1;
+    s16 unk_x_3;
+    s16 unk_y_2;    
+    POLY_FT4 *poly = &PS1_CurrentDisplay->polygons[PS1_PolygonsCount++];
+
+    if (sprite->id != 0)
+    {
+        page_x = sprite->page_x;
+        page_y = sprite->page_y;
+        if (param_5 > 0)
+        {
+            width = sprite->width;
+            height = sprite->height + 1;
+        }
+        else
+        {
+            width = sprite->width - 1;
+            height = sprite->height - 1;
+        }
+        unk_width_1 = get_proj_dist(param_5, width);
+        unk_height_1 = get_proj_dist(param_5, height);
+        unk_x_1 = page_x + width;
+        unk_x_2 = unk_x_1 - 1;
+        unk_y_1 = page_y + height - 1;
+        unk_x_3 = x + unk_width_1 - 1;
+        unk_y_2 = y + unk_height_1 - 1;
+        poly->clut = sprite->clut;
+        poly->tpage = sprite->tpage;
+        if (is_flipped != 0)
+        {
+            page_x--;
+            poly->u0 = unk_x_2;
+            poly->v0 = page_y;
+            poly->u1 = page_x;
+            poly->v1 = page_y;
+            poly->u2 = unk_x_2;
+            poly->v2 = unk_y_1;
+            poly->u3 = page_x;
+            poly->v3 = unk_y_1;
+        }
+        else
+        {
+            unk_x_2 = unk_x_1;
+            poly->u0 = page_x;
+            poly->v0 = page_y;
+            poly->u1 = unk_x_2;
+            poly->v1 = page_y;
+            poly->u2 = page_x;
+            poly->v2 = unk_y_1;
+            poly->u3 = unk_x_2;
+            poly->v3 = unk_y_1;
+        }
+        unk_x_3++;
+        poly->x0 = x;
+        poly->y0 = y;
+        poly->x1 = unk_x_3;
+        poly->y1 = y;
+        poly->x2 = x;
+        poly->y2 = unk_y_2;
+        poly->x3 = unk_x_3;
+        poly->y3 = unk_y_2;
+        SetShadeTex(poly, true);
+        SetSemiTrans(poly, false);
+        AddPrim(PS1_PrevPrim, poly);
+        PS1_PrevPrim = poly;
+    }
+}
 
 /* 1555C 80139D5C -O2 -msoft-float */
 void FUN_80139d5c(s16 *p_poly_x, s16 *p_poly_y, s16 param_3, s16 param_4, s16 angle)
