@@ -1,6 +1,5 @@
 #include "draw.h"
 
-/* idk, did not try very hard to understand the diff */
 /*INCLUDE_ASM("asm/nonmatchings/draw", PS1_DrawColoredSprite);*/
 
 void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode)
@@ -9,80 +8,66 @@ void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode)
     s16 temp_a0_2;
     s16 temp_v0_3;
     s16 temp_v0_4;
-    s16 temp_v1;
+    s16 temp_v1_1;
     s16 temp_v1_3;
-    POLY_FT4 *var_v0;
-    u32 temp_a3;
-    u8 temp_a0;
-    u8 temp_a2;
-    u8 temp_a2_2;
-    u8 temp_a2_3;
-    u8 temp_a2_4;
-    u8 temp_t0;
-    u8 temp_t0_2;
-    u8 temp_t0_3;
-    u8 temp_t0_4;
-    u8 temp_t0_5;
-    u8 temp_t1;
-    u8 temp_t1_2;
-    u8 temp_t1_3;
-    u8 temp_t1_4;
-    u8 temp_t2;
-    u8 temp_t2_2;
-    u8 temp_t2_3;
-    u8 temp_v0;
-    u8 temp_v0_2;
-    u8 temp_v1_2;
-    u8 var_t2;
+    s16 width;
+    s16 page_x;
+    s16 page_y;
+    s16 page_x_end;
+    s16 page_y_end;
+    s16 height;
+    Display *new_var;
+    POLY_FT4 *new_var2;
 
-    temp_v1 = PS1_PolygonsCount;
-    if (temp_v1 < 0xC8)
+    temp_v1_1 = PS1_PolygonsCount;
+    if (temp_v1_1 < 0xC8)
     {
-        PS1_PolygonsCount = temp_v1 + 1;
-        var_s0 = &PS1_CurrentDisplay->polygons[temp_v1];
+        PS1_PolygonsCount = temp_v1_1 + 1;
+        new_var = PS1_CurrentDisplay;
+        var_s0 = &new_var->polygons[temp_v1_1];
     }
     else
     {
-        if (PS1_CurrentDisplay != &PS1_Display1)
+        new_var = PS1_CurrentDisplay;
+        if (new_var != &PS1_Display1)
         {
-            var_v0 = 0x800E3F2C;
+            var_s0 = &(((POLY_FT4*)0x800E3F2C)[temp_v1_1]);
         }
         else
         {
-            var_v0 = 0x800D772C;
+            var_s0 = &(((POLY_FT4*)0x800D772C)[temp_v1_1]);
         }
-        var_s0 = &var_v0[temp_v1];
         SetPolyFT4(var_s0);
-        PS1_PolygonsCount = (u16) PS1_PolygonsCount + 1;
+        PS1_PolygonsCount = PS1_PolygonsCount + 1;
     }
-    temp_a3 = display_mode & 0xFF;
+    
     if (sprite->id != 0)
     {
-        temp_t0 = sprite->page_x;
-        temp_t2 = sprite->page_y;
-        temp_a0 = sprite->width;
-        temp_v1_2 = sprite->height;
-        temp_v0 = temp_t0 + temp_a0;
+        page_x = sprite->page_x;
+        page_y = sprite->page_y;
+        width = sprite->width;
+        height = sprite->height;
+        page_x_end = page_x + width;
+        page_y_end = page_y + height;
+        temp_v0_3 = x + width;
+        temp_v0_4 = y + height;
+        temp_v1_3 = x + height;
+        temp_a0_2 = y + width;
         var_s0->clut = sprite->clut;
-        temp_v0_2 = temp_t2 + temp_v1_2;
-        temp_v0_3 = x + temp_a0;
-        temp_a0_2 = y + temp_a0;
         var_s0->tpage = sprite->tpage;
-        temp_v0_4 = y + temp_v1_2;
-        temp_v1_3 = x + temp_v1_2;
-        switch (temp_a3)
+        switch (display_mode)
         {
         case 1:
-            temp_t0_2 = temp_t0 - 1;
-            temp_a2 = temp_v0 - 1;
-            var_s0->u0 = temp_a2;
-            var_s0->v0 = temp_t2;
-            var_s0->u1 = temp_t0_2;
-            var_s0->v1 = temp_t2;
-            var_s0->u2 = temp_a2;
-            var_s0->v2 = temp_v0_2;
-            var_s0->u3 = temp_t0_2;
-            var_s0->v3 = temp_v0_2;
+            page_x = page_x - 1;
+            page_x_end = page_x_end - 1;
+            var_s0->u0 = page_x_end;
+            var_s0->v0 = page_y;
+            var_s0->u1 = page_x;
+            var_s0->v1 = page_y;
+            var_s0->u2 = page_x_end;
+            var_s0->v2 = page_y_end;
+            var_s0->u3 = page_x;
+            var_s0->v3 = page_y_end;
             var_s0->x0 = x;
             var_s0->y0 = y;
             var_s0->x1 = temp_v0_3;
@@ -93,16 +78,16 @@ void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode)
             var_s0->y3 = temp_v0_4;
             break;
         case 2:
-            temp_t2_2 = temp_t2 - 1;
-            temp_t1 = temp_v0_2 - 1;
-            var_s0->u0 = temp_t0;
-            var_s0->v0 = temp_t1;
-            var_s0->u1 = temp_v0;
-            var_s0->v1 = temp_t1;
-            var_s0->u2 = temp_t0;
-            var_s0->v2 = temp_t2_2;
-            var_s0->u3 = temp_v0;
-            var_s0->v3 = temp_t2_2;
+            page_y = page_y - 1;
+            page_y_end = page_y_end - 1;
+            var_s0->u0 = page_x;
+            var_s0->v0 = page_y_end;
+            var_s0->u1 = page_x_end;
+            var_s0->v1 = page_y_end;
+            var_s0->u2 = page_x;
+            var_s0->v2 = page_y;
+            var_s0->u3 = page_x_end;
+            var_s0->v3 = page_y;
             var_s0->x0 = x;
             var_s0->y0 = y;
             var_s0->x1 = temp_v0_3;
@@ -113,18 +98,18 @@ void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode)
             var_s0->y3 = temp_v0_4;
             break;
         case 3:
-            temp_t0_3 = temp_t0 - 1;
-            temp_a2_2 = temp_v0 - 1;
-            temp_t2_3 = temp_t2 - 1;
-            temp_t1_2 = temp_v0_2 - 1;
-            var_s0->u0 = temp_a2_2;
-            var_s0->v0 = temp_t1_2;
-            var_s0->u1 = temp_t0_3;
-            var_s0->v1 = temp_t1_2;
-            var_s0->u2 = temp_a2_2;
-            var_s0->v2 = temp_t2_3;
-            var_s0->u3 = temp_t0_3;
-            var_s0->v3 = temp_t2_3;
+            page_x = page_x - 1;
+            page_x_end = page_x_end - 1;
+            page_y = page_y - 1;
+            page_y_end = page_y_end - 1;
+            var_s0->u0 = page_x_end;
+            var_s0->v0 = page_y_end;
+            var_s0->u1 = page_x;
+            var_s0->v1 = page_y_end;
+            var_s0->u2 = page_x_end;
+            var_s0->v2 = page_y;
+            var_s0->u3 = page_x;
+            var_s0->v3 = page_y;
             var_s0->x0 = x;
             var_s0->y0 = y;
             var_s0->x1 = temp_v0_3;
@@ -135,16 +120,16 @@ void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode)
             var_s0->y3 = temp_v0_4;
             break;
         case 4:
-            temp_t0_4 = temp_t0 - 1;
-            temp_a2_3 = temp_v0 - 1;
-            var_s0->u0 = temp_a2_3;
-            var_s0->v0 = temp_t2;
-            var_s0->u1 = temp_a2_3;
-            var_s0->v1 = temp_v0_2;
-            var_s0->u2 = temp_t0_4;
-            var_s0->v2 = temp_t2;
-            var_s0->u3 = temp_t0_4;
-            var_s0->v3 = temp_v0_2;
+            page_x = page_x - 1;
+            page_x_end = page_x_end - 1;
+            var_s0->u0 = page_x_end;
+            var_s0->v0 = page_y;
+            var_s0->u1 = page_x_end;
+            var_s0->v1 = page_y_end;
+            var_s0->u2 = page_x;
+            var_s0->v2 = page_y;
+            var_s0->u3 = page_x;
+            var_s0->v3 = page_y_end;
             var_s0->x0 = x;
             var_s0->y0 = y;
             var_s0->x1 = temp_v1_3;
@@ -155,16 +140,16 @@ void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode)
             var_s0->y3 = temp_a0_2;
             break;
         case 5:
-            var_t2 = temp_t2 - 1;
-            temp_t1_3 = temp_v0_2 - 1;
-            var_s0->u0 = temp_t0;
-            var_s0->v0 = temp_t1_3;
-            var_s0->u1 = temp_t0;
-            var_s0->v1 = var_t2;
-            var_s0->u2 = temp_v0;
-            var_s0->v2 = temp_t1_3;
-            var_s0->u3 = temp_v0;
-            var_s0->v3 = var_t2;
+            page_y = page_y - 1;
+            page_y_end = page_y_end - 1;
+            var_s0->u0 = page_x;
+            var_s0->v0 = page_y_end;
+            var_s0->u1 = page_x;
+            var_s0->v1 = page_y;
+            var_s0->u2 = page_x_end;
+            var_s0->v2 = page_y_end;
+            var_s0->u3 = page_x_end;
+            var_s0->v3 = page_y;
             var_s0->x0 = x;
             var_s0->y0 = y;
             var_s0->x1 = temp_v1_3;
@@ -175,14 +160,14 @@ void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode)
             var_s0->y3 = temp_a0_2;
             break;
         case 6:
-            var_s0->u0 = temp_t0;
-            var_s0->v0 = temp_t2;
-            var_s0->u1 = temp_t0;
-            var_s0->v1 = temp_v0_2;
-            var_s0->u2 = temp_v0;
-            var_s0->v2 = temp_t2;
-            var_s0->u3 = temp_v0;
-            var_s0->v3 = temp_v0_2;
+            var_s0->u0 = page_x;
+            var_s0->v0 = page_y;
+            var_s0->u1 = page_x;
+            var_s0->v1 = page_y_end;
+            var_s0->u2 = page_x_end;
+            var_s0->v2 = page_y;
+            var_s0->u3 = page_x_end;
+            var_s0->v3 = page_y_end;
             var_s0->x0 = x;
             var_s0->y0 = y;
             var_s0->x1 = temp_v1_3;
@@ -193,18 +178,18 @@ void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode)
             var_s0->y3 = temp_a0_2;
             break;
         case 7:
-            temp_t0_5 = temp_t0 - 1;
-            temp_a2_4 = temp_v0 - 1;
-            var_t2 = temp_t2 - 1;
-            temp_t1_4 = temp_v0_2 - 1;
-            var_s0->u0 = temp_a2_4;
-            var_s0->v0 = temp_t1_4;
-            var_s0->u1 = temp_a2_4;
-            var_s0->v1 = var_t2;
-            var_s0->u2 = temp_t0_5;
-            var_s0->v2 = temp_t1_4;
-            var_s0->u3 = temp_t0_5;
-            var_s0->v3 = var_t2;
+            page_x = page_x - 1;
+            page_x_end = page_x_end - 1;
+            page_y = page_y - 1;
+            page_y_end = page_y_end - 1;
+            var_s0->u0 = page_x_end;
+            var_s0->v0 = page_y_end;
+            var_s0->u1 = page_x_end;
+            var_s0->v1 = page_y;
+            var_s0->u2 = page_x;
+            var_s0->v2 = page_y_end;
+            var_s0->u3 = page_x;
+            var_s0->v3 = page_y;
             var_s0->x0 = x;
             var_s0->y0 = y;
             var_s0->x1 = temp_v1_3;
@@ -216,14 +201,14 @@ void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode)
             break;
         case 0:
         default:
-            var_s0->u0 = temp_t0;
-            var_s0->v0 = temp_t2;
-            var_s0->u1 = temp_v0;
-            var_s0->v1 = temp_t2;
-            var_s0->u2 = temp_t0;
-            var_s0->v2 = temp_v0_2;
-            var_s0->u3 = temp_v0;
-            var_s0->v3 = temp_v0_2;
+            var_s0->u0 = page_x;
+            var_s0->v0 = page_y;
+            var_s0->u1 = page_x_end;
+            var_s0->v1 = page_y;
+            var_s0->u2 = page_x;
+            var_s0->v2 = page_y_end;
+            var_s0->u3 = page_x_end;
+            var_s0->v3 = page_y_end;
             var_s0->x0 = x;
             var_s0->y0 = y;
             var_s0->x1 = temp_v0_3;
