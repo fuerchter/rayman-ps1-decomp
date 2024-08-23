@@ -702,7 +702,7 @@ void DISPLAY_ALL_OBJECTS(void)
 
     if (prio == 3)
     {
-      if (((u8) ray.iframes_timer & 1) || (0x5a < ray.iframes_timer))
+      if ((ray.iframes_timer % 2) || (0x5a < ray.iframes_timer))
       {
         if (((ray.flags & (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE))) == (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE))))
             display2(&ray);
