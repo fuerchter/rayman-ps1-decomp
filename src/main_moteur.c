@@ -47,7 +47,7 @@ void DO_MAIN_LOOP(void)
   ClearOTag((u_long *) PS1_CurrentDisplay->ordering_table, LEN(PS1_CurrentDisplay->ordering_table));
   D_801E4BE0 = 0x19;
   D_801F4A28 = 0;
-  D_801FA690 = 0;
+  PS1_Disp_Cur_Tile1 = 0;
   PS1_PolygonsCount = 0;
   D_801F81B0 = 0;
   if (PS1_MemoryUsageDisplayMode == 2)

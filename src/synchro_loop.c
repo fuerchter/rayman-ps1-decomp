@@ -49,7 +49,7 @@ void SYNCHRO_LOOP(s16 (*func)())
     PS1_PolygonIndexTableCount = 0;
     D_801E4BE0 = 0x0019;
     D_801F4A28 = 0;
-    D_801FA690 = 0;
+    PS1_Disp_Cur_Tile1 = 0;
     PS1_PolygonsCount = 0;
     D_801F81B0 = 0;
     PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[6];

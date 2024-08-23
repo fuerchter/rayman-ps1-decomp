@@ -259,7 +259,7 @@ void display_bar_boss(Obj *boss_obj)
             unk_3 = 20 - unk_2;
             display_mode = 1;
             display_sprite(poing_obj, 61, unk_3 - (init_hp - hp) * unk_1, 217, display_mode);
-            display_sprite(poing_obj, 60, 21 - unk_2, 216, display_mode);
+            display_sprite(poing_obj, 60, 20 - unk_2 + 1, 216, display_mode);
             switch (boss_obj->type)
             {
             case TYPE_MOSKITO:
@@ -356,7 +356,7 @@ void display_flocons_behind(void)
     unk_2 = 6;
     var_s7 = 3;
     unk_offs = 32;
-    while (unk_offs < 192) /* 32 - 160 (incl.) in steps of 32 */
+    while (unk_offs < 192) /* range of 32 - 160 (incl.) in steps of 32 */
     {
         unk_2--;
         temp_lo_1 = 0x10000 / (unk_offs + 0x100);
@@ -572,92 +572,6 @@ void display_flocons_before(void)
     }
     PROJ_CENTER_X = old_pcx;
     PROJ_CENTER_Y = old_pcy;
-}
-
-/* matches, but didn't feel like cleaning up */
-/*INCLUDE_ASM("asm/nonmatchings/draw", display_pix_gerbes);*/
-
-void display_pix_gerbes(void)
-{
-    TILE_1 *var_s3;
-    s16 var_s5;
-    s16 var_s7;
-    s32 temp_v1_1;
-    u8 var_v0_3;
-    PixGerbeItem *var_s2;
-    s16 temp_v0_2;
-    u8 temp_v1_2;
-
-    var_s3 = &PS1_CurrentDisplay->tile1s[(u16) D_801FA690];
-    for (var_s7 = 0; var_s7 < (s16) LEN(pix_gerbe); var_s7++)
-    {
-        temp_v1_1 = var_s7;
-        if (pix_gerbe[temp_v1_1].is_active)
-        {
-            var_s2 = pix_gerbe[temp_v1_1].items;
-            var_s5 = 0;
-            while (var_s5 < (s16) LEN(pix_gerbe[temp_v1_1].items))
-            {
-                temp_v1_2 = var_s2->unk_1;
-                if (temp_v1_2 >= 0x80 && (var_s2->y_pos > 0))
-                {
-                    temp_v0_2 = (u8) var_s2->speed_y;
-                    if (temp_v0_2 >= 0x80)
-                    {
-                        var_v0_3 = 0x58;
-                    }
-                    else
-                    {
-                        var_v0_3 = (temp_v1_2 & 0x7F) + ((temp_v0_2 >> 5) + 4);
-                    }
-
-                    switch (var_v0_3)
-                    {
-                        case 4:
-                            var_s3->r0 = 0x7b;
-                            var_s3->g0 = 0x87;
-                            var_s3->b0 = 0xbb;
-                            break;
-                        case 5:
-                            var_s3->r0 = 0x97;
-                            var_s3->g0 = 0x9f;
-                            var_s3->b0 = 0xdb;
-                            break;
-                        case 6:
-                            var_s3->r0 = 0xbb;
-                            var_s3->g0 = 0xbb;
-                            var_s3->b0 = 0xfb;
-                            break;
-                        case 7:
-                            var_s3->r0 = 0xc7;
-                            var_s3->g0 = 0xd5;
-                            var_s3->b0 = 0xfb;
-                            break;
-                        case 0x58:
-                            var_s3->r0 = 0xff;
-                            var_s3->g0 = 0xbf;
-                            var_s3->b0 = 0xa7;
-                            break;
-                        default:
-                            var_s3->r0 = 0xbb;
-                            var_s3->g0 = 0xbb;
-                            var_s3->b0 = 0xfb;
-                            break;
-                    }
-                    var_s3->x0 = var_s2->x_pos >> 6;
-                    var_s3->y0 = var_s2->y_pos >> 6;
-                    if (D_801FA690 < 0xF0U)
-                    {
-                        AddPrim(PS1_PrevPrim, var_s3);
-                        var_s3++;
-                        D_801FA690++;
-                    }
-                }
-                var_s2++;
-                var_s5++;
-            }
-        }
-    }
 }
 
 /*INCLUDE_ASM("asm/nonmatchings/draw", DISPLAY_ALL_OBJECTS);*/

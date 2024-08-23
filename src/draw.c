@@ -451,7 +451,7 @@ void DISPLAY_PLATEAU(Obj *obj)
 /* 16840 8013B040 -O2 -msoft-float */
 void draw_flocon1_Normal(s16 x0, s16 y0)
 {
-    TILE_1 *tile = &PS1_CurrentDisplay->tile1s[(u16) D_801FA690++];
+    TILE_1 *tile = &PS1_CurrentDisplay->tile1s[PS1_Disp_Cur_Tile1++];
 
     tile->r0 = 187; tile->g0 = 187; tile->b0 = 251;
     tile->x0 = x0; tile->y0 = y0;
@@ -462,7 +462,7 @@ void draw_flocon1_Normal(s16 x0, s16 y0)
 /* 168C0 8013B0C0 -O2 -msoft-float */
 void draw_flocon2_Normal(s16 x0, s16 y0)
 {
-    TILE_1 *tile = &PS1_CurrentDisplay->tile1s[(u16) D_801FA690++];
+    TILE_1 *tile = &PS1_CurrentDisplay->tile1s[PS1_Disp_Cur_Tile1++];
     
     tile->r0 = 199; tile->g0 = 223; tile->b0 = 247;
     tile->x0 = x0; tile->y0 = y0;
@@ -528,7 +528,7 @@ void FUN_8013b304(s16 x0, s16 y0)
 /* 16B74 8013B374 -O2 -msoft-float */
 void draw_pluie4_Normal(s16 x0, s16 y0)
 {
-    TILE_1 *tile = &PS1_CurrentDisplay->tile1s[(u16) D_801FA690++];
+    TILE_1 *tile = &PS1_CurrentDisplay->tile1s[PS1_Disp_Cur_Tile1++];
 
     tile->r0 = 95; tile->g0 = 107; tile->b0 = 167;
     tile->x0 = x0; tile->y0 = y0;
@@ -573,7 +573,82 @@ INCLUDE_ASM("asm/nonmatchings/draw", display_flocons_behind);
 
 INCLUDE_ASM("asm/nonmatchings/draw", display_flocons_before);
 
-INCLUDE_ASM("asm/nonmatchings/draw", display_pix_gerbes);
+/* 17740 8013BF40 -O2 -msoft-float */
+void display_pix_gerbes(void)
+{
+    s16 i;
+    PixGerbeItem *cur_item;
+    s16 j;
+    u8 unk_1;
+    s16 spd_y;
+    u8 color;
+    TILE_1 *cur_tile1 = &PS1_CurrentDisplay->tile1s[PS1_Disp_Cur_Tile1];
+    
+    for (i = 0; i < (s16) LEN(pix_gerbe); i++)
+    {
+        if (pix_gerbe[i].is_active)
+        {
+            cur_item = &pix_gerbe[i].items[0];
+            j = 0;
+            while (j < (s16) LEN(pix_gerbe[i].items))
+            {
+                unk_1 = cur_item->unk_1;
+                if (unk_1 > 127 && cur_item->y_pos > 0)
+                {
+                    spd_y = (u8) cur_item->speed_y; /* using abs on android? */
+                    if (spd_y > 127)
+                        color = 88;
+                    else
+                        color = (unk_1 & 127) + ((spd_y >> 5) + 4);
+
+                    switch (color)
+                    {
+                        case 4:
+                            cur_tile1->r0 = 123;
+                            cur_tile1->g0 = 135;
+                            cur_tile1->b0 = 187;
+                            break;
+                        case 5:
+                            cur_tile1->r0 = 151;
+                            cur_tile1->g0 = 159;
+                            cur_tile1->b0 = 219;
+                            break;
+                        case 6:
+                            cur_tile1->r0 = 187;
+                            cur_tile1->g0 = 187;
+                            cur_tile1->b0 = 251;
+                            break;
+                        case 7:
+                            cur_tile1->r0 = 199;
+                            cur_tile1->g0 = 213;
+                            cur_tile1->b0 = 251;
+                            break;
+                        case 88:
+                            cur_tile1->r0 = 255;
+                            cur_tile1->g0 = 191;
+                            cur_tile1->b0 = 167;
+                            break;
+                        default:
+                            cur_tile1->r0 = 187;
+                            cur_tile1->g0 = 187;
+                            cur_tile1->b0 = 251;
+                            break;
+                    }
+                    cur_tile1->x0 = cur_item->x_pos >> 6;
+                    cur_tile1->y0 = cur_item->y_pos >> 6;
+                    if (PS1_Disp_Cur_Tile1 < LEN(PS1_CurrentDisplay->tile1s))
+                    {
+                        AddPrim(PS1_PrevPrim, cur_tile1);
+                        PS1_Disp_Cur_Tile1++;
+                        cur_tile1++;
+                    }
+                }
+                cur_item++;
+                j++;
+            }
+        }
+    }
+}
 
 /* 179B4 8013C1B4 -O2 -msoft-float */
 void DISPLAY_CYMBALE(Obj *obj, u8 param_2)

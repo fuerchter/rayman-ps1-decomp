@@ -26,7 +26,7 @@ extern s16 D_801CF600[16]; /* list of angles? */
 extern s16 PS1_PolygonIndexTable[200];
 extern s16 PS1_PolygonsCount;
 extern s16 D_801F4A28; /* range of possible values? reset to 0 every frame */
-extern s16 D_801FA690; /* range of this one at: 8013c0f8 */
+extern u16 PS1_Disp_Cur_Tile1;
 extern void *PS1_PrevPrim; /* should this be labelled as ordering table instead? */
 extern u8 D_801E4C20;
 extern s16 D_801E4DF8;
