@@ -35,7 +35,7 @@ void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode);
 void PS1_DrawSprite(Sprite *sprite, s16 x, s16 y, u8 param_4);
 void PS1_DrawScaledSprite(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 param_5); /* param_5 takes Obj.scale */
 void FUN_80139d5c(s16 *p_poly_x, s16 *p_poly_y, s16 param_3, s16 param_4, s16 angle);
-void PS1_DrawRay(Sprite *sprite, s16 param_2, s16 param_3, u8 param_4, s16 angle_ind);
+void PS1_DrawRay(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 angle_ind);
 void display_sprite(Obj *param_1, u8 sprite, s16 x, s16 y, u8 param_5);
 void display2(Obj *obj);
 void DISPLAY_POING(void);

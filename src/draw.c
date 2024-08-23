@@ -44,7 +44,7 @@ void PS1_DrawScaledSprite(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 param
         unk_y_2 = y + unk_height_1 - 1;
         poly->clut = sprite->clut;
         poly->tpage = sprite->tpage;
-        if (is_flipped != 0)
+        if (is_flipped)
         {
             page_x--;
             poly->u0 = unk_x_2;
@@ -106,7 +106,144 @@ void FUN_80139d5c(s16 *p_poly_x, s16 *p_poly_y, s16 param_3, s16 param_4, s16 an
         );
 }
 
-INCLUDE_ASM("asm/nonmatchings/draw", PS1_DrawRay);
+/* 15704 80139F04 -O2 -msoft-float */
+void PS1_DrawRay(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 angle_ind)
+{
+    s16 unk_x_2;
+    s16 unk_y_2;
+    s16 page_x; s16 page_y;
+    s16 width; s16 height;
+    s16 unk_height_1;
+    s16 unk_x_1;
+    s16 unk_y_1;
+    u8 i;
+    s32 unk_1;
+    s32 unk_2;
+    s16 unk_3;
+    s16 unk0[16]; s16 unk20[16]; s16 unk40[16]; s16 unk60[16];
+    s16 unk80[16]; s16 unkA0[16]; s16 unkC0[16]; s16 unkE0[16];
+    POLY_FT4 *poly = &PS1_CurrentDisplay->polygons[PS1_PolygonsCount++];
+    
+    if (sprite->id != 0)
+    {
+        page_x = sprite->page_x;
+        page_y = sprite->page_y;
+        height = sprite->height;
+        width = sprite->width;
+        
+        unk_height_1 = height + 1;
+        if (D_801E4C20)
+            unk_height_1 = height;
+        
+        unk_x_1 = page_x + width - 1;
+        unk_y_1 = page_y + unk_height_1 - 1;
+        unk_x_2 = x + width - 1;
+        unk_y_2 = y + unk_height_1 - 1;
+        poly->clut = sprite->clut;
+        poly->tpage = sprite->tpage;
+        if (D_801E4C20 == true && D_801CEF78 == -1)
+        {
+            D_801E4C20 = true;
+            for (i = 0; i < LEN(D_801CF600); i++)
+            {
+                /* TODO: ??? */
+                unk_1 = rand() * 2;
+                unk_2 = unk_1;
+                D_801CF600[i] = unk_2 - (unk_1 / 4096 * 4096);
+            }
+            D_801CEF78 = 150;
+        }
+
+        if (D_801E4C20)
+        {
+            unk_1 = D_801CF600[angle_ind] + 81;
+            D_801CF600[angle_ind] = unk_1 - (unk_1 / 4096 * 4096);
+            if (angle_ind == 0)
+                D_801CEF78 -= 3;
+            
+            unk80[angle_ind] = x + (width >> 1);
+            unkA0[angle_ind] = y + (unk_height_1 >> 1);
+            unkC0[angle_ind] =
+                unk80[angle_ind] +
+                (D_801CEF78 / 2 * rcos(D_801CF600[angle_ind]) >> 12);
+            unkE0[angle_ind] =
+                unkA0[angle_ind] +
+                (D_801CEF78 / 2 * rsin(D_801CF600[angle_ind]) >> 12);
+
+            unk_3 = (D_801CEF78 * 4096 / 75) * 2;
+            unk0[angle_ind] = unkC0[angle_ind] - (width >> 1);
+            unk20[angle_ind] = unkE0[angle_ind] - (unk_height_1 >> 1);
+            unk40[angle_ind] = width + unk0[angle_ind] - 1;
+            unk60[angle_ind] = unk_height_1 + unk20[angle_ind] - 1;
+            poly->x0 = unk0[angle_ind];
+            poly->y0 = unk20[angle_ind];
+            poly->x1 = unk40[angle_ind];
+            poly->y1 = unk20[angle_ind];
+            poly->x2 = unk0[angle_ind];
+            poly->y2 = unk60[angle_ind];
+            poly->x3 = unk40[angle_ind];
+            poly->y3 = unk60[angle_ind];
+            
+            FUN_80139d5c(&poly->x0, &poly->y0, unkC0[angle_ind], unkE0[angle_ind], unk_3);
+            FUN_80139d5c(&poly->x1, &poly->y1, unkC0[angle_ind], unkE0[angle_ind], unk_3);
+            FUN_80139d5c(&poly->x2, &poly->y2, unkC0[angle_ind], unkE0[angle_ind], unk_3);
+            FUN_80139d5c(&poly->x3, &poly->y3, unkC0[angle_ind], unkE0[angle_ind], unk_3);
+        }
+
+        if (is_flipped)
+        {
+            if (!D_801E4C20)
+                page_x--;
+            poly->u0 = unk_x_1;
+            poly->v0 = page_y;
+            poly->u1 = page_x;
+            poly->v1 = page_y;
+            poly->u2 = unk_x_1;
+            poly->v2 = unk_y_1;
+            poly->u3 = page_x;
+            poly->v3 = unk_y_1;
+        }
+        else
+        {
+            if (!D_801E4C20)
+                unk_x_1++;
+            poly->u0 = page_x;
+            poly->v0 = page_y;
+            poly->u1 = unk_x_1;
+            poly->v1 = page_y;
+            poly->u2 = page_x;
+            poly->v2 = unk_y_1;
+            poly->u3 = unk_x_1;
+            poly->v3 = unk_y_1;
+        }
+        
+        if (D_801E4C20)
+        {
+            if (D_801CEF78 <= 0)
+            {
+                D_801E4C20 = false;
+                D_801CEF78 = -1;
+            }
+        }
+        else
+        {
+            unk_x_2++;
+            poly->x0 = x;
+            poly->y0 = y;
+            poly->x1 = unk_x_2;
+            poly->y1 = y;
+            poly->x2 = x;
+            poly->y2 = unk_y_2;
+            poly->x3 = unk_x_2;
+            poly->y3 = unk_y_2;
+        }
+
+        SetShadeTex(poly, true);
+        SetSemiTrans(poly, false);
+        AddPrim(PS1_PrevPrim, poly);
+        PS1_PrevPrim = poly;
+    }
+}
 
 /* 15C54 8013A454 -O2 -msoft-float */
 void display_sprite(Obj *param_1, u8 sprite, s16 x, s16 y, u8 param_5)
