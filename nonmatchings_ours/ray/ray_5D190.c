@@ -1651,152 +1651,103 @@ s16 RAY_BALANCE_ANIM(s16 arg0)
 
 void RAY_BALANCE(void)
 {
-    s16 unk_math_1;
-    s16 unk_math_2;
-    Obj *obj_grp;
-    s16 temp_a0;
-    s16 temp_v1_4;
-    s16 var_v0;
-    s16 var_v0_2;
+    s16 unk_math_1; s16 unk_math_2;
+    s16 unk_1;
+    s16 unk_2;
     s16 unk_grp_ang_1;
-    s16 var_v0_5;
-    ObjState **ray_eta;
-    s32 temp_v0_1;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    s32 temp_v1_3;
     s16 unk_grp_ang_2;
-    s32 var_v0_3;
-    s16 grp_angle;
-    u16 temp_v0_4;
-    s16 new_var;
-    s16 test_1;
-    s16 test_2;
-    s16 test_3;
-    s16 test_x;
+    s32 unk_3;
+    s16 unk_4;
+    s16 unk_spd_x; s16 unk_spd_y;
+    ObjState **ray_eta = ray.eta;
+    Obj *obj_grp = &level.objects[id_obj_grapped];
+    s16 grp_angle = obj_grp->follow_x;
     
-    s16 test_5;
-    unsigned short new_var2;
-    s16 new_var3;
-
-    ray_eta = ray.eta;
-    obj_grp = &level.objects[id_obj_grapped];
-    grp_angle = obj_grp->follow_x;
     if (ray.sub_etat == 0)
-    {
         RAY_GOING_BALANCE(obj_grp);
-    }
     else if (ray.sub_etat == 1)
     {
         if (obj_grp->timer == 0)
         {
-            if (obj_grp->follow_y >= 0x65)
-            {
-
+            if (obj_grp->follow_y > 100)
                 obj_grp->follow_y -= 2;
-            }
-            else if (obj_grp->follow_y < 0x5F)
-            {
-                obj_grp->follow_y++;
-            }
+            else if (obj_grp->follow_y < 95)
+                obj_grp->follow_y += 1;
 
-            abs_sinus_cosinus((s16) grp_angle, &unk_math_1, &unk_math_2);
-            /* gotos-only unchanged to default m2c? */
-            /* might have broken something already */
-            test_1 = 0x80;
-            test_2 = 0x180;
+            abs_sinus_cosinus(grp_angle, &unk_math_1, &unk_math_2);
+            unk_1 = 128;
+            unk_2 = 384;
             
-            if ((s16) grp_angle >= test_2)
+            /* not in bottom half of circle? */
+            if (grp_angle >= unk_2)
             {
                 if (obj_grp->field24_0x3e > 0)
-                {
                     obj_grp->timer = 5;
-                }
                 obj_grp->field24_0x3e = -1;
             }
-            else if ((s16) grp_angle <= test_1)
+            else if (grp_angle <= unk_1)
             {
-                
                 if (obj_grp->field24_0x3e < 0)
-                {
                     obj_grp->timer = 5;
-                    obj_grp->field24_0x3e = 1;
-                }
-                else
-                    obj_grp->field24_0x3e = 1;
-
+                obj_grp->field24_0x3e = 1;
             }
 
-            /*test_3 = 0x100;*/ /*???*/
-            if (grp_angle <= 0x100)
-            {
-                unk_grp_ang_1 = ((-((0x100 - grp_angle) << 7)) / (0x100 - test_1)) + 0x100;
-            }
+            /*test_3 = 256;*/ /* TODO: ???*/
+            if (grp_angle <= 256)
+                unk_grp_ang_1 = -((256 - grp_angle) << 7) / (256 - unk_1) + 256;
             else
-            {
-                unk_grp_ang_1 = (((grp_angle - 0x100) << 7) / (0x100 - test_2)) + 0x100;
-            }
-            unk_grp_ang_2 = (__builtin_abs(costab[0x100 - unk_grp_ang_1]) >> 7) + 1;
-            
+                unk_grp_ang_1 = ((grp_angle - 256) << 7) / (256 - unk_2) + 256;
+
+            unk_grp_ang_2 = (__builtin_abs(costab[256 - unk_grp_ang_1]) >> 7) + 1;
             if (obj_grp->field24_0x3e < 0)
             {
                 unk_grp_ang_2 = -unk_grp_ang_2;
             }
-            
             obj_grp->follow_x += unk_grp_ang_2;
 
-            temp_v0_2 = obj_grp->follow_y;
-            new_var3 = ray.x_pos;
-            test_x = obj_grp->offset_bx + obj_grp->x_pos;
-            test_x += ((temp_v0_2 * unk_math_1) >> 9);
-            test_x -= ray.offset_bx;
-            test_x -= new_var3;
-            new_var = obj_grp->offset_by + obj_grp->y_pos;
-            new_var -= ((temp_v0_2 * unk_math_2) >> 9);
-            new_var -= ray.offset_by;
-            new_var -= ray.y_pos;
-            ray.speed_x = test_x;
-            ray.speed_y = new_var;
+            /* TODO: unk_spd_*??? */
+            unk_3 = obj_grp->follow_y;
+            unk_4 = ray.x_pos;
+            unk_spd_x = obj_grp->offset_bx + obj_grp->x_pos + ((unk_3 * unk_math_1) >> 9) - ray.offset_bx - unk_4;
+            unk_spd_y = obj_grp->offset_by + obj_grp->y_pos - ((unk_3 * unk_math_2) >> 9) - ray.offset_by - ray.y_pos;
+            ray.speed_x = unk_spd_x;
+            ray.speed_y = unk_spd_y;
         }
         else
         {
             obj_grp->timer--;
             ray.speed_x = 0;
-            ray.speed_y = 0U;
+            ray.speed_y = 0;
             decalage_en_cours = 0;
         }
     }
     ray.anim_index = ray_eta[ray.main_etat][ray.sub_etat].anim_index;
-    ray.anim_frame = RAY_BALANCE_ANIM((s16) grp_angle);
+    ray.anim_frame = RAY_BALANCE_ANIM(grp_angle);
     ray.speed_x += obj_grp->speed_x;
-    ray.speed_y = (ray.speed_y + obj_grp->speed_y);
+    ray.speed_y += obj_grp->speed_y;
     if (
-        ((u8) block_flags[ray.btypes[0]] >> 1) & 1 &&
+        block_flags[ray.btypes[0]] >> BLOCK_SOLID & 1 &&
         (
-            (!(ray.flags & 0x4000) && ((u8) block_flags[ray.btypes[1]] >> 1) & 1) ||
-            ((ray.flags & 0x4000) && ((u8) block_flags[ray.btypes[2]] >> 1) & 1)
-        )
+            (!(ray.flags & FLG(OBJ_FLIP_X)) && (block_flags[ray.btypes[1]] >> BLOCK_SOLID & 1)) ||
+            (ray.flags & FLG(OBJ_FLIP_X) && (block_flags[ray.btypes[2]] >> BLOCK_SOLID & 1))
+        ) &&
+        (ray.speed_y > 0 || obj_grp->speed_y > 0)
     )
     {
-        if (((s16) ray.speed_y > 0) || (obj_grp->speed_y > 0))
-        {
-            recale_position(&ray);
-            ray.y_pos = ray.y_pos + ray.speed_y;
-            ray.speed_y = 0U;
-            ray.timer = 0;
-            helico_time = -1;
-            set_main_and_sub_etat(&ray, 0U, 8U);
-            PlaySnd(0x0013, -1);
-            ray.field24_0x3e = -1;
-            return;
-        }
+        recale_position(&ray);
+        ray.y_pos += ray.speed_y;
+        ray.speed_y = 0;
+        ray.timer = 0;
+        helico_time = -1;
+        set_main_and_sub_etat(&ray, 0, 8);
+        PlaySnd(19, -1);
+        ray.field24_0x3e = -1;
     }
-    if ((((u8) block_flags[ray.btypes[2]] >> 4) & 1) || (((u8) block_flags[ray.btypes[1]] >> 4) & 1))
-    {
+    else if (
+        (block_flags[ray.btypes[2]] >> BLOCK_FLAG_4 & 1) ||
+        (block_flags[ray.btypes[1]] >> BLOCK_FLAG_4 & 1)
+    )
         RAY_FIN_BALANCE();
-    }
 }
 
 /* tried gotos-only but not very useful it seemed
