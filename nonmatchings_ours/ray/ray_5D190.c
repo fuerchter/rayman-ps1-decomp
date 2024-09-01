@@ -1675,10 +1675,10 @@ void RAY_BALANCE(void)
                 obj_grp->follow_y += 1;
 
             abs_sinus_cosinus(grp_angle, &unk_math_1, &unk_math_2);
-            unk_1 = 128;
-            unk_2 = 384;
             
             /* not in bottom half of circle? */
+            unk_1 = 128;
+            unk_2 = 384;
             if (grp_angle >= unk_2)
             {
                 if (obj_grp->field24_0x3e > 0)
@@ -1700,9 +1700,7 @@ void RAY_BALANCE(void)
 
             unk_grp_ang_2 = (__builtin_abs(costab[256 - unk_grp_ang_1]) >> 7) + 1;
             if (obj_grp->field24_0x3e < 0)
-            {
                 unk_grp_ang_2 = -unk_grp_ang_2;
-            }
             obj_grp->follow_x += unk_grp_ang_2;
 
             /* TODO: unk_spd_*??? */
@@ -1750,136 +1748,102 @@ void RAY_BALANCE(void)
         RAY_FIN_BALANCE();
 }
 
-/* tried gotos-only but not very useful it seemed
-tried to bring control flow closer to ghidra but not been successful, "var_a1_2 = var_s3 + 1;" is annoying */
-/*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RayEstIlBloque);*/
+/* matches, but cleanup last section with goto */
 
 s32 RayEstIlBloque(void)
 {
-    s16 sp18;
-    s16 sp1A;
-    s16 sp1C;
-    s16 sp1E;
-    s16 sp20;
-    s16 sp22;
-    u16 sp24;
-    u16 sp26;
-    Obj *var_s0;
-    s16 temp_a0_2;
-    s16 temp_a0_3;
-    s16 temp_a0_4;
-    s16 temp_a2;
-    s16 temp_v0;
-    s32 var_a1;
-    s16 var_a1_2;
-    s16 var_s3;
-    s16 var_v0;
-    s32 temp_a0;
-    s16 temp_s2;
-    s32 var_s4;
-    s16 test_1;
-    int new_var;
-
-    var_s4 = 0;
+    s32 unk_x_1;
+    s16 unk_x_2;
+    s16 unk_h;
+    Obj *cur_obj;
+    s16 i;
+    s16 ani_x; s16 ani_y; s16 ani_w; s16 ani_h;
+    s16 spr_x; s16 spr_y; s16 spr_w; s16 spr_h;
+    s16 ani_xw;
+    s16 ani_yh;
+    s16 unk_y;
+    u8 res = false;
+    
     if (ray.speed_x != 0)
     {
-        var_a1 = ray_zdc_x;
-        var_s3 = 0;
+        unk_x_1 = ray_zdc_x;
         if (ray.speed_x > 0)
         {
-            var_a1 += ray_zdc_w;
+            unk_x_1 += ray_zdc_w;
         }
-        temp_s2 = ((u16) ray_zdc_h << 0x10) >> 0x12;
-        var_s0 = &level.objects[actobj.objects[0]];
-        test_1 = var_a1;
-        if (actobj.num_active_objects > 0)
+        unk_x_2 = unk_x_1;
+        unk_h = ray_zdc_h >> 2;
+
+        cur_obj = &level.objects[actobj.objects[0]];
+        i = 0;
+        while (i < actobj.num_active_objects)
         {
-            do
+            if (flags[cur_obj->type].flags2 >> OBJ2_BLOCKS_RAY & 1)
             {
-                if (((u8) flags[var_s0->type].flags2 >> 2) & 1)
+                GET_ANIM_POS(cur_obj, &ani_x, &ani_y, &ani_w, &ani_h);
+                ani_x += ani_w >> 3;
+                ani_w -= ani_w >> 2;
+                if (cur_obj->flags & FLG(OBJ_FOLLOW_ENABLED))
                 {
-                    GET_ANIM_POS(var_s0, &sp18, &sp1A, &sp1C, &sp1E);
-                    sp18 = sp18 + (sp1C >> 3);
-                    sp1C -= sp1C >> 2;
-                    if (var_s0->flags & 0x10000)
+                    GET_SPRITE_POS(cur_obj, cur_obj->follow_sprite, &spr_x, &spr_y, &spr_w, &spr_h);
+                    ani_y = spr_y + cur_obj->offset_hy + (ray.field20_0x36 == cur_obj->id);
+                }
+                else
+                    ani_y = cur_obj->y_pos + cur_obj->offset_hy;
+                ani_h = cur_obj->y_pos + cur_obj->offset_by - ani_y;
+                
+                if (flags[cur_obj->type].flags3 >> OBJ3_FLAG4 & 1)
+                {
+                    ani_x += 6;
+                    ani_w -= 12;
+                    ani_y += 2;
+                }
+                if (cur_obj->type == TYPE_PI)
+                {
+                    ani_x += 4;
+                    ani_w -= 8;
+                }
+
+                ani_xw = ani_x + ani_w;
+                if (
+                    (ray.speed_x <= 0 || unk_x_2 < ani_x - ray.speed_x || unk_x_2 > ani_x) &&
+                    (unk_x_2 < ani_xw + ray.speed_x || unk_x_2 > ani_xw)
+                )
+                {
+                    goto block_30;
+                }
+
+                ani_yh = ani_y + ani_h;
+                unk_y = ray_zdc_y;
+                if (unk_y < ani_y || unk_y > ani_yh)
+                {
+                    unk_y += unk_h;
+                    if (unk_y < ani_y || unk_y > ani_yh)
                     {
-                        GET_SPRITE_POS(var_s0, (s32) var_s0->follow_sprite, &sp20, &sp22, &sp24, &sp26);
-                        sp1A = sp22 + var_s0->offset_hy + (ray.field20_0x36 == var_s0->id);
-                    }
-                    else
-                    {
-                        sp1A = var_s0->offset_hy + var_s0->y_pos;
-                    }
-                    sp1E = (var_s0->offset_by + var_s0->y_pos) - sp1A;
-                    if (((u8) flags[var_s0->type].flags3 >> 4) & 1)
-                    {
-                        sp1A = sp1A + 2;
-                        sp18 = sp18 + 6;
-                        sp1C -= 0xC;
-                    }
-                    if (var_s0->type == 0x6D)
-                    {
-                        sp18 = sp18 + 4;
-                        sp1C -= 8;
-                    }
-                    temp_v0 = sp18 + sp1C;
-                    if ((ray.speed_x <= 0) || (test_1 < (sp18 - ray.speed_x)) || (sp18 < test_1))
-                    {
-                        if (test_1 >= (temp_v0 + ray.speed_x))
+                        unk_y += unk_h;
+                        if (unk_y < ani_y || unk_y > ani_yh)
                         {
-                            var_a1_2 = var_s3 + 1;
-                            if (temp_v0 >= test_1)
+                            unk_y += unk_h;
+                            if (unk_y < ani_y || unk_y > ani_yh)
                             {
-                                goto block_18;
-                            }
-                            goto block_30;
-                        }
-                        goto block_29;
-                    }
-    block_18:
-                    temp_a2 = sp1A + sp1E;
-                    if (ray_zdc_y < sp1A || temp_a2 < ray_zdc_y)
-                    {
-                        temp_a0_2 = ray_zdc_y + temp_s2;
-                        temp_a0_3 = temp_a0_2 + temp_s2;
-                        if(temp_a0_2 < sp1A != 0 || temp_a2 < temp_a0_2)
-                        {
-                            temp_a0_4 = temp_a0_3 + temp_s2;
-                            if(temp_a0_3 < sp1A != 0 || temp_a2 < temp_a0_3)
-                            {
-                                if(
-                                    var_v0 = temp_a0_4 + temp_s2, (temp_a0_4 < sp1A != 0) ||
-                                    (var_v0 = temp_a0_4 + temp_s2, (temp_a2 < temp_a0_4 != 0))
-                                )
+                                unk_y += unk_h;
+                                if (unk_y < ani_y || unk_y > ani_yh)
                                 {
-                                    if (var_v0 >= sp1A)
-                                    {
-                                        var_a1_2 = var_s3 + 1;
-                                        if (temp_a2 >= var_v0)
-                                        {
-                                            goto block_28;
-                                        }
-                                        goto block_30;
-                                    }
-                                    goto block_29;
+                                    goto block_30;
                                 }
                             }
                         }
                     }
-    block_28:
-                    var_s4 = 1;
-                    break;
                 }
-block_29:
-                var_a1_2 = var_s3 + 1;
-block_30:
-                var_s3 = var_a1_2;
-                var_s0 = &level.objects[actobj.objects[var_a1_2]];
+                res = true;
+                break;
             }
-            while (var_a1_2 < actobj.num_active_objects);
+block_30:
+            i++;
+            cur_obj = &level.objects[actobj.objects[i]];
         }
     }
-    return var_s4;
+    return res;
 }
 
 /* matches, but do{}while(0); */
