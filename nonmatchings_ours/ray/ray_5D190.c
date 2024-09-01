@@ -1587,9 +1587,20 @@ block_77:
     return;
 }
 
-/* looked at android (abs), played around with gotos-only
-tried replacing var_v0 with returns, tried replacing temp_v1 */
+/*
+attempts: 2 (or 3?)
+looked at android (abs), played around with gotos-only
+tried replacing var_v0 with returns, tried replacing temp_v1
+*/
 /*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE_ANIM);*/
+
+/*extern inline s16 inline_fn(s16 iVar2, s16 val)
+{
+    if (val - iVar2 >= 0)
+        return val - iVar2;
+    else
+        return iVar2 - val;
+}*/
 
 s16 RAY_BALANCE_ANIM(s16 arg0)
 {
@@ -1607,6 +1618,7 @@ s16 RAY_BALANCE_ANIM(s16 arg0)
         {
             var_v0 = temp_v1 + 0x1F;
         }
+        /* tried: var_v0 = (0x20 - temp_v1) >= 0 ? 0x20 - temp_v1 : temp_v1 - 0x20; */
         else if ((0x20 - temp_v1) >= 0) /* some optimization makes this jump to block at the end... */
         {
             var_v0 = 0x20 - temp_v1;
@@ -1634,116 +1646,132 @@ s16 RAY_BALANCE_ANIM(s16 arg0)
     return var_v0;
 }
 
+/* matches, but cleanup*/
 /*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE);*/
 
 void RAY_BALANCE(void)
 {
-    s16 sp10;
-    s16 sp12;
-    Obj *temp_s0;
+    s16 unk_math_1;
+    s16 unk_math_2;
+    Obj *obj_grp;
     s16 temp_a0;
     s16 temp_v1_4;
     s16 var_v0;
     s16 var_v0_2;
-    s16 var_v0_4;
+    s16 unk_grp_ang_1;
     s16 var_v0_5;
-    ObjState **temp_s3;
-    s32 temp_v0;
+    ObjState **ray_eta;
+    s32 temp_v0_1;
     s32 temp_v0_2;
     s32 temp_v0_3;
     s32 temp_v1;
     s32 temp_v1_2;
     s32 temp_v1_3;
-    s32 var_a2;
+    s16 unk_grp_ang_2;
     s32 var_v0_3;
-    s16 temp_s2;
+    s16 grp_angle;
     u16 temp_v0_4;
-    int new_var;
-    s32 test_1;
-    s32 test_2;
+    s16 new_var;
+    s16 test_1;
+    s16 test_2;
+    s16 test_3;
+    s16 test_x;
+    
+    s16 test_5;
+    unsigned short new_var2;
+    s16 new_var3;
 
-    temp_s3 = ray.eta;
-    temp_s0 = &level.objects[id_obj_grapped];
-    temp_s2 = temp_s0->follow_x;
+    ray_eta = ray.eta;
+    obj_grp = &level.objects[id_obj_grapped];
+    grp_angle = obj_grp->follow_x;
     if (ray.sub_etat == 0)
     {
-        RAY_GOING_BALANCE(temp_s0);
+        RAY_GOING_BALANCE(obj_grp);
     }
     else if (ray.sub_etat == 1)
     {
-        if (temp_s0->timer == 0)
+        if (obj_grp->timer == 0)
         {
-            if (temp_s0->follow_y >= 0x65)
+            if (obj_grp->follow_y >= 0x65)
             {
 
-                temp_s0->follow_y -= 2;
+                obj_grp->follow_y -= 2;
             }
-            else if (temp_s0->follow_y < 0x5F)
+            else if (obj_grp->follow_y < 0x5F)
             {
-                temp_s0->follow_y++;
+                obj_grp->follow_y++;
             }
 
-            abs_sinus_cosinus((s16) temp_s2, &sp10, &sp12);
+            abs_sinus_cosinus((s16) grp_angle, &unk_math_1, &unk_math_2);
             /* gotos-only unchanged to default m2c? */
             /* might have broken something already */
             test_1 = 0x80;
             test_2 = 0x180;
-            if ((s16) temp_s2 >= 0x180)
+            
+            if ((s16) grp_angle >= test_2)
             {
-                if (temp_s0->field24_0x3e > 0)
+                if (obj_grp->field24_0x3e > 0)
                 {
-                    temp_s0->timer = 5;
+                    obj_grp->timer = 5;
                 }
-                temp_s0->field24_0x3e = -1;
+                obj_grp->field24_0x3e = -1;
             }
-            else if ((s16) temp_s2 <= 0x80)
+            else if ((s16) grp_angle <= test_1)
             {
                 
-                if (temp_s0->field24_0x3e < 0)
+                if (obj_grp->field24_0x3e < 0)
                 {
-                    temp_s0->timer = 5;
-                    temp_s0->field24_0x3e = 1;
+                    obj_grp->timer = 5;
+                    obj_grp->field24_0x3e = 1;
                 }
                 else
-                    temp_s0->field24_0x3e = 1;
+                    obj_grp->field24_0x3e = 1;
 
             }
-            if (temp_s2 <= 0x100)
+
+            /*test_3 = 0x100;*/ /*???*/
+            if (grp_angle <= 0x100)
             {
-                temp_v1_2 = -((0x100 - temp_s2) << 7);
-                temp_v0 = 0x100 - 0x80;
-                var_v0_4 = (temp_v1_2 / temp_v0) + 0x100;
+                unk_grp_ang_1 = ((-((0x100 - grp_angle) << 7)) / (0x100 - test_1)) + 0x100;
             }
             else
             {
-                temp_v0_2 = (temp_s2 - 0x100) << 7;
-                temp_v1_3 = 0x100 - 0x180;
-                var_v0_4 = (temp_v0_2 / temp_v1_3) + 0x100;
+                unk_grp_ang_1 = (((grp_angle - 0x100) << 7) / (0x100 - test_2)) + 0x100;
             }
-            temp_v0_3 = (__builtin_abs(costab[0x100 - var_v0_4]) >> 7) + 1;
-            var_a2 = temp_v0_3;
-            if (temp_s0->field24_0x3e < 0)
+            unk_grp_ang_2 = (__builtin_abs(costab[0x100 - unk_grp_ang_1]) >> 7) + 1;
+            
+            if (obj_grp->field24_0x3e < 0)
             {
-                var_a2 = -temp_v0_3;
+                unk_grp_ang_2 = -unk_grp_ang_2;
             }
-            temp_v0_2 = temp_s0->follow_y;
-            temp_s0->follow_x = var_a2 + temp_s0->follow_x;
-            new_var = temp_s0->offset_by + temp_s0->y_pos;
-            ray.speed_x = ((temp_s0->offset_bx + temp_s0->x_pos + ((temp_v0_2 * sp10) >> 9)) - ray.offset_bx) - ray.x_pos;
-            ray.speed_y = ((((temp_s0->offset_by + temp_s0->y_pos) - ((temp_v0_2 * sp12) >> 9)) - ray.offset_by) - ray.y_pos);
+            
+            obj_grp->follow_x += unk_grp_ang_2;
+
+            temp_v0_2 = obj_grp->follow_y;
+            new_var3 = ray.x_pos;
+            test_x = obj_grp->offset_bx + obj_grp->x_pos;
+            test_x += ((temp_v0_2 * unk_math_1) >> 9);
+            test_x -= ray.offset_bx;
+            test_x -= new_var3;
+            new_var = obj_grp->offset_by + obj_grp->y_pos;
+            new_var -= ((temp_v0_2 * unk_math_2) >> 9);
+            new_var -= ray.offset_by;
+            new_var -= ray.y_pos;
+            ray.speed_x = test_x;
+            ray.speed_y = new_var;
         }
         else
         {
-            temp_s0->timer--;
+            obj_grp->timer--;
             ray.speed_x = 0;
             ray.speed_y = 0U;
             decalage_en_cours = 0;
         }
     }
-    ray.anim_index = temp_s3[ray.main_etat][ray.sub_etat].anim_index;
-    ray.anim_frame = RAY_BALANCE_ANIM((s16) temp_s2);
-    ray.speed_x += temp_s0->speed_x;
-    ray.speed_y = (ray.speed_y + temp_s0->speed_y);
+    ray.anim_index = ray_eta[ray.main_etat][ray.sub_etat].anim_index;
+    ray.anim_frame = RAY_BALANCE_ANIM((s16) grp_angle);
+    ray.speed_x += obj_grp->speed_x;
+    ray.speed_y = (ray.speed_y + obj_grp->speed_y);
     if (
         ((u8) block_flags[ray.btypes[0]] >> 1) & 1 &&
         (
@@ -1752,7 +1780,7 @@ void RAY_BALANCE(void)
         )
     )
     {
-        if (((s16) ray.speed_y > 0) || (temp_s0->speed_y > 0))
+        if (((s16) ray.speed_y > 0) || (obj_grp->speed_y > 0))
         {
             recale_position(&ray);
             ray.y_pos = ray.y_pos + ray.speed_y;
