@@ -10,6 +10,8 @@
 #	display_time, DISPLAY_SAVE_SPRITES, DISPLAY_CONTINUE_SPR, doMoskitoHit, setBossReachingSpeeds, DO_COMMANDE_PAD
 
 #TODO:
+#remove all tools (except gcc locally) from tools/? would require a fork of m2ctx
+
 #skipToLabel callers: consistently use bool define as third param
 
 #check out -psx patched old-gcc to possibly clean up DO_WORLD_MAP, DETER_WORLD_AND_LEVEL world_index assign

@@ -498,19 +498,92 @@ void Make_Ray_Hang(s16 param_1, s16 param_2)
 }
 
 /* 5F680 80183E80 -O2 -msoft-float */
-u16 AIR(s32 param_1)
+s16 AIR(s32 param_1)
 {
-  return block_flags[((u16) mp.map[param_1]) >> 10] >> BLOCK_SOLID & 1 ^ 1;
+  return (u16) (block_flags[mp.map[param_1] >> 10] >> BLOCK_SOLID & 1 ^ 1);
 }
 
 /* 5F6C0 80183EC0 -O2 -msoft-float */
-u16 MUR(s32 param_1)
+s16 MUR(s32 param_1)
 {
-  return block_flags[(u16) mp.map[param_1] >> 10] >> BLOCK_SOLID & 1;
+  return block_flags[mp.map[param_1] >> 10] >> BLOCK_SOLID & 1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", CAN_RAY_HANG_BLOC);
+/* 5F6FC 80183EFC -O2 -msoft-float */
+void CAN_RAY_HANG_BLOC(void)
+{
+    s16 ray_x_1; s16 ray_x_2;
+    s16 ray_y_1; s16 ray_y_2;
+    s16 dir_x;
+    s32 unk_1;
+    s32 unk_2;
+    s32 unk_3; s32 unk_4; s32 unk_5;
+    s32 unk_6; s32 unk_7; s32 unk_8;
 
+    if (
+        RayEvts.flags0 & FLG(RAYEVTS0_HANG) &&
+        !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)))
+    )
+    {
+        ray_x_1 = ray.x_pos + ray.offset_bx;
+        ray_x_2 = ray_x_1 >> 4;
+        if (ray_x_2 > 0 && (ray_x_2 <= mp.width - 2))
+        {
+            ray_y_1 = ray.y_pos + ray.offset_hy + 32;
+            if (ray.scale != 0)
+            {
+                set_proj_center(ray_x_1, ray.y_pos + ray.offset_by);
+                ray_y_1 = get_proj_y(ray.scale, ray_y_1);
+            }
+            
+            if (ray.flags & FLG(OBJ_FLIP_X))
+                dir_x = 1;
+            else
+                dir_x = -1;
+            ray_y_2 = ray_y_1 >> 4;
+            unk_1 = ray_x_2 + ray_y_2 * mp.width;
+            unk_2 = unk_1 - mp.width + dir_x;
+            if (unk_2 >= 0)
+            {
+                unk_3 = unk_1 + mp.width;
+                unk_4 = unk_3 + mp.width;
+                unk_5 = unk_4 + mp.width;
+                unk_6 = unk_1 + dir_x;
+                unk_7 = unk_4 + dir_x;
+                unk_8 = unk_3 + dir_x;
+                if (ray.scale != 0)
+                    unk_5 = unk_4;
+                
+                if (
+                    (MUR(unk_6) || MUR(unk_8) || MUR(unk_7)) &&
+                    ray.main_etat == 2 && jump_time > 8
+                )
+                {
+                    if (
+                        AIR(unk_1) && AIR(unk_4) && AIR(unk_3) &&
+                        AIR(unk_2) && AIR(unk_5) && MUR(unk_6)
+                    )
+                        Make_Ray_Hang(ray_x_1, ray_y_1);
+                    else
+                    {
+                        if (
+                            (ray.scale == 0) &&
+                            (ray_x_2 >= 2 || !(ray.flags & FLG(OBJ_FLIP_X))) &&
+                            ((ray_x_2 <= mp.width - 3) || ray.flags & FLG(OBJ_FLIP_X))
+                        )
+                        {
+                            if (
+                                AIR(unk_1 - dir_x) && AIR(unk_4 - dir_x) && AIR(unk_3 - dir_x) &&
+                                AIR(unk_2 - dir_x) && AIR(unk_5 - dir_x) && MUR(unk_6 - dir_x)
+                            )
+                                Make_Ray_Hang(ray_x_1 - dir_x * 16, ray_y_1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 /* 5FAB8 801842B8 -O2 -msoft-float */
 void RAY_TOMBE(void)

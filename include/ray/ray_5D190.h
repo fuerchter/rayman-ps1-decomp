@@ -57,8 +57,8 @@ void RAY_SWIP(void);
 void RAY_STOP(void);
 void RAY_HELICO(void);
 void Make_Ray_Hang(s16 param_1, s16 param_2);
-u16 AIR(s32 param_1); /* u16 vs s16 for CAN_RAY_HANG_BLOC? */
-u16 MUR(s32 param_1);
+s16 AIR(s32 param_1);
+s16 MUR(s32 param_1);
 void CAN_RAY_HANG_BLOC(void);
 void RAY_TOMBE(void);
 void RAY_RESPOND_TO_DOWN(void);
