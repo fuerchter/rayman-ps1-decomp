@@ -152,6 +152,83 @@ void obj_hurt(Obj *obj)
     obj->hit_points -= poing.damage;
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj_util", Projectil_to_RM);
+/* 249D0 801491D0 -O2 -msoft-float */
+void Projectil_to_RM(Obj *obj, s16 *speed_x, s16 *speed_y, s16 new_speed_x, s16 new_speed_y)
+{
+    s16 diff_x; s16 diff_y;
+    s16 diff_x_abs; s16 diff_y_abs;
+    s16 unk_x; s16 unk_y;
+    s32 spd_x;
+
+    *speed_x = 0;
+    *speed_y = 0;
+    diff_x = ray.offset_bx + obj->follow_x - obj->x_pos - obj->offset_bx;
+    diff_y = ray.offset_by + obj->follow_y - obj->y_pos - obj->offset_by;
+    diff_x_abs = __builtin_abs(diff_x);
+    diff_y_abs = __builtin_abs(diff_y);
+    if (diff_x != 0 && diff_y != 0)
+    {
+        if (diff_x_abs > diff_y_abs)
+        {
+            unk_x = diff_x / diff_y_abs;
+            unk_y = diff_y / diff_y_abs;
+            *speed_x = new_speed_x;
+            if (diff_x <= 0)
+                *speed_x = -new_speed_x;
+            *speed_y = diff_y * new_speed_y / diff_x_abs;
+            if (*speed_y == 0)
+            {
+                spd_x = *speed_x;
+                if (diff_x > 0)
+                    spd_x += 16;
+                else
+                    spd_x -= 16;
+                *speed_x = spd_x;
+            }
+        }
+        else
+        {
+            unk_y = diff_y / diff_x_abs;
+            unk_x = diff_x / diff_x_abs;
+            *speed_y = new_speed_y;
+            if (diff_y <= 0)
+                *speed_y = -new_speed_y;
+            *speed_x = diff_x * new_speed_x / diff_y_abs;
+        }
+    }
+    else if (diff_y == 0)
+    {
+        *speed_x = new_speed_x;
+        if (diff_x > 0)
+            *speed_x = -new_speed_x;
+        unk_x = -1;
+        if (diff_x > 0)
+            unk_x = 1;
+        unk_y = 0;
+    }
+    else
+    {
+        *speed_y = new_speed_y;
+        if (diff_y <= 0)
+            *speed_y = -new_speed_y;
+        unk_x = 0;
+        unk_y = -1;
+        if (diff_y > 0)
+            unk_y = 1;
+    }
+
+    if (
+        (!(obj->flags & FLG(OBJ_FLIP_X)) && *speed_x > 0) ||
+        (obj->flags & FLG(OBJ_FLIP_X) && *speed_x < 0)
+    )
+    {
+        *speed_x = -*speed_x;
+        if (*speed_y == 0)
+            *speed_y = 2;
+    }
+
+    obj->follow_x += unk_x * 2;
+    obj->follow_y += unk_y * 2;
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj_util", del_actobj); /* ??? */
