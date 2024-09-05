@@ -92,7 +92,34 @@ void allocate_toons(Obj *src_obj, u8 count)
   }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj_util", special_flags_init);
+/* 2479C 80148F9C -O2 -msoft-float */
+void special_flags_init(void)
+{
+    u8 i;
+    
+    for (i = 0; i < 255; i++) /* TODO: LEN(zonediff) or LEN(flags) ??? */
+    {
+        if (i == 0)
+        {
+            if (num_level == 3)
+                zonediffx[i] = -120;
+            else
+                zonediffx[i] = 0;
+        }
+        
+        if (i == 16 || i == 17 || i == 24)
+        {
+            if (num_world == 1)
+                flags[i].flags1 |= FLG(OBJ1_RAY_DIST_MULTISPR_CANTCHANGE);
+            else
+                flags[i].flags1 &= ~FLG(OBJ1_RAY_DIST_MULTISPR_CANTCHANGE);
+        }
+        
+        if (i == 170)
+            if (num_world == 4)
+                zonediffx[i] = 150;
+    }
+}
 
 /* 24894 80149094 -O2 -msoft-float */
 void switchOff(Obj *obj)

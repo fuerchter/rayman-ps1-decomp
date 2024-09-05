@@ -4,8 +4,10 @@
 #include "common.h"
 #include "common/obj.h"
 #include "common/ray.h"
+#include "common/world_map.h"
 #include "timers.h"
 #include "obj/poing.h"
+#include "obj_init_kill.h"
 
 /* .data */
 extern s16 PS1_Toon_Speeds_x[8]; /* not sure if 7 or 8 in size */
