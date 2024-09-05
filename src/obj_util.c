@@ -231,4 +231,26 @@ void Projectil_to_RM(Obj *obj, s16 *speed_x, s16 *speed_y, s16 new_speed_x, s16 
     obj->follow_y += unk_y * 2;
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj_util", del_actobj); /* ??? */
+/* 24D00 80149500 -O2 -msoft-float */
+void del_actobj(Obj *in_obj)
+{
+    s16 i;
+    Obj *cur_obj;
+    s16 j;
+
+    in_obj->flags &= ~FLG(OBJ_ACTIVE);
+    i = 0;
+    cur_obj = &level.objects[actobj.objects[i]];
+    while (i < actobj.num_active_objects)
+    {
+        if (cur_obj->id == in_obj->id)
+            break;
+        i++;
+        cur_obj = &level.objects[actobj.objects[i]];
+    }
+
+    for (j = i; j <= actobj.num_active_objects; j++)
+        actobj.objects[j - 1] = actobj.objects[j];
+    
+    actobj.num_active_objects--;
+}
