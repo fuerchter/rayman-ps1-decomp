@@ -20,7 +20,6 @@ options:
   o_as_suffix: False
   use_legacy_include_asm: False
   disassemble_all: True
-  include_macro_inc: False
 
   asm_function_macro: glabel
   asm_jtbl_label_macro: jlabel

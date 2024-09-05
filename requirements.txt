@@ -1,1 +1,1 @@
-splat64[mips]==0.25.0
+splat64[mips]==0.27.0
