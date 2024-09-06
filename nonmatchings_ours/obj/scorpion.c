@@ -67,12 +67,7 @@ void do_sko_rayon2(void)
     s16 diff_x; s16 diff_y;
     s16 diff_x_abs; s16 diff_y_abs;
     s16 dist;
-    s32 temp_lo;
-    s32 temp_lo_2;
-    s32 temp_v0_3;
-    s32 temp_v0_4;
     s32 temp_v0_5;
-    s32 temp_v0_6;
     s16 test;
 
     if (sko_rayon_on != 0)
@@ -82,15 +77,15 @@ void do_sko_rayon2(void)
         {
             D_801E4E10 = 3;
             poing_obj = &level.objects[poing_obj_id];
-            sko_final_x = poing_obj->offset_bx + poing_obj->x_pos - 104;
-            sko_final_y = poing_obj->offset_hy + poing_obj->y_pos - 120;
+            sko_final_x = poing_obj->x_pos + poing_obj->offset_bx - 104;
+            sko_final_y = poing_obj->y_pos + poing_obj->offset_hy - 120;
             timer_zero = horloge[2] == 0;
         }
         else
         {
             D_801E4E10 = 3;
-            sko_final_x = ray.offset_bx + ray.x_pos - 120;
-            sko_final_y = ray.offset_by + ray.y_pos - 140;
+            sko_final_x = ray.x_pos + ray.offset_bx - 120;
+            sko_final_y = ray.y_pos + ray.offset_by - 140;
             timer_zero = horloge[8] == 0;
         }
         diff_y = sko_final_y - sko_rayon_y;
@@ -101,12 +96,8 @@ void do_sko_rayon2(void)
         dist = diff_x_abs + diff_y_abs;
         if (dist > 0)
         {
-            temp_v0_3 = ashl16(diff_x, (u32) D_801E4E10);
-            temp_lo = temp_v0_3 / dist;
-            diff_x = (s16) temp_lo;
-            temp_v0_4 = ashl16(diff_y, (u32) D_801E4E10);
-            temp_lo_2 = temp_v0_4 / dist;
-            diff_y = (s16) temp_lo_2;
+            diff_x = ashl16(diff_x, (u32) D_801E4E10) / dist;
+            diff_y = ashl16(diff_y, (u32) D_801E4E10) / dist;
         }
 
         if (timer_zero)
@@ -117,9 +108,9 @@ void do_sko_rayon2(void)
                 sko_rayon_dx += (temp_v0_5 > 0);
             else
                 sko_rayon_dx -= (test = 1);
-            temp_v0_6 = diff_y - sko_rayon_dy;
-            if (temp_v0_6 >= 0)
-                sko_rayon_dy += (temp_v0_6 > 0);
+            temp_v0_5 = diff_y - sko_rayon_dy;
+            if (temp_v0_5 >= 0)
+                sko_rayon_dy += (temp_v0_5 > 0);
             else
                 sko_rayon_dy -= (test = 1);
         }
@@ -128,10 +119,12 @@ void do_sko_rayon2(void)
         if (sko_rayon_x < -150)
         {
             sko_rayon_dx = -sko_rayon_dx;
-            /* ??? can't even do += instead */
-            sko_rayon_x = sko_rayon_x + sko_rayon_dx + sko_rayon_dx;
+            sko_rayon_x += sko_rayon_dx;
+            sko_rayon_x += sko_rayon_dx;
         }
-        if (horloge[3] == 0 && dist != 0)
+
+        timer_zero = horloge[3] == 0;
+        if (timer_zero && dist != 0)
             allocate_rayon(sko_rayon_x, sko_rayon_y);
         if (sko_rayon_on == 0)
         {
