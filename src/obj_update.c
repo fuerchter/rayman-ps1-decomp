@@ -65,7 +65,102 @@ void doMOSAMScommand(Obj *obj);
 void doSTOSKOcommand(Obj *obj);
 void doShipCommand(Obj *obj);
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", DO_PESANTEUR);
+/* 2C214 80150A14 -O2 -msoft-float */
+s32 DO_PESANTEUR(Obj *obj)
+{
+    s16 spd_y;
+    s32 res = false;
+    s16 y_accel = 0;
+    u8 anim_speed_div = obj->eta[obj->main_etat][obj->sub_etat].anim_speed >> 4;
+    
+    if (anim_speed_div != 0)
+    {
+        if (obj->type == TYPE_TAMBOUR1 || obj->type == TYPE_TAMBOUR2)
+        {
+            if (obj->field56_0x69 != 0)
+                obj->field56_0x69--;
+            else if (obj->gravity_value_1 == 0)
+            {
+                obj->speed_y++;
+                res = true;
+            }
+        }
+        else
+        {
+            switch (anim_speed_div)
+            {
+            case 6:
+                if (horloge[2] == 0)
+                {
+                    y_accel = 1;
+                    res = true;
+                }
+                break;
+            case 1:
+                if (obj->gravity_value_1 == 0)
+                {
+                    y_accel = 1;
+                    res = true;
+                }
+                break;
+            case 2:
+                if (obj->gravity_value_2 == 0)
+                {
+                    y_accel = 1;
+                    res = true;
+                }
+                break;
+            case 3:
+                spd_y = obj->speed_y;
+                if (spd_y > 0)
+                {
+                    if (spd_y > 1)
+                        y_accel = -1;
+                }
+                else
+                    y_accel = 1;
+                break;
+            case 4:
+                spd_y = obj->speed_y;
+                if (spd_y < -1)
+                {
+                    if (spd_y < -2)
+                        y_accel = 1;
+                }
+                else
+                    y_accel = -1;
+                break;
+            case 5:
+                if (obj->gravity_value_1 == 0)
+                    y_accel = -1;
+                break;
+            case 10:
+                obj->gravity_value_1++;
+                if (obj->gravity_value_1 >= obj->gravity_value_2)
+                {
+                    obj->gravity_value_1 = 0;
+                    y_accel = 1;
+                    res = true;
+                }
+                break;
+            case 11:
+                obj->gravity_value_1++;
+                if (obj->gravity_value_1 >= obj->gravity_value_2)
+                {
+                    obj->gravity_value_1 = 0;
+                    y_accel = -1;
+                    res = true;
+                }
+                break;
+            }
+        }
+        
+        if (flags[obj->type].flags1 >> OBJ1_USE_INSTANT_SPEED_Y & 1)
+            y_accel = ashl16(y_accel, 4);
+        obj->speed_y += y_accel;
+    }
+    return res;
+}
 
 /* 2C45C 80150C5C -O2 -msoft-float */
 void FUN_80150c5c(Obj *obj, u8 param_2)
