@@ -831,7 +831,352 @@ void NormalAtter(Obj *obj)
     recale_position(obj);
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj_update", OBJ_IN_THE_AIR);
+/* 2DA58 80152258 -O2 -msoft-float */
+void OBJ_IN_THE_AIR(Obj *obj)
+{
+    s16 pesanteur;
+    s16 spd_y;
+    s16 spr_x; s16 spr_y; s16 spr_w; s16 spr_h;
+    s16 flip_x;
+    u8 anim_speed_div = obj->eta[obj->main_etat][obj->sub_etat].anim_speed >> 4;
+
+    if (!(anim_speed_div == 10 || anim_speed_div == 11))
+    {
+        obj->gravity_value_1++;
+        if (obj->gravity_value_1 > 2)
+            obj->gravity_value_1 = 0;
+        
+        obj->gravity_value_2++;
+        if (obj->gravity_value_2 > 3)
+            obj->gravity_value_2 = 0;
+    }
+
+    pesanteur = DO_PESANTEUR(obj);
+    if (obj->type == TYPE_LIDOLPINK)
+    {
+        if (obj->speed_y >= 0 && obj->sub_etat == 0)
+            set_sub_etat(obj, 1);
+        
+        if (!gerbe && obj->speed_y > 2 && obj->sub_etat == 1)
+        {
+            set_sub_etat(obj, 2);
+            obj->speed_x = 0;
+        }
+    }
+    else if (obj->type == TYPE_STONEDOG || obj->type == TYPE_STONEDOG2)
+    {
+        stoneDogBounces(obj);
+        if (obj->main_etat == 2)
+        {
+            spd_y = obj->speed_y;
+            if (spd_y > 0)
+            {
+                if (obj->sub_etat != 2)
+                    set_sub_etat(obj, 2);
+            }
+            else if (spd_y < 0 && (block_flags[(u8) calc_typ_trav(obj, 1)] >> BLOCK_FULLY_SOLID & 1))
+                obj->speed_y = 0;
+        }
+    }
+    else if (obj->type == TYPE_NOTE1)
+    {
+        if (--obj->iframes_timer == 0)
+            DO_EXPLOSE_NOTE1(obj);
+    }
+
+    if (
+        flags[obj->type].flags3 >> OBJ3_STOP_MOVING_UP_WHEN_HIT_BLOCK & 1 &&
+        obj->speed_y < 0
+    )
+    {
+        if (obj->flags & FLG(OBJ_FOLLOW_ENABLED))
+        {
+            GET_SPRITE_POS(obj, obj->follow_sprite, &spr_x, &spr_y, &spr_w, &spr_h);
+            spr_x = obj->x_pos + obj->offset_bx;
+            spr_y = spr_y + obj->offset_hy;
+        }
+        else
+        {
+            spr_x = obj->x_pos + obj->offset_bx;
+            spr_y = obj->y_pos + obj->offset_hy;
+        }
+
+        if (block_flags[PS1_BTYPAbsPos(spr_x, spr_y + obj->speed_y)] >> BLOCK_FLAG_4 & 1)
+            obj->speed_y = 0;
+    }
+    if (
+        flags[obj->type].flags2 >> OBJ2_MOVE_ON_BLOCK & 1 &&
+        block_flags[obj->btypes[0]] >> BLOCK_SOLID & 1
+    )
+    {
+        switch (obj->type)
+        {
+        case TYPE_TROMPETTE:
+            trompetteAtter(obj);
+            break;
+        case TYPE_HYBRIDE_MOSAMS:
+            calc_obj_dir(obj);
+            recale_position(obj);
+            skipToLabel(obj, 3, true);
+            if (ray.main_etat != 2)
+            {
+                allocateLandingSmoke(obj);
+                set_main_and_sub_etat(&ray, 0, 0);
+                button_released = 1;
+                ray_jump();
+                ray.speed_y = -8;
+            }
+            screen_trembling = 1;
+            break;
+        case TYPE_BLACKTOON1:
+            switch (obj->follow_sprite)
+            {
+            case 3:
+            case 5:
+            case 6:
+                break;
+            case 7:
+                obj->field56_0x69 = 2;
+                calc_obj_dir(obj);
+            case 1:
+            case 4:
+                set_main_and_sub_etat(obj, 1, 0);
+                if (obj->flags & FLG(OBJ_FLIP_X))
+                    skipToLabel(obj, 3, true);
+                else
+                    skipToLabel(obj, 2, true);
+                
+                recale_position(obj);
+                obj->speed_y = 0;
+                break;
+            case 2:
+                set_main_and_sub_etat(obj, 0, 0);
+                recale_position(obj);
+                obj->speed_y = 0;
+                break;
+            }
+            break;
+        case TYPE_WASHING_MACHINE:
+            if (obj->speed_y > 0)
+            {
+                recale_position(obj);
+                obj->speed_y = -obj->speed_y;
+            }
+            break;
+        case TYPE_DROP:
+            Drop_Atter(obj);
+            break;
+        case TYPE_MITE:
+        case TYPE_MITE2:
+            MiteAtter(obj);
+            break;
+        case TYPE_STONEWOMAN:
+            if (obj->speed_y >= 0)
+            {
+                skipToLabel(obj, 16, true);
+                obj->field56_0x69 = 0;
+            }
+            break;
+        case TYPE_TNT_BOMB:
+            PlaySnd(187, obj->id);
+            BombExplosion(obj);
+            break;
+        case TYPE_BADGUY1:
+        case TYPE_BADGUY2:
+        case TYPE_BADGUY3:
+            BadGuyAtter(obj);
+            break;
+        case TYPE_STONEBOMB2:
+        case TYPE_STONEBOMB3:
+            if (obj->speed_y != 0)
+                PlaySnd(200, obj->id);
+            DO_STONEBOMB_REBOND(obj);
+            break;
+        case TYPE_STONEBOMB:
+            if (obj->speed_y != 0)
+                PlaySnd(200, obj->id);
+            DO_THROWN_BOMB_REBOND(obj, pesanteur, 1);
+            break;
+        case TYPE_STONEDOG:
+        case TYPE_STONEDOG2:
+            stoneDogAtter(obj);
+            break;
+        case TYPE_PIRATE_BOMB:
+            DO_FRUIT_REBOND(obj, pesanteur, 1);
+            break;
+        case TYPE_MST_SHAKY_FRUIT:
+            if (obj->field23_0x3c != 0)
+            {
+                PlaySnd(45, obj->id);
+                obj->speed_y = 6;
+                DO_FRUIT_REBOND(obj, 1, 1);
+                obj->field23_0x3c--;
+            }
+            break;
+        case TYPE_MST_FRUIT1:
+            if (obj->field23_0x3c != 0)
+            {
+                PlaySnd(45, obj->id);
+                obj->speed_y = 7;
+                DO_FRUIT_REBOND(obj, 1, 1);
+                obj->field23_0x3c--;
+            }
+            break;
+        case TYPE_MST_FRUIT2:
+            if (obj->field23_0x3c != 0)
+            {
+                PlaySnd(45, obj->id);
+                obj->speed_y = 6;
+                DO_THROWN_BOMB_REBOND(obj, 1, 1);
+                obj->field23_0x3c--;
+            }
+            break;
+        case TYPE_FALLING_OBJ:
+        case TYPE_FALLING_OBJ2:
+        case TYPE_FALLING_OBJ3:
+        case TYPE_FALLING_YING:
+        case TYPE_FALLING_YING_OUYE:
+        case TYPE_GRAINE:
+        case TYPE_BLACKTOON_EYES:
+            switch (obj->type)
+            {
+            case TYPE_FALLING_OBJ:
+            case TYPE_FALLING_OBJ3:
+            case TYPE_FALLING_OBJ2:
+                PlaySnd(45, obj->id);
+                break;
+            case TYPE_FALLING_YING:
+            case TYPE_FALLING_YING_OUYE:
+                PlaySnd(140, obj->id);
+                break;
+            case TYPE_GRAINE:
+            case TYPE_BLACKTOON_EYES:
+                PlaySnd(0, obj->id);
+                break;
+            }
+            DO_FRUIT_REBOND(obj, pesanteur, 0);
+            break;
+        case TYPE_CAGE:
+            set_main_and_sub_etat(obj, 0, 11);
+            obj->speed_y = 0;
+            break;
+        case TYPE_LIDOLPINK:
+            LidolPinkAtter(obj);
+            break;
+        case TYPE_PIRATE_GUETTEUR:
+        case TYPE_PIRATE_GUETTEUR2:
+            if (obj->sub_etat == 2)
+                set_main_and_sub_etat(obj, 0, 7);
+            else if (obj->speed_y >= 0)
+                set_main_and_sub_etat(obj, 0, 10);
+            recale_position(obj);
+            obj->speed_y = 0;
+            obj->speed_x = 0;
+            break;
+        case TYPE_PIRATE_NGAWE:
+            recale_position(obj);
+            set_main_and_sub_etat(obj, 0, 5);
+            obj->speed_y = 0;
+            obj->speed_x = 0;
+            break;
+        case TYPE_SUPERHELICO:
+            obj->speed_x = 0;
+            obj->speed_y = 0;
+            break;
+        case TYPE_NOTE0:
+        case TYPE_NOTE1:
+        case TYPE_NOTE2:
+        case TYPE_BONNE_NOTE:
+        case TYPE_NOTE3:
+            DO_NOTE_REBOND(obj);
+            break;
+        case TYPE_BBL:
+            DO_BBL_REBOND(obj);
+            break;
+        case TYPE_BIG_CLOWN:
+        case TYPE_WAT_CLOWN:
+            Clown_Music_Atter(obj);
+            break;
+        case TYPE_SPIDER:
+            Spider_Atter(obj);
+            break;
+        case TYPE_BB1:
+            if (obj->iframes_timer < 10)
+                DO_BBMONT_ATTER(obj);
+            break;
+        case TYPE_BB12:
+            DO_BBMONT2_ATTER(obj);
+            break;
+        case TYPE_BB13:
+            DO_BBMONT3_ATTER(obj);
+            break;
+        case TYPE_SAXO2:
+            DO_SAXO2_ATTER(obj);
+            break;
+        case TYPE_SAXO:
+            DO_SAXO_ATTER(obj);
+            break;
+        case TYPE_MAMA_PIRATE:
+            DO_PMA_ATTER(obj);
+            break;
+        case TYPE_COUTEAU:
+            DO_COU_ATTER(obj);
+            break;
+        case TYPE_BOUT_TOTEM:
+            DO_TOTBT_REBOND(obj);
+            break;
+        case TYPE_SPIDER_PLAFOND:
+            if (obj->main_etat == 2 && obj->speed_y > 0)
+            {
+                set_main_and_sub_etat(obj, 0, 29);
+                obj->speed_x = 0;
+                obj->speed_y = 0;
+                flip_x = ray.x_pos > obj->x_pos;
+                obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | flip_x << OBJ_FLIP_X;
+            }
+            break;
+        case TYPE_BALLE1:
+        case TYPE_BALLE2:
+        case TYPE_BIG_BOING_PLAT:
+        case TYPE_BLACK_FIST:
+        case TYPE_BLACK_RAY:
+        case TYPE_BNOTE:
+        case TYPE_BOING_PLAT:
+        case TYPE_BULLET:
+        case TYPE_CORDEBAS:
+        case TYPE_DARK_PHASE2:
+        case TYPE_DARK:
+        case TYPE_MARACAS_BAS:
+        case TYPE_MOSKITO:
+        case TYPE_MOSKITO2:
+        case TYPE_MST_SCROLL:
+        case TYPE_PI_BOUM:
+        case TYPE_POI1:
+        case TYPE_POI2:
+        case TYPE_POI3:
+        case TYPE_RING:
+        case TYPE_SCORPION:
+        case TYPE_SPACE_MAMA:
+        case TYPE_SPACE_MAMA2:
+        case TYPE_TAMBOUR1:
+        case TYPE_TAMBOUR2:
+            break;
+        default:
+            NormalAtter(obj);
+            break;
+        }
+    }
+    if (flags[obj->type].flags1 >> OBJ1_USE_INSTANT_SPEED_Y & 1)
+    {
+        MIN_2(obj->speed_y, 96);
+        MAX_2(obj->speed_y, -128)
+    }
+    else
+    {
+        MIN_2(obj->speed_y, 6);
+        MAX_2(obj->speed_y, -8)
+    }
+}
 
 /* 2E458 80152C58 -O2 -msoft-float */
 void test_fall_in_water(Obj *obj)
