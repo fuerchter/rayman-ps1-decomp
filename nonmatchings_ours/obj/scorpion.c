@@ -134,7 +134,10 @@ void do_sko_rayon2(void)
     }
 }
 
-/* matches, but goto */
+/*
+attempts: 2
+matches, but goto
+*/
 /*INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SOL_ENFONCE);*/
 
 /* 6D438 80191C38 -O2 -msoft-float */
@@ -156,14 +159,14 @@ void DO_SOL_ENFONCE(void)
     else
       xmap -= 2;
   }
-  if ((pixels_enfonce >= 0x60) || (sko_enfonce_enable != 1))
+  if (!(pixels_enfonce < 0x60 && sko_enfonce_enable == 1))
   {
       if (pixels_enfonce < 0xC4 && sko_enfonce_enable == 2)
       {
           goto block_19;
       }
   }
-  else if (horloge[2] != 0)
+  else if (pixels_enfonce < 0x60 && sko_enfonce_enable == 1 && horloge[2] != 0)
   {
 block_19:
       if (((s16) sko_enfonce_enable == 2) && (horloge[4] == 0))
@@ -171,7 +174,7 @@ block_19:
           goto block_21;
       }
   }
-  else if (horloge[2] == 0)
+  else if (pixels_enfonce < 0x60 && sko_enfonce_enable == 1 && horloge[2] == 0)
   {
     block_21:
       if (horloge[4] >= 2) {
