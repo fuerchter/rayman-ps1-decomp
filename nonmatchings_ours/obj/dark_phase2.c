@@ -475,88 +475,89 @@ void DO_DARK2_SORT_COMMAND(Obj *ds2_obj)
 void allocate_DARK2_SORT(s32 param_1, s16 param_2, s16 param_3, s16 param_4)
 {
     Obj *temp_t6;
-    Obj *var_a0_1;
-    Obj *var_a0_2;
-    Obj *var_a0_3;
+    Obj *cur_obj_1;
+    Obj *cur_obj_2;
+    Obj *cur_obj_3;
     Obj *var_a0_4;
     s16 temp_v0;
     s16 temp_v0_2;
     s16 temp_v0_3;
-    s16 var_t2;
-    s32 var_t1;
-    s32 var_t1_2;
-    s32 var_t1_3;
+    s16 cnt_1;
+    s16 check_1;
+    s32 check_2;
+    s32 check_3;
     Obj *var_v1_1;
     Obj *var_v1_2;
     Obj *var_v1_3;
     s16 nb_objs;
     int new_var;
 
-    var_t1 = 0;
-    var_t2 = 0;
-    var_a0_1 = level.objects;
+    check_1 = 0;
+    cnt_1 = 0;
+    cur_obj_1 = level.objects;
     nb_objs = level.nb_objects;
-loop_1:
     do
     {
-        if ((var_a0_1->type == 0x21) && !(var_a0_1->flags & 0x800))
+        if ((cur_obj_1->type == 0x21) && !(cur_obj_1->flags & 0x800))
         {
-            var_t1 = 1;
+            check_1 = 1;
         }
-        var_a0_1 += 1;
-        var_t2 = var_t2 + 1;
-    } while ((var_t1 == 0) && (var_t2 < nb_objs));
+        cur_obj_1 += 1;
+        cnt_1 = cnt_1 + 1;
+    } while ((check_1 == 0) && (cnt_1 < nb_objs));
     
-    var_a0_2 = var_a0_1 - 1;
-    if (var_t1 != 0)
+    cur_obj_1 = cur_obj_1 - 1;
+    if (check_1 != 0)
     {
-        temp_t6 = var_a0_2;
-        var_t1_2 = 0;
+        temp_t6 = cur_obj_1;
+        check_1 = 0;
         new_var = 0;
-loop_8:
         do
         {
-            if ((var_a0_2->type == 0x21) && (var_a0_2->flags & 0x800))
+            if ((cur_obj_1->type == 0x21) && (cur_obj_1->flags & 0x800))
             {
-                var_t1_2 = 1;
+                check_1 = 1;
             }
-            var_a0_2 += 1;
-            var_t2 = var_t2 + 1;
-        } while ((var_t1_2 == 0) && (var_t2 < nb_objs));
-        var_a0_3 = var_a0_2 - 1;
-        if (var_t1_2 != 0)
+            cur_obj_1 += 1;
+            cnt_1 = cnt_1 + 1;
+        } while ((check_1 == 0) && (cnt_1 < nb_objs));
+        cur_obj_1 = cur_obj_1 - 1;
+        if (check_1 != 0)
         {
-            var_t1_3 = 0;
-loop_15:
+            check_1 = 0;
             do
             {
-                if ((var_a0_3->type == 0x21) && !(var_a0_3->flags & 0x800))
+                if ((cur_obj_1->type == 0x21) && !(cur_obj_1->flags & 0x800))
                 {
-                    var_t1_3 = 1;
+                    check_1 = 1;
                 }
-                var_a0_3 += 1;
-                temp_v0_3 = var_t2 + 1;
-                var_t2 = temp_v0_3;
-            } while ((var_t1_3 == 0) && (temp_v0_3 < nb_objs));
-            var_a0_4 = var_a0_3 - 1;
-            if (var_t1_3 == 0)
+                cur_obj_1 += 1;
+                cnt_1 = cnt_1 + 1;
+            } while ((check_1 == 0) && (cnt_1 < nb_objs));
+            cur_obj_1 = cur_obj_1 - 1;
+            if (check_1 != 0)
             {
-                goto block_21;
+                goto block_22;
             }
-            goto block_22;
+            else
+                check_1 = 1;
+                
         }
-block_21:
-        var_a0_4 = temp_t6;
-        if (1 != 0)
-        {
+        else
+            check_1 = 1;
+        
+        if (check_1 != 0)
+            cur_obj_1 = temp_t6;
+        else
+            return;
+        
 block_22:
-            var_a0_4->x_pos = (s16) param_1;
-            var_a0_4->y_pos = param_2;
-            var_a0_4->hit_points = 1;
-            var_a0_4->iframes_timer = param_4;
-            var_a0_4->field23_0x3c = 0;
-            var_a0_4->flags |= 0xC00;
-            set_main_and_sub_etat(var_a0_4, 0, param_3);
-        }
+        cur_obj_1->x_pos = param_1;
+        cur_obj_1->y_pos = param_2;
+        cur_obj_1->hit_points = 1;
+        cur_obj_1->iframes_timer = param_4;
+        cur_obj_1->field23_0x3c = 0;
+        cur_obj_1->flags |= 0xC00;
+        set_main_and_sub_etat(cur_obj_1, 0, param_3);
     }
 }
