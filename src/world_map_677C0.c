@@ -264,8 +264,7 @@ void MoveRayInWorldMap(void)
     ray.y_pos += ray.speed_y;
 }
 
-/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_RAYMAN_IN_WLD_MAP);*/
-
+/* 699FC 8018E1FC -O2 -msoft-float */
 void DO_RAYMAN_IN_WLD_MAP(void)
 {
     s16 diff_x;

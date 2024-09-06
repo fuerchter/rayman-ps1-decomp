@@ -13,7 +13,80 @@ void swap(s32 ind_1, s32 ind_2)
   ecroule_rubis_list[ind_2] = temp;
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", set_rubis_list);
+/* 6C72C 80190F2C -O2 -msoft-float */
+void set_rubis_list(void)
+{
+    s32 rubis_ind;
+    s32 i;
+    Obj *cur_obj;
+    s32 nb_objs;
+    ObjType type;
+    s32 swapped;
+    s32 j;
+    u16 *mp_height;
+    u8 *cur_lave_obj;
+
+    rubis_list_calculated = true;
+    rubis_ind = 0;
+    sko_nb_lave = 0;
+    i = 0;
+    cur_obj = &level.objects[i];
+    nb_objs = level.nb_objects;
+    while (i < nb_objs)
+    {
+        type = cur_obj->type;
+        if (type == TYPE_RUBIS)
+        {
+            ecroule_rubis_list[rubis_ind] = cur_obj->id;
+            rubis_ind++;
+        }
+        else if (type == TYPE_SKO_PINCE)
+            sko_pince_obj_id = i;
+        else if (type == TYPE_LAVE)
+        {
+            sko_lave_obj[sko_nb_lave] = i;
+            sko_nb_lave++;
+        }
+        i++;
+        cur_obj++;
+    }
+
+    do {
+        swapped = false;
+        for (j = 0; j < (s16) LEN(ecroule_rubis_list) - 1; j++)
+        {
+            if (
+                level.objects[ecroule_rubis_list[j]].x_pos >
+                level.objects[ecroule_rubis_list[j + 1]].x_pos
+            )
+            {
+                swap(j, j + 1);
+                swapped = true;
+            }
+        }
+    } while (swapped);
+
+    if (ModeDemo != 0)
+        ecroule_plat_index = 8;
+    else
+        ecroule_plat_index = (s16) myRand(177) % 3 << 3;
+    sko_ecroule_plat = ecroule_rubis_list[ecroule_rubis_order[ecroule_plat_index]];
+    sko_enfonce_enable = 0;
+
+    mp.height = 32;
+    ymapmax = scroll_end_y = 272;
+    sko_ecran_tremble = 0;
+    if (sko_nb_lave != 0)
+    {
+        mp_height = &mp.height; /* a little weird? */
+        cur_lave_obj = &sko_lave_obj[0];
+        do {
+            level.objects[*cur_lave_obj].init_y_pos = *mp_height * 16 - 60;
+            level.objects[*cur_lave_obj].y_pos = level.objects[*cur_lave_obj].init_y_pos;
+            cur_lave_obj++;
+        } while ((s32) cur_lave_obj < (s32) &sko_lave_obj[sko_nb_lave]);
+    }
+}
 
 /* 6CA0C 8019120C -O2 -msoft-float */
 void allocate_rayon(s16 x, s16 y)
