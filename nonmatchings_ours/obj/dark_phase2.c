@@ -316,184 +316,154 @@ void DO_DARK_PHASE2_COMMAND(Obj *obj)
     }
 }
 
-/* matches, but goto */
+/*
+attempts: 2
+matches, but goto, sgn-like (not on android) garbage
+*/
 /*INCLUDE_ASM("asm/nonmatchings/obj/dark_phase2", DO_DARK2_SORT_COMMAND);*/
 
-void DO_DARK2_SORT_COMMAND(Obj *param_1)
+void DO_DARK2_SORT_COMMAND(Obj *ds2_obj)
 {
-    s16 temp_v0_1;
-    s16 temp_v0_2;
-    s16 temp_v0_3;
-    s16 temp_v0_4;
-    s16 temp_v0_5;
-    s16 temp_v1;
-    s32 var_a0;
-    s16 var_a0_2;
-    s16 var_a1;
-    s16 var_a1_2;
-    s16 var_a1_3;
-    s16 var_a1_5;
-    s16 var_s2;
-    s16 var_v0_2;
-    s16 var_v0_3;
-    s16 var_v0_4;
-    s16 var_v1_2;
-    s32 temp_v0_10;
-    s32 temp_v0_11;
-    s32 temp_v0_6;
-    s32 temp_v0_7;
-    s32 temp_v0_8;
-    s32 temp_v0_9;
-    s32 var_a1_4;
-    s32 var_v0;
-    s32 var_v1;
-    s16 test_1;
+    s16 unk_1;
+    s32 unk_x_1;
+    s16 unk_y_1;
+    s16 unk_y_2;
+    s16 unk_4;
+    s16 unk_x_2;
+    s32 unk_2;
+    s16 unk_3;
 
-    if (param_1->hit_points != 0)
+    if (ds2_obj->hit_points != 0)
     {
-        if (param_1->sub_etat == 0x23 || param_1->sub_etat == 0x24)
+        if (ds2_obj->sub_etat == 35 || ds2_obj->sub_etat == 36)
         {
-            if (param_1->x_pos < -(s32) param_1->offset_bx)
+            if (ds2_obj->x_pos < -ds2_obj->offset_bx)
             {
                 sinus_actif = 2;
-                param_1->hit_points = 0;
-                return;
-            }
-            if (param_1->iframes_timer != 0)
-            {
-                if (sens_sinus_1 != 0)
-                {
-                    dark2_rayon_dy_1 = dark2_rayon_dy_1 + 3;
-                    if (dark2_rayon_dy_1 >= 0x4D)
-                    {
-                        sens_sinus_1 = 0;
-                    }
-                }
-                else
-                {
-                    dark2_rayon_dy_1 = dark2_rayon_dy_1 - 3;
-                    if (dark2_rayon_dy_1 < -0x4C)
-                    {
-                        sens_sinus_1 = 1;
-                    }
-                }
-                PosXSin1 = PosXSin1 + ashr16(dark2_rayon_dx_1, 4U);
-                var_a1 = PosYSin1 + ashr16(dark2_rayon_dy_1, 4U);
-                PosYSin1 = var_a1;
-                if (param_1->anim_frame == 1)
-                {
-                    var_a0 = PosXSin1;
-block_1:
-                    allocate_DARK2_SORT(var_a0, var_a1, param_1->sub_etat, param_1->iframes_timer);
-                    param_1->hit_points = 0;
-                }
+                ds2_obj->hit_points = 0;
             }
             else
             {
-                if (sens_sinus_2 != 0)
+                if (ds2_obj->iframes_timer != 0)
                 {
-                    dark2_rayon_dy_2 = dark2_rayon_dy_2 + 3;
-                    if (dark2_rayon_dy_2 >= 0x4D)
+                    if (sens_sinus_1 != 0)
                     {
-                        sens_sinus_2 = 0;
+                        dark2_rayon_dy_1 += 3;
+                        if (dark2_rayon_dy_1 > 76)
+                            sens_sinus_1 = 0;
+                    }
+                    else
+                    {
+                        dark2_rayon_dy_1 -= 3;
+                        if (dark2_rayon_dy_1 < -76)
+                            sens_sinus_1 = 1;
+                    }
+                    PosXSin1 += ashr16(dark2_rayon_dx_1, 4);
+                    unk_y_1 = PosYSin1 + ashr16(dark2_rayon_dy_1, 4);
+                    PosYSin1 = unk_y_1;
+                    if (ds2_obj->anim_frame == 1)
+                    {
+                        unk_x_1 = PosXSin1;
+    block_1:
+                        allocate_DARK2_SORT(unk_x_1, unk_y_1, ds2_obj->sub_etat, ds2_obj->iframes_timer);
+                        ds2_obj->hit_points = 0;
                     }
                 }
                 else
                 {
-                    dark2_rayon_dy_2 = dark2_rayon_dy_2 - 3;
-                    if (dark2_rayon_dy_2 < -0x4C)
+                    if (sens_sinus_2 != 0)
                     {
-                        sens_sinus_2 = 1;
+                        dark2_rayon_dy_2 += 3;
+                        if (dark2_rayon_dy_2 > 76)
+                            sens_sinus_2 = 0;
                     }
-                }
-                PosXSin2 = PosXSin2 + ashr16(dark2_rayon_dx_2, 4U);
-                var_a1 = PosYSin2 + ashr16(dark2_rayon_dy_2, 4U);
-                PosYSin2 = var_a1;
-                if (param_1->anim_frame == 1)
-                {
-                    var_a0 = PosXSin2;
-goto block_1;
+                    else
+                    {
+                        dark2_rayon_dy_2 -= 3;
+                        if (dark2_rayon_dy_2 < -76)
+                            sens_sinus_2 = 1;
+                    }
+                    PosXSin2 += ashr16(dark2_rayon_dx_2, 4);
+                    unk_y_1 = PosYSin2 + ashr16(dark2_rayon_dy_2, 4);
+                    PosYSin2 = unk_y_1;
+                    if (ds2_obj->anim_frame == 1)
+                    {
+                        unk_x_1 = PosXSin2;
+    goto block_1;
+                    }
                 }
             }
         }
-        else if (param_1->sub_etat == 0x25)
+        else if (ds2_obj->sub_etat == 37)
         {
-            if (param_1->iframes_timer != 0)
+            if (ds2_obj->iframes_timer != 0)
+                unk_x_2 = 240 - (ds2_obj->x_pos + ds2_obj->offset_bx);
+            else
+                unk_x_2 = 5 - (ds2_obj->x_pos + ds2_obj->offset_bx);
+            unk_y_2 = firstFloorBelow(ds2_obj) - (ds2_obj->y_pos + ds2_obj->offset_by);
+            unk_1 = __builtin_abs(unk_x_2) + __builtin_abs(unk_y_2);
+
+            if (unk_1 < 10)
             {
-                var_s2 = 0xF0 - (param_1->offset_bx + param_1->x_pos);
+                ds2_obj->hit_points = 0;
+                AllocateFlammes(ds2_obj->iframes_timer);
             }
             else
             {
-                var_s2 = 5 - (param_1->offset_bx + param_1->x_pos);
-            }
-            temp_v0_5 = firstFloorBelow(param_1) - (param_1->offset_by + param_1->y_pos);
-            var_a1_2 = temp_v0_5;
-            temp_v1 = __builtin_abs(var_s2) + __builtin_abs(temp_v0_5);
-            if (temp_v1 < 0xA)
-            {
-                param_1->hit_points = 0;
-                AllocateFlammes(param_1->iframes_timer);
-                return;
-            }
-            if (temp_v1 > 0)
-            {
-                temp_v0_6 = ashl16(var_s2, 4U);
-                var_s2 = (s16) (temp_v0_6 / temp_v1);
-                temp_v0_7 = ashl16(temp_v0_5, 4U);
-                var_a1_2 = (s16) (temp_v0_7 / temp_v1);
-            }
-            if (param_1->anim_frame == 1)
-            {
-                if (param_1->iframes_timer != 0)
+                if (unk_1 > 0)
                 {
-                    temp_v0_8 = var_s2 - dark2_rayon_dx_1;
-                    if (temp_v0_8 >= 0)
-                    {
-                        dark2_rayon_dx_1 = dark2_rayon_dx_1 + (temp_v0_8 > 0);
-                    }
-                    else
-                    {
-                        dark2_rayon_dx_1 = dark2_rayon_dx_1 - (test_1 = 1);
-                    }
-                    temp_v0_9 = var_a1_2 - dark2_rayon_dy_1;
-                    if (temp_v0_9 >= 0)
-                    {
-                        var_a1_3 = dark2_rayon_dy_1 + (temp_v0_9 > 0);
-                    }
-                    else
-                    {
-                        var_a1_3 = dark2_rayon_dy_1 - (test_1 = 1);
-                    }
-                    dark2_rayon_dy_1 = var_a1_3;
-                    var_a0_2 = dark2_rayon_dx_1;
-                    allocate_DARK2_SORT(param_1->x_pos + var_a0_2, param_1->y_pos + var_a1_3, param_1->sub_etat, param_1->iframes_timer);
-                    param_1->hit_points = 0;
+                    unk_x_2 = ashl16(unk_x_2, 4) / unk_1;
+                    unk_y_2 = ashl16(unk_y_2, 4) / unk_1;
                 }
-                else
+
+                if (ds2_obj->anim_frame == 1)
                 {
-                    temp_v0_10 = var_s2 - dark2_rayon_dx_2;
-                    if (temp_v0_10 >= 0)
+                    if (ds2_obj->iframes_timer != 0)
                     {
-                        var_v0_4 = dark2_rayon_dx_2 + (temp_v0_10 > 0);
+                        unk_2 = unk_x_2 - dark2_rayon_dx_1;
+                        if (unk_2 >= 0)
+                            dark2_rayon_dx_1 = dark2_rayon_dx_1 + (unk_2 > 0);
+                        else
+                            dark2_rayon_dx_1 = dark2_rayon_dx_1 - (unk_3 = 1);
+                        
+                        unk_2 = unk_y_2 - dark2_rayon_dy_1;
+                        if (unk_2 >= 0)
+                            unk_4 = dark2_rayon_dy_1 + (unk_2 > 0);
+                        else
+                            unk_4 = dark2_rayon_dy_1 - (unk_3 = 1);
+                        dark2_rayon_dy_1 = unk_4;
+                        
+                        allocate_DARK2_SORT(
+                            ds2_obj->x_pos + dark2_rayon_dx_1,
+                            ds2_obj->y_pos + dark2_rayon_dy_1,
+                            ds2_obj->sub_etat,
+                            ds2_obj->iframes_timer
+                        );
+                        ds2_obj->hit_points = 0;
                     }
                     else
                     {
-                        var_v0_4 = dark2_rayon_dx_2 - (test_1 = 1);
+                        unk_2 = unk_x_2 - dark2_rayon_dx_2;
+                        if (unk_2 >= 0)
+                            dark2_rayon_dx_2 = dark2_rayon_dx_2 + (unk_2 > 0);
+                        else
+                            dark2_rayon_dx_2 = dark2_rayon_dx_2 - (unk_3 = 1);
+                        
+                        unk_2 = unk_y_2 - dark2_rayon_dy_2;
+                        if (unk_2 >= 0)
+                            unk_4 = dark2_rayon_dy_2 + (unk_2 > 0);
+                        else
+                            unk_4 = dark2_rayon_dy_2 - (unk_3 = 1);
+                        dark2_rayon_dy_2 = unk_4;
+
+                        allocate_DARK2_SORT(
+                            ds2_obj->x_pos + dark2_rayon_dx_2,
+                            ds2_obj->y_pos + unk_4,
+                            ds2_obj->sub_etat,
+                            ds2_obj->iframes_timer
+                        );
+                        ds2_obj->hit_points = 0;
                     }
-                    dark2_rayon_dx_2 = var_v0_4;
-                    temp_v0_11 = var_a1_2 - dark2_rayon_dy_2;
-                    if (temp_v0_11 >= 0)
-                    {
-                        var_a1_5 = dark2_rayon_dy_2 + (temp_v0_11 > 0);
-                    }
-                    else
-                    {
-                        var_a1_5 = dark2_rayon_dy_2 - (test_1 = 1);
-                    }
-                    dark2_rayon_dy_2 = var_a1_5;
-                    var_a0_2 = dark2_rayon_dx_2;
-                    allocate_DARK2_SORT(param_1->x_pos + var_a0_2, param_1->y_pos + var_a1_5, param_1->sub_etat, param_1->iframes_timer);
-                    param_1->hit_points = 0;
                 }
             }
         }
