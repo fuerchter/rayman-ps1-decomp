@@ -79,10 +79,7 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
     }
 }
 
-/*
-matches, but doubled counter vars...
-removing cnt2_2 on decomp.me still matches but not locally
-*/
+/* matches, but doubled cnt1... */
 /*INCLUDE_ASM("asm/nonmatchings/card", PS1_CardFilenameChecksum);*/
 
 s32 PS1_CardFilenameChecksum(u8 chan)
@@ -91,7 +88,7 @@ s32 PS1_CardFilenameChecksum(u8 chan)
     u8 name_start[8];
     s32 nbre_files;
     u8 cnt1_1; s32 cnt1_2;
-    u8 cnt2_1; u32 cnt2_2;
+    u8 cnt2;
     struct DIRENTRY *cur_file;
     s32 sum = 0;
 
@@ -99,11 +96,11 @@ s32 PS1_CardFilenameChecksum(u8 chan)
     nbre_files = PS1_GetNbreFiles(name_start, files);
     for (cnt1_1 = 0; cnt1_1 < nbre_files; cnt1_1++)
     {
-        cnt2_1 = 0;
+        cnt2 = 0;
         cnt1_2 = cnt1_1;
         cur_file = &files[cnt1_2];
-        for (; cnt2_2 = cnt2_1, cnt2_2 < strlen(cur_file->name); cnt2_1++)
-            sum += (u8) cur_file->name[cnt2_2] << cnt1_2;
+        for (; cnt2 < (u32) strlen(cur_file->name); cnt2++)
+            sum += (u8) cur_file->name[cnt2] << cnt1_2;
     }
     return sum;
 }
