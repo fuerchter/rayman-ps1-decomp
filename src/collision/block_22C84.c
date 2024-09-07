@@ -1,6 +1,85 @@
 #include "collision/block_22C84.h"
 
-INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", get_center_x);
+/* 22C84 80147484 -O2 -msoft-float */
+s16 get_center_x(Obj *obj)
+{
+    s16 res;
+
+    switch(obj->type)
+    {
+    case TYPE_MOVE_MARTEAU:
+        res = 70;
+        break;
+    case TYPE_MOVE_PLAT:
+        switch (num_world)
+        {
+        case 1:
+            res = 40;
+            break;
+        case 2:
+            res = 64;
+            break;
+        default:
+            res = 40;
+            break;
+        }
+        break;
+    case TYPE_MOVE_OUYE:
+        /* TODO: ... why does this work? */
+        switch (num_world)
+        {
+        case 1:
+            res = 40;
+            break;
+        case 2:
+            res = 64;
+            break;
+        default:
+            res = 40;
+            break;
+        }
+        res = 18;
+        break;
+    case TYPE_MOVE_RUBIS:
+        res = 18;
+        break;
+    case TYPE_MOVE_START_PLAT:
+        res = 128;
+        break;
+    case TYPE_BLACKTOON1:
+        switch(obj->follow_sprite)
+        {
+        case 5:
+        case 6:
+        case 7:
+            res = 80;
+            break;
+        default:
+            res = 40;
+            break;
+        }
+        break;
+    case TYPE_PIRATE_P_45:
+    case TYPE_PIRATE_P_D_45:
+    case TYPE_PIRATE_POELLE:
+    case TYPE_PIRATE_POELLE_D:
+        res = 80;
+        break;
+    case TYPE_ROULETTE:
+    case TYPE_ROULETTE2:
+    case TYPE_ROULETTE3:
+        res = 104;
+        break;
+    case TYPE_PT_GRAPPIN:
+        res = 36;
+        break;
+    default:
+        res = 40;
+        break;
+    }
+
+    return res;
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", get_center_y);
 
