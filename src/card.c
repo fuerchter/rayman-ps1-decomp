@@ -308,7 +308,18 @@ s32 SaveGameOnDisk(u8 slot)
     return res;
 }
 
-INCLUDE_ASM("asm/nonmatchings/card", SaveFileRead);
+/* 46CA0 8016B4A0 -O2 -msoft-float */
+s32 SaveFileRead(s32 fd, void *buf, s16 n)
+{
+    s16 num_read;
+    u8 i = 0;
+
+    do
+    {
+        num_read = read(fd, buf, n);
+    } while (num_read == -1 && i++ < 10);
+    return num_read;
+}
 
 INCLUDE_ASM("asm/nonmatchings/card", PS1_LoadSave);
 

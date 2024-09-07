@@ -225,26 +225,6 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
   return betw1;
 }
 
-/* matches, but second counter/gross loop */
-/*INCLUDE_ASM("asm/nonmatchings/card", SaveFileRead);*/
-
-s32 SaveFileRead(s32 fd, void *buf, s16 n)
-{
-  s32 num_read;
-  s32 cnt_1 = 0;
-  u8 cnt_2;
-  
-  while (true)
-  {
-    num_read = (s16) read(fd, buf, n);
-    cnt_2 = cnt_1;
-    if (num_read != -1 || cnt_2 >= 10)
-      break;
-    cnt_1++;
-  }
-  return num_read;
-}
-
 /* matches, but options_jeu as memcpy somehow? */
 /*INCLUDE_ASM("asm/nonmatchings/card", PS1_LoadSave);*/
 
