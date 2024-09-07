@@ -81,7 +81,95 @@ s16 get_center_x(Obj *obj)
     return res;
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/block_22C84", get_center_y);
+/* 22DEC 801475EC -O2 -msoft-float */
+s16 get_center_y(Obj *obj)
+{
+    s16 res;
+
+    switch(obj->type)
+    {
+    case TYPE_SPIDER_PLAFOND:
+        res = 90;
+        break;
+    case TYPE_MOVE_MARTEAU:
+        res = 40;
+        break;
+    case TYPE_MOVE_PLAT:
+        /* TODO: ... why does this work? */
+        switch (num_world)
+        {
+        case 1:
+            res = 40;
+            break;
+        case 2:
+            res = 40;
+            break;
+        default:
+            res = 40;
+            break;
+        }
+        break;
+    case TYPE_MOVE_OUYE:
+        /* TODO: ... why does this work? */
+        switch (num_world)
+        {
+        case 1:
+            res = 40;
+            break;
+        case 2:
+            res = 64;
+            break;
+        default:
+            res = 40;
+            break;
+        }
+        res = 18;
+        break;
+    case TYPE_MOVE_RUBIS:
+        res = 18;
+        break;
+    case TYPE_MOVE_START_PLAT:
+        res = 64;
+        break;
+    case TYPE_BLACKTOON1:
+        switch(obj->follow_sprite)
+        {
+        case 6:
+        case 7:
+            if (obj->speed_y > 0)
+                res = 64;
+            else
+                res = 78;
+            break;
+        case 5:
+            res = 72;
+            break;
+        default:
+            /* TODO: ??? */
+            break;
+        }
+        break;
+    case TYPE_PIRATE_P_45:
+    case TYPE_PIRATE_P_D_45:
+    case TYPE_PIRATE_POELLE:
+    case TYPE_PIRATE_POELLE_D:
+        res = 96;
+        break;
+    case TYPE_ROULETTE:
+    case TYPE_ROULETTE2:
+    case TYPE_ROULETTE3:
+        res = 104;
+        break;
+    case TYPE_PT_GRAPPIN:
+        res = 32;
+        break;
+    default:
+        res = 40;
+        break;
+    }
+
+    return res;
+}
 
 /* 22F80 80147780 -O2 -msoft-float */
 s16 on_block_chdir(Obj *obj, s16 offs_bx, s16 offs_by)
