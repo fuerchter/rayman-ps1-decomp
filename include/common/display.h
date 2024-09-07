@@ -17,20 +17,20 @@ typedef struct Display {
     DR_ENV field4_0x230;
     DR_ENV field5_0x270;
     DR_ENV field6_0x2b0[16];
-    u8 field_0x6b0_0x7d7[296];
-    u8 map_ordering_tables;
-    u8 field_0x7d9_0x7ef[23];
-    u8 * ordering_table[11]; /* TODO: not sure this is correct, see compiler warnings for synchro_loop.c and main_moteur.c */
+    u8 field_0x6b0_0x7d7[296]; /* unused? */
+    u32 map_ordering_tables[6]; /* TODO: size correct? */
+    u32 ordering_table[11]; /* TODO: not sure this is correct, see compiler warnings for synchro_loop.c and main_moteur.c */
     SPRT_8 tiles[360];
     SPRT_8 field_0x1e9c_0x321b[312]; /* size? see D_801F4A28? could also either be SPRT_8 or SPRT_16, structs are the same */
     TILE_1 tile1s[240];
     SPRT sprites[50];
     POLY_FT4 polygons[200];
-    TILE field5324_0x6084;
-    POLY_G4 field5325_0x6094;
+    TILE field_0x5324_0x6084;
+    POLY_G4 field_0x5325_0x6094;
     u8 field_0x60b8_0x60bb[4];
-    DRENVAndTile field5330_0x60bc[17];
-    u8 field_0x660c_0x668b[128];
+    DRENVAndTile field_0x5330_0x60bc[17];
+    DR_ENV unk_dr_env;
+    u8 field_0x664c_0x668b[64]; /* unused? */
     TILE fond_box_tiles[4];
     TILE fond_box_tile;
     TILE field5461_0x66dc[6];
