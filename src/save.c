@@ -137,7 +137,7 @@ void PS1_PhotographerCollision(void)
 /* 3FC20 80164420 -O2 -msoft-float */
 s16 get_offset_in_save_zone(s16 event_index)
 {
-    s32 unk_1 = 0;
+    s16 unk_1 = 0;
     s16 i = 1;
     while (i < num_world)
     {

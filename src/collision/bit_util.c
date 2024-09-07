@@ -177,7 +177,7 @@ s32 ashl16(s16 value, u8 shift)
 }
 
 /* 2269C 80146E9C -O2 -msoft-float */
-s32 ashr16(s16 value, u8 shift)
+s16 ashr16(s16 value, u8 shift)
 {
     s32 res;
     s32 unk_1;
@@ -195,7 +195,7 @@ s32 ashr16(s16 value, u8 shift)
         unk_1 = res;
     res = unk_1;
 
-    return (s16) res;
+    return res;
 }
 
 /* 226EC 80146EEC -O2 -msoft-float */

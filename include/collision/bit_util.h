@@ -27,8 +27,8 @@ u8 getbit(u8 *buffer, u16 index);
 s16 cosinus(s16 param_1);
 s16 sinus(s16 param_1);
 s16 sinYspeed(Obj *obj, s32 param_2, s16 param_3, s16 *param_4);
-s32 ashl16(s16 value, u8 shift);
-s32 ashr16(s16 value, u8 shift);
+s32 ashl16(s16 value, u8 shift); /* s32? says itself, MOVE_OBJECT*/
+s16 ashr16(s16 value, u8 shift); /* get_offset_in_save_zone and calc_btyp_square made me check return type */
 s32 ashl32(s32 value, u8 shift);
 s32 ashr32(s32 value, u8 shift);
 
