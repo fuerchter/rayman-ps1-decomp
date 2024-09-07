@@ -34,7 +34,9 @@ typedef struct Display {
     TILE fond_box_tiles[4];
     TILE fond_box_tile;
     TILE field5461_0x66dc[6];
-    u8 field_0x673c_0x6cbb[1408];
+    POLY_F4 unk_poly_f4s[16];
+    POLY_G4 unk_poly_g4s[16];
+    POLY_G3 unk_poly_g3s[16];
 } Display;
 
 /* .data */
