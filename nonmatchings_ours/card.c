@@ -120,11 +120,12 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
   s32 *frame_from;
   s32 *frame_to;
   u8 *devname;
-  uint chan_local;
-  uint slot_local;
-  s32 saveicon1 [32];
-  s32 saveicon2and3 [32];
-  s32 saveiconpalette[8];
+  s32 chan_local;
+  s32 slot_local;
+  u8 test_4[32];
+  u8 saveicon1 [128];
+  u8 saveicon2and3 [128];
+  u8 saveiconpalette[32];
   s32 local_c0;
   s32 local_bc;
   s32 local_b8;
@@ -135,65 +136,49 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
   s32 local_a4;
   CardFrame0 card_frame0;
   u8 local_20;
-  u8 test_1[8];
   u8 *test_2;
-  const u8 *new_var;
+  u8 *new_var;
+  s32 test_3;
 
+  new_var = PS1_SaveIcon1;
+  __builtin_memcpy(saveicon1, new_var, sizeof(PS1_SaveIcon1));
+  new_var = PS1_SaveIcon2and3;
+  __builtin_memcpy(saveicon2and3, new_var, sizeof(PS1_SaveIcon2and3));
   new_var = PS1_SaveIconPalette;
-  test_2 = test_1;
-  if (((s32) test_2 | (s32) PS1_SaveIcon1) & 3) {
-    __builtin_memcpy(saveicon1, PS1_SaveIcon1, sizeof(PS1_SaveIcon1));
-  }
-  else {
-    __builtin_memcpy(saveicon1, PS1_SaveIcon1, sizeof(PS1_SaveIcon1));
-  }
-  frame_to = saveicon2and3;
-  frame_from = PS1_SaveIcon2and3;
-  if (((s32) test_2 | (s32) PS1_SaveIcon2and3) & 3) {
-    __builtin_memcpy(saveicon2and3, PS1_SaveIcon2and3, sizeof(PS1_SaveIcon2and3));
-  }
-  else {
-    __builtin_memcpy(saveicon2and3, PS1_SaveIcon2and3, sizeof(PS1_SaveIcon2and3));
-  }
-
   __builtin_memcpy(saveiconpalette, new_var, sizeof(PS1_SaveIconPalette));
-  chan_local = (uint)chan_par;
-  _card_info(chan_local);
+  _card_info(chan_par);
   event_res = PS1_TestSwCARD();
   if (event_res - 1U >= 2) {
     if (event_res == 3) {
       PS1_TestHwCARDOnce();
-      _card_clear(chan_local);
+      _card_clear(chan_par);
       PS1_TestHwCARD();
     }
-    slot_local = slot_par & 0xff;
     PS1_TestSwCARDOnce();
-    _card_load(chan_local);
+    _card_load(chan_par);
     PS1_TestSwCARD();
     FntPrint(s__Saving_file_8012add8);
-    devname = &D_801F6100[slot_local * 0x20];
+    devname = &PS1_SaveFilenames[slot_par - 1];
     if (*devname == 0) {
-      sprintf(devname,s_bu02xss4u_8012ade8,chan_local,s_BISLUS00005_8012aca8,save_ray[slot_local],
-              (uint)(ushort)PS1_GlobalTimer);
+      sprintf(devname,s_bu02xss4u_8012ade8,chan_par,s_BISLUS00005_8012aca8,save_ray[slot_par],
+              (ushort)PS1_GlobalTimer);
     }
     fd = open(devname,0x10200);
     if (fd != -1) {
       PS1_WriteWiSaveZone();
-      event_res = slot_local - 1;
-      loadInfoRay[event_res].num_cages = 0;
+      loadInfoRay[slot_par - 1].num_cages = 0;
       cnt = 0;
       do {
-        pbVar1 = wi_save_zone + cnt;
+        loadInfoRay[slot_par - 1].num_cages = loadInfoRay[slot_par - 1].num_cages + (wi_save_zone[cnt] >> 2 & 7);
         cnt = cnt + 1;
-        loadInfoRay[event_res].num_cages = loadInfoRay[event_res].num_cages + (*pbVar1 >> 2 & 7);
       } while (cnt < 24);
-      chan_local = (uint)loadInfoRay[(slot_par & 0xff) - 1].num_cages * 100;
+      chan_local = loadInfoRay[slot_par - 1].num_cages * 100;
       card_frame0.sc_magic[0] = 'S';
       card_frame0.sc_magic[1] = 'C';
       card_frame0.icon_display_flag = 0x13;
       card_frame0.block_num = 1;
-      sprintf(card_frame0.Rayman_save_ray_pct,s_Rayman_s_03d_8012adf8,save_ray[slot_par & 0xff],
-              (int)(short)(chan_local / 102));
+      sprintf(card_frame0.Rayman_save_ray_pct,s_Rayman_s_03d_8012adf8,save_ray[slot_par],
+              (short)(chan_local / 102));
       strncpy(card_frame0.Maga,s_Maga_801cf050,0x1c);
       __builtin_memcpy(card_frame0.icon_palette, saveiconpalette, sizeof(saveiconpalette));
       write(fd,&card_frame0,0x80);
