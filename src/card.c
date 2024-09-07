@@ -180,7 +180,6 @@ u8 PS1_TestCard(u8 par_chan)
 }
 
 INCLUDE_ASM("asm/nonmatchings/card", PS1_GetNbreFiles);
-/* have not had any luck. start from gotos-only? */
 
 INCLUDE_ASM("asm/nonmatchings/card", PS1_CardFilenameChecksum);
 

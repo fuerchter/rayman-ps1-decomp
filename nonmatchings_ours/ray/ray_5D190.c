@@ -1587,65 +1587,6 @@ block_77:
     return;
 }
 
-/*
-attempts: 2 (or 3?)
-looked at android (abs), played around with gotos-only
-tried replacing var_v0 with returns, tried replacing temp_v1
-*/
-/*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE_ANIM);*/
-
-/*extern inline s16 inline_fn(s16 iVar2, s16 val)
-{
-    if (val - iVar2 >= 0)
-        return val - iVar2;
-    else
-        return iVar2 - val;
-}*/
-
-s16 RAY_BALANCE_ANIM(s16 arg0)
-{
-    s16 var_v0;
-    s16 var_v1;
-    s16 temp_v1;
-
-    if (arg0 == 0)
-        arg0++;
-    
-    temp_v1 = (arg0 - 1) >> 3;
-    if (temp_v1 < 0x20)
-    {
-        if (!(ray.flags & 0x4000))
-        {
-            var_v0 = temp_v1 + 0x1F;
-        }
-        /* tried: var_v0 = (0x20 - temp_v1) >= 0 ? 0x20 - temp_v1 : temp_v1 - 0x20; */
-        else if ((0x20 - temp_v1) >= 0) /* some optimization makes this jump to block at the end... */
-        {
-            var_v0 = 0x20 - temp_v1;
-        }
-        else
-        {
-            var_v0 = temp_v1 - 0x20;
-        }
-    }
-    else
-    {
-        if (!(ray.flags & 0x4000))
-        {
-            var_v0 = temp_v1 - 0x1F;
-        }
-        else if ((0x5F - temp_v1) >= 0)
-        {
-            var_v0 = 0x5F - temp_v1;
-        }
-        else
-        {
-            var_v0 = temp_v1 - 0x5F;
-        }
-    }
-    return var_v0;
-}
-
 /* matches, but cleanup*/
 /*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE);*/
 

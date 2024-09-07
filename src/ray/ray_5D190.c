@@ -1190,7 +1190,33 @@ void RAY_RESPOND_TO_FIRE1(void)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE_ANIM);
+/* 617C0 80185FC0 -O2 -msoft-float */
+/* thanks :) https://decomp.me/scratch/IFC9r */
+extern inline s16 inline_RAY_BALANCE_ANIM(s16 angle)
+{
+    if (angle < 32)
+    {
+        if (!(ray.flags & FLG(OBJ_FLIP_X)))
+            return angle + 31;
+        else
+            return (32 - angle >= 0) ? 32 - angle : angle - 32;
+    }
+    else
+    {
+        if (!(ray.flags & FLG(OBJ_FLIP_X)))
+            return angle - 31;
+        else
+            return (95 - angle >= 0) ? 95 - angle : angle - 95;
+    }
+}
+
+s16 RAY_BALANCE_ANIM(s16 grp_angle)
+{
+    if (grp_angle == 0)
+        grp_angle++;
+
+    return inline_RAY_BALANCE_ANIM((grp_angle - 1) >> 3);
+}
 
 /* 61870 80186070 -O2 -msoft-float */
 void abs_sinus_cosinus(s16 tab_index, s16 *param_2, s16 *param_3)
