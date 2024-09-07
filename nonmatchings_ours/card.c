@@ -231,7 +231,7 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
 void PS1_LoadSave(s32 param_1, u8 *param_2)
 {
     s32 file = open(param_2, 1);
-    u8 file_buffer[128];
+    u16 file_buffer[64];
     
     if (file != -1)
     {
@@ -255,19 +255,19 @@ void PS1_LoadSave(s32 param_1, u8 *param_2)
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(bonus_perfect, file_buffer, sizeof(bonus_perfect));
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
-        /*__builtin_memcpy(&options_jeu.Jump, &fileBuffer[16], 22);*/
+        /*__builtin_memcpy(&options_jeu.Jump, &file_buffer[8], 22);*/
         /* also tried assigning to another local with OptionsJeu * or u16 * type beforehand */
-        options_jeu.Jump = *(u16 *)(file_buffer + 16);
-        options_jeu.Fist = *(u16 *)(file_buffer + 18);
-        options_jeu.field6_0x14 = *(u16 *)(file_buffer + 20);
-        options_jeu.Action = *(u16 *)(file_buffer + 22);
-        options_jeu.Music = *(u16 *)(file_buffer + 24);
-        options_jeu.Soundfx = *(u16 *)(file_buffer + 26);
-        options_jeu.StereoEnabled = *(u16 *)(file_buffer + 28);
-        options_jeu.field11_0x1e = *(u16 *)(file_buffer + 30);
-        options_jeu.field12_0x20 = *(u16 *)(file_buffer + 32);
-        options_jeu.field13_0x22 = *(u16 *)(file_buffer + 34);
-        options_jeu.field14_0x24 = *(u16 *)(file_buffer + 36);
+        options_jeu.Jump = file_buffer[8];
+        options_jeu.Fist = file_buffer[9];
+        options_jeu.field6_0x14 = file_buffer[10];
+        options_jeu.Action = file_buffer[11];
+        options_jeu.Music = file_buffer[12];
+        options_jeu.Soundfx = file_buffer[13];
+        options_jeu.StereoEnabled = file_buffer[14];
+        options_jeu.field11_0x1e = file_buffer[15];
+        options_jeu.field12_0x20 = file_buffer[16];
+        options_jeu.field13_0x22 = file_buffer[17];
+        options_jeu.field14_0x24 = file_buffer[18];
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(&world_index, file_buffer, sizeof(world_index));
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
