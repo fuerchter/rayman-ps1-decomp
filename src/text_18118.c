@@ -125,7 +125,14 @@ INCLUDE_ASM("asm/nonmatchings/text_18118", DrawFondBoxNormal);
 
 INCLUDE_ASM("asm/nonmatchings/text_18118", DrawBlackBoxNormal);
 
-INCLUDE_ASM("asm/nonmatchings/text_18118", DISPLAY_BLACKBOX);
+/* 18A1C 8013D21C -O2 -msoft-float */
+void DISPLAY_BLACKBOX(u16 x, u16 y, u16 w, u16 h, u8 param_5, u8 is_fond)
+{
+    if (is_fond)
+        DrawFondBoxNormal(x, y, w, h, 255 - param_5);
+    else
+        DrawBlackBoxNormal(x, y, w, h, 255 - param_5);
+}
 
 INCLUDE_ASM("asm/nonmatchings/text_18118", display_text_sin);
 
