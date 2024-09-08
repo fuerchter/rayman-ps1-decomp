@@ -131,7 +131,7 @@ segments:
       - [0x10B3C, c, fond_10B3C] #8013533C
       - [0x14AD8, asm, loading_tex] #801392D8 TODO: re-did split (start and end), but still not 100% certain
       - [0x14FF4, c, draw] #801397F4
-      - [0x18118, asm, text_18118] #8013c918
+      - [0x18118, c, text_18118] #8013c918
       - [0x19A38, c, draw_ui] #8013e238
       - [0x1B1F0, c, collision/collision] #8013f9f0
       - [0x21D30, c, collision/bit_util] #80146530
