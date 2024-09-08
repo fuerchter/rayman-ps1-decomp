@@ -67,7 +67,7 @@ s32 calc_let_Width(u8 param_1, s16 param_2)
 }
 
 /* 18244 8013CA44 -O2 -msoft-float */
-s32 PS1_CalcTextWidth(u8 *str, u8 font)
+s16 PS1_CalcTextWidth(u8 *str, u8 font)
 {
     s16 res = 0;
     u8 i = 0;
@@ -80,9 +80,46 @@ s32 PS1_CalcTextWidth(u8 *str, u8 font)
     return res;
 }
 
-INCLUDE_ASM("asm/nonmatchings/text_18118", PS1_DisplayCenteredText);
+/* 182D0 8013CAD0 -O2 -msoft-float */
+void PS1_DisplayCenteredText(u8 *str, u8 param_2, u8 color)
+{
+    GetClut(color * 16 + 64, 509);
+    display_text(
+        str,
+        (320 - PS1_CalcTextWidth(str, 0)) >> 1,
+        param_2 * 36 + 4,
+        0,
+        color
+    );
+}
 
-INCLUDE_ASM("asm/nonmatchings/text_18118", PS1_DisplayMultipleCenteredText);
+/* 1835C 8013CB5C -O2 -msoft-float */
+void PS1_DisplayMultipleCenteredText(u8 index, MultipleCenteredText *in_txts)
+{
+    u8 unk_y;
+    u8 *count;
+    s32 unk_1;
+    u8 i;
+    s32 unk_2;
+    MultipleCenteredText *txts = &in_txts[index];
+    
+    PS1_PolygonsCount = 0;
+    PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[6];
+    unk_y = txts->unk_y;
+    count = &txts->count;
+    if (unk_y < 240)
+    {
+        unk_1 = unk_y + 6;
+        PS1_DrawSprite(&alpha.sprites[40], 39, (unk_1 - *count) * 36 + 4, 0);
+    }
+    PS1_DisplayCenteredText(txts->txts[0], 1, txts->color);
+    
+    for (i = 0; i < *count; i++)
+    {
+        unk_2 = i + 7;
+        PS1_DisplayCenteredText(txts->txts[i + 1], unk_2 - *count, txts->color);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/text_18118", DrawFondBoxNormal);
 

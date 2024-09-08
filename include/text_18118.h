@@ -2,7 +2,17 @@
 #define TEXT_18118_H
 
 #include "common.h"
+#include "psyq_3_0/LIBGPU.H"
 #include "text_24E10.h"
+#include "draw.h"
+
+typedef struct MultipleCenteredText {
+    u8 *txts[11];
+    u8 count;
+    u8 unk_y;
+    u8 color;
+    /*u8 unk_1;*/ /* packed? */
+} MultipleCenteredText;
 
 /* .data */
 extern u8 D_801CEE10;
@@ -15,9 +25,9 @@ extern s16 D_801F81B0;
 u8 PS1_deter_num_let_old(s32 param_1);
 s16 PS1_calc_let_Width(s16 sprite, u8 font);
 s32 calc_let_Width(u8 param_1, s16 param_2);
-s32 PS1_CalcTextWidth(u8 *str, u8 font);
-void PS1_DisplayCenteredText(u8 *str, u16 param_2, u32 color);
-void PS1_DisplayMultipleCenteredText(u32 param_1, s32 param_2);
+s16 PS1_CalcTextWidth(u8 *str, u8 font);
+void PS1_DisplayCenteredText(u8 *str, u8 param_2, u8 color);
+void PS1_DisplayMultipleCenteredText(u8 index, MultipleCenteredText *in_txts); /* unused */
 void DrawFondBoxNormal(s16 param_1, s16 param_2, s16 param_3, s16 param_4, u8 param_5);
 void DrawBlackBoxNormal(s16 param_1, s16 param_2, s16 param_3, s16 param_4, u8 param_5);
 void DISPLAY_BLACKBOX(s16 param_1, s16 param_2, s16 param_3, s16 param_4, u8 param_5, u8 isFond);
