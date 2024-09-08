@@ -43,6 +43,14 @@ extern RGBA D_801CF078;
 extern RGBA D_801CF07C;
 extern RGBA D_801CF080;
 
+extern RGB D_801C7EAC[4];
+extern u16 D_801CF090;
+extern u16 D_801CF092; /* is this its own var? part of array or struct? see DISPLAY_FOND_MENU */
+extern u16 D_801CF094;
+extern s16 D_801CF096;
+extern s16 D_801CF098;
+extern Vec2 D_801FAA58[2];
+
 /* 548CC 801790CC -O2 -msoft-float */
 void FUN_801790cc(Display *display)
 {

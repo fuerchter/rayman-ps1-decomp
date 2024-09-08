@@ -443,3 +443,103 @@ skipped:
     }
     goto addprim;
 }
+
+/* matches, but cleanup */
+/*INCLUDE_ASM("asm/nonmatchings/unknown/draw_548CC", DISPLAY_FOND_MENU);*/
+
+void DISPLAY_FOND_MENU(void)
+{
+  Display *pDVar1;
+  u_short uVar2;
+  uint uVar3;
+  s16 iVar4;
+  u16 uVar5;
+  u16 uVar6;
+  u16 *new_var;
+  s32 test_4;
+  u16 test_1 = 0x100;
+  u16 test_2 = 0xa0;
+  u16 test_3 = 0x78;
+  
+  uVar6 = 0;
+  do {
+    
+    SetPolyG4(PS1_CurrentDisplay->unk_poly_g4s + uVar6);
+    SetSemiTrans(PS1_CurrentDisplay->unk_poly_g4s + uVar6,0);
+    SetShadeTex(PS1_CurrentDisplay->unk_poly_g4s + uVar6,1);
+    SetPolyG3(PS1_CurrentDisplay->unk_poly_g3s + uVar6);
+    SetSemiTrans(PS1_CurrentDisplay->unk_poly_g3s + uVar6,0);
+    SetShadeTex(PS1_CurrentDisplay->unk_poly_g3s + uVar6,1);
+    test_4 = uVar6;
+    uVar5 = test_4 & 3; /* ??? */
+    if (uVar5 != 3) {
+      iVar4 = uVar5 + 1;
+      
+    }
+    else {
+      iVar4 = 0;
+    }
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->r0 = D_801C7EAC[uVar5].r;
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->g0 = D_801C7EAC[uVar5].g;
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->b0 = D_801C7EAC[uVar5].b;
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->r1 = D_801C7EAC[iVar4].r;
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->g1 = D_801C7EAC[iVar4].g;
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->b1 = D_801C7EAC[iVar4].b;
+    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->r1 = D_801C7EAC[uVar5].r;
+    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->g1 = D_801C7EAC[uVar5].g;
+    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->b1 = D_801C7EAC[uVar5].b;
+    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->r2 = D_801C7EAC[iVar4].r;
+    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->g2 = D_801C7EAC[iVar4].g;
+    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->b2 = D_801C7EAC[iVar4].b;
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->r2 = '\0';
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->g2 = '\0';
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->b2 = '\0';
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->r3 = '\0';
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->g3 = '\0';
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->b3 = '\0';
+    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->r0 = '\0';
+    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->g0 = '\0';
+    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->b0 = '\0';
+    
+    D_801FAA48[0].x = (short)(D_801CF096 * rcos((uint)D_801CF090) >> 0xc) + test_2;
+    D_801FAA48[0].y = (short)(D_801CF096 * rsin((uint)D_801CF090) >> 0xc) + test_3;
+    D_801FAA58[0].x = (short)(D_801CF098 * rcos((uint)D_801CF090) >> 0xc) + test_2;
+    D_801FAA58[0].y = (short)(D_801CF098 * rsin((uint)D_801CF090) >> 0xc) + test_3;
+    uVar5 = (uint)(ushort)(D_801CF090 + test_1);
+    D_801FAA48[1].x = (short)(D_801CF096 * rcos(uVar5) >> 0xc) + test_2;
+    D_801FAA48[1].y = (short)(D_801CF096 * rsin(uVar5) >> 0xc) + test_3;
+    D_801FAA58[1].x = (short)(D_801CF098 * rcos(uVar5) >> 0xc) + test_2;
+    D_801FAA58[1].y = (short)(D_801CF098 * rsin(uVar5) >> 0xc) + test_3;
+    pDVar1 = PS1_CurrentDisplay;
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->x0 = D_801FAA48[0].x;
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->y0 = D_801FAA48[0].y;
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->x1 = D_801FAA48[1].x;
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->y1 = D_801FAA48[1].y;
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->x2 = D_801FAA58[0].x;
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->y2 = D_801FAA58[0].y;
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->x3 = D_801FAA58[1].x;
+    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->y3 = D_801FAA58[1].y;
+    AddPrim(PS1_CurrentDisplay->ordering_table,PS1_CurrentDisplay->unk_poly_g4s + uVar6);
+    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->x0 = test_2;
+    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->y0 = test_3;
+    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->x1 = D_801FAA48[0].x;
+    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->y1 = D_801FAA48[0].y;
+    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->x2 = D_801FAA48[1].x;
+    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->y2 = D_801FAA48[1].y;
+    AddPrim(PS1_CurrentDisplay->ordering_table,PS1_CurrentDisplay->unk_poly_g3s + uVar6);
+    D_801CF090 = D_801CF090 + test_1;
+    uVar6 = uVar6 + 1;
+  } while ((uVar6) < 0x10);
+  D_801CF096 = (short)(rsin((uint)D_801CF094) * 0x4b >> 0xc) + 0x69;
+  uVar2 = GetTPage(1,0,0x100,0);
+  (PS1_CurrentDisplay->drawing_environment).tpage = uVar2;
+  SetDrawEnv(PS1_CurrentDisplay->map_drawing_environment_primitives + D_801E4BE0,&PS1_CurrentDisplay->drawing_environment);
+  AddPrim(PS1_CurrentDisplay->ordering_table + 10,
+          PS1_CurrentDisplay->map_drawing_environment_primitives + D_801E4BE0);
+  D_801E4BE0 = D_801E4BE0 + 1;
+  
+  D_801CF090 = D_801CF092;
+  D_801CF094 += 10;
+  D_801CF092 += 10;
+  return;
+}
