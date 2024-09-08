@@ -4,6 +4,8 @@
 #include "common.h"
 #include "common/display.h"
 #include "psyq_3_0/LIBGTE.H"
+#include "psyq_3_0_missing/RAND.H"
+#include "main_moteur.h"
 
 void FUN_801790cc(Display *display);
 void Display_and_free_luciole(void);

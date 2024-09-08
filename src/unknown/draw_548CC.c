@@ -5,15 +5,32 @@ typedef struct Vec2 {
     s16 y;
 } Vec2;
 
-typedef struct Color {
+typedef struct RGB {
     u8 r;
     u8 g;
     u8 b;
-    u8 unk_0x3;
-} Color;
+} RGB;
+
+typedef struct RGBA {
+    u8 r;
+    u8 g;
+    u8 b;
+    u8 a;
+} RGBA;
 
 extern Vec2 D_801E4E60[16];
 extern Vec2 D_801E4EA8[16];
+
+extern s16 D_801CF064;
+extern s16 D_801CF066;
+extern s16 D_801CF068;
+extern RGBA D_801CF06C[6]; /* being treated as s32? */
+extern s16 D_801CF418;
+extern s16 D_801CF420;
+extern s16 D_801CF428;
+extern s16 D_801CF430;
+extern s16 x_luc;
+extern s16 y_luc;
 
 /* 548CC 801790CC -O2 -msoft-float */
 void FUN_801790cc(Display *display)
@@ -22,12 +39,12 @@ void FUN_801790cc(Display *display)
     u16 unk_2;
     u16 unk_1 = 0x100;
     
-    for (i = 0; i < LEN(display->field5461_0x66dc); i++)
+    for (i = 0; i < LEN(display->field_0x66dc_0x673b); i++)
     {
-        SetTile(display->field5461_0x66dc + i);
-        (display->field5461_0x66dc + i)->r0 = 0;
-        (display->field5461_0x66dc + i)->g0 = 0;
-        (display->field5461_0x66dc + i)->b0 = 0;
+        SetTile(display->field_0x66dc_0x673b + i);
+        (display->field_0x66dc_0x673b + i)->r0 = 0;
+        (display->field_0x66dc_0x673b + i)->g0 = 0;
+        (display->field_0x66dc_0x673b + i)->b0 = 0;
     }
 
     i = 0;

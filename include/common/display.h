@@ -25,15 +25,15 @@ typedef struct Display {
     TILE_1 tile1s[240];
     SPRT sprites[50];
     POLY_FT4 polygons[200];
-    TILE field_0x5324_0x6084;
-    POLY_G4 field_0x5325_0x6094;
+    TILE field_0x6084_0x6093;
+    POLY_G4 field_0x6094_0x60b7;
     u8 field_0x60b8_0x60bb[4];
-    DRENVAndTile field_0x5330_0x60bc[17];
+    DRENVAndTile field_0x60bc_0x660b[17];
     DR_ENV unk_dr_env;
     u8 field_0x664c_0x668b[64]; /* unused? */
     TILE fond_box_tiles[4];
     TILE fond_box_tile;
-    TILE field5461_0x66dc[6];
+    TILE field_0x66dc_0x673b[6];
     POLY_F4 unk_poly_f4s[16];
     POLY_G4 unk_poly_g4s[16];
     POLY_G3 unk_poly_g3s[16];
