@@ -32,8 +32,8 @@ s32 calc_let_Width(u8 param_1, s16 param_2);
 s16 PS1_CalcTextWidth(u8 *str, u8 font);
 void PS1_DisplayCenteredText(u8 *str, u8 param_2, u8 color);
 void PS1_DisplayMultipleCenteredText(u8 index, MenuText *in_menus); /* unused */
-void DrawFondBoxNormal(s16 param_1, s16 param_2, s16 param_3, s16 param_4, u8 param_5);
-void DrawBlackBoxNormal(s16 param_1, s16 param_2, s16 param_3, s16 param_4, u8 param_5);
+void DrawFondBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness);
+void DrawBlackBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness);
 void DISPLAY_BLACKBOX(s16 param_1, s16 param_2, s16 param_3, s16 param_4, u8 param_5, u8 isFond);
 void display_text_sin(u8 *param_1, u16 param_2, s16 param_3, s16 param_4, u8 param_5, u8 param_6);
 void display_text(u8 *text, s16 x_pos, s16 y_pos, u8 font_size, u32 param_5);
