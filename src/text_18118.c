@@ -1,5 +1,11 @@
 #include "text_18118.h"
 
+extern u8 D_801C71CC[44];
+extern u8 D_801C71F8[48];
+extern u8 D_801C7228[48];
+
+u8 deter_num_let(u8 param_1);
+
 /* 18118 8013C918 -O2 -msoft-float */
 u8 PS1_deter_num_let_old(s32 param_1)
 {
@@ -9,10 +15,9 @@ u8 PS1_deter_num_let_old(s32 param_1)
         res = param_1 - ']';
     else
     {
-        if (((u8) (param_1 - 'A')) >= 0x1a)
+        if ((u8) (param_1 - 'A') >= 0x1a)
         {
-            
-            if (((u8) (param_1 - '0')) >= 0xa)
+            if ((u8) (param_1 - '0') >= 0xa)
             {
                 switch ((u8) param_1)
                 {
@@ -41,11 +46,39 @@ u8 PS1_deter_num_let_old(s32 param_1)
     return res;
 }
 
-INCLUDE_ASM("asm/nonmatchings/text_18118", PS1_calc_let_Width);
+/* 181A4 8013C9A4 -O2 -msoft-float */
+s16 PS1_calc_let_Width(s16 sprite, u8 font)
+{
+    switch (font)
+    {
+    case 2:
+        return D_801C7228[sprite];
+    case 1:
+        return D_801C71F8[sprite];
+    default:
+        return D_801C71CC[sprite];
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/text_18118", calc_let_Width);
+/* 18214 8013CA14 -O2 -msoft-float */
+s32 calc_let_Width(u8 param_1, s16 param_2)
+{
+    return PS1_calc_let_Width(param_2, param_1);
+}
 
-INCLUDE_ASM("asm/nonmatchings/text_18118", PS1_CalcTextWidth);
+/* 18244 8013CA44 -O2 -msoft-float */
+s32 PS1_CalcTextWidth(u8 *str, u8 font)
+{
+    s16 res = 0;
+    u8 i = 0;
+    
+    while (str[i] != 0)
+    {
+        res += PS1_calc_let_Width(deter_num_let(str[i]), font);
+        i++;
+    }
+    return res;
+}
 
 INCLUDE_ASM("asm/nonmatchings/text_18118", PS1_DisplayCenteredText);
 
