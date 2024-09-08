@@ -51,6 +51,11 @@ extern s16 D_801CF096;
 extern s16 D_801CF098;
 extern Vec2 D_801FAA58[2];
 
+extern s32 D_801F8168;
+extern s32 D_801F816C;
+extern s32 PS1_TPage_x;
+extern s32 PS1_TPage_y;
+
 /* 548CC 801790CC -O2 -msoft-float */
 void FUN_801790cc(Display *display)
 {
@@ -163,4 +168,21 @@ void FUN_8017a6f8(void)
 
 INCLUDE_ASM("asm/nonmatchings/unknown/draw_548CC", DISPLAY_FOND_MENU);
 
-INCLUDE_ASM("asm/nonmatchings/unknown/draw_548CC", FUN_8017b260);
+/* 56A60 8017B260 -O2 -msoft-float */
+void FUN_8017b260(u16 param_1)
+{
+    if (GetGraphType() != 0)
+    {
+        D_801F8168 = (param_1 >> 9);
+        D_801F816C = (param_1 >> 7) & 3;
+        PS1_TPage_y = (param_1 << 3) & 768;
+        PS1_TPage_x = (param_1 << 6) & 1023;
+    }
+    else
+    {
+        D_801F8168 = (param_1 >> 7);
+        D_801F816C = (param_1 >> 5) & 3;
+        PS1_TPage_y = (param_1 << 4) & 256;
+        PS1_TPage_x = (param_1 << 6) & 1023;
+    }
+}

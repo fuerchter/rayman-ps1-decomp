@@ -11,6 +11,6 @@ void FUN_801790cc(Display *display);
 void Display_and_free_luciole(void);
 void FUN_8017a6f8(void);
 void DISPLAY_FOND_MENU(void);
-void FUN_8017b260(u32 param_1);
+void FUN_8017b260(u16 param_1);
 
 #endif
