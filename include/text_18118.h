@@ -6,13 +6,17 @@
 #include "text_24E10.h"
 #include "draw.h"
 
-typedef struct MultipleCenteredText {
-    u8 *txts[11];
-    u8 count;
-    u8 unk_y;
+typedef struct MenuText {
+    u8 *header;
+    u8 *rows[6];
+    RECT vignette_rect;
+    s32 vignette;
+    s32 music;
+    u8 rows_count;
+    u8 selected_row;
     u8 color;
     /*u8 unk_1;*/ /* packed? */
-} MultipleCenteredText;
+} MenuText;
 
 /* .data */
 extern u8 D_801CEE10;
@@ -27,7 +31,7 @@ s16 PS1_calc_let_Width(s16 sprite, u8 font);
 s32 calc_let_Width(u8 param_1, s16 param_2);
 s16 PS1_CalcTextWidth(u8 *str, u8 font);
 void PS1_DisplayCenteredText(u8 *str, u8 param_2, u8 color);
-void PS1_DisplayMultipleCenteredText(u8 index, MultipleCenteredText *in_txts); /* unused */
+void PS1_DisplayMultipleCenteredText(u8 index, MenuText *in_menus); /* unused */
 void DrawFondBoxNormal(s16 param_1, s16 param_2, s16 param_3, s16 param_4, u8 param_5);
 void DrawBlackBoxNormal(s16 param_1, s16 param_2, s16 param_3, s16 param_4, u8 param_5);
 void DISPLAY_BLACKBOX(s16 param_1, s16 param_2, s16 param_3, s16 param_4, u8 param_5, u8 isFond);

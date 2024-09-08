@@ -94,30 +94,30 @@ void PS1_DisplayCenteredText(u8 *str, u8 param_2, u8 color)
 }
 
 /* 1835C 8013CB5C -O2 -msoft-float */
-void PS1_DisplayMultipleCenteredText(u8 index, MultipleCenteredText *in_txts)
+void PS1_DisplayMultipleCenteredText(u8 index, MenuText *in_menus)
 {
-    u8 unk_y;
+    u8 sel_row;
     u8 *count;
     s32 unk_1;
     u8 i;
     s32 unk_2;
-    MultipleCenteredText *txts = &in_txts[index];
+    MenuText *menu = &in_menus[index];
     
     PS1_PolygonsCount = 0;
     PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[6];
-    unk_y = txts->unk_y;
-    count = &txts->count;
-    if (unk_y < 240)
+    sel_row = menu->selected_row;
+    count = &menu->rows_count;
+    if (sel_row < 240)
     {
-        unk_1 = unk_y + 6;
+        unk_1 = sel_row + 6;
         PS1_DrawSprite(&alpha.sprites[40], 39, (unk_1 - *count) * 36 + 4, 0);
     }
-    PS1_DisplayCenteredText(txts->txts[0], 1, txts->color);
+    PS1_DisplayCenteredText(menu->header, 1, menu->color);
     
     for (i = 0; i < *count; i++)
     {
         unk_2 = i + 7;
-        PS1_DisplayCenteredText(txts->txts[i + 1], unk_2 - *count, txts->color);
+        PS1_DisplayCenteredText(menu->rows[i], unk_2 - *count, menu->color);
     }
 }
 
