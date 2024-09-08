@@ -136,5 +136,6 @@ void SetPolyG3(POLY_G3 *p) ;
 void SetPolyG4(POLY_G4 *p) ;
 void SetSemiTrans(void *p, int abe) ;
 void SetShadeTex(void *p, int tge) ;
+void SetTile(TILE *p) ;
 
 #endif
