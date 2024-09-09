@@ -20,6 +20,19 @@ typedef struct MenuText {
 } MenuText;
 
 /* .data */
+extern u8 D_801C3580[6];
+extern u8 D_801C3588[6];
+extern u8 D_801C3590[6];
+extern u8 D_801C3598[6];
+extern u8 D_801C35A0[10];
+extern u8 D_801C35AC[14];
+
+/* .data */
+extern u8 D_801C71CC[44];
+extern u8 D_801C71F8[48];
+extern u8 D_801C7228[48];
+
+/* .data */
 extern u8 D_801CEE10;
 extern u8 let_shadow;
 

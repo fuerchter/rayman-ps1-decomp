@@ -1,17 +1,5 @@
 #include "text_18118.h"
 
-extern u8 D_801C71CC[44];
-extern u8 D_801C71F8[48];
-extern u8 D_801C7228[48];
-extern u8 D_801C3580[6];
-extern u8 D_801C3588[6];
-extern u8 D_801C3590[6];
-extern u8 D_801C3598[6];
-extern u8 D_801C35A0[10];
-extern u8 D_801C35AC[14];
-
-u8 deter_num_let(u8 param_1);
-
 /* 18118 8013C918 -O2 -msoft-float */
 u8 PS1_deter_num_let_old(s32 param_1)
 {

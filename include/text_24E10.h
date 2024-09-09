@@ -18,6 +18,9 @@ typedef struct TextToDisplay
     u8 color;
 } TextToDisplay;
 
+/**/
 extern TextToDisplay text_to_display[10];
+
+u8 deter_num_let(u8 param_1);
 
 #endif
