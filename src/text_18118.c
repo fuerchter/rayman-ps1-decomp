@@ -144,4 +144,16 @@ INCLUDE_ASM("asm/nonmatchings/text_18118", display_text_sin);
 
 INCLUDE_ASM("asm/nonmatchings/text_18118", display_text);
 
-INCLUDE_ASM("asm/nonmatchings/text_18118", display_box_text);
+/* 19990 8013E190 -O2 -msoft-float */
+void display_box_text(TextToDisplay *txt)
+{
+    s16 x = txt->centered_x_pos;
+    s16 y = txt->centered_y_pos;
+    s16 w = txt->width;
+    s16 h = txt->height;
+
+    if (txt->field8_0x3d != 0 || txt->is_fond)
+        DISPLAY_BLACKBOX(x - 3, y - 3, w + 6, h + 6, 254, txt->is_fond);
+    
+    display_text(txt->text, txt->x_pos, txt->y_pos, txt->font_size, txt->color);
+}
