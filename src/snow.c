@@ -23,9 +23,52 @@ void add_one_floc(void)
         nb_floc[i + 1]--;
 }
 
-INCLUDE_ASM("asm/nonmatchings/snow", add_256_flocs);
+/* 3B324 8015FB24 -O2 -msoft-float */
+void add_256_flocs(void)
+{
+    /* THEY LIED TO US, IT'S REALLY 251! D: */
+    nb_floc[0] = 10;
+    nb_floc[1] = 15;
+    nb_floc[2] = 25;
+    nb_floc[3] = 30;
+    nb_floc[4] = 35;
+    nb_floc[5] = 40;
+    nb_floc[6] = 43;
+    nb_floc[7] = 53;
+}
 
-INCLUDE_ASM("asm/nonmatchings/snow", sub_one_floc);
+/* 3B38C 8015FB8C -O2 -msoft-float */
+void sub_one_floc(void)
+{
+    s16 unk_1 = myRand(511);
+    s16 i = LEN(nb_floc) - 1;
+    s16 done = false;
+    
+    while (!done && i > -1)
+    {
+        if (floc_ind[i] <= unk_1 && nb_floc[i] > 0)
+        {
+            nb_floc[i]--;
+            done = true;
+        }
+        i--;
+    }
+    
+    if (i == -1)
+    {
+        i = LEN(nb_floc) - 1;
+        done = false;
+        while (!done && i > -1)
+        {
+            if (nb_floc[i] > 0)
+            {
+                nb_floc[i]--;
+                done = true;
+            }
+            i--;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/snow", init_flocons);
 
