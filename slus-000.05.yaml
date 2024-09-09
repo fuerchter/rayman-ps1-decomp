@@ -79,6 +79,8 @@ segments:
       - [0x5DA0, .rodata, num_level_36260] #8012A5A0
       - [0x5EC0, .rodata, bonus_372E0] #8012A6C0
       - [0x5ED8, rodata]
+      - [0x5F20, .rodata, snow] #8012A720
+      - [0x5F50, rodata]
       - [0x5FE0, .rodata, obj/fee_3D76C] #8012a7e0
       - [0x6364, .rodata, save] #8012ab64
       - [0x6394, .rodata, sound] #8012AB94
@@ -178,7 +180,7 @@ segments:
       - [0x3AB5C, c, obj/maracas] #8015f35c
       - [0x3AC88, c, ray/angle_rayman] #8015f488
       - [0x3AE54, asm, nova] #8015f654
-      - [0x3B264, asm, snow] #8015FA64
+      - [0x3B264, c, snow] #8015FA64
       - [0x3C3A8, asm, obj/eyes_3C3A8] #80160ba8
       - [0x3C6E4, asm, obj/mite_badguy] #80160EE4
       - [0x3CB5C, asm, pix_gerbe] #8016135c, https://discord.com/channels/658598667695161364/1065409911758008420/1162715877590962176 '"gerber" is slang for "to vomit"'

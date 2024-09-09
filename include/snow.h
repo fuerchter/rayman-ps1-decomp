@@ -2,6 +2,7 @@
 #define SNOW_H
 
 #include "common.h"
+#include "collision/block_22C84.h"
 
 typedef struct FloconTableEntry
 {
@@ -19,6 +20,13 @@ extern s16 nb_floc[8];
 extern s16 VENT_X;
 extern s16 VENT_Y;
 
+void add_one_floc(void);
+void add_256_flocs(void);
+void sub_one_floc(void);
 void init_flocons(void);
+void do_flocons(s16 param_1, s16 param_2, s16 param_3, s16 param_4);
+void set_snow_sequence(u16 param_1, s16 param_2);
+void set_SNSEQ_list(s16 param_1);
+void DO_SNOW_SEQUENCE(void);
 
 #endif
