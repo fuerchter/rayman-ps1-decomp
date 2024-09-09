@@ -5,6 +5,9 @@ extern s16 invpx0[8];
 extern s16 invpx320[8];
 extern s16 invpy0[8];
 extern s16 invpy200[8];
+extern s16 SNSEQ_len[64];
+extern s16 SNSEQ_no;
+extern s16 SNSEQ_ptr;
 
 /* 3B264 8015FA64 -O2 -msoft-float */
 void add_one_floc(void)
@@ -133,7 +136,13 @@ void init_flocons(void)
 
 INCLUDE_ASM("asm/nonmatchings/snow", do_flocons);
 
-INCLUDE_ASM("asm/nonmatchings/snow", set_snow_sequence);
+/* 3BBE0 801603E0 -O2 -msoft-float */
+void set_snow_sequence(u16 param_1, s16 param_2)
+{
+    SNSEQ_no = param_1;
+    SNSEQ_ptr = 0;
+    SNSEQ_len[(s16) param_1] = param_2;
+}
 
 INCLUDE_ASM("asm/nonmatchings/snow", set_SNSEQ_list);
 
