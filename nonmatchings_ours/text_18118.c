@@ -117,3 +117,136 @@ void DrawBlackBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness)
         );
     }
 }
+
+/* matches, but PS1_CurrentDisplay accesses, duplication */
+/*INCLUDE_ASM("asm/nonmatchings/text_18118", display_text_sin);*/
+
+void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font, u8 param_6)
+{
+    s16 let_width;
+    u8 sprite_ind;
+    s16 unk_y_1;
+    s16 unk_1;
+    s16 space_width;
+    s16 unk_x; s16 unk_y_2;
+    s16 i; u8 let;
+    Sprite *sprite;
+    s16 unk_y_3;
+
+    sprite_ind = 0;
+    if (font == 2)
+    {
+        unk_y_1 = 15;
+        unk_1 = 1;
+        space_width = 8;
+    }
+    else if (font == 1)
+    {
+        unk_y_1 = 23;
+        unk_1 = 3;
+        space_width = 10;
+    }
+    else
+    {
+        unk_y_1 = 36;
+        unk_1 = 3;
+        space_width = 12;
+    }
+
+    unk_x = in_x;
+    unk_y_2 = in_y;
+    if (text[0] != 0) /* couldn't make this a while loop */
+    {
+        i = 0;
+        do
+        {
+            let = text[i];
+            if (let == '/')
+            {
+                unk_x = in_x - ((s16) calc_largmax_text(text, i, space_width, unk_1, font) >> 1);
+                if (i > 1)
+                    unk_y_2 += unk_y_1;
+                sprite_ind = 0;
+            }
+            else if (let == ' ')
+            {
+                unk_x += space_width;
+                sprite_ind = 0;
+            }
+            else
+                sprite_ind = deter_num_let(let);
+
+            if (sprite_ind != 0)
+            {
+                let_width = calc_let_Width(font, sprite_ind);
+                calc_num_let_spr(font, &sprite_ind);
+                switch (font)
+                {
+                case 0:
+                case 1:
+                    sprite = &alpha2.sprites[sprite_ind];
+                    sprite->clut = GetClut(param_6 * 16 + 768, 492);
+                    unk_y_3 = costab[(temps + (i << 5)) % ((s16) LEN(costab) - 1)];
+                    PS1_DrawSprite(sprite, unk_x, (unk_y_2 - sprite->height) + ashr16(__builtin_abs(unk_y_3), 5), 0);
+                    break;
+                case 2:
+                    sprite = &alpha.sprites[sprite_ind];
+                    sprite->clut = GetClut(param_6 * 16 + 768, 492);
+                    unk_y_3 = costab[(temps + (i << 5)) % ((s16) LEN(costab) - 1)];
+                    PS1_DrawSprite(sprite, unk_x, (unk_y_2 - sprite->height) + ashr16(__builtin_abs(unk_y_3), 5), 0);
+                    break;
+                }
+
+                if (let_shadow)
+                {
+                    PS1_PolygonIndexTable[PS1_PolygonIndexTableCount] = PS1_PolygonsCount;
+                    PS1_PolygonIndexTableCount++;
+                    SetSemiTrans(PS1_CurrentDisplay->polygons + PS1_PolygonsCount, true);
+                    SetShadeTex(PS1_CurrentDisplay->polygons + PS1_PolygonsCount, false);
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->r0 = 20;
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->g0 = 20;
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->b0 = 20;
+
+                    PS1_CurrentDisplay->polygons[PS1_PolygonsCount].clut = sprite->clut;
+                    FUN_8017b260(*(s16 *)&sprite->tpage); /* TODO: sprite tpage s16 maybe? */
+                    PS1_CurrentDisplay->polygons[PS1_PolygonsCount].tpage = GetTPage(0, 0, PS1_TPage_x, PS1_TPage_y);
+
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->u0 = sprite->page_x;
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->v0 = sprite->page_y;
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->u1 = sprite->page_x + sprite->width;
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->v1 = sprite->page_y;
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->u2 = sprite->page_x;
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->v2 = sprite->page_y + sprite->height;
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->u3 = sprite->page_x + sprite->width;
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->v3 = sprite->page_y + sprite->height;
+
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->x0 = unk_x + 5;
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->y0 =
+                        unk_y_2 - sprite->height + 5 +
+                        ashr16(__builtin_abs(costab[(temps + (i << 5)) % ((s16) LEN(costab) - 1)]), 5);
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->x1 = unk_x + 5 + sprite->width;
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->y1 =
+                        unk_y_2 - sprite->height + 5 +
+                        ashr16(__builtin_abs(costab[(temps + (i << 5)) % ((s16) LEN(costab) - 1)]), 5);
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->x2 = unk_x + 5;
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->y2 =
+                        sprite->height +
+                        (unk_y_2 - sprite->height + 5 +
+                        ashr16(__builtin_abs(costab[(temps + (i << 5)) % ((s16) LEN(costab) - 1)]), 5));
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->x3 = unk_x + 5 + sprite->width;
+                    (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->y3 =
+                        sprite->height +
+                        (unk_y_2 - sprite->height + 5 +
+                        ashr16(__builtin_abs(costab[(temps + (i << 5)) % ((s16) LEN(costab) - 1)]), 5));
+                    AddPrim(
+                        &PS1_CurrentDisplay->ordering_table[5],
+                        PS1_CurrentDisplay->polygons + PS1_PolygonsCount
+                    );
+                    PS1_PolygonsCount++;
+                }
+                unk_x += let_width - unk_1;
+            }
+            i++;
+        } while (text[i] != 0);
+    }
+}

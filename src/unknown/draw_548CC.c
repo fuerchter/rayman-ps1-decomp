@@ -47,8 +47,8 @@ void FUN_8017a6f8(void)
     while (i < LEN(PS1_CurrentDisplay->unk_poly_g3s))
     {
         SetPolyG3(&PS1_CurrentDisplay->unk_poly_g3s[i]);
-        SetSemiTrans(&PS1_CurrentDisplay->unk_poly_g3s[i], 0);
-        SetShadeTex(&PS1_CurrentDisplay->unk_poly_g3s[i], 1);
+        SetSemiTrans(&PS1_CurrentDisplay->unk_poly_g3s[i], false);
+        SetShadeTex(&PS1_CurrentDisplay->unk_poly_g3s[i], true);
         unk_1 = i;
         unk_1 &= 3;
         if (unk_1 == 0)
