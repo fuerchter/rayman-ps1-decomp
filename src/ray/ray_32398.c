@@ -17,7 +17,7 @@ void INIT_RAY_BEGIN(void)
 /*void RAY_REVERSE_COMMANDS(void);
 u32 calc_btyp(Obj *obj);*/
 
-void INIT_RAY(u8 new_level)
+void INIT_RAY(u8 new_lvl)
 {
   s16 j;
   Animation *pAVar2;
@@ -86,7 +86,7 @@ void INIT_RAY(u8 new_level)
   }
   poing.is_active = false;
   poing.is_charging = false;
-  if (new_level)
+  if (new_lvl)
     RayEvts.flags0 &=
       FLG(RAYEVTS0_POING)|FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO)|FLG(RAYEVTS0_HANDSTAND_DASH)|
       FLG(RAYEVTS0_HANDSTAND)|FLG(RAYEVTS0_GRAIN)|FLG(RAYEVTS0_GRAP);

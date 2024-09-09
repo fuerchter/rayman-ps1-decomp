@@ -17,7 +17,7 @@ extern u8 PS1_ShoulderR;
 extern u8 RAY_MODE_SPEED;
 
 void INIT_RAY_BEGIN(void);
-void INIT_RAY(u8 new_level);
+void INIT_RAY(u8 new_lvl);
 s16 is_icy_pente(u8 block);
 void STOPPE_RAY_EN_XY(void);
 void RAY_RESPOND_TO_ALL_DIRS(void);

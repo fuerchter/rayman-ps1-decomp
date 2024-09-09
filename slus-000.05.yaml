@@ -154,7 +154,7 @@ segments:
       - [0x32398, c, ray/ray_32398] #80156b98
       - [0x340A4, c, cam_scroll_340A4] #801588a4
       - [0x343EC, c, bonus_343EC] #80158BEC
-      - [0x347C4, asm, moteur_init_end] #80158fc4
+      - [0x347C4, c, moteur_init_end] #80158fc4
       - [0x35314, c, moteur_update] #80159b14
       - [0x35FB4, c, bonus_35FB4] #8015a7b4
       - [0x361A0, c, obj/cage_init] #8015a9a0
