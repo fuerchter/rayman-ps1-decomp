@@ -2,6 +2,7 @@
 
 extern u8 D_801D7850;
 extern u8 D_801F75C0;
+extern u8 first_boss_meet;
 
 void init_flocons(void);
 
@@ -181,8 +182,56 @@ void INIT_MOTEUR_LEVEL(s16 new_lvl)
 
 INCLUDE_ASM("asm/nonmatchings/moteur_init_end", restore_gendoor_link);
 
-INCLUDE_ASM("asm/nonmatchings/moteur_init_end", DONE_MOTEUR_LEVEL);
+/* 34FEC 801597EC -O2 -msoft-float */
+void DONE_MOTEUR_LEVEL(void)
+{
+    restore_gendoor_link();
+    if (!bonus_map && departlevel && !get_next_bonus_level(num_level))
+        doneGameSave();
 
-INCLUDE_ASM("asm/nonmatchings/moteur_init_end", INIT_MOTEUR_DEAD);
+    if (rayman_obj_id != -1 && (new_level || new_world))
+    {
+        __builtin_memcpy(&raytmp, &ray, sizeof(ray));
+        __builtin_memcpy(&ray, &rms, sizeof(rms));
+        INIT_RAY(true);
+        ray.hit_points = raytmp.hit_points;
+        ray.init_hit_points = raytmp.init_hit_points;
+        ray.hit_sprite = raytmp.hit_sprite;
+        set_main_and_sub_etat(&ray, 0, 0);
+        ray_mode = MODE_NONE;
+    }
 
-INCLUDE_ASM("asm/nonmatchings/moteur_init_end", INIT_RAY_ON_MS);
+    if (first_boss_meet)
+        Change_Wait_Anim();
+    
+    if (fee_obj_id != -1)
+        record.is_playing = false;
+}
+
+/* 351A0 801599A0 -O2 -msoft-float */
+void INIT_MOTEUR_DEAD(void)
+{
+    if (dead_time == 0)
+    {
+        restore_gendoor_link();
+        INIT_MOTEUR(false);
+        correct_gendoor_link();
+    }
+}
+
+/* 351DC 801599DC -O2 -msoft-float */
+void INIT_RAY_ON_MS(u8 *new_ms)
+{
+    if (*new_ms && rayman_obj_id != -1)
+    {
+        __builtin_memcpy(&rms, &ray, sizeof(ray));
+        __builtin_memcpy(&ray, &level.objects[rayman_obj_id], sizeof(level.objects[rayman_obj_id]));
+        INIT_RAY(true);
+        ray.hit_points = rms.hit_points;
+        ray.init_hit_points = rms.init_hit_points;
+        ray.hit_sprite = rms.hit_sprite;
+        set_main_and_sub_etat(&ray, 6, 0);
+        ray_mode = MODE_RAY_ON_MS;
+        *new_ms = false;
+    }
+}

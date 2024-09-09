@@ -5,6 +5,7 @@
 #include "common/obj.h"
 #include "obj_update.h"
 #include "obj/scorpion.h"
+#include "bonus_372E0.h"
 
 /**/
 extern s16 bonus_map;
