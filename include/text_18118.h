@@ -36,8 +36,8 @@ void PS1_DisplayMultipleCenteredText(u8 index, MenuText *in_menus); /* unused */
 void DrawFondBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness);
 void DrawBlackBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness);
 void DISPLAY_BLACKBOX(u16 x, u16 y, u16 w, u16 h, u8 param_5, u8 is_fond);
-void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font, u8 param_6);
-void display_text(u8 *text, s16 x_pos, s16 y_pos, u8 font_size, u32 param_5);
+void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font_size, u8 clut_x);
+void display_text(u8 *text, s16 in_x, s16 in_y, u8 font_size, u8 param_5);
 void display_box_text(TextToDisplay *txt);
 
 #endif
