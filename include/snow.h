@@ -19,4 +19,6 @@ extern s16 nb_floc[8];
 extern s16 VENT_X;
 extern s16 VENT_Y;
 
+void init_flocons(void);
+
 #endif

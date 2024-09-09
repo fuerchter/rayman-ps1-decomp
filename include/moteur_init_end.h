@@ -16,6 +16,7 @@ extern s16 ray_X_main_pos_init;
 extern s16 ray_Y_main_pos_init;
 extern s16 xmapsave;
 extern s16 ymapsave;
+extern u8 D_801F75C0;
 
 void INIT_MOTEUR(u8 new_lvl);
 void INIT_MOTEUR_BEGIN(void);

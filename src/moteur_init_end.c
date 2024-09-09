@@ -1,10 +1,8 @@
 #include "moteur_init_end.h"
 
-extern u8 D_801D7850;
-extern u8 D_801F75C0;
-extern u8 first_boss_meet;
-
-void init_flocons(void);
+/* TODO: move to header */
+extern u8 D_801D7850; /* whether we should check for memory card after bootup? (so goes with card stuff? or menu?) */
+extern u8 first_boss_meet; /* this should go with Change_Wait_Anim(), so unknown/2539C? */
 
 /* 347C4 80158FC4 -O2 -msoft-float */
 void INIT_MOTEUR(u8 new_lvl)
