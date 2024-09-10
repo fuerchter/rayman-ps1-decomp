@@ -1,8 +1,20 @@
 #include "fade.h"
 
-extern RGBA *D_801C7D78[11];
+typedef struct RGBAArray {
+    u8 data[4];
+} RGBAArray;
+
+extern RGBAArray *D_801C7D78[11];
 extern s16 D_801CEFF4;
 extern s16 D_801CEFF6;
+extern void *D_801C7D68[4];
+extern RGBAArray D_801CF008;
+extern s16 D_801CF00C;
+extern u16 D_801CF00E;
+extern s16 D_801CF010;
+extern s16 D_801CF012;
+extern s16 D_801CF014;
+extern s16 D_801CF410;
 
 /* 44C20 80169420 -O2 -msoft-float */
 void FUN_80169420(Display *disp)
