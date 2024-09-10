@@ -420,13 +420,13 @@ u8 PS1_GetNbreSave3(u8 param_1)
 }
 
 /* 475C4 8016BDC4 -O2 -msoft-float */
-s16 PS1_CardFilenameChecksumChanged(void)
+s32 PS1_CardFilenameChecksumChanged(void)
 {
   return PS1_Checksum != PS1_CardFilenameChecksum(0);
 }
 
 /* 475F4 8016BDF4 -O2 -msoft-float */
-u8 PS1_TestCardZero(void)
+s32 PS1_TestCardZero(void)
 {
   return PS1_TestCard(0) == 0;
 }
@@ -453,9 +453,9 @@ u8 PS1_GetNbreSave2(void)
 }
 
 /* 4769C 8016BE9C -O2 -msoft-float */
-s16 FUN_8016be9c(void)
+s32 FUN_8016be9c(void)
 {
-  return PS1_CardFilenameChecksumChanged();
+  return (s16) PS1_CardFilenameChecksumChanged();
 }
 
 /* 476C0 8016BEC0 -O2 -msoft-float */

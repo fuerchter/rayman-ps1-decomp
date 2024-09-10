@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "sound.h"
+#include "synchro_loop.h"
 
 /* .data */
 extern u8 *PS1_CardStrings[13];
@@ -13,8 +14,8 @@ extern u8 positiony_mc;
 
 void PS1_PromptCardInput(void);
 s16 PS1_PromptCardYesNo(void);
-u8 PS1_PromptCardContinue(void);
-u8 PS1_PleaseInsertPad(void);
+s16 PS1_PromptCardContinue(void);
+s16 PS1_PleaseInsertPad(void);
 void PS1_CheckCardChanged(void);
 void FUN_801a0c68(void);
 void PS1_SetNoCard(void);

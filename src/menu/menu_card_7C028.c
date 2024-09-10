@@ -8,6 +8,7 @@ extern s16 compteur_mc;
 extern u8 s_yes_801cf0f4[6];
 extern u8 s_no_801cf0fc[5];
 extern u8 PS1_DisplayCardContinueText;
+extern u8 PS1_NoCard;
 
 /* 7C028 801A0828 -O2 -msoft-float */
 void PS1_PromptCardInput(void)
@@ -59,9 +60,9 @@ s16 PS1_PromptCardYesNo(void)
 }
 
 /* 7C264 801A0A64 -O2 -msoft-float */
-u8 PS1_PromptCardContinue(void)
+s16 PS1_PromptCardContinue(void)
 {
-    u8 done;
+    s16 done;
 
     DO_FADE();
     CLRSCR();
@@ -79,13 +80,59 @@ u8 PS1_PromptCardContinue(void)
     return done;
 }
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_card_7C028", PS1_PleaseInsertPad);
+/* 7C338 801A0B38 -O2 -msoft-float */
+s16 PS1_PleaseInsertPad(void)
+{
+    s16 done;
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_card_7C028", PS1_CheckCardChanged);
+    DO_FADE();
+    CLRSCR();
+    display_text(PS1_CardStrings[PS1_CardStringDisplayed], 160, 145, 2, 0);
+    readinput();
+    if (compteur_mc != 0)
+        compteur_mc--;
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_card_7C028", FUN_801a0c68);
+    done = false;
+    if (PS1_InitPAD())
+        done = compteur_mc == 0;
+    
+    return done;
+}
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_card_7C028", PS1_SetNoCard);
+/* 7C3E0 801A0BE0 -O2 -msoft-float */
+void PS1_CheckCardChanged(void)
+{
+    if (PS1_CardFilenameChecksumChanged())
+    {
+        PS1_ClearScreen();
+        DO_FADE_OUT();
+        INIT_FADE_IN();
+        while (FUN_8016be9c())
+        {
+            PS1_CardStringDisplayed = 8;
+            PS1_DisplayCardContinueText = false;
+            SYNCHRO_LOOP(PS1_PromptCardContinue);
+        }
+        DO_FADE_OUT();
+        INIT_FADE_IN();
+    }
+}
+
+/* 7C468 801A0C68 -O2 -msoft-float */
+void FUN_801a0c68(void)
+{
+    if (PS1_CardFilenameChecksumChanged())
+        PS1_NoCard = true;
+}
+
+/* 7C498 801A0C98 -O2 -msoft-float */
+void PS1_SetNoCard(void)
+{
+    if (PS1_TestCardZero())
+        PS1_NoCard = true;
+    else
+        PS1_NoCard = false;
+}
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_card_7C028", PS1_DoYouHaveCard);
 
