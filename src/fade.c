@@ -1,9 +1,5 @@
 #include "fade.h"
 
-typedef struct RGBAArray {
-    u8 data[4];
-} RGBAArray;
-
 extern RGBAArray *D_801C7D78[11];
 extern s16 D_801CEFF4;
 extern s16 D_801CEFF6;
@@ -15,6 +11,8 @@ extern s16 D_801CF010;
 extern s16 D_801CF012;
 extern s16 D_801CF014;
 extern s16 D_801CF410;
+extern s16 D_801CF016;
+extern u8 D_801F8480;
 
 /* 44C20 80169420 -O2 -msoft-float */
 void FUN_80169420(Display *disp)
@@ -64,17 +62,61 @@ void FUN_80169564(u32 param_1, s16 param_2)
 
 INCLUDE_ASM("asm/nonmatchings/fade", FUN_801695ec);
 
-INCLUDE_ASM("asm/nonmatchings/fade", FUN_80169a3c);
+/* 4523C 80169A3C -O2 -msoft-float */
+void FUN_80169a3c(RGBAArray *param_1, s16 param_2)
+{
+    PS1_CurrentDisplay->field_0x60bc_0x660b[2].tile.r0 = param_1->data[0];
+    PS1_CurrentDisplay->field_0x60bc_0x660b[2].tile.g0 = param_1->data[1];
+    PS1_CurrentDisplay->field_0x60bc_0x660b[2].tile.b0 = param_1->data[2];
+    AddPrim(
+        &PS1_CurrentDisplay->ordering_table[param_2],
+        &PS1_CurrentDisplay->field_0x60bc_0x660b[2].tile
+    );
+    AddPrim(
+        &PS1_CurrentDisplay->ordering_table[param_2],
+        &PS1_CurrentDisplay->field_0x60bc_0x660b[2]
+    );
+}
 
-INCLUDE_ASM("asm/nonmatchings/fade", FUN_80169ac8);
+/* 452C8 80169AC8 -O2 -msoft-float */
+void FUN_80169ac8(RGBAArray *param_1, s16 param_2)
+{
+    PS1_CurrentDisplay->field_0x60bc_0x660b[3].tile.r0 = param_1->data[0];
+    PS1_CurrentDisplay->field_0x60bc_0x660b[3].tile.g0 = param_1->data[1];
+    PS1_CurrentDisplay->field_0x60bc_0x660b[3].tile.b0 = param_1->data[2];
+    AddPrim(
+        &PS1_CurrentDisplay->ordering_table[param_2],
+        &PS1_CurrentDisplay->field_0x60bc_0x660b[3].tile
+    );
+    AddPrim(
+        &PS1_CurrentDisplay->ordering_table[param_2],
+        &PS1_CurrentDisplay->field_0x60bc_0x660b[3]
+    );
+}
 
 void FUN_80169b54(void) {}
 
 void FUN_80169b5c(void) {}
 
-INCLUDE_ASM("asm/nonmatchings/fade", INIT_FADE_OUT);
+/* 45364 80169B64 -O2 -msoft-float */
+void INIT_FADE_OUT(void)
+{
+    D_801F7FF0 = 1;
+    D_801F8480 = 8;
+    D_801CF016 = 8;
+    D_801CF018 = 1;
+    fade = 32;
+}
 
-INCLUDE_ASM("asm/nonmatchings/fade", INIT_FADE_IN);
+/* 453A8 80169BA8 -O2 -msoft-float */
+void INIT_FADE_IN(void)
+{
+    D_801F7FF0 = 0;
+    D_801CF018 = 0;
+    D_801F8480 = 0xFF;
+    D_801CF016 = -8;
+    fade = 32;
+}
 
 INCLUDE_ASM("asm/nonmatchings/fade", DO_FADE);
 
