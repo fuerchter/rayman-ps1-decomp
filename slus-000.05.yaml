@@ -61,6 +61,7 @@ segments:
     subalign: 4
     subsegments:
       - [0x800, rodata]
+      #- [0x9C8, .rodata, data/menu/menu_card_9ED48] #801251C8 TODO: .rodata referenced from .data?
       - [0x1428, .rodata, music] #80125C28
       - [0x156C, rodata]
       #- [0x1580, .rodata, data/loading_A0338] #80125d80
@@ -108,6 +109,7 @@ segments:
       - [0x79E4, .rodata, obj/dark_phase2] #8012C1E4 splat says: "has jumptables that are not aligned properly file-wise"
       - [0x7A30, .rodata, loading_794DC] #8012C230
       - [0x7B68, rodata]
+      - [0x7B78, .rodata, menu/menu_card_7C028] #8012C378
       - [0x7BB0, .rodata, password] #8012c3b0
       - [0x7C4C, rodata]
       - [0x7C68, .rodata, demo_7F2BC] #8012c468
@@ -282,7 +284,7 @@ segments:
       - [0x7B048, asm, first_init] #8019F848
       - [0x7B850, c, depart_dead] #801a0050
       - [0x7BB28, asm, unknown/7BB28] #801a0328
-      - [0x7C028, asm, menu/menu_card_7C028] #801a0828
+      - [0x7C028, c, menu/menu_card_7C028] #801a0828
       - [0x7CCA0, c, password] #801a14a0
       - [0x7EEE4, asm, menu/menu_7EEE4] #801a36e4
       - [0x7F2BC, c, demo_7F2BC] #801a3abc
@@ -312,6 +314,8 @@ segments:
       - [0x9E814, data]
       - [0x9E914, .data, data/collision/bit_util] #801C3114
       - [0x9EB18, data]
+      #- [0x9ED48, .data, data/menu/menu_card_9ED48] #801C3548
+      - [0x9ED80, data]
       - [0x9F448, .data, data/demo_9F448] #801C3C48
       - [0x9FB74, data]
       - [0x9FC78, .data, data/music_9FC78] #801C4478
