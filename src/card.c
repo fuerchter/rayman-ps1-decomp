@@ -432,7 +432,7 @@ s32 PS1_TestCardZero(void)
 }
 
 /* 47618 8016BE18 -O2 -msoft-float */
-u8 PS1_CardUnformatted(void)
+s16 PS1_CardUnformatted(void)
 {
   s32 unk_1 = true; /* least ugly permuter suggestion imo */
   if (unk_1 && PS1_TestCard(0) != 2)
@@ -443,7 +443,7 @@ u8 PS1_CardUnformatted(void)
     return PS1_TestCard(0) != 2;
   }
   else
-    return 0;
+    return false;
 }
 
 /* 4767C 8016BE7C -O2 -msoft-float */

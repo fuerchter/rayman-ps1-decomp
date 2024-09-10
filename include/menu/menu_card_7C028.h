@@ -23,7 +23,7 @@ void PS1_DoYouHaveCard(void);
 void PS1_PromptFormatCard(void);
 void PS1_GetNbreSave1(void);
 void FUN_801a10a4(void);
-u8 PS1_ReadingMemoryCard(void);
+s16 PS1_ReadingMemoryCard(void);
 void FUN_801a1110(void);
 void PS1_PromptPad(void);
 void FUN_801a1324(void);

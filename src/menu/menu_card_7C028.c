@@ -9,6 +9,8 @@ extern u8 s_yes_801cf0f4[6];
 extern u8 s_no_801cf0fc[5];
 extern u8 PS1_DisplayCardContinueText;
 extern u8 PS1_NoCard;
+extern u8 D_801CF101;
+extern u8 D_801E5238;
 
 /* 7C028 801A0828 -O2 -msoft-float */
 void PS1_PromptCardInput(void)
@@ -134,17 +136,167 @@ void PS1_SetNoCard(void)
         PS1_NoCard = false;
 }
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_card_7C028", PS1_DoYouHaveCard);
+/* 7C4D8 801A0CD8 -O2 -msoft-float */
+void PS1_DoYouHaveCard(void)
+{
+    s16 i;
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_card_7C028", PS1_PromptFormatCard);
+    if ((s16) PS1_TestCardZero())
+    {
+        PS1_CardStringDisplayed = 0;
+        inter_select = 0;
+        compteur_mc = 10;
+        positiony_mc = 2;
+        SYNCHRO_LOOP(PS1_PromptCardYesNo);
+        FUN_801a0c68();
+        compteur_mc = 10;
+        if (!PS1_NoCard)
+        {
+            if (positiony_mc == 1)
+            {
+                PS1_CardStringDisplayed = 1;
+                PS1_DisplayCardContinueText = false;
+                SYNCHRO_LOOP(PS1_PromptCardContinue);
+                PS1_NoCard = true;
+                for (i = 0; i < 30; i++)
+                    VSync(0);
+                FUN_801a0c68();
+            }
+            else
+            {
+                PS1_CardStringDisplayed = 2;
+                PS1_DisplayCardContinueText = true;
+                SYNCHRO_LOOP(PS1_PromptCardContinue);
+                FUN_801a0c68();
+                NBRE_SAVE = 0;
+            }
+        }
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_card_7C028", PS1_GetNbreSave1);
+/* 7C608 801A0E08 -O2 -msoft-float */
+void PS1_PromptFormatCard(void)
+{
+    if (PS1_CardUnformatted())
+    {
+        PS1_CardStringDisplayed = 3;
+        inter_select = 0;
+        compteur_mc = 10;
+        positiony_mc = 2;
+        SYNCHRO_LOOP(PS1_PromptCardYesNo);
+        FUN_801a0c68();
+        compteur_mc = 10;
+        if (!PS1_NoCard)
+        {
+            if (positiony_mc == 2)
+            {
+                PS1_CardStringDisplayed = 4;
+                PS1_DisplayCardContinueText = true;
+                SYNCHRO_LOOP(PS1_PromptCardContinue);
+                FUN_801a0c68();
+                NBRE_SAVE = 0;
+            }
+            else
+            {
+                FUN_8016bec0();
+                PS1_NoCard = true;
+            }
+        }
+    }
+}
+
+/* 7C6F0 801A0EF0 -O2 -msoft-float */
+void PS1_GetNbreSave1(void)
+{
+    u8 save_itoa;
+
+    NBRE_SAVE = PS1_GetNbreSave2();
+    compteur_mc = 10;
+    if (NBRE_SAVE == 0)
+    {
+        PS1_CardStringDisplayed = 6;
+        PS1_DisplayCardContinueText = true; /* TODO: maybe do this with the goto instead to reduce duplication? */
+        SYNCHRO_LOOP(PS1_PromptCardContinue);
+        FUN_801a0c68();
+    }
+    else if (NBRE_SAVE < 3)
+    {
+        PS1_CardStringDisplayed = 5;
+        PS1_itoa((s16) NBRE_SAVE, &save_itoa, 5);
+        PS1_CardStrings[PS1_CardStringDisplayed][6] = save_itoa;
+        PS1_CardStrings[PS1_CardStringDisplayed][67] = save_itoa;
+        if (NBRE_SAVE < 2)
+        {
+            PS1_CardStrings[PS1_CardStringDisplayed][79] = ' ';
+            PS1_CardStrings[PS1_CardStringDisplayed][12] = ' ';
+            PS1_CardStrings[PS1_CardStringDisplayed][14] = 'i';
+            PS1_CardStrings[PS1_CardStringDisplayed][15] = 's';
+            PS1_CardStrings[PS1_CardStringDisplayed][16] = ' ';
+        }
+        PS1_DisplayCardContinueText = true;
+        SYNCHRO_LOOP(PS1_PromptCardContinue);
+        FUN_801a0c68();
+    }
+}
 
 void FUN_801a10a4(void) {}
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_card_7C028", PS1_ReadingMemoryCard);
+/* 7C8AC 801A10AC -O2 -msoft-float */
+s16 PS1_ReadingMemoryCard(void)
+{
+    CLRSCR();
+    display_text(s_reading_memory_card_8012c398, 160, 173, 2, 0);
+    D_801CF101++;
+    return D_801CF101 == 2;
+}
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_card_7C028", FUN_801a1110);
+/* 7C910 801A1110 -O2 -msoft-float */
+void FUN_801a1110(void)
+{
+    u8 unk_1 = true;
+    
+    if (fade == 0)
+        INIT_FADE_IN();
+    
+    do
+    {
+        do
+        {
+            do
+            {
+                PS1_Checksum = PS1_CardFilenameChecksum(0);
+                NBRE_SAVE = 3;
+                PS1_NoCard = false;
+                PS1_DoYouHaveCard();
+                if (unk_1 && !PS1_NoCard && NBRE_SAVE != 0)
+                {
+                    unk_1 = false;
+                    SYNCHRO_LOOP(PS1_ReadingMemoryCard);
+                }
+
+                if (!PS1_NoCard)
+                {
+                    if (NBRE_SAVE != 0)
+                        PS1_PromptFormatCard();
+                    
+                    if (!PS1_NoCard && NBRE_SAVE != 0)
+                        FUN_801a0c68();
+                }
+                D_801E5238 = PS1_NoCard;
+            } while (PS1_NoCard);
+            
+            if (NBRE_SAVE != 0)
+                PS1_GetNbreSave1();
+        } while (PS1_NoCard);
+
+        if (NBRE_SAVE != 0)
+            FUN_801a0c68();
+    } while (PS1_NoCard);
+
+    DO_FADE_OUT();
+    if (NBRE_SAVE != 0)
+        PS1_InitSaveRayAndFilenames(0);
+}
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_card_7C028", PS1_PromptPad);
 

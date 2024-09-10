@@ -74,7 +74,7 @@ void FUN_8016bbe4(void);
 u8 PS1_GetNbreSave3(u8 param_1);
 s32 PS1_CardFilenameChecksumChanged(void);
 s32 PS1_TestCardZero(void);
-u8 PS1_CardUnformatted(void);
+s16 PS1_CardUnformatted(void);
 u8 PS1_GetNbreSave2(void);
 s32 FUN_8016be9c(void);
 void FUN_8016bec0(void);
