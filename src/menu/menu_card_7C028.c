@@ -298,10 +298,58 @@ void FUN_801a1110(void)
         PS1_InitSaveRayAndFilenames(0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_card_7C028", PS1_PromptPad);
+/* 7CAB8 801A12B8 -O2 -msoft-float */
+void PS1_PromptPad(void)
+{
+    PS1_ClearScreen();
+    if (fade == 0)
+        INIT_FADE_IN();
+    PS1_CardStringDisplayed = 12;
+    PS1_DisplayCardContinueText = true;
+    SYNCHRO_LOOP(PS1_PleaseInsertPad);
+    DO_FADE_OUT();
+}
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_card_7C028", FUN_801a1324);
+/* 7CB24 801A1324 -O2 -msoft-float */
+void FUN_801a1324(void)
+{
+    PS1_CardStringDisplayed = 9;
+    inter_select = 0;
+    compteur_mc = 10;
+    positiony_mc = 2;
+    DO_FADE_OUT();
+    INIT_FADE_IN();
+    SYNCHRO_LOOP(PS1_PromptCardYesNo);
+    DO_FADE_OUT();
+    INIT_FADE_IN();
+}
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_card_7C028", PS1_SaveWldMap);
+/* 7CB98 801A1398 -O2 -msoft-float */
+u8 PS1_SaveWldMap(void)
+{
+    PS1_CardStringDisplayed = 10;
+    inter_select = 0;
+    compteur_mc = 10;
+    positiony_mc = 1;
+    DO_FADE_OUT();
+    INIT_FADE_IN();
+    SYNCHRO_LOOP(PS1_PromptCardYesNo);
+    DO_FADE_OUT();
+    INIT_FADE_IN();
+    return positiony_mc == 1;
+}
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_card_7C028", FUN_801a141c);
+/* 7CC1C 801A141C -O2 -msoft-float */
+u8 FUN_801a141c(void)
+{
+    PS1_CardStringDisplayed = 11;
+    inter_select = 0;
+    compteur_mc = 10;
+    positiony_mc = 2;
+    DO_FADE_OUT();
+    INIT_FADE_IN();
+    SYNCHRO_LOOP(PS1_PromptCardYesNo);
+    DO_FADE_OUT();
+    INIT_FADE_IN();
+    return positiony_mc == 1;
+}
