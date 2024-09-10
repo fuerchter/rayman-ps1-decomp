@@ -15,13 +15,8 @@ void INIT_MOTEUR(u8 new_lvl)
         pix_gerbe[i].is_active = false;
 
         cur_data = &pix_gerbe[i].items[0];
-        j = 0;
-        while (j < (s16) (sizeof(pix_gerbe[i].items) / sizeof(s16)))
-        {
-            *cur_data = 0;
-            cur_data++;
-            j++;
-        }
+        for (j = 0; j < (s16) (sizeof(pix_gerbe[i].items) / sizeof(s16)); j++)
+            *cur_data++ = 0;
     }
 
     init_flocons();

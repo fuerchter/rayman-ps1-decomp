@@ -8,6 +8,8 @@ extern s16 invpy200[8];
 extern s16 SNSEQ_len[64];
 extern s16 SNSEQ_no;
 extern s16 SNSEQ_ptr;
+extern s16 SNSEQ_list[256];
+extern s16 SNSEQ_list_ptr;
 
 /* 3B264 8015FA64 -O2 -msoft-float */
 void add_one_floc(void)
@@ -144,6 +146,209 @@ void set_snow_sequence(u16 param_1, s16 param_2)
     SNSEQ_len[(s16) param_1] = param_2;
 }
 
-INCLUDE_ASM("asm/nonmatchings/snow", set_SNSEQ_list);
+/* 3BC10 80160410 -O2 -msoft-float */
+void set_SNSEQ_list(s16 param_1)
+{
+    s16 *cur_sn = SNSEQ_list; /* TODO: can't tell if this should be in dec or hex (flags?) */
+
+    if (param_1 == 0)
+    {
+        *cur_sn++ = 4;
+        *cur_sn++ = 2;
+        *cur_sn++ = 0x80;
+        *cur_sn++ = 0;
+        *cur_sn++ = 0x7FFF;
+    }
+    else if (param_1 == 1)
+    {
+        *cur_sn++ = 4;
+        *cur_sn++ = 3;
+        *cur_sn++ = 0x80;
+        *cur_sn++ = 0;
+        *cur_sn++ = 0x7FFF;
+    }
+    else if (param_1 == 2)
+    {
+        *cur_sn++ = 4;
+        *cur_sn++ = 3;
+        *cur_sn++ = 0x0200;
+        *cur_sn++ = 0;
+        *cur_sn++ = 0x7FFF;
+    }
+    else if (param_1 == 3)
+    {
+        if (VENT_Y == 8)
+            *cur_sn++ = 2;
+        else
+            *cur_sn++ = 4;
+
+        if (VENT_Y > 8)
+        {
+            *cur_sn++ = 8;
+            *cur_sn++ = (VENT_Y * 2) - 0x10;
+        }
+        else if (VENT_Y < 8)
+        {
+            *cur_sn++ = 9;
+            *cur_sn++ = 0x10 - (VENT_Y * 2);
+        }
+        *cur_sn++ = 0;
+        *cur_sn++ = 0x7FFF;
+    }
+    else if (param_1 == 4)
+    {
+        if (VENT_Y == 0)
+            *cur_sn++ = 2;
+        else
+            *cur_sn++ = 4;
+        
+        if (VENT_Y > 0)
+        {
+            *cur_sn++ = 8;
+            *cur_sn++ = (VENT_Y * 2);
+        }
+        else if (VENT_Y < 0)
+        {
+            *cur_sn++ = 9;
+            *cur_sn++ = (-VENT_Y * 2);
+        }
+        *cur_sn++ = 0;
+        *cur_sn++ = 0x7FFF;
+    }
+    else if (param_1 == 5)
+    {
+        if (VENT_X == -8)
+            *cur_sn++ = 2;
+        else
+            *cur_sn++ = 4;
+        
+        if (VENT_X > -8)
+        {
+            *cur_sn++ = 6;
+            *cur_sn++ = (VENT_X * 2) + 0x10;
+        }
+        else if (VENT_X < -8)
+        {
+            *cur_sn++ = 7;
+            *cur_sn++ = -0x10 - (VENT_X * 2);
+        }
+        *cur_sn++ = 0;
+        *cur_sn++ = 0x7FFF;
+    }
+    else if (param_1 == 6)
+    {
+        if (VENT_X == 8)
+            *cur_sn++ = 2;
+        else
+            *cur_sn++ = 4;
+        
+        if (VENT_X > 8)
+        {
+            *cur_sn++ = 6;
+            *cur_sn++ = (VENT_X * 2) - 0x10;
+        }
+        else if (VENT_X < 8)
+        {
+            *cur_sn++ = 7;
+            *cur_sn++ = 0x10 - (VENT_X * 2);
+        }
+        *cur_sn++ = 0;
+        *cur_sn++ = 0x7FFF;
+    }
+    else if (param_1 == 7)
+    {
+        if (VENT_X == -16)
+            *cur_sn++ = 2;
+        else
+            *cur_sn++ = 4;
+        
+        if (VENT_X > -16)
+        {
+            *cur_sn++ = 6;
+            *cur_sn++ = (VENT_X * 2) + 0x20;
+        }
+        else if (VENT_X < -0x10)
+        {
+            *cur_sn++ = 7;
+            *cur_sn++ = -0x20 - (VENT_X * 2);
+        }
+        *cur_sn++ = 0;
+        *cur_sn++ = 0x7FFF;
+    }
+    else if (param_1 == 8)
+    {
+        if (VENT_X == 16)
+            *cur_sn++ = 2;
+        else
+            *cur_sn++ = 4;
+        
+        if (VENT_X > 16)
+        {
+            *cur_sn++ = 6;
+            *cur_sn++ = (VENT_X * 2) - 0x20;
+        }
+        else if (VENT_X < 16)
+        {
+            *cur_sn++ = 7;
+            *cur_sn++ = 0x20 - (VENT_X * 2);
+        }
+        *cur_sn++ = 0;
+        *cur_sn++ = 0x7FFF;
+    }
+    else if (param_1 == 9)
+    {
+        if (VENT_X == 0)
+            *cur_sn++ = 2;
+        else
+            *cur_sn++ = 4;
+        
+        if (VENT_X > 0)
+        {
+            *cur_sn++ = 6;
+            *cur_sn++ = ((u16) VENT_X * 2);
+        }
+        else if (VENT_X < 0)
+        {
+            *cur_sn++ = 7;
+            *cur_sn++ = (-(u16) VENT_X * 2);
+        }
+        *cur_sn++ = 0;
+        *cur_sn++ = 0x7FFF;
+    }
+    else if (param_1 == 10)
+    {
+        if (VENT_Y == -16)
+            *cur_sn++ = 4;
+        else
+            *cur_sn++ = 6;
+        
+        if (VENT_Y > -16)
+        {
+            *cur_sn++ = 8;
+            *cur_sn++ = (VENT_Y * 2) + 0x20;
+        }
+        else if (VENT_Y < -0x10)
+        {
+            *cur_sn++ = 9;
+            *cur_sn++ = -0x20 - (VENT_Y * 2);
+        }
+        *cur_sn++ = 0;
+        *cur_sn++ = 0x0080;
+        *cur_sn++ = 9;
+        *cur_sn++ = 0x0020;
+    }
+    else if (param_1 == 11)
+    {
+        *cur_sn++ = 4;
+        *cur_sn++ = 10;
+        *cur_sn++ = 1;
+        *cur_sn++ = 0;
+        *cur_sn++ = 0x7FFF;
+    }
+
+    SNSEQ_list_ptr = 1;
+    set_snow_sequence(SNSEQ_list[1], SNSEQ_list[2]);
+    SNSEQ_list_ptr += 2;
+}
 
 INCLUDE_ASM("asm/nonmatchings/snow", DO_SNOW_SEQUENCE);
