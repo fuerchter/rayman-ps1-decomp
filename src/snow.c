@@ -1,16 +1,5 @@
 #include "snow.h"
 
-extern s16 tot_nb_flocs[8];
-extern s16 invpx0[8];
-extern s16 invpx320[8];
-extern s16 invpy0[8];
-extern s16 invpy200[8];
-extern s16 SNSEQ_len[64];
-extern s16 SNSEQ_no;
-extern s16 SNSEQ_ptr;
-extern s16 SNSEQ_list[256];
-extern s16 SNSEQ_list_ptr;
-
 /* 3B264 8015FA64 -O2 -msoft-float */
 void add_one_floc(void)
 {

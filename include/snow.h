@@ -19,6 +19,16 @@ extern FloconTableEntry flocon_tab[512];
 extern s16 nb_floc[8];
 extern s16 VENT_X;
 extern s16 VENT_Y;
+extern s16 tot_nb_flocs[8];
+extern s16 invpx0[8];
+extern s16 invpx320[8];
+extern s16 invpy0[8];
+extern s16 invpy200[8];
+extern s16 SNSEQ_len[64];
+extern s16 SNSEQ_no;
+extern s16 SNSEQ_ptr;
+extern s16 SNSEQ_list[256];
+extern s16 SNSEQ_list_ptr;
 
 void add_one_floc(void);
 void add_256_flocs(void);
