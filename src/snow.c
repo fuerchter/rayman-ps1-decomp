@@ -351,4 +351,63 @@ void set_SNSEQ_list(s16 param_1)
     SNSEQ_list_ptr += 2;
 }
 
-INCLUDE_ASM("asm/nonmatchings/snow", DO_SNOW_SEQUENCE);
+/* 3C164 80160964 -O2 -msoft-float */
+void DO_SNOW_SEQUENCE(void)
+{
+    s16 first; s16 second;
+
+    switch(SNSEQ_no)
+    {
+    case 0:
+        break;
+    case 1:
+        VENT_X = 0;
+        VENT_Y = 0;
+        break;
+    case 2:
+        add_one_floc();
+        break;
+    case 3:
+        sub_one_floc();
+        break;
+    case 6:
+        if (horloge[2] == 0)
+            VENT_X--;
+        break;
+    case 4:
+        VENT_X--;
+        break;
+    case 7:
+        if (horloge[2] == 0)
+            VENT_X++;
+        break;
+    case 5:
+        VENT_X++;
+        break;
+    case 8:
+        if (horloge[2] == 0)
+            VENT_Y--;
+        break;
+    case 9:
+        if (horloge[2] == 0)
+            VENT_Y++;
+        break;
+    case 10:
+        VENT_X = -8;
+        VENT_Y = 8;
+        add_256_flocs();
+    }
+
+    if (++SNSEQ_ptr == SNSEQ_len[SNSEQ_no])
+    {
+        first = SNSEQ_list[SNSEQ_list_ptr];
+        SNSEQ_list_ptr++;
+        second = SNSEQ_list[SNSEQ_list_ptr];
+        SNSEQ_list_ptr++;
+
+        set_snow_sequence(first, second);
+        if (SNSEQ_list_ptr == SNSEQ_list[0])
+            SNSEQ_list_ptr = 0;
+    }
+}
+const u8 rodata_DO_SNOW_SEQUENCE[4] = {};
