@@ -200,7 +200,7 @@ segments:
       - [0x3F170, c, save] #80163970
       - [0x3FFAC, c, special_platform] #801647ac
       - [0x41084, c, sound] #80165884
-      - [0x44C20, asm, fade] #80169420
+      - [0x44C20, c, fade] #80169420
       - [0x45A7C, c, card] #8016a27c
       - [0x476F0, asm, obj/poing] #8016bef0
       - [0x48528, asm, unknown/48528] #8016cd28
