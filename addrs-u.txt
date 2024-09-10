@@ -248,6 +248,8 @@ s_insert_card_nowand_press_x_but_8012542c = 0x8012542c; // type:asciz force_not_
 s_do_you_have_a_memory_card_8012545c = 0x8012545c; // type:asciz force_not_migration:True
 s_press_x_button_to_continue_8012c378 = 0x8012c378; // type:asciz force_not_migration:True
 s_reading_memory_card_8012c398 = 0x8012c398; // type:asciz force_not_migration:True
+s_yes_801cf0f4 = 0x801cf0f4;
+s_no_801cf0fc = 0x801cf0fc;
 
 ray = 0x801f61a0;
 //ray_obj_sprites = 0x801f61a0;

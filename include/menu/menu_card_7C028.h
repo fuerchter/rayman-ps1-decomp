@@ -2,6 +2,7 @@
 #define MENU_CARD_7C028_H
 
 #include "common.h"
+#include "sound.h"
 
 /* .data */
 extern u8 *PS1_CardStrings[13];
@@ -11,7 +12,7 @@ extern u8 NBRE_SAVE;
 extern u8 positiony_mc;
 
 void PS1_PromptCardInput(void);
-u8 PS1_PromptCardYesNo(void);
+s16 PS1_PromptCardYesNo(void);
 u8 PS1_PromptCardContinue(void);
 u8 PS1_PleaseInsertPad(void);
 void PS1_CheckCardChanged(void);
