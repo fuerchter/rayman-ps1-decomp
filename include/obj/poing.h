@@ -18,8 +18,11 @@ typedef struct Poing
     u8 is_boum;
 } Poing;
 
+/**/
 extern s16 poing_obj_id;
 extern Poing poing;
 extern s16 id_obj_grapped;
+
+void RAY_THROW_FIST(void);
 
 #endif

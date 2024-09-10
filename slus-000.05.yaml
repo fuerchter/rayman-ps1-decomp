@@ -198,7 +198,7 @@ segments:
       - [0x3EFC4, asm, obj/rayon] #801637C4
       - [0x3F0B8, asm, unknown/3F0B8] #801638B8
       - [0x3F170, c, save] #80163970
-      - [0x3FFAC, asm, special_platform] #801647ac
+      - [0x3FFAC, c, special_platform] #801647ac
       - [0x41084, c, sound] #80165884
       - [0x44C20, asm, fade] #80169420
       - [0x45A7C, c, card] #8016a27c
