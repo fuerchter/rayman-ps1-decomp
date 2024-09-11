@@ -1,5 +1,16 @@
 #include "draw/rollup_trans.h"
 
+extern DVECTOR D_801CEDE4;
+extern DVECTOR D_801CEDE8;
+extern s16 D_801D7A78;
+extern SVECTOR D_801F3EC0[82];
+extern SVECTOR D_801F56B8;
+extern VECTOR D_801F57D0;
+extern s16 D_801F84D8;
+extern s16 D_801F98F8;
+extern s16 D_801F9930;
+extern s16 D_801F9938;
+
 /* 8830 8012D030 -O2 -msoft-float */
 void FUN_8012d030(DVECTOR tpage_pos, DVECTOR param_2, s16 step_width, s16 step_height, s16 poly_count)
 {
@@ -76,12 +87,46 @@ void FUN_8012d27c(void)
     SetGeomScreen(1024);
 }
 
-/*extern DVECTOR D_801CEDE4;
-extern DVECTOR D_801CEDE8;
-extern s16 D_801D7A78;
-extern s16 D_801F3EC0;*/
+/* 8AB0 8012D2B0 -O2 -msoft-float */
+void FUN_8012d2b0(s16 param_1)
+{
+    SVECTOR *cur_vec;
+    s16 cnt_x; s16 pos_x;
+    s16 cnt_y; s16 pos_y;
 
-INCLUDE_ASM("asm/nonmatchings/draw/rollup_trans", FUN_8012d2b0);
+    PS1_PolygonsCount = 0;
+    FUN_8012d27c();
+    D_801F9930 = 8;
+    D_801F9938 = 240;
+    FUN_8012d030(D_801CEDE4, D_801CEDE8, D_801F9930, D_801F9938 - 1, PS1_PolygonsCount + 2);
+    D_801F84D8 = 320 / D_801F9930;
+    D_801F98F8 = 240 / D_801F9938;
+
+    cur_vec = D_801F3EC0;
+    pos_x = 0;
+    cnt_x = 0;
+    while (cnt_x < D_801F84D8 + 1)
+    {
+        pos_y = 0;
+        cnt_y = 0;
+        while (cnt_y < D_801F98F8 + 1)
+        {
+            cur_vec->vx = pos_x - 160;
+            if (pos_y == 240)
+                pos_y = 240 - 1;
+            cur_vec->vy = pos_y - 120;
+            cur_vec->vz = 0;
+            cnt_y++;
+            pos_y += D_801F9938;
+            cur_vec++;
+        }
+        cnt_x++;
+        pos_x += D_801F9930;
+    }
+    D_801F56B8.vz = 0; D_801F56B8.vy = 0; D_801F56B8.vx = 0;
+    D_801F57D0.vy = 0; D_801F57D0.vx = 0; D_801F57D0.vz = 1024;
+    D_801D7A78 = param_1;
+}
 
 INCLUDE_ASM("asm/nonmatchings/draw/rollup_trans", PS1_RollUpTransition);
 
