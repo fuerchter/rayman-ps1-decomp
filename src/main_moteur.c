@@ -86,11 +86,11 @@ void DO_MAIN_LOOP(void)
     if (((PS1_GlobalTimer & 0x3f) == 0) && myRand(256) > 128)
     {
       PlaySnd_old(195);
-      FUN_80169564(8, 9);
+      PS1_LightningLoop(8, 9);
       D_801CEEA2 = 0;
     }
     else
-      FUN_80169564(1, 9);
+      PS1_LightningLoop(1, 9);
   }
   if (is_fee)
     DISPLAY_TEXT_FEE();

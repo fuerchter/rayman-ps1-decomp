@@ -30,14 +30,14 @@ void FUN_80169420(Display *disp)
 }
 
 /* 44D64 80169564 -O2 -msoft-float */
-void FUN_80169564(u32 param_1, s16 param_2)
+void PS1_LightningLoop(u32 param_1, s16 param_2)
 {
     if (D_801CEFF6 == 2)
-        FUN_801695ec(param_2);
+        PS1_LightningDraw(param_2);
     else if (param_1 & 8 && D_801CEFF6 == 0)
     {
         D_801CEFF6 = 1;
-        FUN_801695ec(param_2);
+        PS1_LightningDraw(param_2);
     }
     else if (param_1 & 1)
     {
@@ -46,7 +46,7 @@ void FUN_80169564(u32 param_1, s16 param_2)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/fade", FUN_801695ec);
+INCLUDE_ASM("asm/nonmatchings/fade", PS1_LightningDraw);
 
 /* 4523C 80169A3C -O2 -msoft-float */
 void FUN_80169a3c(RGBAArray *param_1, s16 param_2)

@@ -16,7 +16,7 @@ extern RGBAArray *D_801C7D78[11];
 /* .data */
 extern RGBAArray D_801CEFE0[5];
 extern s16 D_801CEFF4;
-extern s16 D_801CEFF6;
+extern s16 D_801CEFF6; /* lightning "phase" more or less? */
 extern RGBAArray D_801CEFFC[3];
 extern RGBAArray D_801CF008;
 extern s16 D_801CF00C;
@@ -37,8 +37,8 @@ extern u8 D_801F7FF0;
 extern u8 D_801F8480;
 
 void FUN_80169420(Display *disp);
-void FUN_80169564(u32 param_1, s16 param_2);
-void FUN_801695ec(s16 param_1);
+void PS1_LightningLoop(u32 param_1, s16 param_2);
+void PS1_LightningDraw(s16 param_1);
 void FUN_80169a3c(RGBAArray *param_1, s16 param_2);
 void FUN_80169ac8(RGBAArray *param_1, s16 param_2);
 void FUN_80169b54(RGBAArray *param_1, s16 param_2);

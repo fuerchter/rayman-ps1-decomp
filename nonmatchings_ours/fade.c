@@ -1,9 +1,9 @@
 #include "fade.h"
 
 /* matches, but cleanup and label stuff */
-/*INCLUDE_ASM("asm/nonmatchings/fade", FUN_801695ec);*/
+/*INCLUDE_ASM("asm/nonmatchings/fade", PS1_LightningDraw);*/
 
-void FUN_801695ec(s16 param_1)
+void PS1_LightningDraw(s16 param_1)
 {
     RGBAArray **temp_v0_1;
     s16 temp_v0_3;
