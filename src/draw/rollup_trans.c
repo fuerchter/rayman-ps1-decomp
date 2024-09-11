@@ -68,7 +68,18 @@ void FUN_8012d030(Vec2 tpage_pos, Vec2 param_2, s16 step_width, s16 step_height,
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/draw/rollup_trans", FUN_8012d27c);
+/* 8A7C 8012D27C -O2 -msoft-float */
+void FUN_8012d27c(void)
+{
+    InitGeom();
+    SetGeomOffset(160, 120);
+    SetGeomScreen(1024);
+}
+
+/*extern Vec2 D_801CEDE4;
+extern Vec2 D_801CEDE8;
+extern s16 D_801D7A78;
+extern s16 D_801F3EC0;*/
 
 INCLUDE_ASM("asm/nonmatchings/draw/rollup_trans", FUN_8012d2b0);
 
