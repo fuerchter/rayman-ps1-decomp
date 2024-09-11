@@ -24,7 +24,7 @@ void load_level(void)
     else
         FUN_80139514(*(((s32 *) D_801F5160) + 5) - *(((s32 *) D_801F5160) + 4));
     PS1_LoadLevelMapBlock(&mp);
-    PS1_LoadLevelEventBlock();
+    PS1_LoadLevelObjBlock();
     PS1_LoadFondSprites();
     PS1_HasLoadedFont = false;
     D_801CEE9A = num_level;

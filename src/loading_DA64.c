@@ -74,7 +74,7 @@ void PS1_LoadAllFixData(void)
 }
 
 /* DFEC 801327EC -O2 -msoft-float */
-void PS1_LoadLevelEventBlock(void)
+void PS1_LoadLevelObjBlock(void)
 {
   __builtin_memcpy(&level, &PS1_LevelObjBlock[0], 8);
   __builtin_memcpy(D_801D7868, &PS1_LevelObjBlock[8], 8);
