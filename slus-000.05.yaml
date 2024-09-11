@@ -115,7 +115,7 @@ segments:
       - [0x7C68, .rodata, demo_7F2BC] #8012c468
       - [0x7C84, .rodata, menu/menu_7F4B4] #8012c484
       - [0x7D98, rodata]
-      - [0x8830, asm, draw/rollup_trans] #8012D030
+      - [0x8830, c, draw/rollup_trans] #8012D030
       - [0x9424, asm, continue] #8012DC24
       - [0x95CC, c, world_map_95CC] #8012ddcc
       - [0x9A14, asm, vignet] #8012E214
