@@ -42,7 +42,7 @@ void FUN_801695ec(s16 param_1)
         }
 
         if ((s16) var_s0 && D_801CEFF4 != 0)
-            ((void (*)())D_801C7D68[D_801CEFF4 - 1])(&D_801CF008, D_801CF410);
+            (D_801C7D68[D_801CEFF4 - 1])(&D_801CF008, D_801CF410);
         else
             D_801CF014 = 1;
         break;
@@ -105,7 +105,7 @@ void FUN_801695ec(s16 param_1)
         }
 
         if (D_801CEFF4 != 0)
-            ((void (*)())D_801C7D68[D_801CEFF4 - 1])(&D_801CF008, D_801CF410);
+            (D_801C7D68[D_801CEFF4 - 1])(&D_801CF008, D_801CF410);
         
         if (!((s16) var_s0))
         {

@@ -80,9 +80,9 @@ void FUN_80169ac8(RGBAArray *param_1, s16 param_2)
     );
 }
 
-void FUN_80169b54(void) {}
+void FUN_80169b54(RGBAArray *param_1, s16 param_2) {}
 
-void FUN_80169b5c(void) {}
+void FUN_80169b5c(RGBAArray *param_1, s16 param_2) {}
 
 /* 45364 80169B64 -O2 -msoft-float */
 void INIT_FADE_OUT(void)

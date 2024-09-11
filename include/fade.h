@@ -10,7 +10,7 @@ typedef struct RGBAArray {
 } RGBAArray;
 
 /* .data */
-extern void *D_801C7D68[4];
+extern void (*D_801C7D68[4])(RGBAArray *param_1, s16 param_2);
 extern RGBAArray *D_801C7D78[11];
 
 /* .data */
@@ -41,8 +41,8 @@ void FUN_80169564(u32 param_1, s16 param_2);
 void FUN_801695ec(s16 param_1);
 void FUN_80169a3c(RGBAArray *param_1, s16 param_2);
 void FUN_80169ac8(RGBAArray *param_1, s16 param_2);
-void FUN_80169b54(void);
-void FUN_80169b5c(void);
+void FUN_80169b54(RGBAArray *param_1, s16 param_2);
+void FUN_80169b5c(RGBAArray *param_1, s16 param_2);
 void INIT_FADE_OUT(void);
 void INIT_FADE_IN(void);
 void DO_FADE(void);
