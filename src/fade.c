@@ -1,19 +1,5 @@
 #include "fade.h"
 
-extern RGBAArray *D_801C7D78[11];
-extern s16 D_801CEFF4;
-extern s16 D_801CEFF6;
-extern void *D_801C7D68[4];
-extern RGBAArray D_801CF008;
-extern s16 D_801CF00C;
-extern u16 D_801CF00E;
-extern s16 D_801CF010;
-extern s16 D_801CF012;
-extern s16 D_801CF014;
-extern s16 D_801CF410;
-extern s16 D_801CF016;
-extern u8 D_801F8480;
-
 /* 44C20 80169420 -O2 -msoft-float */
 void FUN_80169420(Display *disp)
 {
