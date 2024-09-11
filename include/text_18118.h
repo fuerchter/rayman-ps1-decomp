@@ -4,7 +4,7 @@
 #include "common.h"
 #include "psyq_3_0/LIBGPU.H"
 #include "text_24E10.h"
-#include "draw.h"
+#include "draw_14FF4.h"
 #include "unknown/draw_548CC.h"
 
 typedef struct MenuText {

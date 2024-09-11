@@ -1,5 +1,5 @@
-#ifndef DRAW_H
-#define DRAW_H
+#ifndef DRAW_14FF4_H
+#define DRAW_14FF4_H
 
 #include "common.h"
 #include "common/obj.h"

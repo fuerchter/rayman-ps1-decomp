@@ -1,4 +1,4 @@
-#include "draw.h"
+#include "draw_14FF4.h"
 
 /*INCLUDE_ASM("asm/nonmatchings/draw", PS1_DrawColoredSprite);*/
 

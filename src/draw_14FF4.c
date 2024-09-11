@@ -1,6 +1,6 @@
-#include "draw.h"
+#include "draw_14FF4.h"
 
-INCLUDE_ASM("asm/nonmatchings/draw", PS1_DrawColoredSprite);
+INCLUDE_ASM("asm/nonmatchings/draw_14FF4", PS1_DrawColoredSprite);
 
 /* 15340 80139B40 -O2 -msoft-float */
 void PS1_DrawSprite(Sprite *sprite, s16 x, s16 y, u8 param_4)
@@ -344,7 +344,7 @@ void DISPLAY_CLING(void)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/draw", display_bar_boss);
+INCLUDE_ASM("asm/nonmatchings/draw_14FF4", display_bar_boss);
 
 /* 16314 8013AB14 -O2 -msoft-float */
 void DISPLAY_FIXE(s16 left_time)
@@ -569,9 +569,9 @@ void FUN_8013b4d4(s16 x0, s16 y0)
     PS1_PrevPrim = sprt;
 }
 
-INCLUDE_ASM("asm/nonmatchings/draw", display_flocons_behind);
+INCLUDE_ASM("asm/nonmatchings/draw_14FF4", display_flocons_behind);
 
-INCLUDE_ASM("asm/nonmatchings/draw", display_flocons_before);
+INCLUDE_ASM("asm/nonmatchings/draw_14FF4", display_flocons_before);
 
 /* 17740 8013BF40 -O2 -msoft-float */
 void display_pix_gerbes(void)
@@ -681,4 +681,4 @@ void DISPLAY_CYMBALE(Obj *obj, u8 param_2)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/draw", DISPLAY_ALL_OBJECTS);
+INCLUDE_ASM("asm/nonmatchings/draw_14FF4", DISPLAY_ALL_OBJECTS);

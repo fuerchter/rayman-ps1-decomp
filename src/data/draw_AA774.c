@@ -1,4 +1,4 @@
-#include "draw.h"
+#include "draw_14FF4.h"
 
 s16 PS1_PolygonIndexTableCount = 0;
 u8 PS1_DrawSpriteSemiTrans = false;
