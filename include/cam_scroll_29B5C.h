@@ -12,6 +12,7 @@ extern s16 dhspeed;
 extern s16 dvspeed;
 extern u8 joy_done;
 
+/**/
 extern s16 h_scroll_speed;
 extern s16 v_scroll_speed;
 extern s16 scroll_start_x;

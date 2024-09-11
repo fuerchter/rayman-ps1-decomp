@@ -1,5 +1,5 @@
-#ifndef DRAW_UI_H
-#define DRAW_UI_H
+#ifndef DRAW_HUD_H
+#define DRAW_HUD_H
 
 #include "common.h"
 #include "common/obj.h"

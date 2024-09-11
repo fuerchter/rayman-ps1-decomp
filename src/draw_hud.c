@@ -1,4 +1,4 @@
-#include "draw_ui.h"
+#include "draw_hud.h"
 
 /* TODO: Display struct */
 /*extern s32 PS1_CurrentDisplay;*/
@@ -64,10 +64,7 @@ void display_etoile(s32 in_x, s32 in_y)
 void display_grp_stars(void)
 {
     Obj *grapped;
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
+    s16 x; s16 y; s16 w; s16 h;
     s16 cen_x;
     s16 grapped_x;
 
@@ -151,7 +148,7 @@ void DISPLAY_TEXT_FEE(void)
   }
 }
 
-INCLUDE_ASM("asm/nonmatchings/draw_ui", DisplayJumellesNormal);
+INCLUDE_ASM("asm/nonmatchings/draw_hud", DisplayJumellesNormal);
 
 /* 1A338 8013EB38 -O2 */
 /*? FUN_80139014(s16, s16, s16, s16, s32, s32);*/

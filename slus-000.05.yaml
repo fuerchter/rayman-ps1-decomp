@@ -69,7 +69,7 @@ segments:
       - [0x2B04, .rodata, input_ED20] #80127304
       - [0x2F04, .rodata, fond_10B3C] #80127704
       - [0x2FDC, .rodata, draw] #801277DC
-      - [0x2FFC, .rodata, draw_ui] #801277fc
+      - [0x2FFC, .rodata, draw_hud] #801277fc
       - [0x300C, .rodata, collision/collision] #8012780C
       - [0x3F0C, .rodata, collision/block_22C84] #8012870c
       - [0x3F88, .rodata, obj/mama_pirate] #80128788
@@ -115,7 +115,7 @@ segments:
       - [0x7C68, .rodata, demo_7F2BC] #8012c468
       - [0x7C84, .rodata, menu/menu_7F4B4] #8012c484
       - [0x7D98, rodata]
-      - [0x8830, asm, unknown/8830] #8012D030
+      - [0x8830, asm, rollup_trans] #8012D030
       - [0x9424, asm, continue] #8012DC24
       - [0x95CC, c, world_map_95CC] #8012ddcc
       - [0x9A14, asm, vignet] #8012E214
@@ -136,7 +136,7 @@ segments:
       - [0x14AD8, asm, loading_tex] #801392D8 TODO: re-did split (start and end), but still not 100% certain
       - [0x14FF4, c, draw] #801397F4
       - [0x18118, c, text_18118] #8013c918
-      - [0x19A38, c, draw_ui] #8013e238
+      - [0x19A38, c, draw_hud] #8013e238
       - [0x1B1F0, c, collision/collision] #8013f9f0
       - [0x21D30, c, collision/bit_util] #80146530
       - [0x22754, asm, collision/proj] #80146f54
@@ -351,7 +351,7 @@ segments:
       - [0xAA6EC, .data, data/loading_AA6EC] #801ceeec
       - [0xAA6FC, data]
       - [0xAA774, .data, data/draw_AA774] #801CEF74
-      - [0xAA77C, .data, data/draw_ui] #801CEF7C
+      - [0xAA77C, .data, data/draw_hud_AA77C] #801CEF7C
       - [0xAA7A4, data]
       - [0xAA7A8, .data, data/obj/mama_pirate] #801CEFA8
       - [0xAA7C0, .data, data/sound_AA7C0] #801CEFC0
