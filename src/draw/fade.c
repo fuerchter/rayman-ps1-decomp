@@ -1,4 +1,4 @@
-#include "fade.h"
+#include "draw/fade.h"
 
 /* 44C20 80169420 -O2 -msoft-float */
 void FUN_80169420(Display *disp)
@@ -46,7 +46,7 @@ void PS1_LightningLoop(u32 param_1, s16 param_2)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/fade", PS1_LightningDraw);
+INCLUDE_ASM("asm/nonmatchings/draw/fade", PS1_LightningDraw);
 
 /* 4523C 80169A3C -O2 -msoft-float */
 void FUN_80169a3c(RGBAArray *param_1, s16 param_2)

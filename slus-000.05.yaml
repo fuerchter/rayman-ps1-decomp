@@ -135,7 +135,7 @@ segments:
       - [0x10B3C, c, draw/fond_10B3C] #8013533C
       - [0x14AD8, asm, loading_tex] #801392D8 TODO: re-did split (start and end), but still not 100% certain
       - [0x14FF4, c, draw/draw_14FF4] #801397F4
-      - [0x18118, c, text_18118] #8013c918
+      - [0x18118, c, draw/text_18118] #8013c918
       - [0x19A38, c, draw_hud] #8013e238
       - [0x1B1F0, c, collision/collision] #8013f9f0
       - [0x21D30, c, collision/bit_util] #80146530
@@ -200,7 +200,7 @@ segments:
       - [0x3F170, c, save] #80163970
       - [0x3FFAC, c, special_platform] #801647ac
       - [0x41084, c, sound] #80165884
-      - [0x44C20, c, fade] #80169420
+      - [0x44C20, c, draw/fade] #80169420
       - [0x45A7C, c, card] #8016a27c
       - [0x476F0, asm, obj/poing] #8016bef0
       - [0x48528, asm, unknown/48528] #8016cd28
@@ -339,7 +339,7 @@ segments:
       - [0xAA5FC, data]
       #- [0xAA5FC, .data, data/cam_scroll_AA5FC] #801CEDFC not enough funcs implemented yet
       - [0xAA608, data]
-      #- [0xAA610, .data, data/text_AA610] #801CEE10 both vars here seem to end up at 801CEE10? not sure how it would be, when let_shadow is done
+      #- [0xAA610, .data, data/draw/text_AA610] #801CEE10 both vars here seem to end up at 801CEE10? not sure how it would be, when let_shadow is done
       - [0xAA614, data]
       - [0xAA65C, .data, data/obj/medaillon_toon_AA65C] #801CEE5C
       - [0xAA660, data] #TODO: does this belong to medaillon_toon?

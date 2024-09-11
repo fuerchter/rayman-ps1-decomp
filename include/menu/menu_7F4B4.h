@@ -5,7 +5,7 @@
 #include "psyq_3_0_missing/STRINGS.H"
 #include "text_24E10.h"
 #include "menu/menu_7EEE4.h"
-#include "fade.h"
+#include "draw/fade.h"
 #include "demo_7F2BC.h"
 #include "menu/menu_82008.h"
 #include "card.h"

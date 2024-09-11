@@ -1,4 +1,4 @@
-#include "text_18118.h"
+#include "draw/text_18118.h"
 
 /* 18118 8013C918 -O2 -msoft-float */
 u8 PS1_deter_num_let_old(s32 param_1)
@@ -115,9 +115,9 @@ void PS1_DisplayMultipleCenteredText(u8 index, MenuText *in_menus)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/text_18118", DrawFondBoxNormal);
+INCLUDE_ASM("asm/nonmatchings/draw/text_18118", DrawFondBoxNormal);
 
-INCLUDE_ASM("asm/nonmatchings/text_18118", DrawBlackBoxNormal);
+INCLUDE_ASM("asm/nonmatchings/draw/text_18118", DrawBlackBoxNormal);
 
 /* 18A1C 8013D21C -O2 -msoft-float */
 void DISPLAY_BLACKBOX(u16 x, u16 y, u16 w, u16 h, u8 param_5, u8 is_fond)
@@ -128,9 +128,9 @@ void DISPLAY_BLACKBOX(u16 x, u16 y, u16 w, u16 h, u8 param_5, u8 is_fond)
         DrawBlackBoxNormal(x, y, w, h, 255 - param_5);
 }
 
-INCLUDE_ASM("asm/nonmatchings/text_18118", display_text_sin);
+INCLUDE_ASM("asm/nonmatchings/draw/text_18118", display_text_sin);
 
-INCLUDE_ASM("asm/nonmatchings/text_18118", display_text);
+INCLUDE_ASM("asm/nonmatchings/draw/text_18118", display_text);
 
 /* 19990 8013E190 -O2 -msoft-float */
 void display_box_text(TextToDisplay *txt)

@@ -1,7 +1,7 @@
-#include "fade.h"
+#include "draw/fade.h"
 
 /* matches, but cleanup and label stuff */
-/*INCLUDE_ASM("asm/nonmatchings/fade", PS1_LightningDraw);*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/fade", PS1_LightningDraw);*/
 
 void PS1_LightningDraw(s16 param_1)
 {

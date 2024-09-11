@@ -1,7 +1,7 @@
-#include "text_18118.h"
+#include "draw/text_18118.h"
 
 /* matches, but cleanup */
-/*INCLUDE_ASM("asm/nonmatchings/text_18118", DrawFondBoxNormal);*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/text_18118", DrawFondBoxNormal);*/
 
 void DrawFondBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness)
 {
@@ -74,7 +74,7 @@ void DrawFondBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness)
 }
 
 /* matches, but some way to reduce duplication? */
-/*INCLUDE_ASM("asm/nonmatchings/text_18118", DrawBlackBoxNormal);*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/text_18118", DrawBlackBoxNormal);*/
 
 void DrawBlackBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness)
 {
@@ -119,7 +119,7 @@ void DrawBlackBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness)
 }
 
 /* matches, but PS1_CurrentDisplay accesses, duplication */
-/*INCLUDE_ASM("asm/nonmatchings/text_18118", display_text_sin);*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/text_18118", display_text_sin);*/
 
 void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font_size, u8 clut_x)
 {
@@ -253,7 +253,7 @@ void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font_size, u8 
 }
 
 /* stack size? */
-/*INCLUDE_ASM("asm/nonmatchings/text_18118", display_text);*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/text_18118", display_text);*/
 
 void display_text(u8 *text, s16 in_x, s16 in_y, u8 font_size, u8 param_5)
 {

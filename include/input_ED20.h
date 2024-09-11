@@ -4,7 +4,7 @@
 #include "common.h"
 #include "common/record.h"
 #include "menu/menu_7F4B4.h"
-#include "fade.h"
+#include "draw/fade.h"
 
 typedef u8 Input;
 #define INPUT_NONE 0
