@@ -552,7 +552,7 @@ void REALISATION_ACTION(void)
     case 1:
         if (fichier_a_copier != 0)
         {
-            if ((strcmp(save_ray[fichier_a_copier], s__801cf120) != 0) || (u8) PS1_SaveWldMap())
+            if ((strcmp(save_ray[fichier_a_copier], s__801cf120) != 0) || (u8) PS1_PromptSaveWldMap())
                 should_load = true;
             if (should_load)
             {
@@ -575,7 +575,7 @@ void REALISATION_ACTION(void)
     case 2:
         if (strcmp(save_ray[positiony], s__801cf120) != 0)
         {
-            FUN_801a1324();
+            PS1_PromptCardErase();
             if (positiony_mc == 1)
             {
                 fichier_selectionne = positiony;

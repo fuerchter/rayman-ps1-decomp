@@ -30,14 +30,14 @@ void PS1_CheckCardChanged(void);
 void FUN_801a0c68(void);
 void PS1_SetNoCard(void);
 void PS1_DoYouHaveCard(void);
-void PS1_PromptFormatCard(void);
+void PS1_PromptCardFormat(void);
 void PS1_GetNbreSave1(void);
 void FUN_801a10a4(void);
 s16 PS1_ReadingMemoryCard(void);
 void FUN_801a1110(void);
 void PS1_PromptPad(void);
-void FUN_801a1324(void);
-u8 PS1_SaveWldMap(void);
-u8 FUN_801a141c(void);
+void PS1_PromptCardErase(void);
+u8 PS1_PromptSaveWldMap(void);
+u8 PS1_PromptQuit(void);
 
 #endif

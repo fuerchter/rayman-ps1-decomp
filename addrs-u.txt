@@ -65,6 +65,7 @@ PTR_s_game_saved_801c3540 = 0x801c3540;
 PTR_s_no_save_available_801c3544 = 0x801c3544;
 PS1_Disp_Cur_Tile1 = 0x801FA690;
 PS1_CardStrings = 0x801c3548;
+PS1_CardShouldCheckFirstBoot = 0x801d7850;
 
 D_801C438C = 0x801C438C;
 D_801CEE10 = 0x801cee10;

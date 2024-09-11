@@ -31,7 +31,7 @@ void FUN_801790cc(Display *display)
 INCLUDE_ASM("asm/nonmatchings/unknown/draw_548CC", Display_and_free_luciole);
 
 /* 55EF8 8017A6F8 -O2 -msoft-float */
-void FUN_8017a6f8(void)
+void PS1_PerfectBonusDrawBg(void)
 {
     s32 unk_1;
     u16 unk_2;

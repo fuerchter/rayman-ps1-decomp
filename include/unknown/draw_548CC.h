@@ -66,7 +66,7 @@ extern s32 PS1_TPage_y;
 
 void FUN_801790cc(Display *display);
 void Display_and_free_luciole(void);
-void FUN_8017a6f8(void);
+void PS1_PerfectBonusDrawBg(void);
 void DISPLAY_FOND_MENU(void);
 void FUN_8017b260(u16 param_1);
 

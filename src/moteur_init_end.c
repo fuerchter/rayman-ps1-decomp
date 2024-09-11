@@ -1,7 +1,7 @@
 #include "moteur_init_end.h"
 
 /* TODO: move to header */
-extern u8 D_801D7850; /* whether we should check for memory card after bootup? (so goes with card stuff? or menu?) */
+extern u8 PS1_CardShouldCheckFirstBoot; /* goes with card stuff? or menu? */
 extern u8 first_boss_meet; /* this should go with Change_Wait_Anim(), so unknown/2539C? */
 
 /* 347C4 80158FC4 -O2 -msoft-float */
@@ -14,7 +14,7 @@ void INIT_MOTEUR(u8 new_lvl)
     {
         pix_gerbe[i].is_active = false;
 
-        cur_data = &pix_gerbe[i].items[0];
+        cur_data = (s16 *)&pix_gerbe[i].items[0];
         for (j = 0; j < (s16) (sizeof(pix_gerbe[i].items) / sizeof(s16)); j++)
             *cur_data++ = 0;
     }
@@ -129,7 +129,7 @@ void INIT_MOTEUR_BEGIN(void)
     D_801F75C0 = 0;
     NumDemo = 0;
     PS1_ShouldClearPassword = true;
-    D_801D7850 = true;
+    PS1_CardShouldCheckFirstBoot = true;
     left_time = 0;
     life_becoz_wiz = false;
     RunTimeDemo = 1800;

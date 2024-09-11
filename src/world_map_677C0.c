@@ -295,7 +295,7 @@ void DO_RAYMAN_IN_WLD_MAP(void)
                     t_world_info[num_world_choice].level_name == PTR_s_save_game_801c353c
                 )
                 {
-                    if (PS1_SaveWldMap())
+                    if (PS1_PromptSaveWldMap())
                     {
                         SaveGameOnDisk(fichier_selectionne);
                         PASTILLES_SAUVE_SAVED(num_world_choice);

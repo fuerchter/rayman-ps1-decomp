@@ -19,7 +19,7 @@ s32 do_perfect_bonus(void)
   s16 i;
   s16 done;
 
-  FUN_8017a6f8();
+  PS1_PerfectBonusDrawBg();
   horloges();
   if (loop_time == 0)
   {

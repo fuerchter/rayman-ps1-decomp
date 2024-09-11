@@ -166,7 +166,7 @@ void PS1_DoYouHaveCard(void)
 }
 
 /* 7C608 801A0E08 -O2 -msoft-float */
-void PS1_PromptFormatCard(void)
+void PS1_PromptCardFormat(void)
 {
     if (PS1_CardUnformatted())
     {
@@ -268,7 +268,7 @@ void FUN_801a1110(void)
                 if (!PS1_NoCard)
                 {
                     if (NBRE_SAVE != 0)
-                        PS1_PromptFormatCard();
+                        PS1_PromptCardFormat();
                     
                     if (!PS1_NoCard && NBRE_SAVE != 0)
                         FUN_801a0c68();
@@ -302,7 +302,7 @@ void PS1_PromptPad(void)
 }
 
 /* 7CB24 801A1324 -O2 -msoft-float */
-void FUN_801a1324(void)
+void PS1_PromptCardErase(void)
 {
     PS1_CardStringDisplayed = 9;
     inter_select = 0;
@@ -316,7 +316,7 @@ void FUN_801a1324(void)
 }
 
 /* 7CB98 801A1398 -O2 -msoft-float */
-u8 PS1_SaveWldMap(void)
+u8 PS1_PromptSaveWldMap(void)
 {
     PS1_CardStringDisplayed = 10;
     inter_select = 0;
@@ -331,7 +331,7 @@ u8 PS1_SaveWldMap(void)
 }
 
 /* 7CC1C 801A141C -O2 -msoft-float */
-u8 FUN_801a141c(void)
+u8 PS1_PromptQuit(void)
 {
     PS1_CardStringDisplayed = 11;
     inter_select = 0;
