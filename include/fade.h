@@ -27,7 +27,7 @@ void FUN_80169b5c(void);
 void INIT_FADE_OUT(void);
 void INIT_FADE_IN(void);
 void DO_FADE(void);
-u8 PS1_DO_FADE_OUT_PRG(void);
+s16 PS1_DO_FADE_OUT_PRG(void);
 void DO_FADE_OUT(void);
 void PS1_DO_PICTURE_IN_PICTURE(void);
 

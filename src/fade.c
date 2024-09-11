@@ -113,15 +113,69 @@ void INIT_FADE_IN(void)
 {
     D_801F7FF0 = 0;
     D_801CF018 = 0;
-    D_801F8480 = 0xFF;
+    D_801F8480 = 255;
     D_801CF016 = -8;
     fade = 32;
 }
 
-INCLUDE_ASM("asm/nonmatchings/fade", DO_FADE);
+/* 453E4 80169BE4 -O2 -msoft-float */
+void DO_FADE(void)
+{
+    if (fade != 0)
+    {
+        (PS1_CurrentDisplay->field_0x60bc_0x660b + D_801CF018)->tile.r0 = D_801F8480;
+        (PS1_CurrentDisplay->field_0x60bc_0x660b + D_801CF018)->tile.g0 = D_801F8480;
+        (PS1_CurrentDisplay->field_0x60bc_0x660b + D_801CF018)->tile.b0 = D_801F8480;
+        AddPrim(
+            &PS1_CurrentDisplay->ordering_table[9],
+            &PS1_CurrentDisplay->field_0x60bc_0x660b[D_801CF018].tile
+        );
+        PS1_CurrentDisplay->drawing_environment.tpage = GetTPage(1, 2, 0, 256);
+        SetDrawEnv(
+            &PS1_CurrentDisplay->field_0x60bc_0x660b[D_801CF018].drawing_environment,
+            &PS1_CurrentDisplay->drawing_environment
+        );
+        AddPrim(
+            &PS1_CurrentDisplay->ordering_table[9],
+            &PS1_CurrentDisplay->field_0x60bc_0x660b[D_801CF018]
+        );
 
-INCLUDE_ASM("asm/nonmatchings/fade", PS1_DO_FADE_OUT_PRG);
+        if (D_801F8480 == 248 && D_801CF016 > 0)
+            D_801F8480 = 255;
+        else if (D_801F8480 == 255 && D_801CF016 < 0)
+            D_801F8480 = 248;
+        else
+            D_801F8480 += D_801CF016;
 
-INCLUDE_ASM("asm/nonmatchings/fade", DO_FADE_OUT);
+        PS1_DisableInputs = true;
+        if (--fade == 0)
+            D_801CF018 = -1;
+    }
+}
+
+/* 455D0 80169DD0 -O2 -msoft-float */
+s16 PS1_DO_FADE_OUT_PRG(void)
+{
+    DO_FADE();
+    return fade == 0;
+}
+
+/* 455F8 80169DF8 -O2 -msoft-float */
+void DO_FADE_OUT(void)
+{
+    Display *new_disp;
+
+    if (PS1_CurrentDisplay == &PS1_Display1)
+        new_disp = &PS1_Display1 + 1;
+    else
+        new_disp = &PS1_Display1;
+    MoveImage(
+        &new_disp->drawing_environment.clip,
+        PS1_CurrentDisplay->drawing_environment.clip.x, 
+        PS1_CurrentDisplay->drawing_environment.clip.y
+    );
+    INIT_FADE_OUT();
+    SYNCHRO_LOOP(PS1_DO_FADE_OUT_PRG);
+}
 
 INCLUDE_ASM("asm/nonmatchings/fade", PS1_DO_PICTURE_IN_PICTURE);
