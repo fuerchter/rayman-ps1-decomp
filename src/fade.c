@@ -178,4 +178,99 @@ void DO_FADE_OUT(void)
     SYNCHRO_LOOP(PS1_DO_FADE_OUT_PRG);
 }
 
-INCLUDE_ASM("asm/nonmatchings/fade", PS1_DO_PICTURE_IN_PICTURE);
+/* 45650 80169E50 -O2 -msoft-float */
+void PS1_DO_PICTURE_IN_PICTURE(void)
+{
+    Display *new_disp;
+    s32 cur_comp;
+    POLY_FT4 *poly_1 = &PS1_CurrentDisplay->polygons[PS1_PolygonsCount++];
+    POLY_FT4 *poly_2 = &PS1_CurrentDisplay->polygons[PS1_PolygonsCount];
+    PS1_PolygonsCount += 2;
+    
+    if (PS1_CurrentDisplay == &PS1_Display1)
+        new_disp = &PS1_Display1 + 1;
+    else
+        new_disp = &PS1_Display1;
+    
+    poly_1->x0 = 120;
+    poly_1->y0 = 5;
+    poly_1->x1 = 152;
+    poly_1->y1 = 5;
+    poly_1->x2 = 120;
+    poly_1->y2 = 57;
+    poly_1->x3 = 152;
+    poly_1->y3 = 57;
+    cur_comp = new_disp->drawing_environment.clip.x;
+    poly_1->u0 = cur_comp - (cur_comp / 128 * 128);
+
+    cur_comp = new_disp->drawing_environment.clip.y + 16;
+    poly_1->v0 = cur_comp - (cur_comp / 256 * 256);
+
+    cur_comp = new_disp->drawing_environment.clip.x;
+    poly_1->u1 = cur_comp - (cur_comp / 128 * 128) - 128;
+
+    cur_comp = new_disp->drawing_environment.clip.y + 16;
+    poly_1->v1 = cur_comp - (cur_comp / 256 * 256);
+
+    cur_comp = new_disp->drawing_environment.clip.x;
+    poly_1->u2 = cur_comp - (cur_comp / 128 * 128);
+
+    cur_comp = new_disp->drawing_environment.clip.y + 16;
+    poly_1->v2 = cur_comp - (cur_comp / 256 * 256) - 48;
+
+    cur_comp = new_disp->drawing_environment.clip.x;
+    poly_1->u3 = cur_comp - (cur_comp / 128 * 128) - 128;
+
+    cur_comp = new_disp->drawing_environment.clip.y + 16;
+    poly_1->v3 = cur_comp - (cur_comp / 256 * 256) - 48;
+    SetShadeTex(poly_1, true);
+    SetSemiTrans(poly_1, false);
+    AddPrim(&PS1_CurrentDisplay->ordering_table[10], poly_1);
+    poly_1->tpage = GetTPage(
+        2,
+        0,
+        new_disp->drawing_environment.clip.x,
+        new_disp->drawing_environment.clip.y + 16
+    );
+
+    poly_2->x0 = 152;
+    poly_2->y0 = 5;
+    poly_2->x1 = 200;
+    poly_2->y1 = 5;
+    poly_2->x2 = 152;
+    poly_2->y2 = 57;
+    poly_2->x3 = 200;
+    poly_2->y3 = 57;
+    cur_comp = new_disp->drawing_environment.clip.x + 128;
+    poly_2->u0 = cur_comp - (cur_comp / 128 * 128);
+
+    cur_comp = new_disp->drawing_environment.clip.y + 16;
+    poly_2->v0 = cur_comp - (cur_comp / 256 * 256);
+
+    cur_comp = new_disp->drawing_environment.clip.x + 128;
+    poly_2->u1 = cur_comp - (cur_comp / 128 * 128) - 64;
+
+    cur_comp = new_disp->drawing_environment.clip.y + 16;
+    poly_2->v1 = cur_comp - (cur_comp / 256 * 256);
+
+    cur_comp = new_disp->drawing_environment.clip.x + 128;
+    poly_2->u2 = cur_comp - (cur_comp / 128 * 128);
+
+    cur_comp = new_disp->drawing_environment.clip.y + 16;
+    poly_2->v2 = cur_comp - (cur_comp / 256 * 256) - 48;
+
+    cur_comp = new_disp->drawing_environment.clip.x + 128;
+    poly_2->u3 = cur_comp - (cur_comp / 128 * 128) - 64;
+
+    cur_comp = new_disp->drawing_environment.clip.y + 16;
+    poly_2->v3 = cur_comp - (cur_comp / 256 * 256) - 48;
+    SetShadeTex(poly_2, true);
+    SetSemiTrans(poly_2, false);
+    AddPrim(&PS1_CurrentDisplay->ordering_table[10], poly_2);
+    poly_2->tpage = GetTPage(
+        2,
+        0,
+        new_disp->drawing_environment.clip.x + 128,
+        new_disp->drawing_environment.clip.y + 16
+    );
+}
