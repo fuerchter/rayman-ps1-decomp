@@ -5,7 +5,7 @@
 #include "common/display.h"
 #include "common/record.h"
 #include "cheats.h"
-#include "draw_14FF4.h"
+#include "draw/draw_14FF4.h"
 #include "input_ED20.h"
 #include "obj/fee_3D76C.h"
 #include "music.h"

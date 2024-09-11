@@ -1,4 +1,4 @@
-#include "fond_10B3C.h"
+#include "draw/fond_10B3C.h"
 
 /* BinarySerializer.Ray1/DataTypes/PS1/Vignette */
 
@@ -17,23 +17,23 @@ extern u8 *D_801F8180; /* pointer to something for sure, sometimes set to 801f43
 extern u16 D_801F5440;
 extern u16 D_801F55D8;
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_LoadFondSprites);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFondSprites);
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_LoadFondDataAndPalettes);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFondDataAndPalettes);
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_LoadFond);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFond);
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80135ab0);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80135ab0);
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80135d5c);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80135d5c);
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_8013613c);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_8013613c);
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80136340);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80136340);
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_801366ac);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_801366ac);
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_DisplayFondSprites);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_DisplayFondSprites);
 
 /* 13198 80137998 -O2 -msoft-float */
 u8 FUN_80137998(u8 param_1, u8 param_2, s32 param_3)
@@ -61,9 +61,9 @@ u8 PS1_GetTileU(s32 param_1)
     return (param_1 & 0xF) * 16;
 }
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", DRAW_MAP);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DRAW_MAP);
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80137cc8);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80137cc8);
 
 /* 13B38 80138338 -O2 -msoft-float */
 void allume_vitraux(u8 (*param_1)[5])
@@ -121,19 +121,19 @@ void FUN_80138360(u8 *vit_clig)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80138718);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80138718);
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80138b84);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80138b84);
 
-INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_DisplayWorldMapBg2);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_DisplayWorldMapBg2);
 
 void FUN_801392c8(void) {}
 
 void FUN_801392d0(void) {}
 
 /* three parts of rodata with same length? */
-INCLUDE_RODATA("asm/nonmatchings/fond_10B3C", D_80127734);
+INCLUDE_RODATA("asm/nonmatchings/draw/fond_10B3C", D_80127734);
 
-INCLUDE_RODATA("asm/nonmatchings/fond_10B3C", D_8012776C);
+INCLUDE_RODATA("asm/nonmatchings/draw/fond_10B3C", D_8012776C);
 
-INCLUDE_RODATA("asm/nonmatchings/fond_10B3C", D_801277A4);
+INCLUDE_RODATA("asm/nonmatchings/draw/fond_10B3C", D_801277A4);

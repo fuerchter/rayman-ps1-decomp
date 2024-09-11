@@ -1,6 +1,6 @@
-#include "draw_14FF4.h"
+#include "draw/draw_14FF4.h"
 
-/*INCLUDE_ASM("asm/nonmatchings/draw", PS1_DrawColoredSprite);*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", PS1_DrawColoredSprite);*/
 
 void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode)
 {
@@ -234,7 +234,7 @@ void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode)
 }
 
 /* matches, but gross */
-/*INCLUDE_ASM("asm/nonmatchings/draw", display_bar_boss);*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", display_bar_boss);*/
 
 void display_bar_boss(Obj *boss_obj)
 {
@@ -322,7 +322,7 @@ void display_bar_boss(Obj *boss_obj)
 }
 
 /* matches, but ugly and too many unknowns */
-/*INCLUDE_ASM("asm/nonmatchings/draw", display_flocons_behind);*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", display_flocons_behind);*/
 
 void display_flocons_behind(void)
 {
@@ -473,7 +473,7 @@ void display_flocons_behind(void)
 matches, but just as ugly
 oops, didn't remove unused locals yet
 */
-/*INCLUDE_ASM("asm/nonmatchings/draw", display_flocons_before);*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", display_flocons_before);*/
 
 void display_flocons_before(void)
 {
@@ -574,7 +574,7 @@ void display_flocons_before(void)
     PROJ_CENTER_Y = old_pcy;
 }
 
-/*INCLUDE_ASM("asm/nonmatchings/draw", DISPLAY_ALL_OBJECTS);*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", DISPLAY_ALL_OBJECTS);*/
 
 void DISPLAY_ALL_OBJECTS(void)
 {

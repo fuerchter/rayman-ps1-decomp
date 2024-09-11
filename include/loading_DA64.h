@@ -6,12 +6,12 @@
 #include "common/level.h"
 #include "common/ray.h"
 #include "common/mapdata.h"
-#include "draw_14FF4.h"
+#include "draw/draw_14FF4.h"
 #include "obj_update.h"
 #include "loading_794DC.h"
 #include "draw_hud.h"
 #include "gendoor.h"
-#include "fond_10B3C.h"
+#include "draw/fond_10B3C.h"
 
 typedef struct Font
 {

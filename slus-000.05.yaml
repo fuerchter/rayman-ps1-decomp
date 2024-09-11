@@ -67,8 +67,8 @@ segments:
       #- [0x1580, .rodata, data/loading_A0338] #80125d80
       - [0x2AA8, .rodata, loading_E99C] #801272A8
       - [0x2B04, .rodata, input_ED20] #80127304
-      - [0x2F04, .rodata, fond_10B3C] #80127704
-      - [0x2FDC, .rodata, draw_14FF4] #801277DC
+      - [0x2F04, .rodata, draw/fond_10B3C] #80127704
+      - [0x2FDC, .rodata, draw/draw_14FF4] #801277DC
       - [0x2FFC, .rodata, draw_hud] #801277fc
       - [0x300C, .rodata, collision/collision] #8012780C
       - [0x3F0C, .rodata, collision/block_22C84] #8012870c
@@ -115,7 +115,7 @@ segments:
       - [0x7C68, .rodata, demo_7F2BC] #8012c468
       - [0x7C84, .rodata, menu/menu_7F4B4] #8012c484
       - [0x7D98, rodata]
-      - [0x8830, asm, rollup_trans] #8012D030
+      - [0x8830, asm, draw/rollup_trans] #8012D030
       - [0x9424, asm, continue] #8012DC24
       - [0x95CC, c, world_map_95CC] #8012ddcc
       - [0x9A14, asm, vignet] #8012E214
@@ -132,9 +132,9 @@ segments:
       - [0xE098, asm, video] #80132898
       - [0xE818, c, loading_E99C] #80133018
       - [0xED20, c, input_ED20] #80133520
-      - [0x10B3C, c, fond_10B3C] #8013533C
+      - [0x10B3C, c, draw/fond_10B3C] #8013533C
       - [0x14AD8, asm, loading_tex] #801392D8 TODO: re-did split (start and end), but still not 100% certain
-      - [0x14FF4, c, draw_14FF4] #801397F4
+      - [0x14FF4, c, draw/draw_14FF4] #801397F4
       - [0x18118, c, text_18118] #8013c918
       - [0x19A38, c, draw_hud] #8013e238
       - [0x1B1F0, c, collision/collision] #8013f9f0
@@ -350,7 +350,7 @@ segments:
       - [0xAA6DC, data]
       - [0xAA6EC, .data, data/loading_AA6EC] #801ceeec
       - [0xAA6FC, data]
-      - [0xAA774, .data, data/draw_AA774] #801CEF74
+      - [0xAA774, .data, data/draw/draw_AA774] #801CEF74
       - [0xAA77C, .data, data/draw_hud_AA77C] #801CEF7C
       - [0xAA7A4, data]
       - [0xAA7A8, .data, data/obj/mama_pirate] #801CEFA8
@@ -367,6 +367,6 @@ segments:
       - [0xAA8E0, data]
       - [0xAA918, .data, data/menu/menu_AA918] #801CF118
       - [0xAA920, data]
-      - [0xAAE00, .data, data/draw_AAE00] #801CF600
+      - [0xAAE00, .data, data/draw/draw_AAE00] #801CF600
       - [0xAAE20, data]
   - [0xAB000]
