@@ -1,4 +1,4 @@
-#include "unknown/draw_548CC.h"
+#include "draw/draw_548CC.h"
 
 /* 548CC 801790CC -O2 -msoft-float */
 void FUN_801790cc(Display *display)
@@ -28,7 +28,7 @@ void FUN_801790cc(Display *display)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/unknown/draw_548CC", Display_and_free_luciole);
+INCLUDE_ASM("asm/nonmatchings/draw/draw_548CC", Display_and_free_luciole);
 
 /* 55EF8 8017A6F8 -O2 -msoft-float */
 void PS1_PerfectBonusDrawBg(void)
@@ -110,7 +110,7 @@ void PS1_PerfectBonusDrawBg(void)
     D_801CF086 = D_801CF088;
 }
 
-INCLUDE_ASM("asm/nonmatchings/unknown/draw_548CC", DISPLAY_FOND_MENU);
+INCLUDE_ASM("asm/nonmatchings/draw/draw_548CC", DISPLAY_FOND_MENU);
 
 /* 56A60 8017B260 -O2 -msoft-float */
 void FUN_8017b260(u16 param_1)

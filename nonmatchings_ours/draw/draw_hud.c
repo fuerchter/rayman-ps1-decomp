@@ -1,8 +1,8 @@
-#include "draw_hud.h"
+#include "draw/draw_hud.h"
 
 /* matches, but do{}while(0); */
 /* 1A04C 8013E84C -O2 */
-/*INCLUDE_ASM("asm/nonmatchings/display_ui", DisplayJumellesNormal);*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/draw_hud", DisplayJumellesNormal);*/
 
 /*? DISPLAY_BLACKBOX(s32, s32, s32, s32, s32, s32);
 ? FUN_801397f4(s32, s32, s32, ?);*/

@@ -1,4 +1,4 @@
-#include "draw_hud.h"
+#include "draw/draw_hud.h"
 
 /* TODO: Display struct */
 /*extern s32 PS1_CurrentDisplay;*/
@@ -148,7 +148,7 @@ void DISPLAY_TEXT_FEE(void)
   }
 }
 
-INCLUDE_ASM("asm/nonmatchings/draw_hud", DisplayJumellesNormal);
+INCLUDE_ASM("asm/nonmatchings/draw/draw_hud", DisplayJumellesNormal);
 
 /* 1A338 8013EB38 -O2 */
 /*? FUN_80139014(s16, s16, s16, s16, s32, s32);*/

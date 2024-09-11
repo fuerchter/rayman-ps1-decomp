@@ -9,7 +9,7 @@
 #include "draw/draw_14FF4.h"
 #include "obj_update.h"
 #include "loading_794DC.h"
-#include "draw_hud.h"
+#include "draw/draw_hud.h"
 #include "gendoor.h"
 #include "draw/fond_10B3C.h"
 

@@ -5,7 +5,7 @@
 #include "psyq_3_0/LIBGPU.H"
 #include "text_24E10.h"
 #include "draw/draw_14FF4.h"
-#include "unknown/draw_548CC.h"
+#include "draw/draw_548CC.h"
 
 typedef struct MenuText {
     u8 *header;

@@ -1,6 +1,6 @@
-#include "unknown/draw_548CC.h"
+#include "draw/draw_548CC.h"
 
-/*INCLUDE_ASM("asm/nonmatchings/unknown/draw_548CC", Display_and_free_luciole);*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/draw_548CC", Display_and_free_luciole);*/
 
 void Display_and_free_luciole(void)
 {
@@ -445,7 +445,7 @@ skipped:
 }
 
 /* matches, but cleanup */
-/*INCLUDE_ASM("asm/nonmatchings/unknown/draw_548CC", DISPLAY_FOND_MENU);*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/draw_548CC", DISPLAY_FOND_MENU);*/
 
 void DISPLAY_FOND_MENU(void)
 {

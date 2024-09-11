@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "common/display.h"
-#include "unknown/draw_548CC.h"
+#include "draw/draw_548CC.h"
 
 typedef struct RGBAArray {
     u8 data[4];
