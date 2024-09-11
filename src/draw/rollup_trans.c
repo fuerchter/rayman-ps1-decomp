@@ -1,7 +1,7 @@
 #include "draw/rollup_trans.h"
 
 /* 8830 8012D030 -O2 -msoft-float */
-void FUN_8012d030(Vec2 tpage_pos, Vec2 param_2, s16 step_width, s16 step_height, s16 poly_count)
+void FUN_8012d030(DVECTOR tpage_pos, DVECTOR param_2, s16 step_width, s16 step_height, s16 poly_count)
 {
     s16 cnt_x; s16 pos_x;
     s16 unk_1;
@@ -9,8 +9,8 @@ void FUN_8012d030(Vec2 tpage_pos, Vec2 param_2, s16 step_width, s16 step_height,
     s16 cnt_y; s16 pos_y;
     u8 unk_y_1;
     u8 unk_y_2;
-    u16 tpage_1 = GetTPage(2, 1, tpage_pos.x, tpage_pos.y);
-    u16 tpage_2 = GetTPage(2, 1, tpage_pos.x + 128, tpage_pos.y);
+    u16 tpage_1 = GetTPage(2, 1, tpage_pos.vx, tpage_pos.vy);
+    u16 tpage_2 = GetTPage(2, 1, tpage_pos.vx + 128, tpage_pos.vy);
     s16 steps_x = 320 / step_width;
     s16 steps_y = 240 / step_height;
     POLY_FT4 *poly_1 = &PS1_Display1.polygons[poly_count];
@@ -76,8 +76,8 @@ void FUN_8012d27c(void)
     SetGeomScreen(1024);
 }
 
-/*extern Vec2 D_801CEDE4;
-extern Vec2 D_801CEDE8;
+/*extern DVECTOR D_801CEDE4;
+extern DVECTOR D_801CEDE8;
 extern s16 D_801D7A78;
 extern s16 D_801F3EC0;*/
 
