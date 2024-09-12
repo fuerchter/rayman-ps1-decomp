@@ -1449,6 +1449,7 @@ alpha = 0x801d7890;
 eau_obj_id = 0x801d78a0;
 timerBeforeFirstBomb = 0x801d7a58;
 horlogeDog = 0x801d7a68;
+PS1_RollUpPosition = 0x801d7a78;
 PS1_CdMode = 0x801d7a80;
 bossSpeedFactor = 0x801d7a88;
 basex = 0x801d7a90;

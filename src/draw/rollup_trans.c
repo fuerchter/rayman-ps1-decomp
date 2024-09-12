@@ -2,7 +2,7 @@
 
 extern DVECTOR D_801CEDE4;
 extern DVECTOR D_801CEDE8;
-extern s16 D_801D7A78;
+extern s16 PS1_RollUpPosition;
 extern SVECTOR D_801F3EC0[82];
 extern SVECTOR D_801F56B8;
 extern VECTOR D_801F57D0;
@@ -88,7 +88,7 @@ void FUN_8012d27c(void)
 }
 
 /* 8AB0 8012D2B0 -O2 -msoft-float */
-void FUN_8012d2b0(s16 param_1)
+void FUN_8012d2b0(s16 rollup_pos)
 {
     SVECTOR *cur_vec;
     s16 cnt_x; s16 pos_x;
@@ -125,17 +125,15 @@ void FUN_8012d2b0(s16 param_1)
     }
     D_801F56B8.vz = 0; D_801F56B8.vy = 0; D_801F56B8.vx = 0;
     D_801F57D0.vy = 0; D_801F57D0.vx = 0; D_801F57D0.vz = 1024;
-    D_801D7A78 = param_1;
+    PS1_RollUpPosition = rollup_pos;
 }
 
 /* 8CC0 8012D4C0 -O2 -msoft-float */
-void PS1_RollUpTransition(s16 param_1, s16 left_to_right)
+void PS1_RollUpTransition(s16 rollup_pos, s16 left_to_right)
 {
     MATRIX unk_1;
     s32 unk_2;
     s16 unk_x;
-    s32 rtp_p;
-    s32 rtp_flag;
     s16 unk_3;
     s16 unk_4;
     s16 unk_5;
@@ -145,7 +143,9 @@ void PS1_RollUpTransition(s16 param_1, s16 left_to_right)
     s16 cnt_y;
     s16 unk_6;
     POLY_FT4 *cur_poly;
-    s32 avg_z4;    
+    s32 rtp_p;
+    s32 rtp_flag;
+    s32 avg_z4;
 
     RotMatrix(&D_801F56B8, &unk_1);
     TransMatrix(&unk_1, &D_801F57D0);
@@ -157,12 +157,12 @@ void PS1_RollUpTransition(s16 param_1, s16 left_to_right)
     if (left_to_right == true)
     {
         unk_2 = 395;
-        unk_x = 320 - (param_1 * unk_2 / 100);
+        unk_x = 320 - (rollup_pos * unk_2 / 100);
     }
     else
     {
         unk_2 = 495;
-        unk_x = 320 - (param_1 * unk_2 / 100);
+        unk_x = 320 - (rollup_pos * unk_2 / 100);
     }
     
     unk_3 = 125;
@@ -204,7 +204,7 @@ void PS1_RollUpTransition(s16 param_1, s16 left_to_right)
     }
 
     cur_poly = &PS1_CurrentDisplay->polygons[PS1_PolygonsCount + 2];
-    if (left_to_right == true && param_1 > 20)
+    if (left_to_right == true && rollup_pos > 20)
         unk_5--;
     cur_vec = D_801F3EC0;
     cnt_x = 0;
@@ -229,8 +229,30 @@ void PS1_RollUpTransition(s16 param_1, s16 left_to_right)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/draw/rollup_trans", PS1_RollUpRToL);
+/* 916C 8012D96C -O2 -msoft-float */
+s16 PS1_RollUpRToL(void)
+{
+    CLRSCR();
+    if (PS1_RollUpPosition != 100)
+    {
+        PS1_RollUpTransition(PS1_RollUpPosition, false);
+        PS1_RollUpPosition++;
+        return false;
+    }
+    return true;
+}
 
-INCLUDE_ASM("asm/nonmatchings/draw/rollup_trans", PS1_RollUpLToR);
+/* 91C0 8012D9C0 -O2 -msoft-float */
+s16 PS1_RollUpLToR(void)
+{
+    CLRSCR();
+    if (PS1_RollUpPosition != 0)
+    {
+        PS1_RollUpTransition(PS1_RollUpPosition, true);
+        PS1_RollUpPosition--;
+        return false;
+    }
+    return true;
+}
 
 INCLUDE_ASM("asm/nonmatchings/draw/rollup_trans", FUN_8012da14);
