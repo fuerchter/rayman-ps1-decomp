@@ -16,9 +16,9 @@ void SYNCHRO_LOOP(s16 (*func)())
     if (PS1_MemoryUsageDisplayMode != 0)
       ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 0, 0, 0);
     
-    new_disp_1 = &PS1_Display1;
-    if (PS1_CurrentDisplay == (&PS1_Display1))
-      new_disp_1 = &PS1_Display1 + 1;
+    new_disp_1 = &PS1_Displays[0];
+    if (PS1_CurrentDisplay == &PS1_Displays[0])
+      new_disp_1 = &PS1_Displays[1];
     PS1_CurrentDisplay = new_disp_1;
     DrawSync(0);
     VSync(0);
@@ -35,10 +35,10 @@ void SYNCHRO_LOOP(s16 (*func)())
       ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 0, 0, 128);
     ClearOTag((u_long *) PS1_CurrentDisplay->ordering_table, LEN(PS1_CurrentDisplay->ordering_table));
     
-    if (PS1_CurrentDisplay == &PS1_Display1)
-      new_disp_2 = &PS1_Display1 + 1;
+    if (PS1_CurrentDisplay == &PS1_Displays[0])
+      new_disp_2 = &PS1_Displays[1];
     else
-      new_disp_2 = &PS1_Display1;
+      new_disp_2 = &PS1_Displays[0];
     
     for (i = 0; i < PS1_PolygonIndexTableCount; i++)
     {

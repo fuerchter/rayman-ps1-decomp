@@ -29,7 +29,7 @@ void PS1_DrawColoredSprite(Sprite *sprite, s16 x, s16 y, u8 display_mode)
     else
     {
         new_var = PS1_CurrentDisplay;
-        if (new_var != &PS1_Display1)
+        if (new_var != &PS1_Displays)
         {
             var_s0 = &(((POLY_FT4*)0x800E3F2C)[temp_v1_1]);
         }

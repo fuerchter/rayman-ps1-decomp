@@ -59,10 +59,10 @@ void main(void)
             while(dead_time != 0 && !new_level && !new_world && ModeDemo != 2)
               DO_MAIN_LOOP();
 
-            if (PS1_CurrentDisplay == &PS1_Display1)
-              next_display = &PS1_Display1 + 1;
+            if (PS1_CurrentDisplay == &PS1_Displays[0])
+              next_display = &PS1_Displays[1];
             else
-              next_display = &PS1_Display1;
+              next_display = &PS1_Displays[0];
             PS1_CurrentDisplay = next_display;
             
             PS1_Ingame = false;
