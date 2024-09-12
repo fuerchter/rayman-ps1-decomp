@@ -4,6 +4,7 @@
 #include "common.h"
 #include "psyq_3_0/LIBGPU.H"
 #include "draw/fade.h"
+#include "draw/rollup_trans.h"
 
 s16 FUN_8019f848(void);
 s16 FUN_8019f88c(void);
