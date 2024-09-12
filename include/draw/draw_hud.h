@@ -32,8 +32,6 @@ extern u8 s_the_end_801cef9c[8];
 extern GrpStar grp_stars[30];
 extern s16 current_star;
 extern Obj div_obj;
-extern u8 PS1_TingsToGet_Col;
-extern u8 PS1_TingsToGet_ColAdd;
 
 void CLRSCR(void);
 void display_etoile(s32 in_x, s32 in_y);
