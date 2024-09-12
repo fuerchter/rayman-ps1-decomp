@@ -77,7 +77,7 @@ void FUN_8012d27c(void)
 }
 
 /* 8AB0 8012D2B0 -O2 -msoft-float */
-void FUN_8012d2b0(s16 rollup_pos)
+void FUN_8012d2b0(s16 start_pos)
 {
     SVECTOR *cur_vec;
     s16 cnt_x; s16 pos_x;
@@ -114,7 +114,7 @@ void FUN_8012d2b0(s16 rollup_pos)
     }
     D_801F56B8.vz = 0; D_801F56B8.vy = 0; D_801F56B8.vx = 0;
     D_801F57D0.vy = 0; D_801F57D0.vx = 0; D_801F57D0.vz = 1024;
-    PS1_RollUpPosition = rollup_pos;
+    PS1_RollUpPosition = start_pos;
 }
 
 /* 8CC0 8012D4C0 -O2 -msoft-float */

@@ -12,8 +12,8 @@
 #include "password.h"
 
 /* .data */
-extern s32 *D_801C4374[6];
-extern s32 *D_801C438C[6];
+extern u32 *D_801C4374[6];
+extern u32 *D_801C438C[6];
 extern u8 PS1_BackgroundIndexTable[6][30];
 
 /* .data */

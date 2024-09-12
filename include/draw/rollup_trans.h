@@ -24,7 +24,7 @@ extern s32 D_801F6390;
 
 void FUN_8012d030(DVECTOR tpage_pos, DVECTOR param_2, s16 step_width, s16 step_height, s16 poly_count);
 void FUN_8012d27c(void);
-void FUN_8012d2b0(s16 rollup_pos);
+void FUN_8012d2b0(s16 start_pos);
 void PS1_RollUpTransition(s16 rollup_pos, s16 left_to_right);
 s16 PS1_RollUpRToL(void);
 s16 PS1_RollUpLToR(void);
