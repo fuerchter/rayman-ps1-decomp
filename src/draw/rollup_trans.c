@@ -128,7 +128,106 @@ void FUN_8012d2b0(s16 param_1)
     D_801D7A78 = param_1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/draw/rollup_trans", PS1_RollUpTransition);
+/* 8CC0 8012D4C0 -O2 -msoft-float */
+void PS1_RollUpTransition(s16 param_1, s16 left_to_right)
+{
+    MATRIX unk_1;
+    s32 unk_2;
+    s16 unk_x;
+    s32 rtp_p;
+    s32 rtp_flag;
+    s16 unk_3;
+    s16 unk_4;
+    s16 unk_5;
+    SVECTOR *cur_vec;
+    s16 cnt_x;
+    s16 pos_x;
+    s16 cnt_y;
+    s16 unk_6;
+    POLY_FT4 *cur_poly;
+    s32 avg_z4;    
+
+    RotMatrix(&D_801F56B8, &unk_1);
+    TransMatrix(&unk_1, &D_801F57D0);
+    SetRotMatrix(&unk_1);
+    SetTransMatrix(&unk_1);
+    rsin(4096 - 1);
+    rcos(4096 - 1);
+    
+    if (left_to_right == true)
+    {
+        unk_2 = 395;
+        unk_x = 320 - (param_1 * unk_2 / 100);
+    }
+    else
+    {
+        unk_2 = 495;
+        unk_x = 320 - (param_1 * unk_2 / 100);
+    }
+    
+    unk_3 = 125;
+    unk_4 = 20;
+    unk_5 = D_801F84D8;
+    cur_vec = D_801F3EC0;
+    cnt_x = 0;
+    pos_x = 0;
+    while (cnt_x < (D_801F84D8 + 1))
+    {
+        cnt_y = 0;
+        while (cnt_y < (D_801F98F8 + 1))
+        {
+            if (left_to_right == true)
+            {
+                cur_vec->vx = pos_x - 160;
+                cur_vec->vz = 0;
+            }
+
+            if (pos_x >= unk_x)
+            {
+                if (pos_x >= unk_x + unk_3)
+                {
+                    MIN_2(unk_5, cnt_x);
+                    break;
+                }
+                else
+                {
+                    unk_6 = (pos_x - unk_x) * 651 / unk_4;
+                    cur_vec->vx = (unk_x + (unk_4 * rsin(unk_6) >> 12)) - 160;
+                    cur_vec->vz = (unk_4 * rcos(unk_6) >> 12) - unk_4;
+                }
+            }
+            cnt_y++;
+            cur_vec++;
+        }
+        cnt_x++;
+        pos_x += D_801F9930;
+    }
+
+    cur_poly = &PS1_CurrentDisplay->polygons[PS1_PolygonsCount + 2];
+    if (left_to_right == true && param_1 > 20)
+        unk_5--;
+    cur_vec = D_801F3EC0;
+    cnt_x = 0;
+    while (cnt_x < unk_5)
+    {
+        cnt_y = 0;
+        while (cnt_y < D_801F98F8)
+        {
+            avg_z4 = AverageZ4(
+                RotTransPers(&cur_vec[0], (s32 *)&cur_poly->x0, &rtp_p, &rtp_flag),
+                RotTransPers(&cur_vec[1], (s32 *)&cur_poly->x2, &rtp_p, &rtp_flag),
+                RotTransPers(&cur_vec[D_801F98F8] + 1, (s32 *)&cur_poly->x1, &rtp_p, &rtp_flag),
+                RotTransPers(&cur_vec[D_801F98F8] + 2, (s32 *)&cur_poly->x3, &rtp_p, &rtp_flag)
+            );
+            AddPrim(&PS1_CurrentDisplay->ordering_table[(16 * 4 + 1) - avg_z4], cur_poly);
+            cur_vec++;
+            cur_poly++;
+            cnt_y++;
+        }
+        cur_vec++;
+        cnt_x++;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/draw/rollup_trans", PS1_RollUpRToL);
 
