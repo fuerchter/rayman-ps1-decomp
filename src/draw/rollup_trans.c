@@ -1,18 +1,5 @@
 #include "draw/rollup_trans.h"
 
-extern DVECTOR D_801CEDE4;
-extern DVECTOR D_801CEDE8;
-extern s16 PS1_RollUpPosition;
-extern SVECTOR D_801F3EC0[82];
-extern SVECTOR D_801F56B8;
-extern VECTOR D_801F57D0;
-extern s16 D_801F84D8;
-extern s16 D_801F98F8;
-extern s16 D_801F9930;
-extern s16 D_801F9938;
-extern DVECTOR D_801CEDEC[2];
-extern s32 D_801F6390;
-
 /* 8830 8012D030 -O2 -msoft-float */
 void FUN_8012d030(DVECTOR tpage_pos, DVECTOR param_2, s16 step_width, s16 step_height, s16 poly_count)
 {
@@ -260,9 +247,9 @@ s16 PS1_RollUpLToR(void)
 /* 9214 8012DA14 -O2 -msoft-float */
 void FUN_8012da14(void)
 {
-    DVECTOR vecs[2];
+    DVECTOR tpage_pos[2];
 
-    __builtin_memcpy(&vecs, D_801CEDEC, sizeof(D_801CEDEC));
+    __builtin_memcpy(&tpage_pos, D_801CEDEC, sizeof(D_801CEDEC));
     FUN_8012d27c();
     PS1_Display1.polygons[0].u0 = 0;
     PS1_Display1.polygons[0].v0 = 0;
@@ -297,10 +284,10 @@ void FUN_8012da14(void)
     PS1_Display2.polygons[1].u3 = 192;
     PS1_Display2.polygons[1].v3 = 240 - 1;
 
-    PS1_Display1.polygons[0].tpage = GetTPage(2, 1, vecs[0].vx, vecs[0].vy);
-    PS1_Display1.polygons[1].tpage = GetTPage(2, 1, vecs[0].vx + 128, vecs[0].vy);
-    PS1_Display2.polygons[0].tpage = GetTPage(2, 1, vecs[0].vx, vecs[0].vy);
-    PS1_Display2.polygons[1].tpage = GetTPage(2, 1, vecs[0].vx + 128, vecs[0].vy);
+    PS1_Display1.polygons[0].tpage = GetTPage(2, 1, tpage_pos[0].vx, tpage_pos[0].vy);
+    PS1_Display1.polygons[1].tpage = GetTPage(2, 1, tpage_pos[0].vx + 128, tpage_pos[0].vy);
+    PS1_Display2.polygons[0].tpage = GetTPage(2, 1, tpage_pos[0].vx, tpage_pos[0].vy);
+    PS1_Display2.polygons[1].tpage = GetTPage(2, 1, tpage_pos[0].vx + 128, tpage_pos[0].vy);
     D_801F56B8.vz = 0; D_801F56B8.vy = 0; D_801F56B8.vx = 0;
     D_801F57D0.vy = 0; D_801F57D0.vx = 0; D_801F57D0.vz = 1024;
     D_801F6390 = 0;
