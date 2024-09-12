@@ -252,6 +252,7 @@ s_press_x_button_to_continue_8012c378 = 0x8012c378; // type:asciz force_not_migr
 s_reading_memory_card_8012c398 = 0x8012c398; // type:asciz force_not_migration:True
 s_yes_801cf0f4 = 0x801cf0f4;
 s_no_801cf0fc = 0x801cf0fc;
+s_loading_8012c368 = 0x8012c368; // type:asciz force_not_migration:True
 
 ray = 0x801f61a0;
 //ray_obj_sprites = 0x801f61a0;

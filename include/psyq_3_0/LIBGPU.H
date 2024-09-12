@@ -116,19 +116,23 @@ typedef struct {
 } TILE_1;				/* 1x1 Tile */
 
 DISPENV *PutDispEnv(DISPENV *env);
+DISPENV *SetDefDispEnv(DISPENV *env, int x, int y, int w, int h);
 DRAWENV *PutDrawEnv(DRAWENV *env);
+DRAWENV *SetDefDrawEnv(DRAWENV *env, int x, int y, int w, int h);
 int ClearImage(RECT *rect, u_char r, u_char g, u_char b);
 int DrawSync(int mode);
 int GetGraphType(void) ;
 int LoadImage(RECT *rect, u_long *p);
 int MoveImage(RECT *rect, int x, int y);
 int ResetGraph(int mode);
+int SetGraphDebug(int level);
 u_long *ClearOTag(u_long *ot, int n);
 u_short GetClut(int x, int y) ;
 u_short GetTPage(int tp, int abr, int x, int y) ;
 u_short LoadClut(u_long *clut, int x, int y);
 void AddPrim(void *ot, void *p) ;
 void DrawOTag(u_long *p);
+void SetDispMask(int mask);
 void SetDrawEnv(DR_ENV *dr_env, DRAWENV *env);
 void SetPolyF4(POLY_F4 *p) ;
 void SetPolyFT4(POLY_FT4 *p) ;
