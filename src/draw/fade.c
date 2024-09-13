@@ -151,10 +151,10 @@ void DO_FADE_OUT(void)
 {
     Display *new_disp;
 
+    new_disp = &PS1_Displays[0];
     if (PS1_CurrentDisplay == &PS1_Displays[0])
         new_disp = &PS1_Displays[1];
-    else
-        new_disp = &PS1_Displays[0];
+        
     MoveImage(
         &new_disp->drawing_environment.clip,
         PS1_CurrentDisplay->drawing_environment.clip.x, 
@@ -173,10 +173,9 @@ void PS1_DO_PICTURE_IN_PICTURE(void)
     POLY_FT4 *poly_2 = &PS1_CurrentDisplay->polygons[PS1_PolygonsCount];
     PS1_PolygonsCount += 2;
     
+    new_disp = &PS1_Displays[0];
     if (PS1_CurrentDisplay == &PS1_Displays[0])
         new_disp = &PS1_Displays[1];
-    else
-        new_disp = &PS1_Displays[0];
     
     poly_1->x0 = 120;
     poly_1->y0 = 5;

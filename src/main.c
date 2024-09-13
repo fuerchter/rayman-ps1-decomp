@@ -10,7 +10,7 @@ extern u8 PS1_Ingame; /* TODO: put near PS1_CheckPauseAndCheatInputs */
 
 void main(void)
 {
-  Display *next_display;
+  Display *new_disp;
   RaymanEvents default_evts = PS1_DefaultRayEvts;
 
   ResetCallback();
@@ -59,11 +59,10 @@ void main(void)
             while(dead_time != 0 && !new_level && !new_world && ModeDemo != 2)
               DO_MAIN_LOOP();
 
+            new_disp = &PS1_Displays[0];
             if (PS1_CurrentDisplay == &PS1_Displays[0])
-              next_display = &PS1_Displays[1];
-            else
-              next_display = &PS1_Displays[0];
-            PS1_CurrentDisplay = next_display;
+              new_disp = &PS1_Displays[1];
+            PS1_CurrentDisplay = new_disp;
             
             PS1_Ingame = false;
             PS1_StopLevelMusic();

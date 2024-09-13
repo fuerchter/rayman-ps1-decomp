@@ -9,6 +9,7 @@ extern RECT D_801CF0E8;
 extern u32 *D_801F4380;
 
 void PS1_InitDisplay(Display *display);
+s32 PS1_PadInit(s32 param_1);
 
 /* 7B048 8019F848 -O2 -msoft-float */
 s16 FUN_8019f848(void)
@@ -85,11 +86,51 @@ void FUN_8019fb84(void)
     D_801F4380 = unk_1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/first_init", FUN_8019fd40);
+/* 7B540 8019FD40 -O2 -msoft-float */
+void FUN_8019fd40(void)
+{
+    u8 unk_1[8];
 
-INCLUDE_ASM("asm/nonmatchings/first_init", FUN_8019fda0);
+    PS1_PadInit(0);
+    ResetGraph(0);
+    SetGraphDebug(0);
+    SetDispMask(false);
+    PS1_ClearScreen();
+    SsInit();
+    PS1_InitializeCard(0);
+    CdInit();
+    InitSnd();
+}
 
-INCLUDE_ASM("asm/nonmatchings/first_init", FUN_8019fdd0);
+/* 7B5A0 8019FDA0 -O2 -msoft-float */
+u8 FUN_8019fda0(void)
+{
+    DO_FADE();
+    DISPLAY_FOND3();
+    return fade == 0;
+}
+
+/* 7B5D0 8019FDD0 -O2 -msoft-float */
+void FUN_8019fdd0(void)
+{
+    RECT fb_rect;
+    Display *new_disp;
+
+    __builtin_memcpy(&fb_rect, &D_801CF0E0, sizeof(D_801CF0E0));
+    ClearImage(&fb_rect, 0, 0, 0);
+    DISPLAY_FOND3();
+    
+    new_disp = &PS1_Displays[0];
+    if (PS1_CurrentDisplay == &PS1_Displays[0])
+        new_disp = &PS1_Displays[1];
+    PS1_CurrentDisplay = new_disp;
+
+    DISPLAY_FOND3();
+    PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
+    PutDrawEnv(&PS1_CurrentDisplay->drawing_environment);
+    PS1_InitDisplay(PS1_Displays);
+    PS1_InitDisplay(&PS1_Displays[1]);
+}
 
 INCLUDE_ASM("asm/nonmatchings/first_init", FUN_8019fe8c);
 

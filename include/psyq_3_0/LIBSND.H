@@ -49,6 +49,7 @@ extern short SsVabTransCompleted (short);
 extern short SsVabOpenHead (unsigned char*, short);
 extern short SsVabTransBody (unsigned char*, short);
 
+extern void  SsInit (void);
 extern void  SsSetTableSize (char*, short, short);
 extern void  SsSetTickMode (long);
 extern void  SsStart (void);

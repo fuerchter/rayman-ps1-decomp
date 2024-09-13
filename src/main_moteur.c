@@ -26,10 +26,9 @@ void DO_MAIN_LOOP(void)
   Display *new_disp_2;
   RECT *new_rect;
   
+  new_disp_1 = &PS1_Displays[0];
   if (PS1_CurrentDisplay == &PS1_Displays[0])
-    new_disp_1 = &PS1_Displays[1];
-  else
-    new_disp_1 = &PS1_Displays[0];
+    new_disp_1 = &PS1_Displays[1];    
   
   for (i = 0; i < PS1_PolygonIndexTableCount; i++)
   {
@@ -39,11 +38,11 @@ void DO_MAIN_LOOP(void)
   }
   PS1_PolygonIndexTableCount = 0;
   
+  new_disp_2 = &PS1_Displays[0];
   if (PS1_CurrentDisplay == &PS1_Displays[0])
-    new_disp_2 = &PS1_Displays[1];
-  else
-    new_disp_2 = &PS1_Displays[0];
+    new_disp_2 = &PS1_Displays[1];  
   PS1_CurrentDisplay = new_disp_2;
+  
   ClearOTag((u_long *) PS1_CurrentDisplay->ordering_table, LEN(PS1_CurrentDisplay->ordering_table));
   D_801E4BE0 = 0x19;
   D_801F4A28 = 0;
