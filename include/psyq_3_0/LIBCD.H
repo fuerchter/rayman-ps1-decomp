@@ -94,6 +94,22 @@ typedef struct {
 	char	name[16];	/* file name (body) */
 } CdlFILE;
 
+typedef struct {
+    u_short id;
+    u_short type;           
+    u_short secCount;   
+    u_short nSectors;
+    u_long  frameCount;
+    u_long  frameSize;
+    
+    u_short width;
+    u_short height;
+    
+} StHEADER;             /* CD-ROM STR 構造体 */
+
+u_long	StFreeRing(u_long *base);
+u_long	StGetNext(u_long **addr,u_long **header);
+
 CdlFILE *CdSearchFile(CdlFILE *fp, char *name);
 int CdControl(u_char com, u_char *param, u_char *result);
 int CdControlB(u_char com, u_char *param, u_char *result);

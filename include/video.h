@@ -3,6 +3,9 @@
 
 #include "common.h"
 #include "psyq_3_0/LIBCD.H"
+#include "psyq_3_0_missing/LIBCD.H"
+#include "psyq_3_0/LIBPRESS.H"
+#include "psyq_3_0_missing/LIBPRESS.H"
 #include "draw/fade.h"
 
 typedef s16 Video;
