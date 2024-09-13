@@ -45,6 +45,7 @@ extern s16 ywldmapsave;
 extern u8 nouvelle_partie;
 extern u8 dans_la_map_monde;
 extern u8 Nb_total_cages;
+extern u8 D_801F3EA0;
 
 void CalcObjPosInWorldMap(Obj *obj);
 void DoScrollInWorldMap(s16 h_speed, s16 v_speed);

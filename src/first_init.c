@@ -2,12 +2,7 @@
 
 const u8 s_loading_8012c368[] = "/loading.../";
 
-extern u8 D_801CF438;
-extern u8 D_801CF440;
-extern RECT D_801CF0E0;
-extern RECT D_801CF0E8;
-extern u32 *D_801F4380;
-extern u8 D_801F3EA0;
+extern u8 *D_801F4380; /* still don't know where to put this */
 
 void PS1_InitDisplay(Display *display);
 s32 PS1_PadInit(s32 param_1);
@@ -61,13 +56,13 @@ void FUN_8019fa94(u8 param_1)
 /* 7B384 8019FB84 -O2 -msoft-float */
 void FUN_8019fb84(void)
 {
-    u32 *unk_1;
+    u8 *unk_1;
     RECT fb_rect_1;
     RECT fb_rect_2;
 
     unk_1 = D_801F4380;
     __builtin_memcpy(&fb_rect_1, &D_801CF0E8, sizeof(D_801CF0E8));
-    D_801F4380 = (u32 *)((u8 *)D_801C438C[num_world - 1] + 0x45000);
+    D_801F4380 = ((u8 *)D_801C438C[num_world - 1] + 0x45000);
     FUN_8019df1c(num_world_choice);
     StoreImage(&fb_rect_1, D_801C438C[num_world - 1]);
     MoveImage(&PS1_CurrentDisplay->field0_0x0.disp, fb_rect_1.x, fb_rect_1.y);
@@ -79,7 +74,7 @@ void FUN_8019fb84(void)
     fb_rect_2.y = (240 - plan2_height) / 2;
     fb_rect_2.w = plan2_width;
     fb_rect_2.h = plan2_height;
-    LoadImage(&fb_rect_2, D_801F4380);
+    LoadImage(&fb_rect_2, (u32 *)D_801F4380);
     DrawSync(0);
     FUN_8012d2b0(100);
     SYNCHRO_LOOP(PS1_RollUpLToR);

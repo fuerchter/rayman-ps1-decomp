@@ -6,7 +6,6 @@
 /* 692CC 8018DACC -O2 */
 /*? INIT_PASTILLES_SAUVE(s32, s16, s32);*/
 extern u8 D_801C3364;
-extern u8 D_801F3EA0;
 extern u8 You_Win;
 
 void INIT_WORLD_INFO(void)

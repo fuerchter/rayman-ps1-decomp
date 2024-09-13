@@ -7,6 +7,14 @@
 #include "draw/fade.h"
 #include "draw/rollup_trans.h"
 
+/* .data */
+extern RECT D_801CF0E0;
+extern RECT D_801CF0E8;
+
+/* .data */
+extern u8 D_801CF438;
+extern u8 D_801CF440;
+
 s16 FUN_8019f848(void);
 s16 FUN_8019f88c(void);
 void FUN_8019f8d0(void);

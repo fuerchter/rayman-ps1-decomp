@@ -2,7 +2,7 @@
 
 /* B438 8012FC38 -O2 -msoft-float */
 /* TODO: still to figure out */
-extern s32 *D_801F4380;
+extern u8 *D_801F4380;
 extern s32 D_8005866C; /* data from PS1_LoadFiles seems to end up in here */
 extern u8 D_801E4D48;
 
@@ -23,7 +23,7 @@ void main(void)
     PS1_PromptPad();
   StartPAD();
   ChangeClearPAD(0);
-  D_801F4380 = (s32 *) 0x8005866C;
+  D_801F4380 = (u8 *) 0x8005866C;
   do {
     if (menuEtape != 4)
       INIT_WORLD_INFO();
