@@ -3,8 +3,9 @@
 
 #include "common.h"
 #include "psyq_3_0/LIBCD.H"
+#include "draw/fade.h"
 
-typedef u16 Video;
+typedef s16 Video;
 #define VIDEO_NONE 0
 #define VIDEO_PRES 1
 #define VIDEO_INTRO 2
@@ -26,6 +27,7 @@ void PS1_PlayVideoFile(Video video);
 void FUN_80132d74(s32 *param_1);
 void FUN_80132e04(CdlLOC *lba, u32 param_2);
 void FUN_80132ea0(u32 *param_1, Video video);
+void FUN_80132f8c(void);
 void FUN_80133010(void);
 
 #endif

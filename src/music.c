@@ -23,7 +23,7 @@ const u8 s_2d_markddd_80125d58[] = "%2d mark:%d-%d-%d\n";
 /* B848 80130048 -O2 -msoft-float */
 void FUN_80130048(void)
 {
-    FUN_801a7ae4();
+    PadStop();
     StopPAD();
     ResetGraph(3);
     stop_cd();
