@@ -21,13 +21,26 @@ typedef u8 VideoState;
 #define VIDEOST_PLAYING 1
 #define VIDEOST_SKIPPED 2
 
+/* based on FUN_80132d74 */
+typedef struct Unk_801cf5e0 {
+    u8 * field0_0x0;
+    u8 * field1_0x4;
+    u8 * field2_0x8;
+    RECT field3_0xc;
+    u8 field4_0x14;
+    u8 field5_0x15;
+    u8 field6_0x16;
+    u8 field7_0x17;
+    s16 frame_count;
+} Unk_801cf5e0;
+
 /**/
 extern VideoState PS1_VideoState;
 
 void PS1_PlayVideo(Video video);
 void FUN_80132980(void);
 void PS1_PlayVideoFile(Video video);
-void FUN_80132d74(s32 *param_1);
+void FUN_80132d74(Unk_801cf5e0 *param_1);
 void FUN_80132e04(CdlLOC *lba, u32 param_2);
 void FUN_80132ea0(u32 *param_1, Video video);
 void FUN_80132f8c(void);

@@ -107,14 +107,20 @@ typedef struct {
     
 } StHEADER;             /* CD-ROM STR 構造体 */
 
+void	StSetRing(u_long *ring_addr,u_long ring_size);
 u_long	StFreeRing(u_long *base);
+void	StSetStream(u_long mode,u_long start_frame,u_long end_frame,
+		    int (*func1)(),int (*func2)());
 u_long	StGetNext(u_long **addr,u_long **header);
 
 CdlFILE *CdSearchFile(CdlFILE *fp, char *name);
+CdlLOC *CdIntToPos(int i, CdlLOC *p) ;
 int CdControl(u_char com, u_char *param, u_char *result);
 int CdControlB(u_char com, u_char *param, u_char *result);
 int CdMix(CdlATV *vol);
+int CdPosToInt(CdlLOC *p);
 int CdRead(int sectors, u_long *buf, int mode);
+int CdRead2(long mode);
 int CdReadSync(int mode, u_char *result);
 int CdSync(int mode, u_char *result);
 u_long CdReadyCallback(void (*func)());

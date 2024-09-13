@@ -2,20 +2,11 @@
 
 extern s16 PS1_VideoLength;
 
-/* based on FUN_80132d74 */
-typedef struct Unk_801cf5e0 {
-    u8 * field0_0x0;
-    u8 * field1_0x4;
-    u8 * field2_0x8;
-    RECT field3_0xc;
-    u8 field4_0x14;
-    u8 field5_0x15;
-    u8 field6_0x16;
-    u8 field7_0x17;
-    s16 frame_count;
-} Unk_801cf5e0;
-
 extern Unk_801cf5e0 D_801CF5E0;
+extern u32 *D_801CEEE0;
+extern u32 *D_801CEEE4;
+extern u32 *D_801CEEE8;
+extern u32 *D_801CEEDC;
 
 /* E098 80132898 -O2 -msoft-float */
 void PS1_PlayVideo(Video video)
@@ -53,9 +44,36 @@ INCLUDE_ASM("asm/nonmatchings/video", FUN_80132980);
 
 INCLUDE_ASM("asm/nonmatchings/video", PS1_PlayVideoFile);
 
-INCLUDE_ASM("asm/nonmatchings/video", FUN_80132d74);
+/* E574 80132D74 -O2 -msoft-float */
+void FUN_80132d74(Unk_801cf5e0 *param_1)
+{
+    param_1->field6_0x16 = 0;
+    param_1->frame_count = 1;
+    param_1->field3_0xc.w = 16;
+    param_1->field3_0xc.h = 200;
+    param_1->field0_0x0 = (u8 *) D_801CEEDC;
+    param_1->field1_0x4 = (u8 *) D_801CEEE0;
+    param_1->field2_0x8 = (u8 *) D_801CEEE8;
+    if (PS1_CurrentDisplay == PS1_Displays)
+        param_1->field3_0xc.y = 20;
+    else
+        param_1->field3_0xc.y = 276;
+    param_1->field3_0xc.x = 0;
+    VSyncCallback(FUN_80132f8c);
+}
 
-INCLUDE_ASM("asm/nonmatchings/video", FUN_80132e04);
+/* E604 80132E04 -O2 -msoft-float */
+void FUN_80132e04(CdlLOC *lba, u32 param_2)
+{
+    CdlLOC unk_1;
+
+    CdIntToPos(CdPosToInt(lba) + (param_2 - 5) * 10, &unk_1);
+    StSetRing(D_801CEEE4, 32);
+    StSetStream(0, param_2, 0x0FFFFFFF, null, null);
+    while (!CdControl(CdlSeekL, &unk_1.minute, null)){};
+    CdSync(1, null);
+    while (!CdRead2(CdlModeStream|CdlModeSpeed|CdlModeRT)){};
+}
 
 INCLUDE_ASM("asm/nonmatchings/video", FUN_80132ea0);
 
