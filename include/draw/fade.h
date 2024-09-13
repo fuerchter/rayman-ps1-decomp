@@ -10,7 +10,7 @@ typedef struct RGBAArray {
 } RGBAArray;
 
 /* .data */
-extern void (*D_801C7D68[4])(RGBAArray *param_1, s16 param_2);
+extern void (*D_801C7D68[4])(RGBAArray *, s16);
 extern RGBAArray *D_801C7D78[11];
 
 /* .data */
