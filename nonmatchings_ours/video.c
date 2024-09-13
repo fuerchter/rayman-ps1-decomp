@@ -126,3 +126,16 @@ void FUN_80132ea0(u32 *param_1, s16 video)
     DecDCTvlc(usr_dat, param_1);
     StFreeRing(usr_dat);
 }
+
+/*INCLUDE_ASM("asm/nonmatchings/video", FUN_80132f8c);*/
+
+void FUN_80132f8c(void)
+{
+    D_801CF5E0.field5_0x15 = D_801CF5E0.field5_0x15 + 1;
+    __asm__("lbu     $v0,0($v1)\nnop");
+    if ((D_801CF5E0.field5_0x15 > 3) && (D_801CF5E0.field4_0x14 != 0)) {
+        D_801CF5E0.field5_0x15 = 0;
+        PutDrawEnv(&PS1_CurrentDisplay->drawing_environment);
+        PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
+    }
+}
