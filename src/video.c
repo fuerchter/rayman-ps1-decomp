@@ -1,13 +1,5 @@
 #include "video.h"
 
-extern s16 PS1_VideoLength;
-
-extern Unk_801cf5e0 D_801CF5E0;
-extern u32 *D_801CEEE0;
-extern u32 *D_801CEEE4;
-extern u32 *D_801CEEE8;
-extern u32 *D_801CEEDC;
-
 /* E098 80132898 -O2 -msoft-float */
 void PS1_PlayVideo(Video video)
 {
@@ -31,8 +23,8 @@ void PS1_PlayVideo(Video video)
     PS1_VideoState = VIDEO_PRES;
     SsSetSerialVol(SS_SERIAL_A, 0, 0);
     PS1_PlayVideoFile(video);
-    new_disp = PS1_Displays;
-    if (PS1_CurrentDisplay == PS1_Displays)
+    new_disp = &PS1_Displays[0];
+    if (PS1_CurrentDisplay == &PS1_Displays[0])
         new_disp = &PS1_Displays[1];
     PS1_CurrentDisplay = new_disp;
     if (video == VIDEO_WIN)

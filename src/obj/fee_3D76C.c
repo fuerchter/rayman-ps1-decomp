@@ -135,7 +135,7 @@ void init_fee(void)
           __builtin_memcpy(text_to_display[7].text, s_press_the__button_to_punch_8012a88c, sizeof(s_press_the__button_to_punch_8012a88c));
           __builtin_memcpy(text_to_display[8].text, s_the_longer_you_press_8012a8ac, sizeof(s_the_longer_you_press_8012a8ac));
           __builtin_memcpy(text_to_display[9].text, s_the_further_you_punch_8012a8c4, sizeof(s_the_further_you_punch_8012a8c4));
-          Deter_Option_Caract(&text_to_display[7].text,options_jeu.Fist,0xb);
+          Deter_Option_Caract(&text_to_display[7].text, options_jeu.Fist, 0xb);
           break;
         case 8:
           is_fee = true;
@@ -152,7 +152,7 @@ void init_fee(void)
           __builtin_memcpy(text_to_display[5].text, s_now_you_can_grab_things_8012a9bc, sizeof(s_now_you_can_grab_things_8012a9bc));
           __builtin_memcpy(text_to_display[6].text, s_with_your_fist_8012a9d8, sizeof(s_with_your_fist_8012a9d8));
           __builtin_memcpy(text_to_display[7].text, s_to_grab_use_the__button_8012a9ec, sizeof(s_to_grab_use_the__button_8012a9ec));
-          Deter_Option_Caract(&text_to_display[7].text,options_jeu.Fist,0x11);
+          Deter_Option_Caract(&text_to_display[7].text, options_jeu.Fist, 0x11);
           break;
       }
       break;

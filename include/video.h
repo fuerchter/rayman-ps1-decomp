@@ -34,8 +34,18 @@ typedef struct Unk_801cf5e0 {
     s16 frame_count;
 } Unk_801cf5e0;
 
+/* .data */
+extern u32 *D_801CEEDC;
+extern u32 *D_801CEEE0;
+extern u32 *D_801CEEE4;
+extern u32 *D_801CEEE8;
+
+/* .data */
+extern Unk_801cf5e0 D_801CF5E0;
+
 /**/
 extern VideoState PS1_VideoState;
+extern s16 PS1_VideoLength;
 
 void PS1_PlayVideo(Video video);
 void FUN_80132980(void);
