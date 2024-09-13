@@ -2,6 +2,7 @@
 #define UNK_2539C_H
 
 #include "common.h"
+#include "menu/menu_7F4B4.h"
 
 void Deter_Option_Caract(u8 *param_1, s16 param_2, u32 param_3);
 void SwapAB(s16 *param_1, s16 *param_2);

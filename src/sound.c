@@ -417,7 +417,7 @@ void PlaySnd_old(s16 snd)
   s32 vol_both;
 
   new_id = -2;
-  if (options_jeu.StereoEnabled != 0)
+  if (options_jeu.StereoEnabled)
   {
     vol_l(Volume_Snd * hard_sound_table[snd].volume >> 7, 64);
     vol_r(Volume_Snd * hard_sound_table[snd].volume >> 7, 64);
