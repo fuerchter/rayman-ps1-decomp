@@ -6,6 +6,7 @@
 #include "psyq_3_0_missing/LIBCD.H"
 #include "draw/fade.h"
 #include "draw/rollup_trans.h"
+#include "unknown/7BB28.h"
 
 /* .data */
 extern RECT D_801CF0E0;

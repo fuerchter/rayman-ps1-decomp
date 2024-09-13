@@ -4,10 +4,6 @@ const u8 s_loading_8012c368[] = "/loading.../";
 
 extern u8 *D_801F4380; /* still don't know where to put this */
 
-void PS1_InitDisplay(Display *display);
-s32 PS1_PadInit(s32 param_1);
-void PS1_PlayVideo(Video video);
-
 /* 7B048 8019F848 -O2 -msoft-float */
 s16 FUN_8019f848(void)
 {
@@ -88,7 +84,7 @@ void FUN_8019fd40(void)
 {
     u8 unk_1[8];
 
-    PS1_PadInit(0);
+    PadInit(0);
     ResetGraph(0);
     SetGraphDebug(0);
     SetDispMask(false);

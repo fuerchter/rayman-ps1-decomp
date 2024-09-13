@@ -63,7 +63,8 @@ segments:
       - [0x800, rodata]
       #- [0x9C8, .rodata, data/menu/menu_card_9ED48] #801251C8 TODO: .rodata referenced from .data?
       - [0x1428, .rodata, music] #80125C28
-      - [0x156C, rodata]
+      - [0x156C, .rodata, video] #80132898
+      - [0x1580, rodata]
       #- [0x1580, .rodata, data/loading_A0338] #80125d80
       - [0x2AA8, .rodata, loading_E99C] #801272A8
       - [0x2B04, .rodata, input_ED20] #80127304
@@ -129,7 +130,7 @@ segments:
       - [0xB438, c, main] #8012fc38
       - [0xB848, c, music] #80130048
       - [0xDA64, c, loading_DA64] #80132264
-      - [0xE098, asm, video] #80132898
+      - [0xE098, c, video] #80132898
       - [0xE818, c, loading_E99C] #80133018
       - [0xED20, c, input_ED20] #80133520
       - [0x10B3C, c, draw/fond_10B3C] #8013533C
