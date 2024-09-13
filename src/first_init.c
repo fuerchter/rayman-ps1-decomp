@@ -7,9 +7,11 @@ extern u8 D_801CF440;
 extern RECT D_801CF0E0;
 extern RECT D_801CF0E8;
 extern u32 *D_801F4380;
+extern u8 D_801F3EA0;
 
 void PS1_InitDisplay(Display *display);
 s32 PS1_PadInit(s32 param_1);
+void PS1_PlayVideo(Video video);
 
 /* 7B048 8019F848 -O2 -msoft-float */
 s16 FUN_8019f848(void)
@@ -132,8 +134,54 @@ void FUN_8019fdd0(void)
     PS1_InitDisplay(&PS1_Displays[1]);
 }
 
-INCLUDE_ASM("asm/nonmatchings/first_init", FUN_8019fe8c);
+/* 7B68C 8019FE8C -O2 -msoft-float */
+void FUN_8019fe8c(void)
+{
+    PS1_DebugMode = false;
+    FUN_80166018();
+    PS1_InitMusic();
+    InitGeom();
+    D_801F3EA0 = false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/first_init", PS1_SetLevelto_4_1);
+/* 7B6CC 8019FECC -O2 -msoft-float */
+void PS1_SetLevelto_4_1(void)
+{
+    num_world = 4;
+    num_level = 1;
+}
 
-INCLUDE_ASM("asm/nonmatchings/first_init", FIRST_INIT);
+/* 7B6EC 8019FEEC -O2 -msoft-float */
+void FIRST_INIT(void)
+{
+    FUN_8019fd40();
+    D_801F4380 = (void *)0x8005866C;
+    PS1_Init_ImgLdrVdoTrk_Files();
+    FUN_8019fe8c();
+    FUN_8019f8d0();
+    if (PS1_InitPAD())
+    {
+        StartPAD();
+        ChangeClearPAD(0);
+    }
+    SetDefDrawEnv(&PS1_Displays[0].drawing_environment, 0, 0, 320, 240);
+    SetDefDispEnv(&PS1_Displays[0].field0_0x0, 0, 256, 320, 240);
+    SetDefDrawEnv(&PS1_Displays[1].drawing_environment, 0, 256, 320, 240);
+    SetDefDispEnv(&PS1_Displays[1].field0_0x0, 0, 0, 320, 240);
+    PS1_Displays[1].field0_0x0.pad0 = 0;
+    PS1_Displays[0].field0_0x0.pad0 = 0;
+    PS1_LoadImgSplash();
+    SetDispMask(false);
+    PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
+    PS1_ClearScreen();
+    SetDispMask(true);
+    PS1_PlayVideo(VIDEO_PRES);
+    FUN_8019fdd0();
+    FUN_8019dd74();
+    PS1_LoadPts();
+    FUN_8012ecf0();
+    PS1_SetLevelto_4_1();
+    PS1_LoadAllFixData();
+    no_fnd = -1;
+    FUN_8019fa94(true);
+}
