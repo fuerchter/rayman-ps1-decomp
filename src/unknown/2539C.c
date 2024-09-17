@@ -2,6 +2,7 @@
 
 extern u8 D_801E4D48;
 extern u8 first_boss_meet;
+extern RaymanEvents SauveRayEvts;
 
 INCLUDE_ASM("asm/nonmatchings/unknown/2539C", Deter_Option_Caract);
 
