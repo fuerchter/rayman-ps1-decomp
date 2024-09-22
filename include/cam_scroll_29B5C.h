@@ -6,6 +6,7 @@
 
 /* .data */
 extern s16 expsin[64];
+extern s16 expsin2[50];
 
 /* .data */
 extern u8 D_801CEDFC;
@@ -29,6 +30,6 @@ s16 frapsol(s16 param_1);
 void DO_SCREEN_TREMBLE(void);
 void DO_SCREEN_TREMBLE3(void);
 void DO_SCREEN_TREMBLE2(void);
-void DO_SCROLL(u16 *param_1, s16 *param_2);
+void DO_SCROLL(s16 *h_speed, s16 *v_speed);
 
 #endif

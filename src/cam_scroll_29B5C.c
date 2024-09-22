@@ -1,7 +1,5 @@
 #include "cam_scroll_29B5C.h"
 
-extern s16 expsin2[50];
-
 /* 29B5C 8014E35C -O2 -msoft-float */
 s16 frapsol(s16 param_1)
 {
@@ -54,4 +52,55 @@ void DO_SCREEN_TREMBLE2(void)
         screen_trembling2 = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/cam_scroll_29B5C", DO_SCROLL);
+/* 29CE4 8014E4E4 -O2 -msoft-float */
+void DO_SCROLL(s16 *h_speed, s16 *v_speed)
+{
+    if (*v_speed == 0xFF)
+        *v_speed = 0;
+    
+    if (num_world == 6 && num_level == 4)
+        *h_speed = 0;
+    if (num_world == 5 && num_level == 11)
+        *h_speed = 0;
+    if (num_world == 5 && num_level == 3)
+    {
+        *h_speed = 0;
+        *v_speed = 0;
+    }
+
+    DO_SCREEN_TREMBLE();
+    if (screen_trembling2 > 0)
+        DO_SCREEN_TREMBLE2();
+    if (screen_trembling3 > 0)
+        DO_SCREEN_TREMBLE3();
+    
+    ymap += *v_speed;
+    xmap += *h_speed;
+    if (xmap < scroll_start_x)
+    {
+        *h_speed += scroll_start_x - xmap;
+        xmap = scroll_start_x;
+        dhspeed = 0;
+    }
+    else if (xmap > scroll_end_x)
+    {
+        *h_speed -= xmap - scroll_end_x;
+        xmap = scroll_end_x;
+        dhspeed = 0;
+    }
+
+    if (ymap < scroll_start_y)
+    {
+        *v_speed += scroll_start_y - ymap;
+        ymap = scroll_start_y;
+        dvspeed = 0;
+    }
+    else if (ymap > scroll_end_y)
+    {
+        *v_speed -= ymap - scroll_end_y;
+        ymap = scroll_end_y;
+        dvspeed = 0;
+    }
+
+    calc_obj_pos(&ray);
+}
