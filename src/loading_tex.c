@@ -1,17 +1,12 @@
 #include "loading_tex.h"
 
-extern s16 D_801C4464[10];
-
 extern u8 *D_801F4380;
-extern s32 D_801E4D30;
-extern s16 D_801E5930;
-extern s16 D_801E63D0;
-extern s32 D_801E4D28;
-extern s16 D_801E5928;
-extern s16 D_801E63C8;
-extern s32 D_801E4D78;
-extern s16 D_801E5A08;
-extern s16 D_801E6410;
+
+/* see fond_10B3C */
+extern u16 D_801F5440;
+extern u16 D_801F55D8;
+
+extern void *D_801F8190; /* see loading_794DC */
 
 INCLUDE_ASM("asm/nonmatchings/loading_tex", FUN_801392d8);
 
@@ -60,6 +55,43 @@ void FUN_801395a8(s32 param_1)
     PS1_LoadVRAMBlock(D_801E5928, D_801E5A08, D_801E63C8, D_801E6410, 256, D_801F4380);
 }
 
-INCLUDE_ASM("asm/nonmatchings/loading_tex", FUN_80139624);
+/* 14E24 80139624 -O2 -msoft-float */
+void FUN_80139624(s32 param_1)
+{
+    s16 start_pos = 7;
+    s16 end_pos = 80;
+    
+    FUN_801392d8(param_1 + 0x65000, &start_pos, &end_pos);
+    PS1_LoadVRAMBlock(7, start_pos, 80, end_pos, 0, D_801F4380);
+}
 
-INCLUDE_ASM("asm/nonmatchings/loading_tex", FUN_80139688);
+/* 14E88 80139688 -O2 -msoft-float */
+void FUN_80139688(s32 tile_set_size)
+{
+    s32 unk_1 = 15;
+    
+    FUN_801392d8(0xAC000 - tile_set_size, &D_801F5440, &D_801F55D8);
+    if (D_801F5440 < 8)
+    {
+        D_801F5440 = 8;
+        D_801F55D8 = 0;
+    }
+    else if (D_801F55D8 & unk_1)
+    {
+        D_801F55D8 = (D_801F55D8 + 15) & 65520;
+        if (D_801F55D8 >= 256)
+        {
+            D_801F55D8 = 0;
+            D_801F5440++;
+        }
+
+        if (D_801F5440 == 9 && (D_801F55D8 > 224))
+        {
+            D_801F5440++;
+            D_801F55D8 = (D_801F55D8 + 32) & 240;
+        }
+    }
+    D_801E5558 = 11;
+    D_801E59B8 = 224;
+    PS1_LoadVRAMBlock(D_801F5440, 11, D_801F55D8, 224, 0, D_801F8190);
+}
