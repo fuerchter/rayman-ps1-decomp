@@ -114,10 +114,37 @@ void PS1_InitDisplay(Display *display)
     FUN_80169420(display);
 }
 
-INCLUDE_ASM("asm/nonmatchings/unknown/7BB28", FUN_801a0750);
+/* 7BF50 801A0750 -O2 -msoft-float */
+void FUN_801a0750(void)
+{
+    if (FUN_80133b44(0))
+        PROC_EXIT = true;
+}
 
-INCLUDE_ASM("asm/nonmatchings/unknown/7BB28", PS1_itoa);
+/* 7BF80 801A0780 -O2 -msoft-float */
+void PS1_itoa(s16 param_1, u8 *param_2, u8 param_3)
+{
+    sprintf(param_2, &s_d_801cf0f0, param_1);
+}
 
-INCLUDE_ASM("asm/nonmatchings/unknown/7BB28", FUN_801a07b0);
+/* 7BFB0 801A07B0 -O2 -msoft-float */
+void FUN_801a07b0(void)
+{
+    if (ModeDemo == 0)
+    {
+        PS1_PlayVideo(VIDEO_INTRO);
+        PROC_EXIT = false;
+        PS1_ShouldClearPassword = 0;
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/unknown/7BB28", PS1_PlayMapIntro);
+/* 7BFEC 801A07EC -O2 -msoft-float */
+void PS1_PlayMapIntro(void)
+{
+    if (ModeDemo == 0)
+    {
+        PS1_PlayVideo(VIDEO_MAP_INTRO);
+        PROC_EXIT = false;
+        PS1_ShouldClearPassword = 0;
+    }
+}

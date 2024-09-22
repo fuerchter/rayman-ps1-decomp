@@ -5,6 +5,9 @@
 #include "common/display.h"
 #include "sound.h"
 
+/* .data */
+extern u8 s_d_801cf0f0[3];
+
 void PS1_StopLevelMusic(void);
 void PS1_InitDisplay(Display *display);
 void FUN_801a0750(void);
