@@ -109,6 +109,68 @@ void obj_jump(Obj *obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/unknown/48528", DO_ONE_PINK_CMD);
+/* 48920 8016D120 -O2 -msoft-float */
+void DO_ONE_PINK_CMD(Obj *obj)
+{
+    u8 flag_set;
+
+    if (obj->iframes_timer != 0)
+        obj->iframes_timer--;
+    
+    if (
+        (gerbe && (obj->eta[obj->main_etat][obj->sub_etat].flags & 2)) ||
+        (obj->main_etat == 2 && obj->sub_etat == 1 && obj->speed_y > 2)
+    )
+    {
+        set_main_and_sub_etat(obj, 0, 5);
+        obj->speed_x = 0;
+        obj->speed_y = -10;
+    }
+
+    switch (obj->main_etat * 0x100 + obj->sub_etat)
+    {
+    case 0x2:
+        flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
+        if(
+            ((flag_set && obj->anim_frame == 0) ||
+            (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)) &&
+            horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
+        )
+        {
+            obj->flags =
+                obj->flags & ~FLG(OBJ_FLIP_X) |
+                ((obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X;
+        }
+        break;
+    case 0x100:
+        SET_X_SPEED(obj);
+        if (block_flags[calc_typ_travd(obj, false)] >> BLOCK_FULLY_SOLID & 1)
+        {
+            obj->flags =
+                obj->flags & ~FLG(OBJ_FLIP_X) |
+                ((obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X;
+        }
+        CALC_MOV_ON_BLOC(obj);
+        return;
+    case 0x202:
+        obj->speed_x = 0;
+    case 0x200:
+    case 0x201:
+        if (obj->speed_y < 0 && (block_flags[(u8) calc_typ_trav(obj, 1)] >> BLOCK_FLAG_4 & 1))
+        {
+            if (!gerbe)
+                set_sub_etat(obj, 2);
+            obj->speed_y = 0;
+        }
+        break;
+    case 0x0:
+    case 0x1:
+    case 0x3:
+    case 0x4:
+    case 0x5:
+    default:
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/unknown/48528", FUN_8016d418);
