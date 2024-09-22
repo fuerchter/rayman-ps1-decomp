@@ -1,8 +1,5 @@
 #include "unknown/48528.h"
 
-extern s16 PS1_VRAMDisplayXPos;
-extern s16 PS1_VRAMDisplayYPos;
-
 /* 48528 8016CD28 -O2 -msoft-float */
 void PS1_DisplayVRAM(void)
 {
@@ -173,4 +170,40 @@ void DO_ONE_PINK_CMD(Obj *obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/unknown/48528", FUN_8016d418);
+/* 48C18 8016D418 -O2 -msoft-float */
+void FUN_8016d418(Obj *obj)
+{
+    switch (obj->cmd)
+    {
+    case GO_UP:
+        obj->speed_y = -1;
+        break;
+    case GO_DOWN:
+        obj->speed_y = 1;
+        break;
+    case GO_WAIT:
+        obj->speed_y = 0;
+        break;
+    }
+
+    SET_X_SPEED(obj);
+    if (obj->main_etat == 1 && (block_flags[calc_typ_travd(obj, false)] >> BLOCK_FULLY_SOLID & 1))
+    {
+        switch (obj->type)
+        {
+        case TYPE_POI1:
+            set_main_and_sub_etat(obj, 0, 0);
+            break;
+        case TYPE_POI2:
+            set_main_and_sub_etat(obj, 0, 1);
+            break; 
+        case TYPE_POI3:
+            set_main_and_sub_etat(obj, 0, 4);
+            break;
+        }
+        obj->speed_x = 0;
+        obj->flags = 
+            obj->flags & ~FLG(OBJ_FLIP_X) |
+            (1 - (obj->flags >> OBJ_FLIP_X & 1) & 1) << OBJ_FLIP_X; /* TODO: ??? */
+    }
+}

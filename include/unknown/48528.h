@@ -5,6 +5,10 @@
 #include "common/obj.h"
 #include "input_ED20.h"
 
+/* .data */
+extern s16 PS1_VRAMDisplayXPos;
+extern s16 PS1_VRAMDisplayYPos;
+
 void PS1_DisplayVRAM(void);
 u8 test_allowed(Obj *obj, s16 unk_x, s16 unk_y);
 void obj_jump(Obj *obj);
