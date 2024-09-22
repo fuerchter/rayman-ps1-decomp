@@ -8,7 +8,7 @@ void FUN_8019f8d0(void)
     RECT fb_rect;
     s32 unk_1; /* TODO: remove */
 
-    __builtin_memcpy(&fb_rect, &D_801CF0E0, sizeof(D_801CF0E0));
+    __builtin_memcpy(&fb_rect, &D_801CF0E0, sizeof(D_801CF0E0)); /* TODO: memcpy even required? */
     ResetGraph(0);
     SetGraphDebug(0);
     SetDispMask(0);
