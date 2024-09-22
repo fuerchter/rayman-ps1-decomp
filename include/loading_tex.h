@@ -2,6 +2,7 @@
 #define LOADING_TEX_H
 
 #include "common.h"
+#include "common/world_map.h"
 #include "vram.h"
 
 void FUN_801392d8(s32 param_1, s16 *param_2, s16 *param_3);
