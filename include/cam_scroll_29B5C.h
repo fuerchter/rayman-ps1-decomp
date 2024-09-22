@@ -2,6 +2,7 @@
 #define CAM_SCROLL_29B5C_H
 
 #include "common.h"
+#include "collision/bit_util.h"
 
 /* .data */
 extern s16 expsin[64];
@@ -23,5 +24,11 @@ extern u8 scrollLocked;
 extern s16 screen_trembling;
 extern s16 screen_trembling2;
 extern s16 screen_trembling3;
+
+s16 frapsol(s16 param_1);
+void DO_SCREEN_TREMBLE(void);
+void DO_SCREEN_TREMBLE3(void);
+void DO_SCREEN_TREMBLE2(void);
+void DO_SCROLL(u16 *param_1, s16 *param_2);
 
 #endif
