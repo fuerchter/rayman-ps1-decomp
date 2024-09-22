@@ -10,6 +10,7 @@
 #include "ray/ray_5D190.h"
 #include "main_moteur.h"
 
+/**/
 extern s16 departlevel;
 extern u8 finBosslevel[2];
 extern u8 fin_boss;

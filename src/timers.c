@@ -1,7 +1,5 @@
 #include "timers.h"
 
-extern s16 allowed_time[192];
-
 /* 293C4 8014DBC4 -O2 -msoft-float */
 void INIT_HORLOGES(void)
 {
@@ -246,8 +244,38 @@ void PS1_InitAllowedTime(void)
     }
 }
 
+/* 29888 8014E088 -O2 -msoft-float */
+s32 get_allowed_time(void)
+{
+    s16 nw = (num_world << 5) - ((1 << 5) + 1);
 
+    return allowed_time[(s16) (nw + num_level)];
+}
 
-INCLUDE_ASM("asm/nonmatchings/timers", get_allowed_time);
-
-INCLUDE_ASM("asm/nonmatchings/timers", calc_left_time);
+/* 298C4 8014E0C4 -O2 -msoft-float */
+void calc_left_time(void)
+{
+    s32 unk_1;
+    s16 nw = (num_world << 5) - ((1 << 5) + 1);
+    s16 index = nw + num_level;
+    
+    if (map_time == 1)
+    {
+        left_time = allowed_time[index];
+        if (left_time != -2)
+            left_time *= 60;
+    }
+    if (allowed_time[index] != -2 && left_time != 0 && (map_time > 2 * 60))
+    {
+        ray.flags |= FLG(OBJ_ACTIVE);
+        unk_1 = allowed_time[index] * 60 + 2 * 60;
+        left_time = unk_1 - map_time;
+        if (left_time == 0 && nb_wiz != 0)
+        {
+            status_bar.num_wiz = nb_wiz_save;
+            nb_wiz_save = 0;
+            departlevel = false;
+            fix_numlevel(&ray);
+        }
+    }
+}
