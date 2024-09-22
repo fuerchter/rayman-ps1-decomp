@@ -134,7 +134,7 @@ segments:
       - [0xE818, c, loading_E99C] #80133018
       - [0xED20, c, input_ED20] #80133520
       - [0x10B3C, c, draw/fond_10B3C] #8013533C
-      - [0x14AD8, asm, loading_tex] #801392D8 TODO: re-did split (start and end), but still not 100% certain
+      - [0x14AD8, c, loading_tex] #801392D8 TODO: re-did split (start and end), but still not 100% certain
       - [0x14FF4, c, draw/draw_14FF4] #801397F4
       - [0x18118, c, draw/text_18118] #8013c918
       - [0x19A38, c, draw/draw_hud] #8013e238
