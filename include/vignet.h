@@ -3,7 +3,10 @@
 
 #include "common.h"
 
+/**/
 extern s16 loop_nb_trames;
 extern u8 Vignet_To_Display; /* sir, are you a boolean? */
+
+s16 display_vignet_prg(void);
 
 #endif

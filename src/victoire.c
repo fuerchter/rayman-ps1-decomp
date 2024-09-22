@@ -59,6 +59,43 @@ void DISPLAY_CREDITS(void)
     INIT_FADE_IN();
 }
 
-INCLUDE_ASM("asm/nonmatchings/victoire", DISPLAY_PROTOON_BACK);
+/* 9EB0 8012E6B0 -O2 -msoft-float */
+void DISPLAY_PROTOON_BACK(void)
+{
+    display_Vignet = 0;
+    INIT_FADE_IN();
+    loop_nb_trames = 0;
+    loop_timing = 4;
+    new_txt_fee = 0;
+    INIT_TEXT_TO_DISPLAY();
+    SYNCHRO_LOOP(display_vignet_prg);
+    DO_FADE_OUT();
+}
 
-INCLUDE_ASM("asm/nonmatchings/victoire", DO_VICTOIRE);
+/* 9F14 8012E714 -O2 -msoft-float */
+void DO_VICTOIRE(void)
+{
+    star_ray_der = null;
+    star_ray_dev = null;
+    if (You_Win)
+    {
+        PS1_PlayCDTrack_0_3();
+        if (num_level_choice > 1)
+        {
+            DO_FADE_OUT();
+            PS1_PlayVideo(VIDEO_WIN);
+        }
+        else
+        {
+            num_level = 4;
+            num_world = 6;
+            LOAD_VIGNET_GAME();
+        }
+
+        if (num_level_choice == 1)
+            DISPLAY_PROTOON_BACK();
+        PS1_LoadFont();
+        DISPLAY_CREDITS();
+    }
+    PROC_EXIT = false;
+}
