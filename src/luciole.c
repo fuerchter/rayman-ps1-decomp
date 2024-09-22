@@ -1,13 +1,5 @@
 #include "luciole.h"
 
-extern s16 n_ray;
-extern s16 vx_luc;
-extern s16 vy_luc;
-extern s16 x_main_luc;
-extern s16 y_main_luc;
-extern s16 x_ray[4];
-extern s16 y_ray[4];
-
 /* 3D384 80161B84 -O2 -msoft-float */
 void INIT_LUCIOLE(void)
 {
