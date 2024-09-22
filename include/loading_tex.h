@@ -2,6 +2,7 @@
 #define LOADING_TEX_H
 
 #include "common.h"
+#include "vram.h"
 
 void FUN_801392d8(s32 param_1, s16 *param_2, s16 *param_3);
 void FUN_80139330(u32 param_1, s16 *param_2, s16 *param_3);

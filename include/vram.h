@@ -4,8 +4,7 @@
 #include "common.h"
 #include "psyq_3_0/LIBGPU.H"
 
-s32 PS1_LoadToVRAM(s16 width, s16 height, s16 x, s16 y, u32 *data);
-/* SEE UPDATED SIGNATURE IN GHIDRA */
-void PS1_LoadVRAMBlock(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 unused, u32 *data);
+s32 PS1_LoadToVRAM(s16 width, s16 height, s16 x, s16 y, u8 *data);
+void PS1_LoadVRAMBlock (u32 start_page, u32 start_pos, s32 end_page, s32 end_pos, s32 unused, u8 *data);
 
 #endif
