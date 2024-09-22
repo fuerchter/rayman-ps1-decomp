@@ -100,7 +100,7 @@ void FUN_801a2c78(void)
     PS1_ValidPassword = false;
     max_compteur = 100;
     delai_repetition = 25;
-    if (PS1_ShouldClearPassword == true)
+    if (PS1_ShouldClearPassword == 1)
         PS1_ClearPassword();
 }
 

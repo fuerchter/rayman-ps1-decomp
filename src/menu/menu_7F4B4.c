@@ -369,7 +369,7 @@ void INIT_SAVE_CHOICE(void)
   nouvelle_partie = false;
   delai_repetition = 12;
   repetition = 6;
-  MENU_RETURN = 0;
+  MENU_RETURN = false;
   basex = 40;
   sortie_save = false;
   positiony2 = NBRE_SAVE + 1;

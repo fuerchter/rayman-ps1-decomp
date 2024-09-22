@@ -112,7 +112,7 @@ segments:
       - [0x7B68, .rodata, first_init] #8012C368
       - [0x7B78, .rodata, menu/menu_card_7C028] #8012C378
       - [0x7BB0, .rodata, password] #8012c3b0
-      - [0x7C4C, rodata]
+      - [0x7C4C, .rodata, menu/menu_7EEE4] #8012C44C
       - [0x7C68, .rodata, demo_7F2BC] #8012c468
       - [0x7C84, .rodata, menu/menu_7F4B4] #8012c484
       - [0x7D98, rodata]
@@ -287,7 +287,7 @@ segments:
       - [0x7BB28, asm, unknown/7BB28] #801a0328
       - [0x7C028, c, menu/menu_card_7C028] #801a0828
       - [0x7CCA0, c, password] #801a14a0
-      - [0x7EEE4, asm, menu/menu_7EEE4] #801a36e4
+      - [0x7EEE4, c, menu/menu_7EEE4] #801a36e4
       - [0x7F2BC, c, demo_7F2BC] #801a3abc
       - [0x7F4B4, c, menu/menu_7F4B4] #801a3cb4
       - [0x82008, c, menu/menu_82008] #801A6808

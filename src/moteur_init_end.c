@@ -128,7 +128,7 @@ void INIT_MOTEUR_BEGIN(void)
     special_ray_mov_win_x_right = 0;
     D_801F75C0 = 0;
     NumDemo = 0;
-    PS1_ShouldClearPassword = true;
+    PS1_ShouldClearPassword = 1;
     PS1_CardShouldCheckFirstBoot = true;
     left_time = 0;
     life_becoz_wiz = false;
