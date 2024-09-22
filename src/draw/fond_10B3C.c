@@ -77,7 +77,7 @@ void FUN_80138360(u8 *vit_clig)
     u8 i;
     BackgroundPosition *bg_pos;
     Sprite *bg_sprite;
-    DR_ENV *dr_env = PS1_CurrentDisplay->field6_0x2b0;
+    DR_ENV *dr_env = &PS1_CurrentDisplay->map_drawing_environment_primitives[9];
 
     for (i = 0; i < NbSprite; i++)
     {

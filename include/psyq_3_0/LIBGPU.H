@@ -97,6 +97,13 @@ typedef struct {
 	u_char	r0, g0, b0, code;
 	short	x0, 	y0;
 	u_char	u0, v0;	u_short	clut;
+} SPRT_16;				/* 16x16 Sprite */
+
+typedef struct {
+	u_long	tag;
+	u_char	r0, g0, b0, code;
+	short	x0, 	y0;
+	u_char	u0, v0;	u_short	clut;
 } SPRT_8;				/* 8x8 Sprite */
 
 /*
@@ -141,6 +148,10 @@ void SetPolyG3(POLY_G3 *p) ;
 void SetPolyG4(POLY_G4 *p) ;
 void SetSemiTrans(void *p, int abe) ;
 void SetShadeTex(void *p, int tge) ;
+void SetSprt(SPRT *p) ;
+void SetSprt16(SPRT_16 *p) ;
+void SetSprt8(SPRT_8 *p) ;
 void SetTile(TILE *p) ;
+void SetTile1(TILE_1 *p) ;
 
 #endif

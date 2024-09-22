@@ -413,7 +413,7 @@ void DrawWldPointPlan2Normal(s16 x0, s16 y0)
 /* 16714 8013AF14 -O2 -msoft-float */
 void PS1_DisplayPtsPrim(void)
 {
-    AddPrim(&PS1_CurrentDisplay->ordering_table[5], &PS1_CurrentDisplay->field3_0x1f0);
+    AddPrim(&PS1_CurrentDisplay->ordering_table[5], &PS1_CurrentDisplay->map_drawing_environment_primitives[6]);
 }
 
 /* 16740 8013AF40 -O2 -msoft-float */

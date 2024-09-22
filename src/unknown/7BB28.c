@@ -20,7 +20,99 @@ void PS1_StopLevelMusic(void)
     FUN_80168f40();
 }
 
-INCLUDE_ASM("asm/nonmatchings/unknown/7BB28", PS1_InitDisplay);
+/* 7BBC4 801A03C4 -O2 -msoft-float */
+void PS1_InitDisplay(Display *display)
+{
+    s32 i;
+    
+    for (i = 0; i < (s16) LEN(display->tiles); i++)
+    {
+        SetSprt16(&display->tiles[i]);
+        SetSemiTrans(&display->tiles[i], false);
+        SetShadeTex(&display->tiles[i], true);
+        display->tiles[i].u0 = 128;
+        display->tiles[i].v0 = 0;
+    }
+    for (i = 0; i < (s16) LEN(display->sprites); i++)
+    {
+        SetSprt(&display->sprites[i]);
+        SetSemiTrans(&display->sprites[i], false);
+        SetShadeTex(&display->sprites[i], true);
+    }
+    for (i = 0; i < (s16) LEN(display->polygons); i++)
+    {
+        SetPolyFT4(&display->polygons[i]);
+        SetSemiTrans(&display->polygons[i], false);
+        SetShadeTex(&display->polygons[i], true);
+    }
+    for (i = 0; i < (s16) LEN(display->tile1s); i++)
+    {
+        SetTile1(&display->tile1s[i]);
+        SetSemiTrans(&display->tile1s[i], false);
+        SetShadeTex(&display->tile1s[i], true);
+    }
+    for (i = 0; i < (s16) LEN(display->field_0x1e9c_0x321b); i++)
+    {
+        SetSprt8(&display->field_0x1e9c_0x321b[i]);
+        SetSemiTrans(&display->field_0x1e9c_0x321b[i], false);
+        SetShadeTex(&display->field_0x1e9c_0x321b[i], true);
+        display->field_0x1e9c_0x321b[i].clut = GetClut(768, 490);
+    }
+
+    display->drawing_environment.tpage = GetTPage(1, 1, 768, 0);
+    SetDrawEnv(&display->map_drawing_environment_primitives[0], &display->drawing_environment);
+    display->drawing_environment.tpage = GetTPage(1, 1, 768, 256);
+    SetDrawEnv(&display->map_drawing_environment_primitives[1], &display->drawing_environment);
+    display->drawing_environment.tpage = GetTPage(1, 1, 928, 0);
+    SetDrawEnv(&display->map_drawing_environment_primitives[2], &display->drawing_environment);
+    display->drawing_environment.tpage = GetTPage(1, 1, 928, 256);
+    SetDrawEnv(&display->map_drawing_environment_primitives[3], &display->drawing_environment);
+    display->drawing_environment.tpage = GetTPage(1, 1, 0, 256);
+    for (i = 4; i < (s16) LEN(display->map_drawing_environment_primitives); i++)
+        SetDrawEnv(&display->map_drawing_environment_primitives[i], &display->drawing_environment);
+    display->drawing_environment.tpage = GetTPage(1, 2, 0, 256);
+    SetDrawEnv(&display->map_drawing_environment_primitives[8], &display->drawing_environment);
+    display->drawing_environment.tpage = GetTPage(1, 1, 320, 0);
+    SetDrawEnv(&display->map_drawing_environment_primitives[6], &display->drawing_environment);
+    SetDrawEnv(&display->map_drawing_environment_primitives[7], &display->drawing_environment);
+
+    SetPolyG4(&display->field_0x6094_0x60b7);
+    SetSemiTrans(&display->field_0x6094_0x60b7, true);
+    SetShadeTex(&display->field_0x6094_0x60b7, true);
+    display->field_0x6094_0x60b7.x0 = 0;
+    display->field_0x6094_0x60b7.y0 = 0;
+    display->field_0x6094_0x60b7.x1 = 320;
+    display->field_0x6094_0x60b7.y1 = 0;
+    display->field_0x6094_0x60b7.x2 = 0;
+    display->field_0x6094_0x60b7.y2 = 240;
+    display->field_0x6094_0x60b7.x3 = 320;
+    display->field_0x6094_0x60b7.y3 = 240;
+    display->field_0x6094_0x60b7.r0 = 255;
+    display->field_0x6094_0x60b7.g0 = 255;
+    display->field_0x6094_0x60b7.b0 = 255;
+    display->field_0x6094_0x60b7.r1 = 0;
+    display->field_0x6094_0x60b7.g1 = 0;
+    display->field_0x6094_0x60b7.b1 = 0;
+    display->field_0x6094_0x60b7.r2 = 0;
+    display->field_0x6094_0x60b7.g2 = 0;
+    display->field_0x6094_0x60b7.b2 = 0;
+    display->field_0x6094_0x60b7.r3 = 0;
+    display->field_0x6094_0x60b7.g3 = 0;
+    display->field_0x6094_0x60b7.b3 = 0;
+
+    SetTile(&display->field_0x6084_0x6093);
+    SetSemiTrans(&display->field_0x6084_0x6093, true);
+    SetShadeTex(&display->field_0x6084_0x6093, true);
+    display->field_0x6084_0x6093.x0 = 0;
+    display->field_0x6084_0x6093.y0 = 0;
+    display->field_0x6084_0x6093.w = 320;
+    display->field_0x6084_0x6093.h = 240;
+    display->field_0x6084_0x6093.r0 = 255;
+    display->field_0x6084_0x6093.g0 = 255;
+    display->field_0x6084_0x6093.b0 = 255;
+    FUN_801790cc(display);
+    FUN_80169420(display);
+}
 
 INCLUDE_ASM("asm/nonmatchings/unknown/7BB28", FUN_801a0750);
 

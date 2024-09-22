@@ -12,16 +12,12 @@ typedef struct DRENVAndTile {
 typedef struct Display {
     DISPENV field0_0x0;
     DRAWENV drawing_environment;
-    DR_ENV map_drawing_environment_primitives[6];
-    DR_ENV field3_0x1f0;
-    DR_ENV field4_0x230;
-    DR_ENV field5_0x270;
-    DR_ENV field6_0x2b0[16];
+    DR_ENV map_drawing_environment_primitives[25];
     u8 field_0x6b0_0x7d7[296]; /* unused? */
     u32 map_ordering_tables[6]; /* TODO: size correct? */
     u32 ordering_table[11]; /* TODO: not sure this is correct, see compiler warnings for synchro_loop.c and main_moteur.c */
-    SPRT_8 tiles[360];
-    SPRT_8 field_0x1e9c_0x321b[312]; /* size? see D_801F4A28? could also either be SPRT_8 or SPRT_16, structs are the same */
+    SPRT_16 tiles[360];
+    SPRT_8 field_0x1e9c_0x321b[312];
     TILE_1 tile1s[240];
     SPRT sprites[50];
     POLY_FT4 polygons[200];
