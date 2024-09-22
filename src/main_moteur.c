@@ -125,10 +125,10 @@ void DO_MAIN_LOOP(void)
     ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 128, 0, 128);
   DrawOTag((u_long *) PS1_CurrentDisplay->ordering_table);
   PS1_CheckPauseAndCheatInputs();
-  if (dead_time != 64 && PS1_CanPlayDeathMusic != 0)
+  if (dead_time != 64 && PS1_CanPlayDeathMusic)
   {
     PS1_PlayDeathMusic();
-    PS1_CanPlayDeathMusic = 0;
+    PS1_CanPlayDeathMusic = false;
   }
   FUN_80168f48();
   CdSync(1, null);
