@@ -2,6 +2,7 @@
 #define VICTOIRE_H
 
 #include "common.h"
+#include "draw/text_18118.h"
 
 typedef struct Credit
 {
@@ -22,5 +23,11 @@ extern u8 display_Vignet;
 extern u8 first_credit;
 extern u8 last_credit;
 extern s16 nb_credits_lines;
+
+void DISPLAY_TXT_CREDITS(void);
+s16 display_credits_prg(void);
+void DISPLAY_CREDITS(void);
+void DISPLAY_PROTOON_BACK(void);
+void DO_VICTOIRE(void);
 
 #endif
