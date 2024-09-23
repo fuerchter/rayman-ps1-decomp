@@ -133,7 +133,7 @@ void INIT_CONTINUE(void)
   
   loop_nb_trames = 0;
   loop_timing = 10;
-  fin_continue = 0;
+  fin_continue = false;
   compteur = 0;
   joy_done = 0;
   Etape_History = 0;
@@ -343,7 +343,7 @@ void MAIN_CONTINUE_PRG(void)
         break;
     case 28:
         if (ray.anim_frame > 40)
-            fin_continue = 1;
+            fin_continue = true;
         if (ray.anim_frame > 16)
             ray.speed_x = 0;
         break;
