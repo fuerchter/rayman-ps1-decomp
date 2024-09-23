@@ -1,15 +1,21 @@
 #include "unknown/AACC.h"
 
-extern RaymanEvents D_801CEE84;
-extern RaymanEvents D_801CEE88;
-extern RaymanEvents D_801CEE8C;
-extern RaymanEvents D_801CEE90;
-extern RaymanEvents D_801CEE94;
-
 void FUN_8012f2cc(void) {}
 
 INCLUDE_ASM("asm/nonmatchings/unknown/AACC", PouvoirsParMap);
 
-INCLUDE_ASM("asm/nonmatchings/unknown/AACC", PS1_ResetSaveZone);
+/* AD40 8012F540 -O2 -msoft-float */
+void PS1_ResetSaveZone(void)
+{
+    s32 i;
+    s32 len = LEN(save_zone);
 
-INCLUDE_ASM("asm/nonmatchings/unknown/AACC", FUN_8012f570);
+    for (i = 0; i < len; i++)
+        save_zone[i] = 0;
+}
+
+/* AD70 8012F570 -O2 -msoft-float */
+void FUN_8012f570(void)
+{
+    D_801CEEA0++;
+}
