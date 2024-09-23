@@ -85,7 +85,7 @@ void FUN_8019deac(void)
     PS1_FileTemp = PS1_LoadFiles(PS1_ImgFiles, 0, 1, 0);
     plan2_width = 320;
     plan2_height = 240;
-    D_801E4B58 = 0;
+    D_801E4B58 = false;
     D_801CF0CA = 0;
 }
 
@@ -104,37 +104,37 @@ void FUN_8019df1c(s16 param_1)
     case 0:
         plan2_width = 219;
         plan2_height = 180;
-        D_801E4B58 = 0;
+        D_801E4B58 = false;
         D_801CF0CA = 0;
         break;
     case 1:
         plan2_width = 231;
         plan2_height = 214;
-        D_801E4B58 = 0;
+        D_801E4B58 = false;
         D_801CF0CA = 0;
         break;
     case 2:
         plan2_width = 257;
         plan2_height = 180;
-        D_801E4B58 = 0;
+        D_801E4B58 = false;
         D_801CF0CA = 0;
         break;
     case 3:
         plan2_width = 200;
         plan2_height = 180;
-        D_801E4B58 = 0;
+        D_801E4B58 = false;
         D_801CF0CA = 0;
         break;
     case 4:
         plan2_width = 146;
         plan2_height = 180;
-        D_801E4B58 = 0;
+        D_801E4B58 = false;
         D_801CF0CA = 0;
         break;
     case 5:
         plan2_width = 203;
         plan2_height = 180;
-        D_801E4B58 = 0;
+        D_801E4B58 = false;
         D_801CF0CA = 0;
         break;
     }
@@ -265,7 +265,7 @@ void LOAD_SCREEN(void)
     PS1_FileTemp = PS1_LoadFiles(PS1_LdrFiles, 0, 1, 0);
     plan2_width = 640;
     plan2_height = 262;
-    D_801E4B58 = 0;
+    D_801E4B58 = false;
     D_801CF0CA = 0;
 }
 
@@ -278,7 +278,7 @@ void FUN_8019e914(void)
     PS1_FileTemp = PS1_LoadFiles(PS1_LdrFiles, 1, 1, 0);
     plan2_width = 279;
     plan2_height = 90;
-    D_801E4B58 = 0;
+    D_801E4B58 = false;
     D_801CF0CA = 0;
 }
 
@@ -290,7 +290,7 @@ void LOAD_CONTINUE_SCREEN(void)
     PS1_FileTemp = PS1_LoadFiles(PS1_ImgFiles, 1, 1, 0);
     plan2_width = 320;
     plan2_height = 137;
-    D_801E4B58 = 1;
+    D_801E4B58 = true;
     D_801CF0CA = 0;
 }
 
@@ -304,7 +304,7 @@ void PS1_LoadImgSplash(void)
         PS1_FileTemp = PS1_LoadFiles(PS1_ImgFiles, 0, 1, 0);
         plan2_width = 320;
         plan2_height = 240;
-        D_801E4B58 = 0;
+        D_801E4B58 = false;
         D_801CF0CA = 0;
         D_801CF0CD = true;
     }
@@ -320,7 +320,7 @@ void LOAD_SAVE_SCREEN(void)
         PS1_FileTemp = PS1_LoadFiles(PS1_ImgFiles, 0, 1, 0);
         plan2_width = 320;
         plan2_height = 240;
-        D_801E4B58 = 0;
+        D_801E4B58 = false;
         D_801CF0CA = 0;
         D_801CF0CD = true;
     }
@@ -336,7 +336,7 @@ void FUN_8019eb30(void)
         PS1_FileTemp = PS1_LoadFiles(PS1_ImgFiles, 0, 1, 0);
         plan2_width = 320;
         plan2_height = 240;
-        D_801E4B58 = 0;
+        D_801E4B58 = false;
         D_801CF0CA = 0;
         D_801CF0CD = true;
     }
@@ -371,42 +371,42 @@ void LOAD_CREDITS_VIGNET(void)
         D_801F4380 = (void *)0x8005866C;
         plan2_width = 206;
         plan2_height = 200;
-        D_801E4B58 = 0;
+        D_801E4B58 = false;
         D_801CF0CA = 0xFF;
         break;
     case 1:
         D_801F4380 += 0x15800;
         plan2_width = 199;
         plan2_height = 200;
-        D_801E4B58 = 0;
+        D_801E4B58 = false;
         D_801CF0CA = 0xFF;
         break;
     case 2:
         D_801F4380 += 0x15800;
         plan2_width = 182;
         plan2_height = 200;
-        D_801E4B58 = 0;
+        D_801E4B58 = false;
         D_801CF0CA = 0xFF;
         break;
     case 3:
         D_801F4380 += 0x15800;
         plan2_width = 195;
         plan2_height = 200;
-        D_801E4B58 = 0;
+        D_801E4B58 = false;
         D_801CF0CA = 0xFF;
         break;
     case 4:
         D_801F4380 += 0x15800;
         plan2_width = 214;
         plan2_height = 200;
-        D_801E4B58 = 0;
+        D_801E4B58 = false;
         D_801CF0CA = 0xFF;
         break;
     case 5:
         D_801F4380 += 0x15800;
         plan2_width = 187;
         plan2_height = 200;
-        D_801E4B58 = 0;
+        D_801E4B58 = false;
         D_801CF0CA = 0xFF;
         break;
     }
@@ -426,7 +426,7 @@ void LOAD_VIGNET_GAME(void)
             PS1_FileTemp = PS1_LoadFiles(PS1_GamFiles, 0, 1, 0);
             plan2_width = 178;
             plan2_height = 150;
-            D_801E4B58 = 0;
+            D_801E4B58 = false;
             D_801CF0CA = 0;
         }
         break;
@@ -437,7 +437,7 @@ void LOAD_VIGNET_GAME(void)
             PS1_FileTemp = PS1_LoadFiles(PS1_GamFiles, 1, 1, 0);
             plan2_width = 159;
             plan2_height = 150;
-            D_801E4B58 = 0;
+            D_801E4B58 = false;
             D_801CF0CA = 0;
         }
         break;
@@ -448,7 +448,7 @@ void LOAD_VIGNET_GAME(void)
             PS1_FileTemp = PS1_LoadFiles(PS1_GamFiles, 2, 1, 0);
             plan2_width = 171;
             plan2_height = 150;
-            D_801E4B58 = 0;
+            D_801E4B58 = false;
             D_801CF0CA = 0;
         }
         break;
@@ -459,7 +459,7 @@ void LOAD_VIGNET_GAME(void)
             PS1_FileTemp = PS1_LoadFiles(PS1_GamFiles, 3, 1, 0);
             plan2_width = 162;
             plan2_height = 150;
-            D_801E4B58 = 0;
+            D_801E4B58 = false;
             D_801CF0CA = 0;
         }
         if (num_level == 11)
@@ -468,7 +468,7 @@ void LOAD_VIGNET_GAME(void)
             PS1_FileTemp = PS1_LoadFiles(PS1_GamFiles, 4, 1, 0);
             plan2_width = 168;
             plan2_height = 150;
-            D_801E4B58 = 0;
+            D_801E4B58 = false;
             D_801CF0CA = 0;
         }
         break;
@@ -479,7 +479,7 @@ void LOAD_VIGNET_GAME(void)
             PS1_FileTemp = PS1_LoadFiles(PS1_GamFiles, 5, 1, 0);
             plan2_width = 306;
             plan2_height = 240;
-            D_801E4B58 = 0;
+            D_801E4B58 = false;
             D_801CF0CA = 0;
         }
         break;
