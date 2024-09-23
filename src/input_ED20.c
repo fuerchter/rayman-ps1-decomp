@@ -197,7 +197,7 @@ s32 FUN_801339f4(s32 param_1)
 }
 
 /* F264 80133A64 -O2 -msoft-float */
-u8 PS1_IsInputtingCheatCode(s32 param_1)
+s32 PS1_IsInputtingCheatCode(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return TOUCHE(INPUT_R1) && TOUCHE(INPUT_R2);

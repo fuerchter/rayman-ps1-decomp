@@ -60,7 +60,8 @@ segments:
     bss_size: 0x0
     subalign: 4
     subsegments:
-      - [0x800, rodata]
+      - [0x800, .rodata, unknown/A3B0] #80125000
+      - [0x828, rodata]
       #- [0x9C8, .rodata, data/menu/menu_card_9ED48] #801251C8 TODO: .rodata referenced from .data?
       - [0x1428, .rodata, music] #80125C28
       - [0x156C, .rodata, video] #80132898
@@ -122,7 +123,7 @@ segments:
       - [0x9A14, c, vignet] #8012E214
       - [0x9C90, c, victoire] #8012E490
       - [0x9FD4, c, demo_9FD4] #8012e7d4
-      - [0xA3B0, asm, unknown/A3B0] #8012ebb0
+      - [0xA3B0, c, unknown/A3B0] #8012ebb0
       - [0xA5F0, c, vram] #8012EDF0
       - [0xAACC, asm, unknown/AACC] #8012F2CC
       - [0xAD90, c, main_moteur] #8012f590

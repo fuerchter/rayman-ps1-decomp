@@ -88,7 +88,7 @@ s32 but2pressed(s32 param_1);
 s32 but3pressed(s32 param_1);
 s32 FUN_80133984(s32 param_1);
 s32 FUN_801339f4(s32 param_1);
-u8 PS1_IsInputtingCheatCode(s32 param_1);
+s32 PS1_IsInputtingCheatCode(s32 param_1);
 s32 FUN_80133acc(s32 param_1);
 s32 FUN_80133b08(s32 param_1);
 s32 FUN_80133b44(s32 param_1);

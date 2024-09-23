@@ -255,6 +255,7 @@ s_yes_801cf0f4 = 0x801cf0f4;
 s_no_801cf0fc = 0x801cf0fc;
 s_loading_8012c368 = 0x8012c368; // type:asciz force_not_migration:True
 s_d_801cf0f0 = 0x801cf0f0;
+s_game_pausedpress_start_to_p_80125000 = 0x80125000; // type:asciz force_not_migration:True
 
 ray = 0x801f61a0;
 //ray_obj_sprites = 0x801f61a0;
