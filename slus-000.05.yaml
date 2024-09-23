@@ -125,7 +125,7 @@ segments:
       - [0x9FD4, c, demo_9FD4] #8012e7d4
       - [0xA3B0, c, unknown/A3B0] #8012ebb0
       - [0xA5F0, c, vram] #8012EDF0
-      - [0xAACC, asm, unknown/AACC] #8012F2CC
+      - [0xAACC, c, unknown/AACC] #8012F2CC
       - [0xAD90, c, main_moteur] #8012f590
       - [0xB3F8, c, demo_B3F8] #8012FBF8
       - [0xB438, c, main] #8012fc38
