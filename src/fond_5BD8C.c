@@ -1,9 +1,9 @@
 #include "fond_5BD8C.h"
 
-INCLUDE_ASM("asm/nonmatchings/fond_5BD8C", FUN_8018058c);
-
 extern u8 D_801E4B58;
 extern u8 *D_801F4380; /* still don't know where to put this */
+
+INCLUDE_ASM("asm/nonmatchings/fond_5BD8C", FUN_8018058c);
 
 /* 5BF84 80180784 -O2 -msoft-float */
 void DISPLAY_FOND3(void)
@@ -18,8 +18,25 @@ void DISPLAY_FOND3(void)
 
 INCLUDE_ASM("asm/nonmatchings/fond_5BD8C", FUN_80180804);
 
-INCLUDE_ASM("asm/nonmatchings/fond_5BD8C", FUN_801809fc);
+/* 5C1FC 801809FC -O2 -msoft-float */
+void FUN_801809fc(void)
+{
+    s16 y = (480 - plan2_height) >> 1;
+    s16 x = (640 - plan2_width) >> 1;
 
-INCLUDE_ASM("asm/nonmatchings/fond_5BD8C", DISPLAY_FOND_CONTINUE);
+    if (D_801E4B58 == true)
+        y = 0;
+    FUN_80180804((u32 *) D_801F4380, 0, 0, x, y, plan2_height, plan2_width);
+}
 
-INCLUDE_ASM("asm/nonmatchings/fond_5BD8C", DISPLAY_FOND_SELECT);
+/* 5C27C 80180A7C -O2 -msoft-float */
+void DISPLAY_FOND_CONTINUE(void)
+{
+    DISPLAY_FOND3();
+}
+
+/* 5C29C 80180A9C -O2 -msoft-float */
+void DISPLAY_FOND_SELECT(void)
+{
+    CLRSCR();
+}
