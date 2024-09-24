@@ -152,7 +152,7 @@ segments:
       - [0x293C4, c, timers] #8014DBC4
       - [0x29A18, c, unknown/29A18] #8014e218
       - [0x29B5C, c, cam_scroll_29B5C] #8014E35C
-      - [0x29F3C, asm, unknown/29F3C] #8014e73c
+      - [0x29F3C, c, unknown/29F3C] #8014e73c
       - [0x2A07C, c, obj_init_kill] #8014e87c
       - [0x2C214, c, obj_update] #80150a14
       - [0x30A64, c, ray/ray_30A64] #80155264
