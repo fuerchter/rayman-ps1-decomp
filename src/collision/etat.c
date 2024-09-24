@@ -27,13 +27,32 @@ void GET_ANIM_POS(Obj *obj, s16 *x, s16 *y, s16 *w, s16 *h)
     *y = obj->y_pos + frame->y;
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/etat", FUN_801473d4);
+/* 22BD4 801473D4 -O2 -msoft-float */
+s32 FUN_801473d4(Obj *param_1)
+{
+    return 0;
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/etat", FUN_801473dc);
+/* 22BDC 801473DC -O2 -msoft-float */
+s32 FUN_801473dc(Obj *obj)
+{
+    return 0;
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/etat", add_actobj);
+/* 22BE4 801473E4 -O2 -msoft-float */
+void add_actobj(s16 obj_id)
+{
+    s16 num = actobj.num_active_objects++;
 
-INCLUDE_ASM("asm/nonmatchings/collision/etat", PS1_BTYPAbsPos);
+    actobj.objects[num] = obj_id;
+    actobj.objects[num + 1] = -1;
+}
+
+/* 22C24 80147424 -O2 -msoft-float */
+s16 PS1_BTYPAbsPos(s32 x, s32 y)
+{
+    return (u8) BTYP((s16) x >> 4, (s16) y >> 4);
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/etat", set_sub_etat);
 
