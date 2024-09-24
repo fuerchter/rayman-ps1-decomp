@@ -36,8 +36,7 @@ void DO_HYB_BBF2_POING_COLLISION(Obj *obj)
     }
 }
 
-/*INCLUDE_ASM("asm/nonmatchings/obj/hyb_bbf2", AllocateTirBBF2);*/
-
+/* 764B4 8019ACB4 -O2 -msoft-float */
 void AllocateTirBBF2(Obj *bbf2_obj)
 {
     Obj *cur_obj = &level.objects[0];
