@@ -42,7 +42,7 @@ extern s16 D_801F81B0;
 
 u8 PS1_deter_num_let_old(s32 param_1);
 s16 PS1_calc_let_Width(s16 sprite, u8 font);
-s32 calc_let_Width(u8 param_1, s16 param_2);
+s32 calc_let_Width(u8 font, s16 sprite);
 s16 PS1_CalcTextWidth(u8 *str, u8 font);
 void PS1_DisplayCenteredText(u8 *str, u8 param_2, u8 color);
 void PS1_DisplayMultipleCenteredText(u8 index, MenuText *in_menus); /* unused */

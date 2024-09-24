@@ -145,7 +145,7 @@ segments:
       - [0x22A98, c, collision/etat] #80147298
       - [0x22C84, c, collision/block_22C84] #80147484
       - [0x243B8, c, obj_util] #80148bb8
-      - [0x24E10, asm, text_24E10] #80149610
+      - [0x24E10, c, text_24E10] #80149610
       - [0x2539C, c, unknown/2539C] #80149B9C
       - [0x25D4C, c, obj/mama_pirate] #8014A54C
       - [0x29390, asm, card_clear] #8014db90

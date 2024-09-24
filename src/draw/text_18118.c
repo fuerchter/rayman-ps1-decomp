@@ -55,9 +55,9 @@ s16 PS1_calc_let_Width(s16 sprite, u8 font)
 }
 
 /* 18214 8013CA14 -O2 -msoft-float */
-s32 calc_let_Width(u8 param_1, s16 param_2)
+s32 calc_let_Width(u8 font, s16 sprite)
 {
-    return PS1_calc_let_Width(param_2, param_1);
+    return PS1_calc_let_Width(sprite, font);
 }
 
 /* 18244 8013CA44 -O2 -msoft-float */
