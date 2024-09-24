@@ -1,7 +1,5 @@
 #include "collision/proj.h"
 
-extern u8 zoom_mode;
-
 /* 22754 80146F54 -O2 -msoft-float */
 void set_proj_center(s16 param_1, s16 param_2)
 {
@@ -36,8 +34,20 @@ s32 get_proj_y(s16 param_1, s16 param_2)
     return (s16) (0x10000 / (param_1 + 256) * (param_2 - PROJ_CENTER_Y) / 256 + PROJ_CENTER_Y);
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/proj", set_zoom_mode);
+/* 22958 80147158 -O2 -msoft-float */
+void set_zoom_mode(u8 mode)
+{
+    zoom_mode = mode;
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/proj", inverse_proj_x);
+/* 22968 80147168 -O2 -msoft-float */
+s32 inverse_proj_x(s16 param_1, s16 param_2)
+{
+    return (s16) ((param_2 - PROJ_CENTER_X) * 256 / (0x10000 / (param_1 + 256)) + PROJ_CENTER_X);
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/proj", inverse_proj_y);
+/* 22A00 80147200 -O2 -msoft-float */
+s32 inverse_proj_y(s16 param_1, s16 param_2)
+{
+    return (s16) ((param_2 - PROJ_CENTER_Y) * 256 / (0x10000 / (param_1 + 256)) + PROJ_CENTER_Y);
+}
