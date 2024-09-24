@@ -2,8 +2,8 @@
 #define MENU_7F4B4_H
 
 #include "common.h"
+#include "common/text_to_display.h"
 #include "psyq_3_0_missing/STRINGS.H"
-#include "text_24E10.h"
 #include "menu/menu_7EEE4.h"
 #include "draw/fade.h"
 #include "demo_7F2BC.h"

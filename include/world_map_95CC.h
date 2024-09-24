@@ -2,8 +2,8 @@
 #define WORLD_MAP_95CC_H
 
 #include "common.h"
+#include "common/text_to_display.h"
 #include "draw/text_18118.h"
-#include "text_24E10.h"
 #include "world_map_677C0.h"
 
 /* .data */

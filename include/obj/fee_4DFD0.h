@@ -4,7 +4,7 @@
 #include "common.h"
 #include "common/obj.h"
 #include "common/rayevts.h"
-#include "text_24E10.h"
+#include "common/text_to_display.h"
 #include "timers.h"
 #include "world_map_95CC.h"
 
