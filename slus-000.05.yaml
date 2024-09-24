@@ -142,7 +142,7 @@ segments:
       - [0x1B1F0, c, collision/collision] #8013f9f0
       - [0x21D30, c, collision/bit_util] #80146530
       - [0x22754, c, collision/proj] #80146f54
-      - [0x22A98, asm, collision/etat] #80147298
+      - [0x22A98, c, collision/etat] #80147298
       - [0x22C84, c, collision/block_22C84] #80147484
       - [0x243B8, c, obj_util] #80148bb8
       - [0x24E10, asm, text_24E10] #80149610
