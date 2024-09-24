@@ -2,7 +2,7 @@
 
 /*INCLUDE_ASM("asm/nonmatchings/nova", DO_NOVA);*/
 
-void DO_NOVA(Obj *obj)
+void DO_NOVA(Obj *in_obj)
 {
     s16 sp18;
     s16 sp1A;
@@ -25,10 +25,10 @@ void DO_NOVA(Obj *obj)
     temp_v0 = allocateNOVA();
     if (temp_v0 != 0)
     {
-        temp_v0->x_pos = obj->x_pos;
-        temp_v0->y_pos = obj->y_pos;
+        temp_v0->x_pos = in_obj->x_pos;
+        temp_v0->y_pos = in_obj->y_pos;
         GET_ANIM_POS(temp_v0, &sp18, &sp1A, &sp1C, &sp1E);
-        GET_ANIM_POS(obj, &sp20, &sp22, &sp24, &sp26);
+        GET_ANIM_POS(in_obj, &sp20, &sp22, &sp24, &sp26);
         test_1 = sp24;
         test_2 = sp20;
         test_3 = sp1C;

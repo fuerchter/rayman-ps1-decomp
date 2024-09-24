@@ -5,8 +5,8 @@
 #include "collision/etat.h"
 
 Obj * allocateNOVA(void);
-void DO_NOVA(Obj *obj);
-void DO_NOVA2(Obj *obj);
+void DO_NOVA(Obj *in_obj);
+void DO_NOVA2(Obj *in_obj);
 int NOVA_STATUS_BAR(void);
 
 #endif
