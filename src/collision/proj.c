@@ -18,11 +18,23 @@ s32 get_proj_dist(s16 param_1, s16 param_2)
         return (s16) (0x10000 / (param_1 + 256) * param_2 / 256);
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/proj", get_proj_dist2);
+/* 227F0 80146FF0 -O2 -msoft-float */
+s32 get_proj_dist2(s16 param_1, s16 param_2)
+{
+    return (s16) (0x10000 / (param_1 + 256) * param_2 >> 8);
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/proj", get_proj_x);
+/* 22850 80147050 -O2 -msoft-float */
+s32 get_proj_x(s16 param_1, s16 param_2)
+{
+    return (s16) (0x10000 / (param_1 + 256) * (param_2 - PROJ_CENTER_X) / 256 + PROJ_CENTER_X);
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/proj", get_proj_y);
+/* 228D4 801470D4 -O2 -msoft-float */
+s32 get_proj_y(s16 param_1, s16 param_2)
+{
+    return (s16) (0x10000 / (param_1 + 256) * (param_2 - PROJ_CENTER_Y) / 256 + PROJ_CENTER_Y);
+}
 
 INCLUDE_ASM("asm/nonmatchings/collision/proj", set_zoom_mode);
 
