@@ -28,7 +28,7 @@ void GET_ANIM_POS(Obj *obj, s16 *x, s16 *y, s16 *w, s16 *h)
 }
 
 /* 22BD4 801473D4 -O2 -msoft-float */
-s32 FUN_801473d4(Obj *param_1)
+s32 FUN_801473d4(Obj *obj)
 {
     return 0;
 }
@@ -54,8 +54,24 @@ s16 PS1_BTYPAbsPos(s32 x, s32 y)
     return (u8) BTYP((s16) x >> 4, (s16) y >> 4);
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/etat", set_sub_etat);
+/* 22C50 80147450 -O2 -msoft-float */
+void set_sub_etat(Obj *obj, u8 sub_etat)
+{
+    obj->sub_etat = sub_etat;
+    obj->change_anim_mode = ANIMMODE_RESET_IF_NEW;
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/etat", set_main_etat);
+/* 22C60 80147460 -O2 -msoft-float */
+void set_main_etat(Obj *obj, u8 main_etat)
+{
+    obj->main_etat = main_etat;
+    obj->change_anim_mode = ANIMMODE_RESET_IF_NEW;
+}
 
-INCLUDE_ASM("asm/nonmatchings/collision/etat", set_main_and_sub_etat);
+/* 22C70 80147470 -O2 -msoft-float */
+void set_main_and_sub_etat(Obj *obj, u8 main_etat, u8 sub_etat)
+{
+    obj->main_etat = main_etat;
+    obj->sub_etat = sub_etat;
+    obj->change_anim_mode = ANIMMODE_RESET_IF_NEW;
+}
