@@ -148,9 +148,9 @@ segments:
       - [0x24E10, c, text_24E10] #80149610
       - [0x2539C, c, unknown/2539C] #80149B9C
       - [0x25D4C, c, obj/mama_pirate] #8014A54C
-      - [0x29390, asm, card_clear] #8014db90
+      - [0x29390, asm, psyq_3_0/card] #8014db90
       - [0x293C4, c, timers] #8014DBC4
-      - [0x29A18, asm, unknown/29A18] #8014e218
+      - [0x29A18, c, unknown/29A18] #8014e218
       - [0x29B5C, c, cam_scroll_29B5C] #8014E35C
       - [0x29F3C, asm, unknown/29F3C] #8014e73c
       - [0x2A07C, c, obj_init_kill] #8014e87c
