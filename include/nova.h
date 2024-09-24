@@ -7,6 +7,6 @@
 Obj * allocateNOVA(void);
 void DO_NOVA(Obj *in_obj);
 void DO_NOVA2(Obj *in_obj);
-int NOVA_STATUS_BAR(void);
+s32 NOVA_STATUS_BAR(void);
 
 #endif

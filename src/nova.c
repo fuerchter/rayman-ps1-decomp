@@ -16,7 +16,7 @@ void DO_NOVA2(Obj *in_obj)
     for (i = 0; i < 5; i++)
     {
         nova_obj = allocateNOVA();
-        if (nova_obj != 0)
+        if (nova_obj)
         {
             nova_obj->x_pos = in_obj->x_pos;
             nova_obj->y_pos = in_obj->y_pos;
@@ -54,4 +54,21 @@ void DO_NOVA2(Obj *in_obj)
 }
 const u8 rodata_DO_NOVA2[4] = {};
 
-INCLUDE_ASM("asm/nonmatchings/nova", NOVA_STATUS_BAR);
+/* 3B1F4 8015F9F4 -O2 -msoft-float */
+s32 NOVA_STATUS_BAR(void)
+{
+    Obj *obj = allocateNOVA();
+    s16 res = -1;
+
+    if (obj)
+    {
+        res = obj->id;
+        obj->display_prio = 0;
+        obj->x_pos = obj->offset_bx + xmap;
+        obj->y_pos = obj->offset_by + ymap;
+        obj->timer = 10;
+        obj->field23_0x3c = 0xFF;
+    }
+
+    return res;
+}
