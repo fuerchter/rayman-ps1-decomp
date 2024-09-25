@@ -309,6 +309,7 @@ segments:
       - [0x9CA5C, data]
       - [0x9CA74, .data, data/common/mapdata_9CA74] #801C1274
       - [0x9CA94, data]
+      #- [0x9CA94, .data, data/obj_init_kill] #801C1294 not finished yet
       - [0x9D294, .data, data/collision/collision_9D294] #801C1A94
       - [0x9E494, .data, data/save] #801C2C94
       - [0x9E49C, .data, data/collision/block_9E49C] #801C2C9C
