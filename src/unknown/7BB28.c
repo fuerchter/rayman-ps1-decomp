@@ -124,7 +124,7 @@ void FUN_801a0750(void)
 /* 7BF80 801A0780 -O2 -msoft-float */
 void PS1_itoa(s16 param_1, u8 *param_2, u8 param_3)
 {
-    sprintf(param_2, &s_d_801cf0f0, param_1);
+    sprintf(param_2, s_d_801cf0f0, param_1);
 }
 
 /* 7BFB0 801A07B0 -O2 -msoft-float */

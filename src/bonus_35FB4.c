@@ -30,7 +30,7 @@ void DO_PERFECT_BONUS_MAP(void)
         loop_time++;
         departlevel = false;
         start_cd_gagne();
-        SYNCHRO_LOOP(&do_perfect_bonus);
+        SYNCHRO_LOOP(do_perfect_bonus);
         status_bar.num_wiz = nb_wiz_save;
         nb_wiz_save = 0;
         set_bonus_map_complete(num_world, num_level);

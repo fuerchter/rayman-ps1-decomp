@@ -284,7 +284,7 @@ void FUN_801a3064(void)
 }
 
 /* 7EC58 801A3458 -O2 -msoft-float */
-s32 PS1_MenuPassword(void)
+s16 PS1_MenuPassword(void)
 {
     s16 x_pos;
     u8 should_ret = false;

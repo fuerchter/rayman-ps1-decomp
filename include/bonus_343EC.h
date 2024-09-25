@@ -9,7 +9,8 @@
 #include "world_map_95CC.h"
 #include "timers.h"
 #include "draw/fade.h"
+#include "nova.h"
 
-s32 do_perfect_bonus(void); /* TODO: return type? PS1_DemoLoop is u8 still */
+s16 do_perfect_bonus(void); /* TODO: return type? PS1_DemoLoop is u8 still */
 
 #endif

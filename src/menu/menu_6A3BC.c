@@ -2,6 +2,10 @@
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_NEW_GAME);
 
+/*
+TODO: not sure what we need to do about these warnings
+changing OptionsJeu.Fire1ButtonFunc etc. to return s32 forces casts in other places?
+*/
 /* 6A5F0 8018EDF0 -O2 -msoft-float */
 void POINTEUR_BOUTONS_OPTIONS_BIS(void)
 {

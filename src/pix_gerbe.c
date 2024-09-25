@@ -20,7 +20,7 @@ s32 allocate_gerbe(void)
 }
 
 /* 3CBE0 801613E0 -O2 -msoft-float */
-void start_pix_gerbe(s32 x_pos, s32 y_pos) /* struct access??? */
+void start_pix_gerbe(s32 x_pos, s32 y_pos)
 {
     s16 *cur_data;
     s16 i;
@@ -29,7 +29,7 @@ void start_pix_gerbe(s32 x_pos, s32 y_pos) /* struct access??? */
     
     if (grb != -1)
     {
-        cur_data = &pix_gerbe[grb];
+        cur_data = (s16 *)&pix_gerbe[grb]; /* struct access instead??? */
         for (
             i = 0;
             i < (s16) LEN(pix_gerbe[grb].items) - grb * (s16) LEN(pix_gerbe);

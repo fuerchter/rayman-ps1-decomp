@@ -9,7 +9,7 @@
 extern s32 TempsDemo;
 
 void PS1_ShowDemoText(void);
-u8 PS1_DemoLoop(void);
+s16 PS1_DemoLoop(void);
 void PS1_PlayDemo(void);
 
 #endif

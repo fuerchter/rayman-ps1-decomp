@@ -19,7 +19,7 @@ s32 StartButPressed();
 s32 ValidButPressed();
 ? readinput();*/
 
-u8 PS1_DemoLoop(void)
+s16 PS1_DemoLoop(void)
 {
     u8 done;
 
@@ -58,6 +58,6 @@ void PS1_PlayDemo(void)
     PS1_MENU_RETURN2 = false;
     MENU_RETURN = false;
     let_shadow = true;
-    SYNCHRO_LOOP(&PS1_DemoLoop);
+    SYNCHRO_LOOP(PS1_DemoLoop);
     DO_FADE_OUT();
 }

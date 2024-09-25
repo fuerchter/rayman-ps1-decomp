@@ -106,7 +106,7 @@ void PS1_DisplayCardOrPassword(void)
 }
 
 /* 7FC58 801A4458 -O2 */
-u8 PS1_MenuCardOrPassword(void)
+s16 PS1_MenuCardOrPassword(void)
 {
     u8 done;
 
@@ -137,7 +137,7 @@ void PS1_InitCardOrPassword(void)
 }
 
 /* 7FD3C 801A453C -O2 -msoft-float */
-s32 saisie_nom_prg(void)
+s16 saisie_nom_prg(void)
 {
   u8 done; /* fine as u8 or s16? */
 
@@ -163,7 +163,7 @@ s32 saisie_nom_prg(void)
 }
 
 /* 7FE30 801A4630 -O2 -msoft-float */
-s32 selection_save_option_prg(void)
+s16 selection_save_option_prg(void)
 {
   s32 done;
   
@@ -314,7 +314,7 @@ void AFFICHE_ECRAN_SAVE(void)
 }
 
 /* 80538 801A4D38 -O2 -msoft-float*/
-s32 PS1_DoGameOptionsLoop(void)
+s16 PS1_DoGameOptionsLoop(void)
 {
   s32 done;
   

@@ -270,6 +270,6 @@ void FUN_801a76e4(void)
         }
         text_to_display[i].is_fond = 1;
         text_to_display[i].field8_0x3d = 0;
-        INIT_TXT_BOX(&text_to_display[i].text);
+        INIT_TXT_BOX(&text_to_display[i]);
     }
 }

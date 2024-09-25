@@ -20,9 +20,9 @@ extern u8 world_index;
 extern s16 inter_select;
 extern s16 level_select;
 
-s32 select_level_prg(void);
+s16 select_level_prg(void);
 s16 SELECT_LEVEL(s16 sel);
-s32 WORLD_CHOICE(void);
+s16 WORLD_CHOICE(void);
 void DISPLAY_STAGE_NAMES(void);
 void DO_WORLD_MAP(void);
 

@@ -323,7 +323,7 @@ void make_active(Obj *obj, u8 do_nova)
         obj->flags |= FLG(OBJ_ACTIVE)|FLG(OBJ_FLAG_5);
         obj->active_flag = ACTIVE_ALIVE;
         if (do_nova)
-            DO_NOVA();
+            DO_NOVA(obj);
     }
 }
 

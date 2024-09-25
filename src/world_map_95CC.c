@@ -10,7 +10,7 @@ s32 leftjoy(?);
 ? readinput();
 s32 rightjoy(?);*/
 
-s32 select_level_prg(void)
+s16 select_level_prg(void)
 {
     u8 num[10];
 
@@ -85,7 +85,7 @@ s32 SelectButPressed();
 ? display2(? *);
 ? readinput();*/
 
-s32 WORLD_CHOICE(void)
+s16 WORLD_CHOICE(void)
 {  
     let_shadow = false;
     DO_FADE();
@@ -131,7 +131,7 @@ void DO_WORLD_MAP(void)
     {
         readinput();
         if (ModeDemo == 0)
-            SYNCHRO_LOOP(&WORLD_CHOICE);
+            SYNCHRO_LOOP(WORLD_CHOICE);
     }
     if (PROC_EXIT)
     {

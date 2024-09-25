@@ -12,7 +12,7 @@ extern s16 allowed_time[192];
 extern s16 loop_time;
 
 /* 343EC 80158BEC -O2 -msoft-float */
-s32 do_perfect_bonus(void)
+s16 do_perfect_bonus(void)
 {
   s32 unk_1;
   s16 unk_2;
