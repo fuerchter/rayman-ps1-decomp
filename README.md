@@ -1,6 +1,6 @@
 # rayman-splat
 
-instructions for ubuntu jammy (22.04LTS):
+instructions for ubuntu (24.04.1 LTS):
 
 add SLUS-000.05 `sha1 4ac1789e118933762cd0ebcb9a970f63dfe2c72f` to project root  
 get [gcc-2.5.7](https://github.com/decompals/old-gcc/releases), add it to the tools dir

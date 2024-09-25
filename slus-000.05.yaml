@@ -324,7 +324,8 @@ segments:
       - [0x9FC78, .data, data/music_9FC78] #801C4478
       - [0xA0338, data]
       #- [0xA0338, .data, data/loading_A0338] #801C4B38 not enough funcs implemented yet
-      - [0xA29C0, data]
+      - [0xA29C0, .data, data/draw/fond_A29C0] #801C71C0
+      - [0xA29CC, data]
       - [0xA2A58, .data, data/obj_util] #801C7258
       - [0xA2A78, data]
       #- [0xA2A78, .data, data/sound_A2A78] #801C7278
@@ -353,6 +354,7 @@ segments:
       - [0xAA6DC, data]
       - [0xAA6EC, .data, data/loading_AA6EC] #801ceeec
       - [0xAA6FC, data]
+      - [0xAA744, .data, data/draw/fond_AA744] #801CEF44
       - [0xAA774, .data, data/draw/draw_AA774] #801CEF74
       - [0xAA77C, .data, data/draw/draw_hud_AA77C] #801CEF7C
       - [0xAA7A4, data]
