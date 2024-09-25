@@ -1,6 +1,6 @@
 #include "menu/menu_card_7C028.h"
 
-u8 *PS1_CardStrings[13] = 
+u8 *PS1_CardStrings[] = 
 {
     "/do you have a memory card?/",
     "/insert card now/and press x button to save/",
