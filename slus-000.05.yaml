@@ -196,7 +196,7 @@ segments:
       - [0x3D738, c, num_level_3D738] #80161F38
       - [0x3D76C, c, obj/fee_3D76C] #80161f6c
       - [0x3EB50, c, obj/corde] #80163350
-      - [0x3ED10, asm, unknown/3ED10] #80163510
+      - [0x3ED10, c, unknown/3ED10] #80163510
       - [0x3EECC, c, obj/superhelico_init] #801636cc
       - [0x3EFC4, asm, obj/rayon] #801637C4
       - [0x3F0B8, asm, unknown/3F0B8] #801638B8
