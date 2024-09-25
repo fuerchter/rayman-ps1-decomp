@@ -339,6 +339,8 @@ segments:
       - [0xA3BA4, data]
       - [0xA3BA4, .data, data/obj/scorpion_A3BA4] #801C83A4
       - [0xA3BC4, data]
+      - [0xA3C88, .data, data/obj/dark_A3C88] #801C8488
+      - [0xA3CD8, data]
       - [0xAA5F4, .data, data/world_map_AA5F4] #801CEDF4
       - [0xAA5FC, data]
       #- [0xAA5FC, .data, data/cam_scroll_AA5FC] #801CEDFC not enough funcs implemented yet
@@ -365,6 +367,7 @@ segments:
       - [0xAA7E0, data]
       - [0xAA8A0, .data, data/obj/bb1_AA8A0] #801CF0A0
       - [0xAA8A4, data]
+      - [0xAA8C0, .data, data/obj/dark_AA8C0] #801CF0C0
       - [0xAA8C8, .data, data/loading_AA8C8] #801CF0C8
       - [0xAA8D8, data]
       - [0xAA8D8, .data, data/cheats_AA8D8] #801CF0D8
