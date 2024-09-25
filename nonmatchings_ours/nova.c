@@ -1,5 +1,6 @@
 #include "nova.h"
 
+/* tried modelling after DO_NOVA2... */
 /*INCLUDE_ASM("asm/nonmatchings/nova", DO_NOVA);*/
 
 void DO_NOVA(Obj *in_obj)

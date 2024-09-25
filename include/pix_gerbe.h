@@ -2,6 +2,7 @@
 #define PIX_GERBE_H
 
 #include "common.h"
+#include "collision/block_22C84.h"
 
 typedef struct PixGerbeItem {
     s16 x_pos;
@@ -19,5 +20,9 @@ typedef struct PixGerbe {
 
 /**/
 extern PixGerbe pix_gerbe[8];
+
+s32 allocate_gerbe(void);
+void start_pix_gerbe(s32 x_pos, s32 y_pos);
+void do_pix_gerbes(void);
 
 #endif
