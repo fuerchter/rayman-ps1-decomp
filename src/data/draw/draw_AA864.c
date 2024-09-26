@@ -1,0 +1,24 @@
+#include "draw/draw_548CC.h"
+
+s16 D_801CF064 = 0;
+s16 D_801CF066 = 1;
+s16 D_801CF068 = 1;
+CVECTOR D_801CF06C = {1, 0, 0, 0};
+CVECTOR D_801CF070 = {0, 0, 255, 0};
+CVECTOR D_801CF074 = {255, 0, 0, 0};
+CVECTOR D_801CF078 = {0, 255, 0, 0};
+CVECTOR D_801CF07C = {255, 0, 255, 1};
+CVECTOR D_801CF080 = {0, 255, 255, 0};
+s16 data_draw_801CF084 = 1;
+u16 D_801CF086 = 0;
+s16 D_801CF088 = 0;
+s16 D_801CF08A = 200;
+s16 data_draw_801CF08C = 5; /* both unused */
+s16 data_draw_801CF08E = -1;
+u16 D_801CF090 = 0;
+u16 D_801CF092 = 0;
+u16 D_801CF094 = 0;
+s16 D_801CF096 = 200;
+s16 D_801CF098 = 200;
+s16 data_draw_801CF09A = 5; /* both unused */
+s16 data_draw_801CF09C = -1;
