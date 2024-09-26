@@ -19,7 +19,7 @@ void allocateLandingSmoke(Obj *in_obj)
             {
                 cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
                 cur_obj->active_timer = 0;
-                cur_obj->active_flag = ACTIVE_ALIVE;
+                cur_obj->active_flag = FLG_ACTIVE_ALIVE;
                 set_main_and_sub_etat(cur_obj, 0, i != 0);
                 cur_obj->x_pos = in_obj->x_pos + in_obj->offset_bx - cur_obj->offset_bx;
                 cur_obj->y_pos = in_obj->y_pos + in_obj->offset_by - cur_obj->offset_by;

@@ -144,7 +144,7 @@ void first_obj_init(Obj *obj)
         obj->y_pos = -32000;
     }
     obj->scale = 0;
-    obj->active_flag = ACTIVE_DEAD;
+    obj->active_flag = FLG(ACTIVE_ALIVE);
     obj->init_x_pos = obj->x_pos;
     obj->init_y_pos = obj->y_pos;
     obj->init_main_etat = obj->main_etat;
@@ -308,7 +308,7 @@ void SET_X_SPEED(Obj *obj)
 void REINIT_OBJECT(Obj *obj)
 {
     obj_init(obj);
-    obj->active_flag = ACTIVE_REINIT;
+    obj->active_flag = FLG(ACTIVE_DEAD);
     obj->flags |= FLG(OBJ_ALIVE);
     calc_obj_pos(obj);
     obj->active_timer = 120;
@@ -321,7 +321,7 @@ void make_active(Obj *obj, u8 do_nova)
     if (obj->flags & FLG(OBJ_ALIVE))
     {
         obj->flags |= FLG(OBJ_ACTIVE)|FLG(OBJ_FLAG_5);
-        obj->active_flag = ACTIVE_ALIVE;
+        obj->active_flag = FLG_ACTIVE_ALIVE;
         if (do_nova)
             DO_NOVA(obj);
     }
@@ -334,7 +334,7 @@ void kill_obj(Obj *obj)
 {
     obj->x_pos = -32000;
     obj->y_pos = -32000;
-    obj->active_flag = 1;
+    obj->active_flag = FLG(ACTIVE_ALIVE);
     obj->flags &= ~FLG(OBJ_ALIVE);
 }
 
