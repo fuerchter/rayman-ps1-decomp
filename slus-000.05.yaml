@@ -378,6 +378,7 @@ segments:
       - [0xAA8D8, .data, data/cheats_AA8D8] #801CF0D8
       - [0xAA8DC, .data, data/depart_dead_AA8DC] #801CF0DC
       - [0xAA8E0, data]
+      - [0xAA8F4, .data, data/menu/menu_card_AA8F4] #801CF0F4
       - [0xAA904, .data, data/password_AA904] #801CF104
       - [0xAA918, .data, data/menu/menu_AA918] #801CF118
       - [0xAA920, data]
