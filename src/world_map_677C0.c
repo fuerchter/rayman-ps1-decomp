@@ -462,12 +462,12 @@ void DETER_WORLD_AND_LEVEL(void)
     if (num_level_choice == 3 && finBosslevel[1] & FLG(1))
     {
       num_level_choice++;
-      RayEvts.flags1 |= FLG(RAYEVTS1_LUCIOLE);
+      RayEvts.luciole = true;
       return;
     }
     else if (num_world_choice == 5 && num_level_choice == 4 && finBosslevel[1] & FLG(1) && ModeDemo != 0)
     {
-      RayEvts.flags1 |= FLG(RAYEVTS1_LUCIOLE);
+      RayEvts.luciole = true;
       return;
     }
   }

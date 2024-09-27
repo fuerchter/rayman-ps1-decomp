@@ -405,7 +405,7 @@ void INIT_OBJECTS(u8 newLevel)
             var_s4->x_pos = (u16) (var_s4->x_pos + 2);
             break;
         case 0x85:
-            if (!(RayEvts.flags0 & 8))
+            if (!(RayEvts.super_helico))
             {
                 var_v1 = var_s4->flags & ~0x400;
                 var_v0_2 = (finBosslevel[1] << 7) & 0x400;
@@ -494,7 +494,7 @@ void INIT_OBJECTS(u8 newLevel)
                 var_s4->x_pos = temp_v1_1;
                 if (num_world == 1)
                 {
-                    if (RayEvts.flags0 & 0x40)
+                    if (RayEvts.grain)
                     {
                         var_s4->hit_points = 1U;
                     }
@@ -579,7 +579,7 @@ void INIT_OBJECTS(u8 newLevel)
             }
             break;
         case 0x25:
-            var_s4->flags = (var_s4->flags & ~0x400 | (((((u8) RayEvts.flags0 >> 6) ^ 1) & 1) << 0xA));
+            var_s4->flags = (var_s4->flags & ~0x400 | (((((u8) RayEvts.grain) ^ 1) & 1) << 0xA));
             break;
         case 0x99:
             fee_obj_id = (s16) var_s2;

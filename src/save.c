@@ -31,9 +31,9 @@ void saveGameState(Obj *obj, SaveState *state)
     state->ray_screen_x = ray.screen_x_pos;
     state->ray_screen_y = ray.screen_y_pos;
     state->ray_flip_x = ray.flags >> OBJ_FLIP_X & 1;
-    state->rayevts_0 = (RayEvts.flags1 >> 5) & 3; /* RAYEVTS1_REVERSE and RAYEVTS1_FLAG6 */
-    state->rayevts_1 = RayEvts.flags0 >> RAYEVTS0_SUPER_HELICO & 1;
-    state->rayevts_2 = RayEvts.flags0 >> RAYEVTS0_POING & 1;
+    state->rayevts_0 = RayEvts.reverse; /* RAYEVTS1_REVERSE and RAYEVTS1_FLAG6 */
+    state->rayevts_1 = RayEvts.super_helico;
+    state->rayevts_2 = RayEvts.poing;
     if (obj)
     {
         state->save_obj_id = obj->id;
@@ -111,7 +111,7 @@ void PS1_PhotographerCollision(void)
                 else
                 {
                     if (
-                        !(RayEvts.flags1 & FLG(RAYEVTS1_DEMI)) && !(cur_obj->flags & FLG(OBJ_FLAG_0)) && (s16) OBJ_IN_ZONE(cur_obj) &&
+                        !RayEvts.demi && !(cur_obj->flags & FLG(OBJ_FLAG_0)) && (s16) OBJ_IN_ZONE(cur_obj) &&
                         ray.field20_0x36 == -1 && decalage_en_cours == 0 &&
                         ray.main_etat == 0 && ray.sub_etat == 0 &&
                         (s16) inter_box(

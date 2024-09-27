@@ -29,10 +29,10 @@ void restoreGameState(SaveState *save_param)
 
     if (save_param->has_saved != 0)
     {
-        if (RayEvts.flags1 & 2)
+        if (RayEvts.demi)
         {
             __builtin_memcpy(&ray, &rms, sizeof(Obj));
-            RayEvts.flags1 &= 0xFD;
+            RayEvts.demi = false;
         }
         status_bar.num_wiz = save_param->num_wiz;
         xmap = save_param->x_map;

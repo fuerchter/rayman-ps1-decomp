@@ -16,7 +16,7 @@ void allocateSTOSKO(void)
     obj->init_x_pos = xmap - obj->offset_bx + 260;
     obj->timer = 50;
     obj->flags &= ~FLG(OBJ_FLIP_X);
-    RayEvts.flags0 |= FLG(RAYEVTS0_POING);
+    RayEvts.poing = true;
     level.objects[poing_obj_id].init_sub_etat = 8;
 }
 
@@ -55,7 +55,7 @@ void allocateMOSKITOMAMA(void)
     boss_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
     BBF2GEsk = 0;
 
-    RayEvts.flags0 |= FLG(RAYEVTS0_POING);
+    RayEvts.poing = true;
     level.objects[poing_obj_id].init_sub_etat = 8;
 }
 
@@ -64,15 +64,15 @@ void allocateMOSKITOSAXO(void)
 {
     Obj *obj = &level.objects[moskitosaxo_obj_id];
 
-    if (!(RayEvts.flags1 & FLG(RAYEVTS1_DEMI)))
+    if (!RayEvts.demi)
     {
         DO_NOVA(&ray);
         RAY_DEMIRAY();
     }
-    RayEvts.flags1 |= FLG(RAYEVTS1_RUN);
+    RayEvts.run = true;
     obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
     obj->init_x_pos = obj->x_pos = xmap - (obj->offset_bx - 160);
     obj->init_y_pos = obj->y_pos = ymap - obj->offset_by;
-    RayEvts.flags0 |= 1;
+    RayEvts.poing = true;
     level.objects[poing_obj_id].init_sub_etat = 8;
 }

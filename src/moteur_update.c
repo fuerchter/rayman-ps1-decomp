@@ -24,7 +24,7 @@ void DO_MOTEUR(void)
   ymap_old = ymap;
   if (ray.field20_0x36 != -1)
     level.objects[ray.field20_0x36].display_prio = oldPrio;
-  if (RayEvts.flags1 & FLG(RAYEVTS1_LUCIOLE))
+  if (RayEvts.luciole)
     DO_LUCIOLE();
   PS1_SetWindForce();
   DO_OBJECTS();
@@ -143,7 +143,7 @@ void DO_MOTEUR2(void)
     do_flocons(xmap, ymap, xmap_old, ymap_old);
     DO_SNOW_SEQUENCE();
     do_pix_gerbes();
-    if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+    if (RayEvts.demi)
     {
         set_zoom_mode(0);
         ray.scale = 0x100;
@@ -158,12 +158,9 @@ void DO_MOTEUR2(void)
 /* 35A58 8015A258 -O2 -msoft-float */
 void RAY_REVERSE_COMMANDS(void)
 {
-  if (!(RayEvts.flags1 & (FLG(RAYEVTS1_REVERSE)|FLG(RAYEVTS1_FLAG6))))
+  if (RayEvts.reverse == 0)
   {
-    RayEvts.flags1 &=
-        (FLG(RAYEVTS1_RUN)|FLG(RAYEVTS1_DEMI)|FLG(RAYEVTS1_LUCIOLE)|
-        FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)|FLG(RAYEVTS1_UNUSED_DEATH));
-    RayEvts.flags1 |= FLG(RAYEVTS1_REVERSE);
+    RayEvts.reverse = 1;
     if (star_ray_der != null)
     {
       star_ray_der->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
@@ -177,9 +174,7 @@ void RAY_REVERSE_COMMANDS(void)
   }
   else
   {
-    RayEvts.flags1 &=
-        (FLG(RAYEVTS1_RUN)|FLG(RAYEVTS1_DEMI)|FLG(RAYEVTS1_LUCIOLE)|
-        FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)|FLG(RAYEVTS1_UNUSED_DEATH));
+    RayEvts.reverse = 0;
     if (star_ray_der != null)
     {
       star_ray_der->flags &= ~FLG(OBJ_ALIVE);
@@ -199,12 +194,13 @@ void RAY_REVERSE_COMMANDS(void)
 /* 35B30 8015A330 -O2 -msoft-float */
 void RAY_DEMIRAY(void)
 {
-  ObjFlags demi = ((RayEvts.flags1 >> RAYEVTS1_DEMI ^ 1) & 1) << RAYEVTS1_DEMI;
+  /*ObjFlags demi = ((RayEvts.flags1 >> RAYEVTS1_DEMI ^ 1) & 1) << RAYEVTS1_DEMI;
 
   RayEvts.flags1 =
     RayEvts.flags1 & (FLG(RAYEVTS1_RUN)|FLG(RAYEVTS1_LUCIOLE)|FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)|
-                      FLG(RAYEVTS1_REVERSE)|FLG(RAYEVTS1_FLAG6)|FLG(RAYEVTS1_UNUSED_DEATH)) | demi;
-  if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+                      FLG(RAYEVTS1_REVERSE)|FLG(RAYEVTS1_FLAG6)|FLG(RAYEVTS1_UNUSED_DEATH)) | demi;*/
+  RayEvts.demi = !RayEvts.demi;
+  if (RayEvts.demi)
   {
     __builtin_memcpy(&rms, &ray, sizeof(ray));
     __builtin_memcpy(&ray, &level.objects[reduced_rayman_id], sizeof(Obj));

@@ -28,8 +28,8 @@ void DO_DARK_PHASE2_COMMAND(Obj *obj)
 
     if ((obj->main_etat == 0) && (obj->sub_etat == 0x26))
     {
-        RayEvts.flags0 &= 0xFE;
-        RayEvts.flags1 &= 0x7F;
+        RayEvts.poing = false;
+        RayEvts.unused_death = false;
         sinus_actif = 0;
         flammes_actives = 0;
         phase_dark2 = 0;
@@ -167,7 +167,7 @@ void DO_DARK_PHASE2_COMMAND(Obj *obj)
         PosArXToon1 = -1;
         break;
     case 9:
-        if (RayEvts.flags0 & 1)
+        if (RayEvts.poing)
         {
             phase_dark2 = 0x000A;
         }

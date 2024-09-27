@@ -29,7 +29,7 @@ void DARK_phase3(Obj *mr_drk_obj)
     Obj *boss_obj;
     s16 unk_1;
 
-    RayEvts.flags0 |= FLG(RAYEVTS0_POING);
+    RayEvts.poing = true;
     switch (type_dark_attaque)
     {
     case 0:
@@ -302,17 +302,11 @@ void DO_DARK_SORT_COLLISION(Obj *obj)
         switch (obj->sub_etat)
         {
         case 0:
-            RayEvts.flags1 = RayEvts.flags1 &
-                (
-                    FLG(RAYEVTS0_POING)|FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO)|
-                    FLG(RAYEVTS0_HANDSTAND)|FLG(RAYEVTS0_GRAIN)|FLG(RAYEVTS0_GRAP)
-                ) | FLG(RAYEVTS0_SUPER_HELICO);
+            RayEvts.force_run = 1;
             break;
         case 1:
             DO_NOVA(&ray);
-            RayEvts.flags1 &=
-                (FLG(RAYEVTS1_RUN)|FLG(RAYEVTS1_DEMI)|FLG(RAYEVTS1_LUCIOLE)|
-                FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)|FLG(RAYEVTS1_UNUSED_DEATH));
+            RayEvts.reverse = 0;
             RAY_REVERSE_COMMANDS();
             break;
         case 2:
@@ -321,10 +315,7 @@ void DO_DARK_SORT_COLLISION(Obj *obj)
             break;
         case 3:
             DO_NOVA(&ray); 
-            RayEvts.flags0 &=
-                (FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO)|FLG(RAYEVTS0_SUPER_HELICO)|
-                FLG(RAYEVTS0_HANDSTAND_DASH)|FLG(RAYEVTS0_HANDSTAND)|FLG(RAYEVTS0_GRAIN)|
-                FLG(RAYEVTS0_GRAP));
+            RayEvts.poing = false;
             break;
         }
     }
@@ -450,10 +441,7 @@ void goto_phase1(Obj *mr_drk_obj)
         FLG(OBJ0_DETECT_ZONE)|FLG(OBJ0_FLAG6));
     mr_drk_obj->field23_0x3c = 0;
     scrollLocked = false;
-    RayEvts.flags0 &=
-        (FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO)|FLG(RAYEVTS0_SUPER_HELICO)|
-        FLG(RAYEVTS0_HANDSTAND_DASH)|FLG(RAYEVTS0_HANDSTAND)|
-        FLG(RAYEVTS0_GRAIN)|FLG(RAYEVTS0_GRAP));
+    RayEvts.poing = false;
     PlaceDarkPhase1et2(mr_drk_obj);
     init_corde(mr_drk_obj);
     if (corde_dark_obj_id != -1)
@@ -537,7 +525,7 @@ void goto_phase5(Obj *mr_drk_obj)
     PlaceDarkPhase1et2(mr_drk_obj);
     init_corde(mr_drk_obj);
     corde_en_haut(false);
-    if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+    if (RayEvts.demi)
     {
         DO_NOVA(&ray);
         RAY_DEMIRAY();

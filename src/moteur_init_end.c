@@ -94,7 +94,7 @@ void INIT_MOTEUR(u8 new_lvl)
     correct_link();
     deactivate_ship_links();
     special_flags_init();
-    if (RayEvts.flags1 & FLG(RAYEVTS1_LUCIOLE))
+    if (RayEvts.luciole)
         INIT_LUCIOLE();
     
     DO_OBJECTS();

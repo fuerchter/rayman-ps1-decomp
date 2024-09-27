@@ -318,11 +318,11 @@ void DO_POING_COLLISION(void)
                         doMoskitoHit(other_obj);
                         break;
                     case TYPE_ONEUP:
-                        if (RayEvts.flags0 & FLG(RAYEVTS0_GRAP) && ray_mode != MODE_MORT_DE_RAYMAN)
+                        if (RayEvts.grap && ray_mode != MODE_MORT_DE_RAYMAN)
                             poing_obj->field20_0x36 = other_obj->id;
                         break;
                     case TYPE_PT_GRAPPIN:
-                        if (RayEvts.flags0 & FLG(RAYEVTS0_GRAP) && ray_mode != MODE_MORT_DE_RAYMAN)
+                        if (RayEvts.grap && ray_mode != MODE_MORT_DE_RAYMAN)
                         {
                             temp_a1_2 = other_obj->offset_by;
                             temp_v1_2 = (ray.y_pos + ray.offset_by) - other_obj->y_pos;

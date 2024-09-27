@@ -22,15 +22,12 @@ void DO_CONTINUE(void)
 {
     if (status_bar.num_lives == 0 && fin_du_jeu == true && !fin_dark)
     {
-        if (ray_mode == MODE_MORT_DE_RAYMAN_ON_MS || RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+        if (ray_mode == MODE_MORT_DE_RAYMAN_ON_MS || RayEvts.demi)
         {
             NewMs = true;
             __builtin_memcpy(&ray, &rms, sizeof(Obj));
             ray_mode = MODE_RAYMAN;
-            RayEvts.flags1 &= 
-                FLG(RAYEVTS1_RUN)|FLG(RAYEVTS1_LUCIOLE)|FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|
-                FLG(RAYEVTS1_FORCE_RUN)|FLG(RAYEVTS1_REVERSE)|FLG(RAYEVTS1_FLAG6)|
-                FLG(RAYEVTS1_UNUSED_DEATH);
+            RayEvts.demi = false;
         }
         LOAD_CONTINUE_SCREEN();
         start_cd_gameover();

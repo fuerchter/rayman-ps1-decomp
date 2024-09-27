@@ -38,7 +38,7 @@ void rayMayLandOnAnObject(u8 *param_1, s16 param_2)
     s32 test_2;
 
     var_s2 = 4;
-    if (RayEvts.flags1 & 2)
+    if (RayEvts.demi)
     {
         var_s2 = 8;
     }
@@ -335,7 +335,7 @@ loop_4:
                             {
                                 var_s0_2 = -var_s0_2;
                             }
-                            if ((var_s0_2 >= ashr16((u16) ray.eta[1][3].speed_x_right, 4U)) && (RayEvts.flags1 & 1))
+                            if ((var_s0_2 >= ashr16((u16) ray.eta[1][3].speed_x_right, 4U)) && (RayEvts.run))
                             {
                                 set_main_and_sub_etat((Obj *) (&ray.main_etat - 0x56), 1, 3);
                             }
@@ -437,7 +437,7 @@ void rayMayLandOnAnObject(u8 *param_1, s16 param_2)
     s32 test_2;
 
     
-    if ((RayEvts.flags1 & 2))
+    if ((RayEvts.demi))
     {
         var_s2 = 8;
     }
@@ -811,7 +811,7 @@ block_62:
 
                 if (ray.main_etat == 2)
                 {
-                    if (__builtin_abs(ray.speed_x) >= (s16) ashr16((s8) ray.eta[1][3].speed_x_right, 4) && (RayEvts.flags1 & 1))
+                    if (__builtin_abs(ray.speed_x) >= (s16) ashr16((s8) ray.eta[1][3].speed_x_right, 4) && (RayEvts.run))
                     {
                         set_main_and_sub_etat((Obj *) (&ray.main_etat - 0x56), 1, 3);
                     }

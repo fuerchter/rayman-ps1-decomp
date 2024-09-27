@@ -57,7 +57,7 @@ void calc_bhand_typ(Obj *obj)
 
   x = obj->offset_bx + obj->x_pos;
   unk_1 = obj->speed_y + 22 + obj->offset_hy;
-  if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+  if (RayEvts.demi)
     unk_1 = 80 - ((80 - unk_1) >> 1);
   y = unk_1 + obj->y_pos;
   hand_btyp = PS1_BTYPAbsPos(x, y);
@@ -88,7 +88,7 @@ void IS_RAY_ON_LIANE(void)
             ray.speed_y = speed_y;
             if(
                 (hand_btyp == BTYP_LIANE || hand_btypg == BTYP_LIANE || hand_btypd == BTYP_LIANE) &&
-                !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)))
+                RayEvts.force_run == 0
             )
             {
                 if (ray.main_etat == 2 && ray.sub_etat == 8)
@@ -271,7 +271,7 @@ void ray_jump(void)
         }
         ray.speed_y = speed_y;
         determineRayAirInertia();
-        if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+        if (RayEvts.demi)
             unk_2 = 256;
         else
             unk_2 = 512;
@@ -303,7 +303,7 @@ void ray_jump(void)
         poing.is_charging = false;
         D_801E51E8 = ray.x_pos;
         D_801E51F8 = ray.y_pos;
-        if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+        if (RayEvts.demi)
             ray.speed_y = ashr16(ray.speed_y, 1) - 1;
     }
 }
@@ -364,8 +364,8 @@ void RAY_HELICO(void)
     )
     {
         if (
-            RayEvts.flags0 & FLG(RAYEVTS0_SUPER_HELICO) &&
-            !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)))
+            RayEvts.super_helico &&
+            RayEvts.force_run == 0
         )
         {
             button_released = 2;
@@ -382,8 +382,8 @@ void RAY_HELICO(void)
             D_801E62F0 = 0;
         }
         else if (
-            RayEvts.flags0 & FLG(RAYEVTS0_HELICO) &&
-            !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)))
+            RayEvts.helico &&
+            RayEvts.force_run == 0
         )
         {
             button_released = 2;
@@ -409,8 +409,8 @@ void RAY_HELICO(void)
     )
     {
         if (
-            RayEvts.flags0 & FLG(RAYEVTS0_SUPER_HELICO) &&
-            !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)))
+            RayEvts.super_helico &&
+            RayEvts.force_run == 0
         )
         {
             if (ray.sub_etat == 15 && helico_time != 0)
@@ -472,7 +472,7 @@ void Make_Ray_Hang(s16 param_1, s16 param_2)
     set_main_and_sub_etat(&ray, 5, 0);
     unk_1 = get_proj_dist2(ray.scale, 32);
     
-    if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+    if (RayEvts.demi)
         unk_2 = 3;
     else
         unk_2 = 7;
@@ -521,8 +521,8 @@ void CAN_RAY_HANG_BLOC(void)
     s32 unk_6; s32 unk_7; s32 unk_8;
 
     if (
-        RayEvts.flags0 & FLG(RAYEVTS0_HANG) &&
-        !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)))
+        RayEvts.hang &&
+        RayEvts.force_run == 0
     )
     {
         ray_x_1 = ray.x_pos + ray.offset_bx;
@@ -679,7 +679,7 @@ void RAY_RESPOND_TO_DOWN(void)
         break;
     case 1:
         if (
-            !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))) &&
+            RayEvts.force_run == 0 &&
             !FUN_80133984(0) && !FUN_801339f4(0)
         )
             RAY_STOP();
@@ -729,7 +729,7 @@ void RAY_RESPOND_TO_UP(void)
         break;
     case 1:
         if (
-            !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))) &&
+            RayEvts.force_run == 0 &&
             !FUN_80133984(0) && !FUN_801339f4(0)
         )
             RAY_STOP();
@@ -908,7 +908,7 @@ void RAY_RESPOND_TO_NOTHING(void)
     case 1:
         if (
             !(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40 && (FUN_80133984(0) || FUN_801339f4(0))) &&
-            !(ray.sub_etat == 4 || ray.sub_etat == 5) && !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))))
+            !(ray.sub_etat == 4 || ray.sub_etat == 5) && RayEvts.force_run == 0)
         {
             set_main_etat(&ray, 0);
             if (ray.sub_etat == 8 || ray.sub_etat == 10)
@@ -1130,7 +1130,7 @@ void RAY_RESPOND_TO_BUTTON3(void)
                 ray.sub_etat == 3 || ray.sub_etat == 8)
             )
             {
-                if (RayEvts.flags0 & FLG(RAYEVTS0_GRAIN))
+                if (RayEvts.grain)
                 {
                     if (ray.field20_0x36 == -1)
                     {
@@ -1142,18 +1142,18 @@ void RAY_RESPOND_TO_BUTTON3(void)
                 else if (
                     !ray_on_poelle &&
                     ray.sub_etat != 18 &&
-                    !(RayEvts.flags1 & (FLG(RAYEVTS1_RUN)|FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))) &&
+                    RayEvts.force_run == 0 && !RayEvts.run &&
                     ray.sub_etat != 8
                 )
                     set_sub_etat(&ray, 18);
             }
         }
-        else if (
-            !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))) &&
-            RayEvts.flags1 & 1 &&
-            ray.sub_etat == 0
-        )
-            set_sub_etat(&ray, 3);
+        else
+        {
+            if (RayEvts.force_run == 0)
+                if (RayEvts.run && ray.sub_etat == 0)
+                    set_sub_etat(&ray, 3);
+        }
     }
 }
 
@@ -1162,8 +1162,8 @@ void RAY_RESPOND_TO_FIRE0(void)
 {
   if (
     !poing.is_active &&
-    RayEvts.flags0 & FLG(RAYEVTS0_POING) &&
-    !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)))
+    RayEvts.poing &&
+    RayEvts.force_run == 0
   )
     RAY_PREPARE_FIST();
 }
@@ -1571,7 +1571,7 @@ void RAY_IN_THE_AIR(void)
                 if (ray.sub_etat == 17 || ray.sub_etat == 18 || ray.sub_etat == 19)
                 {
                     if (
-                        RayEvts.flags1 & FLG(RAYEVTS1_RUN) &&
+                        RayEvts.run &&
                         __builtin_abs(ray.speed_x) >= (s16) ashr16(ray.eta[1][3].speed_x_right, 4)
                     )
                         set_main_and_sub_etat(&ray, 1, 7);
@@ -1643,14 +1643,12 @@ void terminateFistWhenRayDies(void)
 void snifRayIsDead(Obj *ray_obj)
 {
     status_bar.num_lives--;
-    RayEvts.flags0 &=
-        (FLG(RAYEVTS0_POING)|FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO)|FLG(RAYEVTS0_HANDSTAND_DASH)|
-        FLG(RAYEVTS0_HANDSTAND)|FLG(RAYEVTS0_GRAIN)|FLG(RAYEVTS0_GRAP));
+    RayEvts.super_helico = false;
     status_bar.num_wiz = 0;
     if (
         !ray_se_noie &&
         !(ray.main_etat == 3 && ray.sub_etat == 32) &&
-        !(RayEvts.flags1 & FLG(RAYEVTS1_UNUSED_DEATH))
+        !RayEvts.unused_death
     )
     {
         lidol_to_allocate = 5;

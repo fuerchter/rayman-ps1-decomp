@@ -46,7 +46,7 @@ void DO_SPECIAL_PLATFORM(Obj *obj)
     u16 test_1;
 
     var_v1 = 0x200;
-    if (RayEvts.flags1 & 2)
+    if (RayEvts.demi)
     {
         var_v1 = 0x100;
     }

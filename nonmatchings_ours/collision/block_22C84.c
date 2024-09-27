@@ -20,7 +20,7 @@ void calc_btyp_square(Obj *obj)
   
   if (obj->type == TYPE_RAYMAN)
   {
-    if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+    if (RayEvts.demi)
       x_offs = 4;
     else
       x_offs = 8;

@@ -22,7 +22,7 @@ void TEST_WIZARD(Obj *obj)
   short h;
   u8 new_var2;
   
-  if (((RayEvts.flags1 & FLG(RAYEVTS1_DEMI)) != FLG_RAYEVTS1_NONE) ||
+  if (!RayEvts.demi ||
      (((ray.flags & FLG(OBJ_FLAG_0)) == FLG_OBJ_NONE &&
       (((ray.main_etat != 0 && (ray.main_etat != 3)) || (nb_wiz_collected != 0)))))) {
     obj->detect_zone_flag = 0;
@@ -156,7 +156,7 @@ void TEST_WIZARD(Obj *arg0)
     s16 new_var3;
     s32 new_var4;
 
-    if ((RayEvts.flags1 & 2) || (!(ray.flags & 0x100) && (((ray.main_etat != 0) && (ray.main_etat != 3)) || (nb_wiz_collected != 0))))
+    if ((RayEvts.demi) || (!(ray.flags & 0x100) && (((ray.main_etat != 0) && (ray.main_etat != 3)) || (nb_wiz_collected != 0))))
     {
         arg0->detect_zone_flag = 0;
     }

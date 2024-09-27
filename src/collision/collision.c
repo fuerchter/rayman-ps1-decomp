@@ -796,7 +796,7 @@ s16 setToleranceDist(s16 in_x, s16 in_w, s16 in_y)
     s16 ray_y = ray.y_pos + ray.offset_by;
     s16 unk_1 = in_x + in_w - 1;
 
-    if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+    if (RayEvts.demi)
         unk_2 = 4;
     else
         unk_2 = 8;
@@ -836,7 +836,7 @@ void SET_RAY_DIST_MULTISPR_CANTCHANGE(Obj *obj)
   s16 diff_x;
   s16 sprite;
   
-  if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+  if (RayEvts.demi)
     unk_1 = 4;
   else
     unk_1 = 8;
@@ -1124,7 +1124,7 @@ s16 COLL_RAY_PIC(void)
                 }
 
                 if (
-                    !res && !(RayEvts.flags1 & FLG(RAYEVTS1_DEMI)) &&
+                    !res && !(RayEvts.demi) &&
                     !(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40)
                 )
                 {
@@ -1176,7 +1176,7 @@ void COLL_RAY_BLK_MORTEL(void)
       scroll_start_y = ymap;
     }
     else if (
-        RayEvts.flags1 & FLG(RAYEVTS1_UNUSED_DEATH) &&
+        RayEvts.unused_death &&
         block_flags[mp.map[ray.ray_dist] >> 10] >> BLOCK_SOLID & 1 &&
         !(ray.main_etat == 3 && ray.sub_etat == 38)
     )
@@ -1316,7 +1316,7 @@ void RAY_HIT(u8 hurt, Obj *obj)
     poing.is_charging = false;
     decalage_en_cours = 0;
     ray.nb_cmd = 0;
-    if (RayEvts.flags0 & FLG(RAYEVTS0_SUPER_HELICO))
+    if (RayEvts.super_helico)
       button_released = 1;
     Reset_air_speed(false);
   }
@@ -1827,17 +1827,14 @@ void DO_COLLISIONS(void)
                             ToonDonnePoing(cur_obj);
                             break;
                         case TYPE_ANNULE_SORT_DARK:
-                            if (
-                                RayEvts.flags1 & (FLG(RAYEVTS1_DEMI)|FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|
-                                                FLG(RAYEVTS1_FORCE_RUN)|FLG(RAYEVTS1_REVERSE)|FLG(RAYEVTS1_FLAG6))
-                            )
+                            if (RayEvts.demi || RayEvts.force_run != 0 || RayEvts.reverse != 0)
                             {
                                 DO_NOVA(&ray);
-                                if (RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)))
-                                    RayEvts.flags1 |= FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN);
-                                if (RayEvts.flags1 & (FLG(RAYEVTS1_REVERSE)|FLG(RAYEVTS1_FLAG6)))
+                                if (RayEvts.force_run != 0)
+                                    RayEvts.force_run = 3;
+                                if (RayEvts.reverse != 0)
                                     RAY_REVERSE_COMMANDS();
-                                if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+                                if (RayEvts.demi)
                                     RAY_DEMIRAY();
                                 cur_obj->flags &= ~FLG(OBJ_ALIVE);
                                 cur_obj->flags &= ~FLG(OBJ_ACTIVE);
@@ -1862,14 +1859,14 @@ void DO_COLLISIONS(void)
                             break;
                         case TYPE_GRAP_BONUS:
                             DO_NOVA(cur_obj);
-                            RayEvts.flags0 |= FLG(RAYEVTS0_GRAP);
+                            RayEvts.grap = true;
                             cur_obj->flags &= ~FLG(OBJ_ALIVE);
                             break;
                         case TYPE_POING_POWERUP:
                             poing_obj = &level.objects[poing_obj_id];
                             if (cur_obj->sub_etat == 7)
                             {
-                                if (!(RayEvts.flags0 & FLG(RAYEVTS0_POING)))
+                                if (!RayEvts.poing)
                                     poing_obj->init_sub_etat = 8;
                                 else
                                 {
@@ -1889,7 +1886,7 @@ void DO_COLLISIONS(void)
                             }
                             else if (cur_obj->sub_etat == 14)
                             {
-                                if (RayEvts.flags0 & FLG(RAYEVTS0_POING))
+                                if (RayEvts.poing)
                                 {
                                     switch (poing_obj->init_sub_etat)
                                     {
@@ -1916,7 +1913,7 @@ void DO_COLLISIONS(void)
                             }
                             DO_NOVA(cur_obj);
                             cur_obj->flags &= ~FLG(OBJ_ALIVE);
-                            RayEvts.flags0 |= FLG(RAYEVTS0_POING);
+                            RayEvts.poing = true;
                             poing_obj->sub_etat = poing_obj->init_sub_etat;
                             poing.sub_etat = poing_obj->init_sub_etat;
                             PlaySnd(11, cur_obj->id);
@@ -1941,11 +1938,11 @@ void DO_COLLISIONS(void)
                         case TYPE_SUPERHELICO:
                             PlaySnd(213, cur_obj->id);
                             DO_NOVA(cur_obj);
-                            RayEvts.flags0 |= FLG(RAYEVTS0_SUPER_HELICO);
+                            RayEvts.super_helico = true;
                             cur_obj->flags &= ~FLG(OBJ_ALIVE);
                             break;
                         case TYPE_GRAINE:
-                            RayEvts.flags0 |= FLG(RAYEVTS0_GRAIN);
+                            RayEvts.grain = true;
                             cur_obj->flags &= ~FLG(OBJ_ALIVE);
                             cur_obj->flags &= ~FLG(OBJ_ACTIVE);
                             PlaySnd(10, cur_obj->id);
@@ -1959,7 +1956,7 @@ void DO_COLLISIONS(void)
                             flags[cur_obj->type].flags0 >> OBJ0_HIT_RAY & 1 &&
                             ray.iframes_timer == -1 &&
                             !(ray.main_etat == 3 && ray.sub_etat == 32) &&
-                            !(RayEvts.flags1 & FLG(RAYEVTS1_UNUSED_DEATH))
+                            !RayEvts.unused_death
                         )
                         {
                             RAY_HIT(true, cur_obj);

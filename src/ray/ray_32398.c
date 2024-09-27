@@ -5,11 +5,16 @@ void INIT_RAY_BEGIN(void)
 {
   status_bar.max_hp = 2;
   status_bar.num_wiz = 0;
-  RayEvts.flags0 &= ~(FLG(RAYEVTS0_POING)|FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO));
-  RayEvts.flags1 &= ~FLG(RAYEVTS1_RUN);
-  RayEvts.flags0 &= ~(FLG(RAYEVTS0_POING)|FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO)|FLG(RAYEVTS0_HANDSTAND_DASH)|FLG(RAYEVTS0_HANDSTAND));
-  RayEvts.flags1 &= (FLG(RAYEVTS1_DEMI)|FLG(RAYEVTS1_UNUSED_DEATH));
-  RayEvts.flags0 &= (FLG(RAYEVTS0_SUPER_HELICO)|FLG(RAYEVTS0_GRAIN));
+  RayEvts.poing = false;
+  RayEvts.hang = false;
+  RayEvts.helico = false;
+  RayEvts.run = false;
+  RayEvts.handstand_dash = false;
+  RayEvts.handstand = false;
+  RayEvts.luciole = false;
+  RayEvts.force_run = 0;
+  RayEvts.reverse = 0;
+  RayEvts.grap = false;
   ray.flags &= ~FLG(OBJ_FLAG_0);
 }
 
@@ -29,7 +34,6 @@ void INIT_RAY(u8 new_lvl)
   Obj *pOVar7;
   s16 nb_objs;
   ObjFlags flag_9;
-  RayEvts_1 temp_a1;
   
   gele = 0;
   if (ray.main_etat == 6)
@@ -37,7 +41,7 @@ void INIT_RAY(u8 new_lvl)
   else
     ray_mode = MODE_RAYMAN;
   compteur_attente = 0;
-  if (RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+  if (RayEvts.demi)
   {
     rms.hit_points = ray.hit_points;
     __builtin_memcpy(&ray, &rms, sizeof(rms));
@@ -87,25 +91,22 @@ void INIT_RAY(u8 new_lvl)
   poing.is_active = false;
   poing.is_charging = false;
   if (new_lvl)
-    RayEvts.flags0 &=
-      FLG(RAYEVTS0_POING)|FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO)|FLG(RAYEVTS0_HANDSTAND_DASH)|
-      FLG(RAYEVTS0_HANDSTAND)|FLG(RAYEVTS0_GRAIN)|FLG(RAYEVTS0_GRAP);
+    RayEvts.super_helico = false;
   if ((num_level != 9 || num_world != 1) && ModeDemo == 0)
-    RayEvts.flags0 &=
-      FLG(RAYEVTS0_POING)|FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO)|FLG(RAYEVTS0_SUPER_HELICO)|
-      FLG(RAYEVTS0_HANDSTAND_DASH)|FLG(RAYEVTS0_HANDSTAND)|FLG(RAYEVTS0_GRAP);
-  RayEvts.flags1 &=
-    FLG(RAYEVTS1_RUN)|FLG(RAYEVTS1_LUCIOLE)|FLG(RAYEVTS1_REVERSE)|
-    FLG(RAYEVTS1_FLAG6)|FLG(RAYEVTS1_UNUSED_DEATH);
+    RayEvts.grain = false;
+  RayEvts.demi = false;
+  RayEvts.force_run = 0;
   if (save1.rayevts_0 != 0 && save1.save_obj_id != -1)
   {
-    RayEvts.flags1 &= FLG(RAYEVTS1_RUN)|FLG(RAYEVTS1_LUCIOLE)|FLG(RAYEVTS1_UNUSED_DEATH);
+    RayEvts.demi = false;
+    RayEvts.force_run = 0;
+    RayEvts.reverse = 0;
     if ((num_world == 6) && (num_level == 3))
       RAY_REVERSE_COMMANDS();
   }
   else
   {
-    RayEvts.flags1 = RayEvts.flags1 & ~(FLG(RAYEVTS1_REVERSE)|FLG(RAYEVTS1_FLAG6)) | FLG(RAYEVTS1_REVERSE);
+    RayEvts.reverse = 1;
     RAY_REVERSE_COMMANDS();
   }
   
@@ -174,7 +175,7 @@ void STOPPE_RAY_EN_XY(void)
     stop = !is_icy_pente(btyp_2);
   if (
     !(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40) &&
-    !(RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+    !RayEvts.demi
   )
   {
     if (
@@ -230,13 +231,13 @@ void RAY_RESPOND_TO_ALL_DIRS(void)
         }
     }
 
-    if (!(RayEvts.flags1 & (FLG(RAYEVTS1_REVERSE)|FLG(RAYEVTS1_FLAG6))))
+    if (RayEvts.reverse == 0)
     {
-        if (rightjoy(0) || RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)))
+        if (rightjoy(0) || RayEvts.force_run != 0)
           RAY_RESPOND_TO_DIR(1);
-        if (leftjoy(0) && !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))))
+        if (leftjoy(0) && RayEvts.force_run == 0)
           RAY_RESPOND_TO_DIR(0);
-        if (downjoy(0) && joy_done == 0 && !(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))))
+        if (downjoy(0) && joy_done == 0 && RayEvts.force_run == 0)
         {
           RAY_RESPOND_TO_DOWN();
           joy_done++;
@@ -245,7 +246,7 @@ void RAY_RESPOND_TO_ALL_DIRS(void)
         {
           if (joy_done == 0)
           {
-            if (!(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))))
+            if (RayEvts.force_run == 0)
             {
               RAY_RESPOND_TO_UP();
               joy_done++;
@@ -262,7 +263,7 @@ void RAY_RESPOND_TO_ALL_DIRS(void)
           compteur_attente = 0;
           return;
         }
-        if (!(RayEvts.flags1 & (FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN))))
+        if (RayEvts.force_run == 0)
         {
           RAY_RESPOND_TO_NOTHING();
           return;

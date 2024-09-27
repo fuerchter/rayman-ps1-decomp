@@ -104,7 +104,7 @@ void DO_RAYMAN(void)
         }
         else
         {
-            if ((ray_on_poelle == 0) && !(RayEvts.flags1 & 0x18) && (ray.main_etat == 0 || ray.main_etat == 1))
+            if ((ray_on_poelle == 0) && (RayEvts.force_run == 0) && (ray.main_etat == 0 || ray.main_etat == 1))
             {
                 if ((FUN_801339f4(0) != 0) && (FUN_80133984(0) == 0))
                 {
@@ -145,7 +145,7 @@ void DO_RAYMAN(void)
                     PS1_ShoulderR = 0;
                     PS1_ShoulderL = 0;
                 }
-                if (!(RayEvts.flags1 & 0x60))
+                if (RayEvts.reverse == 0)
                 {
                     if (PS1_ShoulderR == 0)
                     {

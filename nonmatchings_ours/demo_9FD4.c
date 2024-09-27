@@ -32,9 +32,19 @@ void InitDemoJeu(void)
     ModeDemo = 1;
     TempsDemo = 0;
     do { SauveRayEvtsDemo = RayEvts; } while (0);
-    RayEvts.flags0 = FLG(RAYEVTS0_POING)|FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO)|FLG(RAYEVTS0_SUPER_HELICO)|FLG(RAYEVTS0_GRAP);
+    RayEvts.poing = true;
+    RayEvts.hang = true;
+    RayEvts.helico = true;
+    RayEvts.super_helico = true;
+    RayEvts.grap = true;
+    RayEvts.run = true;
+    RayEvts.demi = false;
+    RayEvts.luciole = false;
+    RayEvts.force_run = 0;
+    RayEvts.reverse = 0;
+    /*RayEvts.flags0 = FLG(RAYEVTS0_POING)|FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO)|FLG(RAYEVTS0_SUPER_HELICO)|FLG(RAYEVTS0_GRAP);
     RayEvts.flags1 |= FLG(RAYEVTS1_RUN);
-    RayEvts.flags1 &= FLG(RAYEVTS1_RUN)|FLG(RAYEVTS1_UNUSED_DEATH);
+    RayEvts.flags1 &= FLG(RAYEVTS1_RUN)|FLG(RAYEVTS1_UNUSED_DEATH);*/
     __builtin_memcpy(&options_jeu_save, &options_jeu, sizeof(OptionsJeu));
     options_jeu.Jump = 1;
     options_jeu.Fist = 0;
@@ -45,7 +55,7 @@ void InitDemoJeu(void)
     options_jeu.field12_0x20 = 0;
     options_jeu.field13_0x22 = 0;
     POINTEUR_BOUTONS_OPTIONS_BIS();
-    new_var = &DemoRecordWorld[NumDemo];
+    new_var = &DemoRecordWolrd[NumDemo];
     finBosslevel[1] = finBosslevel[1] | 10;
     temp_a3 = (u16) (*new_var);
     temp_a2 = (u16) DemoRecordMap[NumDemo];

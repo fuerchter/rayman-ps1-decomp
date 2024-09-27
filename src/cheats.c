@@ -110,9 +110,12 @@ void PS1_CheckPauseAndCheatInputs(void)
                             if (in_pause && PS1_TOUCHE_0x13(0))
                             {
                                 in_pause = false;
-                                RayEvts.flags0 |= FLG(RAYEVTS0_POING)|FLG(RAYEVTS0_HELICO);
-                                RayEvts.flags1 |= FLG(RAYEVTS1_RUN);
-                                RayEvts.flags0 |= FLG(RAYEVTS0_POING)|FLG(RAYEVTS0_HANG)|FLG(RAYEVTS0_HELICO)|FLG(RAYEVTS0_HANDSTAND_DASH)|FLG(RAYEVTS0_GRAP);
+                                RayEvts.poing = true;
+                                RayEvts.helico = true;
+                                RayEvts.run = true;
+                                RayEvts.hang = true;
+                                RayEvts.handstand_dash = true;
+                                RayEvts.grap = true;
                                 PS1_OnPauseOff();
                             }
                         }

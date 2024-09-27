@@ -298,7 +298,7 @@ void SET_X_SPEED(Obj *obj)
     else
         spd_x = 0;
 
-    if (obj->type == TYPE_RAYMAN && RayEvts.flags1 & FLG(RAYEVTS1_DEMI))
+    if (obj->type == TYPE_RAYMAN && RayEvts.demi)
         spd_x = ashr16(spd_x, 1);
 
     obj->speed_x = spd_x;
