@@ -331,7 +331,7 @@ segments:
       - [0xA2A58, .data, data/obj_util] #801C7258
       - [0xA2A78, data]
       #- [0xA2A78, .data, data/sound_A2A78] #801C7278
-      - [0xA3564, data]
+      - [0xA3568, .data, data/draw/fade_A3568] #801C7D68
       - [0xA35A4, .data, data/obj/saxo] #801C7DA4
       - [0xA369C, data]
       - [0xA36AC, .data, data/draw/draw_A36AC] #801C7EAC
@@ -369,7 +369,8 @@ segments:
       - [0xAA7C0, .data, data/sound_AA7C0] #801CEFC0
       - [0xAA7C8, .data, data/cheats_AA7C8] #801CEFC8
       - [0xAA7CC, .data, data/sound_AA7CC] #801CEFCC
-      - [0xAA7E0, data]
+      - [0xAA7E0, .data, data/draw/fade_AA7E0] #801CEFE0
+      - [0xAA81C, data]
       - [0xAA864, .data, data/draw/draw_AA864] #801CF064
       - [0xAA8A0, .data, data/obj/bb1_AA8A0] #801CF0A0
       - [0xAA8A4, data]
@@ -383,6 +384,7 @@ segments:
       - [0xAA904, .data, data/password_AA904] #801CF104
       - [0xAA918, .data, data/menu/menu_AA918] #801CF118
       - [0xAA920, data]
+      - [0xAAC10, .data, data/draw/fade_AAC10] #801CF410
       - [0xAAC18, .data, data/draw/draw_AAC18] #801CF418
       - [0xAAC38, data]
       - [0xAAE00, .data, data/draw/draw_AAE00] #801CF600
