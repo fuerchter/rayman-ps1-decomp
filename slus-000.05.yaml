@@ -319,14 +319,15 @@ segments:
       - [0x9E914, .data, data/collision/bit_util] #801C3114
       - [0x9EB18, data]
       #- [0x9ED48, .data, data/menu/menu_card_9ED48] #801C3548
-      - [0x9ED80, data]
+      - [0x9ED80, .data, data/draw/text_9ED80] #801C3580
+      - [0x9EDBC, data]
       - [0x9F448, .data, data/demo_9F448] #801C3C48
       - [0x9FB74, data]
       - [0x9FC78, .data, data/music_9FC78] #801C4478
       - [0xA0338, data]
       #- [0xA0338, .data, data/loading_A0338] #801C4B38 not enough funcs implemented yet
       - [0xA29C0, .data, data/draw/fond_A29C0] #801C71C0
-      - [0xA29CC, data]
+      - [0xA29CC, .data, data/draw/text_A29CC] #801C71CC
       - [0xA2A58, .data, data/obj_util] #801C7258
       - [0xA2A78, data]
       #- [0xA2A78, .data, data/sound_A2A78] #801C7278
@@ -349,7 +350,7 @@ segments:
       - [0xAA5FC, data]
       #- [0xAA5FC, .data, data/cam_scroll_AA5FC] #801CEDFC not enough funcs implemented yet
       - [0xAA608, data]
-      #- [0xAA610, .data, data/draw/text_AA610] #801CEE10 both vars here seem to end up at 801CEE10? not sure how it would be, when let_shadow is done
+      - [0xAA610, .data, data/draw/text_AA610] #801CEE10 both vars here seem to end up at 801CEE10? not sure how it would be, when let_shadow is done
       - [0xAA614, data]
       - [0xAA65C, .data, data/obj/medaillon_toon_AA65C] #801CEE5C
       - [0xAA660, data] #TODO: does this belong to medaillon_toon?
