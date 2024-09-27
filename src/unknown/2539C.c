@@ -58,6 +58,42 @@ void Change_Wait_Anim(void)
     first_boss_meet = 1 - first_boss_meet;
 }
 
-INCLUDE_ASM("asm/nonmatchings/unknown/2539C", PS1_SetSauveRayEvts);
+/* 25B2C 8014A32C -O2 -msoft-float */
+void PS1_SetSauveRayEvts(void)
+{
+    SauveRayEvts.poing = RayEvts.poing;
+    SauveRayEvts.hang = RayEvts.hang;
+    SauveRayEvts.helico = RayEvts.helico;
+    SauveRayEvts.super_helico = RayEvts.super_helico;
+    SauveRayEvts.handstand_dash = RayEvts.handstand_dash;
+    SauveRayEvts.handstand = RayEvts.handstand;
+    SauveRayEvts.grain = RayEvts.grain;
+    SauveRayEvts.grap = RayEvts.grap;
+    
+    SauveRayEvts.run = RayEvts.run;
+    SauveRayEvts.demi = RayEvts.demi;
+    SauveRayEvts.luciole = RayEvts.luciole;
+    SauveRayEvts.force_run = RayEvts.force_run;
+    SauveRayEvts.reverse = RayEvts.reverse;
+    SauveRayEvts.unused_death = RayEvts.unused_death;
+}
 
-INCLUDE_ASM("asm/nonmatchings/unknown/2539C", PS1_RestoreSauveRayEvts);
+/* 25C3C 8014A43C -O2 -msoft-float */
+void PS1_RestoreSauveRayEvts(void)
+{
+    RayEvts.poing = SauveRayEvts.poing;
+    RayEvts.hang = SauveRayEvts.hang;
+    RayEvts.helico = SauveRayEvts.helico;
+    RayEvts.super_helico = SauveRayEvts.super_helico;
+    RayEvts.handstand_dash = SauveRayEvts.handstand_dash;
+    RayEvts.handstand = SauveRayEvts.handstand;
+    RayEvts.grain = SauveRayEvts.grain;
+    RayEvts.grap = SauveRayEvts.grap;
+    
+    RayEvts.run = SauveRayEvts.run;
+    RayEvts.demi = SauveRayEvts.demi;
+    RayEvts.luciole = SauveRayEvts.luciole;
+    RayEvts.force_run = SauveRayEvts.force_run;
+    RayEvts.reverse = SauveRayEvts.reverse;
+    RayEvts.unused_death = SauveRayEvts.unused_death;
+}
