@@ -5,7 +5,7 @@
 void restoreGameState(SaveState *save_param)
 {
     Obj *temp_a2;
-    s16 temp_v1;
+    s16 temp_v1_1;
     s16 var_a3_2;
     s16 var_v0_3;
     u8 temp_a0;
@@ -26,8 +26,11 @@ void restoreGameState(SaveState *save_param)
     u8 var_v0_2;
     s16 nb_objs;
     u8 test_1;
+    s16 test_2;
+    s16 test_3;
+    Obj *new_var;
 
-    if (save_param->has_saved != 0)
+    if (save_param->has_saved)
     {
         if (RayEvts.demi)
         {
@@ -47,21 +50,22 @@ void restoreGameState(SaveState *save_param)
         
         var_v0_2 = 1;
         ray.flags = (ray.flags & ~0x4000) | ((save_param->ray_flip_x & var_v0_2) << 0xE);
-        temp_a1 = ((save_param->rayevts_1 & 1) * 8) | (RayEvts.flags0 & 0xF7);
-        RayEvts.flags0 = temp_a1;
+        RayEvts.super_helico = save_param->rayevts_1;
         if ((num_world == 6) && (num_level == 3))
         {
-            RayEvts.flags0 = (save_param->rayevts_2 & 1) | (temp_a1 & 0xFE);
-            RayEvts.flags1 = ((save_param->rayevts_0 & 3) << 5) | (RayEvts.flags1 & 0x9F);
+            RayEvts.poing = save_param->rayevts_2;
+            RayEvts.reverse = save_param->rayevts_0;
         }
-        temp_v1 = save_param->save_obj_id;
-        if (temp_v1 != -1)
+        /* tried using cur_obj */
+        temp_v1_1 = save_param->save_obj_id;
+        if (temp_v1_1 != -1)
         {
-            temp_a2 = &level.objects[temp_v1];
+            temp_a2 = &level.objects[temp_v1_1];
             temp_a2->x_pos = save_param->save_obj_x_pos;
             temp_a2->y_pos = save_param->save_obj_y_pos;
             temp_a2->detect_zone_flag = save_param->save_obj_detect_zone_flag;
-            temp_a2->flags = (temp_a2->flags & ~0x100) | ((save_param->field18_0x14b & 1) << 8);
+            var_v0_3 = ((save_param->field18_0x14b & 1) << 8);
+            temp_a2->flags = (temp_a2->flags & ~0x100) | var_v0_3;
         }
         if (save_param == &save1)
         {
@@ -87,7 +91,7 @@ void restoreGameState(SaveState *save_param)
         {
             ray.btypes[var_a2_3] = save_param->ray_btypes[var_a2_3];
             var_a2_3 += 1;
-        } while ((u32) (var_a2_3 & 0xFF) < 5U);
+        } while (var_a2_3 < 5U);
         ray.anim_index = save_param->ray_anim_index;
         ray.anim_frame = save_param->ray_anim_frame;
         ray.main_etat = save_param->ray_main_etat;
@@ -114,14 +118,13 @@ void restoreGameState(SaveState *save_param)
         dead_time = save_param->dead_time;
         decalage_en_cours = 0;
         ray_wind_force = 0;
-        
 
         var_a2_3 = 0;
         do
         {
             nb_floc[var_a2_3] = save_param->nb_floc[var_a2_3];
             var_a2_3 += 1;
-        } while ((u32) (var_a2_3 & 0xFF) < 8U);
+        } while (var_a2_3 < 8U);
 
         VENT_X = save_param->vent_x;
         VENT_Y = save_param->vent_y;
@@ -131,7 +134,7 @@ void restoreGameState(SaveState *save_param)
 
         /* ??? */
         var_a3_2 = 0;
-        cur_obj = &level.objects[0];
+        cur_obj = &level.objects[var_a3_2];
         ray.flags |= 0xC00;
         nb_objs = level.nb_objects;
         /* ???*/
@@ -148,7 +151,7 @@ void restoreGameState(SaveState *save_param)
             }
             else if (temp_v1_3 == 0x8D || temp_v1_3 == 0xA4)
             {
-                if ((1 << (var_a3_2 & 0x1F)) & save_param->triggered_objects[(s32) (var_a3_2 << 0x10) >> 0x15])
+                if ((1 << (var_a3_2 & 0x1F)) & save_param->triggered_objects[var_a3_2 >> 5])
                 {
                     cur_obj->flags = cur_obj->flags | 0x400;
                 }
