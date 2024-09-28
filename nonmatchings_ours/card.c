@@ -5,15 +5,11 @@
 struct DIRENTRY * firstfile(u8 *name, struct DIRENTRY *dir);
 struct DIRENTRY * nextfile(struct DIRENTRY *dir);
 
-typedef struct Test_1 {
-    u8 test_1[5];
-} Test_1;
-
 s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
 {
     u8 sp10[128];
     s32 temp_v1;
-    Test_1 *var_a2_1;
+    u8 *var_a2_1;
     s32 var_a2_2;
     s32 var_a2_3;
     s32 var_s1;
@@ -23,57 +19,55 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
     struct DIRENTRY *var_s0;
     u16 test_1;
 
-    var_s0 = file;
     strcpy(&sp10, name_start);
     strcat(&sp10, s__801cf02c);
-    temp_v1 = PS1_TestCard(0U);
     
-    switch (temp_v1)
+    switch (PS1_TestCard(0))
     {
     case 0:
-        var_a3_1 = var_s0;
+        var_a3_1 = file;
         var_a2_1 = 0;
-        while (var_a2_1 < 0x4b) /* 15 * sizeof(Test_1) */
+        while (var_a2_1 < 0x4b) /* 15 * 5 */
         {
             __builtin_strcpy(var_a3_1->name, "no card");
             /*__builtin_memcpy(var_a3_1->name, s_no_card_801cf030, sizeof(s_no_card_801cf030));*/
             var_a3_1 += 1;
-            var_a2_1 += 1;
+            var_a2_1 += 5;
         }
       
         return 0x0000000F;
     case 1:
-        var_a3_1 = var_s0;
+        var_a3_1 = file;
         var_a2_1 = 0;
         while (var_a2_1 < 0x4b)
         {
             __builtin_memcpy(var_a3_1->name, s_unformat_8012ac78, sizeof(s_unformat_8012ac78));
             var_a3_1 += 1;
-            var_a2_1 += 1;
+            var_a2_1 += 5;
         }
         
         return 0x0000000F;
         break;
     case -1:
-        var_a3_1 = var_s0;
+        var_a3_1 = file;
         var_a2_1 = 0;
         while (var_a2_1 < 0x4b)
         {
             __builtin_strcpy(var_a3_1->name, "error");
             /*__builtin_memcpy(var_a3_1->name, s_error_801cf038, sizeof(s_error_801cf038));*/
             var_a3_1 += 1;
-            var_a2_1 += 1;
+            var_a2_1 += 5;
         }
         return 0x0000000F;
     default:
         var_v0 = 0;
-        if (firstfile(sp10, var_s0) == var_s0)
+        if (firstfile(sp10, file) == file)
         {
             do
             {
                 var_v0 += 1;
-                var_s0 += 1;
-            } while (nextfile(var_s0) == var_s0);
+                file += 1;
+            } while (nextfile(file) == file);
         }
         return var_v0;
     }
@@ -158,8 +152,8 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
     _card_load(chan_par);
     PS1_TestSwCARD();
     FntPrint(s__Saving_file_8012add8);
-    devname = &PS1_SaveFilenames[slot_par - 1];
-    if (*devname == 0) {
+    devname = &PS1_SaveFilenames[slot_par - 1][0];
+    if (devname[0] == 0) {
       sprintf(devname,s_bu02xss4u_8012ade8,chan_par,s_BISLUS00005_8012aca8,save_ray[slot_par],
               (ushort)PS1_GlobalTimer);
     }
