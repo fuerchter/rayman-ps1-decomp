@@ -15,6 +15,23 @@ extern ? D_801F4EE2;
 extern s16 bb1.sprite6_y;
 extern s16 ray.speed_x;*/
 
+extern inline void test_123(Obj *obj)
+{
+    switch (bb1.speed_x)
+    {
+    case 2:
+        set_main_and_sub_etat(obj, 1U, 1U);
+        break;
+    case 3:
+        set_main_and_sub_etat(obj, 1U, 2U);
+        break;
+    case 0:
+    default:
+        set_main_and_sub_etat(obj, 1U, 0U);
+        break;
+    }
+}
+
 void DO_BBMONT2_COMMAND(Obj *obj)
 {
     s16 temp_s2;
@@ -35,6 +52,12 @@ void DO_BBMONT2_COMMAND(Obj *obj)
     u8 temp_v1;
     u8 temp_v1_2;
     u8 temp_v1_3;
+    BB1Data *test_1;
+    s32 test_2;
+    s32 test_3;
+    u8 test_4;
+    u8 test_5;
+    u32 test_6;
 
     temp_s2 = (u16) obj->x_pos + obj->offset_bx;
     temp_s3 = obj->offset_hy + (u16) obj->y_pos + 0x40;
@@ -52,6 +75,7 @@ void DO_BBMONT2_COMMAND(Obj *obj)
         obj->speed_x = 0;
         obj->speed_y = 0;
     }
+    
     if (obj->main_etat == 1)
     {
         if (Phase == 0)
@@ -65,27 +89,15 @@ void DO_BBMONT2_COMMAND(Obj *obj)
         }
         if ((FinAnim != 0) && (bb1.speed_x != (obj->sub_etat + 1)))
         {
-            switch (bb1.speed_x)
-            {
-            case 2:
-                set_main_and_sub_etat(obj, 1U, 1U);
-                break;
-            case 3:
-                set_main_and_sub_etat(obj, 1U, 2U);
-                break;
-            case 0:
-            default:
-                set_main_and_sub_etat(obj, 1U, 0U);
-                break;
-            }
+            test_123(obj);
         }
     }
     if ((bb1.field1_0x2 < 8) && (Phase != 0) && (Phase != 5))
     {
         if (scroll_end_x == xmapmax)
         {
-            scroll_end_x = (s16) (u16) xmap;
-            if ((s16) (u16) xmap < temp_s2)
+            scroll_end_x = xmap;
+            if (xmap < temp_s2)
             {
                 scroll_end_x = temp_s2;
             }
@@ -102,21 +114,19 @@ void DO_BBMONT2_COMMAND(Obj *obj)
             }
             else
             {
-                var_v0 = (u16) scroll_end_x + (u16) obj->speed_x;
-                goto block_37;
+                scroll_end_x = scroll_end_x + (u16) obj->speed_x;
             }
         }
     }
     else
     {
-        var_v0 = (u16) xmapmax;
-block_37:
-        scroll_end_x = (s16) var_v0;
+        scroll_end_x = xmapmax;
     }
     switch (Phase)
     {
     case 0:
-        temp_v0 = ((u8) block_flags[obj->btypes[0]] >> 1) & 5;
+        /* gotos-only does not fix this case */
+        temp_v0 = ((u8) block_flags[obj->btypes[0]] >> 1) & 1;
         var_a0 = 0x28;
         if ((temp_v0 == 0) && (var_a0 = 0x3C, (temp_v0 == 0)))
         {
@@ -131,90 +141,57 @@ block_37:
         else if ((obj->main_etat == 0) && (obj->sub_etat == 0) && ((var_a0 + temp_s2) < ray_zdc_x))
         {
             Phase = 1;
-            switch (bb1.speed_x)
-            {
-            case 2:
-                set_main_and_sub_etat(obj, 1, 1);
-                return;
-            case 3:
-                set_main_and_sub_etat(obj, 1, 2);
-                return;
-            case 0:
-            default:
-                set_main_and_sub_etat(obj, 1, 0);
-                return;
-            }
-        }
-        else
-        {
-            return;
+            test_123(obj);
         }
         break;
     case 1:
-        if ((obj->main_etat == 1) &&
-          ((block_flags
-            [*(ushort *)
-              (((((int)((int)obj->x_pos + (uint)obj->offset_bx) >> 4) +
-                (int)mp.width * ((int)((int)obj->y_pos + (uint)obj->offset_by + 8) >> 4)) * 0x10000 >>
-                0xf) + (int)mp.map) >> 10] >> 1 & 1) == 0)) {
+        if (
+            (obj->main_etat == 1) &&
+            !(block_flags [
+                (u16) mp.map [
+                    (s16) (((obj->x_pos + obj->offset_bx) >> 4) + mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
+                ] >> 10
+            ] >> 1 & 1)
+        ) {
             set_main_and_sub_etat(obj, 2U, 4U);
             obj->gravity_value_2 = 5;
             obj->gravity_value_1 = 0;
             obj->speed_y = -8;
             obj->speed_x = 3;
-            return;
         }
         break;
     case 2:
-        if ((obj->main_etat == 1) &&
-          ((block_flags
-            [*(ushort *)
-              (((((int)((int)obj->x_pos + (obj->offset_bx - 8)) >> 4) +
-                (int)mp.width * ((int)((int)obj->y_pos + (uint)obj->offset_by + 8) >> 4)) * 0x10000 >>
-                0xf) + (int)mp.map) >> 10] >> 1 & 1) == 0)) {
+        if (
+            (obj->main_etat == 1) &&
+            !(block_flags [
+                (u16) mp.map [
+                    (s16) (((obj->x_pos + (obj->offset_bx - 8)) >> 4) + mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
+                ] >> 10
+            ] >> 1 & 1)
+        ) {
             set_main_and_sub_etat(obj, 2U, 1U);
             obj->gravity_value_2 = 5;
             obj->gravity_value_1 = 0;
             obj->speed_y = 0;
             obj->speed_x = 0;
             bb1.field1_0x2 = -1;
-            return;
         }
         break;
     case 3:
-        if (scroll_end_x < 0x15CC)
-        {
-            var_v1 = 0x15CC;
-        }
-        scroll_end_x = var_v1;
+        scroll_end_x = MAX_1(scroll_end_x, 0x15cc);
         
         if (((temp_s2 + 0x20) < ray_zdc_x) && (bb1.field1_0x2 == -1) && (temp_s3 < ray_zdc_y))
         {
-            if (bb1.speed_x != bb1.field1_0x2)
+            if (bb1.speed_x != -1)
             {
-                switch (bb1.speed_x)
-                {
-                case 2:
-                    set_main_and_sub_etat(obj, 1U, 1U);
-                    break;
-                case 3:
-                    set_main_and_sub_etat(obj, 1U, 2U);
-                    break;
-                case 0:
-                default:
-                    set_main_and_sub_etat(obj, 1U, 0U);
-                    break;
-                }
+                test_123(obj);
                 bb1.field1_0x2 = 0;
             }
             else
             {
-                temp_v0_2 = obj->field23_0x3c;
-                temp_v0_3 = temp_v0_2 + 1; /* remove temp_v0_3 ? */
-                if (temp_v0_2 < 0xC8)
+                if (obj->field23_0x3c < 0xC8)
                 {
-                    obj->field23_0x3c = temp_v0_3;
-                    if (temp_v0_3 == 0x00C8)
+                    if (++obj->field23_0x3c == 0x00C8)
                     {
                         bb1.speed_x = 1;
                         set_main_and_sub_etat(obj, 1U, 0U);
@@ -223,14 +200,12 @@ block_37:
                     }
                 }
                 scroll_end_x = xmap;
-                if (xmap < temp_s2)
+                if (scroll_end_x < temp_s2)
                 {
-                    var_v0_2 = xmap + ray.speed_x;
-                    if (ray.speed_x <= 0)
-                    {
-                        var_v0_2 = xmap + 1;
-                    }
-                    scroll_end_x = var_v0_2;
+                    test_2 = ray.speed_x;
+                    if (test_2 < 1)
+                        test_2 = 1;
+                    scroll_end_x = scroll_end_x + test_2;
                 }
             }
         }
@@ -238,44 +213,22 @@ block_37:
         {
             if ((obj->main_etat == 0) && (obj->sub_etat == 0x10))
             {
-                switch (bb1.speed_x)
-                {
-                case 2:
-                    set_main_and_sub_etat(obj, 1U, 1U);
-                    break;
-                case 3:
-                    set_main_and_sub_etat(obj, 1U, 2U);
-                    break;
-                case 0:
-                default:
-                    set_main_and_sub_etat(obj, 1U, 0U);
-                    break;
-                }
+                test_123(obj);
             }
             if ((FinAnim != 0) && (obj->main_etat == 0) && (obj->sub_etat == 1))
             {
-                switch (bb1.speed_x)
-                {
-                case 2:
-                    set_main_and_sub_etat(obj, 1U, 1U);
-                    break;
-                case 3:
-                    set_main_and_sub_etat(obj, 1U, 2U);
-                    break;
-                case 0:
-                default:
-                    set_main_and_sub_etat(obj, 1U, 0U);
-                    break;
-                }
+                test_123(obj);
             }
         }
         if (obj->main_etat == 1)
         {
-            if ((block_flags
-                [*(ushort *)
-                  (((((int)((int)obj->x_pos + (obj->offset_bx - 8)) >> 4) +
-                    (int)mp.width * ((int)((int)obj->y_pos + (uint)obj->offset_by + 8) >> 4)) * 0x10000
-                    >> 0xf) + (int)mp.map) >> 10] >> 1 & 1) == 0) {
+            if (
+                !(block_flags [
+                    (u16) mp.map [
+                        (s16) (((obj->x_pos + (obj->offset_bx - 8)) >> 4) + mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
+                    ] >> 10
+                ] >> 1 & 1)
+            ) {
                 obj->speed_y = -6;
                 obj->speed_x = 3;
                 set_main_and_sub_etat(obj, 2U, 4U);
@@ -295,7 +248,6 @@ block_37:
                     obj->speed_y = 0;
                 }
                 obj->speed_x = 0;
-                return;
             }
         }
         break;
@@ -306,20 +258,16 @@ block_37:
         }
         if (FinAnim != 0)
         {
-            temp_v1 = obj->main_etat;
-            if ((temp_v1 == 2) && (obj->sub_etat == temp_v1))
+            if ((obj->main_etat == 2) && (obj->sub_etat == 2))
             {
                 bb1.speed_x = 1;
-                goto block_124;
+                set_main_and_sub_etat(obj, 1U, 0U);
             }
-            if ((obj->main_etat == 0) && (obj->sub_etat == 5))
+            else if ((obj->main_etat == 0) && (obj->sub_etat == 5))
             {
-                temp_v0_4 = bb1.sprite6_x + 1;
-                bb1.sprite6_x = temp_v0_4;
-                if ((s16) temp_v0_4 < 3)
+                if (++bb1.sprite6_x < 3)
                 {
                     bb1.speed_x = 1;
-block_124:
                     set_main_and_sub_etat(obj, 1U, 0U);
                 }
                 else
@@ -330,54 +278,46 @@ block_124:
                 }
             }
         }
-        var_v0_3 = temp_s2 << 0x10;
         if (obj->main_etat == 1)
         {
-            temp_v1_2 = obj->offset_bx;
-            var_v0_4 = temp_v1_2 + 0x10;
-            if (!(obj->flags & 0x4000))
-            {
-                var_v0_4 = temp_v1_2 - 0x10;
-            }
-            var_v0_3 = temp_s2 << 0x10;
-            if ((block_flags
-                [*(ushort *)
-                  ((((obj->x_pos + var_v0_4 >> 4) +
-                    (int)mp.width * ((int)((int)obj->y_pos + (uint)obj->offset_by + 8) >> 4)) * 0x10000
-                    >> 0xf) + (int)mp.map) >> 10] >> 1 & 1) == 0) {
+            if (
+                !(block_flags [
+                    (u16) mp.map [
+                        (s16) (((obj->x_pos + obj->offset_bx + (!(obj->flags & 0x4000) ? -0x10 : 0x10)) >> 4) + mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
+                    ] >> 10
+                ] >> 1 & 1)
+            ) {
                 obj->speed_y = 0;
                 obj->speed_x = 0;
-                obj->flags = (obj->flags & ~0x4000) | (((1 - (((u32) obj->flags >> 0xE) & 1)) & 1) << 0xE);
+                /* see also: makeUturn() case TYPE_SPIDER_PLAFOND */
+                obj->flags = obj->flags & ~0x4000 | (((1 - ((obj->flags >> 0xE) & 1)) & 1) << 0xE);
                 set_main_and_sub_etat(obj, 0U, 5U);
-                var_v0_3 = temp_s2 << 0x10;
             }
         }
-        if (((var_v0_3 >> 0x10) - (ray_zdc_x + ((s16) ray_zdc_w >> 1))) >= 0)
+        if ((temp_s2 - (ray_zdc_x + ((s16) ray_zdc_w >> 1))) >= 0)
         {
-            if ((temp_s2 - (ray_zdc_x + ((s16) ray_zdc_w >> 1))) < 0xFB)
+            if ((temp_s2 - (ray_zdc_x + ((s16) ray_zdc_w >> 1))) >= 0xFB)
             {
-                return;
+                goto block_172;
             }
-            goto block_172;
+            return;
         }
-        var_v1_2 = ((ray_zdc_x + ((s16) ray_zdc_w >> 1)) - temp_s2) < 0xFB;
-block_171:
-        if (var_v1_2 == 0)
+        if (((ray_zdc_x + ((s16) ray_zdc_w >> 1)) - temp_s2) >= 0xFB)
         {
 block_172:
             obj->flags &= ~0x400;
             IsBossThere = 0;
             Phase = 0;
-            scroll_end_x = (s16) (u16) xmapmax;
-            scroll_end_y = (s16) (u16) ymapmax;
+            scroll_end_x = xmapmax;
+            scroll_end_y = ymapmax;
             obj->flags &= ~0x800;
         }
         break;
     case 5:
         if (bb1.field1_0x2 < 0)
         {
-            scroll_end_y = (u16) bb1.sprite6_y - horloge[5];
-            bb1.field1_0x2 = (s16) ((u16) bb1.field1_0x2 + 1);
+            scroll_end_y = bb1.sprite6_y - horloge[5];
+            bb1.field1_0x2 = bb1.field1_0x2 + 1;
         }
         if (FinAnim != 0)
         {
@@ -385,19 +325,9 @@ block_172:
             {
                 if (obj->sub_etat == 5)
                 {
+                    do { } while (0); /* TODO: ??? */
                     bb1.speed_x = 3;
-                    switch (bb1.speed_x)
-                    {
-                    case 2:
-                        set_main_and_sub_etat(obj, 1U, 1U);
-                        break;
-                    case 3:
-                        set_main_and_sub_etat(obj, 1U, 2U);
-                        break;
-                    default:
-                        set_main_and_sub_etat(obj, 1U, 0U);
-                        break;
-                    }
+                    test_123(obj);
                 }
                 goto block_147;
             }
@@ -410,40 +340,28 @@ block_147:
                 if (FinAnim != 0)
                 {
                     bb1.speed_x = 2;
-                    switch (bb1.speed_x)
+                    test_123(obj);
+                }
+                else
+                {
+                    /* already knows main_etat and sub_etat ... */
+                    if ((obj->anim_frame == 0x15) && (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0))
                     {
-                    case 2:
-                        set_main_and_sub_etat(obj, 1U, 1U);
-                        break;
-                    case 3:
-                        set_main_and_sub_etat(obj, 1U, 2U);
-                        break;
-                    default:
-                        set_main_and_sub_etat(obj, 1U, 0U);
-                        break;
+                        bb1.field1_0x2 = -0x001E;
                     }
                 }
-                else if ((obj->anim_frame == 0x15) && (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0))
-                {
-                    bb1.field1_0x2 = -0x001E;
-                }
+
             }
         }
-        var_v0_5 = temp_s2 << 0x10;
         if (obj->main_etat == 1)
         {
-            temp_v1_3 = obj->offset_bx;
-            var_v0_6 = temp_v1_3 + 0x10;
-            if (!(obj->flags & 0x4000))
-            {
-                var_v0_6 = temp_v1_3 - 0x10;
-            }
-            var_v0_5 = temp_s2 << 0x10;
-            if ((block_flags
-           [*(ushort *)
-             ((((obj->x_pos + var_v0_6 >> 4) +
-               (int)mp.width * ((int)((int)obj->y_pos + (uint)obj->offset_by + 8) >> 4)) * 0x10000
-              >> 0xf) + (int)mp.map) >> 10] >> 1 & 1) == 0) {
+            if (
+                !(block_flags [
+                    (u16) mp.map [
+                        (s16) (((obj->x_pos + obj->offset_bx + (!(obj->flags & 0x4000) ? -0x10 : 0x10)) >> 4) + mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
+                    ] >> 10
+                ] >> 1 & 1)
+            ) {
                 if (bb1.speed_x == 3)
                 {
                     set_main_and_sub_etat(obj, 2U, 4U);
@@ -451,29 +369,37 @@ block_147:
                     obj->gravity_value_1 = 0;
                     obj->speed_y = -2;
                     obj->speed_x = 4;
-                    scroll_end_y = (s16) (u16) ymapmax;
-                    scroll_end_x = (s16) (u16) xmapmax;
-                    var_v0_5 = temp_s2 << 0x10;
+                    scroll_end_y = ymapmax;
+                    scroll_end_x = xmapmax;
                 }
                 else
                 {
                     obj->speed_y = 0;
                     obj->speed_x = 0;
-                    obj->flags = (obj->flags & ~0x4000) | (((1 - (((u32) obj->flags >> 0xE) & 1)) & 1) << 0xE);
+                    obj->flags = obj->flags & ~0x4000 | (((1 - ((obj->flags >> 0xE) & 1)) & 1) << 0xE);
                     set_main_and_sub_etat(obj, 0U, 5U);
-                    var_v0_5 = temp_s2 << 0x10;
                 }
             }
         }
-        if (((var_v0_5 >> 0x10) - (ray_zdc_x + ((s16) ray_zdc_w >> 1))) >= 0)
+        if ((temp_s2 - (ray_zdc_x + ((s16) ray_zdc_w >> 1))) >= 0)
         {
-            if ((temp_s2 - (ray_zdc_x + ((s16) ray_zdc_w >> 1))) < 0x191)
+            if ((temp_s2 - (ray_zdc_x + ((s16) ray_zdc_w >> 1))) >= 0x191)
             {
-                return;
+                goto block_173;
             }
-            goto block_172;
+            return;
+            
         }
-        var_v1_2 = ((ray_zdc_x + ((s16) ray_zdc_w >> 1)) - temp_s2) < 0x191;
-        goto block_171;
+        if (((ray_zdc_x + ((s16) ray_zdc_w >> 1)) - temp_s2) >= 0x191)
+        {
+block_173:
+            obj->flags &= ~0x400;
+            IsBossThere = 0;
+            Phase = 0;
+            scroll_end_x = xmapmax;
+            scroll_end_y = ymapmax;
+            obj->flags &= ~0x800;
+        }
+        break;
     }
 }
