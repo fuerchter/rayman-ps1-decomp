@@ -1,6 +1,9 @@
 #include "obj/dark_phase2.h"
 
-/* rodata is only thing that isn't matching */
+/*
+attempts: 2
+rodata is only thing that isn't matching
+*/
 /*INCLUDE_ASM("asm/nonmatchings/obj/dark_phase2", DO_DARK_PHASE2_COMMAND);*/
 
 void DO_DARK_PHASE2_COMMAND(Obj *obj)
@@ -470,6 +473,7 @@ void DO_DARK2_SORT_COMMAND(Obj *ds2_obj)
     }
 }
 
+/* attempts: 2 */
 /*INCLUDE_ASM("asm/nonmatchings/obj/dark_phase2", allocate_DARK2_SORT);*/
 
 void allocate_DARK2_SORT(s32 param_1, s16 param_2, s16 param_3, s16 param_4)
