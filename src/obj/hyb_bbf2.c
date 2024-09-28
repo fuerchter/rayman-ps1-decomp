@@ -72,7 +72,74 @@ void AllocateTirBBF2(Obj *bbf2_obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/hyb_bbf2", DO_HYB_BBF2_LAS);
+/* 765B8 8019ADB8 -O2 -msoft-float */
+void DO_HYB_BBF2_LAS(Obj *las_obj)
+{
+    Obj *unk_obj;
+    s16 i;
+    Obj *cur_obj_1;
+    s16 nb_objs;
+    s16 j;
+    s16 las_x; s16 las_y; s16 las_w; s16 las_h;
+    s16 cur_x; s16 cur_y; s16 cur_w; s16 cur_h;
+    s16 unk_1 = las_obj->field24_0x3e;
+    
+    if (level.objects[unk_1].type == TYPE_HYB_BBF2_D || level.objects[unk_1].type == TYPE_HYB_BBF2_G)
+    {
+        unk_obj = &level.objects[unk_1];
+        if ((s16) OBJ_IN_COL_ZDC(las_obj, unk_obj))
+        {
+            i = 0;
+            cur_obj_1 = &level.objects[i];
+            nb_objs = level.nb_objects;
+            while (i < nb_objs)
+            {
+                if (cur_obj_1->type == TYPE_BOUM && !(cur_obj_1->flags & FLG(OBJ_ACTIVE)))
+                {
+                    GET_ANIM_POS(las_obj, &las_x, &las_y, &las_w, &las_h);
+                    GET_ANIM_POS(cur_obj_1, &cur_x, &cur_y, &cur_w, &cur_h);
+                    cur_obj_1->anim_frame = 0;
+                    cur_obj_1->x_pos = las_x - cur_obj_1->offset_bx;
+                    if (las_obj->speed_x > 0)
+                        cur_obj_1->x_pos += las_w;
+                    cur_obj_1->y_pos = las_y + (las_h >> 1) - ((cur_obj_1->offset_by + cur_obj_1->offset_hy) >> 1);
+                    calc_obj_pos(cur_obj_1);
+                    cur_obj_1->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                    break;
+                }
+                cur_obj_1++;
+                i++;
+            }
+            DO_HYB_BBF2_POING_COLLISION(unk_obj);
+            las_obj->flags &= ~FLG(OBJ_ALIVE);
+            las_obj->flags &= ~FLG(OBJ_ACTIVE);
+        }
+    }
+    
+    if (las_obj->speed_y == 0)
+    {
+        j = 0;
+        unk_obj = &level.objects[actobj.objects[j]];
+        while (j < actobj.num_active_objects)
+        {
+            if (
+                unk_obj->type == TYPE_HYB_BBF2_LAS &&
+                unk_obj->id != las_obj->id && (s16) OBJ_IN_COL_ZDC(las_obj, unk_obj)
+            )
+            {
+                unk_obj->speed_x = 0;
+                las_obj->speed_x = 0;
+                unk_obj->speed_y = 3;
+                las_obj->speed_y = 3;
+                las_obj->field24_0x3e = unk_obj->id;
+                unk_obj->field24_0x3e = las_obj->id;
+                break;
+            }
+            j++;
+            unk_obj = &level.objects[actobj.objects[j]];
+        }
+    }
+}
 
 /* 76870 8019B070 -O2 -msoft-float */
 s32 OBJ_IN_COL_ZDC(Obj *obj1, Obj *obj2)
