@@ -61,7 +61,7 @@ void CreateFirstBBL(void);
 void INIT_BBMONT(Obj *obj);
 void DO_BBL_COMMAND(Obj *obj);
 void BBMONT_ECLAIR(Obj *bb1_obj);
-void BBMONT_ETINCELLES(Obj *param_1);
+void BBMONT_ETINCELLES(Obj *in_obj); /* ZODO: do we know ObjType of in_obj? */
 void BBMONT_TIRE(Obj *obj);
 void Cree_BBL(Obj *obj);
 void BB_Attaque(Obj *obj);

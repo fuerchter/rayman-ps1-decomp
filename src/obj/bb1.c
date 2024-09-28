@@ -653,7 +653,66 @@ void BBMONT_ECLAIR(Obj *bb1_obj)
   }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", BBMONT_ETINCELLES);
+/* 58CC4 8017D4C4 -O2 -msoft-float */
+void BBMONT_ETINCELLES(Obj *in_obj)
+{
+  s16 in_x; s16 in_y; s16 in_w; s16 in_h;
+  s16 i = 0;
+  Obj *cur_obj = &level.objects[0];
+  u8 nb_objs = level.nb_objects;
+
+  while (i < nb_objs)
+  {
+    if (cur_obj->type == TYPE_ETINC && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+    {
+      /* sprite 3 */
+      cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | in_obj->flags & FLG(OBJ_FLIP_X);
+      cur_obj->speed_y = 0;
+      if (!(cur_obj->flags & FLG(OBJ_FLIP_X)))
+        cur_obj->speed_x = 7;
+      else
+        cur_obj->speed_x = -7;
+
+      GET_SPRITE_POS(in_obj, 3, &in_x, &in_y, &in_w, &in_h);
+      if (!(in_obj->flags & FLG(OBJ_FLIP_X)))
+        in_w = 0;
+      
+      cur_obj->x_pos = in_x + in_w - cur_obj->offset_bx;
+      cur_obj->y_pos = in_y - 8;
+      cur_obj->init_x_pos = cur_obj->x_pos;
+      cur_obj->init_y_pos = cur_obj->y_pos;
+      skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
+      calc_obj_pos(cur_obj);
+      cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+
+      /* sprite 2 */
+      cur_obj++;
+      cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | in_obj->flags & FLG(OBJ_FLIP_X);
+      cur_obj->speed_y = 0;
+      if (!(cur_obj->flags & FLG(OBJ_FLIP_X)))
+        cur_obj->speed_x = 7;
+      else
+        cur_obj->speed_x = -7;
+
+      GET_SPRITE_POS(in_obj, 2, &in_x, &in_y, &in_w, &in_h);
+      if (!(in_obj->flags & FLG(OBJ_FLIP_X)))
+        in_w = 0;
+      
+      cur_obj->x_pos = in_x + in_w - cur_obj->offset_bx;
+      cur_obj->y_pos = in_y - 8;
+      cur_obj->init_x_pos = cur_obj->x_pos;
+      cur_obj->init_y_pos = cur_obj->y_pos;
+      skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
+      calc_obj_pos(cur_obj);
+      cur_obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+      
+      allocateExplosion(cur_obj);
+      break;
+    }
+    cur_obj++;
+    i++;
+  }
+}
 
 /* 58F14 8017D714 -O2 -msoft-float */
 void BBMONT_TIRE(Obj *obj)
