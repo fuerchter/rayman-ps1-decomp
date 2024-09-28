@@ -51,9 +51,9 @@ s16 get_next_bonus_level(u8 level)
 {
     s16 res = 0;
 
-    switch ((s16)(num_world - 1))
+    switch (num_world)
     {
-    case 0:
+    case 1:
         switch (level)
         {
         case 2:
@@ -70,7 +70,7 @@ s16 get_next_bonus_level(u8 level)
             break;
         }
         break;
-    case 1:
+    case 2:
         switch (level)
         {
         case 4:
@@ -81,7 +81,7 @@ s16 get_next_bonus_level(u8 level)
             break;
         }
         break;
-    case 3:
+    case 4:
         switch (level)
         {
         case 3:
@@ -92,14 +92,14 @@ s16 get_next_bonus_level(u8 level)
             break;
         }
         break;
-    case 4:
+    case 5:
         switch (level)
         {
         case 2:
             res = 12;
             break;
         }
-    case 5:
+    case 6:
         break;
     }
 
