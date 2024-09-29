@@ -58,7 +58,163 @@ u8 PS1_GetContinuesFromPassword(void)
         (PS1_CurrentPassword[9] >> 1 & (1 << 3));
 }
 
-INCLUDE_ASM("asm/nonmatchings/password", PS1_ValidatePassword);
+/* 7D314 801A1B14 -O2 -msoft-float */
+u8 PS1_ValidatePassword(void)
+{
+    u8 is_valid;
+    u8 cc_sum;
+    u8 i;
+    u8 level = PS1_GetLevelFromPassword();
+
+    PS1_Password_TempCageCounts[0] = PS1_CurrentPassword[0] >> 1 & 1;
+    PS1_Password_TempCageCounts[1] = PS1_CurrentPassword[2] >> 1 & 1;
+    PS1_Password_TempCageCounts[2] = PS1_CurrentPassword[4] >> 1 & 1;
+    PS1_Password_TempCageCounts[3] = PS1_CurrentPassword[1] >> 1 & 1;
+    PS1_Password_TempCageCounts[4] = PS1_CurrentPassword[3] >> 1 & 1;
+    PS1_Password_TempCageCounts[5] = PS1_CurrentPassword[5] >> 1 & 1;
+    PS1_Password_TempCageCounts[6] = PS1_CurrentPassword[7] >> 1 & 1;
+    PS1_Password_TempCageCounts[7] = PS1_CurrentPassword[6] >> 1 & 1;
+    PS1_Password_TempCageCounts[8] = PS1_CurrentPassword[8] >> 1 & 1;
+    PS1_Password_TempCageCounts[9] = PS1_CurrentPassword[9] >> 1 & 1;
+    PS1_Password_TempCageCounts[10] = PS1_CurrentPassword[4] >> 4 & 1;
+    PS1_Password_TempCageCounts[11] = PS1_CurrentPassword[0] >> 4 & 1;
+    PS1_Password_TempCageCounts[12] = PS1_CurrentPassword[2] >> 4 & 1;
+    PS1_Password_TempCageCounts[13] = PS1_CurrentPassword[1] >> 4 & 1;
+    PS1_Password_TempCageCounts[14] = PS1_CurrentPassword[5] >> 4 & 1;
+    PS1_Password_TempCageCounts[15] = PS1_CurrentPassword[3] >> 4 & 1;
+    PS1_Password_TempCageCounts[16] = PS1_CurrentPassword[7] >> 4 & 1;
+    PS1_Password_TempCageCounts[17] = PS1_CurrentPassword[6] >> 4 & 1;
+    
+    is_valid =
+        level < LEN(PS1_Password_TempCageCounts) &&
+        !(level == 2 || level == 3) &&
+        (level == 6 || level == 7) ^ 1;
+    
+    if (!is_valid)
+        return 2;
+
+    if (PS1_GetLivesFromPassword() >= 100)
+        return 3;
+
+    if (PS1_GetContinuesFromPassword() >= 10)
+        return 4;
+
+    if (PS1_CurrentPassword[9] & 8)
+        is_valid =
+            PS1_CurrentPassword[8] & 4 &&
+            (level < 4) ^ 1;
+    else
+        is_valid = level < 9;
+    
+    if (!is_valid)
+        return 5;
+
+    if (PS1_CurrentPassword[8] & 8)
+        is_valid =
+            PS1_CurrentPassword[9] & 4 &&
+            (level < 8) ^ 1;
+
+    if (!is_valid)
+        return 6;
+
+    if (PS1_CurrentPassword[8] & 0x10)
+        is_valid = (level < 10) ^ 1;
+    else
+        is_valid =
+            level < 11 && 
+            PS1_Password_TempCageCounts[11] == 0;
+
+    if (!is_valid)
+        return 7;
+
+    if (PS1_CurrentPassword[6] & 8)
+        is_valid =
+            level > 15 &&
+            PS1_CurrentPassword[8] & 0x10 &&
+            PS1_CurrentPassword[9] >> 3 & 1;
+    else
+        is_valid =
+            level < 17 &&
+            PS1_Password_TempCageCounts[17] == 0;
+
+    if (!is_valid)
+        return 8;
+
+    if (PS1_CurrentPassword[8] & 4)
+        is_valid = (level < 4) ^ 1;
+    else
+        is_valid =
+            PS1_Password_TempCageCounts[3] == 0 &&
+            !(PS1_CurrentPassword[9] & 1 << 3);
+    
+    if (!is_valid)
+        return 0x0F;
+
+    if (PS1_CurrentPassword[9] & 4)
+        is_valid = (level < 8) ^ 1;
+    else
+        is_valid =
+            (PS1_Password_TempCageCounts[7] == 0) &&
+            (PS1_CurrentPassword[8] & 1 << 3) == 0;
+    
+    if (!is_valid)
+        return 0x10;
+
+    if (PS1_Password_TempCageCounts[3] != 0)
+        is_valid = PS1_CurrentPassword[8] >> 2 & 1;
+
+    if (!is_valid)
+        return 0x0C;
+
+    if (
+        !(
+            PS1_Password_TempCageCounts[7] == 0 ||
+            (PS1_CurrentPassword[9] >> 2 & 1)
+        )
+    )
+        return 0x0D;
+
+    cc_sum = 0;
+    for (i = level + 1; i < LEN(PS1_Password_TempCageCounts); i++)
+        cc_sum += PS1_Password_TempCageCounts[i];
+    
+    is_valid = cc_sum == 0;
+    if (!is_valid)
+        return 0x0E;
+    
+    if (level > 8)
+        is_valid =
+            PS1_CurrentPassword[9] & 8 &&
+            PS1_CurrentPassword[8] >> 2 & 1;
+
+    if (!is_valid)
+        return 9;
+
+    if (level > 10)
+    {
+        is_valid = PS1_CurrentPassword[8] >> 4 & 1;
+        if (!is_valid)
+            return 0x0A;
+    }
+
+    if (level == 17 || PS1_Password_TempCageCounts[17] != 0)
+    {
+        cc_sum = 0;
+        for (i = 0; i < 17; i++)
+            cc_sum += PS1_Password_TempCageCounts[i];
+        
+        is_valid =
+            cc_sum == 17 &&
+            PS1_CurrentPassword[6] & 8 &&
+            PS1_CurrentPassword[9] & 4 &&
+            PS1_CurrentPassword[8] >> 2 & 1;
+    }
+    
+    if (is_valid)
+        return is_valid;
+    else
+        return 0x0B;
+}
 
 INCLUDE_ASM("asm/nonmatchings/password", PS1_GeneratePassword);
 
