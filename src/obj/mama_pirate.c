@@ -444,7 +444,51 @@ s16 convertspeed(s16 speed)
   return ashl16(speed, 4);
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", lance_couteau_parabolique);
+/* 26F08 8014B708 -O2 -msoft-float */
+void lance_couteau_parabolique(Obj *obj)
+{
+    s16 diff_x; s16 diff_y;
+    s16 spd_x; s16 spd_y;
+    u8 cout_ind = find_couteau(obj);
+
+    if (cout_ind != 0xFF)
+    {
+        diff_x = (xmap + CouteauxInfos[cout_ind].x_pos) - (obj->x_pos + obj->offset_bx);
+        diff_y = (ymap + CouteauxInfos[cout_ind].y_pos) - (obj->y_pos + obj->offset_by);
+        if (CouteauxInfos[cout_ind].field2_0x4 != 0)
+        {
+            CouteauxInfos[cout_ind].field2_0x4 = 0;
+            if (diff_x == 0)
+            {
+                obj->speed_x = convertspeed(0);
+                obj->speed_y = convertspeed(-1);
+            }
+            else
+            {
+                if (diff_x >= 0)
+                    spd_x = 2;
+                else
+                    spd_x = -2;
+                spd_y =
+                  -(
+                    ((diff_y * (spd_x << 4)) << 3) +
+                    diff_x * (diff_x << 3)
+                  ) / ((diff_x * spd_x) << 3);
+                obj->speed_x = convertspeed(spd_x) - 10;
+                obj->speed_y = spd_y;
+            }
+            update_couteau(obj);
+            obj->display_prio = 3;
+        }
+        else
+        {
+            obj->speed_y += 4;
+            if (obj->speed_x * diff_x < 0)
+                obj->speed_x = 0;
+            update_couteau(obj);
+        }
+    }
+}
 
 /* 270D8 8014B8D8 -O2 -msoft-float */
 void lance_couteau_droit(Obj *obj)
