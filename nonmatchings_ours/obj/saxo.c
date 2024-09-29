@@ -332,24 +332,19 @@ void DO_SAXO_COMMAND(Obj *obj)
         }
         break;
     block_97:
-        temp_v1_6 = obj->main_etat;
-        if (temp_v1_6 != 1)
+        if (obj->main_etat == 1)
         {
-            break;
+            if (Sax.field10_0x10 != 1)
+            {
+                goto block_75;
+            }
+            if (--obj->iframes_timer <= 0)
+            {
+            block_100:
+                set_main_and_sub_etat(obj, 0U, 0x0AU);
+                obj->speed_x = 0;
+            }
         }
-        if (Sax.field10_0x10 != temp_v1_6)
-        {
-            goto block_75;
-        }
-        temp_v0_2 = obj->iframes_timer - 1;
-        obj->iframes_timer = temp_v0_2;
-        if ((temp_v0_2) > 0)
-        {
-            break;
-        }
-    block_100:
-        set_main_and_sub_etat(obj, 0U, 0x0AU);
-        obj->speed_x = 0;
         break;
     case 4:
         if (FinAnim == 0)
@@ -454,8 +449,7 @@ void DO_SAXO_COMMAND(Obj *obj)
                 }
                 goto block_145;
             block_140:
-                temp_a0 = obj->x_pos;
-                if (ray.x_pos >= (temp_a0 + 0x30))
+                if (ray.x_pos >= (obj->x_pos + 0x30))
                 {
                     goto block_143;
                 }
@@ -463,7 +457,7 @@ void DO_SAXO_COMMAND(Obj *obj)
                 set_main_and_sub_etat(obj, 0U, 0x0AU);
                 break;
             block_143:
-                if ((temp_a0 + 0x40) < 0)
+                if ((obj->x_pos + 0x40) < 0)
                 {
                     goto block_155;
                 }
@@ -503,8 +497,7 @@ void DO_SAXO_COMMAND(Obj *obj)
                     break;
                 }
             block_155:
-                temp_a3 = (obj->flags & ~0x4000) | (((1 - ((obj->flags >> 0xE) & 1)) & 1) << 0xE);
-                obj->flags = temp_a3;
+                obj->flags = (obj->flags & ~0x4000) | (((1 - ((obj->flags >> 0xE) & 1)) & 1) << 0xE);
                 set_main_and_sub_etat(obj, 0U, 0U);
                 obj->speed_x = 0;
                 Phase = 1;
@@ -513,9 +506,7 @@ void DO_SAXO_COMMAND(Obj *obj)
         }
         break;
     case 0x64:
-        temp_v0_3 = Sax.field10_0x10 - 1;
-        Sax.field10_0x10 = temp_v0_3;
-        if ((temp_v0_3 << 0x10) <= 0)
+        if (--Sax.field10_0x10 <= 0)
         {
             Sax.field10_0x10 = 0x03E7;
             fin_boss = 1;

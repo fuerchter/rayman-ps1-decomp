@@ -47,69 +47,65 @@ void INIT_WORLD_INFO(void)
 
 void DISPLAY_PLAT_WAY(void)
 {
-  s16 i;
-  WorldInfo *cur;
-  s16 x_pos;
-  s16 y_pos;
-  s8 flag;
-  
-  i = 0;
-  cur = &t_world_info[i];
-  do
-  {
-    flag = 0xfd;
-    *(u32*)&cur->state = *(u32*)&cur->state & flag;
-    i++;
-    cur++;
-  } while (i < 24);
+    s16 i;
+    WorldInfo *cur;
+    s16 x_pos; s16 y_pos;
+    s8 flag;
 
-  i = 0;
-  cur = &t_world_info[i];
-  do
-  {
-    x_pos = cur->x_pos;
-    y_pos = cur->y_pos;
-    if (*(u32*)&cur->state & 1)
+    i = 0;
+    cur = &t_world_info[i];
+    while (i < (s16) LEN(t_world_info))
     {
-      PS1_DisplayPts(i, cur->index_up, x_pos, y_pos);
-      PS1_DisplayPts(i, cur->index_down, x_pos, y_pos);
-      PS1_DisplayPts(i, cur->index_right, x_pos, y_pos);
-      PS1_DisplayPts(i, cur->index_left, x_pos, y_pos);
-      *(u32*)&cur->state = *(u32*)&cur->state | 2;
+        flag = 0xfd;
+        *(u32*)&cur->state &= flag;
+        i++;
+        cur++;
     }
-    i++;
-    cur++;
-  } while (i < 24);
+
+    i = 0;
+    cur = &t_world_info[i];
+    while (i < (s16) LEN(t_world_info))
+    {
+        x_pos = cur->x_pos;
+        y_pos = cur->y_pos;
+        if (*(u32*)&cur->state & 1)
+        {
+            PS1_DisplayPts(i, cur->index_up, x_pos, y_pos);
+            PS1_DisplayPts(i, cur->index_down, x_pos, y_pos);
+            PS1_DisplayPts(i, cur->index_right, x_pos, y_pos);
+            PS1_DisplayPts(i, cur->index_left, x_pos, y_pos);
+            *(u32*)&cur->state |= 2;
+        }
+        i++;
+        cur++;
+    }
 }
 
 /* matches, but WorldInfo.state casts... */
 /* 67B0C 8018C30C -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_DisplayPlateau);*/
 
-extern Obj *mapobj;
-
 void PS1_DisplayPlateau(void)
 {
-  Obj *obj;
-  WorldInfo *wi;
-  s16 i;
-  s16 test;
-  
-  i = 0;
-  wi = t_world_info;
-  obj = mapobj;
-  do
-  {
-    if ((*(u32*)&wi->state & 1 || (i == 17)) &&
-        ((obj->screen_x_pos + (u32)obj->offset_bx) - 0x25 < 0x101) &&
-       ((obj->screen_y_pos + (u32)obj->offset_by) - 0x2e < 0x97))
+    Obj *obj;
+    WorldInfo *wi;
+    s16 i;
+
+    i = 0;
+    wi = &t_world_info[i];
+    obj = mapobj;
+    while (i < (s16) LEN(t_world_info))
     {
-      DISPLAY_PLATEAU(obj);
+        if (
+            (*(u32*)&wi->state & 1 || i == 17) &&
+            obj->screen_x_pos + (u32)obj->offset_bx - 37 <= 256 &&
+            obj->screen_y_pos + (u32)obj->offset_by - 46 <= 150
+        )
+            DISPLAY_PLATEAU(obj);
+        wi++;
+        obj++;
+        i++;
     }
-    wi = wi + 1;
-    obj = obj + 1;
-    i = i + 1;
-  } while (i < 24);
 }
 
 /* matches, but WorldInfo.state casts... */
@@ -205,79 +201,71 @@ void DO_MEDAILLONS(void)
     }
 }
 
-/* matches, but both s__801cf0a8 and local_60 would need to be 16-bit types? don't trust this yet */
+/* matches, but casts */
 /* 683FC 8018CBFC -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_STAGE_NAME);*/
-
-extern s16 fichier_selectionne;
-extern u8 s___801cf0a4[4];
-extern u8 s__801cf0a8[2];
-extern u8 save_ray[4][4];
 
 void INIT_WORLD_STAGE_NAME(void)
 {
     u8 new_color;
-    u8 local_60[80];
+    u8 save_text[80];
 
-    switch(t_world_info[num_world_choice].world) {
-        case 7:
-            new_color = t_world_info[num_world_choice].color;
-            switch(fichier_selectionne)
-            {
-            case 0:
-                if (NBRE_SAVE != 0)
-                {
-                    __builtin_memcpy(text_to_display[2].text, s___801cf0a4, sizeof(text_to_display[2].text));
-                }
-                else
-                {
-                    __builtin_memcpy(text_to_display[2].text, s_password_8012ba1c, sizeof(s_password_8012ba1c));
-                }
-                break;
-            case 1:
-                local_60[0] = s__801cf0a8[0];
-                strcat(local_60, save_ray[1]);
-                strcat(local_60, s__801cf0a8);
-                __builtin_memcpy(text_to_display[2].text, local_60, sizeof(text_to_display[2].text));
-                break;
-            case 2:
-                local_60[0] = s__801cf0a8[0];
-                strcat(local_60, save_ray[2]);
-                strcat(local_60, s__801cf0a8);
-                __builtin_memcpy(text_to_display[2].text, local_60, sizeof(text_to_display[2].text));
-                break;
-            case 3:
-                local_60[0] = s__801cf0a8[0];
-                strcat(local_60, save_ray[3]);
-                strcat(local_60, s__801cf0a8);
-                __builtin_memcpy(text_to_display[2].text, local_60, sizeof(text_to_display[2].text));
-                break;
-            }
+    switch(t_world_info[num_world_choice].world)
+    {
+    case 7:
+        new_color = t_world_info[num_world_choice].color;
+        switch(fichier_selectionne)
+        {
+        case 0:
+            if (NBRE_SAVE != 0)
+                __builtin_memcpy(text_to_display[2].text, s___801cf0a4, sizeof(text_to_display[2].text));
+            else
+                __builtin_memcpy(text_to_display[2].text, s_password_8012ba1c, sizeof(s_password_8012ba1c));
             break;
         case 1:
-            __builtin_memcpy(text_to_display[2].text, s_the_dream_forest_8012ba28, sizeof(text_to_display[2].text));
-            new_color = 7;
+            *(u16 *)&save_text[0] = *(u16 *)&s__801cf0a8[0];
+            strcat(save_text, save_ray[fichier_selectionne]);
+            strcat(save_text, s__801cf0a8);
+            __builtin_memcpy(text_to_display[2].text, save_text, sizeof(text_to_display[2].text));
             break;
         case 2:
-            __builtin_memcpy(text_to_display[2].text, s_band_land_8012ba3c, sizeof(text_to_display[2].text));
-            new_color = 4;
+            *(u16 *)&save_text[0] = *(u16 *)&s__801cf0a8[0];
+            strcat(save_text, save_ray[fichier_selectionne]);
+            strcat(save_text, s__801cf0a8);
+            __builtin_memcpy(text_to_display[2].text, save_text, sizeof(text_to_display[2].text));
             break;
         case 3:
-            __builtin_memcpy(text_to_display[2].text, s_blue_mountains_8012ba48, sizeof(text_to_display[2].text));
-            new_color = 0xd;
+            *(u16 *)&save_text[0] = *(u16 *)&s__801cf0a8[0];
+            strcat(save_text, save_ray[fichier_selectionne]);
+            strcat(save_text, s__801cf0a8);
+            __builtin_memcpy(text_to_display[2].text, save_text, sizeof(text_to_display[2].text));
             break;
-        case 4:
-            __builtin_memcpy(text_to_display[2].text, s_picture_city_8012ba5c, sizeof(text_to_display[2].text));
-            new_color = 0;
-            break;
-        case 5:
-            __builtin_memcpy(text_to_display[2].text, s_the_cave_of_skops_8012ba6c, sizeof(text_to_display[2].text));
-            new_color = 2;
-            break;
-        case 6:
-            __builtin_memcpy(text_to_display[2].text, s_candy_chateau_8012ba80, sizeof(text_to_display[2].text));
-            new_color = 1;
-            break;
+        }
+        break;
+    case 1:
+        __builtin_memcpy(text_to_display[2].text, s_the_dream_forest_8012ba28, sizeof(text_to_display[2].text));
+        new_color = 7;
+        break;
+    case 2:
+        __builtin_memcpy(text_to_display[2].text, s_band_land_8012ba3c, sizeof(text_to_display[2].text));
+        new_color = 4;
+        break;
+    case 3:
+        __builtin_memcpy(text_to_display[2].text, s_blue_mountains_8012ba48, sizeof(text_to_display[2].text));
+        new_color = 13;
+        break;
+    case 4:
+        __builtin_memcpy(text_to_display[2].text, s_picture_city_8012ba5c, sizeof(text_to_display[2].text));
+        new_color = 0;
+        break;
+    case 5:
+        __builtin_memcpy(text_to_display[2].text, s_the_cave_of_skops_8012ba6c, sizeof(text_to_display[2].text));
+        new_color = 2;
+        break;
+    case 6:
+        __builtin_memcpy(text_to_display[2].text, s_candy_chateau_8012ba80, sizeof(text_to_display[2].text));
+        new_color = 1;
+        break;
     }
     
     text_to_display[2].font_size = 1;
@@ -290,6 +278,7 @@ void INIT_WORLD_STAGE_NAME(void)
     text_to_display[2].width += 10;
     text_to_display[2].height += 2;
 }
+const u8 rodata_INIT_WORLD_STAGE_NAME[4] = {};
 
 /* matches, but WorldInfo.state */
 /* 69468 8018DC68 -O2 */

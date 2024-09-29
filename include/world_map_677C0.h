@@ -33,6 +33,10 @@ extern u8 *PTR_s_save_game_801c353c;
 extern u8 *PTR_s_game_saved_801c3540;
 extern u8 *PTR_s_no_save_available_801c3544;
 
+/* .data */
+extern u8 s___801cf0a4[4];
+extern u8 s__801cf0a8[2];
+
 /**/
 extern Obj *mapobj;
 extern Obj raylittle;
