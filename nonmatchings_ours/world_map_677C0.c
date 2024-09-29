@@ -1,46 +1,5 @@
 #include "world_map_677C0.h"
 
-/* matches, but WorldInfo.state */
-/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_INFO);*/
-
-/* 692CC 8018DACC -O2 */
-/*? INIT_PASTILLES_SAUVE(s32, s16, s32);*/
-extern u8 D_801C3364;
-extern u8 You_Win;
-
-void INIT_WORLD_INFO(void)
-{
-  s16 var_a1;
-  s32 var_a0;
-  s32 var_a2;
-  if (D_801F3EA0 != 0)
-  {
-    var_a1 = 0;
-    var_a2 = 0xfffffffb;
-    do
-    {
-      var_a0 = var_a1;
-      var_a0 = var_a0 * 0x14;
-      *(s32 *) (&D_801C3364 + var_a0) = (*(s32 *) (&D_801C3364 + var_a0) | 1) & var_a2;
-      /*t_world_info[var_a1].state = (t_world_info[var_a1].state | 1) & var_a2;*/
-      var_a1 = var_a1 + 1;
-    }
-    while (var_a1 < 0x18);
-
-  }
-  num_world = 0;
-  num_level = 0;
-  new_world = 1;
-  new_level = 1;
-  world_index = 0;
-  xwldmapsave = 0;
-  ywldmapsave = 0x9E;
-  dir_on_wldmap = 1;
-  You_Win = 0;
-  fin_du_jeu = 0;
-  INIT_PASTILLES_SAUVE();
-}
-
 /* matches, but WorldInfo.state casts... */
 /* 679D4 8018C1D4 -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DISPLAY_PLAT_WAY);*/
@@ -281,238 +240,147 @@ void INIT_WORLD_STAGE_NAME(void)
 const u8 rodata_INIT_WORLD_STAGE_NAME[4] = {};
 
 /* matches, but WorldInfo.state */
+/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_INFO);*/
+
+/* 692CC 8018DACC -O2 */
+/*? INIT_PASTILLES_SAUVE(s32, s16, s32);*/
+extern u8 D_801C3364;
+
+void INIT_WORLD_INFO(void)
+{
+    s16 var_a1;
+    s32 var_a0;
+    s32 var_a2;
+    u32 test_1;
+    u8 *new_var;
+    if (D_801F3EA0 != 0)
+    {
+        var_a1 = 0;
+        var_a2 = ~FLG(2);
+        while (var_a1 < (s16) LEN(t_world_info))
+        {
+            var_a0 = var_a1;
+            var_a0 = var_a0 * 0x14;
+            *(s32 *) (&D_801C3364 + var_a0) = (*(s32 *) (&D_801C3364 + var_a0) | 1) & var_a2;
+            /**(u32 *)&t_world_info[var_a1].state |= 1;
+            *(u32 *)&t_world_info[var_a1].state &= var_a2;*/
+            var_a1 = var_a1 + 1;
+        }
+    }
+    num_world = 0;
+    num_level = 0;
+    new_world = true;
+    new_level = true;
+    world_index = 0;
+    xwldmapsave = 0;
+    ywldmapsave = 158;
+    dir_on_wldmap = 1;
+    You_Win = false;
+    fin_du_jeu = false;
+    INIT_PASTILLES_SAUVE();
+}
+
+/* matches, but WorldInfo.state */
 /* 69468 8018DC68 -O2 */
 /*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_CHEMIN);*/
 
 void INIT_CHEMIN(void)
 {
-  Obj *cur_obj;
-  u8 world_ind;
-  s16 i;
-  u16 frames_count;
-  
-  PROC_EXIT = false;
-  dans_la_map_monde = true;
-  gele = 0;
-  i = 0;
-  if (ModeDemo == 0)
-  {
-    new_world = false;
-    num_world_choice = world_index;
-  }
-  old_num_world = num_world_choice;
-  world_ind = 0; /* why does this exist? */
-  INIT_LITTLE_RAY();
-  set_main_and_sub_etat(&ray, 0, 0);
-  ray.x_pos = t_world_info[num_world_choice].x_pos - ray.offset_bx + 4;
-  ray.y_pos = t_world_info[num_world_choice].y_pos - ray.offset_by + 8;
-  ray.speed_x = 0;
-  ray.speed_y = 0;
-  set_zoom_mode(0);
-  chemin_percent = 0;
-  Nb_total_cages = 0;
+    Obj *cur_obj;
+    u8 world_ind;
+    s16 i;
 
-  cur_obj = mapobj;
-  while (i < (s16) LEN(t_world_info))
-  {
-    cur_obj->type = TYPE_MEDAILLON;
-    cur_obj->init_x_pos = t_world_info[world_ind].x_pos - 78;
-    cur_obj->init_y_pos = t_world_info[world_ind].y_pos - 64;
-    cur_obj->init_main_etat = 5;
+    PROC_EXIT = false;
+    dans_la_map_monde = true;
+    gele = 0;
 
-    if (!(*(u32*)&t_world_info[world_ind].state >> 2 & 1))
+    if (ModeDemo == 0)
     {
-      if (t_world_info[world_ind].nb_cages != 0)
-      {
-        Nb_total_cages += t_world_info[world_ind].nb_cages;
-        
-        if (t_world_info[world_ind].nb_cages == 6)
-          cur_obj->init_sub_etat = 52;
-        else
-          cur_obj->init_sub_etat = 47;
-      }
-      else
-      {
-        if (i == 17)
-          cur_obj->init_sub_etat = cur_obj->sub_etat = 59;
-        else
-          cur_obj->init_sub_etat = 39;
-      }
+        new_world = false;
+        num_world_choice = world_index;
     }
-    else
-      cur_obj->init_sub_etat = 46;
+    old_num_world = num_world_choice;
     
-    cur_obj->scale = 0;
-    cur_obj->offset_bx = 80;
-    cur_obj->offset_by = 64;
-    obj_init(cur_obj);
-    CalcObjPosInWorldMap(cur_obj);
-    frames_count =
-      cur_obj->animations[
-        cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_index
-      ].frames_count;
-    cur_obj->anim_frame = i % frames_count;
+    INIT_LITTLE_RAY();
+    set_main_and_sub_etat(&ray, 0, 0);
+    ray.x_pos = t_world_info[num_world_choice].x_pos - ray.offset_bx + 4;
+    ray.y_pos = t_world_info[num_world_choice].y_pos - ray.offset_by + 8;
+    ray.speed_x = 0;
+    ray.speed_y = 0;
+    set_zoom_mode(0);
+    chemin_percent = 0;
+    Nb_total_cages = 0;
 
-    world_ind++;
-    MIN_2(world_ind, LEN(t_world_info));
-    cur_obj++;
-    i++;
-  }
-
-  if (!(*(u32*)&t_world_info[17].state >> 0 & 1) && Nb_total_cages >= 102)
-    *(u32*)&t_world_info[17].state |= (1 << 2);
-  
-  scroll_end_x = 156;
-  scroll_end_y = 158;
-  scroll_x = -1;
-  scroll_y = -1;
-  special_ray_mov_win_x_left = 30;
-  special_ray_mov_win_x_right = 30;
-  scroll_start_x = 0;
-  scroll_start_y = 0;
-  xmapinit = xmap;
-  ymapinit = ymap;
-  xmap = xwldmapsave;
-  ymap = ywldmapsave;
-  ray.flags = ray.flags & ~FLG(OBJ_FLIP_X) | (dir_on_wldmap & 1) << OBJ_FLIP_X;
-  INIT_PASTILLES_SAUVE();
-  INIT_STAGE_NAME();
-  if (nouvelle_partie)
-  {
-    if (NBRE_SAVE != 0)
-      SaveGameOnDisk(fichier_selectionne);
-    nouvelle_partie = false;
-  }
-}
-
-/* matches, but WorldInfo.state */
-/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_RAYMAN_IN_WLD_MAP);*/
-
-void DO_RAYMAN_IN_WLD_MAP(void)
-{
-    s16 diff_x;
-    s16 diff_y;
-    s16 unk_0;
-    s16 unk_1;
-    s32 unk_2;
-    s16 unk_3;
-    s32 unk_4;
-    s16 unk_5;
-    Obj *unk_6;
-
-    if (num_world_choice == old_num_world)
+    world_ind = 0; /* why does this exist? */
+    cur_obj = mapobj;
+    i = 0;
+    while (i < (s16) LEN(t_world_info))
     {
-        if (
-            (s16) but0pressed(0) || (s16) but1pressed(0) ||
-            (s16) but2pressed(0) || (s16) but3pressed(0)
-        )
-        {
-            if (
-                num_world_choice == 18 || num_world_choice == 19 ||
-                num_world_choice == 20 || num_world_choice == 21 ||
-                num_world_choice == 22 || num_world_choice == 23
-            )
-            {
-                if (
-                    NBRE_SAVE != 0 &&
-                    t_world_info[num_world_choice].level_name == PTR_s_save_game_801c353c
-                )
-                {
-                    if (PS1_SaveWldMap())
-                    {
-                        SaveGameOnDisk(fichier_selectionne);
-                        PASTILLES_SAUVE_SAVED(num_world_choice);
-                        CHANGE_STAGE_NAMES();
-                    }
-                    else
-                        PS1_CardDisplayPassword();
-                }
-            }
-            else
-                new_world = true;
-        }
-        else if (rightjoy(0))
-            RESPOND_TO_RIGHT();
-        else if (leftjoy(0))
-            RESPOND_TO_LEFT();
-        else if (downjoy(0))
-            RESPOND_TO_DOWN();
-        else if (upjoy(0))
-            RESPOND_TO_UP();
+        cur_obj->type = TYPE_MEDAILLON;
+        cur_obj->init_x_pos = t_world_info[world_ind].x_pos - 78;
+        cur_obj->init_y_pos = t_world_info[world_ind].y_pos - 64;
+        cur_obj->init_main_etat = 5;
 
-        if (num_world_choice != old_num_world)
+        if (!(*(u32*)&t_world_info[world_ind].state >> 2 & 1))
         {
-            if (*(u32*)&t_world_info[num_world_choice].state & (1 << 0))
+            if (t_world_info[world_ind].nb_cages != 0)
             {
-                ray.timer = 0;
-                set_main_and_sub_etat(&ray, 1, 0);
-                CHANGE_STAGE_NAMES();
+                Nb_total_cages += t_world_info[world_ind].nb_cages;
+                
+                if (t_world_info[world_ind].nb_cages == 6)
+                    cur_obj->init_sub_etat = 52;
+                else
+                    cur_obj->init_sub_etat = 47;
             }
             else
-                num_world_choice = old_num_world;
+            {
+                if (i == 17)
+                    cur_obj->init_sub_etat = cur_obj->sub_etat = 59;
+                else
+                    cur_obj->init_sub_etat = 39;
+            }
         }
+        else
+            cur_obj->init_sub_etat = 46;
+
+        cur_obj->scale = 0;
+        cur_obj->offset_bx = 80;
+        cur_obj->offset_by = 64;
+        obj_init(cur_obj);
+        CalcObjPosInWorldMap(cur_obj);
+        cur_obj->anim_frame =
+            i % cur_obj->animations[
+                cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_index
+            ].frames_count;
+
+        world_ind++;
+        MIN_2(world_ind, LEN(t_world_info));
+        cur_obj++;
+        i++;
     }
-    else
+
+    if (!(*(u32*)&t_world_info[17].state >> 0 & 1) && Nb_total_cages >= 102)
+        *(u32*)&t_world_info[17].state |= FLG(2);
+
+    scroll_end_x = 156;
+    scroll_end_y = 158;
+    scroll_x = -1;
+    scroll_y = -1;
+    special_ray_mov_win_x_left = 30;
+    special_ray_mov_win_x_right = 30;
+    scroll_start_x = 0;
+    scroll_start_y = 0;
+    xmapinit = xmap;
+    ymapinit = ymap;
+    xmap = xwldmapsave;
+    ymap = ywldmapsave;
+    ray.flags = ray.flags & ~FLG(OBJ_FLIP_X) | (dir_on_wldmap & 1) << OBJ_FLIP_X;
+    INIT_PASTILLES_SAUVE();
+    INIT_STAGE_NAME();
+    if (nouvelle_partie)
     {
-        diff_x = t_world_info[num_world_choice].x_pos - t_world_info[old_num_world].x_pos;
-        diff_y = t_world_info[num_world_choice].y_pos - t_world_info[old_num_world].y_pos;
-        if (diff_x < 0)
-            ray.flags &= ~FLG(OBJ_FLIP_X);
-        else
-            ray.flags |= FLG(OBJ_FLIP_X);
-        
-        if (diff_x != 0 && diff_y != 0)
-        {
-            if (__builtin_abs(diff_y) > __builtin_abs(diff_x))
-            {
-                unk_0 = __builtin_abs(ray.timer * diff_x / diff_y);
-                unk_1 = ray.timer;
-            }
-            else
-            {
-                unk_1 = __builtin_abs(ray.timer * diff_y / diff_x);
-                unk_0 = ray.timer;
-            }
-        }
-        else if (diff_x == 0)
-            unk_1 = ray.timer;
-        else if (diff_y == 0)
-            unk_0 = ray.timer;
-        ray.timer++;
-
-        unk_2 = unk_0;
-        if (diff_x >= 0)
-            unk_3 = -(diff_x > 0) & unk_2;
-        else
-            unk_3 = -unk_2;
-        unk_4 = unk_1;
-        if (diff_y >= 0)
-            unk_5 = -(diff_y > 0) & unk_4;
-        else
-            unk_5 = -unk_4;
-        
-        ray.speed_x = t_world_info[old_num_world].x_pos + unk_3 - ray.offset_bx - ray.x_pos;
-        ray.speed_y = t_world_info[old_num_world].y_pos + unk_5 - ray.offset_by - (s16) (ray.y_pos - 8);
-        if (
-            __builtin_abs(unk_0) >= __builtin_abs(diff_x) &&
-            __builtin_abs(unk_1) >= __builtin_abs(diff_y)
-        )
-        {
-            old_num_world = num_world_choice;
-            if (ray.main_etat != 0)
-            {
-                set_main_and_sub_etat(&ray, 0, 0);
-                ray.speed_x = 0;
-                ray.speed_y = 0;
-                ray.x_pos = t_world_info[num_world_choice].x_pos - ray.offset_bx;
-                ray.y_pos = t_world_info[num_world_choice].y_pos - ray.offset_by + 8;
-            }
-        }
+        if (NBRE_SAVE != 0)
+            SaveGameOnDisk(fichier_selectionne);
+        nouvelle_partie = false;
     }
-    
-    MoveRayInWorldMap();
-    CalcObjPosInWorldMap(&ray);
-    unk_6 = &ray; /* TODO: clean up somehow */
-    set_proj_center(ray.screen_x_pos + ray.offset_bx, ray.screen_y_pos + ray.offset_by);
-    DO_ANIM(unk_6);
 }
