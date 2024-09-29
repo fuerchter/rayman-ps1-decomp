@@ -602,34 +602,3 @@ void PS1_LoadSaveFromPassword(void)
     ywldmapsave = 0x009E;
     dir_on_wldmap = 1;
 }
-
-/*INCLUDE_ASM("asm/nonmatchings/password", PS1_UnusedGenerateAndPrintPassword);*/
-
-void PS1_UnusedGenerateAndPrintPassword(s16 param_1, s16 param_2, u8 param_3, u8 param_4)
-{
-    u8 sp18[8];
-    volatile u8 sp22;
-    volatile u8 sp23;
-    volatile u8 sp24;
-    u8 var_a0;
-
-    PS1_IsPasswordValid = PS1_GeneratePassword();
-    var_a0 = 0;
-    do
-    {
-        
-        sp18[var_a0] = PS1_PasswordDisplayTable[PS1_CurrentPassword[var_a0] & 0x1F];
-        var_a0 += 1;
-    } while (var_a0 < 0xAU);
-    if (PS1_IsPasswordValid == 1)
-    {
-        sp22 = 0;
-    }
-    else
-    {
-        sp22 = 0x20;
-        sp23 = 0x65;
-        sp24 = 0;
-    }
-    display_text(sp18, param_1, param_2, param_3, param_4);
-}
