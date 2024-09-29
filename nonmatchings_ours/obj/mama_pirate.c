@@ -1,24 +1,24 @@
 #include "obj/mama_pirate.h"
 
-/* missing_addiu, div_nop_swap. matches, but... clean up */
+/* matches, but... clean up (see TODO:) */
 /*INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", lance_couteau_lineaire);*/
 
 /* 279B8 8014C1B8 -O2 -msoft-float */
-void lance_couteau_lineaire(Obj *param_1)
+void lance_couteau_lineaire(Obj *in_obj)
 {
-    Obj *temp_v0_3;
-    u8 temp_v0;
-    s16 temp_v0_2;
-    s16 temp_v1;
-    s16 temp_a1;
-    s16 temp_v1_2;
+    Obj *cout_obj;
+    u8 cout_ind;
+    s16 unk_1;
+    s16 cout_x;
+    s16 cout_y;
+    s16 unk_2;
     ObjState *temp_v1_6;
-    s16 temp_a1_3;
-    s16 temp_a2;
+    s16 diff_x;
+    s16 diff_y;
     s32 var_a0_2;
     u8 var_s5;
     s32 var_v1;
-    s32 temp_lo;
+    s16 temp_lo;
     s16 var_s2;
     s16 var_s3;
     s32 var_a0;
@@ -27,55 +27,51 @@ void lance_couteau_lineaire(Obj *param_1)
     ObjState *temp_v1_7;
     s16 var_v0_3;
 
-    temp_v0 = find_couteau(param_1);
-    if ((temp_v0 != 0xFF) && ((temp_v0 == 0) || (CouteauxInfos[temp_v0 - 1].field2_0x4 == 0)))
+    cout_ind = find_couteau(in_obj);
+    if (cout_ind != 0xFF && (cout_ind == 0 || CouteauxInfos[cout_ind - 1].field2_0x4 == 0))
     {
-        temp_v0_2 = CouteauxInfos[temp_v0].field2_0x4;
-        if (temp_v0_2 == 0)
+        unk_1 = CouteauxInfos[cout_ind].field2_0x4;
+        if (unk_1 == 0)
         {
-            if (!CouteauxInfos[temp_v0].active)
+            if (!CouteauxInfos[cout_ind].active)
             {
-                temp_v0_3 = &level.objects[CouteauxInfos[temp_v0].id];
-                temp_v1 = temp_v0_3->offset_bx + temp_v0_3->x_pos;
-                temp_a1 = temp_v0_3->offset_by + temp_v0_3->y_pos;
-                if (temp_v1 >= -0x14)
+                cout_obj = &level.objects[CouteauxInfos[cout_ind].id];
+                cout_x = cout_obj->x_pos + cout_obj->offset_bx;
+                cout_y = cout_obj->y_pos + cout_obj->offset_by;
+                if (
+                    cout_x < -20 || (cout_x > xmapmax + 340) ||
+                    cout_y < -20 || (cout_y > ymapmax + 260)
+                )
                 {
-                    if (((xmapmax + 0x154) >= temp_v1) && (((temp_a1 < -0x14) == 0)))
+                    CouteauxInfos[cout_ind].active = true;
+                    level.objects[CouteauxInfos[cout_ind].id].flags &= ~FLG(OBJ_ACTIVE);
+                    level.objects[CouteauxInfos[cout_ind].id].flags &= ~FLG(OBJ_ALIVE);
+                    if (check_couteaux())
                     {
-                        if ((ymapmax + 0x104) >= temp_a1)
+                        pma_phase = 4;
+                        if (level.objects[mama_pirate_obj_id].hit_points == 0)
                         {
-                            return;
+                            fin_boss = true;
+                            finBosslevel[0] |= FLG(4);
                         }
-                    }
-                }
-                CouteauxInfos[temp_v0].active = true;
-                level.objects[CouteauxInfos[temp_v0].id].flags &= ~0x800;
-                level.objects[CouteauxInfos[temp_v0].id].flags &= ~0x400;
-                if (check_couteaux())
-                {
-                    pma_phase = 4;
-                    if (level.objects[mama_pirate_obj_id].hit_points == 0)
-                    {
-                        fin_boss = 1;
-                        finBosslevel[0] |= 0x10;
                     }
                 }
             }
         }
-        else if (temp_v0_2 == 1)
+        else if (unk_1 == 1)
         {
-            temp_v1_2 = CouteauxInfos[temp_v0].field4_0x8;
-            if (temp_v1_2 == 0x000F)
+            unk_2 = CouteauxInfos[cout_ind].field4_0x8;
+            if (unk_2 == 0x000F)
             {
-                CouteauxInfos[temp_v0].x_pos = ray.offset_bx + ray.x_pos;
-                CouteauxInfos[temp_v0].y_pos = ray.offset_by + ray.y_pos;
-                temp_a1_3 = CouteauxInfos[temp_v0].x_pos - (param_1->offset_bx + param_1->x_pos);
-                temp_a2 = CouteauxInfos[temp_v0].y_pos - (param_1->offset_by + param_1->y_pos);
-                switch(CouteauxInfos[temp_v0].field9_0x10)
+                CouteauxInfos[cout_ind].x_pos = ray.x_pos + ray.offset_bx;
+                CouteauxInfos[cout_ind].y_pos = ray.y_pos + ray.offset_by;
+                diff_x = CouteauxInfos[cout_ind].x_pos - (in_obj->x_pos + in_obj->offset_bx);
+                diff_y = CouteauxInfos[cout_ind].y_pos - (in_obj->y_pos + in_obj->offset_by);
+                switch(CouteauxInfos[cout_ind].field9_0x10) /* TODO: continue cleaning up from here*/
                 {
                 case 1:
-                    var_a0_2 = __builtin_abs(temp_a1_3);
-                    var_v1 = __builtin_abs(temp_a2);
+                    var_a0_2 = __builtin_abs(diff_x);
+                    var_v1 = __builtin_abs(diff_y);
                     var_s5 = 0x0B;
                     if (var_a0_2 < var_v1)
                     {
@@ -83,8 +79,8 @@ void lance_couteau_lineaire(Obj *param_1)
                     }
                     temp_lo = 4;
                     temp_lo = ashl16(var_a0_2, 4U) / temp_lo;
-                    var_s3 = convertspeed(ashl16(temp_a1_3, 4U) / (s16) temp_lo);
-                    var_s2 = convertspeed(ashl16(temp_a2, 4U) / (s16) temp_lo);
+                    var_s3 = convertspeed(ashl16(diff_x, 4U) / temp_lo);
+                    var_s2 = convertspeed(ashl16(diff_y, 4U) / temp_lo);
                     var_s0 = couteau_frame(var_s3, var_s2);
                     break;
                 case 3:
@@ -96,7 +92,7 @@ void lance_couteau_lineaire(Obj *param_1)
                 case 0:
                     var_s5 = 0x0B;
                     var_a0 = -3;
-                    if (temp_a1_3 >= 0)
+                    if (diff_x >= 0)
                     {
                         var_a0 = 3;
                     }
@@ -111,97 +107,97 @@ void lance_couteau_lineaire(Obj *param_1)
                     var_s0 = couteau_frame(0, 1);
                     break;
                 }
-                temp_v1_4 = CouteauxInfos[temp_v0].field9_0x10;
+                temp_v1_4 = CouteauxInfos[cout_ind].field9_0x10;
                 if (temp_v1_4 == 2)
                 {
-                  param_1->sub_etat = var_s5;
-                  param_1->anim_frame = var_s0;
-                  param_1->eta[param_1->main_etat][param_1->sub_etat].anim_speed &= 0xF0;
-                  CouteauxInfos[temp_v0].field5_0xa = var_s3;
-                  CouteauxInfos[temp_v0].field7_0xe = var_s0;
-                  CouteauxInfos[temp_v0].field6_0xc = var_s2;
-                  CouteauxInfos[temp_v0].field4_0x8 = CouteauxInfos[temp_v0].field4_0x8 - 1;
-                  param_1->speed_x = (s16) CouteauxInfos[temp_v0].field5_0xa;
-                  param_1->speed_y = (s16) CouteauxInfos[temp_v0].field6_0xc;
-                  CouteauxInfos[temp_v0].field4_0x8 = 0x000F;
-                  CouteauxInfos[temp_v0].field2_0x4 = 0;
-                  CouteauxInfos[temp_v0].active = 0;
-                  temp_v1_6 = &param_1->eta[param_1->main_etat][param_1->sub_etat];
-                  temp_v1_6->anim_speed = (temp_v1_6->anim_speed & 0xF0) | 2;
-                  param_1->gravity_value_1 = 0;
-                  param_1->gravity_value_2 = 8;
-                  return;
+                    in_obj->sub_etat = var_s5;
+                    in_obj->anim_frame = var_s0;
+                    in_obj->eta[in_obj->main_etat][in_obj->sub_etat].anim_speed &= 0xF0;
+                    CouteauxInfos[cout_ind].field5_0xa = var_s3;
+                    CouteauxInfos[cout_ind].field7_0xe = var_s0;
+                    CouteauxInfos[cout_ind].field6_0xc = var_s2;
+                    CouteauxInfos[cout_ind].field4_0x8 = CouteauxInfos[cout_ind].field4_0x8 - 1;
+                    in_obj->speed_x = (s16) CouteauxInfos[cout_ind].field5_0xa;
+                    in_obj->speed_y = (s16) CouteauxInfos[cout_ind].field6_0xc;
+                    CouteauxInfos[cout_ind].field4_0x8 = 0x000F;
+                    CouteauxInfos[cout_ind].field2_0x4 = 0;
+                    CouteauxInfos[cout_ind].active = 0;
+                    temp_v1_6 = &in_obj->eta[in_obj->main_etat][in_obj->sub_etat];
+                    temp_v1_6->anim_speed = (temp_v1_6->anim_speed & 0xF0) | 2;
+                    in_obj->gravity_value_1 = 0;
+                    in_obj->gravity_value_2 = 8;
+                    return;
                 }
                 if (temp_v1_4 == 3)
                 {
-                  param_1->sub_etat = var_s5;
-                  param_1->anim_frame = var_s0;
-                  CouteauxInfos[temp_v0].field5_0xa = var_s3;
-                  CouteauxInfos[temp_v0].field7_0xe = var_s0;
-                  CouteauxInfos[temp_v0].field6_0xc = var_s2;
-                  CouteauxInfos[temp_v0].field4_0x8 = CouteauxInfos[temp_v0].field4_0x8 - 1;
-                  param_1->speed_x = (s16) CouteauxInfos[temp_v0].field5_0xa;
-                  param_1->speed_y = (s16) CouteauxInfos[temp_v0].field6_0xc;
-                  CouteauxInfos[temp_v0].field4_0x8 = 0x000F;
-                  CouteauxInfos[temp_v0].field2_0x4 = 0;
-                  CouteauxInfos[temp_v0].active = 0;
-                  return;
+                    in_obj->sub_etat = var_s5;
+                    in_obj->anim_frame = var_s0;
+                    CouteauxInfos[cout_ind].field5_0xa = var_s3;
+                    CouteauxInfos[cout_ind].field7_0xe = var_s0;
+                    CouteauxInfos[cout_ind].field6_0xc = var_s2;
+                    CouteauxInfos[cout_ind].field4_0x8 = CouteauxInfos[cout_ind].field4_0x8 - 1;
+                    in_obj->speed_x = (s16) CouteauxInfos[cout_ind].field5_0xa;
+                    in_obj->speed_y = (s16) CouteauxInfos[cout_ind].field6_0xc;
+                    CouteauxInfos[cout_ind].field4_0x8 = 0x000F;
+                    CouteauxInfos[cout_ind].field2_0x4 = 0;
+                    CouteauxInfos[cout_ind].active = 0;
+                    return;
                 }
-                if (param_1->anim_frame == (var_s0 & 0xFF))
+                if (in_obj->anim_frame == (var_s0 & 0xFF))
                 {
-                  param_1->sub_etat = var_s5;
-                  param_1->anim_frame = var_s0;
-                  CouteauxInfos[temp_v0].field7_0xe = var_s0;
-                  CouteauxInfos[temp_v0].field5_0xa = var_s3;
-                  CouteauxInfos[temp_v0].field6_0xc = var_s2;
-                  CouteauxInfos[temp_v0].field4_0x8 = CouteauxInfos[temp_v0].field4_0x8 - 1;
+                    in_obj->sub_etat = var_s5;
+                    in_obj->anim_frame = var_s0;
+                    CouteauxInfos[cout_ind].field7_0xe = var_s0;
+                    CouteauxInfos[cout_ind].field5_0xa = var_s3;
+                    CouteauxInfos[cout_ind].field6_0xc = var_s2;
+                    CouteauxInfos[cout_ind].field4_0x8 = CouteauxInfos[cout_ind].field4_0x8 - 1;
                 }
+            }
+            else if (unk_2 == 0)
+            {
+                in_obj->speed_x = (s16) CouteauxInfos[cout_ind].field5_0xa;
+                in_obj->speed_y = (s16) CouteauxInfos[cout_ind].field6_0xc;
+                if (CouteauxInfos[cout_ind].field9_0x10 == 2)
+                {
+                    temp_v1_7 = &in_obj->eta[in_obj->main_etat][in_obj->sub_etat];
+                    temp_v1_7->anim_speed = (temp_v1_7->anim_speed & 0xF0) | 2;
+                    in_obj->gravity_value_1 = 0;
+                    in_obj->gravity_value_2 = 8;
+                }
+                CouteauxInfos[cout_ind].field4_0x8 = 0x000F;
+                CouteauxInfos[cout_ind].field2_0x4 = 0;
+                CouteauxInfos[cout_ind].active = 0;
+
             }
             else
             {
-                if (temp_v1_2 == 0)
+                in_obj->speed_x = 0;
+                in_obj->speed_y = 0;
+                in_obj->anim_frame = CouteauxInfos[cout_ind].field7_0xe;
+                if (CouteauxInfos[cout_ind].field4_0x8 & 1)
                 {
-                    param_1->speed_x = (s16) CouteauxInfos[temp_v0].field5_0xa;
-                    param_1->speed_y = (s16) CouteauxInfos[temp_v0].field6_0xc;
-                    if (CouteauxInfos[temp_v0].field9_0x10 == 2)
-                    {
-                      temp_v1_7 = &param_1->eta[param_1->main_etat][param_1->sub_etat];
-                      temp_v1_7->anim_speed = (temp_v1_7->anim_speed & 0xF0) | 2;
-                      param_1->gravity_value_1 = 0;
-                      param_1->gravity_value_2 = 8;
-                    }
-                    CouteauxInfos[temp_v0].field4_0x8 = 0x000F;
-                    CouteauxInfos[temp_v0].field2_0x4 = 0;
-                    CouteauxInfos[temp_v0].active = 0;
-                    return;
-                }
-                param_1->speed_x = 0;
-                param_1->speed_y = 0;
-                param_1->anim_frame = CouteauxInfos[temp_v0].field7_0xe;
-                if (CouteauxInfos[temp_v0].field4_0x8 & 1)
-                {
-                    var_v0_3 = param_1->y_pos + 2;
+                    var_v0_3 = in_obj->y_pos + 2;
                 }
                 else
                 {
-                    var_v0_3 = param_1->y_pos - 2;
+                    var_v0_3 = in_obj->y_pos - 2;
                 }
-                param_1->y_pos = var_v0_3;
-                if (CouteauxInfos[temp_v0].field4_0x8 > 0)
+                in_obj->y_pos = var_v0_3;
+                if (CouteauxInfos[cout_ind].field4_0x8 > 0)
                 {
-                    CouteauxInfos[temp_v0].field4_0x8--;
+                    CouteauxInfos[cout_ind].field4_0x8--;
                 }
             }
         }
         else
         {
-            if (temp_v0_2 >= 2)
+            if (unk_1 > 1)
             {
-                CouteauxInfos[temp_v0].field2_0x4--;
+                CouteauxInfos[cout_ind].field2_0x4--;
             }
-            if (CouteauxInfos[temp_v0].field2_0x4 == 1)
+            if (CouteauxInfos[cout_ind].field2_0x4 == 1)
             {
-                CouteauxInfos[temp_v0].field4_0x8 = 0x000F;
+                CouteauxInfos[cout_ind].field4_0x8 = 0x000F;
             }
         }
     }
