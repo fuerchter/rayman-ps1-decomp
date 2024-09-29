@@ -1,7 +1,7 @@
 #include "draw/draw_14FF4.h"
 
 /* 14FF4 801397F4 -O2 -msoft-float */
-void PS1_DrawColoredSprite(Sprite *sprite, s16 in_x, s16 in_y, u8 display_mode)
+void PS1_DrawColoredSprite(Sprite *sprite, s16 in_x, s16 in_y, u8 disp_mode)
 {
     POLY_FT4 *poly;
     s32 offs;
@@ -38,7 +38,7 @@ void PS1_DrawColoredSprite(Sprite *sprite, s16 in_x, s16 in_y, u8 display_mode)
         unk_y_2 = in_y + width;
         poly->clut = sprite->clut;
         poly->tpage = sprite->tpage;
-        switch (display_mode)
+        switch (disp_mode)
         {
         case 1:
             page_x--;
