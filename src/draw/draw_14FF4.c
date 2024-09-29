@@ -779,7 +779,145 @@ void FUN_8013b4d4(s16 x0, s16 y0)
     PS1_PrevPrim = sprt;
 }
 
-INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", display_flocons_behind);
+/* 16D44 8013B544 -O2 -msoft-float */
+void display_flocons_behind(void)
+{
+    u8 **ot_1;
+    DR_ENV *dr_env;
+    s16 prev_pcx; s16 prev_pcy;
+    s16 cnt_1; s16 cnt_2; s16 cnt_3;
+    s16 unk_mul;
+    s16 unk_x; s16 unk_y;
+    s16 ind;
+    FloconTableEntry *entry;
+    s16 max_ind;
+    s16 j;
+
+    ot_1 = &PS1_CurrentDisplay->ordering_table[1];
+    PS1_PrevPrim = ot_1;
+    dr_env = &PS1_CurrentDisplay->map_drawing_environment_primitives[7];
+    AddPrim(ot_1, dr_env);
+    PS1_PrevPrim = dr_env;
+
+    prev_pcx = PROJ_CENTER_X;
+    prev_pcy = PROJ_CENTER_Y;
+    set_proj_center(160, 170);
+    
+    cnt_1 = 6;
+    cnt_2 = 3;
+    cnt_3 = 32;
+    while (cnt_3 < 192) /* range of 32 - 160 (incl.) in steps of 32 */
+    {
+        cnt_1--;
+        unk_mul = 0x10000 / (cnt_3 + 256);
+        unk_x = PROJ_CENTER_X - (unk_mul * PROJ_CENTER_X / 256);
+        unk_y = PROJ_CENTER_Y - (unk_mul * PROJ_CENTER_Y / 256);
+
+        ind = floc_ind[cnt_2];
+        entry = &flocon_tab[ind];
+        max_ind = ind + nb_floc[cnt_2];
+        if (num_world != 1)
+        {
+            if (cnt_1 == 5)
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    /* TODO: could see us var-ing/macro-ing the params at least?*/
+                    draw_flocon5_Normal(
+                        (unk_mul * entry->field0_0x0 >> 8) + unk_x,
+                        (unk_mul * entry->field1_0x2 >> 8) + unk_y
+                    );
+                    entry++;
+                }
+            }
+            else if (cnt_1 == 4)
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    draw_flocon4_Normal(
+                        (unk_mul * entry->field0_0x0 >> 8) + unk_x,
+                        (unk_mul * entry->field1_0x2 >> 8) + unk_y
+                    );
+                    entry++;
+                }
+            }
+            else if (cnt_1 == 3)
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    draw_flocon3_Normal(
+                        (unk_mul * entry->field0_0x0 >> 8) + unk_x,
+                        (unk_mul * entry->field1_0x2 >> 8) + unk_y
+                    );
+                    entry++;
+                }
+            }
+            else if (cnt_1 == 2)
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    draw_flocon2_Normal(
+                        (unk_mul * entry->field0_0x0 >> 8) + unk_x,
+                        (unk_mul * entry->field1_0x2 >> 8) + unk_y
+                    );
+                    entry++;
+                }
+            }
+            else
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    draw_flocon1_Normal(
+                        (unk_mul * entry->field0_0x0 >> 8) + unk_x,
+                        (unk_mul * entry->field1_0x2 >> 8) + unk_y
+                    );
+                    entry++;
+                }
+            }
+        }
+        else
+        {
+            if (cnt_1 == 5)
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    draw_pluie6_Normal(
+                        (unk_mul * entry->field0_0x0 >> 8) + unk_x,
+                        (unk_mul * entry->field1_0x2 >> 8) + unk_y
+                    );
+                    entry++;
+                }
+            }
+            else if (cnt_1 >= 3)
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    draw_pluie5_Normal(
+                        (unk_mul * entry->field0_0x0 >> 8) + unk_x,
+                        (unk_mul * entry->field1_0x2 >> 8) + unk_y
+                    );
+                    entry++;
+                }
+            }
+            else
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    draw_pluie4_Normal(
+                        (unk_mul * entry->field0_0x0 >> 8) + unk_x,
+                        (unk_mul * entry->field1_0x2 >> 8) + unk_y
+                    );
+                    entry++;
+                }
+            }
+        }
+        cnt_2++;
+        cnt_3 += 32;
+    }
+
+    PROJ_CENTER_X = prev_pcx;
+    PROJ_CENTER_Y = prev_pcy;
+}
 
 INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", display_flocons_before);
 

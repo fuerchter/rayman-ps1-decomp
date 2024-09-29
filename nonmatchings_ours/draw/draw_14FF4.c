@@ -11,8 +11,7 @@ void display_bar_boss(Obj *boss_obj)
     s32 unk_1;
     s32 unk_2;
     s32 unk_3;
-    s32 display_mode;
-    u8 sprite;
+    s32 disp_mode;
 
     if (scrollLocked)
     {
@@ -24,216 +23,54 @@ void display_bar_boss(Obj *boss_obj)
             unk_1 = 6;
             unk_2 = (29 - init_hp) * unk_1;
             unk_3 = 20 - unk_2;
-            display_mode = 1;
-            display_sprite(poing_obj, 61, unk_3 - (init_hp - hp) * unk_1, 217, display_mode);
-            display_sprite(poing_obj, 60, 20 - unk_2 + 1, 216, display_mode);
+            disp_mode = 1;
+            display_sprite(poing_obj, 61, unk_3 - (init_hp - hp) * unk_1, 217, disp_mode);
+            display_sprite(poing_obj, 60, 20 - unk_2 + 1, 216, disp_mode);
             switch (boss_obj->type)
             {
             case TYPE_MOSKITO:
-                sprite = 0x3E;
-                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                display_sprite(poing_obj, 62, 0, 206, disp_mode);
                 break;
             case TYPE_MOSKITO2:
-                sprite = 0x3E;
-                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                display_sprite(poing_obj, 62, 0, 206, disp_mode);
                 break;
             case TYPE_BB1:
-                sprite = 0x6A;
-                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                display_sprite(poing_obj, 106, 0, 206, disp_mode);
                 break;
             case TYPE_BB12:
-                sprite = 0x6A;
-                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                display_sprite(poing_obj, 106, 0, 206, disp_mode);
                 break;
             case TYPE_SPACE_MAMA:
-                sprite = 0x6C;
-                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                display_sprite(poing_obj, 108, 0, 206, disp_mode);
                 break;
             case TYPE_SPACE_MAMA2:
-                sprite = 0x6C;
-                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                display_sprite(poing_obj, 108, 0, 206, disp_mode);
                 break;
             case TYPE_MAMA_PIRATE:
-                sprite = 0x6F;
-                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                display_sprite(poing_obj, 111, 0, 206, disp_mode);
                 break;
             case TYPE_SCORPION:
-                sprite = 0x6B;
-                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                display_sprite(poing_obj, 107, 0, 206, disp_mode);
                 break;
             case TYPE_HYB_BBF2_D:
-                sprite = 0x6E;
-                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                display_sprite(poing_obj, 110, 0, 206, disp_mode);
                 break;
             case TYPE_HYBRIDE_STOSKO:
-                sprite = 0x6E;
-                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                display_sprite(poing_obj, 110, 0, 206, disp_mode);
                 break;
             case TYPE_HYBRIDE_MOSAMS:
-                sprite = 0x6E;
-                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                display_sprite(poing_obj, 110, 0, 206, disp_mode);
                 break;
             case TYPE_DARK:
-                sprite = 0x6E;
-                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                display_sprite(poing_obj, 110, 0, 206, disp_mode);
                 break;
             case TYPE_SAXO:
             case TYPE_SAXO2:
-                sprite = 0x6D;
-                display_sprite(poing_obj, sprite, 0, 206, display_mode);
+                display_sprite(poing_obj, 109, 0, 206, disp_mode);
                 break;
             }
-            
         }
     }
-}
-
-/* matches, but ugly and too many unknowns */
-/*INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", display_flocons_behind);*/
-
-void display_flocons_behind(void)
-{
-    DR_ENV *dr_env;
-    FloconTableEntry *entry;
-    s16 max_ind;
-    s16 ind;
-    s16 temp_a3;
-    s16 temp_t2;
-    s16 unk_2;
-    s16 j;
-    s16 unk_offs;
-    s16 temp_lo_1;
-    s32 var_a0;
-    s32 var_a1;
-    s16 var_s7;
-    u8 **ot_1;
-    s16 old_pcx;
-    s16 old_pcy;
-
-    ot_1 = &PS1_CurrentDisplay->ordering_table[1];
-    PS1_PrevPrim = ot_1;
-    dr_env = &PS1_CurrentDisplay->field4_0x230;
-    AddPrim(ot_1, dr_env);
-    PS1_PrevPrim = dr_env;
-
-    old_pcx = PROJ_CENTER_X;
-    old_pcy = PROJ_CENTER_Y;
-    set_proj_center(160, 170);
-    
-    unk_2 = 6;
-    var_s7 = 3;
-    unk_offs = 32;
-    while (unk_offs < 192) /* range of 32 - 160 (incl.) in steps of 32 */
-    {
-        unk_2--;
-        temp_lo_1 = 0x10000 / (unk_offs + 0x100);
-        var_a0 = temp_lo_1 * PROJ_CENTER_X;
-        temp_t2 = PROJ_CENTER_X - (var_a0 / 256);
-        var_a1 = temp_lo_1 * PROJ_CENTER_Y;
-        temp_a3 = PROJ_CENTER_Y - (var_a1 / 256);
-
-        ind = floc_ind[var_s7];
-        entry = &flocon_tab[ind];
-        max_ind = ind + nb_floc[var_s7];
-        if (num_world != 1)
-        {
-            if (unk_2 == 5)
-            {
-                for (j = ind; j < max_ind; j++)
-                {
-                    draw_flocon5_Normal(
-                        (temp_lo_1 * entry->field0_0x0 >> 8) + temp_t2,
-                        (temp_lo_1 * entry->field1_0x2 >> 8) + temp_a3
-                    );
-                    entry++;
-                }
-            }
-            else if (unk_2 == 4)
-            {
-                for (j = ind; j < max_ind; j++)
-                {
-                    draw_flocon4_Normal(
-                        (temp_lo_1 * entry->field0_0x0 >> 8) + temp_t2,
-                        (temp_lo_1 * entry->field1_0x2 >> 8) + temp_a3
-                    );
-                    entry++;
-                }
-            }
-            else if (unk_2 == 3)
-            {
-                for (j = ind; j < max_ind; j++)
-                {
-                    draw_flocon3_Normal(
-                        (temp_lo_1 * entry->field0_0x0 >> 8) + temp_t2,
-                        (temp_lo_1 * entry->field1_0x2 >> 8) + temp_a3
-                    );
-                    entry++;
-                }
-            }
-            else if (unk_2 == 2)
-            {
-                for (j = ind; j < max_ind; j++)
-                {
-                    draw_flocon2_Normal(
-                        (temp_lo_1 * entry->field0_0x0 >> 8) + temp_t2,
-                        (temp_lo_1 * entry->field1_0x2 >> 8) + temp_a3
-                    );
-                    entry++;
-                }
-            }
-            else
-            {
-                for (j = ind; j < max_ind; j++)
-                {
-                    draw_flocon1_Normal(
-                        (temp_lo_1 * entry->field0_0x0 >> 8) + temp_t2,
-                        (temp_lo_1 * entry->field1_0x2 >> 8) + temp_a3
-                    );
-                    entry++;
-                }
-            }
-        }
-        else
-        {
-            if (unk_2 == 5)
-            {
-                for (j = ind; j < max_ind; j++)
-                {
-                    draw_pluie6_Normal(
-                        (temp_lo_1 * entry->field0_0x0 >> 8) + temp_t2,
-                        (temp_lo_1 * entry->field1_0x2 >> 8) + temp_a3
-                    );
-                    entry++;
-                }
-            }
-            else if (unk_2 >= 3)
-            {
-                for (j = ind; j < max_ind; j++)
-                {
-                    draw_pluie5_Normal(
-                        (temp_lo_1 * entry->field0_0x0 >> 8) + temp_t2,
-                        (temp_lo_1 * entry->field1_0x2 >> 8) + temp_a3
-                    );
-                    entry++;
-                }
-            }
-            else
-            {
-                for (j = ind; j < max_ind; j++)
-                {
-                    draw_pluie4_Normal(
-                        (temp_lo_1 * entry->field0_0x0 >> 8) + temp_t2,
-                        (temp_lo_1 * entry->field1_0x2 >> 8) + temp_a3
-                    );
-                    entry++;
-                }
-            }
-        }
-        unk_offs += 32;
-        var_s7++;
-    }
-    PROJ_CENTER_X = old_pcx;
-    PROJ_CENTER_Y = old_pcy;
 }
 
 /*
