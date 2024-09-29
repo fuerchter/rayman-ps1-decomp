@@ -782,7 +782,7 @@ void FUN_8013b4d4(s16 x0, s16 y0)
 /* 16D44 8013B544 -O2 -msoft-float */
 void display_flocons_behind(void)
 {
-    u8 **ot_1;
+    u32 *ot_1;
     DR_ENV *dr_env;
     s16 prev_pcx; s16 prev_pcy;
     s16 cnt_1; s16 cnt_2; s16 cnt_3;
@@ -919,7 +919,83 @@ void display_flocons_behind(void)
     PROJ_CENTER_Y = prev_pcy;
 }
 
-INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", display_flocons_before);
+/* 173D0 8013BBD0 -O2 -msoft-float */
+void display_flocons_before(void)
+{
+    u32 *ot_7;
+    DR_ENV *dr_env;
+    s16 prev_pcx; s16 prev_pcy;
+    s16 cnt_1; s16 cnt_2;
+    s16 ind;
+    FloconTableEntry *entry;
+    s16 max_ind;
+    s16 unk_x; s16 unk_y;
+    s16 unk_mul;
+    s16 j;
+
+    ot_7 = &PS1_CurrentDisplay->ordering_table[7];
+    PS1_PrevPrim = ot_7;
+    dr_env = &PS1_CurrentDisplay->map_drawing_environment_primitives[6];
+    AddPrim(ot_7, dr_env);
+    PS1_PrevPrim = dr_env;
+    
+    prev_pcx = PROJ_CENTER_X;
+    prev_pcy = PROJ_CENTER_Y;
+    set_proj_center(160, 170);
+
+    cnt_1 = 0;
+    cnt_2 = -64;
+    while (cnt_2 < 32)
+    {
+        ind = floc_ind[cnt_1];
+        entry = &flocon_tab[ind];
+        unk_mul = 0x10000 / (cnt_2 + 256);
+        unk_x = PROJ_CENTER_X - (unk_mul * PROJ_CENTER_X / 256);
+        unk_y = PROJ_CENTER_Y - (unk_mul * PROJ_CENTER_Y / 256);
+        max_ind = ind + nb_floc[cnt_1];
+        if (num_world != 1)
+        {
+            if (cnt_1 == 0)
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    FUN_8013b304(
+                        (unk_mul * entry->field0_0x0 >> 8) + unk_x,
+                        (unk_mul * entry->field1_0x2 >> 8) + unk_y
+                    );
+                    entry++;
+                }
+            }
+            else
+            {
+                for (j = ind; j < max_ind; j++)
+                {
+                    FUN_8013b294(
+                        (unk_mul * entry->field0_0x0 >> 8) + unk_x,
+                        (unk_mul * entry->field1_0x2 >> 8) + unk_y
+                    );
+                    entry++;
+                }
+            }
+        }
+        else
+        {
+            for (j = ind; j < max_ind; j++)
+            {
+                FUN_8013b4d4(
+                    (unk_mul * entry->field0_0x0 >> 8) + unk_x,
+                    (unk_mul * entry->field1_0x2 >> 8) + unk_y
+                );
+                entry++;
+            }
+        }
+        cnt_1++;
+        cnt_2 += 32;
+    }
+
+    PROJ_CENTER_X = prev_pcx;
+    PROJ_CENTER_Y = prev_pcy;
+}
 
 /* 17740 8013BF40 -O2 -msoft-float */
 void display_pix_gerbes(void)
