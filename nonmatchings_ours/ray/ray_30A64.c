@@ -1,5 +1,9 @@
 #include "ray/ray_30A64.h"
 
+/*
+attempts: 2
+tried looking at android
+*/
 /*INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", move_up_ray);*/
 
 void move_up_ray(void)
@@ -30,7 +34,7 @@ void move_up_ray(void)
         ray.speed_y = 0;
         if (ray.field20_0x36 != -1)
         {
-            RAY_HIT(~ray.iframes_timer == 0, null);
+            RAY_HIT(ray.iframes_timer == -1, null);
         }
     }
     calc_obj_pos(&ray);

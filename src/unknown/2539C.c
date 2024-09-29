@@ -58,6 +58,7 @@ void Change_Wait_Anim(void)
     first_boss_meet = 1 - first_boss_meet;
 }
 
+/* thanks :) https://decomp.me/scratch/UZKQ3 */
 /* 25B2C 8014A32C -O2 -msoft-float */
 void PS1_SetSauveRayEvts(void)
 {

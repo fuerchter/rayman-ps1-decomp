@@ -1,6 +1,216 @@
 #include "draw/draw_14FF4.h"
 
-INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", PS1_DrawColoredSprite);
+/* 14FF4 801397F4 -O2 -msoft-float */
+void PS1_DrawColoredSprite(Sprite *sprite, s16 in_x, s16 in_y, u8 display_mode)
+{
+    POLY_FT4 *poly;
+    s32 offs;
+    s16 page_x; s16 page_y;
+    s16 width; s16 height;
+    s16 page_x_end; s16 page_y_end;
+    s16 unk_x_1; s16 unk_y_1;
+    s16 unk_x_2; s16 unk_y_2;
+
+    if (PS1_PolygonsCount < 200)
+        poly = &PS1_CurrentDisplay->polygons[PS1_PolygonsCount++];
+    else
+    {
+        offs = PS1_PolygonsCount * sizeof(POLY_FT4);
+        if (PS1_CurrentDisplay != PS1_Displays)
+            poly = (POLY_FT4 *)(0x800E3F2C + offs);
+        else
+            poly = (POLY_FT4 *)(0x800D772C + offs);
+        SetPolyFT4(poly);
+        PS1_PolygonsCount++;
+    }
+    
+    if (sprite->id != 0)
+    {
+        page_x = sprite->page_x;
+        page_y = sprite->page_y;
+        width = sprite->width;
+        height = sprite->height;
+        page_x_end = page_x + width;
+        page_y_end = page_y + height;
+        unk_x_1 = in_x + width;
+        unk_y_1 = in_y + height;
+        unk_x_2 = in_x + height;
+        unk_y_2 = in_y + width;
+        poly->clut = sprite->clut;
+        poly->tpage = sprite->tpage;
+        switch (display_mode)
+        {
+        case 1:
+            page_x--;
+            page_x_end--;
+            poly->u0 = page_x_end;
+            poly->v0 = page_y;
+            poly->u1 = page_x;
+            poly->v1 = page_y;
+            poly->u2 = page_x_end;
+            poly->v2 = page_y_end;
+            poly->u3 = page_x;
+            poly->v3 = page_y_end;
+            poly->x0 = in_x;
+            poly->y0 = in_y;
+            poly->x1 = unk_x_1;
+            poly->y1 = in_y;
+            poly->x2 = in_x;
+            poly->y2 = unk_y_1;
+            poly->x3 = unk_x_1;
+            poly->y3 = unk_y_1;
+            break;
+        case 2:
+            page_y--;
+            page_y_end--;
+            poly->u0 = page_x;
+            poly->v0 = page_y_end;
+            poly->u1 = page_x_end;
+            poly->v1 = page_y_end;
+            poly->u2 = page_x;
+            poly->v2 = page_y;
+            poly->u3 = page_x_end;
+            poly->v3 = page_y;
+            poly->x0 = in_x;
+            poly->y0 = in_y;
+            poly->x1 = unk_x_1;
+            poly->y1 = in_y;
+            poly->x2 = in_x;
+            poly->y2 = unk_y_1;
+            poly->x3 = unk_x_1;
+            poly->y3 = unk_y_1;
+            break;
+        case 3:
+            page_x--;
+            page_x_end--;
+            page_y--;
+            page_y_end--;
+            poly->u0 = page_x_end;
+            poly->v0 = page_y_end;
+            poly->u1 = page_x;
+            poly->v1 = page_y_end;
+            poly->u2 = page_x_end;
+            poly->v2 = page_y;
+            poly->u3 = page_x;
+            poly->v3 = page_y;
+            poly->x0 = in_x;
+            poly->y0 = in_y;
+            poly->x1 = unk_x_1;
+            poly->y1 = in_y;
+            poly->x2 = in_x;
+            poly->y2 = unk_y_1;
+            poly->x3 = unk_x_1;
+            poly->y3 = unk_y_1;
+            break;
+        case 4:
+            page_x--;
+            page_x_end--;
+            poly->u0 = page_x_end;
+            poly->v0 = page_y;
+            poly->u1 = page_x_end;
+            poly->v1 = page_y_end;
+            poly->u2 = page_x;
+            poly->v2 = page_y;
+            poly->u3 = page_x;
+            poly->v3 = page_y_end;
+            poly->x0 = in_x;
+            poly->y0 = in_y;
+            poly->x1 = unk_x_2;
+            poly->y1 = in_y;
+            poly->x2 = in_x;
+            poly->y2 = unk_y_2;
+            poly->x3 = unk_x_2;
+            poly->y3 = unk_y_2;
+            break;
+        case 5:
+            page_y--;
+            page_y_end--;
+            poly->u0 = page_x;
+            poly->v0 = page_y_end;
+            poly->u1 = page_x;
+            poly->v1 = page_y;
+            poly->u2 = page_x_end;
+            poly->v2 = page_y_end;
+            poly->u3 = page_x_end;
+            poly->v3 = page_y;
+            poly->x0 = in_x;
+            poly->y0 = in_y;
+            poly->x1 = unk_x_2;
+            poly->y1 = in_y;
+            poly->x2 = in_x;
+            poly->y2 = unk_y_2;
+            poly->x3 = unk_x_2;
+            poly->y3 = unk_y_2;
+            break;
+        case 6:
+            poly->u0 = page_x;
+            poly->v0 = page_y;
+            poly->u1 = page_x;
+            poly->v1 = page_y_end;
+            poly->u2 = page_x_end;
+            poly->v2 = page_y;
+            poly->u3 = page_x_end;
+            poly->v3 = page_y_end;
+            poly->x0 = in_x;
+            poly->y0 = in_y;
+            poly->x1 = unk_x_2;
+            poly->y1 = in_y;
+            poly->x2 = in_x;
+            poly->y2 = unk_y_2;
+            poly->x3 = unk_x_2;
+            poly->y3 = unk_y_2;
+            break;
+        case 7:
+            page_x--;
+            page_x_end--;
+            page_y--;
+            page_y_end--;
+            poly->u0 = page_x_end;
+            poly->v0 = page_y_end;
+            poly->u1 = page_x_end;
+            poly->v1 = page_y;
+            poly->u2 = page_x;
+            poly->v2 = page_y_end;
+            poly->u3 = page_x;
+            poly->v3 = page_y;
+            poly->x0 = in_x;
+            poly->y0 = in_y;
+            poly->x1 = unk_x_2;
+            poly->y1 = in_y;
+            poly->x2 = in_x;
+            poly->y2 = unk_y_2;
+            poly->x3 = unk_x_2;
+            poly->y3 = unk_y_2;
+            break;
+        case 0:
+        default:
+            poly->u0 = page_x;
+            poly->v0 = page_y;
+            poly->u1 = page_x_end;
+            poly->v1 = page_y;
+            poly->u2 = page_x;
+            poly->v2 = page_y_end;
+            poly->u3 = page_x_end;
+            poly->v3 = page_y_end;
+            poly->x0 = in_x;
+            poly->y0 = in_y;
+            poly->x1 = unk_x_1;
+            poly->y1 = in_y;
+            poly->x2 = in_x;
+            poly->y2 = unk_y_1;
+            poly->x3 = unk_x_1;
+            poly->y3 = unk_y_1;
+            break;
+        }
+        SetShadeTex(poly, true);
+        if (PS1_DrawSpriteSemiTrans)
+            SetSemiTrans(poly, true);
+        else
+            SetSemiTrans(poly, false);
+        AddPrim(PS1_PrevPrim, poly);
+        PS1_PrevPrim = poly;
+    }
+}
 
 /* 15340 80139B40 -O2 -msoft-float */
 void PS1_DrawSprite(Sprite *sprite, s16 x, s16 y, u8 param_4)

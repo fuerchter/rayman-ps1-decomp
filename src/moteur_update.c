@@ -194,11 +194,6 @@ void RAY_REVERSE_COMMANDS(void)
 /* 35B30 8015A330 -O2 -msoft-float */
 void RAY_DEMIRAY(void)
 {
-  /*ObjFlags demi = ((RayEvts.flags1 >> RAYEVTS1_DEMI ^ 1) & 1) << RAYEVTS1_DEMI;
-
-  RayEvts.flags1 =
-    RayEvts.flags1 & (FLG(RAYEVTS1_RUN)|FLG(RAYEVTS1_LUCIOLE)|FLG(RAYEVTS1_FORCE_RUN_TOGGLE)|FLG(RAYEVTS1_FORCE_RUN)|
-                      FLG(RAYEVTS1_REVERSE)|FLG(RAYEVTS1_FLAG6)|FLG(RAYEVTS1_UNUSED_DEATH)) | demi;*/
   RayEvts.demi = !RayEvts.demi;
   if (RayEvts.demi)
   {
