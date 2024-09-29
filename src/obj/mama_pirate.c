@@ -170,7 +170,78 @@ void init_move_couteau(Obj *obj)
   }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", init_lance_couteau);
+/* 263E8 8014ABE8 -O2 -msoft-float */
+void init_lance_couteau(u8 index)
+{
+  Obj *obj;
+  u8 main_etat; u8 sub_etat;
+  s16 spr_x; s16 spr_y; s16 spr_w; s16 spr_h;
+  
+  if (index < pma_nb_couteau && index < LEN(CouteauxInfos))
+  {
+    obj = &level.objects[CouteauxInfos[index].id];
+    if (!(obj->flags & FLG(OBJ_ACTIVE)))
+    {
+      obj->display_prio = 0;
+      obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+      CouteauxInfos[index].active = false;
+      if (pma_type_attaque == 0 || pma_type_attaque == 3 || pma_type_attaque == 4)
+      {
+        main_etat = 2;
+        sub_etat = 10;
+        set_main_and_sub_etat(obj, main_etat, sub_etat);
+        obj->anim_index = obj->eta[main_etat][sub_etat].anim_index;
+        CouteauxInfos[index].field9_0x10 = 4;
+        CouteauxInfos[index].x_pos = x_pos(index, pma_nb_couteau);
+        CouteauxInfos[index].y_pos =
+          level.objects[mama_pirate_obj_id].offset_by +
+          level.objects[mama_pirate_obj_id].screen_y_pos -
+          obj->offset_by;
+        CouteauxInfos[index].field2_0x4 = 1;
+        obj->anim_frame = 0;
+      }
+      else
+      {
+        main_etat = 2;
+        sub_etat = 11;
+        set_main_and_sub_etat(obj, main_etat, sub_etat);
+        obj->anim_index = obj->eta[main_etat][sub_etat].anim_index;
+        if (pma_type_attaque == 5)
+        {
+          CouteauxInfos[index].x_pos = x_pos(index, pma_nb_couteau);
+          CouteauxInfos[index].y_pos = y_pos(0, 0);
+          CouteauxInfos[index].field9_0x10 = 1;
+          CouteauxInfos[index].field2_0x4 = cou_tempo;
+          obj->anim_frame = 0;
+        }
+        else
+        {
+          if (place_sequence[cou_place] <= index)
+            CouteauxInfos[index].x_pos = x_pos(index + 1, pma_nb_couteau + 1);
+          else
+            CouteauxInfos[index].x_pos = x_pos(index, pma_nb_couteau + 1);
+          
+          CouteauxInfos[index].x_pos -= index * 4;
+          CouteauxInfos[index].y_pos = y_pos(0, 0);
+          CouteauxInfos[index].field9_0x10 = 3;
+          if (index == 0)
+            CouteauxInfos[index].field2_0x4 = cou_tempo;
+          else
+            CouteauxInfos[index].field2_0x4 = 1;
+          obj->anim_frame = 0;
+        }
+      }
+
+      GET_SPRITE_POS(&level.objects[mama_pirate_obj_id], 6, &spr_x, &spr_y, &spr_w, &spr_h);
+      if (level.objects[mama_pirate_obj_id].flags & FLG(OBJ_FLIP_X))
+        spr_x += spr_w;
+      obj->x_pos = spr_x - obj->offset_bx;
+      obj->y_pos = spr_y - obj->offset_by;
+      obj->init_x_pos = obj->x_pos;
+      obj->init_y_pos = obj->y_pos;
+    }
+  }
+}
 
 /* 267EC 8014AFEC -O2 -msoft-float */
 u8 couteau_frame(s16 speed_x, s16 speed_y)
@@ -725,7 +796,7 @@ void DO_PMA_COMMAND(Obj *obj)
                     {
                         CouteauxInfos[i].field9_0x10 = 2;
                         CouteauxInfos[i].field2_0x4 = 1;
-                        CouteauxInfos[i].active = 0;
+                        CouteauxInfos[i].active = false;
                         CouteauxInfos[i].field4_0x8 = 0xf;
                     }
                     pma_phase = 2;
