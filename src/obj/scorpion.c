@@ -620,7 +620,7 @@ void DO_SKO_HIT(Obj *obj)
             case 0:
                 set_sub_etat(obj, 1);
                 skipToLabel(obj, 2, 1);
-                obj->change_anim_mode = 0;
+                obj->change_anim_mode = ANIMMODE_NONE;
                 obj->anim_frame = 81;
                 sko_nb_frap = 0;
                 break;

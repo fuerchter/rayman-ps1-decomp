@@ -1062,7 +1062,7 @@ void DO_PNG_COLL_STONEWOMAN(Obj *obj)
         {
             if (obj->main_etat != 1)
                 skipToLabel(obj, 1, true);
-            obj->change_anim_mode = 2;
+            obj->change_anim_mode = ANIMMODE_RESET;
         }
     }
 }

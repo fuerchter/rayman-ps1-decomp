@@ -247,7 +247,268 @@ void first_obj_init(Obj *obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj_init_kill", obj_init);
+/* 2A2A0 8014EAA0 -O2 -msoft-float */
+void obj_init(Obj *obj)
+{
+    s16 unk_1;
+    s16 unk_2;
+
+    obj->nb_cmd = 0;
+    obj->flags &= ~FLG(OBJ_ACTIVE);
+    obj->display_prio = Prio(obj);
+    obj->zdc = type_zdc[obj->type];
+    if (obj->type != TYPE_INDICATOR)
+    {
+        obj->main_etat = obj->init_main_etat;
+        obj->sub_etat = obj->init_sub_etat;
+    }
+    obj->anim_frame = 0;
+    obj->speed_x = 0;
+    obj->speed_y = 0;
+    obj->x_pos = obj->init_x_pos;
+    obj->y_pos = obj->init_y_pos;
+    obj->anim_index = obj->eta[obj->main_etat][obj->sub_etat].anim_index;
+    obj->flags &= ~FLG(OBJ_FLIP_X);
+    obj->change_anim_mode = ANIMMODE_NONE;
+    obj->gravity_value_1 = 0;
+    obj->gravity_value_2 = 0;
+    obj->detect_zone_flag = 0;
+    obj->iframes_timer = -1;
+    obj->field20_0x36 = -1;
+    obj->cmd_offset = -1;
+    unk_1 = obj->cmds != null;
+    obj->flags = (obj->flags & ~FLG(OBJ_READ_CMDS)) | (unk_1 << OBJ_READ_CMDS);
+    memset(obj->btypes, 0, 5);
+    GET_OBJ_CMD(obj);
+    obj->test_block_index = 0;
+    obj->cmd_context_index = 0xFF;
+    obj->active_flag = ACTIVE_DEAD;
+    obj->timer = 0;
+    obj->field56_0x69 = 0;
+    obj->hit_points = obj->init_hit_points;
+    obj->flags &= ~FLG(OBJ_FLAG_9);
+    obj->flags &= ~FLG(OBJ_FLAG_A);
+    obj->flags &= ~FLG(OBJ_FLAG_B);
+    
+    switch (obj->type)
+    {
+    case TYPE_SAXO:
+    case TYPE_SAXO2:
+    case TYPE_SAXO3:
+        INIT_SAXO(obj);
+        break;
+    case TYPE_PRI:
+        if (finBosslevel[1] & FLG(2))
+        {
+            prise_branchee = true;
+            set_main_and_sub_etat(obj, 0, 2);
+            obj->init_sub_etat = 2;
+            skipToLabel(obj, 1, true);
+            break;
+        }
+        break;
+    case TYPE_VAGUE_DEVANT:
+    case TYPE_VAGUE_DERRIERE:
+        obj->x_pos = obj->init_x_pos = -15;
+        break;
+    case TYPE_HYBRIDE_MOSAMS:
+        bossXToReach = obj->x_pos;
+        bossYToReach = firstFloorBelow(&ray) - obj->offset_by + 16;
+        bossSpeedFactor = 0x4000;
+        alternateBossSpeedFactor = 0;
+        break;
+    case TYPE_CRAYON_BAS:
+    case TYPE_CRAYON_HAUT:
+        obj->anim_frame = myRand(obj->animations[obj->anim_index].frames_count - 1);
+        break;
+    case TYPE_FALLING_CRAYON:
+    case TYPE_PUNAISE4:
+        obj->anim_frame = obj->hit_points;
+        break;
+    case TYPE_PUNAISE1:
+    case TYPE_PUNAISE2:
+    case TYPE_PUNAISE3:
+    case TYPE_PUNAISE5:
+        obj->flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (obj->hit_points & 1) << OBJ_FLIP_X;
+        break;
+    case TYPE_MST_FRUIT1:
+    case TYPE_MST_SHAKY_FRUIT:
+        obj->gravity_value_2 = 5;
+        break;
+    case TYPE_MST_FRUIT2:
+        obj->gravity_value_2 = 10;
+        break;
+    case TYPE_SPACE_MAMA:
+        obj->type = TYPE_SPACE_MAMA2;
+    case TYPE_SPACE_MAMA2:
+        swapMereDenisCollZones(obj, true);
+        PS1_setBossScrollLimits_spacemama(obj);
+        bossSpeedFactor = 0x4000;
+        alternateBossSpeedFactor = 0;
+        laserSourceSprNumInAnim = 0xFF;
+        IsBossThere = 0;
+        scrollLocked = 0;
+        obj->timer = 180;
+        saveBossEncounter = 0xFF;
+        currentBossAction = 0;
+        currentBossActionIsOver = false;
+        bossEncounter = 0;
+        break;
+    case TYPE_MOSKITO2:
+        bossEncounter = 2;
+        PS1_setBossScrollLimits_moskito(obj);
+        bossSpeedFactor = 0x4000;
+        alternateBossSpeedFactor = 0;
+        IsBossThere = 0;
+        scrollLocked = 0;
+        obj->timer = 100;
+        saveBossEncounter = 0xFF;
+        currentBossAction = 0;
+        currentBossActionIsOver = false;
+        break;
+    case TYPE_MOSKITO:
+        bossEncounter = 0;
+        PS1_setBossScrollLimits_moskito(obj);
+        bossSpeedFactor = 0x4000;
+        alternateBossSpeedFactor = 0;
+        IsBossThere = 0;
+        scrollLocked = 0;
+        obj->timer = 100;
+        saveBossEncounter = 0xFF;
+        currentBossAction = 0;
+        currentBossActionIsOver = false;
+        break;
+    case TYPE_BADGUY1:
+        obj->offset_hy = 30;
+        obj->flags &= ~FLG(OBJ_FOLLOW_ENABLED);
+        break;
+    case TYPE_LIDOLPINK2:
+        obj->iframes_timer = 0;
+        break;
+    case TYPE_BLACKTOON1:
+        switch (obj->follow_sprite)
+        {
+        case 1:
+            obj->field56_0x69 = 2;
+            obj->detect_zone = 0;
+            break;
+        case 2:
+            obj->field56_0x69 = 8;
+            obj->detect_zone = 60;
+            break;
+        case 3:
+            obj->field56_0x69 = 24;
+            obj->detect_zone = 170;
+            break;
+        case 4:
+            obj->field56_0x69 = 10;
+            obj->detect_zone = 100;
+            break;
+        case 5:
+            obj->field20_0x36 = 0;
+            obj->field56_0x69 = 1;
+            obj->detect_zone = 0;
+            break;
+        case 6:
+            obj->field56_0x69 = 4;
+            obj->detect_zone = 60;
+            break;
+        case 7:
+            obj->field56_0x69 = 36;
+            obj->detect_zone = 120;
+            break;
+        }
+        break;
+    case TYPE_KILLING_EYES:
+        obj->iframes_timer = obj->field23_0x3c = 40;
+        break;
+    case TYPE_PIRATE_NGAWE:
+        obj->field56_0x69 = 1;
+        break;
+    case TYPE_PIRATE_GUETTEUR:
+    case TYPE_PIRATE_GUETTEUR2:
+        FUN_80180b04(obj, obj->init_sub_etat == 14);
+        obj->iframes_timer = 0;
+        obj->detect_zone = 80;
+        break;
+    case TYPE_ONOFF_PLAT:
+        obj->iframes_timer = obj->field20_0x36 = 100;
+        obj->flags |= FLG(OBJ_ALIVE);
+        break;
+    case TYPE_CRUMBLE_PLAT:
+        if (num_world != 1)
+        {
+            unk_2 = vblToEOA(obj, 1U) - 2;
+            obj->field23_0x3c = unk_2;
+            obj->iframes_timer = unk_2;
+        }
+        else
+        {
+            obj->field23_0x3c = 40;
+            obj->iframes_timer = 20;
+        }
+        obj->field24_0x3e = 20;
+        obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_FOLLOW_ENABLED);
+        break;
+    case TYPE_INST_PLAT:
+        obj->iframes_timer = obj->field20_0x36 = 15;
+        obj->flags |= FLG(OBJ_ALIVE);
+        break;
+    case TYPE_AUTOJUMP_PLAT:
+    case TYPE_MOVE_AUTOJUMP_PLAT:
+    case TYPE_CAISSE_CLAIRE:
+    case TYPE_GOMME:
+    case TYPE_MARK_AUTOJUMP_PLAT:
+        obj->iframes_timer = obj->field20_0x36 = 1;
+        obj->flags |= FLG(OBJ_ALIVE);
+        break;
+    case TYPE_CLOWN_TNT:
+    case TYPE_CLOWN_TNT2:
+    case TYPE_CLOWN_TNT3:
+        obj->field56_0x69 = 0;
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_CYMBAL1:
+    case TYPE_CYMBAL2:
+    case TYPE_HERSE_BAS:
+    case TYPE_HERSE_HAUT:
+        obj->field24_0x3e = 0;
+        break;
+    case TYPE_SCORPION:
+        obj->detect_zone = 160;
+        sko_phase = 0;
+        break;
+    case TYPE_PHOTOGRAPHE:
+        obj->flags |= FLG(OBJ_ALIVE);
+        break;
+    case TYPE_MORNINGSTAR:
+        obj->flags |= FLG(OBJ_ALIVE);
+        break;
+    case TYPE_PIRATE_POELLE_D:
+    case TYPE_PIRATE_P_D_45:
+        obj->flags |= FLG(OBJ_FLIP_X);
+        break;
+    case TYPE_DARK:
+        obj->field23_0x3c = 0;
+        break;
+    case TYPE_MITE2:
+        obj->eta[1][0].flags &= 0xef;
+        obj->eta[1][2].flags &= 0xef;
+        obj->field20_0x36 = 0;
+        break;
+    case TYPE_RAY_ETOILES:
+        if (obj->main_etat == 0 && obj->sub_etat == 57)
+            star_ray_der = obj;
+        else
+            star_ray_dev = obj;
+        obj->display_prio = 3;
+    case TYPE_RAYON:
+    case TYPE_MEDAILLON_TOON:
+        obj->flags &= ~FLG(OBJ_ALIVE);
+        obj->flags &= ~FLG(OBJ_ACTIVE);
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj_init_kill", INIT_OBJECTS);
 
