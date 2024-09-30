@@ -346,7 +346,7 @@ void obj_init(Obj *obj)
         bossSpeedFactor = 0x4000;
         alternateBossSpeedFactor = 0;
         laserSourceSprNumInAnim = 0xFF;
-        IsBossThere = 0;
+        IsBossThere = false;
         scrollLocked = 0;
         obj->timer = 180;
         saveBossEncounter = 0xFF;
@@ -359,7 +359,7 @@ void obj_init(Obj *obj)
         PS1_setBossScrollLimits_moskito(obj);
         bossSpeedFactor = 0x4000;
         alternateBossSpeedFactor = 0;
-        IsBossThere = 0;
+        IsBossThere = false;
         scrollLocked = 0;
         obj->timer = 100;
         saveBossEncounter = 0xFF;
@@ -371,7 +371,7 @@ void obj_init(Obj *obj)
         PS1_setBossScrollLimits_moskito(obj);
         bossSpeedFactor = 0x4000;
         alternateBossSpeedFactor = 0;
-        IsBossThere = 0;
+        IsBossThere = false;
         scrollLocked = 0;
         obj->timer = 100;
         saveBossEncounter = 0xFF;
@@ -588,7 +588,119 @@ void make_active(Obj *obj, u8 do_nova)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj_init_kill", in_action_zone);
+/* 2B914 80150114 -O2 -msoft-float */
+u8 in_action_zone(s32 in_x, s32 in_y, Obj *obj, u8 param_4)
+{
+    s32 unk_3;
+    s32 unk_1 = 0;
+    s16 zdiff_x = zonediffx[ot];
+    s16 zdiff_y = zonediffy[ot];
+    u8 offset_bx = obj->offset_bx;
+    s32 unk_x = in_x;
+    s32 unk_y = in_y;
+    u8 unk_param_4 = param_4;
+    
+    if (flags[ot].flags0 >> OBJ0_KEEP_ACTIVE & 1)
+    {
+        if (flags[ot].flags0 >> OBJ0_BOSS && IsBossThere)
+            unk_1 = 1;
+        else
+        {
+            switch (ot)
+            {
+            case TYPE_FEE:
+            case TYPE_POING:
+            case TYPE_BATTEUR_FOU:
+            case TYPE_BLACK_RAY:
+            case TYPE_BLACK_FIST:
+            case TYPE_COUTEAU:
+            case TYPE_DARK_SORT:
+            case TYPE_NOVA2:
+                unk_1 = 1;
+                break;
+            case TYPE_FISH:
+            case TYPE_BBL:
+                if ((u16) (unk_x + 283) < 727)
+                    unk_1 = 1;
+                break;
+            case TYPE_PIERREACORDE:
+                if (((s16) unk_y + zdiff_y > -50) && (u16) (unk_x + 283) < 783)
+                {
+                    if (level.objects[pierreAcorde_obj_id].hit_points == 0)
+                    {
+                        level.objects[pierreAcorde_obj_id].hit_points = 10;
+                        set_main_and_sub_etat(&level.objects[pierreAcorde_obj_id], 2, 4);
+                    }
+                }
+            case TYPE_CORDE:
+                if (level.objects[pierreAcorde_obj_id].hit_points != 0)
+                    unk_1 = 1;
+                break;
+            case TYPE_EAU:
+                if ((u16) (unk_x + 283) < 783)
+                    unk_1 = 1;
+                break;
+            case TYPE_STONEDOG2:
+                if (((u16) (unk_x + 283) < 727) && ((u16) (unk_y + 99) < 349))
+                    unk_1 = 1;
+                break;
+            case TYPE_SMA_PETIT_LASER:
+            case TYPE_SMA_GRAND_LASER:
+                offset_bx = 128;
+                break;
+            case TYPE_PAILLETTE:
+            case TYPE_DESTROYING_DOOR:
+                if (((u16) (obj->y_pos - 50) > 320) || !IsBossThere)
+                {
+                    if (ray.field20_0x36 == obj->id)
+                    {
+                        ray.field20_0x36 = -1;
+                        obj->ray_dist = 1000;
+                        set_main_and_sub_etat(&ray, 2, 2);
+                    }
+                    unk_1 = 2;
+                }
+                else
+                    unk_1 = 1;
+                break;
+            }
+        }
+    }
+
+    unk_3 = unk_1;
+    if (unk_1 == 0)
+    {
+        if (unk_param_4)
+        {
+            zdiff_x += 60;
+            zdiff_y += 60;
+        }
+
+        unk_1 = 1;
+        if (
+            ((s16) unk_x < -284 - zdiff_x) || ((s16) unk_x > zdiff_x + 444) ||
+            ((s16) unk_y < -144 - zdiff_y) || ((s16) unk_y > zdiff_y + 304) ||
+            (obj->y_pos + obj->offset_by < -30) || (obj->y_pos > mp.height * 16 + 30) ||
+            (obj->x_pos + offset_bx * 2 < 0) || (obj->x_pos > mp.width * 16)
+        )
+            unk_1 = 0;
+        unk_3 = unk_1;
+    }
+    
+    if (unk_3 == 1)
+    {
+        if (flags[ot].flags0 >> OBJ0_BOSS & 1)
+        {
+            IsBossThere = true;
+            if (
+                (!first_boss_meet && obj->hit_points != 0 && scrollLocked) ||
+                (first_boss_meet && obj->hit_points == 0)
+            )
+                Change_Wait_Anim();
+        }
+    }
+    return !(unk_1 ^ 1);
+}
 
 /* 2BE38 80150638 -O2 -msoft-float */
 void kill_obj(Obj *obj)
