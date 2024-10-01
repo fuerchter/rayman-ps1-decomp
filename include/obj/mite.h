@@ -2,14 +2,11 @@
 #define MITE_H
 
 #include "common.h"
-#include "common/level.h"
-#include "common/ray.h"
-#include "obj/poing.h"
-#include "command_56AF0.h"
+#include "obj_init_kill.h"
 
 void mite_esquive_poing(Obj *mit_obj, s16 *out_x);
 s32 HAS_MIT_JUMP(Obj *obj);
-s32 ray_over_mit(Obj *obj, s16 param_2);
+u8 ray_over_mit(Obj *obj, s16 param_2);
 void fix_mit_Xspeed(Obj *obj, s16 param_2);
 void DO_MIT_ATTAK(Obj *obj);
 s32 IS_MIT_PAF(Obj *obj);

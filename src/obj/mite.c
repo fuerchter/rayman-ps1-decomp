@@ -85,14 +85,72 @@ s32 HAS_MIT_JUMP(Obj *obj)
 }
 
 /* 4AACC 8016F2CC -O2 -msoft-float */
-s32 ray_over_mit(Obj *obj, s16 param_2)
+u8 ray_over_mit(Obj *obj, s16 param_2)
 {
     return
         (!(obj->flags & FLG(OBJ_FLIP_X)) && param_2 > 0) ||
         (obj->flags & FLG(OBJ_FLIP_X) && param_2 < 0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/mite", fix_mit_Xspeed);
+/* 4AB0C 8016F30C -O2 -msoft-float */
+void fix_mit_Xspeed(Obj *obj, s16 param_2)
+{
+    s16 spd_x;
+    ObjState *eta;
+    s32 unk_1;
+
+    if (obj->main_etat == 1 || obj->main_etat == 2)
+    {
+        if (ray_over_mit(obj, param_2))
+        {
+            if (obj->main_etat == 2 && obj->speed_y < -2 && obj->sub_etat != 0)
+                obj->speed_y++;
+            else
+                HAS_MIT_JUMP(obj);
+            
+            if (!(obj->flags & FLG(OBJ_FLIP_X)))
+                spd_x = 4;
+            else
+                spd_x = -4;
+            obj->speed_x = spd_x;
+        }
+        else
+        {
+            obj->speed_x = -ray.speed_x;
+            if (obj->x_pos < obj->init_x_pos && (obj->flags & FLG(OBJ_FLIP_X)))
+            {
+                if (obj->speed_x < 0)
+                    obj->speed_x = 0;
+                else
+                    obj->speed_x *= 2;
+                    
+            }
+            else if ((obj->x_pos > obj->init_x_pos) && !(obj->flags & FLG(OBJ_FLIP_X)))
+            {
+                if (obj->speed_x > 0)
+                    obj->speed_x = 0;
+                else
+                    obj->speed_x *= 2;
+            }
+        }
+
+        if (obj->main_etat == 1)
+        {
+            eta = &obj->eta[obj->main_etat][obj->sub_etat];
+            unk_1 =
+                (!(obj->flags & FLG(OBJ_FLIP_X)) && obj->speed_x > 0) ||
+                (obj->flags & FLG(OBJ_FLIP_X) && obj->speed_x < 0);
+            eta->flags = eta->flags & ~FLG(4) | (unk_1 << 4);
+        }
+
+        if (obj->speed_x > 4)
+            obj->speed_x = 4;
+        else if (obj->speed_x < -4)
+            obj->speed_x = -4;
+    }
+    else
+        SET_X_SPEED(obj);
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MIT_ATTAK);
 
