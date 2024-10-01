@@ -59,9 +59,9 @@ void mite_esquive_poing(Obj *mit_obj, s16 *out_x)
 }
 
 /* 4AA1C 8016F21C -O2 -msoft-float */
-s32 HAS_MIT_JUMP(Obj *obj)
+u8 HAS_MIT_JUMP(Obj *obj)
 {
-    s32 res = false;
+    u8 res = false;
     
     if (obj->main_etat != 2)
     {
@@ -224,6 +224,72 @@ s32 IS_MIT_PAF(Obj *obj)
     return res;
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MIT_COMMAND);
+INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MIT_COMMAND); /* skipped for now */
 
-INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MITE2_COMMAND);
+/* 4BA08 80170208 -O2 -msoft-float */
+void DO_MITE2_COMMAND(Obj *obj)
+{
+    s16 unk_1;
+
+    if (obj->main_etat == 0 && obj->sub_etat == 3)
+    {
+        obj->speed_x = 0;
+        obj->speed_y = -8;
+        obj->flags &= ~FLG(OBJ_READ_CMDS);
+    }
+    else
+    {
+        DO_MITE2_ESQUIVE(obj);
+        if (obj->field20_0x36 != 0 && HAS_MIT_JUMP(obj))
+        {
+            if (!(obj->flags & FLG(OBJ_FLIP_X)))
+                obj->speed_x = -2;
+            else
+                obj->speed_x = 2;
+        }
+
+        if (obj->main_etat != 2)
+        {
+            if (on_block_chdir(obj, obj->offset_bx, obj->offset_by - 16))
+            {
+                obj->field20_0x36 = 502;
+                obj->speed_x = 0;
+            }
+            SET_X_SPEED(obj);
+            CALC_MOV_ON_BLOC(obj);
+        }
+        
+        unk_1 = calc_typ_travd(obj, false);
+        if (obj->main_etat == 2)
+        {
+            if (
+                block_flags[
+                    PS1_BTYPAbsPos(obj->x_pos + obj->offset_bx, obj->y_pos + obj->offset_hy)
+                ] >> BLOCK_FULLY_SOLID & 1 &&
+                obj->speed_y < 0
+            )
+                obj->speed_y = 1;
+        }
+        else
+        {
+            if (!(block_flags[obj->btypes[4]] >> BLOCK_SOLID & 1))
+            {
+                set_main_and_sub_etat(obj, 2, 0);
+                skipToLabel(obj, 7, true);
+            }
+        }
+
+        if (block_flags[unk_1] & 1)
+        {
+            if (obj->main_etat == 1)
+                makeUturn(obj);
+            else
+            {
+                obj->flags =
+                    (obj->flags & ~FLG(OBJ_FLIP_X)) |
+                    (((1 - (obj->flags >> OBJ_FLIP_X & 1)) & 1) << OBJ_FLIP_X);
+                obj->speed_x = -obj->speed_x;
+            }
+        }
+    }
+}

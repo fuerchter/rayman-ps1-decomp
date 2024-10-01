@@ -16,7 +16,7 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
     s32 var_s0_2;
     s32 var_s2;
     s32 var_s3_2;
-    s32 var_v0;
+    s32 var_v0_1;
     s32 var_v0_2;
     s16 temp_s1;
     s32 temp_v1_2;
@@ -222,10 +222,10 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
             }
         } while (temp_a0 >= var_s0_2);
     }
-    var_v0 = 0;
+    var_v0_1 = 0;
     if (var_s2 & 0xFF)
     {
-        var_v0 = 0x0000000F;
+        var_v0_1 = 0x0000000F;
     }
-    return var_v0;
+    return var_v0_1;
 }
