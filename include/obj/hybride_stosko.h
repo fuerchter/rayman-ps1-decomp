@@ -6,7 +6,7 @@
 #include "common/level.h"
 #include "collision/block_22C84.h"
 
-void allocateStoskoClaw(Obj *stosko_obj);
-void doSTOSKOcommand(Obj *obj);
+void allocateStoskoClaw(Obj *stsk_obj);
+void doSTOSKOcommand(Obj *stsk_obj);
 
 #endif

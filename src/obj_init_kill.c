@@ -347,7 +347,7 @@ void obj_init(Obj *obj)
         alternateBossSpeedFactor = 0;
         laserSourceSprNumInAnim = 0xFF;
         IsBossThere = false;
-        scrollLocked = 0;
+        scrollLocked = false;
         obj->timer = 180;
         saveBossEncounter = 0xFF;
         currentBossAction = 0;
@@ -360,7 +360,7 @@ void obj_init(Obj *obj)
         bossSpeedFactor = 0x4000;
         alternateBossSpeedFactor = 0;
         IsBossThere = false;
-        scrollLocked = 0;
+        scrollLocked = false;
         obj->timer = 100;
         saveBossEncounter = 0xFF;
         currentBossAction = 0;
@@ -372,7 +372,7 @@ void obj_init(Obj *obj)
         bossSpeedFactor = 0x4000;
         alternateBossSpeedFactor = 0;
         IsBossThere = false;
-        scrollLocked = 0;
+        scrollLocked = false;
         obj->timer = 100;
         saveBossEncounter = 0xFF;
         currentBossAction = 0;
