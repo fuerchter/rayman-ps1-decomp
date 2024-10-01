@@ -216,7 +216,7 @@ segments:
       - [0x4995C, asm, obj/stonebomb_command] #8016e15c
       - [0x49B74, c, obj/cymbal] #8016e374
       - [0x4A5BC, asm, obj/genebadguy_command] #8016edbc
-      - [0x4A85C, asm, obj/mite] #8016f05c
+      - [0x4A85C, c, obj/mite] #8016f05c
       - [0x4BC40, asm, obj/eyes_4BC40] #80170440
       - [0x4BFCC, c, unknown/4BFCC] #801707cc
       - [0x4C2C8, c, obj/bag1] #80170ac8
