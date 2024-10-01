@@ -589,7 +589,7 @@ void make_active(Obj *obj, u8 do_nova)
 }
 
 /* 2B914 80150114 -O2 -msoft-float */
-u8 in_action_zone(s32 in_x, s32 in_y, Obj *obj, u8 param_4)
+s16 in_action_zone(s32 in_x, s32 in_y, Obj *obj, u8 param_4)
 {
     s32 unk_3;
     s32 unk_1 = 0;

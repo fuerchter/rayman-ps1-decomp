@@ -601,13 +601,14 @@ void INIT_OBJECTS(u8 newLevel)
 }
 const u8 rodata_INIT_OBJECTS[4] = {};
 
+/* matches, but gotos and other cleanup */
 /*INCLUDE_ASM("asm/nonmatchings/obj_init_kill", SET_ACTIVE_FLAG);*/
 
 void SET_ACTIVE_FLAG(s16 x, s16 y, Obj *obj)
 {
     Obj *temp_s0_2;
     Obj *temp_s0_4;
-    s32 var_t0;
+    u8 var_t0;
     s32 var_v0;
     s32 var_v0_2;
     s32 var_v0_3;
@@ -622,56 +623,49 @@ void SET_ACTIVE_FLAG(s16 x, s16 y, Obj *obj)
     u8 var_a1;
     u8 var_a1_2;
     Obj *temp_s0_3;
+    u32 test_1;
 
-    temp_v1_1 = obj->flags;
     ot = obj->type;
-    temp_s0_1 = (temp_v1_1 >> 0xB) & 1;
-    obj->flags = temp_v1_1 & ~0x800;
-    if (temp_v1_1 & 0x400)
+    temp_s0_1 = (obj->flags >> 0xB) & 1;
+    obj->flags &= ~0x800;
+    if (obj->flags & 0x400)
     {
-        if ((in_action_zone(x, y, obj, temp_s0_1)) != 0)
+        if (in_action_zone(x, y, obj, temp_s0_1))
         {
-            if (obj->active_timer == 0)
+            if (
+                obj->active_timer == 0 &&
+                ((flags[ot].flags1 & 1) || (obj->active_flag != 2 && (obj->active_flag != 4 || ot == 0x0A)))
+            )
             {
-                if (
-                    (flags[ot].flags1 & 1) ||
-                    ((temp_v1_2 = obj->active_flag, (temp_v1_2 != 2)) && ((temp_v1_2 != 4) || (ot == 0x0A)))
-                )
+                test_1 = obj->flags & ~0x800;
+                test_1 |= temp_s0_1 << 0xB;
+                obj->flags = test_1;
+                if (flags[ot].flags0 & 1)
                 {
-                    temp_a0 = (obj->flags & ~0x800) | (temp_s0_1 << 0xB);
-                    obj->flags = temp_a0;
-                    if (flags[ot].flags0 & 1)
+                    var_a1 = 0;
+                    if (!(obj->flags & 0x800))
                     {
+                        var_a1 = flags[obj->type].flags1 & 1;
+                    }
+                    make_active(obj, var_a1);
+                }
+                else
+                {
+                    var_a0 = obj->id;
+                    do
+                    {
+                        temp_s0_2 = &level.objects[var_a0];
                         var_a1 = 0;
-                        if (!(temp_a0 & 0x800))
+                        if (!(temp_s0_2->flags & 0x800))
                         {
                             var_a1 = flags[obj->type].flags1 & 1;
                         }
-                        make_active(obj, var_a1);
-                    }
-                    else
-                    {
-                        var_a0 = obj->id;
-                        var_v0 = var_a0 * 8;
-                        do
-                        {
-                            temp_s0_2 = &level.objects[((var_v0 - var_a0))];
-                            var_a1_2 = 0;
-                            if (!(temp_s0_2->flags & 0x800))
-                            {
-                                var_a1_2 = flags[obj->type].flags1 & 1;
-                            }
-                            make_active(temp_s0_2, var_a1_2);
-                            var_a0 = link_init[temp_s0_2->id];
-                            var_v0 = var_a0 * 8;
-                        } while ((var_a0 & 0xFF) != obj->id);
-                    }
-
-                    return;
+                        make_active(temp_s0_2, var_a1);
+                        var_a0 = link_init[temp_s0_2->id];
+                    } while (var_a0 != obj->id);
                 }
             }
-
-            if (obj->active_timer > 0)
+            else if (obj->active_timer > 0)
             {
                 obj->active_timer -= 1;
             }
@@ -690,62 +684,61 @@ void SET_ACTIVE_FLAG(s16 x, s16 y, Obj *obj)
                 {
                     obj->active_flag = 1;
                 }
-                else if (temp_v1_3 == 0 || temp_v1_3 == 4)
+                else if (temp_v1_3 == 0 || obj->active_flag == 4)
                 {
                     if (flags[ot].flags0 & 1)
                     {
                         REINIT_OBJECT(obj);
+                        return;
+block_1:
+                        var_t0 = 1;
+                        goto block_2;
                     }
                     else
                     {
                         obj->active_flag = 4;
-                        var_a0_2 = obj->id;
+                        var_a0 = obj->id;
                         obj->flags |= 0x800;
                         var_t0 = 0;
                         if (ot != 0x0A)
                         {
-                            var_v0_2 = var_a0_2 * 8;
                             while (true)
                             {
-                                temp_s0_3 = &level.objects[((var_v0_2 - var_a0_2))];
-                                if (temp_s0_3->active_flag == 4)
+                                
+                                temp_s0_2 = &level.objects[var_a0];
+                                if (temp_s0_2->active_flag == 4)
                                 {
-                                    var_a0_2 = link_init[temp_s0_3->id];
-                                    var_v0_2 = var_a0_2 * 8;
-                                    if ((var_a0_2 & 0xFF) == obj->id)
+                                    var_a0 = link_init[temp_s0_2->id];
+                                    if (var_a0 == obj->id)
                                     {
                                         break;
                                     }
                                 }
                                 else
                                 {
-                                    var_t0 = 1;
+                                    goto block_1;
                                     break;
                                 }
                             }
-
                         }
+block_2:                        
                         if ((obj->y_pos + obj->offset_by) < -0x1E)
                         {
                             obj->flags &= ~0x800;
                         }
-                        if (!(var_t0 & 0xFF))
+                        if (!var_t0)
                         {
-                            var_a0_3 = obj->id;
-                            var_v0_3 = var_a0_3 * 8;
+                            var_a0 = obj->id;
                             do
                             {
-                                temp_s0_4 = &level.objects[((var_v0_3 - var_a0_3))];
-                                REINIT_OBJECT(temp_s0_4);
-                                var_a0_3 = link_init[temp_s0_4->id];
-                                var_v0_3 = var_a0_3 * 8;
-                            } while ((var_a0_3 & 0xFF) != obj->id);
+                                temp_s0_2 = &level.objects[var_a0];
+                                REINIT_OBJECT(temp_s0_2);
+                                var_a0 = link_init[temp_s0_2->id];
+                            } while (var_a0 != obj->id);
                         }
                     }
-
                 }
             }
-
         }
     }
 }
