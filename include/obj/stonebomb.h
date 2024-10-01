@@ -11,7 +11,7 @@ extern s16 D_801E51F8;
 void setStoneChipPos(Obj *param_1, Obj *param_2, u8 *param_3);
 void allocateStoneChips(Obj *in_obj); /* type? */
 void DO_STONE_EXPLOSION(Obj *obj);
-void DO_TIR(Obj *param_1);
+void DO_TIR(Obj *param_1); /* TYPE_CHASSEUR1, TYPE_CHASSEUR2 see DO_ONE_CMD_LR_ATTENTE() */
 void allocateStonemanStone(Obj *param_1, s16 param_2, u8 param_3);
 void DO_STONEMAN1_TIR(Obj *obj);
 void DO_STONEMAN2_TIR(Obj *obj);

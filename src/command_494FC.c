@@ -41,8 +41,8 @@ void DO_ONE_CMD_LR_ATTENTE(Obj *obj)
     {
         switch (type)
         {
-        case TYPE_CHASSEUR2:
         case TYPE_CHASSEUR1:
+        case TYPE_CHASSEUR2:
             DO_TIR(obj);
             break;
         case TYPE_BIG_CLOWN:

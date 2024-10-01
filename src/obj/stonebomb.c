@@ -89,7 +89,34 @@ void allocateStoneChips(Obj *in_obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", DO_STONE_EXPLOSION);
+/* 38514 8015CD14 -O2 -msoft-float */
+void DO_STONE_EXPLOSION(Obj *obj)
+{
+    PlaySnd_old(84);
+    if (obj->flags & FLG(OBJ_ACTIVE))
+    {
+        if (obj->main_etat == 2 && obj->sub_etat == 1)
+        {
+            obj->x_pos += 20;
+            obj->speed_x = -1;
+            allocateStoneChips(obj);
+            obj->x_pos -= 20;
+            obj->speed_x = 1;
+            allocateStoneChips(obj);
+            obj->x_pos += 10;
+        }
+        else
+            allocateStoneChips(obj);
+
+        obj->flags &= ~FLG(OBJ_ACTIVE);
+        if (obj->type == TYPE_STONEBOMB)
+            obj->flags &= ~FLG(OBJ_ALIVE);
+        else
+            obj->y_pos = ymap + 484;
+        
+        allocateExplosion(obj);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", DO_TIR);
 
