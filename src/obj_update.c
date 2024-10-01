@@ -415,7 +415,7 @@ void DO_THROWN_BOMB_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
     {
         if (obj->sub_etat == 1)
         {
-            DO_STONE_EXPLOSION();
+            DO_STONE_EXPLOSION(obj);
             return;
         }
         if (obj->sub_etat == 0)

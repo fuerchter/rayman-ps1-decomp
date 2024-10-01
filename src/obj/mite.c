@@ -224,7 +224,7 @@ s32 IS_MIT_PAF(Obj *obj)
     return res;
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MIT_COMMAND); /* skipped for now */
+INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MIT_COMMAND);
 
 /* 4BA08 80170208 -O2 -msoft-float */
 void DO_MITE2_COMMAND(Obj *obj)
