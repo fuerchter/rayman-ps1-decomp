@@ -154,7 +154,75 @@ void fix_mit_Xspeed(Obj *obj, s16 param_2)
 
 INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MIT_ATTAK);
 
-INCLUDE_ASM("asm/nonmatchings/obj/mite", IS_MIT_PAF);
+/* 4B154 8016F954 -O2 -msoft-float */
+s32 IS_MIT_PAF(Obj *obj)
+{    
+    u8 flag_set;
+    s16 unk_x_1;
+    s16 unk_x_2;
+    s16 unk_x_3;
+    s16 spd_x;
+    s32 res = false;
+    
+    if (obj->main_etat == 0 && obj->sub_etat == 3)
+    {
+        obj->speed_y = -4;
+        obj->speed_x = 0;
+        obj->flags &= ~FLG(OBJ_READ_CMDS);
+        res = true;
+    }
+    else if (
+        (obj->main_etat == 1 && obj->sub_etat == 2) ||
+        (obj->main_etat == 0 && (obj->sub_etat == 2 || obj->sub_etat == 4)) ||
+        (obj->main_etat == 2 && obj->sub_etat == 2)
+    )
+    {
+        res = true;
+        flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
+        if(
+            ((flag_set && obj->anim_frame == 0) ||
+            (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)) &&
+            horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
+        )
+            obj->field20_0x36 = 0;
+        else
+        {
+            if (obj->main_etat != 2)
+                SET_X_SPEED(obj);
+            else
+            {
+                obj->speed_y = 0;
+                if (obj->field20_0x36 >= 500)
+                {
+                    unk_x_1 = obj->x_pos;
+                    unk_x_2 = obj->follow_x;
+                    if (unk_x_1 - unk_x_2 >= 0)
+                        unk_x_3 = unk_x_1 - unk_x_2;
+                    else
+                        unk_x_3 = unk_x_2 - unk_x_1;
+                    
+                    if (unk_x_3 < 8)
+                    {
+                        if (!(obj->flags & FLG(OBJ_FLIP_X)))
+                            obj->speed_x--;
+                        else
+                            obj->speed_x++;
+                    }
+                    else
+                    {
+                        if (!(obj->flags & FLG(OBJ_FLIP_X)))
+                            spd_x = 4;
+                        else
+                            spd_x = -4;
+                        obj->speed_x = spd_x;
+                    }
+                }
+            }
+        }
+    }
+
+    return res;
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MIT_COMMAND);
 
