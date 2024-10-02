@@ -1,6 +1,6 @@
 #include "poing.h"
 
-/* matches, but */
+/* matches, but the temp_a0_2 thing? */
 /*INCLUDE_ASM("asm/nonmatchings/obj/poing", RAY_THROW_FIST);*/
 
 void RAY_THROW_FIST(void)
@@ -21,25 +21,16 @@ void RAY_THROW_FIST(void)
     u8 temp_v0_2;
 
     temp_s1 = &level.objects[poing_obj_id];
-    if (ray.main_etat == 2)
+    if (ray.main_etat == 2 && (ray.sub_etat == 25 || ray.sub_etat == 26))
     {
-        do { } while (0); /* TODO: how to replace this? */
-        if (ray.sub_etat == 25 || ray.sub_etat == 26)
-        {
-            set_sub_etat(&ray, 0x1DU);
-        }
-        else if (ray.sub_etat == 27 || ray.sub_etat == 28)
-        {
-            set_sub_etat(&ray, 0x1EU);
-        }
-        else if (ray.sub_etat != 17 && ray.sub_etat != 18 && (ray.sub_etat != 19))
-        {
-            goto block_7;
-        }
+        set_sub_etat(&ray, 0x1DU);
     }
-    else
+    else if (ray.main_etat == 2 && (ray.sub_etat == 27 || ray.sub_etat == 28))
     {
-block_7:
+        set_sub_etat(&ray, 0x1EU);
+    }
+    else if (!(ray.main_etat == 2 && (ray.sub_etat == 17 || ray.sub_etat == 18 || (ray.sub_etat == 19))))
+    {
         set_sub_etat(&ray, 0x0DU);
     }
     

@@ -1,6 +1,6 @@
 #include "obj/saxo.h"
 
-/* matches, but gotos only, started work on non-goto version below */
+/* matches, but gotos */
 /* 51E0C 8017660C -O2 -msoft-float */
 /*INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO_COMMAND);*/
 
@@ -197,71 +197,64 @@ void DO_SAXO_COMMAND(Obj *obj)
         }
         break;
     case 2:
-        if (FinAnim == 0)
+        /* apply this below, then continue resolving gotos */
+        if (FinAnim != 0 && obj->main_etat == 0 && obj->sub_etat == 3)
         {
-            goto block_63;
+            set_main_and_sub_etat(obj, Sax.field8_0xe, Sax.field9_0xf);
+            Sax.coup = 0;
+            FinAnim = 0;
         }
-        if (obj->main_etat != 0)
+        
+        if (obj->main_etat == 0)
         {
-            goto block_74;
-        }
-        if (obj->sub_etat != 3)
-        {
-            goto block_63;
-        }
-        set_main_and_sub_etat(obj, Sax.field8_0xe, Sax.field9_0xf);
-        Sax.coup = 0;
-        FinAnim = 0;
-    block_63:
-        if (obj->main_etat != 0)
-        {
-            goto block_74;
-        }
-        if (obj->flags & 0x4000)
-        {
-            goto block_67;
-        }
-        if ((obj->x_pos + obj->offset_bx) < 0)
-        {
-            goto block_68;
-        }
-        goto block_69;
-    block_67:
-        if ((obj->x_pos + obj->offset_bx) <= (xmapmax + 0x140))
-        {
-            goto block_69;
-        }
-    block_68:
-        obj->speed_x = 0;
-    block_69:
-        if (FinAnim != 0)
-        {
-            switch (obj->sub_etat)
+            if (obj->flags & 0x4000)
             {
-            case 10:
-                goto block_91;
-            case 11:
-                temp_v0 = Sax.field10_0x10 - 1;
-                Sax.field10_0x10 = temp_v0;
-                if ((temp_v0 << 0x10) > 0)
+                goto block_67;
+            }
+            if ((obj->x_pos + obj->offset_bx) < 0)
+            {
+                goto block_68;
+            }
+            goto block_69;
+        block_67:
+            if ((obj->x_pos + obj->offset_bx) <= (xmapmax + 0x140))
+            {
+                goto block_69;
+            }
+        block_68:
+            obj->speed_x = 0;
+        block_69:
+            if (FinAnim != 0)
+            {
+                switch (obj->sub_etat)
                 {
-                    goto block_100;
+                case 10:
+                    goto block_91;
+                case 11:
+                    temp_v0 = Sax.field10_0x10 - 1;
+                    Sax.field10_0x10 = temp_v0;
+                    if ((temp_v0 << 0x10) > 0)
+                    {
+                        goto block_100;
+                    }
+                    goto block_147;
                 }
-                goto block_147;
             }
         }
+        else
+        {
+            if (obj->main_etat != 1)
+            {
+                break;
+            }
+        block_75:
+            if (!(obj->flags & 0x4000))
+            {
+                goto block_152;
+            }
+            goto block_154;
+        }
         break;
-    block_74:
-        if (obj->main_etat != 1)
-        {
-            break;
-        }
-    block_75:
-        if (!(obj->flags & 0x4000))
-        {
-            goto block_152;
-        }
-        goto block_154;
     case 3:
         if (FinAnim == 0)
         {
