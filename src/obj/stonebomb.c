@@ -300,4 +300,51 @@ void allocateStonewomanStone(Obj *stwmn_obj, s16 param_2)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", DO_STONEWOMAN_TIR);
+/* 393E4 8015DBE4 -O2 -msoft-float */
+void DO_STONEWOMAN_TIR(Obj *obj)
+{
+    if (obj->main_etat == 0)
+    {
+        if (
+            !(obj->sub_etat == 13 && obj->anim_frame > 100) &&
+            !(obj->sub_etat == 9 && obj->anim_frame > 54)
+        )
+            obj->field24_0x3e = 0;
+        
+        if (
+            (obj->sub_etat == 0 || obj->sub_etat == 14 || obj->sub_etat == 8) &&
+            obj->anim_frame == 0
+        )
+        {
+            if (obj->detect_zone_flag > 1)
+                skipToLabel(obj, 7, true);
+            else
+                skipToLabel(obj, 12, true);
+        }
+
+        if (obj->sub_etat == 13)
+        {
+            if (
+                obj->field24_0x3e == 0 && obj->anim_frame == 101 &&
+                horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+            )
+            {
+                allocateStonewomanStone(obj, 1);
+                obj->field24_0x3e = 1;
+            }
+        }
+        else if (obj->sub_etat == 9)
+        {
+            if (
+                obj->field24_0x3e == 0 && obj->anim_frame == 55 &&
+                horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+            )
+            {
+                allocateStonewomanStone(obj, 2);
+                obj->field24_0x3e = 1;
+            }
+        }
+    }
+    else
+        obj->field24_0x3e = 0;
+}

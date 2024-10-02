@@ -16,6 +16,6 @@ void allocateStonemanStone(Obj *stmn_obj, s16 param_2, u8 param_3);
 void DO_STONEMAN1_TIR(Obj *obj);
 void DO_STONEMAN2_TIR(Obj *obj);
 void allocateStonewomanStone(Obj *stwmn_obj, s16 param_2);
-void DO_STONEWOMAN_TIR(s32 param_1);
+void DO_STONEWOMAN_TIR(Obj *obj);
 
 #endif
