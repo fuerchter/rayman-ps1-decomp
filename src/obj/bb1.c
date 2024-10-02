@@ -627,10 +627,9 @@ void BBMONT_ECLAIR(Obj *bb1_obj)
         cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | bb1_obj->flags & FLG(OBJ_FLIP_X);
         cur_obj->speed_y = 0;
         if (!(cur_obj->flags & FLG(OBJ_FLIP_X)))
-          new_spd_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_left;
+          cur_obj->speed_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_left;
         else
-          new_spd_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_right;
-        cur_obj->speed_x = new_spd_x;
+          cur_obj->speed_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_right;
         GET_SPRITE_POS(bb1_obj, 10, &x, &y, &w, &h);
         new_x = (x + w) - cur_obj->offset_bx;
         if ((bb1_obj->flags & FLG(OBJ_FLIP_X)))
