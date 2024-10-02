@@ -29,7 +29,14 @@ void fist_U_turn(Obj *obj, u8 param_2)
         obj->anim_frame = 7;
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/poing", CALC_FIST_POS);
+/* 477D4 8016BFD4 -O2 -msoft-float */
+void CALC_FIST_POS(void)
+{
+    Obj *obj = &level.objects[poing_obj_id];
+
+    obj->screen_y_pos = (poing.field0_0x0 >> 4) - ymap;
+    obj->screen_x_pos = obj->x_pos - xmap;
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/poing", RAY_THROW_FIST);
 
