@@ -153,7 +153,7 @@ void allocateStonemanStone(Obj *stmn_obj, s16 param_2, u8 param_3)
             cur_obj->timer= 0xC8;
             if ((cur_obj->type == 0x24) && (temp_a0 = cur_obj->flags, ((temp_a0 & 0x800) == 0)))
             {
-                if (param_3 & 0xFF)
+                if (param_3)
                 {
                     cur_obj->flags = (temp_a0 & ~0x4000) | (stmn_obj->flags & 0x4000);
                 }

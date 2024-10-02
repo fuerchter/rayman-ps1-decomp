@@ -1,5 +1,7 @@
 #include "obj/stonebomb.h"
 
+void DO_STONEMAN_COMMAND(Obj *obj);
+
 /* 38118 8015C918 -O2 -msoft-float */
 void setStoneChipPos(Obj *param_1, Obj *param_2, u8 *param_3)
 {
@@ -122,9 +124,87 @@ INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", DO_TIR);
 
 INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", allocateStonemanStone);
 
-INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", DO_STONEMAN1_TIR);
+/* 38CDC 8015D4DC -O2 -msoft-float */
+void DO_STONEMAN1_TIR(Obj *obj)
+{
+    u8 flag_set;
 
-INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", DO_STONEMAN2_TIR);
+    DO_STONEMAN_COMMAND(obj);
+    if (obj->main_etat == 0)
+    {
+        if (!(obj->sub_etat == 2 && obj->anim_frame >= 144))
+            obj->field24_0x3e = 0;
+        
+        if (obj->sub_etat == 1 || obj->sub_etat == 2)
+        {
+            flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
+            if(
+                ((flag_set && obj->anim_frame == 0) ||
+                (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)) &&
+                horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
+            )
+            {
+                if (obj->detect_zone_flag != 0)
+                    skipToLabel(obj, 7, true);
+                else
+                    skipToLabel(obj, 8, true);
+            }
+        }
+
+        if (
+            obj->sub_etat == 2 && obj->field24_0x3e == 0 && obj->anim_frame == 144 &&
+            horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+        )
+        {
+            allocateStonemanStone(obj, -2, true);
+            obj->field24_0x3e = 1;
+        }
+    }
+    else
+        obj->field24_0x3e = 0;
+}
+
+/* 38EC0 8015D6C0 -O2 -msoft-float */
+void DO_STONEMAN2_TIR(Obj *obj)
+{
+    u8 flag_set;
+    s32 unk_1;
+
+    DO_STONEMAN_COMMAND(obj);
+    if (obj->main_etat == 0)
+    {
+        if (obj->sub_etat != 6)
+            obj->field24_0x3e = 0;
+        
+        if (obj->sub_etat == 1 || obj->sub_etat == 6)
+        {
+            flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
+            if(
+                ((flag_set && obj->anim_frame == 0) ||
+                (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)) &&
+                horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
+            )
+            {
+                    if (obj->detect_zone_flag != 0)
+                        skipToLabel(obj, 7, true);
+                    else
+                        skipToLabel(obj, 8, true);
+            }
+
+            if ((obj->sub_etat == 6) && (obj->field24_0x3e == 0))
+            {
+                unk_1 = obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf;
+                if (horloge[unk_1] == unk_1 - 1)
+                {
+                    allocateStonemanStone(obj, 0, true);
+                    obj->field24_0x3e = 1;
+                }
+            }
+        }
+    }
+    else
+        obj->field24_0x3e = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", allocateStonewomanStone);
 
