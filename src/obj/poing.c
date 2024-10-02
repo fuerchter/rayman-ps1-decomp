@@ -115,11 +115,31 @@ void fin_poing_follow(Obj *poing_obj, u8 param_2)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/poing", POING_FOLLOW);
+/* 47F1C 8016C71C -O2 -msoft-float */
+void POING_FOLLOW(Obj *poing_obj)
+{
+    Obj *unk_obj = &level.objects[poing_obj->field20_0x36];
+
+    unk_obj->speed_x = poing_obj->speed_x;
+    unk_obj->speed_y = poing_obj->speed_y;
+    if (!(ray.iframes_timer == -1 && unk_obj->flags & FLG(OBJ_ACTIVE)))
+        fin_poing_follow(poing_obj, false);
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/poing", alter_fist_speed);
 
-INCLUDE_ASM("asm/nonmatchings/obj/poing", switch_off_fist);
+/* 48014 8016C814 -O2 -msoft-float */
+void switch_off_fist(Obj *obj)
+{
+    poing.is_active = false;
+    poing.is_boum = false;
+    poing.charge = 5;
+    poing.is_returning = false;
+    obj->flags &= ~FLG(OBJ_ALIVE);
+    obj->flags &= ~FLG(OBJ_ACTIVE);
+    obj->sub_etat = obj->init_sub_etat;
+    fin_poing_follow(obj, false);
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/poing", DO_POING);
 
