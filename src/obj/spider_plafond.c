@@ -28,6 +28,8 @@ void get_spi_zdc(Obj *param_1, s16 *param_2, s16 *param_3, s16 *param_4, s16 *pa
     }
 }
 
+extern u8 D_801F55D0;
+
 INCLUDE_ASM("asm/nonmatchings/obj/spider_plafond", DO_SPIDER_PLAFOND);
 
 INCLUDE_ASM("asm/nonmatchings/obj/spider_plafond", DO_SPIDER_PLAFOND_POING_COLLISION);

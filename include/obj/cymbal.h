@@ -2,10 +2,7 @@
 #define CYMBAL_H
 
 #include "common.h"
-#include "common/obj.h"
-#include "common/ray.h"
-#include "common/level.h"
-#include "gendoor.h"
+#include "unknown/48528.h"
 
 /*
 code for:

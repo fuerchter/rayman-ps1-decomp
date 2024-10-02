@@ -10,7 +10,7 @@ extern s16 PS1_VRAMDisplayXPos;
 extern s16 PS1_VRAMDisplayYPos;
 
 void PS1_DisplayVRAM(void);
-u8 test_allowed(Obj *obj, s16 unk_x, s16 unk_y);
+s16 test_allowed(Obj *obj, s16 unk_x, s16 unk_y);
 void obj_jump(Obj *obj);
 void DO_ONE_PINK_CMD(Obj *obj);
 void FUN_8016d418(Obj *obj);

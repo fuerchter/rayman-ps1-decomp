@@ -50,7 +50,7 @@ void PS1_DisplayVRAM(void)
 }
 
 /* 487A4 8016CFA4 -O2 -msoft-float */
-u8 test_allowed(Obj *obj, s16 unk_x, s16 unk_y)
+s16 test_allowed(Obj *obj, s16 unk_x, s16 unk_y)
 {
     s16 map_index =
         ((unk_x + obj->x_pos) >> 4) +
