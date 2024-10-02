@@ -252,7 +252,7 @@ segments:
       - [0x50C2C, asm, obj/petit_couteau_command] #8017542c
       - [0x50C60, asm, obj/blacktoon_eyes_command] #80175460
       - [0x50CDC, c, obj/saxo] #801754dc
-      - [0x537C0, asm, obj/spider_plafond] #80177fc0
+      - [0x537C0, c, obj/spider_plafond] #80177fc0
       - [0x548CC, c, draw/draw_548CC] #801790cc
       - [0x56AF0, c, command_56AF0] #8017b2f0
       - [0x5783C, c, obj/bb1] #8017c03c
