@@ -81,7 +81,7 @@ void DO_SPIDER_PLAFOND_POING_COLLISION(Obj *obj)
                 obj->sub_etat == 30
             )
             {
-                set_main_and_sub_etat(obj, 0, 0xe);
+                set_main_and_sub_etat(obj, 0, 14);
                 obj->speed_y = 0;
                 obj->speed_x = 0;
             }

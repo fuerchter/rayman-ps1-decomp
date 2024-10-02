@@ -167,3 +167,34 @@ void DO_SPIDER_PLAFOND(Obj *obj)
         obj->flags = (obj->flags & ~0x4000) | ((test_1) << 0xE);
     }
 }
+
+/* matches, but */
+/*INCLUDE_ASM("asm/nonmatchings/obj/spider_plafond", SPIDER_PLAFOND_REACT);*/
+
+void SPIDER_PLAFOND_REACT(Obj *obj)
+{
+    s32 prev_flip;
+    u8 new_flip;
+
+    if (obj->main_etat == 0 && (obj->sub_etat == 12 || obj->sub_etat == 13))
+        set_sub_etat(obj, 20);
+    else if (
+        (obj->main_etat == 0 && (obj->sub_etat == 11 || obj->sub_etat == 30)) ||
+        (obj->main_etat == 1 && obj->sub_etat == 2)
+    )
+    {
+        prev_flip = obj->flags >> OBJ_FLIP_X;
+        prev_flip &= 1;
+        if (
+            (ray.x_pos > obj->x_pos && prev_flip != true) || /* ??? */
+            (ray.x_pos <= obj->x_pos && prev_flip != false)
+        )
+        {
+            new_flip = ray.x_pos > obj->x_pos;
+            obj->flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | ((new_flip) << OBJ_FLIP_X);
+            obj->speed_x = 0;
+            obj->speed_y = 0;
+            set_main_and_sub_etat(obj, 0, 24);
+        }
+    }
+}
