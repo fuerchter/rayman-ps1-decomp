@@ -156,3 +156,107 @@ void alter_fist_speed(Obj *obj)
     }
     obj->speed_x = spd_x;
 }
+
+/* matches, but goto */
+/*INCLUDE_ASM("asm/nonmatchings/obj/poing", DO_POING);*/
+
+void DO_POING(Obj *obj)
+{
+    s32 ray_diff_x; s32 ray_diff_y;
+    s16 unk_x_1; s32 unk_y_1;
+    s32 unk_1;
+    s32 unk_2;
+    s32 unk_3;
+
+    if (poing.is_active)
+    {
+        if (obj->speed_x != 0)
+        {
+            if (!poing.is_boum)
+                DO_POING_COLLISION();
+            
+            CALC_FIST_POS();
+            obj->y_pos = poing.field0_0x0 >> 4;
+            if (poing.charge > 0)
+            {
+                if (poing.charge < poing.field4_0xa)
+                    poing.charge = 0;
+                else
+                    poing.charge -= poing.field4_0xa;
+                
+                if (poing.charge == 0)
+                    fist_U_turn(obj, false);
+            }
+            else if (poing.is_returning == false)
+                alter_fist_speed(obj);
+            else if (poing.is_returning == true)
+            {
+                if (__builtin_abs(obj->speed_x) < poing.speed_x)
+                    alter_fist_speed(obj);
+                
+                ray_diff_x = ray_zdc_x + (ray_zdc_w >> 1) - obj->offset_bx;
+                if (obj->flags & FLG(OBJ_FLIP_X))
+                    ray_diff_x += 11;
+                else
+                    ray_diff_x -= 11;
+                
+                if (ray.main_etat == 4)
+                {
+                    if (obj->flags & FLG(OBJ_FLIP_X))
+                        ray_diff_x += 11;
+                    else
+                        ray_diff_x -= 11;
+                }
+
+                ray_diff_y =
+                    (ray_zdc_y + (ray_zdc_h >> 1) -
+                    ((obj->offset_by + obj->offset_hy) >> 1)) * 16;
+                if (
+                    (obj->flags & FLG(OBJ_FLIP_X) && ray_diff_x >= obj->x_pos) ||
+                    (!(obj->flags & FLG(OBJ_FLIP_X)) && ray_diff_x <= obj->x_pos)
+                )
+                    switch_off_fist(obj);
+                else
+                {
+                    unk_x_1 = ray_diff_x - obj->x_pos;
+                    unk_y_1 = ray_diff_y - poing.field0_0x0;
+                    if (unk_x_1 != 0)
+                        unk_y_1 = unk_y_1 / unk_x_1;
+                    obj->speed_y = unk_y_1 * obj->speed_x;
+
+                    unk_1 = obj->speed_y + poing.field0_0x0;
+                    unk_2 = poing.field0_0x0;
+                    MIN_2(unk_2, ray_diff_y);
+                    if (unk_1 >= unk_2)
+                    {
+                        if (poing.field0_0x0 < ray_diff_y)
+                            unk_3 = ray_diff_y;
+                        else
+                            unk_3 = poing.field0_0x0;
+                        
+                        if (unk_3 >= unk_1)
+                            obj->speed_y >>= 4;
+                        else
+                            goto block_41;
+                    }
+                    else
+                    {
+block_41:
+                        obj->speed_y = (ray_diff_y - poing.field0_0x0) >> 4;
+                    }
+                }
+            }
+        }
+        else
+        {
+            poing.is_returning = true;
+            if (obj->flags & FLG(OBJ_FLIP_X))
+                obj->speed_x--;
+            else
+                obj->speed_x++;
+        }
+
+        if (obj->field20_0x36 != -1)
+            POING_FOLLOW(obj);
+    }
+}
