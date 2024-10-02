@@ -206,6 +206,98 @@ void DO_STONEMAN2_TIR(Obj *obj)
         obj->field24_0x3e = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", allocateStonewomanStone);
+/* 3907C 8015D87C -O2 -msoft-float */
+void allocateStonewomanStone(Obj *stwmn_obj, s16 param_2)
+{
+    s16 sprite;
+    s16 spr_x; s16 spr_y; s16 spr_w; s16 spr_h;
+    s16 spd_x; s16 spd_y;
+    s16 i = 0;
+    Obj *cur_obj = &level.objects[i];
+    s16 nb_objs = level.nb_objects;
+    
+    while (i < nb_objs)
+    {
+        if (cur_obj->type == TYPE_STONEBOMB && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+        {
+            cur_obj->timer = 200;
+            if (param_2 != 0)
+                cur_obj->flags = (cur_obj->flags & ~FLG(OBJ_FLIP_X)) | (stwmn_obj->flags & FLG(OBJ_FLIP_X));
+            else
+                cur_obj->flags = (cur_obj->flags & ~FLG(OBJ_FLIP_X)) | (((stwmn_obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X);
+            
+            sprite = -1;
+            if (stwmn_obj->main_etat == 0)
+            {
+                if (stwmn_obj->sub_etat == 13)
+                {
+                    if (stwmn_obj->anim_frame - 52 < 50U)
+                        sprite = 3;
+                }
+                else if (stwmn_obj->sub_etat == 9)
+                {
+                    if (stwmn_obj->anim_frame - 16 < 40U)
+                        sprite = 3;
+                }
+            }
+            
+            if (sprite != -1)
+            {
+                GET_SPRITE_POS(stwmn_obj, sprite, &spr_x, &spr_y, &spr_w, &spr_h);
+                switch (param_2)
+                {
+                case 0:
+                    spd_y = -2;
+                    stwmn_obj->hit_points += poing.damage - 1;
+                    break;
+                case 1:
+                    spd_y = 1;
+                    break;
+                case 2:
+                    if (ray.main_etat == 2)
+                    {
+                        cur_obj->follow_x = D_801E51E8;
+                        cur_obj->follow_y = D_801E51F8;
+                    }
+                    else
+                    {
+                        cur_obj->follow_x = ray.x_pos;
+                        cur_obj->follow_y = ray.y_pos;
+                    }
+                    break;
+                }
+                cur_obj->x_pos = spr_x - cur_obj->offset_bx + (spr_w >> 1);
+                cur_obj->y_pos = spr_y - cur_obj->offset_hy;
+                cur_obj->init_x_pos = cur_obj->x_pos;
+                cur_obj->init_y_pos = cur_obj->y_pos;
+                if (param_2 != 2)
+                {
+                    if (!(cur_obj->flags & FLG(OBJ_FLIP_X)))
+                        spd_x = (s16) cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_left;
+                    else
+                        spd_x = (s16) cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_right;
+                    SET_X_SPEED(cur_obj);
+                    set_sub_etat(cur_obj, 0);
+                }
+                else
+                {
+                    set_sub_etat(cur_obj, 1);
+                    Projectil_to_RM(cur_obj, &spd_x, &spd_y, 30, 3);
+                }
+
+                cur_obj->speed_x = spd_x;
+                cur_obj->speed_y = spd_y;
+                calc_obj_pos(cur_obj);
+                cur_obj->gravity_value_1 = 0;
+                cur_obj->gravity_value_2 = 7;
+                cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                cur_obj->flags &= ~FLG(OBJ_FLAG_9);
+            }
+            break;
+        }
+        cur_obj++;
+        i++;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", DO_STONEWOMAN_TIR);
