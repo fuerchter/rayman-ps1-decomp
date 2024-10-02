@@ -143,4 +143,34 @@ void switch_off_fist(Obj *obj)
 
 INCLUDE_ASM("asm/nonmatchings/obj/poing", DO_POING);
 
-INCLUDE_ASM("asm/nonmatchings/obj/poing", allocatePoingBoum);
+/* 483C8 8016CBC8 -O2 -msoft-float */
+void allocatePoingBoum(void)
+{
+    Obj *poing_obj;
+    s16 poing_x; s16 poing_y; s16 poing_w; s16 poing_h;
+    s16 boum_x; s16 boum_y; s16 boum_w; s16 boum_h;    
+    s16 i = 0;
+    Obj *cur_obj = &level.objects[i];
+    s16 nb_objs = level.nb_objects;
+    
+    while (i < nb_objs)
+    {
+        if (cur_obj->type == TYPE_BOUM && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+        {
+            poing_obj = &level.objects[poing_obj_id];
+            GET_ANIM_POS(poing_obj, &poing_x, &poing_y, &poing_w, &poing_h);
+            GET_ANIM_POS(cur_obj, &boum_x, &boum_y, &boum_w, &boum_h);
+            cur_obj->anim_frame = 0;
+            cur_obj->x_pos = poing_x - cur_obj->offset_bx;
+            if (poing_obj->speed_x > 0)
+                cur_obj->x_pos += poing_w;
+            cur_obj->y_pos =
+                poing_y + (poing_h >> 1) - ((cur_obj->offset_by + cur_obj->offset_hy) >> 1);
+            calc_obj_pos(cur_obj);
+            cur_obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+            break;
+        }
+        cur_obj++;
+        i++;
+    }
+}
