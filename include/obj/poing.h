@@ -29,7 +29,7 @@ void CALC_FIST_POS(void);
 void RAY_THROW_FIST(void);
 void RAY_PREPARE_FIST(void);
 void RAY_GROW_FIST(void);
-void fin_poing_follow(Obj *obj, u8 param_2);
+void fin_poing_follow(Obj *poing_obj, u8 param_2);
 void POING_FOLLOW(Obj *obj);
 void alter_fist_speed(Obj *obj);
 void switch_off_fist(Obj *poingObj);

@@ -40,11 +40,80 @@ void CALC_FIST_POS(void)
 
 INCLUDE_ASM("asm/nonmatchings/obj/poing", RAY_THROW_FIST);
 
-INCLUDE_ASM("asm/nonmatchings/obj/poing", RAY_PREPARE_FIST);
+/* 47CFC 8016C4FC -O2 -msoft-float */
+void RAY_PREPARE_FIST(void)
+{
+    ObjState *eta_main;
+    u8 anim_spd;
 
-INCLUDE_ASM("asm/nonmatchings/obj/poing", RAY_GROW_FIST);
+    if (ray.eta[ray.main_etat][ray.sub_etat].flags & 2)
+    {
+        if (ray.main_etat == 2)
+        {
+            if (ray.speed_y > 0)
+            {
+                eta_main = ray.eta[ray.main_etat];
+                anim_spd = eta_main[2].anim_speed;
+            }
+            else
+            {
+                eta_main = ray.eta[ray.main_etat];
+                anim_spd = eta_main[0].anim_speed;
+            }
+            eta_main[13].anim_speed =
+                eta_main[13].anim_speed & 0xf |
+                anim_spd & 0xf0;
+            
+            poing.charge = 32;
+            RAY_THROW_FIST();
+            helico_time = -1;
+            if (RayEvts.super_helico)
+                button_released = 0;
+        }
+        else
+        {
+            RAY_STOP();
+            set_sub_etat(&ray, 11);
+            poing.is_charging = true;
+            poing.charge = 5;
+        }
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/poing", fin_poing_follow);
+/* 47E1C 8016C61C -O2 -msoft-float */
+void RAY_GROW_FIST(void)
+{
+    poing.charge++;
+    MIN_2(poing.charge, 63);
+}
+
+/* 47E54 8016C654 -O2 -msoft-float */
+void fin_poing_follow(Obj *poing_obj, u8 param_2)
+{
+    Obj *unk_obj;
+    s16 ray_y;
+    s16 unk_y;
+
+    if (poing_obj->field20_0x36 != -1)
+    {
+        unk_obj = &level.objects[poing_obj->field20_0x36];
+        unk_obj->speed_x = 0;
+        unk_obj->speed_y = 0;
+        poing_obj->field20_0x36 = -1;
+        if (param_2 || !(poing_obj->flags & FLG(OBJ_ALIVE)))
+        {
+            unk_obj->x_pos = ray.x_pos + ray.offset_bx - unk_obj->offset_bx;
+            ray_y = ray_zdc_y + (ray_zdc_h >> 1);
+            unk_y = ((unk_obj->offset_by + unk_obj->offset_hy) >> 1) + 5;
+            unk_obj->y_pos = ray_y - unk_y;
+        }
+        else
+        {
+            unk_obj->x_pos = unk_obj->init_x_pos;
+            unk_obj->y_pos = unk_obj->init_y_pos;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/poing", POING_FOLLOW);
 
