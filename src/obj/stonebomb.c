@@ -1,7 +1,5 @@
 #include "obj/stonebomb.h"
 
-void DO_STONEMAN_COMMAND(Obj *obj);
-
 /* 38118 8015C918 -O2 -msoft-float */
 void setStoneChipPos(Obj *param_1, Obj *param_2, u8 *param_3)
 {

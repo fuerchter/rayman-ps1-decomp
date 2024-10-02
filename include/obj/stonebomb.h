@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "collision/block_22C84.h"
+#include "obj/stoneman_command.h"
 
 /**/
 extern s16 D_801E51E8;
