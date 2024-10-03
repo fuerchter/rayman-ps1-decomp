@@ -203,3 +203,37 @@ void DO_ONE_NGW_COMMAND(Obj *obj)
         obj->timer--;
     }
 }
+
+/* matches, but merge the two ~0x4000s somehow? */
+/*INCLUDE_ASM("asm/nonmatchings/obj/pirate_ngawe", DO_NGW_POING_COLLISION);*/
+
+void DO_NGW_POING_COLLISION(Obj *ngw_obj)
+{
+    Obj *poing_obj;
+
+    poing_obj = &level.objects[poing_obj_id];
+    if (ngw_obj->timer == 0)
+    {
+        poing.damage = true;
+        obj_hurt(ngw_obj);
+        if (ngw_obj->hit_points == 0)
+        {
+            set_main_and_sub_etat(ngw_obj, 0, 3);
+            if (bateau_obj_id != -1)
+            {
+                skipOneCommand(&level.objects[bateau_obj_id]);
+                level.objects[bateau_obj_id].nb_cmd = 0;
+            }
+        }
+        else
+        {
+            if (poing_obj->speed_x > 0)
+                ngw_obj->flags &= ~0x4000;
+            else if ((poing_obj->speed_x >= 0) && (poing_obj->flags & 0x4000))
+                ngw_obj->flags &= ~0x4000;
+            else
+                ngw_obj->flags |= 0x4000;
+            set_main_and_sub_etat(ngw_obj, 0, 1);
+        }
+    }
+}
