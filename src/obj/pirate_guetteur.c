@@ -184,6 +184,66 @@ void DO_PAR_TIR(Obj *obj)
         obj->field24_0x3e = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/pirate_guetteur", DO_PAR_POING_COLLISION);
+/* 5CEBC 801816BC -O2 -msoft-float */
+void DO_PAR_POING_COLLISION(Obj *obj, s16 param_2)
+{
+    u8 eta_flags = obj->eta[obj->main_etat][obj->sub_etat].flags;
+    
+    if (
+        eta_flags & 1 && obj->iframes_timer == 0 &&
+        (obj->type == TYPE_PIRATE_GUETTEUR || param_2 == 3)
+    )
+    {
+        if (obj->type == TYPE_PIRATE_GUETTEUR2 && eta_flags & 4)
+            allocatePirateGuetteurBomb(obj, 1, 0, 20);
 
-INCLUDE_ASM("asm/nonmatchings/obj/pirate_guetteur", PAR_REACT_TO_RAY_IN_ZONE);
+        poing.damage = true;
+        obj_hurt(obj);
+        
+        if (obj->hit_points == 0)
+            set_main_and_sub_etat(obj, 0, 3);
+        else
+        {
+            if (obj->type == TYPE_PIRATE_GUETTEUR)
+            {
+                if (obj->init_hit_points - obj->hit_points > 2)
+                {
+                    set_sub_etat(obj, 6);
+                    if (bateau_obj_id != -1)
+                    {
+                        skipOneCommand(&level.objects[bateau_obj_id]);
+                        level.objects[bateau_obj_id].nb_cmd = 0;
+                    }
+                }
+                else
+                    set_sub_etat(obj, 12);
+            }
+            else
+                set_main_and_sub_etat(obj, 0, 1);
+        }
+
+    }
+}
+
+/* 5D044 80181844 -O2 -msoft-float */
+void PAR_REACT_TO_RAY_IN_ZONE(Obj *obj)
+{
+    u8 sub_etat;
+
+    if (obj->timer == 0 && obj->main_etat == 0)
+    {
+        sub_etat = obj->sub_etat;
+        if (sub_etat == 11)
+            set_sub_etat(obj, 2);
+        else if (sub_etat == 0)
+        {
+            obj->field12_0x26 = (obj->x_pos + obj->offset_bx) - (ray.x_pos + ray.offset_bx);
+            if (__builtin_abs(obj->field12_0x26) > obj->detect_zone + 16)
+                set_sub_etat(obj, 8);
+            else
+                set_sub_etat(obj, 9);
+        }
+        else if (sub_etat == 4)
+            set_sub_etat(obj, 5);
+    }
+}
