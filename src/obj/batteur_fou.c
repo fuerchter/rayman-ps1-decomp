@@ -110,11 +110,22 @@ void DO_BAT_LEFT_RIGHT_FLASH(Obj *obj)
     DO_BAT_FLASH(spr_x + (spr_w >> 1), spr_y + (spr_h >> 1));
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/batteur_fou", bat_dir);
+/* 71A5C 8019625C -O2 -msoft-float */
+u8 bat_dir(Obj *obj)
+{
+    return (ray.x_pos + ray.offset_bx - obj->x_pos - obj->offset_bx) > 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/batteur_fou", bat_init_scroll);
 
-INCLUDE_ASM("asm/nonmatchings/obj/batteur_fou", bat_done_scroll);
+/* 71D18 80196518 -O2 -msoft-float */
+void bat_done_scroll(void)
+{
+    scroll_start_x = 0;
+    special_ray_mov_win_x_left = 0;
+    special_ray_mov_win_x_right = 0;
+    scroll_end_x = xmapmax;
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/batteur_fou", DO_BAT_COMMAND);
 
