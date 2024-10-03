@@ -133,7 +133,56 @@ s32 hasGuetteurABomb(Obj *obj, s32 param_2)
 
 INCLUDE_ASM("asm/nonmatchings/obj/pirate_guetteur", allocatePirateGuetteurBomb);
 
-INCLUDE_ASM("asm/nonmatchings/obj/pirate_guetteur", DO_PAR_TIR);
+/* 5CC64 80181464 -O2 -msoft-float */
+void DO_PAR_TIR(Obj *obj)
+{
+    u8 sub_etat;
+
+    if (obj->main_etat == 0)
+    {
+        sub_etat = obj->sub_etat;
+        if (
+            !(sub_etat == 2 && obj->anim_frame > 20) &&
+            !(sub_etat == 5 && obj->anim_frame > 17) &&
+            !(sub_etat == 13 && obj->anim_frame > 1)
+        )
+            obj->field24_0x3e = 0;
+        
+        if (obj->field24_0x3e == 0)
+        {
+            sub_etat = obj->sub_etat;
+            if (
+                (sub_etat == 2 && obj->anim_frame == 21) ||
+                (sub_etat == 5 && obj->anim_frame == 18) ||
+                (sub_etat == 13 && obj->anim_frame == 2)
+            )
+            {
+                sub_etat = obj->sub_etat;
+                if (horloge[obj->eta[obj->main_etat][sub_etat].anim_speed & 0xf] == 0)
+                {
+                    if (sub_etat == 5)
+                        allocatePirateGuetteurBomb(obj, 2, 1, 40);
+                    else if (sub_etat == 2)
+                        allocatePirateGuetteurBomb(obj, -1, 1, 40);
+                    else
+                    {
+                        allocatePirateGuetteurBomb(obj, -3, 1, 100);
+                        obj->flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (((obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X);
+                        allocatePirateGuetteurBomb(obj, -3, 1, 100);
+                        obj->flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (((obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X);
+                        allocatePirateGuetteurBomb(obj, -3, 1, 100);
+                        obj->flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (((obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X);
+                        allocatePirateGuetteurBomb(obj, -3, 1, 100);
+                        obj->flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (((obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X);
+                    }
+                    obj->field24_0x3e = 1;
+                }
+            }
+        }
+    }
+    else
+        obj->field24_0x3e = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/pirate_guetteur", DO_PAR_POING_COLLISION);
 

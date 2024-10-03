@@ -80,9 +80,7 @@ void allocatePirateGuetteurBomb(Obj *obj, s32 param_2, u8 param_3, u8 param_4)
                         break;
                     case 0x0D:
                         temp_v1_2 = 8 - myRand(0x0020);
-                        temp_v1_2 +=
-                            temp_v1_2 >= 0 ?
-                                (temp_v1_2 > 0 ? 8 : 0) : -8;
+                        temp_v1_2 += 8 * SGN(temp_v1_2);
                         temp_v1_3 = &cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat];
                         temp_v1_3->anim_speed = (u8) ((temp_v1_3->anim_speed & 0xF) | 0x20);
                         var_s1 = temp_v1_2;
