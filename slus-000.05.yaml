@@ -259,7 +259,7 @@ segments:
       - [0x5BAD8, c, synchro_loop] #801802d8
       - [0x5BD8C, c, fond_5BD8C] #8018058c
       - [0x5C2BC, c, unknown/5C2BC] #80180abc
-      - [0x5C304, asm, obj/pirate_guetteur] #80180b04
+      - [0x5C304, c, obj/pirate_guetteur] #80180b04
       - [0x5D128, asm, obj/pirate_bomb_command] #80181928
       - [0x5D190, c, ray/ray_5D190] #80181990
       - [0x640F0, c, obj/space_mama] #801888f0
