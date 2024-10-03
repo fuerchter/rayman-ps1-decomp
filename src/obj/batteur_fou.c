@@ -81,11 +81,34 @@ void DO_BAT_FLASH(s32 in_x, s32 in_y)
     DO_REDEYE_FIRE(unk_x, unk_y, fire_par_3);
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/batteur_fou", DO_BAT_LEFT_FLASH);
+/* 718C4 801960C4 -O2 -msoft-float */
+void DO_BAT_LEFT_FLASH(Obj *obj)
+{
+    s16 spr_x; s16 spr_y; s16 spr_w; s16 spr_h;
 
-INCLUDE_ASM("asm/nonmatchings/obj/batteur_fou", DO_BAT_RIGHT_FLASH);
+    GET_SPRITE_POS(obj, 14, &spr_x, &spr_y, &spr_w, &spr_h);
+    DO_BAT_FLASH(spr_x + (spr_w >> 1), spr_y + (spr_h >> 1));
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/batteur_fou", DO_BAT_LEFT_RIGHT_FLASH);
+/* 71928 80196128 -O2 -msoft-float */
+void DO_BAT_RIGHT_FLASH(Obj *obj)
+{
+    s16 spr_x; s16 spr_y; s16 spr_w; s16 spr_h;
+
+    GET_SPRITE_POS(obj, 14, &spr_x, &spr_y, &spr_w, &spr_h);
+    DO_BAT_FLASH(spr_x + (spr_w >> 1), spr_y + (spr_h >> 1));
+}
+
+/* 7198C 8019618C -O2 -msoft-float */
+void DO_BAT_LEFT_RIGHT_FLASH(Obj *obj)
+{
+    s16 spr_x; s16 spr_y; s16 spr_w; s16 spr_h;
+
+    GET_SPRITE_POS(obj, 15, &spr_x, &spr_y, &spr_w, &spr_h);
+    DO_BAT_FLASH(spr_x + (spr_w >> 1), spr_y + (spr_h >> 1));
+    GET_SPRITE_POS(obj, 14, &spr_x, &spr_y, &spr_w, &spr_h);
+    DO_BAT_FLASH(spr_x + (spr_w >> 1), spr_y + (spr_h >> 1));
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/batteur_fou", bat_dir);
 

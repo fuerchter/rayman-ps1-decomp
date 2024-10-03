@@ -5,9 +5,9 @@
 #include "collision/bit_util.h"
 
 void DO_BAT_FLASH(s32 in_x, s32 in_y);
-void DO_BAT_LEFT_FLASH(Obj *param_1);
-void DO_BAT_RIGHT_FLASH(Obj *param_1);
-void DO_BAT_LEFT_RIGHT_FLASH(Obj *param_1);
+void DO_BAT_LEFT_FLASH(Obj *obj);
+void DO_BAT_RIGHT_FLASH(Obj *obj);
+void DO_BAT_LEFT_RIGHT_FLASH(Obj *obj);
 u8 bat_dir(s32 param_1);
 void bat_init_scroll(s32 param_1);
 void bat_done_scroll(void);
