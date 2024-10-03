@@ -39,10 +39,9 @@ void do_sko_rayon(void)
         if (var_v1_2 != 0)
         {
             temp_v0_5 = diff_x - sko_rayon_dx;
-            if (temp_v0_5 >= 0)
-                sko_rayon_dx += (temp_v0_5 > 0);
-            else
-                sko_rayon_dx -= (test = 1);
+            sko_rayon_dx +=
+                temp_v0_5 >= 0 ?
+                    (temp_v0_5 > 0 ? 1 : 0) : -1; /* TODO: apply below*/
 
             temp_v0_5 = diff_y - sko_rayon_dy;
             if (temp_v0_5 >= 0)

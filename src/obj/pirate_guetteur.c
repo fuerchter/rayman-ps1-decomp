@@ -112,7 +112,24 @@ void DO_ONE_PAR_COMMAND(Obj *obj)
         obj->iframes_timer--;
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/pirate_guetteur", hasGuetteurABomb);
+/* 5C820 80181020 -O2 -msoft-float */
+s32 hasGuetteurABomb(Obj *obj, s32 param_2)
+{
+    Animation *anim;
+    AnimationLayer *unk_2;
+    s16 unk_1 = param_2;
+
+    if (obj->eta[obj->main_etat][obj->sub_etat].flags & 4)
+    {
+        anim = &obj->animations[obj->anim_index];
+        unk_1 = obj->type != TYPE_PIRATE_GUETTEUR ? 5 : 0;
+        unk_2 = &anim->layers[(anim->layers_count & 0x3fff) * obj->anim_frame];
+        if (unk_2[unk_1].sprite == 0)
+            unk_1 = -1;
+    }
+
+    return unk_1;
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/pirate_guetteur", allocatePirateGuetteurBomb);
 
