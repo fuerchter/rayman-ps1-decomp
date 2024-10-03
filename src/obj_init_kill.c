@@ -341,7 +341,7 @@ void obj_init(Obj *obj)
     case TYPE_SPACE_MAMA:
         obj->type = TYPE_SPACE_MAMA2;
     case TYPE_SPACE_MAMA2:
-        swapMereDenisCollZones(obj, true);
+        swapMereDenisCollZones(obj, 1);
         PS1_setBossScrollLimits_spacemama(obj);
         bossSpeedFactor = 0x4000;
         alternateBossSpeedFactor = 0;

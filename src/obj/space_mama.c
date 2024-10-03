@@ -230,6 +230,7 @@ void swapMereDenisCollZones(Obj *obj, u8 smama2)
         obj->type = TYPE_SPACE_MAMA;
     else
         obj->type = TYPE_SPACE_MAMA2;
+    
     obj->zdc = type_zdc[obj->type];
 }
 
