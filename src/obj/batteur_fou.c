@@ -1,13 +1,5 @@
 #include "obj/batteur_fou.h"
 
-/* .data */
-extern u8 N_anim[256];
-
-/**/
-extern s16 bat_nb_frap;
-
-void DO_REDEYE_FIRE(s16 param_1, s16 param_2, s16 param_3);
-
 /* 71680 80195E80 -O2 -msoft-float */
 void DO_BAT_FLASH(s32 in_x, s32 in_y)
 {
@@ -285,8 +277,48 @@ void DO_BAT_COMMAND(Obj *obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/batteur_fou", BAT_ray_in_zone);
+/* 72224 80196A24 -O2 -msoft-float */
+void BAT_ray_in_zone(Obj *obj)
+{
+    if (obj->sub_etat == 0)
+    {
+        bat_nb_frap = 0;
+        obj->flags &= ~FLG(OBJ_FLIP_X);
+        skipToLabel(obj, 1, true);
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/batteur_fou", DO_BAT_POING_COLLISION);
+/* 7226C 80196A6C -O2 -msoft-float */
+void DO_BAT_POING_COLLISION(Obj *bat_boj)
+{
+    s16 poing_x; s16 poing_y;
+    Obj *poing_obj = &level.objects[poing_obj_id];
+    s16 b_dir = bat_dir(bat_boj);
 
-INCLUDE_ASM("asm/nonmatchings/obj/batteur_fou", bat_get_eject_sens);
+    if (
+        bat_boj->sub_etat == 5 ||
+        (bat_boj->sub_etat == 6 && b_dir == 0) ||
+        (bat_boj->sub_etat == 7 && b_dir == 1)
+    )
+    {
+        bat_boj->hit_points--;
+        poing_x = poing_obj->screen_x_pos + poing_obj->offset_bx;
+        poing_y = poing_obj->screen_y_pos + poing_obj->offset_by;
+        DO_NOVA(poing_obj);
+        start_pix_gerbe(poing_x, poing_y);
+    }
+}
+
+/* 72344 80196B44 -O2 -msoft-float */
+s32 bat_get_eject_sens(Obj *obj)
+{
+    s16 res;
+
+    ray.iframes_timer = 40;
+    if (bat_dir(obj))
+        res = 1;
+    else
+        res = -1;
+
+    return res;
+}
