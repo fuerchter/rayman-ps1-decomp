@@ -24,9 +24,33 @@ void ngaweTriesToGrabShip(Obj *obj)
 
 INCLUDE_ASM("asm/nonmatchings/obj/pirate_ngawe", allocatePirateNgaweRing);
 
-INCLUDE_ASM("asm/nonmatchings/obj/pirate_ngawe", DO_NGW_TIR);
+/* 78CA4 8019D4A4 -O2 -msoft-float */
+void DO_NGW_TIR(Obj *obj)
+{
+    if (obj->anim_frame < 26)
+        obj->field24_0x3e = 0;
+    
+    if (
+        obj->field24_0x3e == 0 && obj->anim_frame == 26 &&
+        horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+    )
+    {
+        allocatePirateNgaweRing(obj, 0, 1);
+        obj->field24_0x3e = 1;
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/pirate_ngawe", NGW_REACT_TO_RAY_IN_ZONE);
+/* 78D58 8019D558 -O2 -msoft-float */
+void NGW_REACT_TO_RAY_IN_ZONE(Obj *obj)
+{
+    if (
+        (
+            (obj->main_etat == 0 && obj->sub_etat == 0) ||
+            (obj->main_etat == 1 && obj->sub_etat == 0)
+        ) && obj->field56_0x69 != 0
+    )
+        set_main_and_sub_etat(obj, 0, 2);
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/pirate_ngawe", DO_ONE_NGW_COMMAND);
 
