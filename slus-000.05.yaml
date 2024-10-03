@@ -282,7 +282,7 @@ segments:
       - [0x76A14, c, obj/dark_phase2] #8019b214
       - [0x77E14, asm, obj/fire] #8019c614
       - [0x78004, asm, obj/dark2_pink_fly] #8019c804
-      - [0x78988, asm, obj/pirate_ngawe] #8019d188
+      - [0x78988, c, obj/pirate_ngawe] #8019d188
       - [0x79290, asm, obj/ring] #8019da90
       - [0x794DC, c, loading_794DC] #8019dcdc
       - [0x7ABA0, c, cheats] #8019f3a0
