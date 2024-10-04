@@ -24,7 +24,11 @@ void DO_DARK2_TOONS_COMMAND(Obj *d2fly_obj)
         diff_y = PosArYToon2 - (d2fly_obj->y_pos + d2fly_obj->offset_by);
     }
     
-    /* TODO: replace level.objects[d2fly_obj->field24_0x3e] ??? */
+    /*
+    TODO:
+    replace level.objects[d2fly_obj->field24_0x3e] ???
+    look at ToonDonnePoing?
+    */
     if (
         d2fly_obj->field23_0x3c != 0 &&
         level.objects[d2fly_obj->field24_0x3e].field23_0x3c != 0

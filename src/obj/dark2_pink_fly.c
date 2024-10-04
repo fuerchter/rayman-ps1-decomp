@@ -61,4 +61,27 @@ void AllocateToons(void)
 
 INCLUDE_ASM("asm/nonmatchings/obj/dark2_pink_fly", DO_DARK2_TOONS_COMMAND);
 
-INCLUDE_ASM("asm/nonmatchings/obj/dark2_pink_fly", ToonDonnePoing);
+/* 78870 8019D070 -O2 -msoft-float */
+void ToonDonnePoing(Obj *d2fly_obj)
+{
+    Obj *poing_obj;
+    s16 *unk_1 = &d2fly_obj->field24_0x3e;
+
+    if (d2fly_obj->field23_0x3c != 0 && level.objects[*unk_1].field23_0x3c != 0)
+    {
+        RayEvts.poing = true;
+        PosArXToon1 = 10;
+        PosArXToon2 = 300;
+        poing_obj = &level.objects[poing_obj_id];
+        d2fly_obj->field23_0x3c = 0;
+        level.objects[*unk_1].field23_0x3c = 0;
+        PosArYToon2 =
+        PosArYToon1 =
+            ymap - 200;
+        DO_NOVA(poing_obj);
+        ToonJustGivePoing = 1;
+        poing_obj->init_sub_etat = 8;
+        poing_obj->flags &= ~FLG(OBJ_ACTIVE);
+        poing_obj->flags &= ~FLG(OBJ_ALIVE);
+    }
+}

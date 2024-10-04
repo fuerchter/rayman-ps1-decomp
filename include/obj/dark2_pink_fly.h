@@ -13,6 +13,6 @@ extern u8 ToonJustGivePoing;
 
 void AllocateToons(void);
 void DO_DARK2_TOONS_COMMAND(Obj *d2fly_obj);
-void ToonDonnePoing(Obj *obj);
+void ToonDonnePoing(Obj *d2fly_obj);
 
 #endif
