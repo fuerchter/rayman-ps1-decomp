@@ -12,7 +12,7 @@ extern s16 PosArYToon2;
 extern u8 ToonJustGivePoing;
 
 void AllocateToons(void);
-void DO_DARK2_TOONS_COMMAND(Obj *obj);
+void DO_DARK2_TOONS_COMMAND(Obj *d2fly_obj);
 void ToonDonnePoing(Obj *obj);
 
 #endif

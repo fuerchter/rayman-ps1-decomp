@@ -199,7 +199,7 @@ void SPIDER_PLAFOND_REACT(Obj *obj)
     }
 }
 
-/* completely clueless rn. look at similar functions */
+/* look at DO_DARK2_TOONS_COMMAND */
 /*INCLUDE_ASM("asm/nonmatchings/obj/spider_plafond", DO_DARD_PLAFOND_ALWAYS);*/
 
 void DO_DARD_PLAFOND_ALWAYS(Obj *obj)
