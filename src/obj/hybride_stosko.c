@@ -34,7 +34,6 @@ void allocateStoskoClaw(Obj *stsk_obj)
 void doSTOSKOcommand(Obj *stsk_obj)
 {
     u8 main_etat; u8 sub_etat;
-    u8 flag_set;
     Obj *unk_obj;
 
     scrollLocked = true;
@@ -88,12 +87,7 @@ void doSTOSKOcommand(Obj *stsk_obj)
         }
         else
         {
-            flag_set = stsk_obj->eta[stsk_obj->main_etat][stsk_obj->sub_etat].flags & 0x10;
-            if(
-                ((flag_set && stsk_obj->anim_frame == 0) ||
-                (!flag_set && stsk_obj->anim_frame == stsk_obj->animations[stsk_obj->anim_index].frames_count - 1)) &&
-                horloge[stsk_obj->eta[stsk_obj->main_etat][stsk_obj->sub_etat].anim_speed & 0xf] == 0
-            )
+            if(EOA(stsk_obj))
                 allocateStoskoClaw(stsk_obj);
         }
         break;

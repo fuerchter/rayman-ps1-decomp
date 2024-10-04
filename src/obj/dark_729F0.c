@@ -113,7 +113,6 @@ void DARK_phase3(Obj *mr_drk_obj)
 /* 735F8 80197DF8 -O2 -msoft-float */
 void DO_DARK_COMMAND(Obj *mr_drk_obj)
 {
-    u8 flag_set;
     s16 dark_x; s16 dark_y; s16 dark_w; s16 dark_h;
     s16 sort_x; s16 sort_y;
 
@@ -149,22 +148,12 @@ void DO_DARK_COMMAND(Obj *mr_drk_obj)
                 {
                     if (dark_phase == 4)
                     {
-                        flag_set = mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].flags & 0x10;
-                        if(
-                            ((flag_set && mr_drk_obj->anim_frame == 0) ||
-                            (!flag_set && mr_drk_obj->anim_frame == mr_drk_obj->animations[mr_drk_obj->anim_index].frames_count - 1)) &&
-                            horloge[mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].anim_speed & 0xf] == 0
-                        )
+                        if(EOA(mr_drk_obj))
                             goto_phase5(mr_drk_obj);
                     }
                     else
                     {
-                        flag_set = mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].flags & 0x10;
-                        if(
-                            ((flag_set && mr_drk_obj->anim_frame == 0) ||
-                            (!flag_set && mr_drk_obj->anim_frame == mr_drk_obj->animations[mr_drk_obj->anim_index].frames_count - 1)) &&
-                            horloge[mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].anim_speed & 0xf] == 0
-                        )
+                        if(EOA(mr_drk_obj))
                         {
                             mr_drk_obj->flags &= ~FLG(OBJ_ACTIVE);
                             mr_drk_obj->flags &= ~FLG(OBJ_ALIVE);

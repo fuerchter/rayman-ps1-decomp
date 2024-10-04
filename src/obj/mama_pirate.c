@@ -661,8 +661,6 @@ INCLUDE_ASM("asm/nonmatchings/obj/mama_pirate", lance_couteau_lineaire);
 
 void DO_COU_COMMAND(Obj *obj)
 {
-    u8 flag_set;
-
     switch (obj->main_etat)
     {
     case 0:
@@ -715,11 +713,7 @@ void DO_COU_COMMAND(Obj *obj)
         case 12:
             obj->speed_x = convertspeed(0);
             obj->speed_y = convertspeed(-1);
-            flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-            if(
-              (flag_set && obj->anim_frame == 0) ||
-              (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)
-            )
+            if(EOA(obj))
             {
                 if (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0)
                 {
@@ -755,7 +749,6 @@ void DO_PMA_COMMAND(Obj *obj)
 {
     s16 main_etat;
     s16 sub_etat;
-    u8 flag_set;
     s16 i;
     s16 y;
 
@@ -792,13 +785,8 @@ void DO_PMA_COMMAND(Obj *obj)
             break;
         case 1:
             CALC_MOV_ON_BLOC(obj);
-            flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-            if(
-                (flag_set && obj->anim_frame == 0) ||
-                (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)
-            )
-                if ((horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0) && pma_phase == 0)
-                    set_main_and_sub_etat(obj, 0, 5);
+            if(EOA(obj) && pma_phase == 0)
+                set_main_and_sub_etat(obj, 0, 5);
             break;
         case 5:
             CALC_MOV_ON_BLOC(obj);
@@ -814,23 +802,14 @@ void DO_PMA_COMMAND(Obj *obj)
             }
             else
             {
-                flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-                if(
-                    (flag_set && obj->anim_frame == 0) ||
-                    (!flag_set && obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1))
-                )
-                    if (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0)
-                        set_main_and_sub_etat(obj, 2, 1);
+                if(EOA(obj))
+                    set_main_and_sub_etat(obj, 2, 1);
             }
             break;
         case 7:
             obj->speed_x = 0;
             obj->speed_y = -2;
-            flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-            if(
-              (flag_set && obj->anim_frame == 0) ||
-              (!flag_set && obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1))
-            )
+            if(EOA(obj))
             {
                 if (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0)
                 {
@@ -855,17 +834,7 @@ void DO_PMA_COMMAND(Obj *obj)
         {
         case 9:
             obj->speed_x = 0;
-            flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-            if(
-              (
-                (
-                  flag_set && obj->anim_frame == 0 ||
-                  !flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1
-                ) &&
-                horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
-              ) ||
-              (obj->hit_points == 1 && obj->speed_y >= 0)
-            )
+            if(EOA(obj) || (obj->hit_points == 1 && obj->speed_y >= 0))
             {
                 pma_touched = true;
                 obj->hit_points--;
@@ -923,13 +892,8 @@ void DO_PMA_COMMAND(Obj *obj)
             }
             break;
         case 5:
-            flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-            if(
-              (flag_set && obj->anim_frame == 0) ||
-              (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)
-            )
-                if (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0)
-                    set_main_and_sub_etat(obj, 0, 2);
+            if(EOA(obj))
+                set_main_and_sub_etat(obj, 0, 2);
             break;
         }
         break;

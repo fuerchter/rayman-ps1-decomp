@@ -258,12 +258,7 @@ void DO_BAT_COMMAND(Obj *obj)
         break;
     case 16:
         obj->speed_y = -8;
-        flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-        if(
-            ((flag_set && obj->anim_frame == 0) ||
-            (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)) &&
-            horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
-        )
+        if(EOA(obj))
         {
             if (obj->y_pos + obj->offset_by < ymap)
             {

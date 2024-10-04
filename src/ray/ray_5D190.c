@@ -622,7 +622,6 @@ void RAY_TOMBE(void)
 /* 5FC44 80184444 -O2 -msoft-float */
 void RAY_RESPOND_TO_DOWN(void)
 {
-    u8 flag_set;
     ObjState *sel_eta_1;
     ObjState *sel_eta_2;
     s32 unk_1;
@@ -656,11 +655,7 @@ void RAY_RESPOND_TO_DOWN(void)
             set_main_and_sub_etat(&ray, 3, 6);
         else if (ray.sub_etat == 20)
         {
-            flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10;
-            if(
-                (flag_set && ray.anim_frame == 0) || 
-                (!flag_set && ray.anim_frame == ray.animations[ray.anim_index].frames_count - 1)
-            )
+            if(EOA(&ray))
             {
                 sel_eta_1 = &ray.eta[ray.main_etat][ray.sub_etat];
                 if (horloge[sel_eta_1->anim_speed & 0xF] == 0)
@@ -897,7 +892,6 @@ void RAY_RESPOND_TO_DIR(s16 flip_x)
 /* 60A58 80185258 -O2 -msoft-float */
 void RAY_RESPOND_TO_NOTHING(void)
 {
-    u8 flag_set;
     ObjState *sel_eta_1;
     ObjState *sel_eta_2;
     s32 unk_1;
@@ -949,14 +943,7 @@ void RAY_RESPOND_TO_NOTHING(void)
         {
             if(ray.sub_etat == 37 && __builtin_abs(decalage_en_cours) <= 128)
                 set_sub_etat(&ray, 38);
-            else if (
-                ray.sub_etat == 20 &&
-                (flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10,
-                    (flag_set && ray.anim_frame == 0) ||
-                    (!flag_set && ray.anim_frame == ray.animations[ray.anim_index].frames_count - 1)
-                ) &&
-                horloge[ray.eta[ray.main_etat][ray.sub_etat].anim_speed & 0xF] == 0
-            )
+            else if (ray.sub_etat == 20 && EOA(&ray))
             {
                 if (((block_flags[(u8) calc_typ_trav(&ray, 2)] >> BLOCK_FLAG_4) & 1))
                 {
@@ -971,12 +958,7 @@ void RAY_RESPOND_TO_NOTHING(void)
             }
             else if (ray.sub_etat == 59 || ray.sub_etat == 62 || ray.sub_etat == 63)
             {
-                flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10;
-                if(
-                    (flag_set && ray.anim_frame == 0 ||
-                    !flag_set && ray.anim_frame == ray.animations[ray.anim_index].frames_count - 1) &&
-                    horloge[ray.eta[ray.main_etat][ray.sub_etat].anim_speed & 0xF] == 0
-                )
+                if(EOA(&ray))
                 {
                     compteur_attente = 0;
                     set_sub_etat(&ray, 0);
@@ -1679,7 +1661,6 @@ void rayfallsinwater(void)
 /* 6305C 8018785C -O2 -msoft-float */
 u8 RAY_DEAD(void)
 {
-    u8 flag_set;
     u8 unk_1; /* true if he is alive? */
 
     if (
@@ -1718,11 +1699,7 @@ u8 RAY_DEAD(void)
             (
                 !(ray.main_etat == 2 && ray.sub_etat == 9) &&
                 (ray.main_etat == 3 && (ray.sub_etat == 22 || ray.sub_etat == 32 || ray.sub_etat == 38)) &&
-                (flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10,
-                    (flag_set && ray.anim_frame == 0) ||
-                    (!flag_set && ray.anim_frame == ray.animations[ray.anim_index].frames_count - 1)
-                ) &&
-                horloge[ray.eta[ray.main_etat][ray.sub_etat].anim_speed & 0xf] == 0
+                EOA(&ray)
             )
         )
         {
@@ -1895,7 +1872,6 @@ void allocatePiedBoum(void) {}
 /* 63E30 80188630 -O2 -msoft-float */
 void DO_MORT_DE_RAY(void)
 {
-    u8 flag_set;
 
     ray.iframes_timer = -1;
     v_scroll_speed = 0;
@@ -1920,17 +1896,7 @@ void DO_MORT_DE_RAY(void)
         PS1_RestoreSauveRayEvts();
         ray_on_poelle = false;
     }
-    flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10;
-    if (
-        (
-            (
-                (flag_set && ray.anim_frame == 0) ||
-                (!flag_set && ray.anim_frame == ray.animations[ray.anim_index].frames_count - 1)
-            ) &&
-            horloge[ray.eta[ray.main_etat][ray.sub_etat].anim_speed & 0xf] == 0
-        ) ||
-        !(ray.main_etat == 2 && ray.sub_etat == 8)
-    )
+    if (EOA(&ray) || !(ray.main_etat == 2 && ray.sub_etat == 8))
     {
         snifRayIsDead(&ray);
         dead_time = 128;

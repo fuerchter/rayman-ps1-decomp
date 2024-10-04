@@ -17,7 +17,6 @@ void TEST_SIGNPOST(void)
 {
   s32 poing_id;
   u32 sub_etat;
-  u8 flag_set;
 
   if (ray.main_etat == 2 && ray.sub_etat != 8)
   {
@@ -62,12 +61,7 @@ void TEST_SIGNPOST(void)
   }
   else if (ray.main_etat == 3 && (sub_etat = ray.sub_etat, sub_etat == 23 || sub_etat == 52))
   {
-    flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10;
-    if(
-      ((flag_set && ray.anim_frame == 0) ||
-      (!flag_set && ray.anim_frame == ray.animations[ray.anim_index].frames_count - 1)) &&
-      horloge[ray.eta[ray.main_etat][ray.sub_etat].anim_speed & 0xf] == 0
-    )
+    if(EOA(&ray))
     {
       ChangeLevel();
       gele = 0;
@@ -100,12 +94,7 @@ void TEST_SIGNPOST(void)
     ray.speed_y = 0;
     if (ray.sub_etat == 14)
     {
-      flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10;
-      if (
-        ((flag_set && ray.anim_frame == 0) ||
-        (!flag_set && ray.anim_frame == ray.animations[ray.anim_index].frames_count - 1)) &&
-        horloge[ray.eta[ray.main_etat][ray.sub_etat].anim_speed & 0xf] == 0
-      )
+      if (EOA(&ray))
       {
         ChangeLevel();
         gele = 0;

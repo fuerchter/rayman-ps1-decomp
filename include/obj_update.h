@@ -2,6 +2,7 @@
 #define OBJ_UPDATE_H
 
 #include "common.h"
+#include "common/macro.h"
 #include "common/obj.h"
 #include "timers.h"
 #include "moteur_update.h"

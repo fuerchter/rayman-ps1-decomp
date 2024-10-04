@@ -125,8 +125,6 @@ INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", allocateStonemanStone);
 /* 38CDC 8015D4DC -O2 -msoft-float */
 void DO_STONEMAN1_TIR(Obj *obj)
 {
-    u8 flag_set;
-
     DO_STONEMAN_COMMAND(obj);
     if (obj->main_etat == 0)
     {
@@ -135,12 +133,7 @@ void DO_STONEMAN1_TIR(Obj *obj)
         
         if (obj->sub_etat == 1 || obj->sub_etat == 2)
         {
-            flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-            if(
-                ((flag_set && obj->anim_frame == 0) ||
-                (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)) &&
-                horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
-            )
+            if(EOA(obj))
             {
                 if (obj->detect_zone_flag != 0)
                     skipToLabel(obj, 7, true);
@@ -165,7 +158,6 @@ void DO_STONEMAN1_TIR(Obj *obj)
 /* 38EC0 8015D6C0 -O2 -msoft-float */
 void DO_STONEMAN2_TIR(Obj *obj)
 {
-    u8 flag_set;
     s32 unk_1;
 
     DO_STONEMAN_COMMAND(obj);
@@ -176,17 +168,12 @@ void DO_STONEMAN2_TIR(Obj *obj)
         
         if (obj->sub_etat == 1 || obj->sub_etat == 6)
         {
-            flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-            if(
-                ((flag_set && obj->anim_frame == 0) ||
-                (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)) &&
-                horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
-            )
+            if(EOA(obj))
             {
-                    if (obj->detect_zone_flag != 0)
-                        skipToLabel(obj, 7, true);
-                    else
-                        skipToLabel(obj, 8, true);
+                if (obj->detect_zone_flag != 0)
+                    skipToLabel(obj, 7, true);
+                else
+                    skipToLabel(obj, 8, true);
             }
 
             if ((obj->sub_etat == 6) && (obj->field24_0x3e == 0))

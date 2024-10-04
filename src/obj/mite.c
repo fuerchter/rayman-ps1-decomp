@@ -156,8 +156,7 @@ INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MIT_ATTAK);
 
 /* 4B154 8016F954 -O2 -msoft-float */
 s32 IS_MIT_PAF(Obj *obj)
-{    
-    u8 flag_set;
+{
     s16 unk_x_1;
     s16 unk_x_2;
     s16 unk_x_3;
@@ -178,12 +177,7 @@ s32 IS_MIT_PAF(Obj *obj)
     )
     {
         res = true;
-        flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-        if(
-            ((flag_set && obj->anim_frame == 0) ||
-            (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)) &&
-            horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
-        )
+        if(EOA(obj))
             obj->field20_0x36 = 0;
         else
         {

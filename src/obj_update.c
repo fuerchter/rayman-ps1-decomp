@@ -1385,7 +1385,6 @@ void Add_One_RAY_lives(void)
 void DO_CLING_ANIMS(void)
 {
     Obj *obj;
-    u8 flag_set;
 
     if (id_Cling_1up != -1)
     {
@@ -1396,12 +1395,7 @@ void DO_CLING_ANIMS(void)
             obj->timer--;
         }
 
-        flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-        if(
-            (flag_set && obj->anim_frame == 0 ||
-            !flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1) &&
-            horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
-        )
+        if(EOA(obj))
         {
             id_Cling_1up = -1;
             if (!(ray_mode == MODE_MORT_DE_RAYMAN || ray_mode == MODE_MORT_DE_RAYMAN_ON_MS))
@@ -1419,12 +1413,7 @@ void DO_CLING_ANIMS(void)
             obj->timer--;
         }
 
-        flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-        if(
-            (flag_set && obj->anim_frame == 0 ||
-            !flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1) &&
-            horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
-        )
+        if(EOA(obj))
         {
             id_Cling_Pow = -1;
             if (!(ray_mode == MODE_MORT_DE_RAYMAN || ray_mode == MODE_MORT_DE_RAYMAN_ON_MS))

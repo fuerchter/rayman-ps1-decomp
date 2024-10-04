@@ -34,8 +34,6 @@ void DO_POISSON_VERT_CMD(Obj *obj)
 /* 4F0CC 801738CC -O2 -msoft-float */
 void DO_POISSON_BLEU_CMD(Obj *obj)
 {
-    u8 flag_set;
-
     DO_ONE_CMD(obj);
     if (
         (
@@ -76,12 +74,7 @@ void DO_POISSON_BLEU_CMD(Obj *obj)
     }
     if (obj->main_etat == 2 && obj->sub_etat == 18)
     {
-        flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-        if(
-            ((flag_set && obj->anim_frame == 0) ||
-            (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)) &&
-            horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
-        )
+        if(EOA(obj))
         {
             if (obj->speed_y == 5)
             {

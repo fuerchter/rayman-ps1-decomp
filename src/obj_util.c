@@ -124,14 +124,7 @@ void special_flags_init(void)
 /* 24894 80149094 -O2 -msoft-float */
 void switchOff(Obj *obj)
 {
-  u8 flag_set;
-
-  flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-  if (
-    (flag_set && obj->anim_frame == 0 ||
-    !flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1) &&
-    horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
-  )
+  if (EOA(obj))
   {
     obj->flags &= ~FLG(OBJ_ACTIVE);
     obj->flags &= ~FLG(OBJ_ALIVE);

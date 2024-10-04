@@ -109,8 +109,6 @@ void obj_jump(Obj *obj)
 /* 48920 8016D120 -O2 -msoft-float */
 void DO_ONE_PINK_CMD(Obj *obj)
 {
-    u8 flag_set;
-
     if (obj->iframes_timer != 0)
         obj->iframes_timer--;
     
@@ -127,17 +125,10 @@ void DO_ONE_PINK_CMD(Obj *obj)
     switch (obj->main_etat * 0x100 + obj->sub_etat)
     {
     case 0x2:
-        flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-        if(
-            ((flag_set && obj->anim_frame == 0) ||
-            (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)) &&
-            horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
-        )
-        {
+        if(EOA(obj))
             obj->flags =
                 obj->flags & ~FLG(OBJ_FLIP_X) |
                 ((obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X;
-        }
         break;
     case 0x100:
         SET_X_SPEED(obj);

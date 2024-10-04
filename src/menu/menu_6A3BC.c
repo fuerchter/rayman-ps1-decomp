@@ -288,14 +288,7 @@ void MAIN_CONTINUE_PRG(void)
         }
         break;
     case 31:
-        flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10;
-        if (
-            (
-                (flag_set && ray.anim_frame == 0) ||
-                (!flag_set && ray.anim_frame == ray.animations[ray.anim_index].frames_count - 1)
-            ) &&
-            horloge[ray.eta[ray.main_etat][ray.sub_etat].anim_speed & 0xf] == 0
-        )
+        if (EOA(&ray))
         {
             if (horloge[2] != 0)
                 ray.flags |= FLG(OBJ_FLIP_X);
@@ -331,14 +324,7 @@ void MAIN_CONTINUE_PRG(void)
     case 30:
         if (ray.x_pos + ray.offset_bx > 175)
         {
-            flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10;
-            if (
-                (
-                    (flag_set && ray.anim_frame == 0) ||
-                    (!flag_set && ray.anim_frame == ray.animations[ray.anim_index].frames_count - 1)
-                ) &&
-                horloge[ray.eta[ray.main_etat][ray.sub_etat].anim_speed & 0xf] == 0
-            )
+            if (EOA(&ray))
             {
                 set_sub_etat(&ray, 28);
                 ray.anim_frame = 0;
@@ -367,14 +353,7 @@ void MAIN_CONTINUE_PRG(void)
     if (mapobj->flags & FLG(OBJ_ALIVE))
     {
         DO_ANIM(mapobj);
-        flag_set = mapobj->eta[mapobj->main_etat][mapobj->sub_etat].flags & 0x10;
-        if (
-            (
-                (flag_set && mapobj->anim_frame == 0) ||
-                (!flag_set && mapobj->anim_frame == mapobj->animations[mapobj->anim_index].frames_count - 1)
-            ) &&
-            horloge[mapobj->eta[mapobj->main_etat][mapobj->sub_etat].anim_speed & 0xf] == 0
-        )
+        if (EOA(mapobj))
         {
             if (mapobj->timer != 128)
                 nb_continue--;
@@ -412,15 +391,8 @@ void FIN_CONTINUE_PRG(void)
 /* 6B568 8018FD68 -O2 -msoft-float */
 void MAIN_NO_MORE_CONTINUE_PRG(void)
 {
-  u8 flag_set;
-
   PROC_EXIT = SelectButPressed() != false;
-  flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10;
-  if (
-    (flag_set && ray.anim_frame == 0) ||
-    (!flag_set && ray.anim_frame == ray.animations[ray.anim_index].frames_count - 1)
-  )
-    if(horloge[ray.eta[ray.main_etat][ray.sub_etat].anim_speed & 0xf] == 0)
+  if (EOA(&ray))
       PROC_EXIT = true;
 
   if (PROC_EXIT)
@@ -599,10 +571,8 @@ void INIT_LOADER_ANIM(void)
 /* 6C210 80190A10 -O2 -msoft-float */
 void DO_LOADER_ANIM(void)
 {
-  u8 anim_speed;
-  u8 flag_set;
+  u8 anim_speed = bigray.eta[bigray.main_etat][bigray.sub_etat].anim_speed;
 
-  anim_speed = bigray.eta[bigray.main_etat][bigray.sub_etat].anim_speed;
   bigray.speed_x = 0;
   if (((anim_speed & 0xf) != 0) && (horloge[anim_speed & 0xf] == 0))
     SET_X_SPEED(&bigray);
@@ -644,12 +614,7 @@ void DO_LOADER_ANIM(void)
       bigray.cmd += GO_RIGHT;
     break;
   case GO_UP:
-    flag_set = bigray.eta[bigray.main_etat][bigray.sub_etat].flags & 0x10;
-    if (
-      (!flag_set || bigray.anim_frame == 0) &&
-      (flag_set || bigray.anim_frame == bigray.animations[bigray.anim_index].frames_count - 1) &&
-      horloge[bigray.eta[bigray.main_etat][bigray.sub_etat].anim_speed & 0xf] == 0
-    )
+    if (EOA(&bigray))
     {
       bigray.cmd += GO_RIGHT;
       set_main_and_sub_etat(&bigray, 1, 3);

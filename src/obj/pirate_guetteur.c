@@ -27,7 +27,6 @@ void guetteurFollowsShip(Obj *obj)
 void DO_ONE_PAR_COMMAND(Obj *obj)
 {
     s32 flip_x;
-    u8 flag_set;
 
     if (obj->timer != 0)
         obj->timer--;
@@ -72,12 +71,7 @@ void DO_ONE_PAR_COMMAND(Obj *obj)
         break;
     case 0x6:
         obj->flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (flip_x << OBJ_FLIP_X);
-        flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-        if(
-            ((flag_set && obj->anim_frame == 0) ||
-            (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)) &&
-            horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
-        )
+        if(EOA(obj))
         {
             FUN_80180b04(obj, 0);
             obj->speed_x = 0;
@@ -85,12 +79,7 @@ void DO_ONE_PAR_COMMAND(Obj *obj)
         break;
     case 0x9:
         obj->flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (flip_x << OBJ_FLIP_X);
-        flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-        if(
-            ((flag_set && obj->anim_frame == 0) ||
-            (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)) &&
-            horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
-        )
+        if(EOA(obj))
         {
             SET_X_SPEED(obj);
             obj->speed_y = -3;

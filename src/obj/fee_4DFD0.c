@@ -97,7 +97,6 @@ void DO_FEE(Obj *obj)
     Obj *png_or_fee;
     u8 ray_main_etat;
     u8 unk_1;
-    u8 flag_set;
     s16 y;
 
     old_txt = display_txt_fee;
@@ -145,12 +144,7 @@ void DO_FEE(Obj *obj)
             ray.anim_frame = -1;
         break;
     case 4:
-        flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-        if (
-            ((flag_set && obj->anim_frame == 0) ||
-            (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)) &&
-            horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
-        )
+        if (EOA(obj))
         {
             fee_gives_super_evts();
             obj->field56_0x69 = 2;
