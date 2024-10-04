@@ -102,7 +102,7 @@ segments:
       - [0x699C, .rodata, obj/bb1] #8012B19C
       - [0x6A3C, .rodata, ray/ray_5D190] #8012B23C
       - [0x6F5C, .rodata, obj/space_mama] #8012B75C
-      - [0x71A0, rodata]
+      - [0x71A0, .rodata, obj/blacktoon1] #8012B9A0
       - [0x721C, .rodata, world_map_677C0] #8012BA1C
       - [0x72B4, .rodata, menu/menu_6A3BC] #8012BAB4
       - [0x742C, .rodata, collision/block_6E5E0] #8012BC2C
@@ -264,7 +264,7 @@ segments:
       - [0x5D190, c, ray/ray_5D190] #80181990
       - [0x640F0, c, obj/space_mama] #801888f0
       - [0x66BE8, c, boss] #8018b3e8
-      - [0x67130, asm, obj/blacktoon1] #8018b930
+      - [0x67130, c, obj/blacktoon1] #8018b930
       - [0x677C0, c, world_map_677C0] #8018bfc0
       - [0x6A3BC, c, menu/menu_6A3BC] #8018ebbc
       - [0x6C6E4, c, obj/scorpion] #80190ee4

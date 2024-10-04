@@ -99,7 +99,7 @@ void DO_ONE_NGW_COMMAND(Obj *obj)
             if (obj->field56_0x69 == 1)
             {
                 if (
-                    (block_flags[calc_typ_travd(obj, 1)] >> BLOCK_FULLY_SOLID & 1) ||
+                    (block_flags[calc_typ_travd(obj, true)] >> BLOCK_FULLY_SOLID & 1) ||
                     !((u8) block_flags[
                         PS1_BTYPAbsPos(obj->x_pos + obj->offset_bx + obj->speed_x, obj->y_pos + obj->offset_by)
                     ] >> BLOCK_SOLID & 1)
