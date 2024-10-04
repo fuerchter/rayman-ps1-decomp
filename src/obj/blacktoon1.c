@@ -116,4 +116,22 @@ void DO_BLK_LR_COMMAND(Obj *obj)
 
 INCLUDE_ASM("asm/nonmatchings/obj/blacktoon1", DO_BLK_NOP_COMMAND);
 
-INCLUDE_ASM("asm/nonmatchings/obj/blacktoon1", DO_BLKTOON_COMMAND);
+/* 71A0 8012B9A0 -O2 -msoft-float */
+void DO_BLKTOON_COMMAND(Obj *obj)
+{
+    switch (obj->cmd)
+    {
+    case GO_SPEED:
+        DO_BLK_SPEED_COMMAND(obj);
+        break;
+    case GO_LEFT:
+    case GO_RIGHT:
+        DO_BLK_LR_COMMAND(obj);
+        break;
+    case GO_NOP:
+        DO_BLK_NOP_COMMAND(obj);
+    case GO_WAIT:
+    default:
+        break;
+    }
+}
