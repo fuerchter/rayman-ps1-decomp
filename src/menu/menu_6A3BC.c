@@ -288,27 +288,12 @@ void MAIN_CONTINUE_PRG(void)
         }
         break;
     case 31:
-        if (EOA(&ray))
-        {
-            if (horloge[2] != 0)
-                ray.flags |= FLG(OBJ_FLIP_X);
-        }
+        if (EOA(&ray) && horloge[2] != 0)
+            ray.flags |= FLG(OBJ_FLIP_X);
         break;
     case 29:
-        /* pre-loading 0x40 between anim_frame and horloge checks somehow (8018f8c8) */
         ray.flags |= FLG(OBJ_FLIP_X);
-        if (
-            ray.x_pos + ray.offset_bx > 180 &&
-            /* THIS IS NOT EOA!!! */
-            (
-                flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x10,
-                !(
-                    (flag_set && ray.anim_frame != 0) ||
-                    (!flag_set && ray.anim_frame != ray.animations[ray.anim_index].frames_count - 1)
-                ) &&
-                horloge[ray.eta[ray.main_etat][ray.sub_etat].anim_speed & 0xf] == 0
-            )
-        )
+        if ((ray.x_pos + ray.offset_bx > 180) && EOA(&ray))
         {
             set_sub_etat(&ray, 28);
             ray.anim_frame = 0;
@@ -316,19 +301,14 @@ void MAIN_CONTINUE_PRG(void)
         else
         {
             if (ray.anim_frame < 64)
-            {
                 ray.speed_x = 0;
-            }
         }
         break;
     case 30:
-        if (ray.x_pos + ray.offset_bx > 175)
+        if (ray.x_pos + ray.offset_bx > 175 && EOA(&ray))
         {
-            if (EOA(&ray))
-            {
-                set_sub_etat(&ray, 28);
-                ray.anim_frame = 0;
-            }
+            set_sub_etat(&ray, 28);
+            ray.anim_frame = 0;
         }
         break;
     case 28:
