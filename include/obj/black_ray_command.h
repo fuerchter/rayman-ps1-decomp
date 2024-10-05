@@ -2,6 +2,7 @@
 #define BLACK_RAY_COMMAND_H
 
 #include "common.h"
+#include "obj_update.h"
 
 typedef struct RayStack
 {
@@ -26,5 +27,7 @@ extern RayStack rayStack[100];
 extern u8 black_pos_in_stack;
 extern s16 black_ray_obj_id;
 extern s16 black_fist_obj_id;
+
+void doBlackRaymanCommand(Obj *br_obj);
 
 #endif
