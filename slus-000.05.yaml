@@ -189,7 +189,7 @@ segments:
       - [0x3AE54, c, nova] #8015f654
       - [0x3B264, c, snow] #8015FA64
       - [0x3C3A8, asm, obj/eyes_3C3A8] #80160ba8
-      - [0x3C6E4, asm, obj/mite_badguy] #80160EE4
+      - [0x3C6E4, c, obj/mite_badguy] #80160EE4
       - [0x3CB5C, c, pix_gerbe] #8016135c, https://discord.com/channels/658598667695161364/1065409911758008420/1162715877590962176 '"gerber" is slang for "to vomit"'
       - [0x3CE78, c, obj/cymbal2] #80161678
       - [0x3CF08, c, obj/cage] #80161708
