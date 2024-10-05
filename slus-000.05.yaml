@@ -64,7 +64,7 @@ segments:
       - [0x828, rodata]
       #- [0x9C8, .rodata, data/menu/menu_card_9ED48] #801251C8 TODO: .rodata referenced from .data?
       - [0x1428, .rodata, music] #80125C28
-      - [0x156C, .rodata, video] #80132898
+      - [0x156C, .rodata, video] #80125D6C
       - [0x1580, rodata]
       #- [0x1580, .rodata, data/loading_A0338] #80125d80
       - [0x2AA8, .rodata, loading_E99C] #801272A8
@@ -93,7 +93,7 @@ segments:
       - [0x6644, .rodata, obj/poing] #8012AE44
       - [0x66A4, rodata]
       - [0x6724, .rodata, command_494FC] #8012af24
-      - [0x67A4, rodata]
+      - [0x67A4, .rodata, obj/mst_scroll] #8012AFA4
       - [0x67BC, .rodata, obj/fee_4DFD0] #8012AFBC
       - [0x67F4, .rodata, obj/corde_command] #8012AFF4
       - [0x680C, rodata]
@@ -227,7 +227,7 @@ segments:
       - [0x4CB88, c, obj/maracas_command] #80171388
       - [0x4D1C8, asm, obj/bb1_plat_command] #801719c8
       - [0x4D1F4, asm, obj/flash_command] #801719f4
-      - [0x4D354, asm, obj/mst_scroll] #80171b54
+      - [0x4D354, c, obj/mst_scroll] #80171b54
       - [0x4D6EC, c, obj/caisse_claire_command] #80171eec
       - [0x4D7DC, c, obj/walk_note_command] #80171fdc
       - [0x4D908, c, obj/eau] #80172108
