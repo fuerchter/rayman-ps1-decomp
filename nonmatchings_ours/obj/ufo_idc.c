@@ -2,7 +2,7 @@
 
 /*INCLUDE_ASM("asm/nonmatchings/obj/ufo_idc", DO_MOVING_WITH_INDICATOR_COMMAND);*/
 
-void DO_MOVING_WITH_INDICATOR_COMMAND(Obj *obj)
+void DO_MOVING_WITH_INDICATOR_COMMAND(Obj *ufo_idc_obj)
 {
     s16 sp10;
     Obj *var_a3;
@@ -21,10 +21,10 @@ void DO_MOVING_WITH_INDICATOR_COMMAND(Obj *obj)
     u8 temp_s1;
     u8 temp_v1;
 
-    obj->flags &= ~0x4000;
+    ufo_idc_obj->flags &= ~0x4000;
     if (
-        (obj->main_etat == 0) && (obj->sub_etat == 0x0E) &&
-        ((test_block_chdir(obj, &sp10, obj->offset_bx, obj->offset_by)) != 0)
+        (ufo_idc_obj->main_etat == 0) && (ufo_idc_obj->sub_etat == 0x0E) &&
+        ((test_block_chdir(ufo_idc_obj, &sp10, ufo_idc_obj->offset_bx, ufo_idc_obj->offset_by)) != 0)
     )
     {
         var_a2 = 0;
@@ -39,8 +39,8 @@ void DO_MOVING_WITH_INDICATOR_COMMAND(Obj *obj)
                     == sp10
                 )
                 {
-                    var_v1 = obj->speed_y;
-                    spd_x = obj->speed_x;
+                    var_v1 = ufo_idc_obj->speed_y;
+                    spd_x = ufo_idc_obj->speed_x;
                     spd_y = var_v1;
                     var_a0_2 = __builtin_abs(spd_x);
                     var_v1 = __builtin_abs(var_v1);
@@ -234,8 +234,8 @@ void DO_MOVING_WITH_INDICATOR_COMMAND(Obj *obj)
                         break;
 
                     }
-                    obj->speed_x = spd_x;
-                    obj->speed_y = spd_y;
+                    ufo_idc_obj->speed_x = spd_x;
+                    ufo_idc_obj->speed_y = spd_y;
                     return;
                 }
             }
@@ -244,4 +244,21 @@ void DO_MOVING_WITH_INDICATOR_COMMAND(Obj *obj)
         }
 
     }
+}
+
+/* matches, but */
+/*INCLUDE_ASM("asm/nonmatchings/obj/ufo_idc", DO_IDC_COMMAND);*/
+
+void DO_IDC_COMMAND(Obj *idc_obj)
+{
+    s32 temp_v1 = idc_obj->sub_etat;
+    s32 new_var2 = temp_v1;
+    
+    if ((temp_v1 < 4) && (new_var2 >= 0))
+    {
+        idc_obj->display_prio = 4;
+        idc_obj->flags &= ~0x4000;
+        return;
+    }
+    idc_obj->display_prio = 0;
 }
