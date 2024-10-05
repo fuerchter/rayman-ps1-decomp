@@ -82,7 +82,7 @@ segments:
       - [0x5DA0, .rodata, num_level_36260] #8012A5A0
       - [0x5EC0, .rodata, bonus_372E0] #8012A6C0
       - [0x5ED8, .rodata, obj/stonebomb] #8012A6D8
-      - [0x5EF0, rodata]
+      - [0x5EF0, .rodata, obj/pi_boum] #8012A6F0
       - [0x5F08, .rodata, nova] #8012A708
       - [0x5F20, .rodata, snow] #8012A720
       - [0x5F50, rodata]
@@ -180,7 +180,7 @@ segments:
       - [0x39CD8, asm, obj/big_clown] #8015e4d8
       - [0x39DC8, asm, obj/wat_clown] #8015e5c8
       - [0x3A004, asm, obj/trompette] #8015e804
-      - [0x3A27C, asm, obj/pi_boum] #8015ea7c
+      - [0x3A27C, c, obj/pi_boum] #8015ea7c
       - [0x3A610, asm, obj/clown_tnt] #8015ee10
       - [0x3A868, asm, obj/badguy] #8015f068
       - [0x3A9EC, asm, obj/explosion] #8015F1EC

@@ -1,11 +1,10 @@
 #include "obj/mst_scroll.h"
 
 /* 4D354 80171B54 -O2 -msoft-float */
-void DO_MST_SCROLL_COMMAND(Obj *obj, s16 param_2)
+void DO_MST_SCROLL_COMMAND(Obj *obj)
 {
     s16 unk_x; s16 unk_y;
 
-    unk_x = param_2;
     if (obj->hit_points == 0)
     {
         switch (obj->timer)
