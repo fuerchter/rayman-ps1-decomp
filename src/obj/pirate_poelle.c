@@ -108,6 +108,86 @@ void DO_PIRATE_POELLE(Obj *pirp_obj)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/pirate_poelle", DO_PIRATE_POELLE_POING_COLLISION);
+/* 7276C 80196F6C -O2 -msoft-float */
+void DO_PIRATE_POELLE_POING_COLLISION(Obj *obj)
+{
+    if (obj->sub_etat == 0 || obj->sub_etat == 1)
+    {
+        if (--obj->hit_points == 0)
+            set_main_and_sub_etat(obj, 0, 13);
+        else
+            set_main_and_sub_etat(obj, 0, 10);
+    }
+    else if (obj->sub_etat == 7 || obj->sub_etat == 2 || obj->sub_etat == 3 || obj->sub_etat == 4)
+    {
+        if (--obj->hit_points == 0)
+            set_main_and_sub_etat(obj, 0, 13);
+        else
+            set_main_and_sub_etat(obj, 0, 12);
+    }
+    else if (obj->sub_etat == 5 || obj->sub_etat == 6)
+    {
+        if (--obj->hit_points == 0)
+            set_main_and_sub_etat(obj, 0, 13);
+        else
+            set_main_and_sub_etat(obj, 0, 11);
+    }
+    else if (obj->sub_etat == 15 || obj->sub_etat == 16)
+    {
+        if (--obj->hit_points == 0)
+            set_main_and_sub_etat(obj, 0, 28);
+        else
+            set_main_and_sub_etat(obj, 0, 25);
+    }
+    else if (obj->sub_etat == 22 || obj->sub_etat == 17 || obj->sub_etat == 18 || obj->sub_etat == 19)
+    {
+        if (--obj->hit_points == 0)
+            set_main_and_sub_etat(obj, 0, 28);
+        else
+            set_main_and_sub_etat(obj, 0, 27);
+    }
+    else if (obj->sub_etat == 20 || obj->sub_etat == 21)
+    {
+        if (--obj->hit_points == 0)
+            set_main_and_sub_etat(obj, 0, 28);
+        else
+            set_main_and_sub_etat(obj, 0, 26);
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/obj/pirate_poelle", PIRATE_POELLE_REACT);
+/* 72924 80197124 -O2 -msoft-float */
+void PIRATE_POELLE_REACT(Obj *obj)
+{
+    u8 sub_etat;
+
+    if (obj->main_etat == 0)
+    {
+        sub_etat = obj->sub_etat;
+        if (sub_etat == 0 || sub_etat == 1 || sub_etat == 15 || sub_etat == 16)
+        {
+            if (sub_etat == 0 || sub_etat == 1)
+                set_main_and_sub_etat(obj, 1, 5);
+            else
+                set_main_and_sub_etat(obj, 1, 20);
+            
+            switch (obj->type)
+            {
+            case TYPE_PIRATE_POELLE:
+            case TYPE_PIRATE_POELLE_D:
+                obj->speed_y = 3;
+                if (obj->type == TYPE_PIRATE_POELLE)
+                    obj->speed_x = -24;
+                else
+                    obj->speed_x = 24;
+                break;
+            default:
+                obj->speed_y = 2;
+                if (obj->type == TYPE_PIRATE_P_45)
+                    obj->speed_x = -36;
+                else /* TYPE_PIRATE_P_D_45 */
+                    obj->speed_x = 36;
+                break;
+            }
+        }
+    }
+}
