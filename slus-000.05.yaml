@@ -271,7 +271,7 @@ segments:
       - [0x6E5E0, c, collision/block_6E5E0] #80192de0
       - [0x6F914, c, obj/moskito] #80194114
       - [0x71680, c, obj/batteur_fou] #80195e80
-      - [0x72384, asm, obj/pirate_poelle] #80196b84
+      - [0x72384, c, obj/pirate_poelle] #80196b84
       - [0x729F0, c, obj/dark_729F0] #801971f0
       - [0x7494C, asm, obj/vitrail] #8019914c
       - [0x74954, c, obj/ufo_idc] #80199154
