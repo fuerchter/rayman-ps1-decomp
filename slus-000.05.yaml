@@ -85,7 +85,7 @@ segments:
       - [0x5EF0, .rodata, obj/pi_boum] #8012A6F0
       - [0x5F08, .rodata, nova] #8012A708
       - [0x5F20, .rodata, snow] #8012A720
-      - [0x5F50, rodata]
+      - [0x5F50, .rodata, obj/eyes_3C3A8] #8012A750
       - [0x5FE0, .rodata, obj/fee_3D76C] #8012a7e0
       - [0x6364, .rodata, save] #8012ab64
       - [0x6394, .rodata, sound] #8012AB94
@@ -188,7 +188,7 @@ segments:
       - [0x3AC88, c, ray/angle_rayman] #8015f488
       - [0x3AE54, c, nova] #8015f654
       - [0x3B264, c, snow] #8015FA64
-      - [0x3C3A8, asm, obj/eyes_3C3A8] #80160ba8
+      - [0x3C3A8, c, obj/eyes_3C3A8] #80160ba8
       - [0x3C6E4, c, obj/mite_badguy] #80160EE4
       - [0x3CB5C, c, pix_gerbe] #8016135c, https://discord.com/channels/658598667695161364/1065409911758008420/1162715877590962176 '"gerber" is slang for "to vomit"'
       - [0x3CE78, c, obj/cymbal2] #80161678
@@ -219,7 +219,7 @@ segments:
       - [0x49B74, c, obj/cymbal] #8016e374
       - [0x4A5BC, asm, obj/genebadguy_command] #8016edbc
       - [0x4A85C, c, obj/mite] #8016f05c
-      - [0x4BC40, asm, obj/eyes_4BC40] #80170440
+      - [0x4BC40, c, obj/eyes_4BC40] #80170440
       - [0x4BFCC, c, unknown/4BFCC] #801707cc
       - [0x4C2C8, c, obj/bag1] #80170ac8
       - [0x4C3A0, c, obj/clown_tnt_command] #80170ba0
