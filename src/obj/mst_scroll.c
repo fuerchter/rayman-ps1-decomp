@@ -68,4 +68,30 @@ void DO_MST_SCROLL_COMMAND(Obj *obj, s16 param_2)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/mst_scroll", DO_MST_CHANGE_COMMAND);
+/* 4D5AC 80171DAC -O2 -msoft-float */
+void DO_MST_CHANGE_COMMAND(s16 hp)
+{
+    /* ugh */
+    if (level.objects[mst_scroll_obj_id].field23_0x3c != 0x01F4)
+    {
+        switch (hp)
+        {
+        case 1:
+            level.objects[mst_scroll_obj_id].field23_0x3c = 0x0064;
+            return;
+        case 2:
+            level.objects[mst_scroll_obj_id].field23_0x3c = 0;
+            return;
+        case 3:
+            level.objects[mst_scroll_obj_id].field23_0x3c = -0x0050;
+            return;
+        case 4:
+            level.objects[mst_scroll_obj_id].field24_0x3e = -0x0064;
+            return;
+        case 5:
+            level.objects[mst_scroll_obj_id].field24_0x3e = 0;
+            break;
+        }
+    }
+}
+const u8 rodata_DO_MST_CHANGE_COMMAND[4] = {};
