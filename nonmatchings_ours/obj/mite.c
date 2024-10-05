@@ -75,7 +75,7 @@ void DO_MIT_ATTAK(Obj *obj)
                 }
                 else
                 {
-                    new_var = ray.x_pos;
+                    new_var = ray.x_pos; /* flip order of ray.x_pos and ray.offset_bx? see DO_STONEWOMAN_COMMAND */
                     var_v1_1 = 0xA - (((ray.offset_bx + new_var) - temp_a0_1) - obj->offset_bx);
                 }
                 temp_a0_2 = obj->field56_0x69;
@@ -118,6 +118,8 @@ void DO_MIT_ATTAK(Obj *obj)
                     else
                     (obj->speed_x <= 0 && obj->flags & 0x4000 && obj->speed_x < 0)
                     (obj->speed_x > 0 && !(obj->flags & 0x4000)) ||
+
+                    similar with DO_CLOWN_TNT3_COMMAND?
                     */
                     if (obj->speed_x <= 0)
                     {
