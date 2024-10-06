@@ -1,4 +1,7 @@
-#include "obj/dard.h"
+#include "obj/spider_395B0.h"
+
+/* matches, but unk_1 */
+/*INCLUDE_ASM("asm/nonmatchings/obj/spider_395B0", allocateDard);*/
 
 /* 395B0 8015DDB0 -O2 -msoft-float */
 void allocateDard(Obj *spi_obj)
