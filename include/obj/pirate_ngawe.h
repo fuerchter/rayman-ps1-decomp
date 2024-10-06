@@ -11,5 +11,6 @@ void DO_NGW_TIR(Obj *obj);
 void NGW_REACT_TO_RAY_IN_ZONE(Obj *obj);
 void DO_ONE_NGW_COMMAND(Obj *obj);
 void DO_NGW_POING_COLLISION(Obj *ngw_obj);
+void DO_ONE_NGW_RING_COMMAND(Obj *ring_obj);
 
 #endif

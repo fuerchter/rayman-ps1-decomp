@@ -155,3 +155,61 @@ void DO_ONE_NGW_COMMAND(Obj *obj)
 }
 
 INCLUDE_ASM("asm/nonmatchings/obj/pirate_ngawe", DO_NGW_POING_COLLISION);
+
+/* 79290 8019DA90 -O2 -msoft-float */
+void DO_ONE_NGW_RING_COMMAND(Obj *ring_obj)
+{
+    Obj *unk_obj = &level.objects[ring_obj->field23_0x3c];
+    
+    if (!(unk_obj->flags & FLG(OBJ_ACTIVE)))
+    {
+        ring_obj->flags = ring_obj->flags & ~FLG(OBJ_ALIVE);
+        DO_NOVA(ring_obj);
+        return;
+    }
+
+    if (ring_obj->field24_0x3e <= 0)
+    {
+        if (ring_obj->flags & FLG(OBJ_FLAG_0))
+        {
+            ring_obj->flags &= ~FLG(OBJ_ACTIVE);
+            ring_obj->flags &= ~FLG(OBJ_ALIVE);
+            unk_obj->field56_0x69++;
+        }
+        else
+        {
+            ring_obj->flags |= FLG(OBJ_FLAG_0)|FLG(OBJ_CMD_TEST);
+            ring_obj->field24_0x3e = __builtin_abs(
+                (s16) ((ring_obj->offset_bx + ring_obj->x_pos) - unk_obj->x_pos - unk_obj->offset_bx)
+            );
+        }
+        return;
+    }
+
+    ring_obj->flags &= ~FLG(OBJ_CMD_TEST);
+    if (ring_obj->cmd == GO_SPEED)
+    {
+        ring_obj->speed_x = ring_obj->iframes_timer;
+        if (ring_obj->field20_0x36 != 0)
+            ring_obj->speed_y = ring_obj->field20_0x36;
+        else
+        {
+            if (ring_obj->flags & FLG(OBJ_FLAG_0))
+            {
+                unk_obj = &level.objects[ring_obj->field23_0x3c];
+                ring_obj->field24_0x3e =
+                    (unk_obj->offset_bx + unk_obj->x_pos) - ring_obj->x_pos - ring_obj->offset_bx;
+                ring_obj->speed_y =
+                    (
+                        unk_obj->y_pos + ((unk_obj->offset_by + unk_obj->offset_hy) >> 1) -
+                        (ring_obj->y_pos + ((ring_obj->offset_by + ring_obj->offset_hy) >> 1))
+                    ) * ring_obj->speed_x;
+                if (ring_obj->field24_0x3e != 0)
+                    ring_obj->speed_y /= ring_obj->field24_0x3e;
+
+                ring_obj->field24_0x3e = __builtin_abs(ring_obj->field24_0x3e);
+            }
+            ring_obj->field24_0x3e -= instantSpeed(__builtin_abs(ring_obj->speed_x));
+        }
+    }
+}
