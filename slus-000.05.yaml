@@ -181,7 +181,7 @@ segments:
       - [0x39DC8, asm, obj/wat_clown] #8015e5c8
       - [0x3A004, c, obj/trompette] #8015e804
       - [0x3A27C, c, obj/pi_boum] #8015ea7c
-      - [0x3A610, asm, obj/clown_tnt] #8015ee10
+      - [0x3A610, c, obj/clown_tnt] #8015ee10
       - [0x3A868, asm, obj/badguy] #8015f068
       - [0x3A9EC, asm, obj/explosion] #8015F1EC
       - [0x3AB5C, c, obj/maracas] #8015f35c
