@@ -96,7 +96,7 @@ segments:
       - [0x67A4, .rodata, obj/mst_scroll] #8012AFA4
       - [0x67BC, .rodata, obj/fee_4DFD0] #8012AFBC
       - [0x67F4, .rodata, obj/corde_command] #8012AFF4
-      - [0x680C, rodata]
+      - [0x680C, .rodata, obj/bateau_command] #8012B00C
       - [0x6820, .rodata, obj/saxo] #8012b020
       - [0x6878, .rodata, command_56AF0] #8012B078
       - [0x699C, .rodata, obj/bb1] #8012B19C
@@ -242,7 +242,7 @@ segments:
       - [0x4FB58, c, obj/corde_command] #80174358
       - [0x4FFD0, asm, obj/nova2_command] #801747d0
       - [0x500FC, asm, obj/ens_command] #801748fc
-      - [0x501FC, asm, obj/bateau_command] #801749fc
+      - [0x501FC, c, obj/bateau_command] #801749fc
       - [0x504E8, asm, obj/bouee_joe_command] #80174ce8
       - [0x50588, asm, obj/joe_command] #80174d88
       - [0x506E8, asm, obj/drop_command] #80174ee8

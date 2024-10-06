@@ -6,7 +6,7 @@
 #include "common/level.h"
 #include "common/ray.h"
 #include "world_map_677C0.h"
-#include "obj/bateau_command.h"
+#include "obj/bateau_command.h" /* TODO: circular? */
 
 typedef struct CouteauxInfo
 {
