@@ -23,7 +23,7 @@ void allocate_toons(Obj *src_obj, u8 count);
 void special_flags_init(void);
 void switchOff(Obj *obj);
 void obj_hurt(Obj *obj);
-void Projectil_to_RM(Obj *obj, s16 *speed_x, s16 *speed_y, s16 new_speed_x, s16 new_speed_y);
+void Projectil_to_RM(Obj *obj, s16 *out_spd_x, s16 *out_spd_y, s16 new_spd_x, s16 new_spd_y);
 void del_actobj(Obj *in_obj);
 
 #endif

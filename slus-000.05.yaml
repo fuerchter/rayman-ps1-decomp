@@ -215,7 +215,7 @@ segments:
       - [0x49320, c, obj/moving_platform_command] #8016DB20
       - [0x493E0, asm, obj/trompette_command] #8016dbe0
       - [0x494FC, c, command_494FC] #8016dcfc
-      - [0x4995C, asm, obj/stonebomb_command] #8016e15c
+      - [0x4995C, c, obj/stonebomb_command] #8016e15c
       - [0x49B74, c, obj/cymbal] #8016e374
       - [0x4A5BC, c, obj/genebadguy_command] #8016edbc
       - [0x4A85C, c, obj/mite] #8016f05c
