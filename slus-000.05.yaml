@@ -211,7 +211,7 @@ segments:
       - [0x48528, c, unknown/48528] #8016cd28
       - [0x48D74, asm, obj/spider_command] #8016d574
       - [0x48F74, asm, obj/stoneman_command] #8016d774
-      - [0x49090, asm, obj/stonedog_command] #8016d890
+      - [0x49090, c, obj/stonedog_command] #8016d890
       - [0x49320, c, obj/moving_platform_command] #8016DB20
       - [0x493E0, asm, obj/trompette_command] #8016dbe0
       - [0x494FC, c, command_494FC] #8016dcfc
