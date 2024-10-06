@@ -1,7 +1,7 @@
 #include "obj/mite.h"
 
 /* 4A85C 8016F05C -O2 -msoft-float */
-void mite_esquive_poing(Obj *mit_obj, s16 *out_x)
+void mite_esquive_poing(Obj *mit_obj, s16 *out_diff_x)
 {
     s16 unk_x_1; s16 unk_y_1;
     s16 unk_y_2;    
@@ -20,7 +20,7 @@ void mite_esquive_poing(Obj *mit_obj, s16 *out_x)
         unk_y_1 = poing_obj->y_pos + ((poing_obj->offset_by + poing_obj->offset_hy) >> 1) - 3;
     }
     unk_y_2 = mit_obj->y_pos + ((mit_obj->offset_hy + mit_obj->offset_by) >> 1) - unk_y_1;
-    *out_x = unk_x_1 - mit_obj->x_pos - mit_obj->offset_bx;
+    *out_diff_x = unk_x_1 - mit_obj->x_pos - mit_obj->offset_bx;
     
     if (unk_y_2 < 0)
     {
