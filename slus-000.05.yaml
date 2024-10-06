@@ -223,7 +223,7 @@ segments:
       - [0x4BFCC, c, unknown/4BFCC] #801707cc
       - [0x4C2C8, c, obj/bag1] #80170ac8
       - [0x4C3A0, c, obj/clown_tnt_command] #80170ba0
-      - [0x4C978, asm, obj/eclair_command] #80171178
+      - [0x4C978, c, obj/eclair_command] #80171178
       - [0x4CB88, c, obj/maracas_command] #80171388
       - [0x4D1C8, asm, obj/bb1_plat_command] #801719c8
       - [0x4D1F4, asm, obj/flash_command] #801719f4
