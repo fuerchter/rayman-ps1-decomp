@@ -28,7 +28,7 @@ void DO_STONEDOG_COMMAND(Obj *obj)
         if (obj->main_etat == 0)
             set_main_and_sub_etat(obj, 1, 0);
         
-        if (block_flags[calc_typ_travd(obj, 0U)] >> BLOCK_FULLY_SOLID & 1)
+        if (block_flags[calc_typ_travd(obj, false)] >> BLOCK_FULLY_SOLID & 1)
         {
             if (obj->cmd == GO_LEFT)
                 obj->flags |= FLG(OBJ_FLIP_X);

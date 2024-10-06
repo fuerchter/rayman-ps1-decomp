@@ -72,7 +72,7 @@ void DO_STONEBOMB_COMMAND(Obj *obj)
 
     if (!timer_0)
     {
-        if (block_flags[calc_typ_travd(obj, 0)] >> BLOCK_FULLY_SOLID & 1)
+        if (block_flags[calc_typ_travd(obj, false)] >> BLOCK_FULLY_SOLID & 1)
             DO_STONE_EXPLOSION(obj);
         else
         {
