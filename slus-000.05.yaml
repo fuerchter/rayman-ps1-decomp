@@ -235,7 +235,7 @@ segments:
       - [0x4DF88, asm, obj/reducteur] #80172788
       - [0x4DFD0, c, obj/fee_4DFD0] #801727d0
       - [0x4E7DC, c, obj/stonewoman] #80172fdc
-      - [0x4ED80, asm, obj/herse] #80173580
+      - [0x4ED80, c, obj/herse] #80173580
       - [0x4EFB0, c, obj/poi_command] #801737b0
       - [0x4F364, c, obj/black_ray_command] #80173b64
       - [0x4F818, c, obj/poelle_command] #80174018

@@ -330,11 +330,11 @@ void GET_BB1_ZDCs(Obj *obj, s16 *x_1, s16 *y_1, s16 *w_1, s16 *h_1, s16 *x_2, s1
 /* 235E8 80147DE8 -O2 -msoft-float */
 s32 myRand(s16 max_incl)
 {
-  s16 max_loc = max_incl + 1;
+    s16 max_loc = max_incl + 1;
 
-  PS1_RandSum += RandArray[RandomIndex & (LEN(RandArray) - 1)];
-  RandomIndex++;
-  return (s16) (PS1_RandSum % (max_loc));
+    PS1_RandSum += RandArray[RandomIndex & (LEN(RandArray) - 1)];
+    RandomIndex++;
+    return (s16) (PS1_RandSum % max_loc);
 }
 
 /* 23674 80147E74 -O2 -msoft-float */
