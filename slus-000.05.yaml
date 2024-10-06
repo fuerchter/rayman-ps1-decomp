@@ -245,7 +245,7 @@ segments:
       - [0x501FC, c, obj/bateau_command] #801749fc
       - [0x504E8, asm, obj/bouee_joe_command] #80174ce8
       - [0x50588, asm, obj/joe_command] #80174d88
-      - [0x506E8, asm, obj/drop_command] #80174ee8
+      - [0x506E8, c, obj/drop_command] #80174ee8
       - [0x5088C, c, obj/falling_obj_command] #8017508c
       - [0x50AC4, asm, obj/mus_wait] #801752c4
       - [0x50C00, asm, obj/tire_bouchon_command] #80175400
