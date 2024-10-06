@@ -175,7 +175,7 @@ segments:
       - [0x395B0, asm, obj/dard] #8015ddb0 TODO: should dard and spider be merged?
       - [0x39738, asm, obj/spider_39738] #8015df38
       - [0x3979C, asm, obj/platform] #8015df9c
-      - [0x398E8, asm, obj/graine] #8015e0e8
+      - [0x398E8, c, obj/graine] #8015e0e8
       - [0x39B90, asm, obj/nen_graine] #8015e214
       - [0x39CD8, asm, obj/big_clown] #8015e4d8
       - [0x39DC8, asm, obj/wat_clown] #8015e5c8
