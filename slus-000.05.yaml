@@ -170,7 +170,7 @@ segments:
       - [0x36260, c, num_level_36260] #8015aa60
       - [0x372E0, c, bonus_372E0] #8015bae0
       - [0x37A9C, c, obj/fish] #8015c29c
-      - [0x380A0, asm, obj/balle] #8015c8a0
+      - [0x380A0, c, obj/balle] #8015c8a0
       - [0x38118, c, obj/stonebomb] #8015c918
       - [0x395B0, c, obj/spider_395B0] #8015ddb0
       - [0x3979C, c, obj/platform] #8015df9c
@@ -230,7 +230,7 @@ segments:
       - [0x4D6EC, c, obj/caisse_claire_command] #80171eec
       - [0x4D7DC, c, obj/walk_note_command] #80171fdc
       - [0x4D908, c, obj/eau] #80172108
-      - [0x4DF04, asm, obj/photographe_command] #80172704
+      - [0x4DF04, c, obj/photographe_command] #80172704
       - [0x4DF88, asm, obj/reducteur] #80172788
       - [0x4DFD0, c, obj/fee_4DFD0] #801727d0
       - [0x4E7DC, c, obj/stonewoman] #80172fdc
@@ -249,7 +249,7 @@ segments:
       - [0x50AC4, c, obj/mus_wait] #801752c4
       - [0x50C00, asm, obj/tire_bouchon_command] #80175400
       - [0x50C2C, asm, obj/petit_couteau_command] #8017542c
-      - [0x50C60, asm, obj/blacktoon_eyes_command] #80175460
+      - [0x50C60, c, obj/blacktoon_eyes_command] #80175460
       - [0x50CDC, c, obj/saxo] #801754dc
       - [0x537C0, c, obj/spider_plafond] #80177fc0
       - [0x548CC, c, draw/draw_548CC] #801790cc
