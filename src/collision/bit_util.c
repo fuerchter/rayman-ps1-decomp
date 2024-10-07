@@ -68,8 +68,8 @@ INCLUDE_ASM("asm/nonmatchings/collision/bit_util", snapToSprite);
 /* 22360 80146B60 -O2 -msoft-float */
 Obj *findfirstObject(ObjType obj_type)
 {
-    Obj *cur_obj = &level.objects[0];
     s16 i = 0;
+    Obj *cur_obj = &level.objects[i];
     s16 nb_objs = level.nb_objects;
 
     while (i < nb_objs)

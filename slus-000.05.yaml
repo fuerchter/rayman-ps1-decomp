@@ -91,7 +91,7 @@ segments:
       - [0x6394, .rodata, sound] #8012AB94
       - [0x6414, .rodata, card] #8012ac14
       - [0x6644, .rodata, obj/poing] #8012AE44
-      - [0x66A4, rodata]
+      - [0x66A4, .rodata, obj/trompette_command] #8012AEA4
       - [0x6724, .rodata, command_494FC] #8012af24
       - [0x67A4, .rodata, obj/mst_scroll] #8012AFA4
       - [0x67BC, .rodata, obj/fee_4DFD0] #8012AFBC
@@ -199,7 +199,7 @@ segments:
       - [0x3EB50, c, obj/corde] #80163350
       - [0x3ED10, c, unknown/3ED10] #80163510
       - [0x3EECC, c, obj/superhelico_init] #801636cc
-      - [0x3EFC4, asm, obj/rayon] #801637C4
+      - [0x3EFC4, c, obj/rayon] #801637C4
       - [0x3F0B8, c, unknown/3F0B8] #801638B8
       - [0x3F170, c, save] #80163970
       - [0x3FFAC, c, special_platform] #801647ac
@@ -209,10 +209,10 @@ segments:
       - [0x476F0, c, obj/poing] #8016bef0
       - [0x48528, c, unknown/48528] #8016cd28
       - [0x48D74, c, obj/spider_command] #8016d574
-      - [0x48F74, asm, obj/stoneman_command] #8016d774
+      - [0x48F74, c, obj/stoneman_command] #8016d774
       - [0x49090, c, obj/stonedog_command] #8016d890
       - [0x49320, c, obj/moving_platform_command] #8016DB20
-      - [0x493E0, asm, obj/trompette_command] #8016dbe0
+      - [0x493E0, c, obj/trompette_command] #8016dbe0
       - [0x494FC, c, command_494FC] #8016dcfc
       - [0x4995C, c, obj/stonebomb_command] #8016e15c
       - [0x49B74, c, obj/cymbal] #8016e374
