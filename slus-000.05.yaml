@@ -174,8 +174,8 @@ segments:
       - [0x38118, c, obj/stonebomb] #8015c918
       - [0x395B0, c, obj/spider_395B0] #8015ddb0
       - [0x3979C, asm, obj/platform] #8015df9c
-      - [0x398E8, c, obj/graine] #8015e0e8
-      - [0x39B90, asm, obj/nen_graine] #8015e214
+      - [0x398E8, c, obj/graine] #8015e0e8 TODO: includes DO_TARZAN()? merge with nen_graine?
+      - [0x39B90, c, obj/nen_graine] #8015e214
       - [0x39CD8, asm, obj/big_clown] #8015e4d8
       - [0x39DC8, c, obj/wat_clown] #8015e5c8
       - [0x3A004, c, obj/trompette] #8015e804
@@ -225,7 +225,7 @@ segments:
       - [0x4C978, c, obj/eclair_command] #80171178
       - [0x4CB88, c, obj/maracas_command] #80171388
       - [0x4D1C8, asm, obj/bb1_plat_command] #801719c8
-      - [0x4D1F4, asm, obj/flash_command] #801719f4
+      - [0x4D1F4, c, obj/flash_command] #801719f4
       - [0x4D354, c, obj/mst_scroll] #80171b54
       - [0x4D6EC, c, obj/caisse_claire_command] #80171eec
       - [0x4D7DC, c, obj/walk_note_command] #80171fdc
@@ -243,7 +243,7 @@ segments:
       - [0x500FC, asm, obj/ens_command] #801748fc
       - [0x501FC, c, obj/bateau_command] #801749fc
       - [0x504E8, asm, obj/bouee_joe_command] #80174ce8
-      - [0x50588, asm, obj/joe_command] #80174d88
+      - [0x50588, c, obj/joe_command] #80174d88
       - [0x506E8, c, obj/drop_command] #80174ee8
       - [0x5088C, c, obj/falling_obj_command] #8017508c
       - [0x50AC4, asm, obj/mus_wait] #801752c4
