@@ -27,7 +27,7 @@ void DO_MOVE_MARACAS_COMMAND(Obj *obj)
         cen_x = get_center_x(obj);
         cen_y = get_center_y(obj);
         if ((s16)on_block_chdir(obj, cen_x, cen_y) && (s16)test_allowed(obj, cen_x, cen_y))
-            skipToLabel(obj, 99, 1);
+            skipToLabel(obj, 99, true);
         
         obj->flags &= ~FLG(OBJ_FLIP_X);
         speed_x = 0;

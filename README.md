@@ -5,7 +5,7 @@ instructions for ubuntu (24.04.1 LTS):
 add SLUS-000.05 `sha1 4ac1789e118933762cd0ebcb9a970f63dfe2c72f` to project root  
 get [gcc-2.5.7](https://github.com/decompals/old-gcc/releases), add it to the tools dir
 ```
-sudo apt install python3 python3-pip binutils-mips-linux-gnu
+sudo apt install python3 python3-pip binutils-mipsel-linux-gnu cpp-mipsel-linux-gnu
 
 pip install -r requirements.txt
 

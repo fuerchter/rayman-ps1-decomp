@@ -1,51 +1,14 @@
-#NONMATCHINGS TYPES:
-#missing_addiu
-#	fake structs don't work for horloge (https://decomp.me/scratch/3YQbc) or cptr_tab (array/structs themselves), or rodata switch/case
-#	cc1psx.exe seems to fix these only for arrays/structs (not basic types?)
-#	arrays/structs involved in missing_addiu: horloge, block_flags, t_world_info, cptr_tab, D_801C7D20, PS1_AlwaysObjects, text_to_display, atak, SerieDatak
-#missing_nop
-#div_nop_swap
-#	og psyq 3.0 cc1psx.exe seems to fix div_nop_swap:
-#	DISPLAY_TEXT_FEE (this has an actual swap, some have a missing_nop?)
-#	display_time, DISPLAY_SAVE_SPRITES, DISPLAY_CONTINUE_SPR, doMoskitoHit, setBossReachingSpeeds, DO_COMMANDE_PAD
-
-#TODO:
-#remove all tools (except gcc locally) from tools/? would require a fork of m2ctx
-
-#skipToLabel callers: consistently use bool define as third param
-
-#check out -psx patched old-gcc to possibly clean up DO_WORLD_MAP, DETER_WORLD_AND_LEVEL world_index assign
-#skipTestArgs, readTestArgs share issues
-
-#see DO_BBL_COMMAND for slightly nicer way of writing block_flags[mp.map[...]]
-#apply MAX/MIN macros to code from before then
-#is there a way to inline EOA() (i couldn't find any yet), otherwise use macro? for example check MAIN_NO_MORE_CONTINUE_PRG
-#look for "flag_set" local for current way of writing EOA()
-#try rewriting some while loops as for again (or do{}while() as while), e.g. "allocate*" functions
-
+#NOTES
 #hardcoded pointers: the address 0x8005866C (main(), loading_794DC.c, data/loading_A0338 e.g.), FUN_80132864 (unused), data/loading_AA6EC, FUN_8019fb84, loading_tex.c (??? i can't tell), PS1_DrawColoredSprite
-#for u8 < 2 or >= 2 conditions look at RAY_RESPOND_TO_DOWN e.g.
-#PS1_star_spr adding "__attribute__((aligned(2)))" changed memcpy lw/sw into lwl/lwr etc. the address of it in the exe (or its data) did not change. check this for other data and functions that use it (INIT_LEVEL_STAGE_NAME, CHANGE_STAGE_NAMES)
-#when would someone actually have written do{}while(0); ? if(1) i can understand https://github.com/zeldaret/oot/pull/946 https://github.com/simonlindholm/decomp-permuter/issues/2 https://stackoverflow.com/questions/257418/do-while-0-what-is-it-good-for
-#split some boss objs again?
 #deal with WorldInfo.state
-#can you just write / 2 instead of >> 1? (sometimes, removing s16 cast needed?)
-#style: move assignment in if into second if. convert do/whiles into whiles where possible
-#order splat yaml settings by wiki
-#more enums, defines...
-#use a bool type?
-#what does this macro do? https://github.com/Xeeynamo/sotn-decomp/blob/e1391f8858c52b344534a047383127c1c5c17410/include/macro.inc#L13 https://discord.com/channels/1079389589950705684/1079395108501331990/1156337589465387128
-#missing structs: PS1/Display, PS1/DRENVAndTile, PS1/FileInfo, psyq/DIRENTRY, psyq/EvDesc, psyq/EvMode, psyq/EvSpec
-#ask about cd_cw, cd_read case issue
-#rename duplicate memcpy, set_alarm in ghidra
-#how to decompile ghidra_psx_ldr generated obj labels/functions in psyq?
 
-#there seems to be an extra section before rodata even (0x80010000 and on)? see loading_794DC?
-#display_etoile memcpy changed when .data was added, will this happen for others? (INIT_LEVEL_STAGE_NAME e.g.)
-#.data like DemoRecord might need incbin preprocessor stuff, see https://github.com/YohannDR/mzm/blob/e0f6976efb9d4be4b653d1c71ee803a8ef0599b3/tools/preproc/c_file.cpp#L326 ?
-#.bss ? https://github.com/HighwayFrogs/frogger-psx/tree/main/vlo https://github.com/ethteck/splat/wiki/Segments#bss https://github.com/FoxdieTeam/mgs_reversing/tree/df66887a738d28581438b9cb5e77cd762223762d/src/data
+#see DO_BBL_COMMAND for current way of writing block_flags[mp.map[...]]
+#apply MAX/MIN macros to code from before then
+#is there a way to inline EOA()? (include/common/macro.h)
+#rewrite some old while loops as for (or do{}while() as while), e.g. "allocate*" functions
+#places, where you might use ternary instead? (search "OBJ_FLIP_X) &&")
 
-#places, where you could use ternary instead? (search "OBJ_FLIP_X) &&")
+#renamed duplicate cd_cw, cd_read, memcpy, set_alarm in the beginning of the decomp
 
 EXE               := slus-000.05
 
@@ -59,7 +22,7 @@ BUILD_EXE         := $(BUILD_DIR)/$(EXE)
 
 PYTHON            := python3
 
-CROSS             := mips-linux-gnu-
+CROSS             := mipsel-linux-gnu-
 CPP               := $(CROSS)cpp
 CPP_FLAGS         := -Iinclude
 CC                := $(TOOLS_DIR)/gcc-2.5.7/cc1

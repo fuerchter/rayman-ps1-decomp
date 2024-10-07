@@ -60,7 +60,7 @@ void DO_2_PARTS_CYMBAL(Obj *cym_obj)
             if (cym_obj->field24_0x3e == 1)
             {
                 cym_obj->field24_0x3e = 2;
-                skipToLabel(link_obj, 99, 1);
+                skipToLabel(link_obj, 99, true);
             }
             if (cym_obj->field24_0x3e == 2)
             {
@@ -152,8 +152,8 @@ void DO_2_PARTS_CYMBAL(Obj *cym_obj)
                         link_obj->field24_0x3e = 1;
                         test_allowed(cym_obj, cym_offs_bx, cym_offs_by);
                         test_allowed(link_obj, link_offs_bx, link_offs_by);
-                        skipToLabel(cym_obj, 99, 1);
-                        skipToLabel(link_obj, 99, 1);
+                        skipToLabel(cym_obj, 99, true);
+                        skipToLabel(link_obj, 99, true);
                     }
                     else if (!(s16) on_block_chdir(link_obj, link_offs_bx, link_offs_by))
                     {

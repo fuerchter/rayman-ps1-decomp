@@ -135,19 +135,19 @@ void DO_WORLD_MAP(void)
     }
     if (PROC_EXIT)
     {
-        world_index = *(u8*)&num_world_choice;
+        world_index = num_world_choice;
         fin_du_jeu = true;
         menuEtape = 4;
         num_world_choice = num_world;
         num_world = 0;
         num_level_choice = num_level;
-        PlaySnd_old(0x4D);
+        PlaySnd_old(77);
     }
     else
     {
         DETER_WORLD_AND_LEVEL();
         if (ModeDemo == 0)
-            PlaySnd_old(0x45);
+            PlaySnd_old(69);
     }
     INIT_FADE_OUT();
     FIN_WORLD_CHOICE();

@@ -237,13 +237,13 @@ void DO_SKO_PHASE_0(Obj *sko_obj)
                     sko_ecroule_plat = ecroule_rubis_list[ecroule_rubis_order[ecroule_plat_index]];
                 }
                 if (sko_nb_frap == sko_sub_etat)
-                    skipToLabel(sko_obj, 4, 1);
+                    skipToLabel(sko_obj, 4, true);
                 if (sko_nb_frap == 5)
                 {
                     sko_nb_frap = 0;
                     sko_nb_hit = 0;
                     sko_phase++;
-                    skipToLabel(sko_obj, 5, 1);
+                    skipToLabel(sko_obj, 5, true);
                     ecroule_plat_index--;
                 }
             }
@@ -258,7 +258,7 @@ void DO_SKO_PHASE_0(Obj *sko_obj)
             else
             {
                 set_sub_etat(sko_obj, 4);
-                skipToLabel(sko_obj, 3, 1);
+                skipToLabel(sko_obj, 3, true);
                 sko_last_action = 4;
             }
         }
@@ -285,7 +285,7 @@ void DO_SKO_PHASE_1(Obj *obj)
         {
             sko_rayon_on = 0;
             sko_phase++;
-            skipToLabel(obj, 6, 1);
+            skipToLabel(obj, 6, true);
             sko_nb_frap = 0;
             obj->anim_frame = 0;
         }
@@ -332,7 +332,7 @@ void DO_SKO_PHASE_2(Obj *obj)
                 start_sko_rayon(obj->x_pos, obj->y_pos);
                 if (++sko_nb_frap == 5)
                 {
-                    skipToLabel(obj, 7, 1);
+                    skipToLabel(obj, 7, true);
                     sko_nb_frap = 0;
                     sko_phase++;
                 }
@@ -372,7 +372,7 @@ void DO_SKO_PHASE_3(Obj *obj)
             if (sko_nb_frap == 0)
             {
                 sko_nb_frap++;
-                skipToLabel(obj, 11, 1);
+                skipToLabel(obj, 11, true);
             }
             else if (sko_nb_frap == 2)
             {
@@ -619,7 +619,7 @@ void DO_SKO_HIT(Obj *obj)
             {
             case 0:
                 set_sub_etat(obj, 1);
-                skipToLabel(obj, 2, 1);
+                skipToLabel(obj, 2, true);
                 obj->change_anim_mode = ANIMMODE_NONE;
                 obj->anim_frame = 81;
                 sko_nb_frap = 0;
@@ -630,7 +630,7 @@ void DO_SKO_HIT(Obj *obj)
             case 2:
             case 3:
                 set_sub_etat(obj, 4);
-                skipToLabel(obj, 3, 1);
+                skipToLabel(obj, 3, true);
                 break;
             }
         }

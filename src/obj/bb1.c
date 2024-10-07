@@ -306,9 +306,9 @@ void allocateDog(Obj *bb1_obj)
                 cur->flags = cur->flags & ~FLG(OBJ_FLAG_9);
                 cur->sub_etat = 2;
                 if (cur->flags & FLG(OBJ_FLIP_X))
-                    skipToLabel(cur, 1, 1);
+                    skipToLabel(cur, 1, true);
                 else
-                    skipToLabel(cur, 0, 1);
+                    skipToLabel(cur, 0, true);
                 calc_obj_pos(cur);
                 if (niveau == 0)
                     cur->hit_points = 1;

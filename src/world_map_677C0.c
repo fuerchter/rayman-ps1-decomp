@@ -447,35 +447,37 @@ void FIN_WORLD_CHOICE(void)
         ray.hit_points = 0;
 }
 
-/* early returns kinda gross compared to android */
 /* 6A224 8018EA24 -O2 */
 void DETER_WORLD_AND_LEVEL(void)
 {
-  world_index = num_world_choice;
-  if (ModeDemo == 0)
-  {
-    num_level_choice = t_world_info[num_world_choice].level;
-    num_world_choice = t_world_info[num_world_choice].world;
-  }
-  if (num_world_choice == 5)
-  {
-    if (num_level_choice == 3 && finBosslevel[1] & FLG(1))
+    world_index = num_world_choice;
+    if (ModeDemo == 0)
     {
-      num_level_choice++;
-      RayEvts.luciole = true;
-      return;
+        num_level_choice = t_world_info[num_world_choice].level;
+        num_world_choice = t_world_info[num_world_choice].world;
     }
-    else if (num_world_choice == 5 && num_level_choice == 4 && finBosslevel[1] & FLG(1) && ModeDemo != 0)
+    
+    if (
+        num_world_choice == 5 && num_level_choice == 3 &&
+        finBosslevel[1] & FLG(1)
+    )
     {
-      RayEvts.luciole = true;
-      return;
+        num_level_choice++;
+        RayEvts.luciole = true;
     }
-  }
-  if (num_world_choice == 6 && finBosslevel[0] & FLG(7))
-  {
-    You_Win = true;
-    fin_du_jeu = true;
-    fin_dark = true;
-    new_world = true;
-  }
+    else if (
+        num_world_choice == 5 && num_level_choice == 4 &&
+        finBosslevel[1] & FLG(1) && ModeDemo != 0
+    )
+        RayEvts.luciole = true;
+    else if (
+        num_world_choice == 6 &&
+        finBosslevel[0] & FLG(7)
+    )
+    {
+        You_Win = true;
+        fin_du_jeu = true;
+        fin_dark = true;
+        new_world = true;
+    }
 }

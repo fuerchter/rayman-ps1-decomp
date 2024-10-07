@@ -25,7 +25,7 @@ void DO_FEE_ETAPE(Obj *obj)
         wait_for_dialogue_fee(obj, 100);
         if (display_txt_fee == 5 || text_to_display[display_txt_fee].text[0] == '\0')
         {
-            skipToLabel(obj, 1, 0);
+            skipToLabel(obj, 1, false);
             obj->field56_0x69 = 0;
             display_txt_fee = 0xFF;
             obj->timer = 0;
@@ -116,7 +116,7 @@ void DO_FEE(Obj *obj)
                 )
                 {
                     set_sub_etat(obj, 1);
-                    skipToLabel(obj, 0, 1);
+                    skipToLabel(obj, 0, true);
                     set_main_and_sub_etat(&ray, 3, 34);
                     remoteRayXToReach = -32000;
                     ray.flags |= FLG(OBJ_FLIP_X);
