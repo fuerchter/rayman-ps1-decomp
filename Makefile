@@ -60,13 +60,16 @@ BUILD_EXE         := $(BUILD_DIR)/$(EXE)
 PYTHON            := python3
 
 CROSS             := mips-linux-gnu-
+CPP               := $(CROSS)cpp
+CPP_FLAGS         := -Iinclude
+CC                := $(TOOLS_DIR)/gcc-2.5.7/cc1
+CC_FLAGS          := -quiet -mgas -msoft-float -G0 -O2 -fno-builtin -gcoff
+MASPSX            := $(PYTHON) $(TOOLS_DIR)/maspsx/maspsx.py
+MASPSX_FLAGS      := --macro-inc --expand-div --aspsx-version=2.08
 AS                := $(CROSS)as
 AS_FLAGS          := -EL -mips2 -msoft-float -no-pad-sections -Iinclude
-GCC               := $(TOOLS_DIR)/gcc-2.5.7/gcc
-GCC_FLAGS         := -c -mgas -msoft-float -B$(TOOLS_DIR)/gcc-2.5.7/ -pipe -Iinclude -fshort-enums -fno-builtin -gcoff
-GCC_AS_FLAGS      := -Wa,-EL,-mips2,-msoft-float,-no-pad-sections,-Iinclude
 LD                := $(CROSS)ld
-LD_FLAGS          := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T jtbl.txt -Map $(BUILD_EXE).map
+LD_FLAGS          := -EL -T $(EXE).ld -T undefined_syms_auto.txt -T undefined.txt -Map $(BUILD_EXE).map
 
 ASM_FILES         := $(wildcard $(ASM_DIR)/**.s) $(wildcard $(ASM_DIR)/**/**.s)
 SRC_FILES_O2      := $(wildcard $(SRC_DIR)/**.c) $(wildcard $(SRC_DIR)/**/**.c) $(wildcard $(SRC_DIR)/**/**/**.c)
@@ -102,16 +105,15 @@ $(BUILD_DIR)/%.s.o: %.s
 	$(AS) $(AS_FLAGS) -o $@ $<
 
 #see https://github.com/decompme/decomp.me/blob/45e8a9078424154a3177a4db5fa08aa930445295/backend/coreapp/compilers.py#L352
-#-v for verbose output
 $(O_SRC_O2) : $(BUILD_DIR)/%.o : %
-	$(GCC) $(GCC_FLAGS) -G0 -O2 $(GCC_AS_FLAGS) -o $@ $<
+	$(CPP) $(CPP_FLAGS) $< | $(CC) $(CC_FLAGS) | $(MASPSX) $(MASPSX_FLAGS) | $(AS) $(AS_FLAGS) -o $@
 
 $(O_SRC_O1) : $(BUILD_DIR)/%.o : %
-	$(GCC) $(GCC_FLAGS) -G0 -O1 $(GCC_AS_FLAGS) -o $@ $<
+	$(CPP) $(CPP_FLAGS) $< | $(CC) -quiet -mgas -msoft-float -G0 -O1 -fno-builtin -gcoff | $(MASPSX) $(MASPSX_FLAGS) | $(AS) $(AS_FLAGS) -o $@
 
-GCC_SCR := $(TOOLS_DIR)/gcc-2.5.7/
+CC_SCR := $(TOOLS_DIR)/gcc-2.5.7/cc1
 $(O_SRC_SCRATCH) : $(BUILD_DIR)/%.o : %
-	$(GCC_SCR)gcc -c -mgas -msoft-float -B$(GCC_SCR) -pipe -Iinclude -fshort-enums -fno-builtin -gcoff -G0 -O2 -Wa,-EL,-mips2,-msoft-float,-no-pad-sections,-Iinclude -o $@ $<
+	$(CPP) $(CPP_FLAGS) $< | $(CC_SCR) -quiet -mgas -msoft-float -G0 -O2 -fno-builtin -gcoff | $(MASPSX) $(MASPSX_FLAGS) | $(AS) $(AS_FLAGS) -o $@
 
 check:
 	sha1sum --check $(EXE).sha1
