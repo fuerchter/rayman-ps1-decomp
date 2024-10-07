@@ -236,3 +236,18 @@ void PAR_REACT_TO_RAY_IN_ZONE(Obj *obj)
             set_sub_etat(obj, 5);
     }
 }
+
+/* 5D128 80181928 -O2 -msoft-float */
+void DO_PAR_BOMB_COMMAND(Obj *obj)
+{
+    if (obj->timer != 0)
+    {
+        if (horloge[2] != 0)
+            obj->timer--;
+    }
+    else
+    {
+        PlaySnd_old(147);
+        BombExplosion(obj);
+    }
+}

@@ -231,7 +231,7 @@ segments:
       - [0x4D7DC, c, obj/walk_note_command] #80171fdc
       - [0x4D908, c, obj/eau] #80172108
       - [0x4DF04, c, obj/photographe_command] #80172704
-      - [0x4DF88, asm, obj/reducteur] #80172788
+      - [0x4DF88, c, obj/reducteur] #80172788
       - [0x4DFD0, c, obj/fee_4DFD0] #801727d0
       - [0x4E7DC, c, obj/stonewoman] #80172fdc
       - [0x4ED80, c, obj/herse] #80173580
@@ -248,7 +248,7 @@ segments:
       - [0x5088C, c, obj/falling_obj_command] #8017508c
       - [0x50AC4, c, obj/mus_wait] #801752c4
       - [0x50C00, asm, obj/tire_bouchon_command] #80175400
-      - [0x50C2C, asm, obj/petit_couteau_command] #8017542c
+      - [0x50C2C, c, obj/petit_couteau_command] #8017542c
       - [0x50C60, c, obj/blacktoon_eyes_command] #80175460
       - [0x50CDC, c, obj/saxo] #801754dc
       - [0x537C0, c, obj/spider_plafond] #80177fc0
@@ -259,7 +259,6 @@ segments:
       - [0x5BD8C, c, fond_5BD8C] #8018058c
       - [0x5C2BC, c, unknown/5C2BC] #80180abc
       - [0x5C304, c, obj/pirate_guetteur] #80180b04
-      - [0x5D128, asm, obj/pirate_bomb_command] #80181928
       - [0x5D190, c, ray/ray_5D190] #80181990
       - [0x640F0, c, obj/space_mama] #801888f0
       - [0x66BE8, c, boss] #8018b3e8
