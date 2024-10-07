@@ -224,7 +224,7 @@ segments:
       - [0x4C3A0, c, obj/clown_tnt_command] #80170ba0
       - [0x4C978, c, obj/eclair_command] #80171178
       - [0x4CB88, c, obj/maracas_command] #80171388
-      - [0x4D1C8, asm, obj/bb1_plat_command] #801719c8
+      - [0x4D1C8, c, obj/bb1_plat_command] #801719c8
       - [0x4D1F4, c, obj/flash_command] #801719f4
       - [0x4D354, c, obj/mst_scroll] #80171b54
       - [0x4D6EC, c, obj/caisse_claire_command] #80171eec
@@ -247,7 +247,7 @@ segments:
       - [0x506E8, c, obj/drop_command] #80174ee8
       - [0x5088C, c, obj/falling_obj_command] #8017508c
       - [0x50AC4, c, obj/mus_wait] #801752c4
-      - [0x50C00, asm, obj/tire_bouchon_command] #80175400
+      - [0x50C00, c, obj/tire_bouchon_command] #80175400
       - [0x50C2C, c, obj/petit_couteau_command] #8017542c
       - [0x50C60, c, obj/blacktoon_eyes_command] #80175460
       - [0x50CDC, c, obj/saxo] #801754dc
@@ -271,7 +271,7 @@ segments:
       - [0x71680, c, obj/batteur_fou] #80195e80
       - [0x72384, c, obj/pirate_poelle] #80196b84
       - [0x729F0, c, obj/dark_729F0] #801971f0
-      - [0x7494C, asm, obj/vitrail] #8019914c
+      - [0x7494C, c, obj/vitrail] #8019914c
       - [0x74954, c, obj/ufo_idc] #80199154
       - [0x74FEC, c, obj/dark_74FEC] #801997ec
       - [0x753E8, c, obj/hybride_mosams_command] #80199be8

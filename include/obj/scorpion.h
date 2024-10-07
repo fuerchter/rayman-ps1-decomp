@@ -13,13 +13,15 @@
 #include "collision/etat.h"
 
 /* .data */
+extern u8 ecroule_rubis_order[24];
+
+/* .data */
 extern s16 D_801C83A4[8];
 extern s16 D_801C83B4[8];
 
 /**/
 extern u8 ecroule_rubis_list[8];
 extern u8 ecroule_plat_index;
-extern u8 ecroule_rubis_order[24];
 extern s16 rubis_list_calculated;
 extern s32 sko_ecran_tremble;
 extern s16 sko_ecroule_plat;
