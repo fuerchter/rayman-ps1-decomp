@@ -34,7 +34,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: fuerchter/rayman-ps1-exe
-        token: ${{ secrets.GH_PAT }}
+        token: ${{ secrets.EXE_PAT }}
         path: 'exe'
     - if: steps.other-cache.outputs.cache-hit != 'true'
       run: cp exe/SLUS-000.05 SLUS-000.05
