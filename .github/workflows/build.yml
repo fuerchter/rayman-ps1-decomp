@@ -21,7 +21,6 @@ jobs:
         python-version: '3.12'
         cache: 'pip'
     - run: pip install -r requirements.txt
-    - run: echo ${{ secrets.GH_PAT }} | tr '[A-Z]' '[X-ZA-W]'
     - name: Cache other dependencies
       id: other-cache
       uses: actions/cache@v4
