@@ -1,4 +1,4 @@
-# rayman-splat
+# rayman-ps1-decomp
 
 instructions for ubuntu (24.04.1 LTS):
 
