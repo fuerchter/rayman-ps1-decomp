@@ -1,0 +1,51 @@
+name: Build
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone
+      uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+    - name: Install requirements
+      run: sudo apt install binutils-mipsel-linux-gnu cpp-mipsel-linux-gnu
+    - name: Cache pip dependencies
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+        cache: 'pip'
+    - run: pip install -r requirements.txt
+    - run: echo ${{ secrets.GH_PAT }} | tr '[A-Z]' '[X-ZA-W]'
+    - name: Cache other dependencies
+      id: other-cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          SLUS-000.05
+          tools/gcc-2.5.7
+        key: other-cache
+    - if: steps.other-cache.outputs.cache-hit != 'true'
+      name: Get exe
+      uses: actions/checkout@v4
+      with:
+        repository: fuerchter/rayman-ps1-exe
+        token: ${{ secrets.GH_PAT }}
+        path: 'exe'
+    - if: steps.other-cache.outputs.cache-hit != 'true'
+      run: cp exe/SLUS-000.05 SLUS-000.05
+    - if: steps.other-cache.outputs.cache-hit != 'true'
+      name: Get gcc
+      run:
+        wget https://github.com/decompals/old-gcc/releases/download/0.12/gcc-2.5.7.tar.gz &&
+        mkdir tools/gcc-2.5.7 &&
+        tar -xzvf gcc-2.5.7.tar.gz -C tools/gcc-2.5.7
+    - name: Extract
+      run: make extract
+    - name: Make
+      run: make
