@@ -75,7 +75,7 @@ s16 PS1_CalcTextWidth(u8 *str, u8 font)
 }
 
 /* 182D0 8013CAD0 -O2 -msoft-float */
-void PS1_DisplayCenteredText(u8 *str, u8 param_2, u8 color)
+void PS1_DisplayMenuText(u8 *str, u8 param_2, u8 color)
 {
     GetClut(color * 16 + 64, 509);
     display_text(
@@ -88,7 +88,7 @@ void PS1_DisplayCenteredText(u8 *str, u8 param_2, u8 color)
 }
 
 /* 1835C 8013CB5C -O2 -msoft-float */
-void PS1_DisplayMultipleCenteredText(u8 index, MenuText *in_menus)
+void PS1_DisplayMenuTexts(u8 index, MenuText *in_menus)
 {
     u8 sel_row;
     u8 *count;
@@ -106,12 +106,12 @@ void PS1_DisplayMultipleCenteredText(u8 index, MenuText *in_menus)
         unk_1 = sel_row + 6;
         PS1_DrawSprite(&alpha.sprites[40], 39, (unk_1 - *count) * 36 + 4, 0);
     }
-    PS1_DisplayCenteredText(menu->header, 1, menu->color);
+    PS1_DisplayMenuText(menu->header, 1, menu->color);
     
     for (i = 0; i < *count; i++)
     {
         unk_2 = i + 7;
-        PS1_DisplayCenteredText(menu->rows[i], unk_2 - *count, menu->color);
+        PS1_DisplayMenuText(menu->rows[i], unk_2 - *count, menu->color);
     }
 }
 
