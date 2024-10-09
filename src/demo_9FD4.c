@@ -1,13 +1,66 @@
 #include "demo_9FD4.h"
 
-INCLUDE_ASM("asm/nonmatchings/demo_9FD4", InitDemoJeu);
+/* 9FD4 8012E7D4 -O2 -msoft-float */
+void InitDemoJeu(void)
+{
+    if (NumDemo == 6)
+    {
+        NumDemo = 0;
+        PS1_VideoState = VIDEOST_PLAYING;
+        ModeDemo = 0;
+        TempsDemo = 0;
+        DO_FADE_OUT();
+        PS1_PlayVideo(VIDEO_INTRO);
+        return;
+    }
+
+    PS1_VideoState = VIDEOST_NOT_PLAYING;
+    ModeDemo = 1;
+    TempsDemo = 0;
+
+    SauveRayEvtsDemo = RayEvts;
+    RayEvts.poing = true;
+    RayEvts.hang = true;
+    RayEvts.helico = true;
+    RayEvts.super_helico = true;
+    RayEvts.handstand_dash = false;
+    RayEvts.handstand = false;
+    RayEvts.grain = false;
+    RayEvts.grap = true;
+    RayEvts.run = true;
+    RayEvts.demi = false;
+    RayEvts.luciole = false;
+    RayEvts.force_run = false;
+    RayEvts.reverse = false;
+
+    __builtin_memcpy(&options_jeu_save, &options_jeu, sizeof(OptionsJeu));
+    options_jeu.Jump = 1;
+    options_jeu.Fist = 0;
+    options_jeu.Action = 3;
+    options_jeu.field6_0x14 = 3;
+    options_jeu.field11_0x1e = 0;
+    options_jeu.field12_0x20 = 0;
+    options_jeu.field14_0x24 = 0;
+    options_jeu.field13_0x22 = 0;
+    POINTEUR_BOUTONS_OPTIONS_BIS();
+    finBosslevel[1] |= FLG(1)|FLG(3);
+    num_world_choice = DemoRecordWolrd[NumDemo];
+    num_level_choice = DemoRecordMap[NumDemo];
+    new_world = true;
+    new_level = true;
+    num_world = 0;
+    num_level = 0;
+    ray.hit_points = 2;
+    status_bar.max_hp = 2;
+    status_bar.num_lives = 3;
+    record.is_playing = true;
+    record.current_offset = 0;
+    record.length = DemoRecordSize[NumDemo];
+    record.data = DemoRecord[NumDemo];
+    INIT_HORLOGES();
+}
 
 /* A228 8012EA28 -O2 */
-/*? DO_FADE_OUT(s32);
-? INIT_RAY(?);
-? POINTEUR_BOUTONS_OPTIONS_BIS(u8 *, u8 *, OptionsJeu *, OptionsJeu *);
-? PS1_PlayVideo(?);*/
-
 void FinDemoJeu(void)
 {
     if (record.repeat_index == record.repeat_length)
@@ -16,7 +69,7 @@ void FinDemoJeu(void)
         RunTimeDemo = 1800;
     ModeDemo = 0;
     TempsDemo = 0;
-    INIT_RAY(1);
+    INIT_RAY(true);
     RayEvts = SauveRayEvtsDemo;
     record.is_playing = false;
     record.current_offset = 0;
