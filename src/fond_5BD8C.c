@@ -1,4 +1,5 @@
 #include "fond_5BD8C.h"
+#include "rayconst.h"
 
 extern u8 D_801E4B58;
 extern u8 *D_801F4380; /* still don't know where to put this */
@@ -8,8 +9,8 @@ INCLUDE_ASM("asm/nonmatchings/fond_5BD8C", FUN_8018058c);
 /* 5BF84 80180784 -O2 -msoft-float */
 void DISPLAY_FOND3(void)
 {
-    s16 y = (240 - plan2_height) >> 1;
-    s16 x = (320 - plan2_width) >> 1;    
+    s16 y = (SCREEN_HEIGHT - plan2_height) >> 1;
+    s16 x = (SCREEN_WIDTH - plan2_width) >> 1;
     
     if (D_801E4B58 == true)
         y = 0;
@@ -21,8 +22,8 @@ INCLUDE_ASM("asm/nonmatchings/fond_5BD8C", FUN_80180804);
 /* 5C1FC 801809FC -O2 -msoft-float */
 void FUN_801809fc(void)
 {
-    s16 y = (480 - plan2_height) >> 1;
-    s16 x = (640 - plan2_width) >> 1;
+    s16 y = (SCREEN_HEIGHT * 2 - plan2_height) >> 1;
+    s16 x = (SCREEN_WIDTH * 2 - plan2_width) >> 1;
 
     if (D_801E4B58 == true)
         y = 0;

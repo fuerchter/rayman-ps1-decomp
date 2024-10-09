@@ -1,4 +1,5 @@
 #include "unknown/7BB28.h"
+#include "rayconst.h"
 
 /* 7BB28 801A0328 -O2 -msoft-float */
 void PS1_StopLevelMusic(void)
@@ -81,12 +82,12 @@ void PS1_InitDisplay(Display *display)
     SetShadeTex(&display->field_0x6094_0x60b7, true);
     display->field_0x6094_0x60b7.x0 = 0;
     display->field_0x6094_0x60b7.y0 = 0;
-    display->field_0x6094_0x60b7.x1 = 320;
+    display->field_0x6094_0x60b7.x1 = SCREEN_WIDTH;
     display->field_0x6094_0x60b7.y1 = 0;
     display->field_0x6094_0x60b7.x2 = 0;
-    display->field_0x6094_0x60b7.y2 = 240;
-    display->field_0x6094_0x60b7.x3 = 320;
-    display->field_0x6094_0x60b7.y3 = 240;
+    display->field_0x6094_0x60b7.y2 = SCREEN_HEIGHT;
+    display->field_0x6094_0x60b7.x3 = SCREEN_WIDTH;
+    display->field_0x6094_0x60b7.y3 = SCREEN_HEIGHT;
     display->field_0x6094_0x60b7.r0 = 255;
     display->field_0x6094_0x60b7.g0 = 255;
     display->field_0x6094_0x60b7.b0 = 255;
@@ -105,8 +106,8 @@ void PS1_InitDisplay(Display *display)
     SetShadeTex(&display->field_0x6084_0x6093, true);
     display->field_0x6084_0x6093.x0 = 0;
     display->field_0x6084_0x6093.y0 = 0;
-    display->field_0x6084_0x6093.w = 320;
-    display->field_0x6084_0x6093.h = 240;
+    display->field_0x6084_0x6093.w = SCREEN_WIDTH;
+    display->field_0x6084_0x6093.h = SCREEN_HEIGHT;
     display->field_0x6084_0x6093.r0 = 255;
     display->field_0x6084_0x6093.g0 = 255;
     display->field_0x6084_0x6093.b0 = 255;

@@ -1,4 +1,5 @@
 #include "first_init.h"
+#include "rayconst.h"
 
 const u8 s_loading_8012c368[] = "/loading.../";
 
@@ -66,8 +67,8 @@ void FUN_8019fb84(void)
     FUN_8012d2b0(0);
     SYNCHRO_LOOP(PS1_RollUpRToL);
     ClearImage(&fb_rect_1, 0, 0, 0);
-    fb_rect_2.x = (320 - plan2_width) / 2 + 704;
-    fb_rect_2.y = (240 - plan2_height) / 2;
+    fb_rect_2.x = (SCREEN_WIDTH - plan2_width) / 2 + 704;
+    fb_rect_2.y = (SCREEN_HEIGHT - plan2_height) / 2;
     fb_rect_2.w = plan2_width;
     fb_rect_2.h = plan2_height;
     LoadImage(&fb_rect_2, (u32 *)D_801F4380);
@@ -155,10 +156,10 @@ void FIRST_INIT(void)
         StartPAD();
         ChangeClearPAD(0);
     }
-    SetDefDrawEnv(&PS1_Displays[0].drawing_environment, 0, 0, 320, 240);
-    SetDefDispEnv(&PS1_Displays[0].field0_0x0, 0, 256, 320, 240);
-    SetDefDrawEnv(&PS1_Displays[1].drawing_environment, 0, 256, 320, 240);
-    SetDefDispEnv(&PS1_Displays[1].field0_0x0, 0, 0, 320, 240);
+    SetDefDrawEnv(&PS1_Displays[0].drawing_environment, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    SetDefDispEnv(&PS1_Displays[0].field0_0x0, 0, 256, SCREEN_WIDTH, SCREEN_HEIGHT);
+    SetDefDrawEnv(&PS1_Displays[1].drawing_environment, 0, 256, SCREEN_WIDTH, SCREEN_HEIGHT);
+    SetDefDispEnv(&PS1_Displays[1].field0_0x0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     PS1_Displays[1].field0_0x0.pad0 = 0;
     PS1_Displays[0].field0_0x0.pad0 = 0;
     PS1_LoadImgSplash();

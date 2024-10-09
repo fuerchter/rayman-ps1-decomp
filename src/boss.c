@@ -1,4 +1,5 @@
 #include "boss.h"
+#include "rayconst.h"
 
 /* TODO: still lots of unknowns */
 /* 66BE8 8018B3E8 -O2 -msoft-float */
@@ -101,7 +102,7 @@ s16 firstFloorBelow(Obj *obj)
   s16 y = obj->offset_by + obj->y_pos;
   u8 btyp = PS1_BTYPAbsPos(x, y);
   
-  while (!(block_flags[btyp] >> BLOCK_SOLID & 1) && (y <= ymapmax + 240))
+  while (!(block_flags[btyp] >> BLOCK_SOLID & 1) && (y <= ymapmax + SCREEN_HEIGHT))
   {
     y += 16;
     btyp = PS1_BTYPAbsPos(x, y);

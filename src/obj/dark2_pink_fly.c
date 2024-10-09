@@ -1,4 +1,5 @@
 #include "obj/dark2_pink_fly.h"
+#include "rayconst.h"
 
 /* 78004 8019C804 -O2 -msoft-float */
 void AllocateToons(void)
@@ -19,7 +20,7 @@ void AllocateToons(void)
             cur_obj->display_prio = 4;
             cur_obj->init_x_pos =
             cur_obj->x_pos =
-                320;
+                SCREEN_WIDTH;
             cur_obj->init_y_pos = 
             cur_obj->y_pos =
                 ymap + 100;

@@ -1,4 +1,5 @@
 #include "obj/dark_74FEC.h"
+#include "rayconst.h"
 
 /* 74FEC 801997EC -O2 -msoft-float */
 void allocateSTOSKO(void)
@@ -12,7 +13,7 @@ void allocateSTOSKO(void)
     y = firstFloorBelow(obj) - obj->offset_by;
     obj->init_y_pos = y;
     obj->y_pos = y;
-    obj->x_pos = xmapmax + 320;
+    obj->x_pos = xmapmax + SCREEN_WIDTH;
     obj->init_x_pos = xmap - obj->offset_bx + 260;
     obj->timer = 50;
     obj->flags &= ~FLG(OBJ_FLIP_X);

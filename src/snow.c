@@ -1,4 +1,5 @@
 #include "snow.h"
+#include "rayconst.h"
 
 /* 3B264 8015FA64 -O2 -msoft-float */
 void add_one_floc(void)
@@ -97,9 +98,9 @@ void init_flocons(void)
         unk_2 = 5;
         unk_2 = (i << unk_2) - 64;
         invpy0[i] = inverse_proj_y(unk_2, 0);
-        invpy200[i] = inverse_proj_y(unk_2, 240);
+        invpy200[i] = inverse_proj_y(unk_2, SCREEN_HEIGHT);
         invpx0[i] = inverse_proj_x(unk_2, 0);
-        invpx320[i] = inverse_proj_x(unk_2, 320);
+        invpx320[i] = inverse_proj_x(unk_2, SCREEN_WIDTH);
         j = 0;
         while (j < tot_nb_flocs[i])
         {
@@ -111,8 +112,8 @@ void init_flocons(void)
                     unk_4 = myRand(400) - 150;
                     unk_5 = get_proj_x(unk_2, unk_3);
                     unk_6 = get_proj_y(unk_2, unk_4);
-                } while ((u16) (unk_5 + unk_1) > 320 - 2);
-            } while ((u16) (unk_6 + unk_1) > 240 - 2);
+                } while ((u16) (unk_5 + unk_1) > SCREEN_WIDTH - 2);
+            } while ((u16) (unk_6 + unk_1) > SCREEN_HEIGHT - 2);
             flocon_tab[flc_i].field0_0x0 = unk_3;
             flocon_tab[flc_i].field1_0x2 = unk_4;
             flocon_tab[flc_i].field2_0x4 = unk_2;

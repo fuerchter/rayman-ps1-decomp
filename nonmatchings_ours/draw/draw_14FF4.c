@@ -1,4 +1,5 @@
 #include "draw/draw_14FF4.h"
+#include "rayconst.h"
 
 /* matches, but gross */
 /*INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", display_bar_boss);*/
@@ -147,11 +148,11 @@ void DISPLAY_ALL_OBJECTS(void)
                                 
                                 PS1_CurrentDisplay->field_0x6094_0x60b7.x0 = 0;
                                 PS1_CurrentDisplay->field_0x6094_0x60b7.y0 = obj->screen_y_pos + 25;
-                                PS1_CurrentDisplay->field_0x6094_0x60b7.x1 = 320;
+                                PS1_CurrentDisplay->field_0x6094_0x60b7.x1 = SCREEN_WIDTH;
                                 PS1_CurrentDisplay->field_0x6094_0x60b7.y1 = obj->screen_y_pos + 25;
                                 PS1_CurrentDisplay->field_0x6094_0x60b7.x2 = 0;
                                 PS1_CurrentDisplay->field_0x6094_0x60b7.y2 = obj->screen_y_pos + 90;
-                                PS1_CurrentDisplay->field_0x6094_0x60b7.x3 = 320;
+                                PS1_CurrentDisplay->field_0x6094_0x60b7.x3 = SCREEN_WIDTH;
                                 PS1_CurrentDisplay->field_0x6094_0x60b7.y3 = obj->screen_y_pos + 90;
 
                                 PS1_CurrentDisplay->field_0x6094_0x60b7.r0 = 0;

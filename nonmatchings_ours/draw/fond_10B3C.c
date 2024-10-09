@@ -1,4 +1,5 @@
 #include "draw/fond_10B3C.h"
+#include "rayconst.h"
 
 /* give m2c another go? */
 /*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_LoadFondSprites);*/
@@ -313,7 +314,7 @@ void FUN_80135ab0(s16 param_1, s16 *param_2)
         var_s0++;
         var_s1++;
         D_801E4BC8++;
-        if (PS1_FondHeight < (temp_s3 + 240))
+        if (PS1_FondHeight < (temp_s3 + SCREEN_HEIGHT))
         {
             __builtin_memcpy(var_s1, var_s0 - 1, sizeof(SPRT));
             var_s0->y0 += PS1_FondHeight;

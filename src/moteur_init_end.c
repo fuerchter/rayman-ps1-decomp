@@ -1,4 +1,5 @@
 #include "moteur_init_end.h"
+#include "rayconst.h"
 
 /* TODO: move to header */
 extern u8 PS1_CardShouldCheckFirstBoot; /* goes with card stuff? or menu? */
@@ -46,8 +47,8 @@ void INIT_MOTEUR(u8 new_lvl)
     actobj.objects[0] = -1;
     xmap = 0;
     ymap = 0;
-    ymapmax = (mp.height * 16) - 240;
-    xmapmax = ((u16) mp.width * 16) - (320 + 1);
+    ymapmax = (mp.height * 16) - SCREEN_HEIGHT;
+    xmapmax = ((u16) mp.width * 16) - (SCREEN_WIDTH + 1);
     MAX_2(xmapmax, 0);
     MAX_2(ymapmax, 0);
     v_scroll_speed = 0;

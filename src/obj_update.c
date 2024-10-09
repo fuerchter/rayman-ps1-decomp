@@ -1,4 +1,5 @@
 #include "obj_update.h"
+#include "rayconst.h"
 
 void DO_BALLE(Obj *obj);
 
@@ -1262,7 +1263,7 @@ void MOVE_OBJECT(Obj *obj)
                         !(block_flags[PS1_BTYPAbsPos(x_pos_1, y_pos)] >> BLOCK_FLAG_4 & 1) &&
                         block_flags[PS1_BTYPAbsPos(x_pos_2, y_pos)] >> BLOCK_FLAG_4 & 1
                     ) ||
-                    x_pos_2 < 0 || (x_pos_2 > xmapmax + 320)
+                    x_pos_2 < 0 || (x_pos_2 > xmapmax + SCREEN_WIDTH)
                 )
                 {
                     speed_x_2 = -speed_x_2;

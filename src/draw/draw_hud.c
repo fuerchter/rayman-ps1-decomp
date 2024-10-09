@@ -1,4 +1,5 @@
 #include "draw/draw_hud.h"
+#include "rayconst.h"
 
 /* TODO: Display struct */
 /*extern s32 PS1_CurrentDisplay;*/
@@ -41,8 +42,8 @@ void display_etoile(s32 in_x, s32 in_y)
     draw_x = star->dist + (in_x - xmap) - 8;
     draw_y = star->dist + (in_y - ymap);
     if (
-        draw_x > 0 && 320 - draw_x > 0 &&
-        draw_y > 0 && 240 - draw_y > 0
+        draw_x > 0 && SCREEN_WIDTH - draw_x > 0 &&
+        draw_y > 0 && SCREEN_HEIGHT - draw_y > 0
     )
     {
         sprite = loc_star_spr[star->sprite_table_index];
@@ -96,8 +97,8 @@ void DISPLAY_TEXT_FEE(void)
   s16 obj_x;
   s16 marg_x;
   
-  DISPLAY_BLACKBOX(0, 0, 320, 20, 0, false);
-  DISPLAY_BLACKBOX(0, 190, 320, 50, 0, false);
+  DISPLAY_BLACKBOX(0, 0, SCREEN_WIDTH, 20, 0, false);
+  DISPLAY_BLACKBOX(0, 190, SCREEN_WIDTH, 50, 0, false);
   txt_fee = display_txt_fee;
   if (txt_fee != 0xff)
   {
@@ -155,7 +156,7 @@ INCLUDE_ASM("asm/nonmatchings/draw/draw_hud", DisplayJumellesNormal);
 
 void PS1_DisplayWorldMapBg1(s16 x1, s16 y1, s16 x2, s16 y2)
 {
-    PS1_DisplayWorldMapBg2(x1, y1, x2, y2, 130, 320 - x2);
+    PS1_DisplayWorldMapBg2(x1, y1, x2, y2, 130, SCREEN_WIDTH - x2);
 }
 
 /* 1A388 8013EB88 -O2 -msoft-float */
@@ -282,7 +283,7 @@ void PS1_LoadPts(void)
   u8 *pixel_2;
   s32 i;
   
-  rect.x = 320; rect.y = 0; rect.w = 40; rect.h = 8;
+  rect.x = SCREEN_WIDTH; rect.y = 0; rect.w = 40; rect.h = 8;
   ClearImage(&rect, 0, 0, 0);
   i = 63;
   pixel_1 = image + i;

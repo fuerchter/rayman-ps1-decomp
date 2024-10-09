@@ -1,4 +1,5 @@
 #include "draw/rollup_trans.h"
+#include "rayconst.h"
 
 /* 8830 8012D030 -O2 -msoft-float */
 void FUN_8012d030(DVECTOR tpage_pos, DVECTOR param_2, s16 step_width, s16 step_height, s16 poly_count)
@@ -11,8 +12,8 @@ void FUN_8012d030(DVECTOR tpage_pos, DVECTOR param_2, s16 step_width, s16 step_h
     u8 unk_y_2;
     u16 tpage_1 = GetTPage(2, 1, tpage_pos.vx, tpage_pos.vy);
     u16 tpage_2 = GetTPage(2, 1, tpage_pos.vx + 128, tpage_pos.vy);
-    s16 steps_x = 320 / step_width;
-    s16 steps_y = 240 / step_height;
+    s16 steps_x = SCREEN_WIDTH / step_width;
+    s16 steps_y = SCREEN_HEIGHT / step_height;
     POLY_FT4 *poly_1 = &PS1_Displays[0].polygons[poly_count];
     POLY_FT4 *poly_2 = &PS1_Displays[1].polygons[poly_count];
 
@@ -86,10 +87,10 @@ void FUN_8012d2b0(s16 start_pos)
     PS1_PolygonsCount = 0;
     FUN_8012d27c();
     D_801F9930 = 8;
-    D_801F9938 = 240;
+    D_801F9938 = SCREEN_HEIGHT;
     FUN_8012d030(D_801CEDE4, D_801CEDE8, D_801F9930, D_801F9938 - 1, PS1_PolygonsCount + 2);
-    D_801F84D8 = 320 / D_801F9930;
-    D_801F98F8 = 240 / D_801F9938;
+    D_801F84D8 = SCREEN_WIDTH / D_801F9930;
+    D_801F98F8 = SCREEN_HEIGHT / D_801F9938;
 
     cur_vec = D_801F3EC0;
     pos_x = 0;
@@ -101,8 +102,8 @@ void FUN_8012d2b0(s16 start_pos)
         while (cnt_y < D_801F98F8 + 1)
         {
             cur_vec->vx = pos_x - 160;
-            if (pos_y == 240)
-                pos_y = 240 - 1;
+            if (pos_y == SCREEN_HEIGHT)
+                pos_y = SCREEN_HEIGHT - 1;
             cur_vec->vy = pos_y - 120;
             cur_vec->vz = 0;
             cnt_y++;
@@ -146,12 +147,12 @@ void PS1_RollUpTransition(s16 rollup_pos, s16 left_to_right)
     if (left_to_right == true)
     {
         unk_2 = 395;
-        unk_x = 320 - (rollup_pos * unk_2 / 100);
+        unk_x = SCREEN_WIDTH - (rollup_pos * unk_2 / 100);
     }
     else
     {
         unk_2 = 495;
-        unk_x = 320 - (rollup_pos * unk_2 / 100);
+        unk_x = SCREEN_WIDTH - (rollup_pos * unk_2 / 100);
     }
     
     unk_3 = 125;

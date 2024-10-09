@@ -1,4 +1,5 @@
 #include "unknown/48528.h"
+#include "rayconst.h"
 
 /* 48528 8016CD28 -O2 -msoft-float */
 void PS1_DisplayVRAM(void)
@@ -35,7 +36,7 @@ void PS1_DisplayVRAM(void)
         SetDefDispEnv(
             &PS1_Displays[0].field0_0x0,
             PS1_VRAMDisplayXPos, PS1_VRAMDisplayYPos,
-            320, 240
+            SCREEN_WIDTH, SCREEN_HEIGHT
         );
         PS1_Displays[0].field0_0x0.pad0 =
         PS1_Displays[1].field0_0x0.pad0 = 1;

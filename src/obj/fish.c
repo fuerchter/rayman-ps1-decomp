@@ -1,4 +1,5 @@
 #include "obj/fish.h"
+#include "rayconst.h"
 
 /* 37A9C 8015C29C -O2 -msoft-float */
 void allocate_splash(Obj *baseObj)
@@ -88,7 +89,7 @@ void DESACTIVE_FISH_COLLIS(Obj *fish)
   obj = &level.objects[index];
   if (obj->y_pos == fish->y_pos)
   {
-    obj->y_pos = ymap + 240;
+    obj->y_pos = ymap + SCREEN_HEIGHT;
     obj->flags &= ~FLG(OBJ_ALIVE);
     obj->flags &= ~FLG(OBJ_ACTIVE);
   }
@@ -98,7 +99,7 @@ void DESACTIVE_FISH_COLLIS(Obj *fish)
   if (obj->y_pos == fish->y_pos)
   {
     obj->flags &= ~FLG(OBJ_ACTIVE);
-    obj->y_pos = ymap + 240;
+    obj->y_pos = ymap + SCREEN_HEIGHT;
     obj->flags &= ~FLG(OBJ_ALIVE);
   }
 }
@@ -117,7 +118,7 @@ void DO_PYRANHA(Obj *in_obj)
   can_free = false;
   if (in_obj->main_etat == 0)
   {
-    if (in_obj->y_pos + in_obj->offset_by + 20 < ymap + 240)
+    if (in_obj->y_pos + in_obj->offset_by + 20 < ymap + SCREEN_HEIGHT)
       in_obj->timer++;
     if (in_obj->sub_etat == 3)
       in_obj->speed_y = 0;
@@ -127,7 +128,7 @@ void DO_PYRANHA(Obj *in_obj)
       in_y = in_obj->y_pos + in_obj->offset_hy;
       in_obj->speed_y = 6;
       if (
-        ymap + 240 < in_y ||
+        ymap + SCREEN_HEIGHT < in_y ||
         in_y_pos + in_obj->offset_by + 14 > mp.height * 16
       )
       {
@@ -135,7 +136,7 @@ void DO_PYRANHA(Obj *in_obj)
           allocate_splash(in_obj);
         in_obj->timer = 0;
         in_obj->flags &= ~FLG(OBJ_ACTIVE);
-        in_obj->y_pos = ymap + 240;
+        in_obj->y_pos = ymap + SCREEN_HEIGHT;
         in_obj->flags &= ~FLG(OBJ_ALIVE);
         can_free = can_free_fish(in_obj);
       }
@@ -143,7 +144,7 @@ void DO_PYRANHA(Obj *in_obj)
     else if (in_obj->y_pos + in_obj->offset_by < ymap)
     {
       in_obj->flags &= ~FLG(OBJ_ACTIVE);
-      in_obj->y_pos = ymap + 240;
+      in_obj->y_pos = ymap + SCREEN_HEIGHT;
       in_obj->flags &= ~FLG(OBJ_ALIVE);
       can_free = can_free_fish(in_obj);
     }
@@ -163,7 +164,7 @@ void DO_PYRANHA(Obj *in_obj)
       )
       {
         cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
-        cur_obj->y_pos = ymap + 240;
+        cur_obj->y_pos = ymap + SCREEN_HEIGHT;
         cur_obj->x_pos = in_obj->init_x_pos;
         if (cur_obj->y_pos + cur_obj->offset_by > ((mp.height - 1) << 4))
         {
