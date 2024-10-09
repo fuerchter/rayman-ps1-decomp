@@ -61,12 +61,12 @@ segments:
     subalign: 4
     subsegments:
       - [0x800, .rodata, unknown/A3B0] #80125000
-      - [0x828, rodata]
-      #- [0x9C8, .rodata, data/menu/menu_card_9ED48] #801251C8 TODO: .rodata referenced from .data?
+      - [0x828, rodata] #TODO: .rodata referenced from .data (include/world_map_677C0.h)?
+      #- [0x9C8, .rodata, data/menu/menu_card_9ED48] #801251C8 TODO: .rodata referenced from .data? generated .rodata seems to be matching
       - [0x1428, .rodata, music] #80125C28
       - [0x156C, .rodata, video] #80125D6C
       - [0x1580, rodata]
-      #- [0x1580, .rodata, data/loading_A0338] #80125d80
+      #- [0x1580, .rodata, data/loading_A0338] #80125d80 TODO: generated .rodata seems to be matching
       - [0x2AA8, .rodata, loading_E99C] #801272A8
       - [0x2B04, .rodata, input_ED20] #80127304
       - [0x2F04, .rodata, draw/fond_10B3C] #80127704
@@ -305,7 +305,7 @@ segments:
       - [0x94DD4, asm, psyq_3_0/libgte] #801b95d4
       - [0x98048, asm, psyq_3_0/libgpu] #801bc848
       - [0x9BC24, asm, psyq_3_0/libpress] #801c0424
-      - [0x9CA5C, data]
+      - [0x9CA5C, .data, data/obj/scorpion_9CA5C] #801C125C
       - [0x9CA74, .data, data/common/mapdata_9CA74] #801C1274
       - [0x9CA94, data]
       #- [0x9CA94, .data, data/obj_init_kill] #801C1294 not finished yet
