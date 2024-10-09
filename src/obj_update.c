@@ -1,5 +1,4 @@
 #include "obj_update.h"
-#include "rayconst.h"
 
 void DO_BALLE(Obj *obj);
 

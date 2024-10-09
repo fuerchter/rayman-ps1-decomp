@@ -1,5 +1,4 @@
 #include "obj/moskito.h"
-#include "rayconst.h"
 
 /* 6F914 80194114 -O2 -msoft-float */
 void getIdealStingCoords(Obj *obj, s16 *out_x, s16 *out_y)

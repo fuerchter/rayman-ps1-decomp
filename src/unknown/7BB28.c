@@ -1,5 +1,4 @@
 #include "unknown/7BB28.h"
-#include "rayconst.h"
 
 /* 7BB28 801A0328 -O2 -msoft-float */
 void PS1_StopLevelMusic(void)

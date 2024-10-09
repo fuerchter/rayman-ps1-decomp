@@ -1,5 +1,4 @@
 #include "draw/rollup_trans.h"
-#include "rayconst.h"
 
 /* 8830 8012D030 -O2 -msoft-float */
 void FUN_8012d030(DVECTOR tpage_pos, DVECTOR param_2, s16 step_width, s16 step_height, s16 poly_count)

@@ -1,5 +1,4 @@
 #include "draw/draw_hud.h"
-#include "rayconst.h"
 
 /* matches, but do{}while(0); */
 /* 1A04C 8013E84C -O2 */

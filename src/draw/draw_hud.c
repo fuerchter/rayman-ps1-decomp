@@ -1,5 +1,4 @@
 #include "draw/draw_hud.h"
-#include "rayconst.h"
 
 /* TODO: Display struct */
 /*extern s32 PS1_CurrentDisplay;*/

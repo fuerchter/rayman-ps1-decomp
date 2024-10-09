@@ -1,5 +1,4 @@
 #include "obj/dark_74FEC.h"
-#include "rayconst.h"
 
 /* 74FEC 801997EC -O2 -msoft-float */
 void allocateSTOSKO(void)

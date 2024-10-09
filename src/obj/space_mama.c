@@ -1,5 +1,4 @@
 #include "obj/space_mama.h"
-#include "rayconst.h"
 
 /* 640F0 801888F0 -O2 -msoft-float */
 void findMereDenisWeapon(void)

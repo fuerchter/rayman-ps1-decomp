@@ -2,6 +2,7 @@
 #define MOTEUR_INIT_END
 
 #include "common.h"
+#include "rayconst.h"
 #include "common/obj.h"
 #include "obj_update.h"
 #include "obj/scorpion.h"

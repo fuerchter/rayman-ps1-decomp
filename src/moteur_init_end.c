@@ -1,5 +1,4 @@
 #include "moteur_init_end.h"
-#include "rayconst.h"
 
 /* TODO: move to header */
 extern u8 PS1_CardShouldCheckFirstBoot; /* goes with card stuff? or menu? */

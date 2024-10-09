@@ -1,5 +1,4 @@
 #include "obj/saxo.h"
-#include "rayconst.h"
 
 /* 50CDC 801754DC -O2 -msoft-float */
 void INIT_SAXO(Obj *sax_obj)

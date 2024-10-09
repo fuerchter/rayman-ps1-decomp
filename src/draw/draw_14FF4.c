@@ -1,5 +1,4 @@
 #include "draw/draw_14FF4.h"
-#include "rayconst.h"
 
 /* 14FF4 801397F4 -O2 -msoft-float */
 void PS1_DrawColoredSprite(Sprite *sprite, s16 in_x, s16 in_y, u8 disp_mode)

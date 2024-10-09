@@ -1,5 +1,4 @@
 #include "draw/text_18118.h"
-#include "rayconst.h"
 
 /* 18118 8013C918 -O2 -msoft-float */
 u8 PS1_deter_num_let_old(s32 param_1)

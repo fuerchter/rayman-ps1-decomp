@@ -1,5 +1,4 @@
 #include "first_init.h"
-#include "rayconst.h"
 
 const u8 s_loading_8012c368[] = "/loading.../";
 

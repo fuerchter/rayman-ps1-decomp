@@ -1,5 +1,4 @@
 #include "obj/dark2_pink_fly.h"
-#include "rayconst.h"
 
 /* 78004 8019C804 -O2 -msoft-float */
 void AllocateToons(void)

@@ -1,5 +1,4 @@
 #include "boss.h"
-#include "rayconst.h"
 
 /* TODO: still lots of unknowns */
 /* 66BE8 8018B3E8 -O2 -msoft-float */

@@ -1,5 +1,4 @@
 #include "draw/fond_10B3C.h"
-#include "rayconst.h"
 
 /* give m2c another go? */
 /*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_LoadFondSprites);*/

@@ -1,5 +1,4 @@
 #include "unknown/48528.h"
-#include "rayconst.h"
 
 /* 48528 8016CD28 -O2 -msoft-float */
 void PS1_DisplayVRAM(void)

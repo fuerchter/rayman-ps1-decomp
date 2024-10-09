@@ -1,5 +1,4 @@
 #include "pix_gerbe.h"
-#include "rayconst.h"
 
 /* matches, but clean up further? */
 /*INCLUDE_ASM("asm/nonmatchings/pix_gerbe", do_pix_gerbes);*/

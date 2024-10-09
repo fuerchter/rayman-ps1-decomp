@@ -1,5 +1,4 @@
 #include "snow.h"
-#include "rayconst.h"
 
 /* 3B264 8015FA64 -O2 -msoft-float */
 void add_one_floc(void)

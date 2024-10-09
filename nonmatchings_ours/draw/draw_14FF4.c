@@ -1,5 +1,4 @@
 #include "draw/draw_14FF4.h"
-#include "rayconst.h"
 
 /* matches, but gross */
 /*INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", display_bar_boss);*/
