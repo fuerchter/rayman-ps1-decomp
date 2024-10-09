@@ -347,7 +347,30 @@ void doMoskitoCommand(Obj *obj)
     PS1_MsAnimIndex = obj->anim_index;
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/moskito", tellNextMoskitoAction);
+/* 71330 80195B30 -O2 -msoft-float */
+u8 tellNextMoskitoAction(Obj *obj)
+{
+    u8 *actions;
+
+    if (bossEncounter != 8)
+        actions = &moskitoActionSequences[bossEncounter][currentBossAction];
+    else
+        actions = &moskitoActionSequences[saveBossEncounter][saveCurrentBossAction];
+
+    switch(actions[0])
+    {
+    case 2:
+        return moskitoActionSequences[bossEncounter][0];
+    case 3:
+        return moskitoActionSequences[bossEncounter + 1][0];
+    case 5:
+        return moskitoActionSequences[saveBossEncounter][0];
+    case 12:
+        return moskitoActionSequences[actions[1]][0];
+    default:
+        return actions[0];
+    }
+}
 
 /* 7144C 80195C4C -O2 -msoft-float */
 void changeMoskitoPhase(Obj *obj)

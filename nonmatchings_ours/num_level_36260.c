@@ -1,6 +1,6 @@
 #include "num_level_36260.h"
 
-/* only issues left are with WorldInfo.state */
+/* matches, but WorldInfo.state casts */
 /*INCLUDE_ASM("asm/nonmatchings/num_level_36260", fix_numlevel);*/
 
 void fix_numlevel(Obj *obj)
@@ -169,21 +169,21 @@ void fix_numlevel(Obj *obj)
                 break;
             }
             new_world = 1;
-            if (!(t_world_info[1].state & 1))
+            if (!(*(u32 *)&t_world_info[1].state & 1))
             {
-                t_world_info[1].state |= 4;
-                t_world_info[18].state |= 4;
+                *(u32 *)&t_world_info[1].state |= 4;
+                *(u32 *)&t_world_info[18].state |= 4;
             }
             break;
         case 8:
             new_world = 1;
-            if (!(t_world_info[2].state & 1))
+            if (!(*(u32 *)&t_world_info[2].state & 1))
             {
-                t_world_info[2].state |= 4;
+                *(u32 *)&t_world_info[2].state |= 4;
             }
-            if (!(t_world_info[4].state & 1))
+            if (!(*(u32 *)&t_world_info[4].state & 1))
             {
-                t_world_info[4].state |= 4;
+                *(u32 *)&t_world_info[4].state |= 4;
             }
             break;
         case 11:
@@ -247,10 +247,10 @@ void fix_numlevel(Obj *obj)
             break;
         case 6:
             new_world = 1;
-            if (!(t_world_info[5].state & 1))
+            if (!(*(u32 *)&t_world_info[5].state & 1))
             {
-                t_world_info[5].state |= 4;
-                t_world_info[19].state |= 4;
+                *(u32 *)&t_world_info[5].state |= 4;
+                *(u32 *)&t_world_info[19].state |= 4;
             }
             break;
         case 9:
@@ -263,21 +263,21 @@ void fix_numlevel(Obj *obj)
             break;
         case 11:
             new_world = 1;
-            if (!(t_world_info[6].state & 1))
+            if (!(*(u32 *)&t_world_info[6].state & 1))
             {
-                t_world_info[6].state |= 4;
+                *(u32 *)&t_world_info[6].state |= 4;
             }
-            if (!(t_world_info[8].state & 1))
+            if (!(*(u32 *)&t_world_info[8].state & 1))
             {
-                t_world_info[8].state |= 4;
+                *(u32 *)&t_world_info[8].state |= 4;
             }
             break;
         case 13:
             new_world = 1;
-            if (!(t_world_info[7].state & 1))
+            if (!(*(u32 *)&t_world_info[7].state & 1))
             {
-                t_world_info[7].state |= 4;
-                t_world_info[20].state |= 4;
+                *(u32 *)&t_world_info[7].state |= 4;
+                *(u32 *)&t_world_info[20].state |= 4;
             }
             break;
         case 16:
@@ -315,10 +315,10 @@ void fix_numlevel(Obj *obj)
             break;
         case 5:
             new_world = 1;
-            if (!(t_world_info[10].state & 1))
+            if (!(*(u32 *)&t_world_info[10].state & 1))
             {
-                t_world_info[10].state |= 4;
-                t_world_info[21].state |= 4;
+                *(u32 *)&t_world_info[10].state |= 4;
+                *(u32 *)&t_world_info[21].state |= 4;
             }
             break;
         case 9:
@@ -387,12 +387,12 @@ void fix_numlevel(Obj *obj)
             break;
         case 11:
             new_world = 1;
-            if (!(t_world_info[14].state & 1))
+            if (!(*(u32 *)&t_world_info[14].state & 1))
             {
                 Vignet_To_Display = 1;
-                t_world_info[14].state |= 4;
+                *(u32 *)&t_world_info[14].state |= 4;
 block_132:
-                t_world_info[22].state |= 4;
+                *(u32 *)&t_world_info[22].state |= 4;
             }
             break;
         case 12:
@@ -416,18 +416,18 @@ block_132:
                 break;
             }
             new_world = 1;
-            if (!(t_world_info[15].state & 1))
+            if (!(*(u32 *)&t_world_info[15].state & 1))
             {
-                t_world_info[15].state |= 4;
-                t_world_info[22].state |= 4;
+                *(u32 *)&t_world_info[15].state |= 4;
+                *(u32 *)&t_world_info[22].state |= 4;
             }
             break;
         case 8:
             new_world = 1;
-            if (!(t_world_info[16].state & 1))
+            if (!(*(u32 *)&t_world_info[16].state & 1))
             {
-                t_world_info[16].state |= 4;
-                t_world_info[23].state |= 4;
+                *(u32 *)&t_world_info[16].state |= 4;
+                *(u32 *)&t_world_info[23].state |= 4;
             }
             break;
         case 11:
@@ -450,9 +450,9 @@ block_132:
         }
         break;
     }
-    if (!(t_world_info[17].state & 1) && (Nb_total_cages >= 102))
+    if (!(*(u32 *)&t_world_info[17].state & 1) && (Nb_total_cages >= 102))
     {
-        t_world_info[17].state |= 4;
+        *(u32 *)&t_world_info[17].state |= 4;
     }
     if ((new_world == 0) && (var_s0 == 0))
     {
@@ -460,3 +460,4 @@ block_132:
     }
     new_level = 1;
 }
+const u8 rodata_fix_numlevel[4] = {};
