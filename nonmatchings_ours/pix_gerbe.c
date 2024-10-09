@@ -34,7 +34,7 @@ void do_pix_gerbes(void)
                     y_old = cur_item->y_pos;
                     cur_item->y_pos = cur_item->speed_y - v_speed;
                     cur_item->y_pos += y_old;
-                    if ((((u16) (cur_item->x_pos + unk_1) >= 320 * 64) || (cur_item->y_pos > 240 * 64)))
+                    if ((((u16) (cur_item->x_pos + unk_1) >= SCREEN_WIDTH * 64) || (cur_item->y_pos > SCREEN_HEIGHT * 64)))
                         cur_item->unk_1 = 0;
                     else
                         new_active = true;

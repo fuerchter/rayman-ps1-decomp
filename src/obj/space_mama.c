@@ -74,7 +74,7 @@ s32 setMereDenisAtScrollBorder(Obj *obj, u8 flip_x)
     s16 res;
     u8 offs_bx;
 
-    unk_1 = 320; /* couldn't remove this */
+    unk_1 = SCREEN_WIDTH; /* couldn't remove this */
     switch (flip_x)
     {
     case false:
@@ -89,7 +89,7 @@ s32 setMereDenisAtScrollBorder(Obj *obj, u8 flip_x)
         break;
     default:
         offs_bx = obj->offset_bx;
-        res = offs_bx + obj->x_pos - (scroll_start_x + scroll_end_x + 320) / 2;
+        res = offs_bx + obj->x_pos - (scroll_start_x + scroll_end_x + SCREEN_WIDTH) / 2;
         if (res > 0)
         {
             obj->x_pos = scroll_end_x - (offs_bx - unk_1);

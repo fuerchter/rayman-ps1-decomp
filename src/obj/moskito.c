@@ -107,7 +107,7 @@ s16 setMoskitoAtScrollBorder(Obj *obj, u8 param_2)
   s32 width;
   s16 res;
   
-  width = 320;
+  width = SCREEN_WIDTH;
   switch (param_2)
   {
     case 0:
@@ -121,7 +121,7 @@ s16 setMoskitoAtScrollBorder(Obj *obj, u8 param_2)
       obj->flags |= FLG(OBJ_FLIP_X);
       break;
     default:
-      res = obj->offset_bx + obj->x_pos - ((scroll_start_x + scroll_end_x + 320) / 2);
+      res = obj->offset_bx + obj->x_pos - ((scroll_start_x + scroll_end_x + SCREEN_WIDTH) / 2);
       if (res >= 1)
       {
         obj->x_pos = scroll_end_x - (obj->offset_bx - width);
@@ -255,7 +255,7 @@ void moskitoDropFruitOnRay(Obj *obj)
     cen_y = ray_zdc_y + (ray_zdc_h >> 1);
     if (
       scroll_start_x <= x_2 &&
-      scroll_end_x + 320 >= x_2 &&
+      scroll_end_x + SCREEN_WIDTH >= x_2 &&
       cen_x >= x_1 &&
       cen_y >= y_1 &&
       cen_x <= x_1 + unk_3 &&

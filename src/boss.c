@@ -101,7 +101,7 @@ s16 firstFloorBelow(Obj *obj)
   s16 y = obj->offset_by + obj->y_pos;
   u8 btyp = PS1_BTYPAbsPos(x, y);
   
-  while (!(block_flags[btyp] >> BLOCK_SOLID & 1) && (y <= ymapmax + 240))
+  while (!(block_flags[btyp] >> BLOCK_SOLID & 1) && (y <= ymapmax + SCREEN_HEIGHT))
   {
     y += 16;
     btyp = PS1_BTYPAbsPos(x, y);

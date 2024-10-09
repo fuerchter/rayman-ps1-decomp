@@ -69,8 +69,8 @@ void DisplayJumellesNormal(void)
     width_2 = sprite->width;
     x_6 = w_1 + (height_2 + width_2 * 2) * 2;
     y_4 = (width_2 + height_2) * 2 + 53;
-    DISPLAY_BLACKBOX(0, 0, 320, 53, 0, 0);
-    DISPLAY_BLACKBOX(0, y_4 - 10, 320, 250 - y_4, 0, 0);
+    DISPLAY_BLACKBOX(0, 0, SCREEN_WIDTH, 53, 0, 0);
+    DISPLAY_BLACKBOX(0, y_4 - 10, SCREEN_WIDTH, 250 - y_4, 0, 0);
     DISPLAY_BLACKBOX(0, 53, w_1 + 5, y_4 - 58, 0, 0);
     DISPLAY_BLACKBOX(x_6 - 5, 53, x_6 - w_1, y_4 - 58, 0, 0);
 }

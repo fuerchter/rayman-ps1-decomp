@@ -475,7 +475,7 @@ void display2(Obj *obj)
     s32 layers_count = anim->layers_count & 0x3FFF;
     AnimationLayer *layer = &anim->layers[layers_count * obj->anim_frame];
 
-    if ((u16) (obj->screen_x_pos + 320) <= 640 && (u16) (obj->screen_y_pos + 240) <= 480)
+    if ((u16) (obj->screen_x_pos + SCREEN_WIDTH) <= (SCREEN_WIDTH * 2) && (u16) (obj->screen_y_pos + SCREEN_HEIGHT) <= (SCREEN_HEIGHT * 2))
     {
         flip_x = (obj->flags >> OBJ_FLIP_X) & 1;
         for (i = 0; i < (anim->layers_count & 0x3FFF); i++)

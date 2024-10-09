@@ -80,7 +80,7 @@ void PS1_DisplayMenuText(u8 *str, u8 param_2, u8 color)
     GetClut(color * 16 + 64, 509);
     display_text(
         str,
-        (320 - PS1_CalcTextWidth(str, 0)) >> 1,
+        (SCREEN_WIDTH - PS1_CalcTextWidth(str, 0)) >> 1,
         param_2 * 36 + 4,
         0,
         color
@@ -101,7 +101,7 @@ void PS1_DisplayMenuTexts(u8 index, MenuText *in_menus)
     PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[6];
     sel_row = menu->selected_row;
     count = &menu->rows_count;
-    if (sel_row < 240)
+    if (sel_row < SCREEN_HEIGHT)
     {
         unk_1 = sel_row + 6;
         PS1_DrawSprite(&alpha.sprites[40], 39, (unk_1 - *count) * 36 + 4, 0);

@@ -785,7 +785,7 @@ void DO_SAXO2_COMMAND(Obj *obj)
         }
     }
     next_x = obj->x_pos + obj->offset_bx + obj->speed_x;
-    if (next_x < 0 || (xmapmax + 320 - 1) < next_x)
+    if (next_x < 0 || (xmapmax + SCREEN_WIDTH - 1) < next_x)
         obj->speed_x = 0;
 }
 
