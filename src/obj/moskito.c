@@ -139,7 +139,72 @@ s16 setMoskitoAtScrollBorder(Obj *obj, u8 param_2)
 
 INCLUDE_ASM("asm/nonmatchings/obj/moskito", prepareNewMoskitoAttack);
 
-INCLUDE_ASM("asm/nonmatchings/obj/moskito", allocateMoskitoFruit);
+/* 70C64 80195464 -O2 -msoft-float */
+Obj *allocateMoskitoFruit(Obj *mst2_obj)
+{
+    u8 spr_ind;
+    ObjType type_check;
+    s16 i;
+    Obj *cur_obj;
+    s16 nb_objs;
+    ObjType cur_obj_type;
+    s16 unk_x; s16 unk_y; s16 unk_w; s16 unk_h;
+    Obj *res = null;
+
+    switch (mst2_obj->sub_etat)
+    {
+    case 12:
+        spr_ind = 3;
+        type_check = TYPE_MST_FRUIT1;
+        break;
+    case 11:
+        spr_ind = 3;
+        type_check = TYPE_MST_FRUIT2;
+        break;
+    }
+
+    i = 0;
+    cur_obj = &level.objects[i];
+    nb_objs = level.nb_objects;
+    while (i < (nb_objs))
+    {
+        cur_obj_type = cur_obj->type;
+        if (cur_obj_type == type_check && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+        {
+            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            GET_SPRITE_POS(mst2_obj, spr_ind, &unk_x, &unk_y, &unk_w, &unk_h);
+            cur_obj->x_pos = unk_x - cur_obj->offset_bx + (unk_w >> 1);
+            cur_obj->y_pos = unk_y - cur_obj->offset_hy;
+            cur_obj->init_x_pos = cur_obj->x_pos;
+            cur_obj->init_y_pos = cur_obj->y_pos;
+            switch (cur_obj_type)
+            {
+            case TYPE_MST_FRUIT1:
+                cur_obj->field23_0x3c = 1;
+                cur_obj->speed_x = 0;
+                break;
+            case TYPE_MST_FRUIT2:
+                cur_obj->field23_0x3c = 3;
+                cur_obj->speed_x = mst2_obj->speed_x;
+                break;
+            }
+            cur_obj->speed_y = 0;
+            cur_obj->anim_index = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_index;
+            cur_obj->anim_frame = 0;
+            calc_obj_pos(cur_obj);
+            cur_obj->gravity_value_1 = 0;
+            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            cur_obj->flags = (cur_obj->flags & ~FLG(OBJ_FLIP_X)) | (mst2_obj->flags & FLG(OBJ_FLIP_X));
+            cur_obj->flags &= ~FLG(OBJ_FLAG_9);
+            res = cur_obj;
+            break;
+        }
+        cur_obj++;
+        i++;
+    }
+
+    return res;
+}
 
 /* 70E50 80195650 -O2 -msoft-float */
 void moskitoDropFruitOnRay(Obj *obj)

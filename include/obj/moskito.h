@@ -26,7 +26,7 @@ void PS1_setBossScrollLimits_moskito(Obj *obj);
 u8 moskitoCanAttak(Obj *obj);
 s16 setMoskitoAtScrollBorder(Obj *obj, u8 param_2);
 void prepareNewMoskitoAttack(Obj *obj);
-Obj * allocateMoskitoFruit(Obj *param_1);
+Obj * allocateMoskitoFruit(Obj *mst2_obj);
 void moskitoDropFruitOnRay(Obj *obj);
 void doMoskitoCommand(Obj *obj);
 u8 tellNextMoskitoAction(Obj *obj);
