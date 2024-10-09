@@ -256,6 +256,15 @@ s_no_801cf0fc = 0x801cf0fc;
 s_loading_8012c368 = 0x8012c368; // type:asciz force_not_migration:True
 s_d_801cf0f0 = 0x801cf0f0;
 s_game_pausedpress_start_to_p_80125000 = 0x80125000; // type:asciz force_not_migration:True
+s_exit_801cee14 = 0x801cee14;
+s_mono_801cee1c = 0x801cee1c;
+s_stereo_801cee24 = 0x801cee24;
+s_music_801cee2c = 0x801cee2c;
+s_action_801cee34 = 0x801cee34;
+s_fist_801cee3c = 0x801cee3c;
+s_jump_801cee44 = 0x801cee44;
+s_rayman_801cee4c = 0x801cee4c;
+s_with_801cee54 = 0x801cee54;
 
 ray = 0x801f61a0;
 //ray_obj_sprites = 0x801f61a0;

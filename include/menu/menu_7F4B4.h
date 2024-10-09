@@ -34,6 +34,17 @@ typedef struct OptionsJeu
 extern u8 *PS1_SettingStrings[8]; /* if creates conflict here, put in menu_82008 */
 
 /* .data */
+extern u8 s_exit_801cee14[7];
+extern u8 s_mono_801cee1c[5];
+extern u8 s_stereo_801cee24[7];
+extern u8 s_music_801cee2c[6];
+extern u8 s_action_801cee34[7];
+extern u8 s_fist_801cee3c[5];
+extern u8 s_jump_801cee44[5];
+extern u8 s_rayman_801cee4c[7];
+extern u8 s_with_801cee54[7];
+
+/* .data */
 extern u8 s_start_801cf118[8];
 extern u8 s__801cf120[1];
 extern u8 s_copy_801cf124[5];
