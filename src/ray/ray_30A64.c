@@ -34,7 +34,7 @@ s16 RayCoince(s16 dir)
         pos_to_check = y_pos - (y_pos / 16 * 16);
         if ((s16) pos_to_check > 12)
         {
-            map_ind = (x_pos >> 4) + (mp.width * ((y_pos + 64) >> 4));
+            map_ind = (x_pos >> 4) + (mp.width * ((y_pos + 16 * 4) >> 4));
             if (block_flags[mp.map[map_ind] >> 10] >> BLOCK_FULLY_SOLID & 1)
                 res = true;
             if (block_flags[mp.map[++map_ind] >> 10] >> BLOCK_FULLY_SOLID & 1)

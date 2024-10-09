@@ -1,6 +1,72 @@
 #include "obj/maracas_command.h"
 
-INCLUDE_ASM("asm/nonmatchings/obj/maracas_command", MarCoince);
+/* 4CB88 80171388 -O2 -msoft-float */
+s16 MarCoince(Obj *obj, s16 dir)
+{    
+    s32 map_ind;
+    s32 pos_to_check;
+    s16 res = false;
+    s16 x_pos = obj->x_pos + obj->offset_bx - 25;
+    s16 y_pos = obj->y_pos + obj->offset_hy;
+
+    switch (dir)
+    {
+    case 2:
+        pos_to_check = y_pos - (y_pos / 16 * 16);
+        if ((s16) pos_to_check < 3)
+        {
+            map_ind = (x_pos >> 4) + mp.width * (y_pos >> 4);
+            if (block_flags[mp.map[map_ind] >> 10] >> BLOCK_SOLID & 1)
+                res = true;
+            if (block_flags[mp.map[++map_ind] >> 10] >> BLOCK_SOLID & 1)
+                res = true;
+            if (block_flags[mp.map[++map_ind] >> 10] >> BLOCK_SOLID & 1)
+                res = true;
+        }
+        break;
+    case 3:
+        pos_to_check = y_pos - (y_pos / 16 * 16);
+        if ((s16) pos_to_check > 12)
+        {
+            map_ind = (x_pos >> 4) + mp.width * ((y_pos + 16 * 3) >> 4);
+            if (block_flags[mp.map[map_ind] >> 10] >> BLOCK_SOLID & 1)
+                res = true;
+            if (block_flags[mp.map[++map_ind] >> 10] >> BLOCK_SOLID & 1)
+                res = true;
+            if (block_flags[mp.map[++map_ind] >> 10] >> BLOCK_SOLID & 1)
+                res = true;
+        }
+        break;
+    case 0:
+        pos_to_check = x_pos - (x_pos / 16 * 16);
+        if ((s16) pos_to_check < 3)
+        {
+            map_ind = ((x_pos >> 4) + mp.width * ((y_pos + 16) >> 4)) - 1;
+            if (block_flags[mp.map[map_ind] >> 10] >> BLOCK_SOLID & 1)
+                res = true;
+            if (block_flags[mp.map[map_ind += mp.width] >> 10] >> BLOCK_SOLID & 1)
+                res = true;
+            if (block_flags[mp.map[map_ind += mp.width] >> 10] >> BLOCK_SOLID & 1)
+                res = true;
+        }
+        break;
+    case 1:
+        pos_to_check = x_pos - (x_pos / 16 * 16);
+        if ((s16) pos_to_check > 12)
+        {
+            map_ind = ((x_pos >> 4) + mp.width * ((y_pos + 16) >> 4)) + 3;
+            if (block_flags[mp.map[map_ind] >> 10] >> BLOCK_SOLID & 1)
+                res = true;
+            if (block_flags[mp.map[map_ind += mp.width] >> 10] >> BLOCK_SOLID & 1)
+                res = true;
+            if (block_flags[mp.map[map_ind += mp.width] >> 10] >> BLOCK_SOLID & 1)
+                res = true;
+        }
+        break;
+    }
+
+    return res;
+}
 
 /* 4CF4C 8017174C -O2 */
 /*? DO_NOVA(Obj *);

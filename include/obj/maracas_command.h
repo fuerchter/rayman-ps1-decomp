@@ -4,7 +4,7 @@
 #include "common.h"
 #include "unknown/48528.h"
 
-s16 MarCoince(Obj *arg0, s16 arg1);
+s16 MarCoince(Obj *obj, s16 dir);
 void DO_MOVE_MARACAS_COMMAND(Obj *obj);
 
 #endif

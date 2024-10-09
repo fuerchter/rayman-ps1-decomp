@@ -18,17 +18,20 @@ u8 readTestArgs(Obj *obj)
     return false;
 }
 
+/* score of 15 */
 /*INCLUDE_ASM("asm/nonmatchings/command_56AF0", skipTestArgs);*/
 
 /* 56D44 8017B544 -O2 */
 u8 skipTestArgs(Obj *obj)
 {
-    s16 test;
+    s32 test_1;
+    s32 test_2;
   
     obj->cmd_offset++;
     /*if(obj->cmds[obj->cmd_offset] < 0)
         obj->cmds[obj->cmd_offset] = obj->cmds[obj->cmd_offset];*/
-    if (obj->cmds[obj->cmd_offset] < 5) {
+    test_2 = test_1 = obj->cmds[obj->cmd_offset];
+    if (test_1 >= 0 && test_2 < 5) {
         obj->cmd_offset++;
     }
     return false;
