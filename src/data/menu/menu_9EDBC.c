@@ -1,6 +1,6 @@
 #include "menu/menu_7F4B4.h"
 
-extern u8 *PS1_SettingStrings[] =
+u8 *PS1_SettingStrings[] =
 {
     s_jump_801cee44,
     s_fist_801cee3c,

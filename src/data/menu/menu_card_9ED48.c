@@ -16,3 +16,4 @@ u8 *PS1_CardStrings[] =
     "/do you really want/to quit the game?/",
     "/please insert/a standard sony playstation controller/into port 1/"
 };
+u8 data_801c357c[4] = {};

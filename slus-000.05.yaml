@@ -62,7 +62,9 @@ segments:
     subsegments:
       - [0x800, .rodata, unknown/A3B0] #80125000
       - [0x828, rodata] #TODO: .rodata referenced from .data (include/world_map_677C0.h and others)?
+      - [0x9C8, rodata]
       #- [0x9C8, .rodata, data/menu/menu_card_9ED48] #801251C8 TODO: .rodata referenced from .data? generated .rodata seems to be matching
+      - [0xC7C, rodata]
       - [0x1428, .rodata, music] #80125C28
       - [0x156C, .rodata, video] #80125D6C
       - [0x1580, rodata]
@@ -323,6 +325,8 @@ segments:
       - [0x9EDBC, data]
       #- [0x9EDBC, .data, data/menu/menu_9EDBC] #801C35BC TODO: .data referencing .rodata
       - [0x9EDDC, data]
+      #- [0x9EDDC, .data, data/unknown/9EDDC] #801C35DC TODO: .data referencing .rodata
+      - [0x9EDF4, data]
       - [0x9F448, .data, data/demo_9F448] #801C3C48
       - [0x9FB74, data]
       - [0x9FC78, .data, data/music_9FC78] #801C4478
