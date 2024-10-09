@@ -312,9 +312,10 @@ segments:
       - [0x9D294, .data, data/collision/collision_9D294] #801C1A94
       - [0x9E494, .data, data/save] #801C2C94
       - [0x9E49C, .data, data/collision/block_9E49C] #801C2C9C
-      - [0x9E69C, data]
+      - [0x9E69C, .data, data/obj/eyes_9E69C] #801C2E9C
       - [0x9E79C, .data, data/collision/collision_9E79C] #801C2F9C
-      - [0x9E814, data]
+      - [0x9E814, .data, data/cam_scroll_9E814] #801C3014
+      - [0x9E8F8, .data, data/unknown/9E8F8] #801C30F8
       - [0x9E914, .data, data/collision/bit_util] #801C3114
       - [0x9EB18, data]
       #- [0x9ED48, .data, data/menu/menu_card_9ED48] #801C3548
