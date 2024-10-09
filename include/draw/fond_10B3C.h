@@ -6,7 +6,7 @@
 #include "psyq_3_0/MEMORY.H"
 #include "common/display.h"
 #include "common/obj.h"
-#include "rayconst.h"
+#include "common/rayconst.h"
 
 typedef struct BackgroundPosition
 {
