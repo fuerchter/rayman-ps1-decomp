@@ -339,7 +339,6 @@ segments:
       #- [0x9EDF4, .data, data/victoire_9EDF4] #801C35F4 .data referencing .rodata (matching)
       - [0x9F448, .data, data/demo_9F448] #801C3C48
       - [0x9FB74, .data, data/loading_9FB74] #801C4374
-      #- [0x9FC58, data]
       - [0x9FC58, .data, data/main_moteur_9FC58] #801C4458
       - [0x9FC68, .data, data/loading_tex_9FC68] #801C4468
       - [0x9FC78, .data, data/music_9FC78] #801C4478
@@ -390,13 +389,15 @@ segments:
       - [0xAA860, .data, data/unknown/AA860] #801CF060
       - [0xAA864, .data, data/draw/draw_AA864] #801CF064
       - [0xAA8A0, .data, data/obj/bb1_AA8A0] #801CF0A0
-      - [0xAA8A4, data]
+      - [0xAA8A4, .data, data/world_map_AA8A4] #801CF0A4
+      - [0xAA8AC, .data, data/menu/menu_AA8AC] #801CF0AC
+      - [0xAA8BC, .data, data/obj/moskito_AA8BC] #801CF0BC
       - [0xAA8C0, .data, data/obj/dark_AA8C0] #801CF0C0
       - [0xAA8C8, .data, data/loading_AA8C8] #801CF0C8
-      - [0xAA8D8, data]
       - [0xAA8D8, .data, data/cheats_AA8D8] #801CF0D8
       - [0xAA8DC, .data, data/depart_dead_AA8DC] #801CF0DC
-      - [0xAA8E0, data]
+      - [0xAA8E0, .data, data/first_init_AA8E0] #801CF0E0
+      - [0xAA8F0, data]
       - [0xAA8F4, .data, data/menu/menu_card_AA8F4] #801CF0F4
       - [0xAA904, .data, data/password_AA904] #801CF104
       - [0xAA918, .data, data/menu/menu_AA918] #801CF118

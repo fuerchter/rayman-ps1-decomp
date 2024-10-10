@@ -2,6 +2,6 @@
 
 RECT PS1_MemoryUsageRects[] =
 {
-    { .x = 0, .y = 0, .w = 16, .h = SCREEN_HEIGHT },
-    { .x = 0, .y = SCREEN_HEIGHT, .w = 16, .h = SCREEN_HEIGHT }
+    { 0, 0, 16, SCREEN_HEIGHT },
+    { 0, SCREEN_HEIGHT, 16, SCREEN_HEIGHT }
 };
