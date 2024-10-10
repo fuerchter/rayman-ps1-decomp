@@ -380,13 +380,14 @@ segments:
       - [0xAA744, .data, data/draw/fond_AA744] #801CEF44
       - [0xAA774, .data, data/draw/draw_AA774] #801CEF74
       - [0xAA77C, .data, data/draw/draw_hud_AA77C] #801CEF7C
-      - [0xAA7A4, data]
+      - [0xAA7A4, .data, data/text_AA7A4] #801CEFA4
       - [0xAA7A8, .data, data/obj/mama_pirate] #801CEFA8
       - [0xAA7C0, .data, data/sound_AA7C0] #801CEFC0
       - [0xAA7C8, .data, data/cheats_AA7C8] #801CEFC8
       - [0xAA7CC, .data, data/sound_AA7CC] #801CEFCC
       - [0xAA7E0, .data, data/draw/fade_AA7E0] #801CEFE0
-      - [0xAA81C, data]
+      - [0xAA81C, .data, data/card_AA81C] #801CF01C
+      - [0xAA860, .data, data/unknown/AA860] #801CF060
       - [0xAA864, .data, data/draw/draw_AA864] #801CF064
       - [0xAA8A0, .data, data/obj/bb1_AA8A0] #801CF0A0
       - [0xAA8A4, data]

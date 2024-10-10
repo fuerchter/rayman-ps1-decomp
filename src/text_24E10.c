@@ -1,9 +1,5 @@
 #include "text_24E10.h"
 
-extern u8 D_801CEFA4;
-
-s32 calc_let_Width(u8 font, s16 sprite);
-
 /* 24E10 80149610 -O2 -msoft-float */
 void INIT_TEXT_TO_DISPLAY(void)
 {

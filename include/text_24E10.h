@@ -5,6 +5,9 @@
 #include "common/text_to_display.h"
 #include "draw/text_18118.h" /* TODO: circular? */
 
+/* .data */
+extern u8 D_801CEFA4;
+
 void INIT_TEXT_TO_DISPLAY(void);
 u8 deter_num_let(u8 param_1);
 void calc_num_let_spr(u8 param_1, u8 *param_2);
