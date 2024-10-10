@@ -13,7 +13,7 @@
 #include "moteur_init_end.h"
 
 /* .data */
-extern RECT PS1_MemoryUsageRect;
+extern RECT PS1_MemoryUsageRects[2];
 
 /* .data */
 extern RECT *PTR_PS1_MemoryUsageRect_801cee70;

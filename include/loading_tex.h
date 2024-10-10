@@ -6,7 +6,7 @@
 #include "vram.h"
 
 /* .data */
-extern s16 D_801C4464[10];
+extern s16 D_801C4468[8];
 
 /**/
 extern s32 D_801E4D30;

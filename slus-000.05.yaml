@@ -338,7 +338,10 @@ segments:
       - [0x9EDF4, data]
       #- [0x9EDF4, .data, data/victoire_9EDF4] #801C35F4 .data referencing .rodata (matching)
       - [0x9F448, .data, data/demo_9F448] #801C3C48
-      - [0x9FB74, data]
+      - [0x9FB74, .data, data/loading_9FB74] #801C4374
+      #- [0x9FC58, data]
+      - [0x9FC58, .data, data/main_moteur_9FC58] #801C4458
+      - [0x9FC68, data]
       - [0x9FC78, .data, data/music_9FC78] #801C4478
       - [0xA0338, data]
       #- [0xA0338, .data, data/loading_A0338] #801C4B38 not enough funcs implemented yet (matching?)

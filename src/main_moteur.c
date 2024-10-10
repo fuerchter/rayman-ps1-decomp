@@ -112,10 +112,10 @@ void DO_MAIN_LOOP(void)
   PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
   PutDrawEnv(&PS1_CurrentDisplay->drawing_environment);
   
-  if (PTR_PS1_MemoryUsageRect_801cee70 == &PS1_MemoryUsageRect)
-    new_rect = &PS1_MemoryUsageRect + 1;
+  if (PTR_PS1_MemoryUsageRect_801cee70 == &PS1_MemoryUsageRects[0])
+    new_rect = &PS1_MemoryUsageRects[1];
   else
-    new_rect = &PS1_MemoryUsageRect;
+    new_rect = &PS1_MemoryUsageRects[0];
   PTR_PS1_MemoryUsageRect_801cee70 = new_rect;
   if (PS1_MemoryUsageDisplayMode != 0)
     ClearImage(new_rect, 0, 0, 128);

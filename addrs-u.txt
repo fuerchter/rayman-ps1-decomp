@@ -72,7 +72,7 @@ D_801CEE10 = 0x801cee10;
 D_8005866C = 0x8005866C;
 D_801CF092 = 0x801CF092;
 D_801C7D68 = 0x801C7D68;
-D_801C4464 = 0x801C4464;
+D_801C4468 = 0x801C4468;
 
 PTR_PS1_MemoryUsageRect_801cee70 = 0x801cee70;
 s_level_801cedf4 = 0x801cedf4;
@@ -1338,7 +1338,7 @@ DemoRecord = 0x801c3c48;
 DemoRecordSize = 0x801c4350;
 DemoRecordMap = 0x801c4368;
 PS1_BackgroundIndexTable = 0x801c43a4;
-PS1_MemoryUsageRect = 0x801c4458;
+PS1_MemoryUsageRects = 0x801c4458;
 PS1_LevelMusicTable = 0x801c4478;
 PS1_ImgFiles = 0x801c4b38;
 PS1_LdrFiles = 0x801c4ba4;
