@@ -57,7 +57,7 @@ typedef u8 Input;
 #define PAD_LEFT 32768*/
 
 /* .data */
-extern s32 PS1_ButtonStates[17];
+extern s32 PS1_ButtonStates[18];
 
 /**/
 extern s32 PS1_GlobalTimer;

@@ -373,9 +373,10 @@ segments:
       - [0xAA67C, .data, data/common/display_AA67C] #801CEE7C
       - [0xAA680, .data, data/main_moteur_AA680] #801CEE80
       - [0xAA6A4, .data, data/music_AA6A4] #801CEEA4
-      - [0xAA6DC, data]
+      - [0xAA6DC, .data, data/video_AA6DC] #801CEEDC
       - [0xAA6EC, .data, data/loading_AA6EC] #801ceeec
       - [0xAA6FC, data]
+      #- [0xAA6FC, .data, data/input_AA6FC] #801CEEFC include_asm left
       - [0xAA744, .data, data/draw/fond_AA744] #801CEF44
       - [0xAA774, .data, data/draw/draw_AA774] #801CEF74
       - [0xAA77C, .data, data/draw/draw_hud_AA77C] #801CEF7C
