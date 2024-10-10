@@ -73,3 +73,9 @@ SaxAttackEntry SerieDatak[4][11] =
     {.next_note = 0, .time = 0, .end = false},
   }
 };
+
+u8 data_801C7E9[] =
+{
+    0, 0, 1, 0, 2, 0, 3, 0,
+    4, 0, 0, 0, 6, 0, 6, 0
+};
