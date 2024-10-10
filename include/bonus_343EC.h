@@ -11,6 +11,13 @@
 #include "draw/fade.h"
 #include "nova.h"
 
+/* .data */
+extern Obj *PS1_BonusNovas[2];
+extern Obj *PS1_BonusOneUps[2];
+
+/* .data */
+extern u8 PS1_TimeString[24];
+
 s16 do_perfect_bonus(void); /* TODO: return type? PS1_DemoLoop is u8 still */
 
 #endif

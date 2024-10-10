@@ -375,7 +375,7 @@ segments:
       - [0xAA6DC, .data, data/video_AA6DC] #801CEEDC
       - [0xAA6EC, .data, data/loading_AA6EC] #801ceeec
       - [0xAA6FC, data]
-      #- [0xAA6FC, .data, data/input_AA6FC] #801CEEFC include_asm left
+      #- [0xAA6FC, .data, data/input_AA6FC] #801CEEFC include_asm
       - [0xAA744, .data, data/draw/fond_AA744] #801CEF44
       - [0xAA774, .data, data/draw/draw_AA774] #801CEF74
       - [0xAA77C, .data, data/draw/draw_hud_AA77C] #801CEF7C
@@ -397,14 +397,20 @@ segments:
       - [0xAA8D8, .data, data/cheats_AA8D8] #801CF0D8
       - [0xAA8DC, .data, data/depart_dead_AA8DC] #801CF0DC
       - [0xAA8E0, .data, data/first_init_AA8E0] #801CF0E0
-      - [0xAA8F0, data]
+      - [0xAA8F0, .data, data/unknown/AA8F0] #801CF0F0
       - [0xAA8F4, .data, data/menu/menu_card_AA8F4] #801CF0F4
       - [0xAA904, .data, data/password_AA904] #801CF104
       - [0xAA918, .data, data/menu/menu_AA918] #801CF118
-      - [0xAA920, data]
+      - [0xAA95C, data] #psyq afaik
+      - [0xAABF8, .data, data/bonus_AABF8] #801CF3F8
+      - [0xAAC08, .data, data/obj/nen_graine_AAC08] #801CF408
       - [0xAAC10, .data, data/draw/fade_AAC10] #801CF410
       - [0xAAC18, .data, data/draw/draw_AAC18] #801CF418
-      - [0xAAC38, data]
+      - [0xAAC38, .data, data/first_init_AAC38] #801CF438
+      - [0xAAC48, data] #psyq afaik
+      - [0xAADE0, data]
+      #- [0xAADE0, .data, data/video_AADE0] #801CF5E0 include_asm
       - [0xAAE00, .data, data/draw/draw_AAE00] #801CF600
-      - [0xAAE20, data]
+      - [0xAAE20, .data, data/bonus_AAE20] #801CF620
+      - [0xAAE38, data] #psyq afaik
   - [0xAB000]

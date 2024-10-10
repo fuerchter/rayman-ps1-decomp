@@ -5,9 +5,6 @@ const u8 s_great__8012a578[] = "/great !/";
 const u8 s_your_time_8012a584[] = "/your time:/";
 const u8 s_perfect__8012a594[] = "/perfect !/";
 
-extern Obj *PS1_BonusNovas[2];
-extern Obj *PS1_BonusOneUps[2];
-extern u8 PS1_TimeString[24];
 extern s16 allowed_time[192];
 extern s16 loop_time;
 
