@@ -66,6 +66,11 @@ segments:
       - [0x9C8, rodata]
       #- [0x9C8, .rodata, data/menu/menu_card_9ED48] #801251C8
       - [0xC7C, rodata]
+      #- [0xC7C, .rodata, data/menu/menu_9EDBC] #8012547C
+      - [0xC88, rodata]
+      #- [0xC88, .rodata, data/unknown/9EDDC] #80125488
+      - [0xCE4, rodata]
+      #- [0xCE4, .rodata, data/victoire_9EDF4] #801254E4
       - [0x1428, .rodata, music] #80125C28
       - [0x156C, .rodata, video] #80125D6C
       - [0x1580, rodata]
@@ -322,15 +327,17 @@ segments:
       - [0x9E914, .data, data/collision/bit_util] #801C3114
       - [0x9EB18, .data, data/ray/angle_rayman_9EB18] #801C3318
       - [0x9EB5C, data]
-      #- [0x9EB5C, .data, data/world_map_9EB5C] #801C335C .data referencing .rodata (and could not check for matching, because not enough functions done)
+      #- [0x9EB5C, .data, data/world_map_9EB5C] #801C335C .data referencing .rodata (could not check for matching, include_asm)
       - [0x9ED48, data]
       #- [0x9ED48, .data, data/menu/menu_card_9ED48] #801C3548 .data referencing .rodata (matching)
       - [0x9ED80, .data, data/draw/text_9ED80] #801C3580
       - [0x9EDBC, data]
-      #- [0x9EDBC, .data, data/menu/menu_9EDBC] #801C35BC TODO: .data referencing .rodata
+      #- [0x9EDBC, .data, data/menu/menu_9EDBC] #801C35BC .data referencing .rodata (matching)
       - [0x9EDDC, data]
-      #- [0x9EDDC, .data, data/unknown/9EDDC] #801C35DC TODO: .data referencing .rodata
+      #- [0x9EDDC, .data, data/unknown/9EDDC] #801C35DC .data referencing .rodata (matching)
       - [0x9EDF4, data]
+      #- [0x9EDF4, .data, data/victoire_9EDF4] #801C35F4 .data referencing .rodata (matching)
+      - [0x9F310, data]
       - [0x9F448, .data, data/demo_9F448] #801C3C48
       - [0x9FB74, data]
       - [0x9FC78, .data, data/music_9FC78] #801C4478
