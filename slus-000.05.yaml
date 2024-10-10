@@ -362,10 +362,10 @@ segments:
       - [0xA3C88, .data, data/obj/dark_A3C88] #801C8488
       - [0xA3CD8, .data, data/password_A3CD8] #801C84D8
       - [0xA3D40, data]
+      - [0xAA5E4, .data, data/draw/rollup_trans_AA5E4] #801CEDE4
       - [0xAA5F4, .data, data/world_map_AA5F4] #801CEDF4
-      - [0xAA5FC, data]
-      #- [0xAA5FC, .data, data/cam_scroll_AA5FC] #801CEDFC not enough funcs implemented yet
-      - [0xAA608, data]
+      - [0xAA5FC, .data, data/cam_scroll_AA5FC] #801CEDFC
+      - [0xAA608, .data, data/unknown/AA608] #801CEE08
       - [0xAA610, .data, data/draw/text_AA610] #801CEE10 both vars here seem to end up at 801CEE10? not sure how it would be, when let_shadow is done
       - [0xAA614, .data, data/menu/menu_AA614] #801CEE14
       - [0xAA65C, .data, data/obj/medaillon_toon_AA65C] #801CEE5C
