@@ -15,7 +15,7 @@ typedef struct Credit
 } Credit;
 
 /* .data */
-extern Credit credits[109];
+extern Credit credits[135]; /* only hint for this being 135 instead of 109 is empty space after it */
 
 /**/
 extern u8 You_Win;

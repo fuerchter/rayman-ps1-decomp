@@ -337,7 +337,6 @@ segments:
       #- [0x9EDDC, .data, data/unknown/9EDDC] #801C35DC .data referencing .rodata (matching)
       - [0x9EDF4, data]
       #- [0x9EDF4, .data, data/victoire_9EDF4] #801C35F4 .data referencing .rodata (matching)
-      - [0x9F310, data]
       - [0x9F448, .data, data/demo_9F448] #801C3C48
       - [0x9FB74, data]
       - [0x9FC78, .data, data/music_9FC78] #801C4478
