@@ -18,8 +18,6 @@ extern s32 D_80058674;
 extern s32 D_80058678;
 extern s32 D_8005867C;
 extern s32 D_80058684;
-extern s16 D_801CEE9A;
-extern s16 D_801CEE9C;
 extern void *D_801D7840;
 extern s32 *D_801E5260;
 extern s32 *D_801F59E0; /* see loading_DA64 */

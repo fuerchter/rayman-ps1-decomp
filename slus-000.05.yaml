@@ -361,7 +361,7 @@ segments:
       - [0xA3BC4, .data, data/obj/moskito_A3BC4] #801C83C4
       - [0xA3C88, .data, data/obj/dark_A3C88] #801C8488
       - [0xA3CD8, .data, data/password_A3CD8] #801C84D8
-      - [0xA3D40, data]
+      - [0xA3D40, data] #psyq afaik
       - [0xAA5E4, .data, data/draw/rollup_trans_AA5E4] #801CEDE4
       - [0xAA5F4, .data, data/world_map_AA5F4] #801CEDF4
       - [0xAA5FC, .data, data/cam_scroll_AA5FC] #801CEDFC
@@ -369,10 +369,9 @@ segments:
       - [0xAA610, .data, data/draw/text_AA610] #801CEE10 both vars here seem to end up at 801CEE10? not sure how it would be, when let_shadow is done
       - [0xAA614, .data, data/menu/menu_AA614] #801CEE14
       - [0xAA65C, .data, data/obj/medaillon_toon_AA65C] #801CEE5C
-      - [0xAA660, data] #TODO: does this belong to medaillon_toon?
-      - [0xAA670, data]
+      - [0xAA670, .data, data/main_moteur_AA670] #801CEE70
       - [0xAA67C, .data, data/common/display_AA67C] #801CEE7C
-      - [0xAA680, data]
+      - [0xAA680, .data, data/main_moteur_AA680] #801CEE80
       - [0xAA6A4, .data, data/music_AA6A4] #801CEEA4
       - [0xAA6DC, data]
       - [0xAA6EC, .data, data/loading_AA6EC] #801ceeec

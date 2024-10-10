@@ -15,9 +15,6 @@ typedef s16 RayMode;
 #define MODE_MORT_DE_RAYMAN 3
 #define MODE_MORT_DE_RAYMAN_ON_MS 4
 
-/* .data */
-extern RaymanEvents PS1_DefaultRayEvts; /* originally in include/main.h */
-
 /**/
 extern RaymanEvents SauveRayEvtsDemo; /* originally in include/demo_9FD4.h */
 extern u8 ray_on_poelle;

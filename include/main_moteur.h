@@ -22,8 +22,14 @@ extern u8 PS1_MemoryUsageDisplayMode;
 /* .data */
 extern u8 in_pause;
 extern u8 PS1_Ingame;
-
-/* .data, BAD ALIGNMENT */
+extern RaymanEvents D_801CEE84;
+extern RaymanEvents D_801CEE88;
+extern RaymanEvents D_801CEE8C;
+extern RaymanEvents D_801CEE90;
+extern RaymanEvents D_801CEE94;
+extern RaymanEvents PS1_DefaultRayEvts; /* originally in include/main.h */
+extern s16 D_801CEE9A;
+extern s16 D_801CEE9C;
 extern s16 PS1_CanPlayDeathMusic;
 extern s16 D_801CEEA0;
 extern u8 D_801CEEA2;
