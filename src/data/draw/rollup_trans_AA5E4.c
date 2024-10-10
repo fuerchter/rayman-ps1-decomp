@@ -6,4 +6,4 @@ DVECTOR D_801CEDEC[2] =
 {
     { .vx = 704, .vy = 0 },
     { .vx = SCREEN_WIDTH, .vy = SCREEN_HEIGHT }
-}
+};

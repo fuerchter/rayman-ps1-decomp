@@ -243,8 +243,8 @@ void display_time(s16 time)
             __builtin_memcpy(text, s__801cef90, sizeof(s__801cef90));
             ray.flags &= ~FLG(OBJ_ACTIVE);
             PS1_itoa(nb_wiz, &nb_wiz_text, 0xA);
-            strcat(&text, &nb_wiz_text);
-            strcat(&text, " tings to get/");
+            strcat(text, nb_wiz_text);
+            strcat(text, " tings to get/");
             if (horloge[8] < 4)
             {
                 col = PS1_TingsToGet_Col;
