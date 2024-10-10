@@ -2,7 +2,7 @@
 
 /*
 TODO:
-uses of 0x1f are either based on LEN(PS1_PasswordDisplayTable) or LEN(PS1_PasswordDisplayTranslateTable) ???
+uses of 0x1f are either based on LEN(display_table) or LEN(translate_table) ???
 replace x_pos 160 with macro?
 */
 
@@ -66,27 +66,27 @@ u8 PS1_ValidatePassword(void)
     u8 i;
     u8 level = PS1_GetLevelFromPassword();
 
-    PS1_Password_TempCageCounts[0] = PS1_CurrentPassword[0] >> 1 & 1;
-    PS1_Password_TempCageCounts[1] = PS1_CurrentPassword[2] >> 1 & 1;
-    PS1_Password_TempCageCounts[2] = PS1_CurrentPassword[4] >> 1 & 1;
-    PS1_Password_TempCageCounts[3] = PS1_CurrentPassword[1] >> 1 & 1;
-    PS1_Password_TempCageCounts[4] = PS1_CurrentPassword[3] >> 1 & 1;
-    PS1_Password_TempCageCounts[5] = PS1_CurrentPassword[5] >> 1 & 1;
-    PS1_Password_TempCageCounts[6] = PS1_CurrentPassword[7] >> 1 & 1;
-    PS1_Password_TempCageCounts[7] = PS1_CurrentPassword[6] >> 1 & 1;
-    PS1_Password_TempCageCounts[8] = PS1_CurrentPassword[8] >> 1 & 1;
-    PS1_Password_TempCageCounts[9] = PS1_CurrentPassword[9] >> 1 & 1;
-    PS1_Password_TempCageCounts[10] = PS1_CurrentPassword[4] >> 4 & 1;
-    PS1_Password_TempCageCounts[11] = PS1_CurrentPassword[0] >> 4 & 1;
-    PS1_Password_TempCageCounts[12] = PS1_CurrentPassword[2] >> 4 & 1;
-    PS1_Password_TempCageCounts[13] = PS1_CurrentPassword[1] >> 4 & 1;
-    PS1_Password_TempCageCounts[14] = PS1_CurrentPassword[5] >> 4 & 1;
-    PS1_Password_TempCageCounts[15] = PS1_CurrentPassword[3] >> 4 & 1;
-    PS1_Password_TempCageCounts[16] = PS1_CurrentPassword[7] >> 4 & 1;
-    PS1_Password_TempCageCounts[17] = PS1_CurrentPassword[6] >> 4 & 1;
+    PS1_PasswordTables.temp_cage_counts[0] = PS1_CurrentPassword[0] >> 1 & 1;
+    PS1_PasswordTables.temp_cage_counts[1] = PS1_CurrentPassword[2] >> 1 & 1;
+    PS1_PasswordTables.temp_cage_counts[2] = PS1_CurrentPassword[4] >> 1 & 1;
+    PS1_PasswordTables.temp_cage_counts[3] = PS1_CurrentPassword[1] >> 1 & 1;
+    PS1_PasswordTables.temp_cage_counts[4] = PS1_CurrentPassword[3] >> 1 & 1;
+    PS1_PasswordTables.temp_cage_counts[5] = PS1_CurrentPassword[5] >> 1 & 1;
+    PS1_PasswordTables.temp_cage_counts[6] = PS1_CurrentPassword[7] >> 1 & 1;
+    PS1_PasswordTables.temp_cage_counts[7] = PS1_CurrentPassword[6] >> 1 & 1;
+    PS1_PasswordTables.temp_cage_counts[8] = PS1_CurrentPassword[8] >> 1 & 1;
+    PS1_PasswordTables.temp_cage_counts[9] = PS1_CurrentPassword[9] >> 1 & 1;
+    PS1_PasswordTables.temp_cage_counts[10] = PS1_CurrentPassword[4] >> 4 & 1;
+    PS1_PasswordTables.temp_cage_counts[11] = PS1_CurrentPassword[0] >> 4 & 1;
+    PS1_PasswordTables.temp_cage_counts[12] = PS1_CurrentPassword[2] >> 4 & 1;
+    PS1_PasswordTables.temp_cage_counts[13] = PS1_CurrentPassword[1] >> 4 & 1;
+    PS1_PasswordTables.temp_cage_counts[14] = PS1_CurrentPassword[5] >> 4 & 1;
+    PS1_PasswordTables.temp_cage_counts[15] = PS1_CurrentPassword[3] >> 4 & 1;
+    PS1_PasswordTables.temp_cage_counts[16] = PS1_CurrentPassword[7] >> 4 & 1;
+    PS1_PasswordTables.temp_cage_counts[17] = PS1_CurrentPassword[6] >> 4 & 1;
     
     is_valid =
-        level < LEN(PS1_Password_TempCageCounts) &&
+        level < LEN(PS1_PasswordTables.temp_cage_counts) &&
         !(level == 2 || level == 3) &&
         (level == 6 || level == 7) ^ 1;
     
@@ -122,7 +122,7 @@ u8 PS1_ValidatePassword(void)
     else
         is_valid =
             level < 11 && 
-            PS1_Password_TempCageCounts[11] == 0;
+            PS1_PasswordTables.temp_cage_counts[11] == 0;
 
     if (!is_valid)
         return 7;
@@ -135,7 +135,7 @@ u8 PS1_ValidatePassword(void)
     else
         is_valid =
             level < 17 &&
-            PS1_Password_TempCageCounts[17] == 0;
+            PS1_PasswordTables.temp_cage_counts[17] == 0;
 
     if (!is_valid)
         return 8;
@@ -144,7 +144,7 @@ u8 PS1_ValidatePassword(void)
         is_valid = (level < 4) ^ 1;
     else
         is_valid =
-            PS1_Password_TempCageCounts[3] == 0 &&
+            PS1_PasswordTables.temp_cage_counts[3] == 0 &&
             !(PS1_CurrentPassword[9] & 1 << 3);
     
     if (!is_valid)
@@ -154,13 +154,13 @@ u8 PS1_ValidatePassword(void)
         is_valid = (level < 8) ^ 1;
     else
         is_valid =
-            (PS1_Password_TempCageCounts[7] == 0) &&
+            (PS1_PasswordTables.temp_cage_counts[7] == 0) &&
             (PS1_CurrentPassword[8] & 1 << 3) == 0;
     
     if (!is_valid)
         return 0x10;
 
-    if (PS1_Password_TempCageCounts[3] != 0)
+    if (PS1_PasswordTables.temp_cage_counts[3] != 0)
         is_valid = PS1_CurrentPassword[8] >> 2 & 1;
 
     if (!is_valid)
@@ -168,15 +168,15 @@ u8 PS1_ValidatePassword(void)
 
     if (
         !(
-            PS1_Password_TempCageCounts[7] == 0 ||
+            PS1_PasswordTables.temp_cage_counts[7] == 0 ||
             (PS1_CurrentPassword[9] >> 2 & 1)
         )
     )
         return 0x0D;
 
     cc_sum = 0;
-    for (i = level + 1; i < LEN(PS1_Password_TempCageCounts); i++)
-        cc_sum += PS1_Password_TempCageCounts[i];
+    for (i = level + 1; i < LEN(PS1_PasswordTables.temp_cage_counts); i++)
+        cc_sum += PS1_PasswordTables.temp_cage_counts[i];
     
     is_valid = cc_sum == 0;
     if (!is_valid)
@@ -197,11 +197,11 @@ u8 PS1_ValidatePassword(void)
             return 0x0A;
     }
 
-    if (level == 17 || PS1_Password_TempCageCounts[17] != 0)
+    if (level == 17 || PS1_PasswordTables.temp_cage_counts[17] != 0)
     {
         cc_sum = 0;
         for (i = 0; i < 17; i++)
-            cc_sum += PS1_Password_TempCageCounts[i];
+            cc_sum += PS1_PasswordTables.temp_cage_counts[i];
         
         is_valid =
             cc_sum == 17 &&
@@ -239,7 +239,7 @@ void PS1_UnusedGenerateAndPrintPassword(s16 param_1, s16 param_2, u8 param_3, u8
 
     PS1_IsPasswordValid = PS1_GeneratePassword();
     for (i = 0; i < LEN(PS1_CurrentPassword); i++)
-        pass[i] = PS1_PasswordDisplayTable[PS1_CurrentPassword[i] & 0x1F];
+        pass[i] = PS1_PasswordTables.display_table[PS1_CurrentPassword[i] & 0x1F];
     
     if (PS1_IsPasswordValid == true)
         pass[10] = '\0';
@@ -306,8 +306,8 @@ void FUN_801a2d40(void)
     for (char_ind = 0; char_ind < (s16) LEN(PS1_CurrentTypingPassword); char_ind++)
     {
         character[0] =
-            PS1_PasswordDisplayTable[
-                PS1_PasswordDisplayTranslateTable[
+            PS1_PasswordTables.display_table[
+                PS1_PasswordTables.translate_table[
                     PS1_CurrentTypingPassword[char_ind] & 0x1F
                 ]
             ];
@@ -364,7 +364,7 @@ void FUN_801a3064(void)
             for (char_ind = 0; char_ind < (s16) LEN(PS1_CurrentTypingPassword); char_ind++)
             {
                 PS1_CurrentPassword[char_ind] =
-                    PS1_PasswordDisplayTranslateTable[
+                    PS1_PasswordTables.translate_table[
                         PS1_CurrentTypingPassword[char_ind]
                     ];
             }
@@ -518,7 +518,7 @@ void PS1_GenerateAndDisplayPassword(void)
     PS1_IsPasswordValid = PS1_GeneratePassword();
     for (i = 0; i < LEN(PS1_CurrentPassword); i++)
     {
-        pass[i * 2] = PS1_PasswordDisplayTable[PS1_CurrentPassword[i] & 0x1f];
+        pass[i * 2] = PS1_PasswordTables.display_table[PS1_CurrentPassword[i] & 0x1f];
         pass[i * 2 + 1] = ' ';
     }
 

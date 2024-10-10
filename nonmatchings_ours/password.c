@@ -21,8 +21,8 @@ void PS1_EncryptPassword(void)
     bVar3 = 0;
     while (bVar3 < 10)
     {
-        PS1_CurrentPassword[bVar3] ^= PS1_PasswordXORTable[bVar3];
-        uVar4 = uVar4 + ((PS1_CurrentPassword[bVar3] >> 1) * PS1_PasswordVerificationTable[bVar3]);
+        PS1_CurrentPassword[bVar3] ^= PS1_PasswordTables.xor_table[bVar3];
+        uVar4 = uVar4 + ((PS1_CurrentPassword[bVar3] >> 1) * PS1_PasswordTables.verification_table[bVar3]);
         bVar3 = bVar3 + 1;
     }
 
@@ -70,8 +70,8 @@ s32 PS1_VerifyDecryptPassword(void)
     var_a2 = 0;
     do
     {
-        var_t4 += (PS1_CurrentPassword[var_a2] >> 1) * PS1_PasswordVerificationTable[var_a2];
-        PS1_CurrentPassword[var_a2] ^= PS1_PasswordXORTable[var_a2];
+        var_t4 += (PS1_CurrentPassword[var_a2] >> 1) * PS1_PasswordTables.verification_table[var_a2];
+        PS1_CurrentPassword[var_a2] ^= PS1_PasswordTables.xor_table[var_a2];
         var_a2 += 1;
     } while (var_a2 < 10);
     

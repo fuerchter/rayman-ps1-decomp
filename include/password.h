@@ -4,12 +4,17 @@
 #include "common.h"
 #include "num_level_36260.h"
 
+typedef struct PasswordTables
+{
+    u8 xor_table[10];
+    u8 verification_table[10];
+    u8 display_table[32];
+    u8 translate_table[32];
+    u8 temp_cage_counts[18];
+} PasswordTables;
+
 /* .data */
-extern u8 PS1_PasswordXORTable[10];
-extern u8 PS1_PasswordVerificationTable[10];
-extern u8 PS1_PasswordDisplayTable[32];
-extern u8 PS1_PasswordDisplayTranslateTable[32];
-extern u8 PS1_Password_TempCageCounts[18];
+extern PasswordTables PS1_PasswordTables;
 
 /* .data */
 extern u8 PS1_IsPasswordValid;

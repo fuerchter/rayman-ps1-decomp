@@ -11,6 +11,15 @@
 /* 801c8050 - 801c84d8 might be general boss data? */
 /* same with 801cf0bc - 801cf0ca though */
 /* .data */
+extern u8 dyingSequence[8];
+extern u8 hitSequence[8];
+extern u8 arrivalSequence[4];
+extern u8 firstEncounterSequence[40];
+extern u8 secondEncounterSequence1[16];
+extern u8 secondEncounterSequenceSuite[12];
+extern u8 secondEncounterSequence2[24];
+extern u8 secondEncounterSequence3[20];
+extern u8 secondEncounterSequence4[24];
 extern u8 *moskitoActionSequences[10];
 
 /* .data */
