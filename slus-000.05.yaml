@@ -61,14 +61,15 @@ segments:
     subalign: 4
     subsegments:
       - [0x800, .rodata, unknown/A3B0] #80125000
-      - [0x828, rodata] #TODO: .rodata referenced from .data (include/world_map_677C0.h and others)?
+      - [0x828, rodata]
+      #- [0x828, .rodata, data/world_map_9EB5C] #80125028
       - [0x9C8, rodata]
-      #- [0x9C8, .rodata, data/menu/menu_card_9ED48] #801251C8 TODO: .rodata referenced from .data? generated .rodata seems to be matching
+      #- [0x9C8, .rodata, data/menu/menu_card_9ED48] #801251C8
       - [0xC7C, rodata]
       - [0x1428, .rodata, music] #80125C28
       - [0x156C, .rodata, video] #80125D6C
       - [0x1580, rodata]
-      #- [0x1580, .rodata, data/loading_A0338] #80125d80 TODO: generated .rodata seems to be matching
+      #- [0x1580, .rodata, data/loading_A0338] #80125d80
       - [0x2AA8, .rodata, loading_E99C] #801272A8
       - [0x2B04, .rodata, input_ED20] #80127304
       - [0x2F04, .rodata, draw/fond_10B3C] #80127704
@@ -319,8 +320,11 @@ segments:
       - [0x9E814, .data, data/cam_scroll_9E814] #801C3014
       - [0x9E8F8, .data, data/unknown/9E8F8] #801C30F8
       - [0x9E914, .data, data/collision/bit_util] #801C3114
-      - [0x9EB18, data]
-      #- [0x9ED48, .data, data/menu/menu_card_9ED48] #801C3548
+      - [0x9EB18, .data, data/ray/angle_rayman_9EB18] #801C3318
+      - [0x9EB5C, data]
+      #- [0x9EB5C, .data, data/world_map_9EB5C] #801C335C .data referencing .rodata (and could not check for matching, because not enough functions done)
+      - [0x9ED48, data]
+      #- [0x9ED48, .data, data/menu/menu_card_9ED48] #801C3548 .data referencing .rodata (matching)
       - [0x9ED80, .data, data/draw/text_9ED80] #801C3580
       - [0x9EDBC, data]
       #- [0x9EDBC, .data, data/menu/menu_9EDBC] #801C35BC TODO: .data referencing .rodata
@@ -331,7 +335,7 @@ segments:
       - [0x9FB74, data]
       - [0x9FC78, .data, data/music_9FC78] #801C4478
       - [0xA0338, data]
-      #- [0xA0338, .data, data/loading_A0338] #801C4B38 not enough funcs implemented yet
+      #- [0xA0338, .data, data/loading_A0338] #801C4B38 not enough funcs implemented yet (matching?)
       - [0xA29C0, .data, data/draw/fond_A29C0] #801C71C0
       - [0xA29CC, .data, data/draw/text_A29CC] #801C71CC
       - [0xA2A58, .data, data/obj_util] #801C7258
