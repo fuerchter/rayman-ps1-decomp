@@ -10,3 +10,6 @@
 [submodule "tools/decomp-permuter"]
 	path = tools/decomp-permuter
 	url = https://github.com/simonlindholm/decomp-permuter
+[submodule "tools/splat-sibling"]
+	path = tools/splat-sibling
+	url = https://github.com/AngheloAlf/splat
