@@ -1108,10 +1108,72 @@ void setvol(s16 param_1)
 }
 
 /*
-attempts: 2
+matches, but ... yeah ... slightly more believable version below?
+attempts: 3
 tried gotos-only also
 */
 /*INCLUDE_ASM("asm/nonmatchings/sound", FUN_80168f48);*/
+
+void FUN_80168f48(void)
+{
+    s16 *var_s1;
+    s16 *var_s2;
+    s16 temp_a0;
+    s16 temp_v0;
+    s16 temp_v1_2;
+    s16 var_a0;
+    s16 var_s3;
+    s16 var_v0;
+    s16 var_v0_3;
+    s32 temp_s0;
+    s32 temp_v1;
+    s32 var_v0_2;
+
+    if ((D_801CEFCC != 0) && !(level.objects[D_801CEFCE].flags & 0x800))
+    {
+        PS1_StopPlayingSnd(0x0016);
+    }
+
+    for (
+        var_s1 = &voice_table[0].field3_0x6,
+        var_s2 = &voice_table[0].id,
+        var_s3 = 0;
+        var_s3 <= 0x18;
+        var_s3 = var_s3 + 1,
+        var_s1 += sizeof(VoiceTableEntry) / sizeof(s16),
+        var_s2 += sizeof(VoiceTableEntry) / sizeof(s16)
+    )
+    {
+        if (
+            (*var_s2 > -1 && !(level.objects[*var_s2].flags & 0x800)) ||
+            (*var_s2 == -2 && *var_s1 != -1)
+        )
+        {
+            if (hard_sound_table[voice_table[var_s3].field3_0x6].flags >> 4 & 1)
+            {
+                SsUtKeyOff(
+                    var_s3,
+                    bank_to_use[*var_s1],
+                    hard_sound_table[*var_s1].prog,
+                    hard_sound_table[*var_s1].tone,
+                    hard_sound_table[*var_s1].note
+                );
+                voice_is_working[var_s3] = 0;
+                var_a0 = 0;
+                while (var_a0 != 0x0014 && stk_obj[var_a0] != *var_s2)
+                {
+                    var_a0 = var_a0 + 1;
+                }
+                if (var_a0 < 0x14)
+                {
+                    stk_snd[var_a0] = -1;
+                }
+                *var_s2 = -2;
+                *var_s1 = -1;
+            }
+        }
+    }
+}
 
 void FUN_80168f48(void)
 {
@@ -1125,27 +1187,30 @@ void FUN_80168f48(void)
   s16 test_1;
   s32 test_2;
   s16 *cur_stk_obj;
+  s16 test_3;
   
-  if ((D_801CEFCC != 0) && !((level.objects[D_801CEFCE].flags & FLG(OBJ_ACTIVE)))
-     ) {
+  if ((D_801CEFCC != 0) && !((level.objects[D_801CEFCE].flags & FLG(OBJ_ACTIVE)))) {
     PS1_StopPlayingSnd(0x16);
   }
-  psVar4 = &voice_table[0].field3_0x6;
-  pVVar5 = &voice_table[0];
-  iVar6 = 0;
-  while (iVar6 <= 0x18) {
+  
+  for (
+    pVVar5 = &voice_table[0], iVar6 = 0;
+    iVar6 <= 0x18;
+    iVar6 = iVar6 + 1, pVVar5 = pVVar5 + 1
+  )
+  {
     iVar3 = pVVar5->id;
     if (
       (
         (-1 < iVar3 && !(level.objects[iVar3].flags & FLG(OBJ_ACTIVE))) ||
-        (iVar3 == -2 && *psVar4 != -1)
+        (iVar3 == -2 && pVVar5->field3_0x6 != -1)
       ) &&
       ((hard_sound_table[voice_table[iVar6].field3_0x6].flags >> 4 & 1) != 0)
     )
     {
-      sVar2 = *psVar4; /* ??? */
-      SsUtKeyOff(iVar6,bank_to_use[*psVar4],hard_sound_table[*psVar4].prog,hard_sound_table[*psVar4].tone,
-                 hard_sound_table[*psVar4].note);
+      test_3 = pVVar5->field3_0x6;
+      SsUtKeyOff(iVar6,bank_to_use[test_3],hard_sound_table[test_3].prog,hard_sound_table[test_3].tone,
+                 hard_sound_table[test_3].note);
       voice_is_working[iVar6] = 0;
       sVar2 = 0;
       while (sVar2 != 0x14 && stk_obj[sVar2] != pVVar5->id) {
@@ -1155,10 +1220,8 @@ void FUN_80168f48(void)
         stk_snd[sVar2] = -1;
       }
       pVVar5->id = -2;
-      *psVar4 = -1;
+      /*do{ pVVar5->field3_0x6 = -1; } while (0);*/
+      pVVar5->field3_0x6 = -1;
     }
-    iVar6 = iVar6 + 1;
-    psVar4 = psVar4 + 6;
-    pVVar5 = pVVar5 + 1;
   }
 }
