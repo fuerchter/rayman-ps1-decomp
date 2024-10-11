@@ -1,6 +1,10 @@
 #include "ray/ray_5D190.h"
 
-/* matches, but do{}while(0); and other cleanup */
+/*
+matches, but
+do{}while(0); and other cleanup
+see "var_a1_1 =" for alternative
+*/
 /*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", rayMayLandOnAnObject);*/
 
 /*int GET_SPRITE_POS(Obj *obj,int spriteIndex,short *x,short *y,ushort *w,ushort *h);
@@ -190,7 +194,8 @@ block_62:
                 case 0x56:
                     if (var_s1->sub_etat == 4)
                     {
-                        if (var_s1->hit_points == 0)
+                        /* alternative to do{}while(0); */
+                        if (/*var_a1_1 = */var_s1->hit_points == 0)
                         {
                             set_sub_etat(var_s1, 5);
                         }
@@ -242,8 +247,7 @@ block_62:
                     {
                         break;
                     }
-                    var_a1_2 = 1;
-                    skipToLabel(var_s1, var_a1_2, 1);
+                    skipToLabel(var_s1, 1, 1);
                     break;
                 case 0x9A:
                     if (var_s1->main_etat != 0)
@@ -254,8 +258,7 @@ block_62:
                     {
                         break;
                     }
-                    var_a1_2 = 1;
-                    skipToLabel(var_s1, var_a1_2, 1);
+                    skipToLabel(var_s1, 1, 1);
                     break;
                 case 0x9B:
                     if (var_s1->main_etat != 0)
@@ -266,8 +269,7 @@ block_62:
                     {
                         break;
                     }
-                    var_a1_2 = 1;
-                    skipToLabel(var_s1, var_a1_2, 1);
+                    skipToLabel(var_s1, 1, 1);
                     break;
                 case 0x31:
                     if (var_s1->main_etat != 0)
@@ -359,7 +361,7 @@ block_62:
                         (RayEvts.run)
                     )
                     {
-                        do { } while (0);
+                        do{}while(0);
                         set_main_and_sub_etat(&ray, 1, 3);
                     }
                     else
@@ -528,8 +530,8 @@ void ray_inertia_speed(u8 param_1, s16 param_2, s16 prev_speed_x, s16 param_4)
 }
 
 /*
-attempts: 3
-m2c: 730, m2c gotos: 1350
+attempts: 4
+m2c: 435, m2c gotos: 1350
 */
 /*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_SWIP);*/
 
@@ -685,6 +687,7 @@ block_57:
         if (ray.field20_0x36 != -1)
         {
             var_s0 = 0;
+block_1:
             var_s2 = 0;
         }
         else
@@ -699,24 +702,32 @@ block_57:
             case 25:
             case 30:
                 /* not sure about this */
-                if ((block_flags[ray.btypes[0]] & 1) || (temp_v1_2 = block_flags[ray.btypes[4]], (((temp_v1_2 >> 3) & 1) != 0)) || (var_s0 = var_a1, (((temp_v1_2 >> 1) & 1) == 0)))
+                if (
+                    !(!((block_flags[ray.btypes[0]] & 1) ||
+                    (block_flags[ray.btypes[4]] >> 3 & 1) ||
+                    !(block_flags[ray.btypes[4]] >> 1 & 1)))
+                )
                 {
-                    var_s0 = var_s4;
-                    if ((s16) ray.speed_x == 0)
+                    if ((ray.speed_x != 0 || decalage_en_cours != 0 || ray_wind_force != 0))
                     {
+                        var_s0 = var_s4;
                         var_s2 = 0;
-                        if (decalage_en_cours == 0)
-                        {
-                            if (ray_wind_force == 0)
-                            {
-                                var_s0 = var_a1;
-                            }
-                        }
                     }
+                    else
+                    {
+
+                        var_s0 = var_a1;
+                        var_s2 = 0;
+                    }
+                }
+                else
+                {
+                    var_s0 = var_a1;
+                    var_s2 = 0;
                 }
                 break;
             case 15:
-                var_s0 = var_a1;
+                
                 switch (ray.btypes[3])
                 {
                 case 20:
@@ -736,6 +747,10 @@ block_57:
                 case 19:
                     var_s0 = var_s4;
                     var_s2 = 6;
+                    break;
+                default:
+                    var_s0 = var_a1;
+                    var_s2 = 0;
                     break;
                 }
                 break;
