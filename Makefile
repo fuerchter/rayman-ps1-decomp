@@ -51,7 +51,7 @@ extract: splat dirs
 
 splat:
 	mkdir -p $(ASM_DIR)
-	cd tools/splat-sibling && $(PYTHON) -m split ../../$(EXE).yaml
+	cd tools/splat-sibling && $(PYTHON) split.py ../../$(EXE).yaml
 
 #also creates nonmatchings directory that is not needed
 dirs:
