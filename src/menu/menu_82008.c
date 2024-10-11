@@ -1,16 +1,6 @@
 #include "menu/menu_82008.h"
 
 INCLUDE_ASM("asm/nonmatchings/menu/menu_82008", FUN_801a6808);
-/*
-generates division checks if:
--function arg is involved
--global is involved
--uninitialized local var is involved
-
-still to see more
-
-PS1_display_y2 is vert spacing on options screen
-*/
 
 /* 82184 801A6984 -O2 -msoft-float */
 void FUN_801a6984(void)

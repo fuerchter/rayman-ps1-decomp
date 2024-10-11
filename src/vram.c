@@ -11,4 +11,4 @@ s32 PS1_LoadToVRAM(s16 w, s16 h, s16 x, s16 y, u8 *data)
   return w * h * 2;
 }
 
-INCLUDE_ASM("asm/nonmatchings/vram", PS1_LoadVRAMBlock); /* ... */
+INCLUDE_ASM("asm/nonmatchings/vram", PS1_LoadVRAMBlock);
