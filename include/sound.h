@@ -138,7 +138,7 @@ void PS1_SetSoundVolume(s16 vol);
 void PS1_SetStereoEnabled(s16 enabled);
 void InitSnd(void);
 void FUN_80166578(void);
-s32 last_snd(s16 param_1);
+s32 last_snd(s16 obj_id);
 s16 get_pile_obj(s16 id); /* do these "find" funcs all return s16? */
 s16 FUN_80166724(s16 id);
 s32 FUN_80166790(s16 id);

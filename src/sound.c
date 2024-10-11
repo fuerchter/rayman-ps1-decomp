@@ -265,7 +265,33 @@ void FUN_80166578(void)
   SsEnd();
 }
 
-INCLUDE_ASM("asm/nonmatchings/sound", last_snd);
+/* 41DA8 801665A8 -O2 -msoft-float */
+s32 last_snd(s16 obj_id)
+{
+    s16 i;
+    s16 res;
+
+    for (
+        i = 0;
+        i != (s16) LEN(stk_obj) && stk_obj[i] != obj_id;
+        i++
+    ) {}
+
+    if (i == (s16) LEN(stk_obj))
+    {
+        do {
+            i--;
+        } while (i != -1 && stk_snd[i] != 0);
+        if (i == -1)
+            i = 0;
+    }
+
+    if (i == -1)
+        res = -1;
+    else
+        res = stk_snd[i];
+    return res;
+}
 
 /* TODO: still lots to figure out */
 /* 41E90 80166690 -O2 -msoft-float */

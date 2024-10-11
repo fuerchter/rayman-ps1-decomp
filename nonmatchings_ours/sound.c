@@ -77,42 +77,6 @@ void PS1_LoadWorldSound(s16 param_1)
   }
 }
 
-/* matches, but gotos */
-/*INCLUDE_ASM("asm/nonmatchings/sound", last_snd);*/
-
-/* 41DA8 801665A8 -O2 -msoft-float */
-s32 last_snd(s16 param_1)
-{
-  short sVar1;
-  s16 iVar2;
-  s16 iVar3;
-  
-  iVar3 = 0;
-  while (iVar3 != 0x14 && stk_obj[iVar3] != param_1) {
-    iVar3 = iVar3 + 1;
-  }
-
-  if ((short)iVar3 == 0x14) {
-    do {
-      iVar3 = iVar3 + -1;
-      if (iVar3 == -1) {
-        iVar3 = 0;
-        goto LAB_80166650;
-      }
-    } while (stk_snd[iVar3] != 0);
-  }
-  else {
-LAB_80166650:
-    if (iVar3 == -1) {
-      sVar1 = -1; /* unreachable? */
-      goto code_r0x80166684;
-    }
-  }
-  sVar1 = stk_snd[iVar3];
-code_r0x80166684:
-  return (int)sVar1;
-}
-
 /* matches, but... */
 /*INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166790);*/
 
