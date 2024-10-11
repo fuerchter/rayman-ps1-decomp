@@ -1,14 +1,14 @@
 #include "loading_794DC.h"
 
-/* would match, if return set to s16... */
+/* matches, but s16 without return (see c89 3.6.6.4 The return statement) */
 /*INCLUDE_ASM("asm/nonmatchings/loading_794DC", load_level);*/
 
-void load_level(void)
+s16 load_level(void)
 {
     s16 temp_v0;
     s32 var_v0;
 
-    FUN_80133018();
+    PS1_Disable_all_Callbacks();
     D_801F4410 = D_801F59E0;
     D_801F5160 = D_801F59E0;
     PS1_FileTemp = PS1_LoadFiles(&PS1_MapFiles[num_world * 21 - 21], num_level - 1, 1, 0);
@@ -28,19 +28,14 @@ void load_level(void)
     PS1_LoadFondSprites();
     PS1_HasLoadedFont = false;
     D_801CEE9A = num_level;
-    temp_v0 = num_world - 1;
-    switch (temp_v0)
+    switch (num_world)
     {
-    case 0:
+    case 1:
         if (num_level >= 18)
             PS1_LoadFont();
         break;
-    case 1:
-        if (num_level >= 17)
-            PS1_LoadFont();
-        break;
     case 2:
-        if (num_level >= 12)
+        if (num_level >= 17)
             PS1_LoadFont();
         break;
     case 3:
@@ -51,14 +46,18 @@ void load_level(void)
         if (num_level >= 12)
             PS1_LoadFont();
         break;
+    case 5:
+        if (num_level >= 12)
+            PS1_LoadFont();
+        break;
     }
 }
 
-/* would match, if return set to s16... */
+/* matches, but s16 without return (see c89 3.6.6.4 The return statement) */
 /* 7A3C0 8019EBC0 -O2 -msoft-float */
 /*INCLUDE_ASM("asm/nonmatchings/loading_794DC", FUN_8019ebc0);*/
 
-void FUN_8019ebc0(void)
+s16 FUN_8019ebc0(void)
 {
     if (PS1_ShouldClearPassword != false)
     {

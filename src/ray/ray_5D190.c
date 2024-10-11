@@ -1859,7 +1859,24 @@ void RAY_SURF(void)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", DO_SURF_CHANGE_HAIRS);
+/* 63D70 80188570 -O2 -msoft-float */
+void DO_SURF_CHANGE_HAIRS(void)
+{
+    s16 flip_x;
+
+    if (ray.main_etat == 0 && ray.sub_etat == 40)
+    {
+        if (ray.flags & FLG(OBJ_FLIP_X))
+            flip_x = 1;
+        else
+            flip_x = -1;
+        
+        if (flip_x == SGN(ray.speed_x))
+            ray.anim_index = 79;
+        else
+            ray.anim_index = 80;
+    }
+}
 
 void RAY_PREPARE_PIEDS(void) {}
 
