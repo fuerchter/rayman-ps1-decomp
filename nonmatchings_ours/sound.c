@@ -144,7 +144,7 @@ s16 FUN_80166d88(s16 index)
 }
 
 
-/* attempts: 2 */
+/* attempts: 3 */
 /*INCLUDE_ASM("asm/nonmatchings/sound", PlaySnd);*/
 
 /* 42694 80166E94 -O2 -msoft-float */
@@ -158,9 +158,9 @@ void PlaySnd(short snd,short obj_id)
   s32 sVar5;
   int iVar6; /* still used for too many different things? */
   int iVar7;
-  s16 *puVar8;
+  s16 *stack_obj_p;
   s16 uVar10;
-  int iVar11;
+  int cnt_3;
   s32 uVar12;
   s16 tone;
   s16 unaff_s6;
@@ -170,6 +170,8 @@ void PlaySnd(short snd,short obj_id)
   s16 uVar9; /* unused currently */
   s16 test_2;
   s16 test_3;
+  s16 cnt_4;
+  s16 test_4;
   
   if ((ray.scale != 0) && (obj_id == reduced_rayman_id)) {
     obj_id = 0xffff;
@@ -180,11 +182,10 @@ void PlaySnd(short snd,short obj_id)
   if ((obj_id == -1) && (snd != 0xf)) {
     indice_ray_wait = 0;
   }
-  iVar11 = obj_id;
-  sVar3 = last_snd(iVar11);
+  sVar3 = last_snd(obj_id);
   if ((snd != sVar3) && ((hard_sound_table[sVar3].flags >> 3 & 1) != 0)) {
-    erase_pile_snd(iVar11);
-    sVar4 = get_voice_obj_snd(iVar11,sVar3);
+    erase_pile_snd(obj_id);
+    sVar4 = get_voice_obj_snd(obj_id,sVar3);
     iVar6 = sVar4;
     if (-1 < iVar6) {
       sVar4 = voice_table[iVar6].field3_0x6;
@@ -197,20 +198,19 @@ void PlaySnd(short snd,short obj_id)
   }
   if (((dans_la_map_monde == false) && (snd != 0)) &&
      ((sVar3 != snd || ((hard_sound_table[sVar3].flags >> 2 & 1) != 0)))) {
-    iVar11 = obj_id;
-    if ((iVar11 == -1) || (iVar11 == rayman_obj_id)) {
+    if ((obj_id == -1) || (obj_id == rayman_obj_id)) {
       local_40 = get_pan_snd(&ray);
       local_48 = 0x7f;
     }
     else {
-      local_40 = get_pan_snd(level.objects + iVar11);
+      local_40 = get_pan_snd(&level.objects[obj_id]);
       if ((hard_sound_table[snd].flags & 1) == 0)
       {
         local_48 = 0x7f;
       }
       else
       {
-        local_48 = get_vol_snd(level.objects + iVar11);
+        local_48 = get_vol_snd(level.objects + obj_id);
       }
     }
     uVar10 = hard_sound_table[0].prog;
@@ -275,8 +275,7 @@ void PlaySnd(short snd,short obj_id)
       break;
     case 0x37:
       uVar10 = 0xffff;
-      sVar3 = PS1_SongIsPlaying(0xc);
-      if (sVar3 == 0) {
+      if ((s16) PS1_SongIsPlaying(0xc) == 0) {
         PS1_PlaySnd(0xc,0);
       }
       break;
@@ -286,8 +285,7 @@ void PlaySnd(short snd,short obj_id)
       break;
     case 0x67:
       uVar10 = 0xffff;
-      sVar3 = SsIsEos(PS1_SepInfos[22].access_num,PS1_SepInfos[22].seq_num);
-      if (sVar3 == 0) {
+      if (SsIsEos(PS1_SepInfos[22].access_num,PS1_SepInfos[22].seq_num) == 0) {
         PS1_PlaySnd(0x16,0);
         D_801CEFCC = 1;
         D_801CEFCE = obj_id;
@@ -338,21 +336,20 @@ void PlaySnd(short snd,short obj_id)
       else {
         nettoie_pile_snd();
         erase_pile_snd(obj_id);
-        iVar6 = pt_pile_snd;
-        pile_snd[iVar6].id = obj_id;
-        pile_snd[iVar6].index = snd;
-        pile_snd[iVar6].prog = uVar10;
-        pile_snd[iVar6].tone = tone;
-        pile_snd[iVar6].note = unaff_s6;
-        pile_snd[iVar6].vol = hard_sound_table[snd].volume;
-        pile_snd[iVar6].field6_0xc = local_48;
-        pile_snd[iVar6].field7_0xe = local_40;
-        pile_snd[iVar6].field8_0x10 = frame_snd[snd] + map_time;
+        pile_snd[pt_pile_snd].id = obj_id;
+        pile_snd[pt_pile_snd].index = snd;
+        pile_snd[pt_pile_snd].prog = uVar10;
+        pile_snd[pt_pile_snd].tone = tone;
+        pile_snd[pt_pile_snd].note = unaff_s6;
+        pile_snd[pt_pile_snd].vol = hard_sound_table[snd].volume;
+        pile_snd[pt_pile_snd].field6_0xc = local_48;
+        pile_snd[pt_pile_snd].field7_0xe = local_40;
+        pile_snd[pt_pile_snd].field8_0x10 = frame_snd[snd] + map_time;
         if (snd_bis[snd] != 0) {
-          pile_snd[iVar6].field9_0x14 = 1;
+          pile_snd[pt_pile_snd].field9_0x14 = 1;
         }
         else {
-          pile_snd[iVar6].field9_0x14 = 0;
+          pile_snd[pt_pile_snd].field9_0x14 = 0;
         }
         if (pt_pile_snd < 9) {
           pt_pile_snd = pt_pile_snd + 1;
@@ -365,41 +362,38 @@ void PlaySnd(short snd,short obj_id)
     }
   }
   /* somewhat similar to last_snd */
-  iVar6 = 0;
+  cnt_4 = 0;
   do {
-    iVar11 = iVar6;
-    iVar7 = iVar11 * 2;
-    if (iVar11 == 0x14) {
-      if (snd == 0) {
+    if (cnt_4 == 0x14) {
+        goto block_1;
+    }
+    test_4 = stk_obj[cnt_4];
+    if (test_4 == obj_id) {
+        /* improves score */
+        /*iVar6 = obj_id;
+        stk_obj[cnt_4] = iVar6;*/
+        stk_obj[cnt_4] = obj_id;
+        stk_snd[cnt_4] = snd;
         return;
-      }
-      goto LAB_80167b40;
     }
-    puVar8 = (s16 *)(stk_obj + iVar11);
-    if (*puVar8 == obj_id) {
-      *puVar8 = obj_id;
-      goto LAB_80167bb8;
+    cnt_4 = cnt_4 + 1;
+  } while (test_4 != -2);
+  goto block_2;
+block_1: 
+  if (snd != 0)
+  {
+    do {
+        cnt_4 = cnt_4 + -1;
+        if (cnt_4 == -1) break;
+    } while ((level.objects[stk_obj[cnt_4]].flags & FLG(OBJ_ACTIVE)) != FLG_OBJ_NONE);
+    if (cnt_4 == -1) {
+        cnt_4 = 0;
     }
-    iVar6 = iVar6 + 1;
-  } while (*puVar8 != -2);
-  *puVar8 = obj_id;
-LAB_80167bb8:
-  *(short *)((int)stk_snd + iVar7) = snd;
-  return;
-  while ((level.objects[stk_obj[iVar11]].flags & FLG(OBJ_ACTIVE)) != FLG_OBJ_NONE) {
-LAB_80167b40:
-    iVar6 = iVar6 + -1;
-    iVar11 = iVar6 * 0x10000 >> 0x10;
-    if (iVar11 == -1) goto LAB_80167b90;
+block_2:
+    stk_obj[cnt_4] = obj_id;
+    stk_snd[cnt_4] = snd;
+    return;
   }
-  iVar6 = iVar6 * 0x10000;
-  if (iVar11 == -1) {
-LAB_80167b90:
-    iVar6 = 0;
-  }
-  iVar7 = iVar6 >> 0xf;
-  *(short *)((int)stk_obj + iVar7) = obj_id;
-  goto LAB_80167bb8;
 }
 
 /* m2c gotos-only */
