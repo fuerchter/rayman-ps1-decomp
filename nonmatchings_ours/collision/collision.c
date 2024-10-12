@@ -1,41 +1,5 @@
 #include "collision/collision.h"
 
-/*INCLUDE_ASM("asm/nonmatchings/collision/collision", box_inter_v_line);*/
-/* ??? think param_6 and 7 might be s32 ??? */
-
-s32 box_inter_v_line(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6, s16 param_7)
-{
-  s32 res = false;
-  if ((param_1 >= param_5) || (param_2 <= param_5)) {
-
-  }
-  else if ((param_6 < param_3) && (param_7 > param_3)) {
-    res = true;
-  }
-  else if (param_7 > param_4 && param_6 < param_4)
-  {
-    res = true;
-  }
-  return res;
-}
-
-/*INCLUDE_ASM("asm/nonmatchings/collision/collision", box_inter_h_line);*/
-
-s32 box_inter_h_line(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6, s16 param_7)
-{
-  s32 res = false;
-  if ((param_3 >= param_5) || (param_4 <= param_5)) {
-  }
-  else if ((param_6 < param_1) && (param_7 > param_1)) {
-    res = true;
-  }
-  else if(param_7 > param_2 && param_6 < param_2)
-  {
-    res = true;
-  }
-  return res;
-}
-
 /* made some ok progress
 previous comment:
 ??? tried gotos-only, both m2c and ghidra

@@ -112,9 +112,38 @@ s16 in_coll_sprite_list(Obj *obj, s16 param_2) /* has ugly stuff, but overall fi
     return res;
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", box_inter_v_line);
+/* TODO: figure out nicer way of writing these? */
+/* 1B43C 8013FC3C -O2 -msoft-float */
+s32 box_inter_v_line(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6, s16 param_7)
+{
+    s32 res = false;
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", box_inter_h_line);
+    if (param_1 < param_5 && param_2 > param_5)
+    {
+        if (param_6 < param_3 && param_7 > param_3)
+            res = true;
+        else if (param_6 < param_4 && param_7 > param_4)
+            res = true;
+    }
+
+    return res;
+}
+
+/* 1B4DC 8013FCDC -O2 -msoft-float */
+s32 box_inter_h_line(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6, s16 param_7)
+{
+    s32 res = false;
+
+    if (param_3 < param_5 && param_4 > param_5)
+    {
+        if (param_6 < param_1 && param_7 > param_1)
+            res = true;
+        else if(param_6 < param_2 && param_7 > param_2)
+            res = true;
+    }
+
+    return res;
+}
 
 /* 1B57C 8013FD7C -O2 -msoft-float */
 s32 inter_box(s32 x_1, s32 y_1, s32 w_1, s32 h_1, s16 x_2, s16 y_2, s32 w_2, s32 h_2)
