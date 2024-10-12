@@ -241,7 +241,24 @@ void FUN_80130684(void)
 
 void FUN_801309b0(void) {}
 
-INCLUDE_ASM("asm/nonmatchings/music", FUN_801309b8);
+/* C1B8 801309B8 -O2 -msoft-float */
+u8 FUN_801309b8(u8 param_1, u8 param_2, u8 *param_3, u8 param_4)
+{
+    u8 unk_1 = btoi(param_1) + btoi(param_2) + btoi(*param_3);
+    
+    if (unk_1 > param_4)
+    {
+        unk_1 -= 1;
+        unk_1 -= param_4;
+        *param_3 = itob(unk_1);
+        return 1;
+    }
+    else
+    {
+        *param_3 = itob(unk_1);
+        return 0;
+    }
+}
 
 /* C298 80130A98 -O2 -msoft-float */
 void FUN_80130a98(CdlLOC *param_1, CdlLOC *param_2, CdlLOC *param_3)
