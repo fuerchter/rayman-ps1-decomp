@@ -7,6 +7,9 @@
 #include "obj/fire.h"
 #include "obj/dark2_pink_fly.h"
 
+/* .rodata */
+extern const u8 s_youre_doomed_rayman__8012c1e4[27];
+
 /**/
 extern Obj *dark_obj;
 extern s16 phase_dark2;

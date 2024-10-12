@@ -119,7 +119,9 @@ segments:
       - [0x7898, .rodata, obj/dark_729F0] #8012c098
       - [0x7934, .rodata, obj/ufo_idc] #8012C134
       - [0x7968, .rodata, obj/hybride_mosams_command] #8012C168
-      - [0x79E4, .rodata, obj/dark_phase2] #8012C1E4 splat says: "has jumptables that are not aligned properly file-wise"
+      - [0x79E4, rodata]
+      #- [0x79E4, .rodata, obj/dark_phase2_str] #8012C1E4
+      - [0x7A00, .rodata, obj/dark_phase2] #8012C200
       - [0x7A30, .rodata, loading_794DC] #8012C230
       - [0x7B68, .rodata, first_init] #8012C368
       - [0x7B78, .rodata, menu/menu_card_7C028] #8012C378
