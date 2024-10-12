@@ -43,7 +43,280 @@ void DO_DARK2_AFFICHE_TEXT(void)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/dark_phase2", DO_DARK_PHASE2_COMMAND);
+/* 76B74 8019B374 -O2 -msoft-float */
+void DO_DARK_PHASE2_COMMAND(Obj *dp2_obj)
+{
+    s16 dp2_x; s16 dp2_y; s16 dp2_w; s16 dp2_h;
+    s16 ds2_x; s16 ds2_y;
+    Obj *poing_obj;
+
+    if (dp2_obj->main_etat == 0 && dp2_obj->sub_etat == 38)
+    {
+        RayEvts.poing = false;
+        RayEvts.unused_death = false;
+        sinus_actif = 0;
+        flammes_actives = 0;
+        phase_dark2 = 0;
+        TextDark2_Affiche = false;
+        scroll_end_x = 0;
+        scroll_start_x = 0;
+        ToonJustGivePoing = 0;
+        dark_obj->flags &= ~FLG(OBJ_ALIVE);
+        dark_obj->flags &= ~FLG(OBJ_ACTIVE);
+    }
+
+    switch (phase_dark2)
+    {
+    case 0:
+        if (sinus_actif == 0)
+        {
+            sinus_actif = 1;
+            set_sub_etat(dp2_obj, 30);
+        }
+        else if (sinus_actif == 2)
+            phase_dark2 = 1;
+        break;
+    case 1:
+        if (flammes_actives == 0)
+        {
+            flammes_actives = 1;
+            set_sub_etat(dp2_obj, 31);
+        }
+        else if (flammes_actives == 2)
+        {
+            if (
+                level.objects[flamme_gauche_id].cmd == GO_NOP &&
+                level.objects[flamme_droite_id].cmd == GO_NOP
+            )
+            {
+                skipToLabel(&level.objects[flamme_droite_id], 2, true);
+                skipToLabel(&level.objects[flamme_gauche_id], 2, true);
+                phase_dark2 = 2;
+            }
+        }
+        break;
+    case 2:
+        if (
+            level.objects[flamme_gauche_id].cmd == GO_NOP &&
+            level.objects[flamme_droite_id].cmd == GO_NOP
+        )
+        {
+            phase_dark2 = 3;
+            sinus_actif = 0;
+        }
+        break;
+    case 3:
+        if (sinus_actif == 0)
+        {
+            sinus_actif = 1;
+            set_sub_etat(dp2_obj, 30);
+        }
+        else if (sinus_actif == 2)
+            phase_dark2 = 4;
+        break;
+    case 4:
+        skipToLabel(&level.objects[flamme_droite_id], 3, true);
+        skipToLabel(&level.objects[flamme_gauche_id], 3, true);
+        phase_dark2 = 5;
+        break;
+    case 5:
+        if (
+            level.objects[flamme_gauche_id].cmd == GO_NOP &&
+            level.objects[flamme_droite_id].cmd == GO_NOP
+        )
+        {
+            if (sinus_actif == 0)
+            {
+                sinus_actif = 1;
+                set_sub_etat(dp2_obj, 30);
+            }
+            else if (sinus_actif == 2)
+            {
+                phase_dark2 = 6;
+                sinus_actif = 0;
+            }
+        }
+        else
+            sinus_actif = 0;
+        break;
+    case 6:
+        if (sinus_actif == 0)
+        {
+            skipToLabel(&level.objects[flamme_droite_id], 2, true);
+            skipToLabel(&level.objects[flamme_gauche_id], 2, true);
+            sinus_actif = 1;
+            set_sub_etat(dp2_obj, 30);
+        }
+        else if (sinus_actif == 2)
+        {
+            if (
+                level.objects[flamme_gauche_id].cmd == GO_NOP &&
+                level.objects[flamme_droite_id].cmd == GO_NOP
+            )
+            {
+                phase_dark2 = 7;
+                sinus_actif = 0;
+            }
+        }
+        break;
+    case 7:
+        if (dp2_obj->sub_etat != 33)
+        {
+            set_sub_etat(dp2_obj, 33);
+            num_dark2_phrase = 0;
+            TextDark2_Affiche = true;
+        }
+        else if (num_dark2_phrase == 2)
+        {
+            set_sub_etat(dp2_obj, 32);
+            phase_dark2 = 8;
+            TextDark2_Affiche = false;
+        }
+        break;
+    case 8:
+        skipToLabel(&level.objects[flamme_gauche_id], 4, true);
+        phase_dark2 = 9;
+        PosArXToon1 = -1;
+        break;
+    case 9:
+        if (RayEvts.poing)
+            phase_dark2 = 10;
+        else
+        {
+            if (PosArXToon1 == -1 && level.objects[flamme_gauche_id].speed_x == 4)
+            {
+                AllocateToons();
+                poing_obj = &level.objects[poing_obj_id];
+                PosArXToon1 = poing_obj->x_pos + 64;
+                PosArYToon1 = poing_obj->y_pos + 50;
+                PosArXToon2 = poing_obj->x_pos + 48;
+                PosArYToon2 = poing_obj->y_pos + 50;
+            }
+        }
+        break;
+    case 10:
+        set_main_and_sub_etat(&level.objects[flamme_gauche_id], 0, 4);
+        set_main_and_sub_etat(&level.objects[flamme_droite_id], 0, 4);
+        phase_dark2 = 11;
+        break;
+    case 11:
+        if (
+            ToonJustGivePoing == 1 &&
+            (block_flags[mp.map[ray.ray_dist] >> 10] >> BLOCK_SOLID & 1) &&
+            !(ray.main_etat == 3 && ray.sub_etat == 23)
+        )
+        {
+            ToonJustGivePoing = 2;
+            set_main_and_sub_etat(&ray, 3, 23);
+            ray.speed_x = 0;
+            ray.speed_y = 0;
+        }
+
+        if (
+            !(
+                (level.objects[flamme_gauche_id].flags & FLG(OBJ_ACTIVE)) ||
+                (dp2_obj->main_etat == 0 && dp2_obj->sub_etat == 34) ||
+                (dp2_obj->main_etat == 2 && dp2_obj->sub_etat == 1) ||
+                (ray.main_etat == 3 && ray.sub_etat == 23) ||
+                ToonJustGivePoing != 2
+            )
+        )
+        {
+            ToonJustGivePoing = 0;
+            set_main_and_sub_etat(dp2_obj, 0, 34);
+        }
+        else
+        {
+            if (dp2_obj->anim_frame == 4)
+            {
+                if (dp2_obj->main_etat == 0 && dp2_obj->sub_etat == 34)
+                {
+                    dp2_obj->speed_y = -4;
+                    phase_dark2 = 12;
+                    goto_phase3(dark_obj);
+                }
+            }
+        }
+        break;
+    }
+
+    if (dp2_obj->main_etat == 0)
+    {
+        switch (dp2_obj->sub_etat)
+        {
+        case 31:
+            if (dp2_obj->anim_frame == 22)
+            {
+                GET_SPRITE_POS(dp2_obj, 3, &dp2_x, &dp2_y, &dp2_w, &dp2_h);
+                dark2_rayon_dx_2 = 0;
+                dark2_rayon_dx_1 = 0;
+                dark2_rayon_dy_2 = -15;
+                dark2_rayon_dy_1 = -15;
+                ds2_x = dp2_x + (dp2_w >> 1) - 96;
+                ds2_y = dp2_y + (dp2_h >> 1) - 128;
+                allocate_DARK2_SORT(ds2_x, ds2_y, 37, 1);
+                allocate_DARK2_SORT(ds2_x, ds2_y, 37, 0);
+            }
+            break;
+        case 30:
+            if (dp2_obj->anim_frame == 22)
+            {
+                GET_SPRITE_POS(dp2_obj, 3, &dp2_x, &dp2_y, &dp2_w, &dp2_h);
+                dark2_rayon_dx_2 = -16;
+                dark2_rayon_dx_1 = -16;
+                dark2_rayon_dy_1 = 76;
+                dark2_rayon_dy_2 = -76;
+                sens_sinus_1 = 0;
+                sens_sinus_2 = 1;
+                PosXSin1 =
+                PosXSin2 =
+                    dp2_x + (dp2_w >> 1) - 96;
+                PosYSin1 =
+                PosYSin2 =
+                    dp2_y + (dp2_h >> 1) - 128;
+                allocate_DARK2_SORT(PosXSin1, PosYSin1, 35, 1);
+                allocate_DARK2_SORT(PosXSin2, PosYSin2, 35, 0);
+            }
+            break;
+        case 33:
+            if (num_dark2_phrase == 0)
+            {
+                __builtin_memcpy(txt_dark2, s_youre_doomed_rayman__8012c1e4, sizeof(s_youre_doomed_rayman__8012c1e4));
+                XText = SCREEN_WIDTH / 2;
+                YText = -10;
+                VitesseYText = 40;
+                temps_text = 0;
+                num_dark2_phrase = 1;
+            }
+            else 
+            {
+                if (YText < -20)
+                {
+                    temps_text = 0;
+                    XText = SCREEN_WIDTH / 2;
+                    YText = -10;
+                    VitesseYText = 40;
+                    num_dark2_phrase++;
+                }
+                else
+                {
+                    YText += ashr16(VitesseYText, 4);
+                    if (VitesseYText != 0)
+                    {
+                        if (horloge[4] == 0)
+                            VitesseYText--;
+                    }
+                    else
+                    {
+                        if (horloge[6] == 0)
+                            VitesseYText--;
+                    }
+                }
+            }
+            break;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/obj/dark_phase2", DO_DARK2_SORT_COMMAND);
 

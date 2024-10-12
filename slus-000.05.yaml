@@ -63,14 +63,10 @@ segments:
       - [0x800, .rodata, unknown/A3B0] #80125000
       - [0x828, rodata]
       #- [0x828, .rodata, data/world_map_9EB5C] #80125028
-      - [0x9C8, rodata]
-      #- [0x9C8, .rodata, data/menu/menu_card_9ED48] #801251C8
-      - [0xC7C, rodata]
-      #- [0xC7C, .rodata, data/menu/menu_9EDBC] #8012547C
-      - [0xC88, rodata]
-      #- [0xC88, .rodata, data/unknown/9EDDC] #80125488
-      - [0xCE4, rodata]
-      #- [0xCE4, .rodata, data/victoire_9EDF4] #801254E4
+      - [0x9C8, .rodata, data/menu/menu_card_9ED48] #801251C8
+      - [0xC7C, .rodata, data/menu/menu_9EDBC] #8012547C
+      - [0xC88, .rodata, data/unknown/9EDDC] #80125488
+      - [0xCE4, .rodata, data/victoire_9EDF4] #801254E4
       - [0x1428, .rodata, music] #80125C28
       - [0x156C, .rodata, video] #80125D6C
       - [0x1580, rodata]
@@ -119,8 +115,7 @@ segments:
       - [0x7898, .rodata, obj/dark_729F0] #8012c098
       - [0x7934, .rodata, obj/ufo_idc] #8012C134
       - [0x7968, .rodata, obj/hybride_mosams_command] #8012C168
-      - [0x79E4, rodata]
-      #- [0x79E4, .rodata, obj/dark_phase2_str] #8012C1E4
+      - [0x79E4, .rodata, obj/dark_phase2_str] #8012C1E4
       - [0x7A00, .rodata, obj/dark_phase2] #8012C200
       - [0x7A30, .rodata, loading_794DC] #8012C230
       - [0x7B68, .rodata, first_init] #8012C368
@@ -330,15 +325,11 @@ segments:
       - [0x9EB18, .data, data/ray/angle_rayman_9EB18] #801C3318
       - [0x9EB5C, data]
       #- [0x9EB5C, .data, data/world_map_9EB5C] #801C335C .data referencing .rodata (could not check for matching, include_asm)
-      - [0x9ED48, data]
-      #- [0x9ED48, .data, data/menu/menu_card_9ED48] #801C3548 .data referencing .rodata (matching)
+      - [0x9ED48, .data, data/menu/menu_card_9ED48] #801C3548
       - [0x9ED80, .data, data/draw/text_9ED80] #801C3580
-      - [0x9EDBC, data]
-      #- [0x9EDBC, .data, data/menu/menu_9EDBC] #801C35BC .data referencing .rodata (matching)
-      - [0x9EDDC, data]
-      #- [0x9EDDC, .data, data/unknown/9EDDC] #801C35DC .data referencing .rodata (matching)
-      - [0x9EDF4, data]
-      #- [0x9EDF4, .data, data/victoire_9EDF4] #801C35F4 .data referencing .rodata (matching)
+      - [0x9EDBC, .data, data/menu/menu_9EDBC] #801C35BC
+      - [0x9EDDC, .data, data/unknown/9EDDC] #801C35D
+      - [0x9EDF4, .data, data/victoire_9EDF4] #801C35F4
       - [0x9F448, .data, data/demo_9F448] #801C3C48
       - [0x9FB74, .data, data/loading_9FB74] #801C4374
       - [0x9FC58, .data, data/main_moteur_9FC58] #801C4458
