@@ -152,7 +152,7 @@ void DO_NOTE_CMD(Obj *obj)
         break;
     case TYPE_BONNE_NOTE:
         if (
-            (s16) inter_box(
+            inter_box(
                 obj->x_pos + obj->offset_bx - 8,
                 obj->y_pos + obj->offset_by - 8,
                 16,

@@ -165,5 +165,5 @@ s32 OBJ_IN_COL_ZDC(Obj *obj1, Obj *obj2)
     y1 += zdc1->y_pos;
     y2 += zdc2->y_pos;
 
-    return (s16) inter_box(x1, y1, zdc1->width, zdc1->height, x2, y2, zdc2->width, zdc2->height);
+    return inter_box(x1, y1, zdc1->width, zdc1->height, x2, y2, zdc2->width, zdc2->height);
 }

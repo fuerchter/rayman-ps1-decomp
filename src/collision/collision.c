@@ -146,7 +146,7 @@ s32 box_inter_h_line(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 par
 }
 
 /* 1B57C 8013FD7C -O2 -msoft-float */
-s32 inter_box(s32 x_1, s32 y_1, s32 w_1, s32 h_1, s16 x_2, s16 y_2, s32 w_2, s32 h_2)
+s16 inter_box(s32 x_1, s32 y_1, s32 w_1, s32 h_1, s16 x_2, s16 y_2, s32 w_2, s32 h_2)
 {
     s16 unk_1 = x_1 - w_2;
     s16 unk_2 = y_1 - h_2;
@@ -633,7 +633,7 @@ s32 BOX_HIT_SPECIAL_ZDC(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
     d = bagD[frame];
     if (d != -1)
     {
-      if ((s16) inter_box(
+      if (inter_box(
         in_x, in_y, in_w, in_h,
         obj->x_pos + obj->offset_bx - (bagW[frame] >> 1),
         obj->y_pos + obj->offset_by + d - bagH[frame],
@@ -656,12 +656,12 @@ s32 BOX_HIT_SPECIAL_ZDC(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
       );
       
       /* TODO: write a bit nicer, not sure how yet */
-      if (!(s16) inter_box(
+      if (!inter_box(
         in_x, in_y, in_w, in_h,
         bb1_x_1, bb1_y_1, bb1_w_1, bb1_h_1
       ))
       {
-        if ((s16) inter_box(
+        if (inter_box(
           in_x, in_y, in_w, in_h,
           bb1_x_2, bb1_y_2, bb1_w_2, bb1_h_2
         ))
@@ -677,12 +677,12 @@ s32 BOX_HIT_SPECIAL_ZDC(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
         &bb1_x_2, &bb1_y_2, &bb1_w_2, &bb1_h_2
       );
 
-      if ((s16) inter_box(
+      if (inter_box(
         in_x, in_y, in_w, in_h,
         bb1_x_1, bb1_y_1, bb1_w_1, bb1_h_1
       ))
         res = 6;
-      if ((s16) inter_box(
+      if (inter_box(
         in_x, in_y, in_w, in_h,
         bb1_x_2, bb1_y_2, bb1_w_2, bb1_h_2
       ))
@@ -691,7 +691,7 @@ s32 BOX_HIT_SPECIAL_ZDC(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
       if (obj->main_etat == 0 && obj->sub_etat == 10)
       {
         GET_SPRITE_POS(obj, 9, &bb1_x_1, &bb1_y_1, &bb1_h_1, &bb1_w_1);
-        if ((s16) inter_box(
+        if (inter_box(
           in_x, in_y, in_w, in_h,
           bb1_x_1, bb1_y_1, bb1_w_1, bb1_h_1
         ))
@@ -1108,7 +1108,7 @@ s32 COLL_BOX_ALL_SPRITES(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
     for (i = 0; i < (obj->animations[obj->anim_index].layers_count & 0x3FFF); i++)
     {
         GET_SPRITE_POS(obj, i, &spr_x, &spr_y, &spr_w, &spr_h);
-        if ((s16) inter_box(in_x, in_y, in_w, in_h, spr_x, spr_y, spr_w, spr_h))
+        if (inter_box(in_x, in_y, in_w, in_h, spr_x, spr_y, spr_w, spr_h))
         {
             res = i;
             break;
@@ -2043,7 +2043,7 @@ void DO_OBJ_COLLISIONS(Obj *in_obj, s32 offs)
             (
               !(cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].flags & 0x40) &&
               GET_SPRITE_POS(cur_obj, cur_obj->follow_sprite, &cur_x, &cur_y, &cur_w, &cur_h) &&
-              (s16) inter_box(cur_x, cur_y, cur_w, cur_h, in_x, in_y, in_w, in_h)
+              inter_box(cur_x, cur_y, cur_w, cur_h, in_x, in_y, in_w, in_h)
             )
           )
           {
@@ -2072,7 +2072,7 @@ void DO_OBJ_COLLISIONS(Obj *in_obj, s32 offs)
           if (
             GET_SPRITE_POS(cur_obj, cur_obj->follow_sprite, &cur_x, &cur_y, &cur_w, &cur_h) &&
             in_obj->type == TYPE_POI2 &&
-            (s16) inter_box(cur_x, cur_y, cur_w, cur_h, in_x, in_y, in_w, in_h) &&
+            inter_box(cur_x, cur_y, cur_w, cur_h, in_x, in_y, in_w, in_h) &&
             !(cur_obj->main_etat == 2 && cur_obj->sub_etat == 6)
           )
           {

@@ -114,7 +114,7 @@ void PS1_PhotographerCollision(void)
                         !RayEvts.demi && !(cur_obj->flags & FLG(OBJ_FLAG_0)) && (s16) OBJ_IN_ZONE(cur_obj) &&
                         ray.field20_0x36 == -1 && decalage_en_cours == 0 &&
                         ray.main_etat == 0 && ray.sub_etat == 0 &&
-                        (s16) inter_box(
+                        inter_box(
                             (s16) (cur_obj->x_pos + 42), (s16) (cur_obj->y_pos + 48), 5, 15,
                             ray_zdc_x, ray_zdc_y, ray_zdc_w, ray_zdc_h
                         )

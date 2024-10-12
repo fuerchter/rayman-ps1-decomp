@@ -141,7 +141,7 @@ void DO_TOTEM_COMMAND(Obj *tot_obj)
     {
         GET_SPRITE_POS(tot_obj, 6, &x, &y, &w, &h);
         x += 5; y += 5; w -= 10; h -= 10;
-        if ((s16) inter_box(x, y, w, h, bb1.sprite6_x, bb1.sprite6_y, 32, 32) && bb1.field2_0x4 == 0)
+        if (inter_box(x, y, w, h, bb1.sprite6_x, bb1.sprite6_y, 32, 32) && bb1.field2_0x4 == 0)
         {
 
             bb1.field2_0x4 = 1;

@@ -35,6 +35,8 @@ s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 pa
     u8 temp_v1_5;
     s32 test_1;
     s32 test_2;
+    u8 test_3;
+    AnimationLayer *layer_1;
 
     sp26 = 0;
     sp24 = 0;
@@ -63,11 +65,10 @@ s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 pa
                 if (temp_v1_2 & 2)
                 {
                     temp_v1_3 = &obj->animations[obj->anim_index];
-                    temp_a1_2 = temp_v0_1->sprite;
-                    test_2 = (temp_v1_3->layers_count & 0x3FFF) * obj->anim_frame + temp_a1_2 * 4;
-                    if (temp_v1_3->layers[test_2].sprite != 0)
+                    layer_1 = &temp_v1_3->layers[(temp_v1_3->layers_count & 0x3FFF) * obj->anim_frame];
+                    if (layer_1[temp_v0_1->sprite].sprite != 0)
                     {
-                        GET_SPRITE_POS(obj, temp_a1_2, &sp20, &sp22, &sp24, &sp26);
+                        GET_SPRITE_POS(obj, temp_v0_1->sprite, &sp20, &sp22, &sp24, &sp26);
                         if (obj->flags & 0x4000)
                         {
                             sp20 = sp20 + ((sp24 - temp_v0_1->width) - temp_v0_1->x_pos);
@@ -94,7 +95,7 @@ s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 pa
                         sp20 = ((obj->offset_bx + obj->x_pos)) + ((obj->offset_bx + obj->x_pos)) - (temp_a1_3 + temp_a0);
                     }
                 }
-                if ((s16) inter_box(param_2, param_3, param_4, param_5, sp20, sp22, sp24, sp26))
+                if (inter_box(param_2, param_3, param_4, param_5, sp20, sp22, sp24, sp26))
                 {
                     var_v0_1 = temp_v0_1->sprite;
                     break;
@@ -105,6 +106,7 @@ s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 pa
     }
     else
     {
+        
         temp_v1_5 = obj->hit_sprite;
         if (temp_v1_5 == 0xFE)
         {
@@ -114,10 +116,13 @@ s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 pa
                 sp20 = ((obj->offset_bx + obj->x_pos)) + ((obj->offset_bx + obj->x_pos)) - (sp20 + sp24);
             }
 
-            /* check pc? */
+            /*
+            check pc?
+            matches, if inter_box return is (unsigned) long long???
+            */
+            var_s5 = -1;
             var_v0_1 = inter_box(param_2, param_3, param_4, param_5, sp20, sp22, sp24, sp26);
-            if (!var_v0_1)
-                var_v0_1 = -1;
+            var_v0_1 = !((s16) var_v0_1) ? var_s5 : var_v0_1;
         }
         else
         {
@@ -131,7 +136,7 @@ s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 pa
                     if (
                         in_coll_sprite_list(obj, var_s2_2) &&
                         (s16) GET_SPRITE_ZDC(obj, var_s2_2, &sp20, &sp22, &sp24, &sp26) != 0 &&
-                        ((s16) inter_box(param_2, param_3, param_4, param_5, sp20, sp22, sp24, sp26))
+                        (inter_box(param_2, param_3, param_4, param_5, sp20, sp22, sp24, sp26))
                     )
                     {
                         var_v0_1 = var_s2_2;
@@ -143,7 +148,7 @@ s32 BOX_IN_COLL_ZONES(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 pa
             }
         }
     }
-    return var_v0_1;
+    return (s16) var_v0_1;
 }
 
 /* matches, but cleanup */
