@@ -541,8 +541,7 @@ void change_audio_track_moskito_dec(void)
     }
 }
 
-/*INCLUDE_ASM("asm/nonmatchings/music", change_audio_track_puit);*/
-
+/* D8D0 801320D0 -O2 -msoft-float */
 void change_audio_track_puit(void)
 {
     if (PS1_Music_Ready_data > 0)

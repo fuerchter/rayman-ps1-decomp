@@ -1,5 +1,6 @@
 #include "gendoor.h"
 
+/* score of 1150 */
 /*INCLUDE_ASM("asm/nonmatchings/gendoor", correct_gendoor_link);*/
 
 void correct_gendoor_link(void)

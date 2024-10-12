@@ -1,9 +1,6 @@
 #include "obj/hyb_bbf2.h"
 
-/*
-tried doing "obj->speed_y =" assignments in place instead of through var_v0_4.
-does result in different asm, but can't tell which one is correct
-*/
+/* matches, but clean up*/
 /*INCLUDE_ASM("asm/nonmatchings/obj/hyb_bbf2", doBBF2command);*/
 
 void doBBF2command(Obj *obj)
@@ -38,6 +35,7 @@ void doBBF2command(Obj *obj)
     u8 temp_v1_7;
     u8 temp_v1_8;
     s16 unk_1;
+    int new_var;
 
     if ((obj->main_etat != 0) || (obj->sub_etat != 2))
     {
@@ -124,7 +122,7 @@ void doBBF2command(Obj *obj)
         }
 
         temp_v1_2 = obj->y_pos;
-        if (((ymap + 0x5A) >= temp_v1_2) || ((var_a1 << 0x10) <= 0))
+        if (((ymap + 0x5A) >= temp_v1_2) || (((s16) var_a1) <= 0))
         {
             if (temp_v1_2 < (ymap - 0x96))
             {
@@ -144,97 +142,8 @@ void doBBF2command(Obj *obj)
         
         if (var_v1 != 0)
         {
-            var_v0_2 = obj->speed_y;
-            temp_v1_3 = var_v1 - var_v0_2;
-            if (temp_v1_3 >= 0)
-            {
-                if (temp_v1_3 > 0)
-                {
-                    var_v0_2 += 1;
-                }
-                if (var_v0_2 >= 0x31)
-                {
-                    goto block_55;
-                }
-                else
-                    goto block_48;
-                
-            }
-            if ((var_v0_2 - 1) < 0x31)
-            {
-block_48:
-                temp_v1_4 = obj->speed_y;
-                temp_v0_1 = (s16) var_a1 - temp_v1_4;
-                if (temp_v0_1 >= 0)
-                {
-                    if (temp_v0_1 > 0)
-                    {
-                        if ((temp_v1_4 + 1) < -0x30)
-                        {
-                            var_v0_4 = -0x0030;
-                        }
-                        else
-                        {
-                            goto block_55;
-                        }
-                    }
-                    else
-                    {
-                        var_v0_4 = -0x0030;
-                        if (temp_v1_4 >= -0x30)
-                            goto block_55;
-                    }
-                }
-                else
-                {
-                    var_v0_4 = -0x0030;
-                    if ((temp_v1_4 - 1) >= -0x30)
-                    {
-                        goto block_55;
-                    }
-                }
-            }
-            else
-            {
-block_55:
-                temp_v1_4 = obj->speed_y;
-                temp_v0_1 = ((s16) var_a1) - temp_v1_4;
-                if (temp_v0_1 >= 0)
-                {
-                    if (temp_v0_1 > 0)
-                    {
-                        var_v0_4 = 0x0030;
-                        if ((temp_v1_4 + 1) < 0x31)
-                            goto block_63;
-                    }
-                    else
-                    {
-                        var_v0_4 = 0x0030;
-                        if (temp_v1_4 < 0x31)
-                            goto block_63;
-                    }
-                }
-                else
-                {
-                    var_v0_4 = 0x0030;
-                    if ((temp_v1_4 - 1) < 0x31)
-                    {
-block_63:
-                        /* like sgn in scorpion.c ? */
-                        temp_v1_5 = obj->speed_y;
-                        temp_v0_1 = (s16) var_a1 - temp_v1_5;
-                        if (temp_v0_1 >= 0)
-                        {
-                            var_v0_4 = temp_v1_5 + (temp_v0_1 > 0);
-                        }
-                        else
-                        {
-                            var_v0_4 = temp_v1_5 - 1;
-                        }
-                    }
-                }
-            }
-            obj->speed_y = var_v0_4;
+            obj->speed_y = MAX_1(-48, MIN_1(48,
+                SGN(((s16) var_a1) - obj->speed_y) + obj->speed_y));
         }
     }
     GET_SPRITE_POS(&ray, 5, &sp18, &sp20, &sp1C, &sp1E);
