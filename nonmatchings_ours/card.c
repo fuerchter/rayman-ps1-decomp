@@ -182,7 +182,10 @@ s32 PS1_CardFilenameChecksum(u8 chan)
     return sum;
 }
 
-/* returns u8 instead? see SaveGameOnDisk and betw1 var */
+/*
+score of 985
+returns u8 instead? see SaveGameOnDisk and betw1 var
+*/
 /*INCLUDE_ASM("asm/nonmatchings/card", PS1_WriteSave);*/
 
 s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
