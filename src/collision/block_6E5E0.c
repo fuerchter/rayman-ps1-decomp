@@ -269,7 +269,6 @@ s32 IS_ON_RESSORT_BLOC(Obj *obj)
 }
 
 INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", CALC_MOV_ON_BLOC);
-/* skipped */
 
 /* 6F7E4 80193FE4 -O2 -msoft-float */
 void recale_position(Obj *obj)
