@@ -703,7 +703,114 @@ s32 BOX_HIT_SPECIAL_ZDC(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
   return res;
 }
 
-INCLUDE_ASM("asm/nonmatchings/collision/collision", BOX_IN_COLL_ZONES);
+/* 1C7E4 80140FE4 -O2 -msoft-float */
+s32 BOX_IN_COLL_ZONES(s16 obj_type, s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
+{
+    s16 res;
+    s16 unk_x; s16 unk_y; s16 unk_w; s16 unk_h;
+    s16 nb_zdc;
+    s16 i;
+    ZDC *cur_zdc;
+    Animation *cur_anim;
+    AnimationLayer *cur_layer;
+    s16 layers_count;
+
+    unk_h = 0;
+    unk_w = 0;
+    unk_y = 0;
+    unk_x = 0;
+    res = -1;
+
+    if (obj->zdc != 0)
+    {
+        nb_zdc = get_nb_zdc(obj);
+        if (
+            num_world == 1 &&
+            (
+                ((obj->type == TYPE_MOSKITO || obj->type == TYPE_MOSKITO2) &&
+                !(obj->eta[obj->main_etat][obj->sub_etat].flags & 0x40)) ||
+                (obj->type == TYPE_BADGUY3 &&
+                obj->eta[obj->main_etat][obj->sub_etat].flags & 0x40)
+            )
+        )
+            nb_zdc--;
+        
+        for (i = 0; i < nb_zdc; i++)
+        {
+            cur_zdc = get_zdc(obj, i);
+            if (!(cur_zdc->flags & 4) || obj_type == TYPE_POING)
+            {
+                if (cur_zdc->flags & 2)
+                {
+                    cur_anim = &obj->animations[obj->anim_index];
+                    cur_layer = &cur_anim->layers[(cur_anim->layers_count & 0x3FFF) * obj->anim_frame];
+                    if (cur_layer[cur_zdc->sprite].sprite != 0)
+                    {
+                        GET_SPRITE_POS(obj, cur_zdc->sprite, &unk_x, &unk_y, &unk_w, &unk_h);
+                        if (obj->flags & FLG(OBJ_FLIP_X))
+                            unk_x += unk_w - cur_zdc->width - cur_zdc->x_pos;
+                        else
+                            unk_x += cur_zdc->x_pos;
+                        
+                        unk_y += cur_zdc->y_pos;
+                        unk_w = cur_zdc->width;
+                        unk_h = cur_zdc->height;
+                    }
+                }
+                else
+                {
+                    unk_x = obj->x_pos + cur_zdc->x_pos;
+                    unk_y = obj->y_pos + cur_zdc->y_pos;
+                    unk_w = cur_zdc->width;
+                    unk_h = cur_zdc->height;
+                    /* TODO: can't take << 1 or * 2??? */
+                    if (obj->flags & FLG(OBJ_FLIP_X))
+                        unk_x =
+                            (obj->x_pos + obj->offset_bx) + (obj->x_pos + obj->offset_bx) -
+                            (unk_x + unk_w);
+                }
+
+                if (inter_box(in_x, in_y, in_w, in_h, unk_x, unk_y, unk_w, unk_h))
+                {
+                    res = cur_zdc->sprite;
+                    break;
+                }
+            }
+        }
+    }
+    else
+    {
+        if (obj->hit_sprite == 0xFE)
+        {
+            GET_OBJ_ZDC(obj, &unk_x, &unk_y, &unk_w, &unk_h);
+            if (obj->flags & FLG(OBJ_FLIP_X))
+                unk_x =
+                    (obj->x_pos + obj->offset_bx) + (obj->x_pos + obj->offset_bx) -
+                    (unk_x + unk_w);
+
+            res = inter_box(in_x, in_y, in_w, in_h, unk_x, unk_y, unk_w, unk_h);
+            res = res ? res : -1;
+        }
+        else if (obj->hit_sprite == 0xFF)
+        {
+            layers_count = obj->animations[obj->anim_index].layers_count & 0x3FFF;
+            for (i = 0; i < layers_count; i++)
+            {
+                if (
+                    in_coll_sprite_list(obj, i) &&
+                    GET_SPRITE_ZDC(obj, i, &unk_x, &unk_y, &unk_w, &unk_h) &&
+                    inter_box(in_x, in_y, in_w, in_h, unk_x, unk_y, unk_w, unk_h)
+                )
+                {
+                    res = i;
+                    break;
+                }
+            }
+        }
+    }
+
+    return res;
+}
 
 /* 1CD38 80141538 -O2 -msoft-float */
 s32 COLL_BOX_SPRITE(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
