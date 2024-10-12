@@ -1,13 +1,92 @@
 #include "card.h"
 
+/*
+matches, but
+inline with 0x4b
+assigning char pointers to (s32 *)
+do{}while();
+*/
 /*INCLUDE_ASM("asm/nonmatchings/card", PS1_GetNbreFiles);*/
 
-struct DIRENTRY * firstfile(u8 *name, struct DIRENTRY *dir);
-struct DIRENTRY * nextfile(struct DIRENTRY *dir);
+extern inline u8 test_lt()
+{
+    return 0x4b;
+}
 
 s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
 {
-    u8 sp10[128];
+    u8 sp10[128]; /* size correct? */
+    s32 temp_v1;
+    s32 var_a2_1;
+    s32 var_a2_2;
+    s32 var_a2_3;
+    s32 var_s1;
+    s32 var_v0;
+    struct DIRENTRY *var_a3_1;
+    struct DIRENTRY *var_a3_2;
+    struct DIRENTRY *var_s0;
+    u16 test_1;
+    s32 test_3;
+    s32 *test_4;
+    u32 test_5;
+
+    strcpy(sp10, name_start);
+    strcat(sp10, s__801cf02c);
+    
+    switch (PS1_TestCard(0))
+    {
+    case 0:
+        test_4 = s_no_card_801cf030;
+        var_a3_1 = file;
+        var_a2_1 = 0;
+        do
+        {
+            __builtin_memcpy(var_a3_1->name, test_4, sizeof(s_no_card_801cf030));
+            var_a3_1 += 1;
+            var_a2_1 += 5;
+        } while (var_a2_1 < test_lt());
+      
+        return 0x0000000F;
+    case 1:
+        test_4 = s_unformat_8012ac78;
+        var_a3_1 = file;
+        var_a2_1 = 0;
+        do
+        {
+            __builtin_memcpy(var_a3_1->name, test_4, sizeof(s_unformat_8012ac78));
+            var_a3_1 += 1;
+            var_a2_1 += 5;
+        } while (var_a2_1 < test_lt());
+        
+        return 0x0000000F;
+    case -1:
+        var_a3_1 = file;
+        var_a2_1 = 0;
+        do
+        {
+            __builtin_memcpy(var_a3_1->name, s_error_801cf038, sizeof(s_error_801cf038));
+            var_a3_1 += 1;
+            var_a2_1 += 5;
+        } while (var_a2_1 < test_lt());
+
+        return 0x0000000F;
+    default:
+        var_v0 = 0;
+        if (firstfile(sp10, file) == file)
+        {
+            do
+            {
+                var_v0 += 1;
+                file += 1;
+            } while (nextfile(file) == file);
+        }
+        return var_v0;
+    }
+}
+
+s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
+{
+    u8 sp10[128]; /* size correct? */
     s32 temp_v1;
     u8 *var_a2_1;
     s32 var_a2_2;
@@ -19,18 +98,23 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
     struct DIRENTRY *var_s0;
     u16 test_1;
 
-    strcpy(&sp10, name_start);
-    strcat(&sp10, s__801cf02c);
+    strcpy(sp10, name_start);
+    strcat(sp10, s__801cf02c);
     
     switch (PS1_TestCard(0))
     {
     case 0:
+        /*
+        15 * 5
+        tried rewriting as for()
+        tried rewriting as var_a3_1 != &file[15]
+        checked in debugger
+        */
         var_a3_1 = file;
         var_a2_1 = 0;
-        while (var_a2_1 < 0x4b) /* 15 * 5 */
+        while (var_a2_1 < 0x4b)
         {
-            __builtin_strcpy(var_a3_1->name, "no card");
-            /*__builtin_memcpy(var_a3_1->name, s_no_card_801cf030, sizeof(s_no_card_801cf030));*/
+            __builtin_memcpy(var_a3_1->name, s_no_card_801cf030, sizeof(s_no_card_801cf030));
             var_a3_1 += 1;
             var_a2_1 += 5;
         }
@@ -53,8 +137,7 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
         var_a2_1 = 0;
         while (var_a2_1 < 0x4b)
         {
-            __builtin_strcpy(var_a3_1->name, "error");
-            /*__builtin_memcpy(var_a3_1->name, s_error_801cf038, sizeof(s_error_801cf038));*/
+            __builtin_memcpy(var_a3_1->name, s_error_801cf038, sizeof(s_error_801cf038));
             var_a3_1 += 1;
             var_a2_1 += 5;
         }
