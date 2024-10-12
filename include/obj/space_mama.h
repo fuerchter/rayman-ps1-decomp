@@ -74,7 +74,7 @@ void snapWeaponAnimState(Obj *obj, u8 sub_etat);
 void swapMereDenisCollZones(Obj *obj, u8 smama2);
 u8 prepareNewMereDenisAttack(Obj *smama_obj);
 void snapLaserToWeapon(Obj *laser_obj, u8 param_2); /* call param_2 something like snap_x??? not sure */
-void allocateSpaceMamaLaser(Obj *param_1);
+void allocateSpaceMamaLaser(Obj *smama_obj);
 void doMereDenisCommand(Obj *obj);
 void changeMereDenisPhase(void);
 void fitSaveCurrentAction(Obj *obj);
