@@ -28,16 +28,18 @@ void INIT_NEW_GAME(void)
     memset(wi_save_zone, 0, 0x18);
     memset(save_zone, 0, 0xA80);
     INIT_RAY_BEGIN();
+
     var_a1_1 = 1;
-    *(u32*)&t_world_info[0].state |= 1;
-    *(u32*)&t_world_info[0].state &= ~4 & ~2;
+    *(u32*)&t_world_info[0].state |= FLG(0);
+    *(u32*)&t_world_info[0].state &= ~FLG(2) & ~FLG(1);
     t_world_info[0].nb_cages = 0;
     do
     {
-        (*(u32*)&t_world_info[var_a1_1].state) &= ~1 & ~4 & ~2;
+        (*(u32*)&t_world_info[var_a1_1].state) &= ~FLG(0) & ~FLG(2) & ~FLG(1);
         t_world_info[var_a1_1].nb_cages = 0;
         var_a1_1 = var_a1_1 + 1;
     } while (var_a1_1 < 0x18);
+
     loadInfoRay[positiony + -1].num_lives = 3;
     loadInfoRay[positiony + -1].num_wiz = 0;
     loadInfoRay[positiony + -1].num_cages = 0;

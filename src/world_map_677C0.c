@@ -46,14 +46,11 @@ void DoScrollInWorldMap(s16 h_speed, s16 v_speed)
 /* 678DC 8018C0DC -O2 */
 void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y)
 {
-    u32 state;
-
     if (to != from)
     {
-        state = *(u32*)&t_world_info[to].state;
-        if(!(state >> 1 & 1))
+        if(!(t_world_info[to].unk_1))
         {
-            if (state & 1)
+            if (t_world_info[to].is_unlocked)
             {
                 DISPLAY_PTS_TO_PLAN2(
                     from_x,
@@ -63,7 +60,7 @@ void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y)
                     100
                 );
             }
-            else if (state >> 2 & 1)
+            else if (t_world_info[to].unk_2)
             {
                 DISPLAY_PTS_TO_PLAN2(
                     from_x,
@@ -319,7 +316,7 @@ void DO_RAYMAN_IN_WLD_MAP(void)
 
         if (num_world_choice != old_num_world)
         {
-            if (*(u32*)&t_world_info[num_world_choice].state & (1 << 0))
+            if (t_world_info[num_world_choice].is_unlocked)
             {
                 ray.timer = 0;
                 set_main_and_sub_etat(&ray, 1, 0);

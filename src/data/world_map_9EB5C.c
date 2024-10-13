@@ -1,6 +1,6 @@
 #include "world_map_677C0.h"
 
-WorldInfo t_world_info[24] =
+/*WorldInfo t_world_info[24] =
 {
     { 29, 264, 18, 0, 0, 1, 1, 0, 1, 1, 0, "/pink plant woods/" },
     { 100, 254, 2, 1, 0, 4, 0, 0, 1, 5, 12, "/anguish lagoon/" },
@@ -30,4 +30,4 @@ WorldInfo t_world_info[24] =
 
 u8 *PTR_s_save_game_801c353c = "/save game/";
 u8 *PTR_s_game_saved_801c3540 = "/game saved/";
-u8 *PTR_s_no_save_available_801c3544 = "/no save available/";
+u8 *PTR_s_no_save_available_801c3544 = "/no save available/";*/

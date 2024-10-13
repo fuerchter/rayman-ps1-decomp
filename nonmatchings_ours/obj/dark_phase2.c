@@ -104,18 +104,8 @@ void DO_DARK2_SORT_COMMAND(Obj *ds2_obj)
                 {
                     if (ds2_obj->iframes_timer != 0)
                     {
-                        unk_2 = unk_x_2 - dark2_rayon_dx_1;
-                        if (unk_2 >= 0)
-                            dark2_rayon_dx_1 = dark2_rayon_dx_1 + (unk_2 > 0);
-                        else
-                            dark2_rayon_dx_1 = dark2_rayon_dx_1 - (unk_3 = 1);
-                        
-                        unk_2 = unk_y_2 - dark2_rayon_dy_1;
-                        if (unk_2 >= 0)
-                            unk_4 = dark2_rayon_dy_1 + (unk_2 > 0);
-                        else
-                            unk_4 = dark2_rayon_dy_1 - (unk_3 = 1);
-                        dark2_rayon_dy_1 = unk_4;
+                        dark2_rayon_dx_1 += SGN(unk_x_2 - dark2_rayon_dx_1);
+                        dark2_rayon_dy_1 += SGN(unk_y_2 - dark2_rayon_dy_1);
                         
                         allocate_DARK2_SORT(
                             ds2_obj->x_pos + dark2_rayon_dx_1,
@@ -127,22 +117,12 @@ void DO_DARK2_SORT_COMMAND(Obj *ds2_obj)
                     }
                     else
                     {
-                        unk_2 = unk_x_2 - dark2_rayon_dx_2;
-                        if (unk_2 >= 0)
-                            dark2_rayon_dx_2 = dark2_rayon_dx_2 + (unk_2 > 0);
-                        else
-                            dark2_rayon_dx_2 = dark2_rayon_dx_2 - (unk_3 = 1);
-                        
-                        unk_2 = unk_y_2 - dark2_rayon_dy_2;
-                        if (unk_2 >= 0)
-                            unk_4 = dark2_rayon_dy_2 + (unk_2 > 0);
-                        else
-                            unk_4 = dark2_rayon_dy_2 - (unk_3 = 1);
-                        dark2_rayon_dy_2 = unk_4;
+                        dark2_rayon_dx_2 += SGN(unk_x_2 - dark2_rayon_dx_2);
+                        dark2_rayon_dy_2 += SGN(unk_y_2 - dark2_rayon_dy_2);
 
                         allocate_DARK2_SORT(
                             ds2_obj->x_pos + dark2_rayon_dx_2,
-                            ds2_obj->y_pos + unk_4,
+                            ds2_obj->y_pos + dark2_rayon_dy_2,
                             ds2_obj->sub_etat,
                             ds2_obj->iframes_timer
                         );
@@ -154,7 +134,11 @@ void DO_DARK2_SORT_COMMAND(Obj *ds2_obj)
     }
 }
 
-/* attempts: 2 */
+/*
+attempts: 3
+looked at android
+looked at allocate_DARK_SORT
+*/
 /*INCLUDE_ASM("asm/nonmatchings/obj/dark_phase2", allocate_DARK2_SORT);*/
 
 void allocate_DARK2_SORT(s32 param_1, s16 param_2, s16 param_3, s16 param_4)
@@ -190,16 +174,35 @@ void allocate_DARK2_SORT(s32 param_1, s16 param_2, s16 param_3, s16 param_4)
         cur_obj_1 += 1;
         cnt_1 = cnt_1 + 1;
     } while ((check_1 == 0) && (cnt_1 < nb_objs));
-    
     cur_obj_1 = cur_obj_1 - 1;
-    if (check_1 != 0)
+    
+    if (check_1 == 0)
+        return;
+    
+    temp_t6 = cur_obj_1;
+    check_1 = 0;
+    do
     {
-        temp_t6 = cur_obj_1;
+        if ((cur_obj_1->type == 0x21) && (cur_obj_1->flags & 0x800))
+        {
+            check_1 = 1;
+        }
+        cur_obj_1 += 1;
+        cnt_1 = cnt_1 + 1;
+    } while ((check_1 == 0) && (cnt_1 < nb_objs));
+    cur_obj_1 = cur_obj_1 - 1;
+
+    if (check_1 == 0)
+    {
+        check_1 = 1;
+        cur_obj_1 = temp_t6;
+    }
+    else
+    {
         check_1 = 0;
-        new_var = 0;
         do
         {
-            if ((cur_obj_1->type == 0x21) && (cur_obj_1->flags & 0x800))
+            if ((cur_obj_1->type == 0x21) && !(cur_obj_1->flags & 0x800))
             {
                 check_1 = 1;
             }
@@ -207,42 +210,21 @@ void allocate_DARK2_SORT(s32 param_1, s16 param_2, s16 param_3, s16 param_4)
             cnt_1 = cnt_1 + 1;
         } while ((check_1 == 0) && (cnt_1 < nb_objs));
         cur_obj_1 = cur_obj_1 - 1;
-        if (check_1 != 0)
+        if (check_1 == 0)
         {
-            check_1 = 0;
-            do
-            {
-                if ((cur_obj_1->type == 0x21) && !(cur_obj_1->flags & 0x800))
-                {
-                    check_1 = 1;
-                }
-                cur_obj_1 += 1;
-                cnt_1 = cnt_1 + 1;
-            } while ((check_1 == 0) && (cnt_1 < nb_objs));
-            cur_obj_1 = cur_obj_1 - 1;
-            if (check_1 != 0)
-            {
-                goto block_22;
-            }
-            else
-                check_1 = 1;
-                
-        }
-        else
             check_1 = 1;
-        
-        if (check_1 != 0)
             cur_obj_1 = temp_t6;
-        else
-            return;
-        
-block_22:
-        cur_obj_1->x_pos = param_1;
-        cur_obj_1->y_pos = param_2;
-        cur_obj_1->hit_points = 1;
-        cur_obj_1->iframes_timer = param_4;
-        cur_obj_1->field23_0x3c = 0;
-        cur_obj_1->flags |= 0xC00;
-        set_main_and_sub_etat(cur_obj_1, 0, param_3);
+        }
     }
+
+    if (check_1 == 0)
+        return;
+    
+    cur_obj_1->x_pos = param_1;
+    cur_obj_1->y_pos = param_2;
+    cur_obj_1->hit_points = 1;
+    cur_obj_1->iframes_timer = param_4;
+    cur_obj_1->field23_0x3c = 0;
+    cur_obj_1->flags |= 0xC00;
+    set_main_and_sub_etat(cur_obj_1, 0, param_3);
 }
