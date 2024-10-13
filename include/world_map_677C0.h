@@ -20,9 +20,8 @@ typedef struct WorldInfo
     u8 index_left;
     u8 index_right;
     u8 is_unlocked : 1;
-    u8 unk_1 : 1;
-    u8 unk_2 : 1;
-    u8 unk_3 : 5;
+    u8 has_drawn_path : 1;
+    u8 is_unlocking : 1;
     u8 nb_cages;
     u8 world;
     u8 level;

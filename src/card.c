@@ -364,7 +364,7 @@ s32 LoadInfoGame(u8 slot)
         loadInfoRay[slot - 1].num_continues = nb_continue;
         loadInfoRay[slot - 1].num_cages = 0;
         for (i = 0; i < 24; i++)
-            loadInfoRay[slot - 1].num_cages += wi_save_zone[i] >> 2 & 7;
+            loadInfoRay[slot - 1].num_cages += wi_save_zone[i].nb_cages;
         loadInfoRay[slot - 1].num_lives = status_bar.num_lives;
         loadInfoRay[slot - 1].num_wiz = status_bar.num_wiz;
         return 0;

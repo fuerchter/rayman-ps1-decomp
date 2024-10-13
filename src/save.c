@@ -173,6 +173,28 @@ u8 bonus_taken(s16 event_index)
     return save_zone[get_offset_in_save_zone(event_index)] & ashr16(1 << 7, event_index & 7);
 }
 
-INCLUDE_ASM("asm/nonmatchings/save", PS1_WriteWiSaveZone);
+/* 3FDFC 801645FC -O2 -msoft-float */
+void PS1_WriteWiSaveZone(void)
+{
+    s16 i;
 
-INCLUDE_ASM("asm/nonmatchings/save", PS1_LoadWiSaveZone);
+    for (i = 0; i < (s16) LEN(t_world_info); i++)
+    {
+        wi_save_zone[i].is_unlocked = t_world_info[i].is_unlocked;
+        wi_save_zone[i].is_unlocking = t_world_info[i].is_unlocking;
+        wi_save_zone[i].nb_cages = t_world_info[i].nb_cages;
+    }
+}
+
+/* 3FED4 801646D4 -O2 -msoft-float */
+void PS1_LoadWiSaveZone(void)
+{
+    s16 i;
+
+    for (i = 0; i < (s16) LEN(t_world_info); i++)
+    {
+        t_world_info[i].is_unlocked = wi_save_zone[i].is_unlocked;
+        t_world_info[i].is_unlocking = wi_save_zone[i].is_unlocking;
+        t_world_info[i].nb_cages = wi_save_zone[i].nb_cages;
+    }
+}

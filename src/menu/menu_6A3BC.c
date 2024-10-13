@@ -19,14 +19,14 @@ void INIT_NEW_GAME(void)
     INIT_RAY_BEGIN();
 
     t_world_info[0].is_unlocked = true;
-    t_world_info[0].unk_2 = false;
-    t_world_info[0].unk_1 = false;
+    t_world_info[0].is_unlocking = false;
+    t_world_info[0].has_drawn_path = false;
     t_world_info[0].nb_cages = 0;
     for (i = 1; i < (s16) LEN(t_world_info); i++)
     {
         t_world_info[i].is_unlocked = false;
-        t_world_info[i].unk_2 = false;
-        t_world_info[i].unk_1 = false;
+        t_world_info[i].is_unlocking = false;
+        t_world_info[i].has_drawn_path = false;
         t_world_info[i].nb_cages = 0;
     }
 

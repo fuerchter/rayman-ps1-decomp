@@ -1,6 +1,6 @@
 #include "num_level_36260.h"
 
-/* matches, but WorldInfo.state casts */
+/* matches, but clean up */
 /*INCLUDE_ASM("asm/nonmatchings/num_level_36260", fix_numlevel);*/
 
 void fix_numlevel(Obj *obj)
@@ -169,32 +169,30 @@ void fix_numlevel(Obj *obj)
                 break;
             }
             new_world = 1;
-            if (!(*(u32 *)&t_world_info[1].state & 1))
+            if (!(t_world_info[1].is_unlocked))
             {
-                *(u32 *)&t_world_info[1].state |= 4;
-                *(u32 *)&t_world_info[18].state |= 4;
+                t_world_info[1].is_unlocking = true;
+                t_world_info[18].is_unlocking = true;
             }
             break;
         case 8:
             new_world = 1;
-            if (!(*(u32 *)&t_world_info[2].state & 1))
+            if (!(t_world_info[2].is_unlocked))
             {
-                *(u32 *)&t_world_info[2].state |= 4;
+                t_world_info[2].is_unlocking = true;
             }
-            if (!(*(u32 *)&t_world_info[4].state & 1))
+            if (!(t_world_info[4].is_unlocked))
             {
-                *(u32 *)&t_world_info[4].state |= 4;
+                t_world_info[4].is_unlocking = true;
             }
             break;
         case 11:
             if (obj->type != 5)
             {
-                var_a0 = &t_world_info[3].state;
-                temp_v1 = *var_a0;
                 new_world = 1;
-                if (!(temp_v1 & 1))
+                if (!(t_world_info[3].is_unlocked))
                 {
-                    *var_a0 = temp_v1 | 4;
+                    t_world_info[3].is_unlocking = true;
                 }
             }
             else
@@ -247,10 +245,10 @@ void fix_numlevel(Obj *obj)
             break;
         case 6:
             new_world = 1;
-            if (!(*(u32 *)&t_world_info[5].state & 1))
+            if (!(t_world_info[5].is_unlocked))
             {
-                *(u32 *)&t_world_info[5].state |= 4;
-                *(u32 *)&t_world_info[19].state |= 4;
+                t_world_info[5].is_unlocking = true;
+                t_world_info[19].is_unlocking = true;
             }
             break;
         case 9:
@@ -263,21 +261,21 @@ void fix_numlevel(Obj *obj)
             break;
         case 11:
             new_world = 1;
-            if (!(*(u32 *)&t_world_info[6].state & 1))
+            if (!(t_world_info[6].is_unlocked))
             {
-                *(u32 *)&t_world_info[6].state |= 4;
+                t_world_info[6].is_unlocking = true;
             }
-            if (!(*(u32 *)&t_world_info[8].state & 1))
+            if (!(t_world_info[8].is_unlocked))
             {
-                *(u32 *)&t_world_info[8].state |= 4;
+                t_world_info[8].is_unlocking = true;
             }
             break;
         case 13:
             new_world = 1;
-            if (!(*(u32 *)&t_world_info[7].state & 1))
+            if (!(t_world_info[7].is_unlocked))
             {
-                *(u32 *)&t_world_info[7].state |= 4;
-                *(u32 *)&t_world_info[20].state |= 4;
+                t_world_info[7].is_unlocking = true;
+                t_world_info[20].is_unlocking = true;
             }
             break;
         case 16:
@@ -297,12 +295,10 @@ void fix_numlevel(Obj *obj)
         switch (num_level)
         {
         case 2:
-            var_a0 = &t_world_info[9].state;
-            temp_v1 = *var_a0;
             new_world = 1;
-            if (!(temp_v1 & 1))
+            if (!(t_world_info[9].is_unlocked))
             {
-                *var_a0 = temp_v1 | 4;
+                t_world_info[9].is_unlocking = true;
             }
             break;
         case 4:
@@ -315,10 +311,10 @@ void fix_numlevel(Obj *obj)
             break;
         case 5:
             new_world = 1;
-            if (!(*(u32 *)&t_world_info[10].state & 1))
+            if (!(t_world_info[10].is_unlocked))
             {
-                *(u32 *)&t_world_info[10].state |= 4;
-                *(u32 *)&t_world_info[21].state |= 4;
+                t_world_info[10].is_unlocking = true;
+                t_world_info[21].is_unlocking = true;
             }
             break;
         case 9:
@@ -330,12 +326,10 @@ void fix_numlevel(Obj *obj)
             }
             break;
         case 11:
-            var_a0 = &t_world_info[11].state;
-            temp_v1 = *var_a0;
             new_world = 1;
-            if (!(temp_v1 & 1))
+            if (!(t_world_info[11].is_unlocked))
             {
-                *var_a0 = temp_v1 | 4;
+                t_world_info[11].is_unlocking = true;
             }
             break;
         case 12:
@@ -360,21 +354,17 @@ void fix_numlevel(Obj *obj)
             }
             break;
         case 4:
-            var_a0 = &t_world_info[12].state;
-            temp_v1 = *var_a0;
             new_world = 1;
-            if (!(temp_v1 & 1))
+            if (!(t_world_info[12].is_unlocked))
             {
-                *var_a0 = temp_v1 | 4;
+                t_world_info[12].is_unlocking = true;
             }
             break;
         case 7:
-            var_a0 = &t_world_info[13].state;
-            temp_v1 = *var_a0;
             new_world = 1;
-            if (!(temp_v1 & 1))
+            if (!(t_world_info[13].is_unlocked))
             {
-                *var_a0 = temp_v1 | 4;
+                t_world_info[13].is_unlocking = true;
             }
             break;
         case 9:
@@ -387,12 +377,12 @@ void fix_numlevel(Obj *obj)
             break;
         case 11:
             new_world = 1;
-            if (!(*(u32 *)&t_world_info[14].state & 1))
+            if (!(t_world_info[14].is_unlocked))
             {
                 Vignet_To_Display = 1;
-                *(u32 *)&t_world_info[14].state |= 4;
+                t_world_info[14].is_unlocking = true;
 block_132:
-                *(u32 *)&t_world_info[22].state |= 4;
+                t_world_info[22].is_unlocking = true;
             }
             break;
         case 12:
@@ -416,18 +406,18 @@ block_132:
                 break;
             }
             new_world = 1;
-            if (!(*(u32 *)&t_world_info[15].state & 1))
+            if (!(t_world_info[15].is_unlocked))
             {
-                *(u32 *)&t_world_info[15].state |= 4;
-                *(u32 *)&t_world_info[22].state |= 4;
+                t_world_info[15].is_unlocking = true;
+                t_world_info[22].is_unlocking = true;
             }
             break;
         case 8:
             new_world = 1;
-            if (!(*(u32 *)&t_world_info[16].state & 1))
+            if (!(t_world_info[16].is_unlocked))
             {
-                *(u32 *)&t_world_info[16].state |= 4;
-                *(u32 *)&t_world_info[23].state |= 4;
+                t_world_info[16].is_unlocking = true;
+                t_world_info[23].is_unlocking = true;
             }
             break;
         case 11:
@@ -450,9 +440,9 @@ block_132:
         }
         break;
     }
-    if (!(*(u32 *)&t_world_info[17].state & 1) && (Nb_total_cages >= 102))
+    if (!(t_world_info[17].is_unlocked) && (Nb_total_cages >= 102))
     {
-        *(u32 *)&t_world_info[17].state |= 4;
+        t_world_info[17].is_unlocking = true;
     }
     if ((new_world == 0) && (var_s0 == 0))
     {

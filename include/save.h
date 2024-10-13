@@ -46,6 +46,13 @@ typedef struct SaveState
     u8 num_wiz;
 } SaveState;
 
+typedef struct WorldInfoSave
+{
+    u8 is_unlocked : 1;
+    u8 is_unlocking : 1;
+    u8 nb_cages : 3;
+} WorldInfoSave;
+
 /* .data */
 extern u8 nb_levels_in_world[8];
 
@@ -53,7 +60,7 @@ extern u8 nb_levels_in_world[8];
 extern SaveState save1;
 extern SaveState save2;
 extern u8 save_zone[2688];
-extern u8 wi_save_zone[24];
+extern WorldInfoSave wi_save_zone[24];
 
 void initGameSave(void);
 void doneGameSave(void);

@@ -48,7 +48,7 @@ void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y)
 {
     if (to != from)
     {
-        if(!(t_world_info[to].unk_1))
+        if(!(t_world_info[to].has_drawn_path))
         {
             if (t_world_info[to].is_unlocked)
             {
@@ -60,7 +60,7 @@ void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y)
                     100
                 );
             }
-            else if (t_world_info[to].unk_2)
+            else if (t_world_info[to].is_unlocking)
             {
                 DISPLAY_PTS_TO_PLAN2(
                     from_x,
