@@ -249,7 +249,7 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
       loadInfoRay[slot_par - 1].num_cages = 0;
       cnt = 0;
       do {
-        loadInfoRay[slot_par - 1].num_cages = loadInfoRay[slot_par - 1].num_cages + (wi_save_zone[cnt] >> 2 & 7);
+        loadInfoRay[slot_par - 1].num_cages = loadInfoRay[slot_par - 1].num_cages + (wi_save_zone[cnt].nb_cages);
         cnt = cnt + 1;
       } while (cnt < 24);
       chan_local = loadInfoRay[slot_par - 1].num_cages * 100;

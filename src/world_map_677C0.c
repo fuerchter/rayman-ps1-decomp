@@ -74,9 +74,62 @@ void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DISPLAY_PLAT_WAY);
+/* 679D4 8018C1D4 -O2 -msoft-float */
+void DISPLAY_PLAT_WAY(void)
+{
+    s16 i;
+    WorldInfo *cur_wi;
+    s16 x_pos; s16 y_pos;
 
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", PS1_DisplayPlateau);
+    i = 0;
+    cur_wi = &t_world_info[i];
+    while (i < (s16) LEN(t_world_info))
+    {
+        cur_wi->has_drawn_path = false;
+        i++;
+        cur_wi++;
+    }
+
+    i = 0;
+    cur_wi = &t_world_info[i];
+    while (i < (s16) LEN(t_world_info))
+    {
+        x_pos = cur_wi->x_pos;
+        y_pos = cur_wi->y_pos;
+        if (cur_wi->is_unlocked)
+        {
+            PS1_DisplayPts(i, cur_wi->index_up, x_pos, y_pos);
+            PS1_DisplayPts(i, cur_wi->index_down, x_pos, y_pos);
+            PS1_DisplayPts(i, cur_wi->index_right, x_pos, y_pos);
+            PS1_DisplayPts(i, cur_wi->index_left, x_pos, y_pos);
+            cur_wi->has_drawn_path = true;
+        }
+        i++;
+        cur_wi++;
+    }
+}
+
+/* 67B0C 8018C30C -O2 -msoft-float */
+void PS1_DisplayPlateau(void)
+{
+    s16 i = 0;
+    WorldInfo *cur_wi = &t_world_info[i];
+    Obj *cur_obj = &mapobj[i];
+    
+    while (i < (s16) LEN(t_world_info))
+    {
+        if (
+            (cur_wi->is_unlocked || i == 17) &&
+            cur_obj->screen_x_pos + (u32) cur_obj->offset_bx - 37 <= 256 &&
+            cur_obj->screen_y_pos + (u32) cur_obj->offset_by - 46 <= 150
+        )
+            DISPLAY_PLATEAU(cur_obj);
+        
+        cur_wi++;
+        cur_obj++;
+        i++;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_MEDAILLONS);
 
