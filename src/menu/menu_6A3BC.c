@@ -150,17 +150,17 @@ void PS1_DisplayPadButton(s16 button, s16 x, s16 y, u8 font_size, u8 param_5)
     switch (button)
     {
     case 0:
-        display_text(&PS1_Button_Text_Square, x, y, font_size, 0);
-        return;
+        display_text((u8 *)&PS1_Button_Text_Square, x, y, font_size, 0);
+        break;
     case 1:
-        display_text(&PS1_Button_Text_Cross, x, y, font_size, 14);
-        return;
+        display_text((u8 *)&PS1_Button_Text_Cross, x, y, font_size, 14);
+        break;
     case 2:
-        display_text(&PS1_Button_Text_Triangle, x, y, font_size, 8);
-        return;
+        display_text((u8 *)&PS1_Button_Text_Triangle, x, y, font_size, 8);
+        break;
     case 3:
-        display_text(&PS1_Button_Text_Circle, x, y, font_size, 2);
-        return;
+        display_text((u8 *)&PS1_Button_Text_Circle, x, y, font_size, 2);
+        break;
     }
 }
 
