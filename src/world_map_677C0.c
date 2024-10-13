@@ -313,7 +313,31 @@ void PS1_WorldMapMoveText(void)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_INFO);
+/* 692CC 8018DACC -O2 -msoft-float */
+void INIT_WORLD_INFO(void)
+{
+    s16 i;
+
+    if (D_801F3EA0)
+    {
+        for (i = 0; i < (s16) LEN(t_world_info); i++)
+        {
+            t_world_info[i].is_unlocked = true;
+            t_world_info[i].is_unlocking = false;
+        }
+    }
+    num_world = 0;
+    num_level = 0;
+    new_world = true;
+    new_level = true;
+    world_index = 0;
+    xwldmapsave = 0;
+    ywldmapsave = 158;
+    dir_on_wldmap = 1;
+    You_Win = false;
+    fin_du_jeu = false;
+    INIT_PASTILLES_SAUVE();
+}
 
 /* 693B4 8018DBB4 -O2 */
 void INIT_LITTLE_RAY(void)
@@ -333,7 +357,107 @@ void RESTORE_RAY(void)
     ray.nb_sprites = raytmp.nb_sprites;
 }
 
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_CHEMIN);
+/* 69468 8018DC68 -O2 -msoft-float */
+void INIT_CHEMIN(void)
+{
+    u8 world_ind;
+    s16 i;
+    Obj *cur_obj;
+
+    PROC_EXIT = false;
+    dans_la_map_monde = true;
+    gele = 0;
+
+    if (ModeDemo == 0)
+    {
+        new_world = false;
+        num_world_choice = world_index;
+    }
+    old_num_world = num_world_choice;
+    
+    INIT_LITTLE_RAY();
+    set_main_and_sub_etat(&ray, 0, 0);
+    ray.x_pos = t_world_info[num_world_choice].x_pos - ray.offset_bx + 4;
+    ray.y_pos = t_world_info[num_world_choice].y_pos - ray.offset_by + 8;
+    ray.speed_x = 0;
+    ray.speed_y = 0;
+    set_zoom_mode(0);
+    chemin_percent = 0;
+    Nb_total_cages = 0;
+
+    world_ind = 0; /* why does this exist? */
+    i = 0;
+    cur_obj = &mapobj[world_ind];
+    while (i < (s16) LEN(t_world_info))
+    {
+        cur_obj->type = TYPE_MEDAILLON;
+        cur_obj->init_x_pos = t_world_info[world_ind].x_pos - 78;
+        cur_obj->init_y_pos = t_world_info[world_ind].y_pos - 64;
+        cur_obj->init_main_etat = 5;
+
+        if (!(t_world_info[world_ind].is_unlocking))
+        {
+            if (t_world_info[world_ind].nb_cages != 0)
+            {
+                Nb_total_cages += t_world_info[world_ind].nb_cages;
+                
+                if (t_world_info[world_ind].nb_cages == 6)
+                    cur_obj->init_sub_etat = 52;
+                else
+                    cur_obj->init_sub_etat = 47;
+            }
+            else
+            {
+                if (i == 17)
+                    cur_obj->init_sub_etat = cur_obj->sub_etat = 59;
+                else
+                    cur_obj->init_sub_etat = 39;
+            }
+        }
+        else
+            cur_obj->init_sub_etat = 46;
+
+        cur_obj->scale = 0;
+        cur_obj->offset_bx = 80;
+        cur_obj->offset_by = 64;
+        obj_init(cur_obj);
+        CalcObjPosInWorldMap(cur_obj);
+        cur_obj->anim_frame =
+            i % cur_obj->animations[
+                cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_index
+            ].frames_count;
+
+        world_ind++;
+        MIN_2(world_ind, LEN(t_world_info));
+        cur_obj++;
+        i++;
+    }
+
+    if (!(t_world_info[17].is_unlocked) && Nb_total_cages >= 102)
+        t_world_info[17].is_unlocking = true;
+
+    scroll_end_x = 156;
+    scroll_end_y = 158;
+    scroll_x = -1;
+    scroll_y = -1;
+    special_ray_mov_win_x_left = 30;
+    special_ray_mov_win_x_right = 30;
+    scroll_start_x = 0;
+    scroll_start_y = 0;
+    xmapinit = xmap;
+    ymapinit = ymap;
+    xmap = xwldmapsave;
+    ymap = ywldmapsave;
+    ray.flags = ray.flags & ~FLG(OBJ_FLIP_X) | (dir_on_wldmap & 1) << OBJ_FLIP_X;
+    INIT_PASTILLES_SAUVE();
+    INIT_STAGE_NAME();
+    if (nouvelle_partie)
+    {
+        if (NBRE_SAVE != 0)
+            SaveGameOnDisk(fichier_selectionne);
+        nouvelle_partie = false;
+    }
+}
 
 /* https://decomp.me/scratch/6ivxi PSYQ3.3 (gcc 2.6.0 + aspsx 2.21) -O1 */
 /* 698B4 8018E0B4 -O2 */
