@@ -162,7 +162,10 @@ void PS1_GeneratePassword_nbContinue(u8 param_1)
     PS1_CurrentPassword[9] = (PS1_CurrentPassword[9] & ~(1 << 4)) | new_var4;
 }
 
-/* don't even know where to start. WorldInfo.state, permuter found some inline score improvement again... */
+/*
+score of ???
+don't even know where to start. WorldInfo.state, permuter found some inline score improvement again...
+*/
 /*INCLUDE_ASM("asm/nonmatchings/password", PS1_GeneratePassword);*/
 
 u8 PS1_GeneratePassword(void)
@@ -249,7 +252,7 @@ loop_1:
 }
 
 /*
-???
+score of ???
 go back in commit history, if i need the one before WorldInfo/RayEvts bitfields
 */
 /*INCLUDE_ASM("asm/nonmatchings/password", PS1_LoadSaveFromPassword);*/

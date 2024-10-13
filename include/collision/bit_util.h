@@ -18,7 +18,7 @@ void set2bits(s32 *param_1, u8 pos, s32 param_3);
 void read2bits(s32 *value, u8 pos, s32 *b1, s32 *b0);
 void save_objects_flags(void);
 void restore_objects_flags(void);
-void snapToSprite(Obj *obj1, Obj *obj2, u8 param_3, s32 param_4, u16 param_5);
+void snapToSprite(Obj *obj_1, Obj *obj_2, u8 obj_2_spr, s32 x_offs, u16 y_offs);
 Obj * findfirstObject(ObjType obj_type);
 Obj * findfirstInactiveObject(ObjType param_1);
 void setbit(u8 *buffer, u16 index);

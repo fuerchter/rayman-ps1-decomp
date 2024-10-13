@@ -1,191 +1,100 @@
 #include "collision/bit_util.h"
 
+/* matches, but yet unknown flags[] use */
 /*INCLUDE_ASM("asm/nonmatchings/collision/bit_util", snapToSprite);*/
 
-void snapToSprite(Obj *obj1, Obj *obj2, u8 param_3, s32 param_4, u16 param_5)
+void snapToSprite(Obj *obj_1, Obj *obj_2, u8 obj_2_spr, s32 x_offs, u16 y_offs)
 {
-    s16 sp18;
-    s16 sp1A;
-    s16 sp1C;
-    s16 sp1E;
-    ObjState *temp_t0;
-    ObjState *temp_v1;
-    s16 temp_v0_1;
-    s16 temp_v0_2;
-    s32 temp_v1_2;
-    s32 temp_v1_3;
-    s16 var_a0_2;
-    s16 var_a0_3;
-    s16 var_s0;
-    s16 var_s1;
-    s16 var_v0_3;
-    s16 var_v0_6;
-    s16 var_v1_2;
-    s16 var_v1_3;
-    s32 temp_a0_1;
-    s32 temp_a0_2;
-    s32 temp_s4;
-    s32 var_v0_1;
-    s32 var_v0_2;
-    s32 var_v0_4;
-    s32 var_v0_5;
-    s32 var_v0_7;
-    s32 var_v1_1;
-    u8 temp_s0;
-    u8 temp_s1;
-    s32 var_a0_1;
-    u8 var_t1;
-    s32 test_1;
-    /*volatile char new_var;*/
-    s16 test_2;
-    u8 new_var;
+    u8 obj_2_frames_count;
+    ObjState *obj_2_eta_2;
+    u8 prev_frame;
+    u8 prev_index;
+    s16 obj_2_x; s16 obj_2_y; s16 obj_2_w; s16 obj_2_h;
+    s16 new_spd_x; s16 new_spd_y;
+    s16 obj_2_anim_frame = obj_2->anim_frame;
+    ObjState *obj_2_eta_1 = &obj_2->eta[obj_2->main_etat][obj_2->sub_etat];
+    u8 obj_2_anim_index = obj_2_eta_1->anim_index;
 
-    var_a0_1 = obj2->anim_frame;
-    temp_t0 = &obj2->eta[obj2->main_etat][obj2->sub_etat];
-    var_t1 = temp_t0->anim_index;
-    if (horloge[temp_t0->anim_speed & 0xF] == 0)
+    if (horloge[obj_2_eta_1->anim_speed & 0xF] == 0)
     {
-        new_var = obj2->animations[var_t1].frames_count;
-        if (!(temp_t0->flags & 0x10))
+        obj_2_frames_count = obj_2->animations[obj_2_anim_index].frames_count;
+        obj_2_anim_frame += (obj_2_eta_1->flags & 0x10) ? -1 : 1; /* requires ternary to match? */
+        if (obj_2_anim_frame < 0 || obj_2_anim_frame > obj_2_frames_count - 1)
         {
-            var_v1_1 = var_a0_1 + 1;
-        }
-        else
-        {
-            var_v1_1 = var_a0_1 - 1;
-        }
-
-        var_a0_1 = var_v1_1;
-        if (var_v1_1 < 0 || (new_var - 1 < var_v1_1))
-        {
-            temp_v1 = &obj2->eta[temp_t0->next_main_etat][temp_t0->next_sub_etat];
-            var_t1 = temp_v1->anim_index;
-            new_var = obj2->animations[var_t1].frames_count;
+            obj_2_eta_2 = &obj_2->eta[obj_2_eta_1->next_main_etat][obj_2_eta_1->next_sub_etat];
+            obj_2_anim_index = obj_2_eta_2->anim_index;
+            obj_2_frames_count = obj_2->animations[obj_2_anim_index].frames_count;
             
-            if (!(temp_v1->flags & 0x10))
-            {
-                var_a0_1 = 0;
-            }
-            else
-                var_a0_1 = new_var - 1;
+            obj_2_anim_frame = (obj_2_eta_2->flags & 0x10) ? (obj_2_frames_count - 1) : 0;
         }
-
-            
     }
-    temp_s1 = obj2->anim_frame;
-    temp_s0 = obj2->anim_index;
-    obj2->anim_frame = var_a0_1;
-    obj2->anim_index = var_t1;
-    GET_SPRITE_POS(obj2, param_3, &sp18, &sp1A, &sp1C, &sp1E);
-    obj2->anim_index = temp_s0;
-    obj2->anim_frame = temp_s1;
-    temp_v0_1 = (param_4 + sp18) - obj1->x_pos;
-    /* sgn() calls on android. dunno how to deal with yet */
-    while (__builtin_abs(temp_v0_1) >= 0x10)
-    {
-        temp_v1_2 = obj1->x_pos;
-        if (temp_v0_1 >= 0)
-        {
-            var_a0_2 = temp_v1_2;
-            if (temp_v0_1 > 0)
-            {
-                var_a0_2 = temp_v1_2 + 0x10;
-            }
-            obj1->x_pos = var_a0_2;
-        }
-        else
-        {
-            obj1->x_pos = temp_v1_2 - 0x10;
-        }
-        if (temp_v0_1 >= 0)
-        {
-            var_v1_2 = temp_v0_1;
-            if (temp_v0_1 > 0)
-            {
-                var_v1_2 = temp_v0_1 - 0x10;
-            }
-            var_v0_3 = var_v1_2;
-        }
-        else
-        {
-            var_v0_3 = temp_v0_1 + 0x10;
-        }
-        temp_v0_1 = var_v0_3;
-    }
-    temp_v0_2 = (param_5 + sp1A) - obj1->y_pos;
-    while (__builtin_abs(temp_v0_2) >= 0x10)
-    {
-        temp_v1_3 = obj1->y_pos;
-        if (temp_v0_2 >= 0)
-        {
-            var_a0_3 = temp_v1_3;
-            if (temp_v0_2 > 0)
-            {
-                var_a0_3 = temp_v1_3 + 0x10;
-            }
-            obj1->y_pos = var_a0_3;
-        }
-        else
-        {
-            obj1->y_pos = temp_v1_3 - 0x10;
-        }
+    prev_frame = obj_2->anim_frame;
+    prev_index = obj_2->anim_index;
+    obj_2->anim_frame = obj_2_anim_frame;
+    obj_2->anim_index = obj_2_anim_index;
+    GET_SPRITE_POS(obj_2, obj_2_spr, &obj_2_x, &obj_2_y, &obj_2_w, &obj_2_h);
+    obj_2->anim_index = prev_index;
+    obj_2->anim_frame = prev_frame;
 
-        if (temp_v0_2 >= 0)
-        {
-            var_v1_3 = temp_v0_2;
-            if (temp_v0_2 > 0)
-            {
-                var_v1_3 = temp_v0_2 - 0x10;
-            }
-            var_v0_6 = var_v1_3;
-        }
-        else
-        {
-            var_v0_6 = temp_v0_2 + 0x10;
-        }
-        temp_v0_2 = var_v0_6;
+    new_spd_x = x_offs + obj_2_x - obj_1->x_pos;
+    while (__builtin_abs(new_spd_x) >= 16)
+    {
+        obj_1->x_pos += SGN(new_spd_x) * 16;
+        new_spd_x += SGN(new_spd_x) * -16;
     }
 
-    if (temp_v0_1 != 0)
+    new_spd_y = y_offs + obj_2_y - obj_1->y_pos;
+    while (__builtin_abs(new_spd_y) >= 16)
     {
-        temp_a0_1 = (((u8) flags[obj1->type].flags1 >> 4) & 1) + (((u8) flags[obj2->type].flags1 >> 3) & 2);
-        switch (temp_a0_1)
+        obj_1->y_pos += SGN(new_spd_y) * 16;
+        new_spd_y += SGN(new_spd_y) * -16;
+    }
+
+    if (new_spd_x != 0)
+    {
+        /* TODO: ??? */
+        switch (
+            (flags[obj_1->type].flags1 >> 4 & 1) +
+            (flags[obj_2->type].flags1 >> 3 & 2)
+        )
         {
         case 0:
-            temp_v0_1 += obj2->speed_x;
+            new_spd_x += obj_2->speed_x;
             break;
         case 3:
-            temp_v0_1 = instantSpeed(obj2->speed_x) + (temp_v0_1 * 0x10);
+            new_spd_x = instantSpeed(obj_2->speed_x) + new_spd_x * 16;
             break;
         case 1:
-            temp_v0_1 = (temp_v0_1 + obj2->speed_x) * 0x10;
+            new_spd_x = (new_spd_x + obj_2->speed_x) * 16;
             break;
         case 2:
-            temp_v0_1 += instantSpeed(obj2->speed_x);
+            new_spd_x += instantSpeed(obj_2->speed_x);
             break;
         }
     }
 
-    if (temp_v0_2 != 0)
+    if (new_spd_y != 0)
     {
-        temp_a0_2 = (((u8) flags[obj1->type].flags1 >> 5) & 1) + (((u8) flags[obj2->type].flags1 >> 4) & 2);
-        switch (temp_a0_2)
+        switch (
+            (flags[obj_1->type].flags1 >> 5 & 1) +
+            (flags[obj_2->type].flags1 >> 4 & 2)
+        )
         {
         case 0:
-            temp_v0_2 += obj2->speed_y;
+            new_spd_y += obj_2->speed_y;
             break;
         case 3:
-            temp_v0_2 = instantSpeed(obj2->speed_y) + (temp_v0_2 * 0x10);
+            new_spd_y = instantSpeed(obj_2->speed_y) + new_spd_y * 16;
             break;
         case 1:
-            temp_v0_2 = (temp_v0_2 + obj2->speed_y) * 0x10;
+            new_spd_y = (new_spd_y + obj_2->speed_y) * 16;
             break;
         case 2:
-            temp_v0_2 += instantSpeed(obj2->speed_y);
+            new_spd_y += instantSpeed(obj_2->speed_y);
             break;
-
         }
     }
-    obj1->speed_x = temp_v0_1;
-    obj1->speed_y = temp_v0_2;
+
+    obj_1->speed_x = new_spd_x;
+    obj_1->speed_y = new_spd_y;
 }
