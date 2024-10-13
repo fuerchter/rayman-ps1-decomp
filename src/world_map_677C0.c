@@ -131,7 +131,63 @@ void PS1_DisplayPlateau(void)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/world_map_677C0", DO_MEDAILLONS);
+/* 67BE8 8018C3E8 -O2 -msoft-float */
+void DO_MEDAILLONS(void)
+{
+    s16 i;
+    Obj *cur_obj;
+    WorldInfo *cur_wi;
+    u8 nb_cages;
+    u8 flag_set;
+
+    if (chemin_percent <= 99 && horloge[2] != 0)
+        chemin_percent++;
+    
+    i = 0;
+    cur_obj = &mapobj[i];
+    cur_wi = &t_world_info[i];
+    while(i < (s16) LEN(t_world_info))
+    {
+        CalcObjPosInWorldMap(cur_obj);
+        if (cur_wi->is_unlocking && chemin_percent >= 99)
+        {
+            cur_wi->is_unlocking = false;
+            cur_wi->is_unlocked = true;
+            set_sub_etat(cur_obj, 46);
+        }
+
+        if (
+            i == 17 &&
+            !(cur_obj->sub_etat == 59 || cur_obj->sub_etat == 46) &&
+            cur_wi->is_unlocked
+        )
+            set_sub_etat(cur_obj, 59);
+        else if (
+            (i == 18 || i == 19 || i == 20 || i == 21 || i == 22 || i == 23) &&
+            !(cur_obj->sub_etat == 58 || cur_obj->sub_etat == 46) &&
+            cur_wi->is_unlocked
+        )
+            set_sub_etat(cur_obj, 58);
+        else
+        {
+            nb_cages = cur_wi->nb_cages;
+            if (nb_cages > 5 && cur_obj->sub_etat == 51 && EOA(cur_obj))
+                set_sub_etat(cur_obj, 52);
+            else if (nb_cages > 4 && cur_obj->sub_etat == 50 && EOA(cur_obj))
+                set_sub_etat(cur_obj, 51);
+            else if (nb_cages > 3 && cur_obj->sub_etat == 49 && EOA(cur_obj))
+                set_sub_etat(cur_obj, 50);
+            else if (nb_cages > 2 && cur_obj->sub_etat == 48 && EOA(cur_obj))
+                set_sub_etat(cur_obj, 49);
+            else if (nb_cages > 1 && cur_obj->sub_etat == 47 && EOA(cur_obj))
+                set_sub_etat(cur_obj, 48);
+        }
+        DO_ANIM(cur_obj);
+        cur_obj++;
+        i++;
+        cur_wi++;
+    }
+}
 
 /* 68220 8018CA20 -O2 */
 /*? INIT_TXT_BOX(s8 *);
