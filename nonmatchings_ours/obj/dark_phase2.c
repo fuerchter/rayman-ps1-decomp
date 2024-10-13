@@ -135,6 +135,7 @@ void DO_DARK2_SORT_COMMAND(Obj *ds2_obj)
 }
 
 /*
+score of ???
 attempts: 3
 looked at android
 looked at allocate_DARK_SORT
