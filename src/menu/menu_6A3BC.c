@@ -1,6 +1,46 @@
 #include "menu/menu_6A3BC.h"
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_6A3BC", INIT_NEW_GAME);
+/* 6A3BC 8018EBBC -O2 -msoft-float */
+void INIT_NEW_GAME(void)
+{
+    s16 i;
+
+    new_level = true;
+    new_world = true;
+    status_bar.num_lives = 3;
+    ray.hit_points = 2;
+    poing.sub_etat = 1;
+    departlevel = true;
+    fin_du_jeu = false;
+    nb_continue = 5;
+    ray.flags &= ~FLG(OBJ_FLAG_0);
+    memset(wi_save_zone, 0, LEN(wi_save_zone));
+    memset(save_zone, 0, LEN(save_zone));
+    INIT_RAY_BEGIN();
+
+    t_world_info[0].is_unlocked = true;
+    t_world_info[0].unk_2 = false;
+    t_world_info[0].unk_1 = false;
+    t_world_info[0].nb_cages = 0;
+    for (i = 1; i < (s16) LEN(t_world_info); i++)
+    {
+        t_world_info[i].is_unlocked = false;
+        t_world_info[i].unk_2 = false;
+        t_world_info[i].unk_1 = false;
+        t_world_info[i].nb_cages = 0;
+    }
+
+    loadInfoRay[positiony - 1].num_lives = 3;
+    loadInfoRay[positiony - 1].num_wiz = 0;
+    loadInfoRay[positiony - 1].num_cages = 0;
+    loadInfoRay[positiony - 1].num_continues = 5;
+
+    for (i = 0; i < (s16) LEN(bonus_perfect) - 1; i++)
+        bonus_perfect[i] = 0;
+    
+    init_finBossLevel();
+    INIT_WORLD_INFO();
+}
 
 /*
 TODO: not sure what we need to do about these warnings
