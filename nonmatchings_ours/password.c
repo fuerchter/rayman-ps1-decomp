@@ -5,7 +5,7 @@
 /* matches, but surely wrong */
 /*INCLUDE_ASM("asm/nonmatchings/password", PS1_EncryptPassword);*/
 
-inline int inline_fn(u8 arg0, int arg1, int arg2)
+extern inline int inline_fn(u8 arg0, int arg1, int arg2)
 {
     return (arg0 & arg1) | arg2;
 }
@@ -53,7 +53,7 @@ void PS1_EncryptPassword(void)
 /* matches, but ??? still */
 /*INCLUDE_ASM("asm/nonmatchings/password", PS1_VerifyDecryptPassword);*/
 
-inline int inline_fn(u8 arg0)
+extern inline int inline_fn(u8 arg0)
 {
     return arg0 & 1;
 }
@@ -121,6 +121,7 @@ void FUN_801a17c8(u8 arg0)
     PS1_CurrentPassword[0] = (PS1_CurrentPassword[0] & ~(1 << 2)) | inline_fn(arg0 >> 2);
 }
 
+/* matches, but */
 /*INCLUDE_ASM("asm/nonmatchings/password", PS1_GeneratePassword_LivesCount);*/
 
 extern inline int inline_fn(u32 arg0)
@@ -247,7 +248,10 @@ loop_1:
     return temp_v0;
 }
 
-/* ??? */
+/*
+???
+go back in commit history, if i need the one before WorldInfo/RayEvts bitfields
+*/
 /*INCLUDE_ASM("asm/nonmatchings/password", PS1_LoadSaveFromPassword);*/
 
 void PS1_LoadSaveFromPassword(void)
@@ -279,25 +283,25 @@ void PS1_LoadSaveFromPassword(void)
     {
         temp_v1 = var_v0;
         var_a0 += 1;
-        t_world_info[temp_v1].state = t_world_info[temp_v1].state | 1;
+        t_world_info[temp_v1].is_unlocked = t_world_info[temp_v1].is_unlocked | 1;
         var_v0 = var_a0 & 0xFF;
     } while (temp_a1 >= (u32) (var_a0 & 0xFF));
     temp_s3 = temp_s0 & 0xFF;
     temp_s0_2 = temp_s3 != 0;
-    t_world_info[7].state = (t_world_info[7].state & ~1) | (((u8) PS1_CurrentPassword[9] >> 2) & 1);
-    t_world_info[3].state = (t_world_info[3].state & ~1) | (((u8) PS1_CurrentPassword[8] >> 2) & 1);
-    t_world_info[18].state = (t_world_info[18].state & ~1) | temp_s0_2;
-    t_world_info[19].state = (t_world_info[19].state & ~1) | ((temp_s3 < 5U) ^ 1);
+    t_world_info[7].is_unlocked = (((u8) PS1_CurrentPassword[9] >> 2) & 1);
+    t_world_info[3].is_unlocked = (((u8) PS1_CurrentPassword[8] >> 2) & 1);
+    t_world_info[18].is_unlocked = temp_s0_2;
+    t_world_info[19].is_unlocked = ((temp_s3 < 5U) ^ 1);
     var_a3 = 0;
     if (temp_s3 >= 7U)
     {
         var_a3 = (PS1_CurrentPassword[9] & 4) != 0;
     }
     temp_s2 = (temp_s3 < 0xEU) ^ 1;
-    t_world_info[20].state = (t_world_info[20].state & ~1) | var_a3;
-    t_world_info[21].state = (t_world_info[21].state & ~1) | ((temp_s3 < 0xAU) ^ 1);
-    t_world_info[22].state = (t_world_info[22].state & ~1) | temp_s2;
-    t_world_info[23].state = (t_world_info[23].state & ~1) | ((temp_s3 < 0x10U) ^ 1);
+    t_world_info[20].is_unlocked = var_a3;
+    t_world_info[21].is_unlocked = ((temp_s3 < 0xAU) ^ 1);
+    t_world_info[22].is_unlocked = temp_s2;
+    t_world_info[23].is_unlocked = ((temp_s3 < 0x10U) ^ 1);
     t_world_info[0].nb_cages = ((s32) (*PS1_CurrentPassword << 0x1E) >> 0x1F) & 6;
     t_world_info[1].nb_cages = ((s32) (PS1_CurrentPassword[2] << 0x1E) >> 0x1F) & 6;
     t_world_info[2].nb_cages = ((s32) (PS1_CurrentPassword[4] << 0x1E) >> 0x1F) & 6;
@@ -320,13 +324,11 @@ void PS1_LoadSaveFromPassword(void)
     t_world_info[16].nb_cages = ((s32) (PS1_CurrentPassword[7] << 0x1B) >> 0x1F) & 6;
     t_world_info[17].nb_cages = 0;
     memset(&RayEvts, 0, 2, temp_a3);
-    temp_s1 = (temp_s3 < 4U) ^ 1;
-    temp_v1_2 = (RayEvts.flags0 & 0xFC) | temp_s0_2 | (temp_s1 * 2);
-    RayEvts.flags0 = temp_v1_2;
-    temp_a3_2 = (PS1_CurrentPassword[9] * 0x10) & 0x80;
-    RayEvts.flags0 = (temp_v1_2 & 0x7B) | temp_a3_2 | (((temp_s3 < 8U) ^ 1) * 4);
-    temp_s0_3 = (temp_s3 < 0xBU) ^ 1;
-    RayEvts.flags1 = (RayEvts.flags1 & 0xFE) | temp_s0_3;
+    RayEvts.poing = temp_s0_2;
+    RayEvts.hang = temp_s1;
+    RayEvts.helico = (((temp_s3 < 8U) ^ 1));
+    RayEvts.grap = (PS1_CurrentPassword[9] << 4) & (1 << 7);
+    RayEvts.run = (temp_s3 < 0xBU) ^ 1;
     memset((RaymanEvents *) finBosslevel, 0, 2, temp_a3_2);
     temp_v0 = (*finBosslevel & 0xFE) | temp_s1;
     *finBosslevel = temp_v0;

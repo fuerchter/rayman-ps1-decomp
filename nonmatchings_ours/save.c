@@ -1,5 +1,6 @@
 #include "save.h"
 
+/* score of 385 */
 /*INCLUDE_ASM("asm/nonmatchings/save", restoreGameState);*/
 
 void restoreGameState(SaveState *save_param)
@@ -19,7 +20,7 @@ void restoreGameState(SaveState *save_param)
     u32 var_v0_4;
     u32 var_v1;
     u8 temp_a1;
-    u8 temp_a1_2;
+    u8 temp_a1_2; /* being used for two different save_param fields */
     u8 temp_v0;
     u8 temp_v0_2;
     u8 temp_v1_3;
@@ -27,7 +28,7 @@ void restoreGameState(SaveState *save_param)
     s16 nb_objs;
     u8 test_1;
     s16 test_2;
-    s16 test_3;
+    u8 test_3;
     Obj *new_var;
 
     if (save_param->has_saved)
@@ -70,8 +71,7 @@ void restoreGameState(SaveState *save_param)
         if (save_param == &save1)
         {
             var_a2_3 = 0;
-            nb_objs = level.nb_objects;
-            while (var_a2_3 < level.nb_objects)
+            while (var_a2_3 < level.nb_objects) /* not saved into s16 var? */
             {
                 temp_a0 = save_param->link_init[var_a2_3];
                 link_init[var_a2_3] = temp_a0;
@@ -133,7 +133,7 @@ void restoreGameState(SaveState *save_param)
         ray.iframes_timer = -1;
 
         /* ??? */
-        var_a3_2 = 0;
+        var_a3_2 = 0; /* this is s16, while var_a2_3 is u8 */
         cur_obj = &level.objects[var_a3_2];
         ray.flags |= 0xC00;
         nb_objs = level.nb_objects;

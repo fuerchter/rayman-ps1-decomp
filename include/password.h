@@ -23,7 +23,7 @@ extern u8 s_s_801cf110[5];
 
 /**/
 extern u8 PS1_ShouldClearPassword; /* don't understand its use in FUN_8019ebc0 */
-extern u8 PS1_CurrentPassword[10];
+extern u8 PS1_CurrentPassword[10]; /* not sure if bitfields? played with it a bit https://decomp.me/scratch/tEI1H, https://decomp.me/scratch/isKTE*/
 extern u8 PS1_CurrentTypingPassword[10];
 extern s16 D_801E4E40;
 extern s16 D_801E4E48;
