@@ -15,7 +15,7 @@ extern u16 D_801F55D8;
 void PS1_LoadFondSprites(void)
 {
     DR_ENV *dr_env_0; DR_ENV *dr_env_1;
-    SPRT *cur_spr_0; SPRT *cur_spr_1;
+    SPRT *cur_sprt_0; SPRT *cur_sprt_1;
     Sprite *cur_sprite_bg;
     u8 i;
     u8 bg_id;
@@ -26,37 +26,37 @@ void PS1_LoadFondSprites(void)
     {
         dr_env_0 = &PS1_Displays[0].map_drawing_environment_primitives[9];
         dr_env_1 = &PS1_Displays[1].map_drawing_environment_primitives[9];
-        cur_spr_0 = PS1_Displays[0].sprites;
-        cur_spr_1 = PS1_Displays[1].sprites;
+        cur_sprt_0 = PS1_Displays[0].sprites;
+        cur_sprt_1 = PS1_Displays[1].sprites;
         cur_sprite_bg = &PS1_LevelBGBlock->sprites[0];
         i = 0;
         while (i < NbSprite)
         {
             bg_id = cur_sprite_bg->id;
 
-            SetSemiTrans(cur_spr_0, PS1_FondSpritesIsSemiTrans[bg_id - 1]);
-            SetShadeTex(cur_spr_0, true);
-            cur_spr_0[0].u0 = cur_sprite_bg->page_x;
-            cur_spr_0[0].v0 = cur_sprite_bg->page_y;
-            cur_spr_0[0].w = cur_sprite_bg->width;
-            cur_spr_0[0].h = cur_sprite_bg->height;
-            cur_spr_0[0].clut = cur_sprite_bg->clut;
-            __builtin_memcpy(&cur_spr_0[0x10], &cur_spr_0[0], sizeof(SPRT));
-            __builtin_memcpy(&cur_spr_0[0x20], &cur_spr_0[0x10], sizeof(SPRT));
-            __builtin_memcpy(&cur_spr_0[0x10], &cur_spr_0[0], sizeof(SPRT));
-            __builtin_memcpy(&cur_spr_0[0x20], &cur_spr_0[0x10], sizeof(SPRT));
+            SetSemiTrans(cur_sprt_0, PS1_FondSpritesIsSemiTrans[bg_id - 1]);
+            SetShadeTex(cur_sprt_0, true);
+            cur_sprt_0[0].u0 = cur_sprite_bg->page_x;
+            cur_sprt_0[0].v0 = cur_sprite_bg->page_y;
+            cur_sprt_0[0].w = cur_sprite_bg->width;
+            cur_sprt_0[0].h = cur_sprite_bg->height;
+            cur_sprt_0[0].clut = cur_sprite_bg->clut;
+            __builtin_memcpy(&cur_sprt_0[0x10], &cur_sprt_0[0], sizeof(SPRT));
+            __builtin_memcpy(&cur_sprt_0[0x20], &cur_sprt_0[0x10], sizeof(SPRT));
+            __builtin_memcpy(&cur_sprt_0[0x10], &cur_sprt_0[0], sizeof(SPRT));
+            __builtin_memcpy(&cur_sprt_0[0x20], &cur_sprt_0[0x10], sizeof(SPRT));
 
-            SetSemiTrans(cur_spr_1, PS1_FondSpritesIsSemiTrans[bg_id - 1]);
-            SetShadeTex(cur_spr_1, true);
-            cur_spr_1[0].u0 = cur_sprite_bg->page_x;
-            cur_spr_1[0].v0 = cur_sprite_bg->page_y;
-            cur_spr_1[0].w = cur_sprite_bg->width;
-            cur_spr_1[0].h = cur_sprite_bg->height;
-            cur_spr_1[0].clut = cur_sprite_bg->clut;
-            __builtin_memcpy(&cur_spr_1[0x10], &cur_spr_1[0], sizeof(SPRT));
-            __builtin_memcpy(&cur_spr_1[0x20], &cur_spr_1[0x10], sizeof(SPRT));
-            __builtin_memcpy(&cur_spr_1[0x10], &cur_spr_1[0], sizeof(SPRT));
-            __builtin_memcpy(&cur_spr_1[0x20], &cur_spr_1[0x10], sizeof(SPRT));
+            SetSemiTrans(cur_sprt_1, PS1_FondSpritesIsSemiTrans[bg_id - 1]);
+            SetShadeTex(cur_sprt_1, true);
+            cur_sprt_1[0].u0 = cur_sprite_bg->page_x;
+            cur_sprt_1[0].v0 = cur_sprite_bg->page_y;
+            cur_sprt_1[0].w = cur_sprite_bg->width;
+            cur_sprt_1[0].h = cur_sprite_bg->height;
+            cur_sprt_1[0].clut = cur_sprite_bg->clut;
+            __builtin_memcpy(&cur_sprt_1[0x10], &cur_sprt_1[0], sizeof(SPRT));
+            __builtin_memcpy(&cur_sprt_1[0x20], &cur_sprt_1[0x10], sizeof(SPRT));
+            __builtin_memcpy(&cur_sprt_1[0x10], &cur_sprt_1[0], sizeof(SPRT));
+            __builtin_memcpy(&cur_sprt_1[0x20], &cur_sprt_1[0x10], sizeof(SPRT));
 
             FUN_8017b260((s16) cur_sprite_bg->tpage);
             PS1_Displays[0].drawing_environment.tpage =
@@ -66,8 +66,8 @@ void PS1_LoadFondSprites(void)
                 GetTPage(1, PS1_FondSpritesABR[bg_id - 1], PS1_TPage_x, PS1_TPage_y);
             SetDrawEnv(dr_env_1, &PS1_Displays[1].drawing_environment);
 
-            cur_spr_0++;
-            cur_spr_1++;
+            cur_sprt_0++;
+            cur_sprt_1++;
             cur_sprite_bg++;
             dr_env_0++;
             dr_env_1++;
@@ -80,7 +80,63 @@ INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFondDataAndPalettes);
 
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFond);
 
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80135ab0);
+/* 112B0 80135AB0 -O2 -msoft-float */
+void FUN_80135ab0(s16 param_1, s16 *param_2)
+{
+    u8 i;
+    BackgroundPosition *cur_pos;
+    DR_ENV *cur_dr_env;
+    SPRT *cur_sprt;
+    Sprite *cur_bg_sprite;
+    u16 unk_1;
+    s16 unk_x_1; s16 unk_y_1;
+
+    i = 0;
+    cur_pos = &PS1_BackgroundPositions[i];
+    PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[i];
+    cur_dr_env = &PS1_CurrentDisplay->map_drawing_environment_primitives[9];
+    cur_sprt = &PS1_CurrentDisplay->sprites[D_801E4BC8];
+    cur_bg_sprite = &PS1_BackgroundSprites[i];
+    while (i < NbSprite)
+    {
+        unk_1 = param_2[cur_bg_sprite->id - 1];
+        unk_x_1 = cur_pos->x - param_1;
+        unk_y_1 = cur_pos->y - (unk_1 % PS1_FondHeight);
+        if (PS1_BandeBackCount < cur_bg_sprite->id)
+            PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[8];
+        
+        PS1_CurrentDisplay->drawing_environment.tpage = cur_bg_sprite->tpage;
+        SetDrawEnv(cur_dr_env, &PS1_CurrentDisplay->drawing_environment);
+        AddPrim(PS1_PrevPrim, cur_dr_env);
+        PS1_PrevPrim = cur_dr_env;
+        cur_dr_env++;
+
+        cur_sprt->u0 = cur_bg_sprite->page_x;
+        cur_sprt->v0 = cur_bg_sprite->page_y;
+        cur_sprt->w = cur_bg_sprite->width;
+        cur_sprt->h = cur_bg_sprite->height;
+        cur_sprt->clut = cur_bg_sprite->clut;
+        cur_sprt->code = cur_sprt->code & ~FLG(1) | FLG(0);
+        cur_sprt->x0 = unk_x_1;
+        cur_sprt->y0 = unk_y_1;
+        AddPrim(PS1_PrevPrim, cur_sprt);
+        PS1_PrevPrim = cur_sprt;
+        cur_sprt++;
+        D_801E4BC8++;
+        if (PS1_FondHeight < unk_1 + SCREEN_HEIGHT)
+        {
+            __builtin_memcpy(cur_sprt, cur_sprt - 1, sizeof(SPRT));
+            cur_sprt->y0 += PS1_FondHeight;
+            AddPrim(PS1_PrevPrim, cur_sprt);
+            PS1_PrevPrim = cur_sprt;
+            cur_sprt++;
+            D_801E4BC8++;
+        }
+        i++;
+        cur_pos++;
+        cur_bg_sprite++;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80135d5c);
 

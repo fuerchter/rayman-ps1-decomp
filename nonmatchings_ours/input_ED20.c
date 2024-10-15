@@ -1,5 +1,6 @@
 #include "input_ED20.h"
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/input_ED20", TOUCHE);*/
 
 s32 TOUCHE(Input param_1)

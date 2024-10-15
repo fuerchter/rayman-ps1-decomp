@@ -1,10 +1,10 @@
 #include "draw/fond_10B3C.h"
 
 /*
-close?
+score of ???
 https://github.com/BinarySerializer/BinarySerializer.Ray1/blob/7da0e97301dd6502d027ff3c92ec2b5a00ef6e6e/src/BinarySerializer.Ray1/DataTypes/PS1/Vignette/FondSpriteData.cs
 */
-/*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_LoadFondDataAndPalettes);*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFondDataAndPalettes);*/
 
 void PS1_LoadFondDataAndPalettes(void)
 {
@@ -30,82 +30,71 @@ void PS1_LoadFondDataAndPalettes(void)
     u8 *temp_s0_2;
     u8 *temp_s0_3;
     s16 temp_t1; /* PalettesCount */
-    u16 test_1;
+    u16 test_1; /* if i didn't use this, all the lhu's would be lbu's? */
 
     temp_s0_12 = D_801E4F50;
     test_1 = *(u16 *)temp_s0_12;
     NbSprite = test_1;
     temp_s0_12 += 2;
-    PS1_BandeBackCount = *temp_s0_12;
-    temp_s0_12 = temp_s0_12 + 1;
-    PS1_BandeFrontCount = *temp_s0_12;
-    temp_s0_12 = temp_s0_12 + 1;
+    PS1_BandeBackCount = *temp_s0_12++;
+    PS1_BandeFrontCount = *temp_s0_12++;
     temp_t1 = *temp_s0_12;
     var_s1_1 = 0;
-    temp_s0_12 = temp_s0_12 + 4;
-    if (PS1_BandeBackCount != 0)
+    temp_s0_12 += 4;
+    while ((var_s1_1) < PS1_BandeBackCount)
     {
-        do
-        {
-            temp_v0_1 = var_s1_1 * 4;
-            test_1 = *(u16 *)temp_s0_12;
-            *(&D_801F8008 + temp_v0_1) = test_1;
-            temp_s0_12 = temp_s0_12 + 2;
-            test_1 = *(u16 *)temp_s0_12;
-            *(&D_801F800A + temp_v0_1) = test_1;
-            temp_s0_12 = temp_s0_12 + 2;
-            test_1 = *(u16 *)temp_s0_12;
-            (&D_801F51C0)[var_s1_1] = test_1;
-            temp_s0_12 = temp_s0_12 + 2;
-            test_1 = *(u16 *)temp_s0_12;
-            (&D_801FA560)[var_s1_1] = test_1;
-            temp_s0_12 = temp_s0_12 + 2;
-            test_1 = *(u16 *)temp_s0_12;
-            (&D_801F5788)[var_s1_1] = test_1;
-            var_s1_1 += 1;
-            temp_s0_12 = temp_s0_12 + 2;
-        } while ((var_s1_1) < PS1_BandeBackCount);
+        temp_v0_1 = var_s1_1 * 4;
+        test_1 = *(u16 *)temp_s0_12;
+        *(s16 *)(&D_801F8008 + temp_v0_1) = test_1;
+        temp_s0_12 += 2;
+        test_1 = *(u16 *)temp_s0_12;
+        *(&D_801F800A + temp_v0_1) = test_1;
+        temp_s0_12 += 2;
+        test_1 = *(u16 *)temp_s0_12;
+        (&D_801F51C0)[var_s1_1] = test_1;
+        temp_s0_12 += 2;
+        test_1 = *(u16 *)temp_s0_12;
+        (&D_801FA560)[var_s1_1] = test_1;
+        temp_s0_12 += 2;
+        test_1 = *(u16 *)temp_s0_12;
+        (&D_801F5788)[var_s1_1] = test_1;
+        var_s1_1 += 1;
+        temp_s0_12 += 2;
     }
     var_s1_1 = 0;
-    if (PS1_BandeFrontCount != 0)
+    while (var_s1_1 < PS1_BandeFrontCount)
     {
-        do
-        {
-            temp_v0_2 = var_s1_1 * 4;
-            test_1 = *(u16 *)temp_s0_12;
-            *(&D_801E63F8 + temp_v0_2) = test_1;
-            temp_s0_12 = temp_s0_12 + 2;
-            test_1 = *(u16 *)temp_s0_12;
-            *(&D_801E63FA + temp_v0_2) = test_1;
-            temp_s0_12 = temp_s0_12 + 2;
-            test_1 = *(u16 *)temp_s0_12;
-            (&D_801F51C0)[PS1_BandeBackCount + var_s1_1] = test_1;
-            temp_s0_12 = temp_s0_12 + 2;
-            test_1 = *(u16 *)temp_s0_12;
-            (&D_801FA560)[PS1_BandeBackCount + var_s1_1] = test_1;
-            temp_s0_12 = temp_s0_12 + 2;
-            test_1 = *(u16 *)temp_s0_12;
-            (&D_801F5788)[PS1_BandeBackCount + var_s1_1] = test_1;
-            temp_s0_12 = temp_s0_12 + 2;
-            var_s1_1 += 1;
-        } while (var_s1_1 < PS1_BandeFrontCount);
+        temp_v0_2 = var_s1_1 * 4;
+        test_1 = *(u16 *)temp_s0_12;
+        *(s16 *)(&D_801E63F8 + temp_v0_2) = test_1;
+        temp_s0_12 += 2;
+        test_1 = *(u16 *)temp_s0_12;
+        *(&D_801E63FA + temp_v0_2) = test_1;
+        temp_s0_12 += 2;
+        test_1 = *(u16 *)temp_s0_12;
+        (&D_801F51C0)[PS1_BandeBackCount + var_s1_1] = test_1;
+        temp_s0_12 += 2;
+        test_1 = *(u16 *)temp_s0_12;
+        (&D_801FA560)[PS1_BandeBackCount + var_s1_1] = test_1;
+        temp_s0_12 += 2;
+        test_1 = *(u16 *)temp_s0_12;
+        (&D_801F5788)[PS1_BandeBackCount + var_s1_1] = test_1;
+        temp_s0_12 += 2;
+        var_s1_1 += 1;
     }
     temp_v0_3 = PS1_BandeBackCount + PS1_BandeFrontCount;
     temp_s0_12 = temp_s0_12 + ((temp_v0_3 - (temp_v0_3 & 0x1FE)) * 2);
     var_s1_1 = 0;
-    if (temp_t1 != 0)
+    while ((u32) (var_s1_1) < temp_t1)
     {
-        do
-        {
-            LoadClut((u_long *)temp_s0_12, 0x00000300, 0x1F7 - (var_s1_1));
-            var_s1_1 += 1;
-            temp_s0_12 += 0x200;
-        } while ((u32) (var_s1_1) < temp_t1);
+        LoadClut((u32 *)temp_s0_12, 768, 503 - var_s1_1);
+        var_s1_1 += 1;
+        temp_s0_12 += 0x200;
     }
 }
 
-/* close */
-/*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_LoadFond);*/
+/* score of ??? */
+/*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFond);*/
 
 typedef struct Fond
 {
@@ -118,7 +107,6 @@ typedef struct Fond
 } Fond;
 
 void PS1_LoadFond(void)
-
 {
   s32 value1;
   int i;
@@ -135,9 +123,10 @@ void PS1_LoadFond(void)
   Fond test_1;
   s32 inc;
   u8 *new_var;
+  u8 *test_2;
   
   memset(&D_801F55B8,0,10);
-  __builtin_memcpy(&test_1, D_801F8180, sizeof(Fond));
+  __builtin_memcpy(&test_1, &D_801F8180[0], sizeof(Fond));
   D_801F84E0 = test_1.unk_0;
   D_801F9900 = test_1.unk_1;
   PS1_FondWidth = test_1.width;
@@ -152,11 +141,11 @@ void PS1_LoadFond(void)
     PS1_FondImagesCount = PS1_FondWidth >> 6;
   }
   
-  cur_src = D_801F8180 + sizeof(Fond);
+  cur_src = &D_801F8180[sizeof(Fond)];
   i = 0;
   if (i < PS1_FondImagesCount) {
     fi_count = PS1_FondImagesCount;
-    cur_dest = &PS1_FondImages[0];
+    cur_dest = &PS1_FondImages[i];
     inc = PS1_FondHeight << 7;
     while (i < fi_count) {
       *cur_dest = cur_src;
@@ -174,74 +163,6 @@ void PS1_LoadFond(void)
   else {
     NbSprite = 0;
   }
-}
-
-/* matches, but cleanup */
-/*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80135ab0);*/
-
-void FUN_80135ab0(s16 param_1, s16 *param_2)
-{
-    s32 sp18;
-    BackgroundPosition *var_s5;
-    DR_ENV *var_s4;
-    SPRT *var_s1;
-    SPRT *var_s0;
-    s16 temp_s6;
-    s16 temp_s7;
-    u8 i;
-    Sprite *var_s2;
-    u16 temp_s3;
-    u8 temp_a1;
-
-    var_s5 = PS1_BackgroundPositions;
-    i = 0;
-    PS1_PrevPrim = PS1_CurrentDisplay->ordering_table;
-    var_s4 = PS1_CurrentDisplay->field6_0x2b0;
-    var_s1 = &PS1_CurrentDisplay->sprites[D_801E4BC8];
-    var_s2 = PS1_BackgroundSprites;
-    var_s0 = var_s1;
-    while (i < NbSprite)
-    {
-        temp_a1 = var_s2->id;
-        temp_s3 = param_2[temp_a1 - 1];
-        temp_s7 = var_s5->y - (temp_s3 % PS1_FondHeight);
-        temp_s6 = var_s5->x - param_1;
-        if (PS1_BandeBackCount < temp_a1)
-        {
-            PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[8];
-        }
-        PS1_CurrentDisplay->drawing_environment.tpage = var_s2->tpage;
-        SetDrawEnv(var_s4, &PS1_CurrentDisplay->drawing_environment);
-        AddPrim(PS1_PrevPrim, var_s4);
-        PS1_PrevPrim = var_s4;
-        var_s4++;
-        var_s0->u0 = var_s2->page_x;
-        var_s0->v0 = var_s2->page_y;
-        var_s0->w = var_s2->width;
-        var_s0->h = var_s2->height;
-        var_s0->clut = var_s2->clut;
-        var_s0->code = ((var_s0->code & 0xFD) | 1);
-        var_s0->x0 = temp_s6;
-        var_s0->y0 = temp_s7;
-        AddPrim(PS1_PrevPrim, var_s1);
-        PS1_PrevPrim = var_s1;
-        var_s0++;
-        var_s1++;
-        D_801E4BC8++;
-        if (PS1_FondHeight < (temp_s3 + SCREEN_HEIGHT))
-        {
-            __builtin_memcpy(var_s1, var_s0 - 1, sizeof(SPRT));
-            var_s0->y0 += PS1_FondHeight;
-            AddPrim(PS1_PrevPrim, var_s1);
-            PS1_PrevPrim = var_s1;
-            var_s0++;
-            var_s1++;
-            D_801E4BC8++;
-        }
-        i++;
-        var_s5++;
-        var_s2++;
-    }
 }
 
 /*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80135d5c);*/
