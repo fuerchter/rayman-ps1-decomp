@@ -1,5 +1,5 @@
 # rayman-ps1-decomp
-WIP matching decompilation of [Rayman on the PS1](http://redump.org/disc/8326/). There are ~75 non-psyq nonmatching functions left to decompile. We had symbols from [Rayman Classic](https://raymanpc.com/wiki/en/Rayman_Classic). Unfortunately, I worked rather messy (code style, etc.).  
+WIP matching decompilation of [Rayman on the PS1](http://redump.org/disc/8326/). There are ~50 non-psyq nonmatching functions left to decompile. We had symbols from [Rayman Classic](https://raymanpc.com/wiki/en/Rayman_Classic). Unfortunately, I worked rather messy (code style, etc.).  
 This repo does not come with any of the game's assets. A copy of the game's exe is required to build.
 
 ## Build instructions for ubuntu (24.04.1 LTS) and WSL:

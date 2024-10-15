@@ -17,6 +17,7 @@ s32 TOUCHE(Input param_1)
     u32 temp_a0;
     s32 test_1;
     s32 *new_var;
+    s32 var_a0;
 
     /*var_v0 = *(&jtbl_80127304 + (temp_a0 * 4));*/
     switch (param_1)
@@ -109,15 +110,15 @@ s32 TOUCHE(Input param_1)
     case 0x13:
         if (
             (*PS1_ButtonStates != PS1_ButtonStates[1]) &&
-            (*PS1_ButtonStates == 0x0000100B) &&
-            (PS1_ButtonStates[2] == 0x0000000B) &&
-            (PS1_ButtonStates[3] == 0x0000200B) &&
+            (*PS1_ButtonStates == 0x100B) &&
+            (PS1_ButtonStates[2] == 0x000B) &&
+            (PS1_ButtonStates[3] == 0x200B) &&
             (PS1_ButtonStates[4] == PS1_ButtonStates[2]) &&
-            (PS1_ButtonStates[5] == 0x0000400B) &&
+            (PS1_ButtonStates[5] == 0x400B) &&
             (PS1_ButtonStates[6] == PS1_ButtonStates[4]) &&
-            (PS1_ButtonStates[7] == 0x0000800B) &&
+            (PS1_ButtonStates[7] == 0x800B) &&
             (PS1_ButtonStates[8] == PS1_ButtonStates[6]) &&
-            PS1_ButtonStates[9] == 0x0000800B
+            PS1_ButtonStates[9] == 0x800B
         )
         {
             var_a2 = 1;
@@ -129,15 +130,15 @@ s32 TOUCHE(Input param_1)
     case 0x14:
         if (
             *PS1_ButtonStates != PS1_ButtonStates[1] &&
-            *PS1_ButtonStates == 0x00000022 &&
+            *PS1_ButtonStates == 0x0022 &&
             (PS1_ButtonStates[2] == 2) &&
             (PS1_ButtonStates[3] == *PS1_ButtonStates) &&
             PS1_ButtonStates[4] == PS1_ButtonStates[2] &&
-            PS1_ButtonStates[5] == 0x00008002 &&
+            PS1_ButtonStates[5] == 0x8002 &&
             PS1_ButtonStates[6] == PS1_ButtonStates[4] &&
             PS1_ButtonStates[7] == PS1_ButtonStates[3] &&
             PS1_ButtonStates[8] == PS1_ButtonStates[6] &&
-            PS1_ButtonStates[9] == 0x00000022
+            PS1_ButtonStates[9] == 0x0022
         )
         {
             var_a3 = 1;
@@ -149,36 +150,38 @@ s32 TOUCHE(Input param_1)
         var_a2 = 0;
         if (
             *PS1_ButtonStates != PS1_ButtonStates[1] &&
-            *PS1_ButtonStates == 0x00008003 &&
+            *PS1_ButtonStates == 0x8003 &&
             PS1_ButtonStates[2] == 3 &&
             PS1_ButtonStates[2] == 3 && /* ??? */
-            PS1_ButtonStates[3] == 0x00004003
+            PS1_ButtonStates[3] == 0x4003 /*&&
+            PS1_ButtonStates[4] == 0*/ /* this with return 0; seems like most sensible way to include, if it were to stay nonmatching*/
         )
         {
-            /*var_v0 = PS1_ButtonStates[4];*/ /* TODO: nope */
+            /*return 0;*/
             __asm__("lui        $a0, %hi(D_801CEF0C)");
             __asm__("lw         $a0, %lo(D_801CEF0C)($a0)");
+            
         }
         return var_a2;
     
     case 0x18:
         if (
             *PS1_ButtonStates != PS1_ButtonStates[1] &&
-            *PS1_ButtonStates == 0x00000020 &&
-            PS1_ButtonStates[2] == 0x000000A0 &&
-            PS1_ButtonStates[3] == 0x000000B0 &&
-            PS1_ButtonStates[4] == 0x000080B0 &&
-            PS1_ButtonStates[5] == 0x000080A0 &&
-            PS1_ButtonStates[6] == 0x00008020 &&
-            PS1_ButtonStates[7] == 0x00008000 &&
+            *PS1_ButtonStates == 0x0020 &&
+            PS1_ButtonStates[2] == 0x00A0 &&
+            PS1_ButtonStates[3] == 0x00B0 &&
+            PS1_ButtonStates[4] == 0x80B0 &&
+            PS1_ButtonStates[5] == 0x80A0 &&
+            PS1_ButtonStates[6] == 0x8020 &&
+            PS1_ButtonStates[7] == 0x8000 &&
             PS1_ButtonStates[8] == 0 &&
             PS1_ButtonStates[9] == *PS1_ButtonStates &&
             PS1_ButtonStates[10] == 0 &&
             PS1_ButtonStates[11] == 8 &&
-            PS1_ButtonStates[12] == 0x0000000A &&
-            PS1_ButtonStates[13] == 0x0000000B &&
-            PS1_ButtonStates[14] == 0x0000000F &&
-            PS1_ButtonStates[15] == 0x0000000D &&
+            PS1_ButtonStates[12] == 0x000A &&
+            PS1_ButtonStates[13] == 0x000B &&
+            PS1_ButtonStates[14] == 0x000F &&
+            PS1_ButtonStates[15] == 0x000D &&
             PS1_ButtonStates[16] == 9
         )
         {
@@ -189,7 +192,7 @@ s32 TOUCHE(Input param_1)
         return var_a1;
     case 0x11:
         
-        if (*PS1_ButtonStates != PS1_ButtonStates[1] && *PS1_ButtonStates == 0x00000900)
+        if (*PS1_ButtonStates != PS1_ButtonStates[1] && *PS1_ButtonStates == 0x0900)
         {
             var_v0 = 1;
         }
