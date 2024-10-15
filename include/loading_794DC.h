@@ -11,6 +11,18 @@
 #include "menu/menu_6A3BC.h"
 #include "password.h"
 
+struct BackgroundPosition
+{
+    s16 x;
+    s16 y;
+};
+
+typedef struct BackgroundData
+{
+    struct BackgroundPosition sprite_positions[16];
+    Sprite sprites[16];
+} BackgroundData;
+
 /* .data */
 extern u32 *D_801C4374[6];
 extern u32 *D_801C438C[6];

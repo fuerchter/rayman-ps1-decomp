@@ -2,12 +2,6 @@
 
 /* BinarySerializer.Ray1/DataTypes/PS1/Vignette */
 
-void FUN_8017b260(u32 param_1);
-
-/* place either here or with FUN_8017b260 */
-extern s32 PS1_TPage_x;
-extern s32 PS1_TPage_y;
-
 /* here or with LOAD_FND? */
 extern u8 *D_801E4F50; /* or u8 * ??? */
 extern u8 *D_801F8180; /* pointer to something for sure, sometimes set to 801f4380 */
@@ -17,7 +11,70 @@ extern u8 *D_801F8180; /* pointer to something for sure, sometimes set to 801f43
 extern u16 D_801F5440;
 extern u16 D_801F55D8;
 
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFondSprites);
+/* 10B3C 8013533C -O2 -msoft-float */
+void PS1_LoadFondSprites(void)
+{
+    DR_ENV *dr_env_0; DR_ENV *dr_env_1;
+    SPRT *cur_spr_0; SPRT *cur_spr_1;
+    Sprite *cur_sprite_bg;
+    u8 i;
+    u8 bg_id;
+
+    PS1_BackgroundPositions = PS1_LevelBGBlock->sprite_positions;
+    PS1_BackgroundSprites = PS1_LevelBGBlock->sprites;
+    if (PS1_FondType == 6 || PS1_FondType == 7)
+    {
+        dr_env_0 = &PS1_Displays[0].map_drawing_environment_primitives[9];
+        dr_env_1 = &PS1_Displays[1].map_drawing_environment_primitives[9];
+        cur_spr_0 = PS1_Displays[0].sprites;
+        cur_spr_1 = PS1_Displays[1].sprites;
+        cur_sprite_bg = &PS1_LevelBGBlock->sprites[0];
+        i = 0;
+        while (i < NbSprite)
+        {
+            bg_id = cur_sprite_bg->id;
+
+            SetSemiTrans(cur_spr_0, PS1_FondSpritesIsSemiTrans[bg_id - 1]);
+            SetShadeTex(cur_spr_0, true);
+            cur_spr_0[0].u0 = cur_sprite_bg->page_x;
+            cur_spr_0[0].v0 = cur_sprite_bg->page_y;
+            cur_spr_0[0].w = cur_sprite_bg->width;
+            cur_spr_0[0].h = cur_sprite_bg->height;
+            cur_spr_0[0].clut = cur_sprite_bg->clut;
+            __builtin_memcpy(&cur_spr_0[0x10], &cur_spr_0[0], sizeof(SPRT));
+            __builtin_memcpy(&cur_spr_0[0x20], &cur_spr_0[0x10], sizeof(SPRT));
+            __builtin_memcpy(&cur_spr_0[0x10], &cur_spr_0[0], sizeof(SPRT));
+            __builtin_memcpy(&cur_spr_0[0x20], &cur_spr_0[0x10], sizeof(SPRT));
+
+            SetSemiTrans(cur_spr_1, PS1_FondSpritesIsSemiTrans[bg_id - 1]);
+            SetShadeTex(cur_spr_1, true);
+            cur_spr_1[0].u0 = cur_sprite_bg->page_x;
+            cur_spr_1[0].v0 = cur_sprite_bg->page_y;
+            cur_spr_1[0].w = cur_sprite_bg->width;
+            cur_spr_1[0].h = cur_sprite_bg->height;
+            cur_spr_1[0].clut = cur_sprite_bg->clut;
+            __builtin_memcpy(&cur_spr_1[0x10], &cur_spr_1[0], sizeof(SPRT));
+            __builtin_memcpy(&cur_spr_1[0x20], &cur_spr_1[0x10], sizeof(SPRT));
+            __builtin_memcpy(&cur_spr_1[0x10], &cur_spr_1[0], sizeof(SPRT));
+            __builtin_memcpy(&cur_spr_1[0x20], &cur_spr_1[0x10], sizeof(SPRT));
+
+            FUN_8017b260((s16) cur_sprite_bg->tpage);
+            PS1_Displays[0].drawing_environment.tpage =
+                GetTPage(1, PS1_FondSpritesABR[bg_id - 1], PS1_TPage_x, PS1_TPage_y);
+            SetDrawEnv(dr_env_0, &PS1_Displays[0].drawing_environment);
+            PS1_Displays[1].drawing_environment.tpage =
+                GetTPage(1, PS1_FondSpritesABR[bg_id - 1], PS1_TPage_x, PS1_TPage_y);
+            SetDrawEnv(dr_env_1, &PS1_Displays[1].drawing_environment);
+
+            cur_spr_0++;
+            cur_spr_1++;
+            cur_sprite_bg++;
+            dr_env_0++;
+            dr_env_1++;
+            i++;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFondDataAndPalettes);
 
