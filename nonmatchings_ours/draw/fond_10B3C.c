@@ -165,6 +165,7 @@ void PS1_LoadFond(void)
   }
 }
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80135d5c);*/
 
 void FUN_80135d5c(s32 param_1, s16 *param_2, s32 param_3, s16 param_4)
@@ -195,7 +196,7 @@ void FUN_80135d5c(s32 param_1, s16 *param_2, s32 param_3, s16 param_4)
   iVar13 = PS1_FondWidth * 2;
   test_1 = ((NbSprite + 0xffff) << 0x10) >> 0x10;
   bg_pos = PS1_BackgroundPositions + test_1;
-  dr_env = PS1_CurrentDisplay->field6_0x2b0 + test_1;
+  dr_env = &PS1_CurrentDisplay->map_drawing_environment_primitives[9 + test_1];
   bg_sprite = PS1_BackgroundSprites + test_1;
   PS1_PrevPrim = PS1_CurrentDisplay->ordering_table + 8;
   cur_sprite = PS1_CurrentDisplay->sprites + test_1;
@@ -274,73 +275,81 @@ void FUN_80135d5c(s32 param_1, s16 *param_2, s32 param_3, s16 param_4)
   return;
 }
 
-/* close */
-/*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_8013613c);*/
+/* matches, but ... */
+/*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_8013613c);*/
 
 void FUN_8013613c(u8 param_1, u32 param_2, u8 param_3, u32 param_4)
-
 {
-  u8 bVar1;
-  int iVar2;
-  uint uVar3;
-  short sVar4;
-  u8 bVar5;
-  int iVar6;
-  u8 uVar7;
-  RECT local_48;
-  uint local_40;
-  int local_38;
-  int local_30;
-  s16 test_1;
-  
-  param_4 &= 0xffff;
-  uVar7 = param_4 & 0x3f;
-  if (((param_3 & 0xff) < 0xf0) && ((param_1) != 0)) {
-    
-    if (0xf0 < ((param_3) + (param_1))) {
-      param_1 = 0xf0 - param_3;
-    }
-    local_40 = (param_4) >> 6;
-    bVar5 = test_1 = 6; /* removing test_1 seems more "correct" */
-    local_38 = (param_2 & 0xffff) << 7;
-    do {
-      if (bVar5 == test_1) {
-        bVar1 = 0;
-        sVar4 = 100;
-      }
-      else
-      {
-        sVar4 = 0;
-        bVar1 = bVar5;
-      }
-      
-      if ((bVar1 != 5) || (sVar4 = -100, uVar7 != 0)) {
-        iVar2 = PS1_FondImagesCount;
-        iVar6 = bVar1 * 0x40 - uVar7;
-        local_48.x = iVar6 + (PS1_CurrentDisplay->drawing_environment).clip.x + sVar4;
-        local_48.y = (PS1_CurrentDisplay->drawing_environment).clip.y + param_3;
-        local_48.w = 0x40;
-        local_48.h = param_1;
+    u8 bVar1;
+    int iVar2;
+    uint uVar3;
+    short sVar4;
+    u8 bVar5;
+    int iVar6;
+    u8 uVar7;
+    RECT local_48;
+    uint local_40;
+    int local_38;
+    int local_30;
+    s16 test_1;
+    int new_var;
+
+    param_4 &= 0xffff;
+    uVar7 = param_4 & 0x3f;
+    if (param_3 < 0xf0 && param_1 != 0)
+    {
+        if (0xf0 < param_3 + param_1)
+            param_1 = 0xf0 - param_3;
         
-        LoadImage(&local_48,(u_long *)(PS1_FondImages[(int)(local_40 + bVar1) % iVar2] + local_38));
-        if (bVar1 == 0) {
-          local_48.x = (PS1_CurrentDisplay->drawing_environment).clip.x + sVar4;
-          local_48.w = 0x40 - uVar7;
-          MoveImage(&local_48,(PS1_CurrentDisplay->drawing_environment).clip.x,local_48.y)
-          ;
+        local_40 = (param_4) >> 6;
+        bVar5 = test_1 = 6;
+        local_38 = (param_2 & 0xffff) << 7;
+        while (bVar5 != 0) {
+            new_var = 5;
+            if (bVar5 == test_1) {
+                bVar1 = 0;
+                sVar4 = 100;
+            }
+            else
+            {
+                sVar4 = 0;
+                bVar1 = bVar5;
+            }
+            
+            if (bVar1 == new_var)
+            {
+                sVar4 = -100;
+            }
+            
+            if ((bVar1 != new_var) || uVar7 != 0)
+            {
+                iVar2 = PS1_FondImagesCount;
+                iVar6 = bVar1 * 0x40 - uVar7;
+                local_48.x = iVar6 + (PS1_CurrentDisplay->drawing_environment).clip.x + sVar4;
+                local_48.y = (PS1_CurrentDisplay->drawing_environment).clip.y + param_3;
+                local_48.w = 0x40;
+                local_48.h = param_1;
+                
+                LoadImage(&local_48,(u_long *)(PS1_FondImages[(int)((local_40) + bVar1) % iVar2] + local_38));
+                if (bVar1 == 0)
+                {
+                    local_48.x = (PS1_CurrentDisplay->drawing_environment).clip.x + sVar4;
+                    local_48.w = 0x40 - uVar7;
+                    MoveImage(&local_48,(PS1_CurrentDisplay->drawing_environment).clip.x,local_48.y);
+                }
+                if (sVar4 == -100)
+                {
+                    local_48.w = (short)uVar7;
+                    MoveImage(&local_48,iVar6 + (PS1_CurrentDisplay->drawing_environment).clip.x,
+                            local_48.y);
+                }
+            }
+            bVar5 = bVar5 - 1;
         }
-        if (sVar4 == -100) {
-          local_48.w = (short)uVar7;
-          MoveImage(&local_48,iVar6 + (PS1_CurrentDisplay->drawing_environment).clip.x,
-                    local_48.y);
-        }
-      }
-      bVar5 = bVar5 - 1;
-    } while (bVar5 != 0);
-  }
-  return;
+    }
 }
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_801366ac);*/
 
 void FUN_801366ac(void)
@@ -715,6 +724,7 @@ block_95:
     }
 }
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_DisplayFondSprites);*/
 
 void PS1_DisplayFondSprites(void)
@@ -839,7 +849,7 @@ void PS1_DisplayFondSprites(void)
   return;
 }
 
-/* close */
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", DRAW_MAP);*/
 
 void DRAW_MAP(void)
@@ -903,7 +913,10 @@ void DRAW_MAP(void)
   return;
 }
 
-/* completely off and don't feel like working on this rn */
+/*
+score of ???
+completely off and don't feel like working on this rn
+*/
 /*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80137cc8);*/
 
 extern u8 D_80127734[56];
@@ -1177,7 +1190,7 @@ void FUN_80137cc8(s32 param_1, s16 *param_2)
   return;
 }
 
-/* close */
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80138718);*/
 
 void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
@@ -1391,6 +1404,7 @@ void FUN_80138b84(s16 param_1, s16 *param_2, s16 param_3, s16 param_4)
     }
 }
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_DisplayWorldMapBg2);*/
 
 void PS1_DisplayWorldMapBg2(s16 param_1,s16 param_2,short param_3,short param_4,short param_5,short param_6)
