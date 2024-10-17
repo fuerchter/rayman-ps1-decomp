@@ -4,7 +4,33 @@ extern u8 D_801E4D48;
 extern u8 first_boss_meet;
 extern RaymanEvents SauveRayEvts;
 
-INCLUDE_ASM("asm/nonmatchings/unknown/2539C", Deter_Option_Caract);
+/* 2539C 80149B9C -O2 -msoft-float */
+void Deter_Option_Caract(u8 *str, s16 param_2, u32 param_3)
+{
+    u8 i;
+    s16 unk_1 = param_3;
+    
+    if (unk_1 == 0xff)
+        for (i = 0; str[i] != '\0'; i++)
+            if (str[i] == '$')
+                unk_1 = i;
+                
+    switch (param_2) /* see also menu_AA8AC.c */
+    {
+    case 0:
+        str[unk_1] = 0x23;
+        break;
+    case 1:
+        str[unk_1] = 0x2A;
+        break;
+    case 2:
+        str[unk_1] = 0x5E;
+        break;
+    case 3:
+        str[unk_1] = 0xF8;
+        break;
+    }
+}
 
 /* 25498 80149C98 -O2 -msoft-float */
 void SwapAB(s16 *param_1, s16 *param_2)

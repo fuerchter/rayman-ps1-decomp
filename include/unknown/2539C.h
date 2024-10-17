@@ -4,7 +4,7 @@
 #include "common.h"
 #include "menu/menu_7F4B4.h"
 
-void Deter_Option_Caract(u8 *param_1, s16 param_2, u32 param_3);
+void Deter_Option_Caract(u8 *str, s16 param_2, u32 param_3);
 void SwapAB(s16 *param_1, s16 *param_2);
 void Bresenham(void (*param_1)(s16, s16), s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6, s16 param_7);
 void LOAD_CONFIG(void);

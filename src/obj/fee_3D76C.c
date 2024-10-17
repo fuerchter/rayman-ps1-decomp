@@ -168,7 +168,7 @@ void init_fee(void)
           __builtin_memcpy(text_to_display[7].text, s_now_you_can_use_your_hair_8012aa78, sizeof(s_now_you_can_use_your_hair_8012aa78));
           __builtin_memcpy(text_to_display[8].text, s_as_a_helicopter_8012aa94, sizeof(s_as_a_helicopter_8012aa94));
           __builtin_memcpy(text_to_display[9].text, s_to_do_it_press__twice_8012aaa8, sizeof(s_to_do_it_press__twice_8012aaa8));
-          Deter_Option_Caract(&text_to_display[9].text,options_jeu.Jump,0x10);
+          Deter_Option_Caract(&text_to_display[9].text, options_jeu.Jump, 0x10);
           break;
       }
       break;
