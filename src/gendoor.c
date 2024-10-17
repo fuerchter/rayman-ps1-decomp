@@ -84,7 +84,30 @@ s16 FUN_80156710(Obj *obj)
 
 INCLUDE_ASM("asm/nonmatchings/gendoor", correct_gendoor_link);
 
-INCLUDE_ASM("asm/nonmatchings/gendoor", suppressFromLinkList);
+/* 321C0 801569C0 -O2 -msoft-float */
+void suppressFromLinkList(Obj *obj)
+{
+    s16 unk_1;
+    s16 unk_2;
+    s16 unk_3;
+
+    unk_2 = obj->id;
+    
+    unk_1 = unk_2;
+    unk_2 = link_init[unk_1];
+    while (unk_2 != obj->id)
+    {
+        unk_1 = unk_2;
+        unk_2 = link_init[unk_1];
+    }
+    
+    link_init[unk_1] = link_init[obj->id];
+    unk_3 = link_init[unk_1];
+    if (unk_3 == unk_1)
+        level.objects[unk_3].flags &= ~FLG(OBJ_LINKED);
+    link_init[obj->id] = obj->id;
+    obj->flags &= ~FLG(OBJ_LINKED);
+}
 
 /* 32298 80156A98 -O2 -msoft-float */
 void correct_link(void)

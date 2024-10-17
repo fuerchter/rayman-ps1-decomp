@@ -61,30 +61,3 @@ void correct_gendoor_link(void)
         } while (i < nb_objs);
     }
 }
-
-/* matches, but unknowns, slight jank */
-/*INCLUDE_ASM("asm/nonmatchings/gendoor", suppressFromLinkList);*/
-
-void suppressFromLinkList(Obj *obj)
-{
-    s16 var_a0;
-    s16 var_v0;
-    u8 temp_a1;
-
-    var_v0 = obj->id;
-    /* why does this not work as do{}while? */
-    var_a0 = var_v0;
-    var_v0 = link_init[var_a0];
-    while (var_v0 != obj->id)
-    {
-        var_a0 = var_v0;
-        var_v0 = link_init[var_a0];
-    }
-    
-    link_init[var_a0] = link_init[obj->id];
-    temp_a1 = link_init[var_a0];
-    if (temp_a1 == var_a0)
-        level.objects[temp_a1].flags &= ~FLG(OBJ_LINKED);
-    link_init[obj->id] = obj->id;
-    obj->flags &= ~FLG(OBJ_LINKED);
-}
