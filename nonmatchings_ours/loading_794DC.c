@@ -56,7 +56,7 @@ s16 load_level(void)
 
 s16 FUN_8019ebc0(void)
 {
-    if (PS1_ShouldClearPassword != false)
+    if (PS1_ShouldClearPassword)
     {
         switch (Etape_History)
         {
