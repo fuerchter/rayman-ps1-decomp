@@ -7,9 +7,7 @@
 #include "common/display.h"
 #include "common/obj.h"
 #include "common/rayconst.h"
-#include "draw/draw_548CC.h" /* TODO: circular? requires forward declaration... */
-
-typedef struct BackgroundPosition BackgroundPosition;
+#include "draw/draw_548CC.h" /* TODO: circular? */
 
 /* .data */
 extern u16 D_801C71C0[5];
@@ -27,7 +25,7 @@ extern u8 D_801CEF6C[8];
 extern u8 PS1_FondSpritesIsSemiTrans[16];
 extern u8 PS1_FondSpritesABR[16];
 extern u8 NbSprite;
-extern BackgroundPosition *PS1_BackgroundPositions;
+extern DVECTOR *PS1_BackgroundPositions;
 extern Sprite *PS1_BackgroundSprites;
 extern u8 PS1_FondType;
 extern u8 PS1_Tile_clut_y_offs[944]; /* see also loading_DA64.c */

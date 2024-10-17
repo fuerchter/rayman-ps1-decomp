@@ -20,8 +20,8 @@ void PS1_LoadFondSprites(void)
     u8 i;
     u8 bg_id;
 
-    PS1_BackgroundPositions = PS1_LevelBGBlock->sprite_positions;
-    PS1_BackgroundSprites = PS1_LevelBGBlock->sprites;
+    PS1_BackgroundPositions = &PS1_LevelBGBlock->sprite_positions[0];
+    PS1_BackgroundSprites = &PS1_LevelBGBlock->sprites[0];
     if (PS1_FondType == 6 || PS1_FondType == 7)
     {
         dr_env_0 = &PS1_Displays[0].map_drawing_environment_primitives[9];
@@ -84,7 +84,7 @@ INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFond);
 void FUN_80135ab0(s16 param_1, s16 *param_2)
 {
     u8 i;
-    BackgroundPosition *cur_pos;
+    DVECTOR *cur_pos;
     DR_ENV *cur_dr_env;
     SPRT *cur_sprt;
     Sprite *cur_bg_sprite;
@@ -100,8 +100,8 @@ void FUN_80135ab0(s16 param_1, s16 *param_2)
     while (i < NbSprite)
     {
         unk_1 = param_2[cur_bg_sprite->id - 1];
-        unk_x_1 = cur_pos->x - param_1;
-        unk_y_1 = cur_pos->y - (unk_1 % PS1_FondHeight);
+        unk_x_1 = cur_pos->vx - param_1;
+        unk_y_1 = cur_pos->vy - (unk_1 % PS1_FondHeight);
         if (PS1_BandeBackCount < cur_bg_sprite->id)
             PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[8];
         
@@ -188,7 +188,7 @@ void allume_vitraux(u8 (*param_1)[5])
 void FUN_80138360(u8 *vit_clig)
 {
     u8 i;
-    BackgroundPosition *bg_pos;
+    DVECTOR *bg_pos;
     Sprite *bg_sprite;
     DR_ENV *dr_env = &PS1_CurrentDisplay->map_drawing_environment_primitives[9];
 
@@ -209,8 +209,8 @@ void FUN_80138360(u8 *vit_clig)
             (PS1_CurrentDisplay->sprites + D_801E4BC8)->w = bg_sprite->width;
             (PS1_CurrentDisplay->sprites + D_801E4BC8)->h = bg_sprite->height;
             (PS1_CurrentDisplay->sprites + D_801E4BC8)->clut = bg_sprite->clut;
-            (PS1_CurrentDisplay->sprites + D_801E4BC8)->x0 = bg_pos->x;
-            (PS1_CurrentDisplay->sprites + D_801E4BC8)->y0 = bg_pos->y;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->x0 = bg_pos->vx;
+            (PS1_CurrentDisplay->sprites + D_801E4BC8)->y0 = bg_pos->vy;
             FUN_8017b260((s16) bg_sprite->tpage);
             AddPrim(PS1_CurrentDisplay->ordering_table, (PS1_CurrentDisplay->sprites + D_801E4BC8));
             D_801E4BC8++;
@@ -241,7 +241,7 @@ void FUN_80138b84(s16 in_h_1, s16 *param_2, s16 in_h_2, s16 in_w_1)
 {
     u8 unk_1[8];
     u8 i;
-    BackgroundPosition *cur_pos;
+    DVECTOR *cur_pos;
     DR_ENV *cur_dr_env;
     SPRT *cur_sprt;
     Sprite *cur_bg_sprite;
@@ -294,8 +294,8 @@ void FUN_80138b84(s16 in_h_1, s16 *param_2, s16 in_h_2, s16 in_w_1)
             unk_h_1 = in_h_1;
         }
         unk_3 = unk_2 % unk_w_1;
-        unk_x_1 = cur_pos->x - unk_3;
-        unk_y_1 = cur_pos->y - unk_h_1;
+        unk_x_1 = cur_pos->vx - unk_3;
+        unk_y_1 = cur_pos->vy - unk_h_1;
         PS1_CurrentDisplay->drawing_environment.tpage = cur_bg_sprite->tpage;
         SetDrawEnv(cur_dr_env, &PS1_CurrentDisplay->drawing_environment);
         AddPrim(PS1_PrevPrim, cur_dr_env);

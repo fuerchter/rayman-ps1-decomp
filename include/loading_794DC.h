@@ -11,15 +11,9 @@
 #include "menu/menu_6A3BC.h"
 #include "password.h"
 
-struct BackgroundPosition
-{
-    s16 x;
-    s16 y;
-};
-
 typedef struct BackgroundData
 {
-    struct BackgroundPosition sprite_positions[16];
+    DVECTOR sprite_positions[16];
     Sprite sprites[16];
 } BackgroundData;
 
