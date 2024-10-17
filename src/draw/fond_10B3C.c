@@ -236,7 +236,97 @@ void FUN_80138360(u8 *vit_clig)
 
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80138718);
 
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80138b84);
+/* 14384 80138B84 -O2 -msoft-float */
+void FUN_80138b84(s16 in_h_1, s16 *param_2, s16 in_h_2, s16 in_w_1)
+{
+    u8 unk_1[8];
+    u8 i;
+    BackgroundPosition *cur_pos;
+    DR_ENV *cur_dr_env;
+    SPRT *cur_sprt;
+    Sprite *cur_bg_sprite;
+    u8 bg_id;
+    s16 unk_2;
+    s16 unk_w_1; s16 unk_h_1;
+    s16 unk_3;
+    s16 unk_x_1; s16 unk_y_1;
+
+    __builtin_memcpy(unk_1, D_801CEF6C, sizeof(D_801CEF6C));
+    i = 0;
+    cur_pos = &PS1_BackgroundPositions[i];
+    PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[i];
+    cur_dr_env = &PS1_CurrentDisplay->map_drawing_environment_primitives[9];
+    cur_sprt = &PS1_CurrentDisplay->sprites[i];
+    cur_bg_sprite = &PS1_BackgroundSprites[i];
+    while (i < NbSprite)
+    {
+        bg_id = cur_bg_sprite->id - 1;
+        unk_2 = param_2[bg_id];
+        SetSemiTrans(cur_sprt, PS1_FondSpritesIsSemiTrans[bg_id]);
+        SetShadeTex(cur_sprt, false);
+        cur_sprt->r0 = D_801CEF54[bg_id];
+        cur_sprt->g0 = D_801CEF54[bg_id];
+        cur_sprt->b0 = D_801CEF54[bg_id];
+        if (unk_1[bg_id] == 0 && (map_time & 129) == 0)
+        {
+            if (D_801CEF54[bg_id] == D_801CEF5C[bg_id])
+            {
+                D_801CEF5C[bg_id] = rand() & 129;
+                D_801CEF64[bg_id] =
+                    D_801CEF5C[bg_id] > D_801CEF54[bg_id] ? 1 : 0xFF;
+            }
+            else
+                D_801CEF54[bg_id] += D_801CEF64[bg_id];
+            
+            unk_1[bg_id] = 1;
+        }
+        FUN_8017b260((s16) cur_bg_sprite->tpage);
+        cur_bg_sprite->tpage = GetTPage(1, PS1_FondSpritesABR[bg_id], PS1_TPage_x, PS1_TPage_y);
+        if (bg_id >= PS1_BandeBackCount)
+        {
+            unk_w_1 = in_w_1;
+            unk_h_1 = in_h_2;
+            PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[8];
+        }
+        else
+        {
+            unk_w_1 = PS1_FondWidth;
+            unk_h_1 = in_h_1;
+        }
+        unk_3 = unk_2 % unk_w_1;
+        unk_x_1 = cur_pos->x - unk_3;
+        unk_y_1 = cur_pos->y - unk_h_1;
+        PS1_CurrentDisplay->drawing_environment.tpage = cur_bg_sprite->tpage;
+        SetDrawEnv(cur_dr_env, &PS1_CurrentDisplay->drawing_environment);
+        AddPrim(PS1_PrevPrim, cur_dr_env);
+        PS1_PrevPrim = cur_dr_env;
+        cur_dr_env++;
+
+        cur_sprt->u0 = cur_bg_sprite->page_x;
+        cur_sprt->v0 = cur_bg_sprite->page_y;
+        cur_sprt->w = cur_bg_sprite->width;
+        cur_sprt->h = cur_bg_sprite->height;
+        cur_sprt->clut = cur_bg_sprite->clut;
+        cur_sprt->x0 = unk_x_1;
+        cur_sprt->y0 = unk_y_1;
+        AddPrim(PS1_PrevPrim, cur_sprt);
+        PS1_PrevPrim = cur_sprt;
+        cur_sprt++;
+        D_801E4BC8++;
+        if (PS1_FondWidth < unk_3 + SCREEN_WIDTH)
+        {
+            __builtin_memcpy(cur_sprt, cur_sprt - 1, sizeof(SPRT));
+            cur_sprt->x0 += unk_w_1;
+            AddPrim(PS1_PrevPrim, cur_sprt);
+            PS1_PrevPrim = cur_sprt;
+            cur_sprt++;
+            D_801E4BC8++;
+        }
+        i++;
+        cur_pos++;
+        cur_bg_sprite++;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_DisplayWorldMapBg2);
 

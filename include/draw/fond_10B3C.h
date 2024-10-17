@@ -70,7 +70,7 @@ void FUN_80137cc8(s32 param_1, s16 *param_2); /* param_2 is pointer? see PS1_Dis
 void allume_vitraux(u8 (*param_1) [5]);
 void FUN_80138360(u8 *vit_clig);
 void FUN_80138718(u8 param_1);
-void FUN_80138b84(s16 param_1, s16 *param_2, s16 param_3, s16 param_4); /* param_2 is pointer? see caller */
+void FUN_80138b84(s16 in_h_1, s16 *param_2, s16 in_h_2, s16 in_w_1);
 void PS1_DisplayWorldMapBg2(u16 param_1, u16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6);
 void FUN_801392c8(void);
 void FUN_801392d0(void);
