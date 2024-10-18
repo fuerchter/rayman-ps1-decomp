@@ -1196,12 +1196,12 @@ void FUN_80137cc8(s32 param_1, s16 *param_2)
   return;
 }
 
-/* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80138718);*/
+/* score of 425 */
+/*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80138718);*/
 
 void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
 {
-    BackgroundPosition *temp_s1;
+    DVECTOR *temp_s1;
     DR_ENV *var_s4;
     Sprite *temp_s2;
     s16 temp_s1_2;
@@ -1222,7 +1222,7 @@ void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
     SPRT *test_1;
 
     var_s3 = 0;
-    var_s4 = PS1_CurrentDisplay->field6_0x2b0;
+    var_s4 = &PS1_CurrentDisplay->map_drawing_environment_primitives[9];
     if (NbSprite != 0)
     {
         do
@@ -1238,8 +1238,8 @@ void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
                 var_s0 = 0;
             }
             temp_hi = xmap / (D_801F84E0 + 2) % PS1_FondWidth;
-            temp_s5 = temp_s1->y;
-            temp_s1_2 = temp_s1->x - temp_hi;
+            temp_s5 = temp_s1->vy;
+            temp_s1_2 = temp_s1->vx - temp_hi;
             temp_s6 = temp_hi;
             SetSemiTrans(&PS1_CurrentDisplay->sprites[D_801E4BC8], 1);
             
@@ -1294,75 +1294,69 @@ void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
     }
 }
 
-/* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_DisplayWorldMapBg2);*/
+/* score of 60 */
+/*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_DisplayWorldMapBg2);*/
 
 void PS1_DisplayWorldMapBg2(s16 param_1,s16 param_2,short param_3,short param_4,short param_5,short param_6)
 {
-  short sVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  uint uVar6;
-  int iVar7;
-  short sVar8;
-  u8 uVar9;
-  u8 uVar10;
-  RECT local_58;
-  ushort local_50;
-  ushort local_48;
-  short local_40;
-  short local_38;
-  short local_30;
-  
-  uVar10 = (param_6 / 64) + 1;
-  if ((uVar10) != 0) {
-    iVar4 = param_1;
-    do {
-      sVar8 = 0;
-      
-      if ((uVar10) == (param_6 / 64) + 1U) {
-        uVar9 = 0;
-        sVar8 = 0x40;
-      }
-      else
-      {
-        uVar9 = uVar10;
-      }
+    short sVar1;
+    int iVar2;
+    int iVar3;
+    int iVar4;
+    int iVar5;
+    uint uVar6;
+    int iVar7;
+    short var_s3;
+    u8 uVar9;
+    u8 uVar10;
+    RECT local_58;
+    ushort local_50;
+    ushort local_48;
+    short local_40;
+    short local_38;
+    short local_30;
+    s32 test_1;
+
+    uVar10 = (param_6 / 64) + 1;
+    while ((uVar10) != 0) {
+        iVar4 = param_1;
+        var_s3 = 0;
         
-      iVar2 = param_6 / 64;
-      if ((uVar9 != (iVar2)) || (sVar8 = -0x40, (param_1 & 0x3f) != 0)) {
-        iVar2 = iVar4 / 64;
-        iVar7 = uVar9 * 0x40 - ((s16) (iVar4 + (iVar2) * -0x40));
-        local_58.x = (PS1_CurrentDisplay->drawing_environment).clip.x + sVar8 + param_3 + iVar7;
-        local_58.y = (PS1_CurrentDisplay->drawing_environment).clip.y + param_4;
-        local_58.w = 0x40;
-        local_58.h = param_5;
-        iVar2 = iVar4 / 64;
-        iVar2 = uVar9 + (iVar2);
-        iVar5 = PS1_FondImagesCount;
+        if ((uVar10) == (param_6 / 64) + 1U) {
+            uVar9 = 0;
+            var_s3 = 0x40;
+        }
+        else
+        {
+            uVar9 = uVar10;
+        }
         
-        LoadImage(&local_58,
-                  &PS1_FondImages[iVar2 % iVar5][((param_2 << 0x10) >> 9)]);
-        if (uVar9 == 0) {
-          local_58.x = (PS1_CurrentDisplay->drawing_environment).clip.x + sVar8 + param_3;
-          iVar2 = iVar4 / 64;
-          local_58.w = 0x40 - (param_1 + (iVar2) * -0x40);
-          MoveImage(&local_58,(PS1_CurrentDisplay->drawing_environment).clip.x + param_3,
-                    local_58.y);
+        if ((uVar9 != (param_6 / 64)) || (var_s3 = -0x40, (param_1 & 0x3f) != 0)) {
+            iVar7 = uVar9 * 0x40 - ((s16) (iVar4 + (iVar4 / 64) * -0x40));
+            local_58.x = iVar7 + (PS1_CurrentDisplay->drawing_environment).clip.x + param_3 + var_s3;
+            local_58.y = (PS1_CurrentDisplay->drawing_environment).clip.y + param_4;
+            local_58.w = 0x40;
+            local_58.h = param_5;
+            iVar2 = uVar9 + (iVar4 / 64);
+            iVar5 = PS1_FondImagesCount;
+            
+            LoadImage(&local_58,
+                    &PS1_FondImages[iVar2 % iVar5][((param_2 << 7))]);
+            if (uVar9 == 0) {
+                local_58.x = (PS1_CurrentDisplay->drawing_environment).clip.x + param_3 + var_s3;
+                local_58.w = 0x40 - (iVar4 + (iVar4 / 64) * -0x40);
+                MoveImage(&local_58,(PS1_CurrentDisplay->drawing_environment).clip.x + param_3,
+                        local_58.y);
+            }
+            if ((uVar9) == (param_6 / 64)) {
+                local_58.x = iVar7 + (PS1_CurrentDisplay->drawing_environment).clip.x + var_s3 + param_3;
+                local_58.w = param_6 - iVar7;
+                MoveImage(&local_58,
+                        iVar7 + (PS1_CurrentDisplay->drawing_environment).clip.x + param_3,
+                        local_58.y);
+            }
         }
-        if ((uVar9) == (param_6 / 64)) {
-          local_58.x = (PS1_CurrentDisplay->drawing_environment).clip.x + param_3 + sVar8 + iVar7;
-          local_58.w = param_6 - iVar7;
-          MoveImage(&local_58,
-                    iVar7 + (PS1_CurrentDisplay->drawing_environment).clip.x + param_3,
-                    local_58.y);
-        }
-      }
-      uVar10 = uVar10 - 1;
-    } while ((uVar10) != 0);
-  }
-  DrawSync(0);
-  return;
+        uVar10 = uVar10 - 1;
+    }
+    DrawSync(0);
 }
