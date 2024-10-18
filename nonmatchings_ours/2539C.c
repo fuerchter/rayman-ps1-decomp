@@ -1,5 +1,6 @@
 #include "unknown/2539C.h"
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/unknown/2539C", Bresenham);*/
 
 void Bresenham(void (*param_1)(s16, s16), s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6, s16 param_7)

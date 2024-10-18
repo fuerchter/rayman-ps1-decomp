@@ -1,5 +1,6 @@
 #include "draw/draw_548CC.h"
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/draw/draw_548CC", Display_and_free_luciole);*/
 
 void Display_and_free_luciole(void)

@@ -144,7 +144,10 @@ s16 FUN_80166d88(s16 index)
 }
 
 
-/* attempts: 3 */
+/*
+score of ???
+attempts: 3
+*/
 /*INCLUDE_ASM("asm/nonmatchings/sound", PlaySnd);*/
 
 /* 42694 80166E94 -O2 -msoft-float */

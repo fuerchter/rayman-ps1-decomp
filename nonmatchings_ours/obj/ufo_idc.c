@@ -1,5 +1,6 @@
 #include "obj/ufo_idc.h"
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/obj/ufo_idc", DO_MOVING_WITH_INDICATOR_COMMAND);*/
 
 void DO_MOVING_WITH_INDICATOR_COMMAND(Obj *ufo_idc_obj)

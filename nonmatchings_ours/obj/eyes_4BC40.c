@@ -1,6 +1,9 @@
 #include "obj/eyes_4BC40.h"
 
-/* dunno... see DO_BAT_FLASH */
+/*
+score of ???
+dunno... see DO_BAT_FLASH
+*/
 /*INCLUDE_ASM("asm/nonmatchings/obj/eyes_4BC40", DO_ROLL_EYES);*/
 
 void DO_ROLL_EYES(Obj *obj)

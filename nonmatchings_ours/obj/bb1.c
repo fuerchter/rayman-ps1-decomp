@@ -1,6 +1,6 @@
 #include "obj/bb1.h"
 
-/* still very rough */
+/* score of ??? */
 /* 5A2A4 8017EAA4 -O2 -msoft-float */
 /*INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT2_COMMAND);*/
 

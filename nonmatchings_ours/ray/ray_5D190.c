@@ -530,8 +530,8 @@ void ray_inertia_speed(u8 param_1, s16 param_2, s16 prev_speed_x, s16 param_4)
 }
 
 /*
+score of (m2c: 435, m2c gotos: 1350)
 attempts: 4
-m2c: 435, m2c gotos: 1350
 */
 /*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_SWIP);*/
 

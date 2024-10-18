@@ -1,6 +1,9 @@
 #include "moteur_init_end.h"
 
-/* idk what it wants from me in the save1.link_init loop */
+/*
+score of ???
+idk what it wants from me in the save1.link_init loop
+*/
 /*INCLUDE_ASM("asm/nonmatchings/moteur_init_end", restore_gendoor_link);*/
 
 void restore_gendoor_link(void)

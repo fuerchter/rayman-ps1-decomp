@@ -2,6 +2,7 @@
 
 /*INCLUDE_ASM("asm/nonmatchings/menu/menu_82008", FUN_801a6808);*/
 /*
+score of ???
 INIT_OPTIONS_CHOICE on android?
 
 generates division checks if:

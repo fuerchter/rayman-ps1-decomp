@@ -1,6 +1,9 @@
 #include "fond_5BD8C.h"
 
-/* strange diff to target. functionally the same though */
+/*
+score of ???
+strange diff to target. functionally the same though
+*/
 /*INCLUDE_ASM("asm/nonmatchings/fond_5BD8C", FUN_8018058c);*/
 
 void FUN_8018058c(u32 *param_1, s32 param_2, s32 param_3, s16 x, s16 y, s16 h, s16 w)
@@ -56,6 +59,7 @@ void FUN_8018058c(u32 *param_1, s32 param_2, s32 param_3, s16 x, s16 y, s16 h, s
     }
 }
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/fond_5BD8C", FUN_80180804);*/
 
 void FUN_80180804(u32 *param_1, s32 param_2, s32 param_3, s16 x, s16 y, s16 h, s16 w)

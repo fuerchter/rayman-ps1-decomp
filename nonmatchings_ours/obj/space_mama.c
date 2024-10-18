@@ -707,6 +707,7 @@ void fitSaveCurrentAction(Obj *obj)
     saveBossEncounter = bossEncounter;
 }
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/obj/space_mama", doMereDenisHit);*/
 
 void doMereDenisHit(Obj *obj, s16 sprite)

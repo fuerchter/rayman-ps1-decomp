@@ -1,6 +1,9 @@
 #include "obj/batteur_fou.h"
 
-/* similar with OBJ_ACTIVE loop in DO_PI_EXPLOSION? */
+/*
+score of ???
+similar with OBJ_ACTIVE loop in DO_PI_EXPLOSION?
+*/
 /*INCLUDE_ASM("asm/nonmatchings/obj/batteur_fou", bat_init_scroll);*/
 
 void bat_init_scroll(Obj *obj)

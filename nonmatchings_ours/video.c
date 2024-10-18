@@ -1,5 +1,6 @@
 #include "video.h"
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/video", FUN_80132980);*/
 
 void FUN_80132980(void)
@@ -26,6 +27,7 @@ void FUN_80132980(void)
     }
 }
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/video", PS1_PlayVideoFile);*/
 
 void PS1_PlayVideoFile(s16 video)
@@ -106,6 +108,7 @@ void PS1_PlayVideoFile(s16 video)
   return;
 }
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/video", FUN_80132ea0);*/
 
 void FUN_80132ea0(u32 *param_1, s16 video)
@@ -127,6 +130,7 @@ void FUN_80132ea0(u32 *param_1, s16 video)
     StFreeRing(usr_dat);
 }
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/video", FUN_80132f8c);*/
 
 void FUN_80132f8c(void)

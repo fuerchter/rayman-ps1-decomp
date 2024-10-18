@@ -1,5 +1,6 @@
 #include "obj/superhelico_init.h"
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/obj/superhelico_init", allocateSupHelico);*/
 
 /* 3EECC 801636CC -O2 */

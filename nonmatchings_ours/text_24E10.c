@@ -1,5 +1,6 @@
 #include "text_24E10.h"
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/text_24E10", INIT_TXT_BOX);*/
 
 void INIT_TXT_BOX(TextToDisplay *param_1)

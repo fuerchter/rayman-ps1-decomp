@@ -1,5 +1,6 @@
 #include "obj/mite.h"
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MIT_ATTAK);*/
 
 void DO_MIT_ATTAK(Obj *obj)

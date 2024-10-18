@@ -1,5 +1,6 @@
 #include "obj/stonebomb.h"
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", DO_TIR);*/
 
 void DO_TIR(Obj *param_1)

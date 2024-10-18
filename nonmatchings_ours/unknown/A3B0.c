@@ -1,5 +1,6 @@
 #include "unknown/A3B0.h"
 
+/* score of ??? */
 /*INCLUDE_ASM("asm/nonmatchings/unknown/A3B0", FUN_8012eda4);*/
 
 s32 FUN_8012eda4(s16 param_1, s16 param_2)
