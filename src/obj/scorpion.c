@@ -153,9 +153,109 @@ void allocate_8_petits_rayons(s16 x, s16 y)
   }
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", do_sko_rayon);
+/* 6CBF4 801913F4 -O2 -msoft-float */
+void do_sko_rayon(void)
+{
+    Obj *ecroule_obj;
+    s16 diff_x; s16 diff_y;
+    s16 dist;
+    s16 unk_1;
 
-INCLUDE_ASM("asm/nonmatchings/obj/scorpion", do_sko_rayon2);
+    if (sko_rayon_on != 0)
+    {
+        D_801E4E10 = 3;
+        sko_rayon_on--;
+        ecroule_obj = &level.objects[sko_ecroule_plat];
+
+        diff_y = sko_final_y - sko_rayon_y;
+        diff_x = sko_final_x - sko_rayon_x;
+        dist = __builtin_abs(diff_x) + __builtin_abs(diff_y);
+        if (dist < 8)
+        {
+            set_main_etat(ecroule_obj, 2);
+            set_sub_etat(ecroule_obj, 2);
+        }
+        if (dist > 0)
+        {
+            diff_x = ashl16(diff_x, D_801E4E10) / dist;
+            diff_y = ashl16(diff_y, D_801E4E10) / dist;
+        }
+
+        unk_1 = horloge[4] == 0 && sko_rayon_on < 50;
+        if (unk_1)
+        {
+            sko_rayon_dx += SGN(diff_x - sko_rayon_dx);
+            sko_rayon_dy += SGN(diff_y - sko_rayon_dy);
+        }
+        sko_rayon_x += sko_rayon_dx;
+        sko_rayon_y += sko_rayon_dy;
+        
+        if (horloge[3] == 0 && dist != 0)
+            allocate_rayon(sko_rayon_x, sko_rayon_y);
+    }
+}
+
+/* 6CE8C 8019168C -O2 -msoft-float */
+void do_sko_rayon2(void)
+{
+    Obj *poing_obj;
+    s16 horl_zero;
+    s16 diff_x; s16 diff_y;
+    s16 dist;
+
+    if (sko_rayon_on != 0)
+    {
+        sko_rayon_on--;
+        if (poing.is_active)
+        {
+            D_801E4E10 = 3;
+            poing_obj = &level.objects[poing_obj_id];
+            sko_final_x = poing_obj->x_pos + poing_obj->offset_bx - 104;
+            sko_final_y = poing_obj->y_pos + poing_obj->offset_hy - 120;
+            horl_zero = horloge[2] == 0;
+        }
+        else
+        {
+            D_801E4E10 = 3;
+            sko_final_x = ray.x_pos + ray.offset_bx - 120;
+            sko_final_y = ray.y_pos + ray.offset_by - 140;
+            horl_zero = horloge[8] == 0;
+        }
+
+        diff_y = sko_final_y - sko_rayon_y;
+        diff_x = sko_final_x - sko_rayon_x;
+        dist = __builtin_abs(diff_x) + __builtin_abs(diff_y);
+        if (dist > 0)
+        {
+            diff_x = ashl16(diff_x, (u32) D_801E4E10) / dist;
+            diff_y = ashl16(diff_y, (u32) D_801E4E10) / dist;
+        }
+
+        if (horl_zero)
+        {
+            sko_rayon_dx += SGN(diff_x - sko_rayon_dx);
+            sko_rayon_dy += SGN(diff_y - sko_rayon_dy);
+        }
+        sko_rayon_x += sko_rayon_dx;
+        sko_rayon_y += sko_rayon_dy;
+        if (sko_rayon_x < -150)
+        {
+            sko_rayon_dx = -sko_rayon_dx;
+            sko_rayon_x += sko_rayon_dx;
+            sko_rayon_x += sko_rayon_dx;
+        }
+
+        horl_zero = horloge[3] == 0;
+        if (horl_zero && dist != 0)
+            allocate_rayon(sko_rayon_x, sko_rayon_y);
+        
+        if (sko_rayon_on == 0)
+        {
+            sko_rayon_x = -32000;
+            sko_rayon_y = -32000;
+        }
+    }
+}
 
 /* 6D1D0 801919D0 -O2 -msoft-float */
 void start_sko_rayon(s16 obj_x, s16 obj_y)
