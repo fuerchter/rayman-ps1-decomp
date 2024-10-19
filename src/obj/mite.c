@@ -155,7 +155,7 @@ void fix_mit_Xspeed(Obj *obj, s16 param_2)
 INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MIT_ATTAK);
 
 /* 4B154 8016F954 -O2 -msoft-float */
-s32 IS_MIT_PAF(Obj *obj)
+u8 IS_MIT_PAF(Obj *obj)
 {
     s16 unk_x_1;
     s16 unk_x_2;

@@ -212,196 +212,139 @@ void DO_MIT_ATTAK(Obj *obj)
     }
 }
 
-/* matches, but gotos and other cleanup */
+/* matches, but new_var */
 /*INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MIT_COMMAND);*/
 
 void DO_MIT_COMMAND(Obj *obj)
 {
-    s16 sp10;
-    Obj *temp_s3_2;
-    ObjState *temp_s4;
-    s16 temp_s3_1;
-    s16 temp_v0;
-    s16 temp_v1_2;
-    s16 var_v0_3;
-    s16 var_v1;
-    s32 temp_s0;
-    s16 temp_s2;
-    s32 var_v0_2;
-    u32 var_v0;
-    u8 temp_v1;
-    u8 temp_v1_3;
-    u8 temp_v1_4;
-    u8 temp_v1_5;
-    u8 temp_v1_6;
-    int new_var;
-
-    temp_s4 = &obj->eta[obj->main_etat][obj->sub_etat];
-    if (!(IS_MIT_PAF(obj) & 0xFF))
+    s16 diff_x_1;
+    s16 diff_x_2;
+    s16 diff_y_1;
+    Obj *poing_obj;
+    s16 esquive_x;
+    s32 prev_flip_x;
+    s32 new_var;
+    ObjState *obj_eta = &obj->eta[obj->main_etat][obj->sub_etat];
+    
+    if (!IS_MIT_PAF(obj))
     {
-        if (obj->field20_0x36 >= 0x1F4)
+        if (obj->field20_0x36 >= 500)
         {
             DO_MIT_ATTAK(obj);
             return;
         }
-        if ((obj->main_etat != 0) || (obj->sub_etat != 7))
+
+        if (!(obj->main_etat == 0 && obj->sub_etat == 7))
         {
-            temp_v1 = obj->cmd;
-            if (temp_v1 == 0)
-            {
-                obj->flags = obj->flags & ~0x4000;
-            }
-            else if (temp_v1 == 1)
-            {
-                obj->flags = obj->flags | 0x4000;
-            }
+            if (obj->cmd == GO_LEFT)
+                obj->flags &= ~FLG(OBJ_FLIP_X);
+            else if (obj->cmd == GO_RIGHT)
+                obj->flags |= FLG(OBJ_FLIP_X);
+            
             if (obj->detect_zone_flag != 0)
             {
-                
-                temp_v1_2 = ((ray.offset_bx + ray.x_pos) - (u16) obj->x_pos) - obj->offset_bx;
-                temp_s2 = __builtin_abs(temp_v1_2) >> 1;
-                temp_s3_1 = ((obj->offset_by + (u16) obj->y_pos) - ray.y_pos) - ray.offset_by;
+                diff_x_1 = (ray.x_pos + ray.offset_bx) - obj->x_pos - obj->offset_bx;
+                diff_x_2 = __builtin_abs(diff_x_1) >> 1;
+                diff_y_1 = (obj->y_pos + obj->offset_by) - ray.y_pos - ray.offset_by;
                 obj->field20_0x36++;
-                if (ray_over_mit(obj, temp_v1_2) & 0xFF)
+                if (ray_over_mit(obj, diff_x_1))
                 {
-                    if ((obj->main_etat == 0) && (obj->sub_etat == 0x0A))
-                    {
-                        set_sub_etat(obj, 0x0CU);
-                    }
+                    if (obj->main_etat == 0 && obj->sub_etat == 10)
+                        set_sub_etat(obj, 12);
                     else
-                    {
                         HAS_MIT_JUMP(obj);
-                    }
                 }
-                else if ((poing.is_active != 0) || (poing.is_charging != 0))
+                else if (poing.is_active || poing.is_charging)
                 {
-                    temp_s3_2 = &level.objects[poing_obj_id];
-                    mite_esquive_poing(obj, &sp10);
-                    if (!(obj->flags & 0x4000))
+                    poing_obj = &level.objects[poing_obj_id];
+                    mite_esquive_poing(obj, &esquive_x);
+                    /* TODO: ??? readable ??? */
+                    if (
+                        !(obj->flags & FLG(OBJ_FLIP_X)) ?
+                            (diff_x_1 < -10 && (-diff_x_2 < esquive_x || poing_obj->speed_x >= 0)) :
+                            (diff_x_1 > 10 && (diff_x_2 > esquive_x || poing_obj->speed_x <= 0))
+                    )
                     {
-                        if (temp_v1_2 < -0xA)
-                        {
-                            if (-(s16) temp_s2 >= sp10)
-                            {
-                                if (temp_s3_2->speed_x >= 0)
-                                {
-                                    goto block_28;
-                                }
-                                goto block_32;
-                            }
-                            goto block_28;
-                        }
-                        goto block_32;
-                    }
-
-                    if ((temp_v1_2 >= 0xB) && ((sp10 < (s16) temp_s2) || (temp_s3_2->speed_x <= 0)))
-                    {
-block_28:
                         if (obj->speed_y < 0)
-                        {
                             HAS_MIT_JUMP(obj);
-                        }
-                        else if (temp_s4->flags & 4)
-                        {
-                            set_main_and_sub_etat(obj, 0U, 9U);
-                        }
+                        else if (obj_eta->flags & FLG(2))
+                            set_main_and_sub_etat(obj, 0, 9);
                     }
                     else
                     {
-block_32:
-                        if ((obj->main_etat == 0) && (obj->sub_etat == 0x0A))
-                        {
-                            set_sub_etat(obj, 0x0CU);
-                        }
+                        if (obj->main_etat == 0 && obj->sub_etat == 10)
+                            set_sub_etat(obj, 12);
                     }
 
-                    if (obj->speed_y < -3)
-                    {
-                        obj->speed_y = -3;
-                    }
-                    if (obj->speed_y > 3)
-                    {
-                        obj->speed_y = 3;
-                    }
+                    MAX_2(obj->speed_y, -3);
+                    MIN_2(obj->speed_y, 3);
                 }
                 else
                 {
-                    /* TODO: switch */
                     switch (ray.main_etat)
                     {
                     case 0:
                     case 3:
-                        temp_v1_3 = obj->main_etat;
-                        if ((temp_v1_3 == 1) || ((temp_v1_3 == 0) && (obj->sub_etat == 0x0A)))
-                        {
-                            set_main_and_sub_etat(obj, 0U, 8U);
-                        }
+                        if (
+                            obj->main_etat == 1 ||
+                            (obj->main_etat == 0 && obj->sub_etat == 10)
+                        )
+                            set_main_and_sub_etat(obj, 0, 8);
+                        
                         obj->speed_x = 0;
                         break;
                     case 1:
-                        if (obj->main_etat != 2)
-                        {
-                            if (obj->main_etat == 0)
-                            {
-                                /* TODO: ??? */
-                                if (!((obj->sub_etat == 9) || (obj->sub_etat == (new_var = 0x0A)) || obj->sub_etat == 0x0B))
-                                    set_main_and_sub_etat(obj, 1U, 0U);
-                            }
-                            else
-                            {
-                                set_main_and_sub_etat(obj, 1U, 0U);
-                            }
-                        }
+                        /* TODO: ??? */
+                        if (
+                            !(
+                                obj->main_etat == 2 ||
+                                (obj->main_etat == 0 && (obj->sub_etat == 9 || (obj->sub_etat == (new_var = 0x0A)) || obj->sub_etat == 0x0B))
+                            )
+                        )
+                            set_main_and_sub_etat(obj, 1, 0);
                         break;
                     case 2:
-                        if (HAS_MIT_JUMP(obj) & 0xFF)
+                        if (HAS_MIT_JUMP(obj))
                         {
-                            if ((temp_s3_1 << 0x10) > 0)
+                            if (diff_y_1 > 0)
                             {
                                 if (obj->gravity_value_1 == 1)
                                 {
-                                    if (--obj->speed_y < -3)
-                                    {
-                                        obj->speed_y = -3;
-                                    }
-                                    break;
+                                    obj->speed_y--;
+                                    MAX_2(obj->speed_y, -3);
                                 }
                             }
                             else
-                            {
-                                if (obj->speed_y > 1)
-                                {
-                                    obj->speed_y = 1;
-                                }
-                            }
+                                MIN_2(obj->speed_y, 1);
                         }
                         break;
                     }
                 }
 
-                if (((temp_s2) < 0x28) && (temp_s3_1 < 0xA) && (obj->field24_0x3e == 0) && (temp_s4->flags & 2))
+                if (
+                    diff_x_2 < 40 && diff_y_1 < 10 &&
+                    obj->field24_0x3e == 0 && obj_eta->flags & FLG(1)
+                )
                 {
                     if (obj->main_etat == 1)
-                    {
-                        set_main_etat(obj, 0U);
-                    }
-                    set_sub_etat(obj, 0x0BU);
+                        set_main_etat(obj, 0);
+                    
+                    set_sub_etat(obj, 11);
                     obj->field24_0x3e = 1;
                     obj->timer = 0;
                 }
+
                 if (obj->field24_0x3e == 1)
                 {
-                    obj->timer += 1;
-                    if ((u8) obj->timer >= 0x29U)
-                    {
+                    obj->timer++;
+                    if (obj->timer > 40)
                         obj->field24_0x3e = 0;
-                    }
                 }
-                if ((obj->y_pos + obj->offset_hy) < (ymap - 0x32))
-                {
-                    obj->speed_y = (u16) obj->speed_y + 2;
-                }
-                fix_mit_Xspeed(obj, temp_v1_2);
+
+                if (obj->y_pos + obj->offset_hy < ymap - 50)
+                    obj->speed_y += 2;
+                
+                fix_mit_Xspeed(obj, diff_x_1);
             }
             else
             {
@@ -410,29 +353,25 @@ block_32:
                 {
                     if (obj->main_etat == 1)
                     {
-                        set_main_and_sub_etat(obj, 0U, 8U);
-                        skipToLabel(obj, 7U, 1U);
+                        set_main_and_sub_etat(obj, 0, 8);
+                        skipToLabel(obj, 7, true);
                     }
-                    temp_s0 = ((u32) obj->flags >> 0xE) & 1;
+
+                    prev_flip_x = obj->flags >> OBJ_FLIP_X & 1;
                     calc_obj_dir(obj);
-                    if ((((u32) obj->flags >> 0xE) & 1) != temp_s0)
-                    {
-                        skipToLabel(obj, 3U, 1U);
-                    }
+                    if ((obj->flags >> OBJ_FLIP_X & 1) != prev_flip_x)
+                        skipToLabel(obj, 3, true);
                 }
             }
-            if (block_flags[obj->btypes[3]] & 1)
-            {
+
+            if (block_flags[obj->btypes[3]] >> BLOCK_FULLY_SOLID & 1)
                 obj->speed_y = 0;
-            }
-            if (block_flags[calc_typ_travd(obj, 0U) & 0xFF] & 1)
-            {
+            
+            if (block_flags[calc_typ_travd(obj, false)] >> BLOCK_FULLY_SOLID & 1)
                 obj->speed_x = 0;
-            }
+            
             if (obj->main_etat != 2)
-            {
                 CALC_MOV_ON_BLOC(obj);
-            }
         }
     }
 }

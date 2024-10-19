@@ -450,97 +450,93 @@ skipped:
 
 void DISPLAY_FOND_MENU(void)
 {
-  Display *pDVar1;
-  u_short uVar2;
-  uint uVar3;
-  s16 iVar4;
-  u16 uVar5;
-  u16 uVar6;
-  u16 *new_var;
-  s32 test_4;
-  u16 test_1 = 0x100;
-  u16 test_2 = 0xa0;
-  u16 test_3 = 0x78;
-  
-  uVar6 = 0;
-  do {
+    s32 unk_2;
+    u16 ind_1;
+    u16 ind_2;
+    u16 unk_1 = 256;
+    u16 offs_x = SCREEN_WIDTH / 2;
+    u16 offs_y = SCREEN_HEIGHT / 2;
+    u16 cnt_1 = 0;
     
-    SetPolyG4(PS1_CurrentDisplay->unk_poly_g4s + uVar6);
-    SetSemiTrans(PS1_CurrentDisplay->unk_poly_g4s + uVar6,0);
-    SetShadeTex(PS1_CurrentDisplay->unk_poly_g4s + uVar6,1);
-    SetPolyG3(PS1_CurrentDisplay->unk_poly_g3s + uVar6);
-    SetSemiTrans(PS1_CurrentDisplay->unk_poly_g3s + uVar6,0);
-    SetShadeTex(PS1_CurrentDisplay->unk_poly_g3s + uVar6,1);
-    test_4 = uVar6;
-    uVar5 = test_4 & 3; /* ??? */
-    if (uVar5 != 3) {
-      iVar4 = uVar5 + 1;
-      
+    while (cnt_1 < LEN(PS1_CurrentDisplay->unk_poly_g4s)) /* or unk_poly_g3s? */
+    {
+        SetPolyG4(PS1_CurrentDisplay->unk_poly_g4s + cnt_1);
+        SetSemiTrans(PS1_CurrentDisplay->unk_poly_g4s + cnt_1, false);
+        SetShadeTex(PS1_CurrentDisplay->unk_poly_g4s + cnt_1, true);
+        SetPolyG3(PS1_CurrentDisplay->unk_poly_g3s + cnt_1);
+        SetSemiTrans(PS1_CurrentDisplay->unk_poly_g3s + cnt_1, false);
+        SetShadeTex(PS1_CurrentDisplay->unk_poly_g3s + cnt_1, true);
+        
+        unk_2 = cnt_1; /* TODO: ??? */
+        ind_1 = unk_2 & 3;
+        if (ind_1 != 3)
+            ind_2 = ind_1 + 1;
+        else
+            ind_2 = 0;
+        
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->r0 = D_801C7EAC[ind_1].r;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->g0 = D_801C7EAC[ind_1].g;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->b0 = D_801C7EAC[ind_1].b;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->r1 = D_801C7EAC[ind_2].r;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->g1 = D_801C7EAC[ind_2].g;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->b1 = D_801C7EAC[ind_2].b;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->r1 = D_801C7EAC[ind_1].r;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->g1 = D_801C7EAC[ind_1].g;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->b1 = D_801C7EAC[ind_1].b;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->r2 = D_801C7EAC[ind_2].r;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->g2 = D_801C7EAC[ind_2].g;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->b2 = D_801C7EAC[ind_2].b;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->r2 = 0;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->g2 = 0;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->b2 = 0;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->r3 = 0;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->g3 = 0;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->b3 = 0;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->r0 = 0;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->g0 = 0;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->b0 = 0;
+        
+        D_801FAA48[0].vx = (D_801CF096 * rcos(D_801CF090) >> 12) + offs_x;
+        D_801FAA48[0].vy = (D_801CF096 * rsin(D_801CF090) >> 12) + offs_y;
+        D_801FAA58[0].vx = (D_801CF098 * rcos(D_801CF090) >> 12) + offs_x;
+        D_801FAA58[0].vy = (D_801CF098 * rsin(D_801CF090) >> 12) + offs_y;
+        ind_1 = D_801CF090 + unk_1; /* TODO: ??? */
+        D_801FAA48[1].vx = (D_801CF096 * rcos(ind_1) >> 12) + offs_x;
+        D_801FAA48[1].vy = (D_801CF096 * rsin(ind_1) >> 12) + offs_y;
+        D_801FAA58[1].vx = (D_801CF098 * rcos(ind_1) >> 12) + offs_x;
+        D_801FAA58[1].vy = (D_801CF098 * rsin(ind_1) >> 12) + offs_y;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->x0 = D_801FAA48[0].vx;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->y0 = D_801FAA48[0].vy;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->x1 = D_801FAA48[1].vx;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->y1 = D_801FAA48[1].vy;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->x2 = D_801FAA58[0].vx;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->y2 = D_801FAA58[0].vy;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->x3 = D_801FAA58[1].vx;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->y3 = D_801FAA58[1].vy;
+        AddPrim(PS1_CurrentDisplay->ordering_table, PS1_CurrentDisplay->unk_poly_g4s + cnt_1);
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->x0 = offs_x;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->y0 = offs_y;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->x1 = D_801FAA48[0].vx;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->y1 = D_801FAA48[0].vy;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->x2 = D_801FAA48[1].vx;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->y2 = D_801FAA48[1].vy;
+        AddPrim(PS1_CurrentDisplay->ordering_table, PS1_CurrentDisplay->unk_poly_g3s + cnt_1);
+        D_801CF090 += unk_1;
+        cnt_1++;
     }
-    else {
-      iVar4 = 0;
-    }
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->r0 = D_801C7EAC[uVar5].r;
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->g0 = D_801C7EAC[uVar5].g;
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->b0 = D_801C7EAC[uVar5].b;
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->r1 = D_801C7EAC[iVar4].r;
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->g1 = D_801C7EAC[iVar4].g;
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->b1 = D_801C7EAC[iVar4].b;
-    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->r1 = D_801C7EAC[uVar5].r;
-    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->g1 = D_801C7EAC[uVar5].g;
-    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->b1 = D_801C7EAC[uVar5].b;
-    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->r2 = D_801C7EAC[iVar4].r;
-    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->g2 = D_801C7EAC[iVar4].g;
-    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->b2 = D_801C7EAC[iVar4].b;
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->r2 = '\0';
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->g2 = '\0';
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->b2 = '\0';
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->r3 = '\0';
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->g3 = '\0';
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->b3 = '\0';
-    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->r0 = '\0';
-    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->g0 = '\0';
-    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->b0 = '\0';
+    D_801CF096 = (rsin(D_801CF094) * 75 >> 12) + 105;
+    (PS1_CurrentDisplay->drawing_environment).tpage = GetTPage(1, 0, 256, 0);
+    SetDrawEnv(
+        PS1_CurrentDisplay->map_drawing_environment_primitives + D_801E4BE0,
+        &PS1_CurrentDisplay->drawing_environment
+    );
+    AddPrim(
+        &PS1_CurrentDisplay->ordering_table[10], 
+        PS1_CurrentDisplay->map_drawing_environment_primitives + D_801E4BE0
+    );
+    D_801E4BE0++;
     
-    D_801FAA48[0].x = (short)(D_801CF096 * rcos((uint)D_801CF090) >> 0xc) + test_2;
-    D_801FAA48[0].y = (short)(D_801CF096 * rsin((uint)D_801CF090) >> 0xc) + test_3;
-    D_801FAA58[0].x = (short)(D_801CF098 * rcos((uint)D_801CF090) >> 0xc) + test_2;
-    D_801FAA58[0].y = (short)(D_801CF098 * rsin((uint)D_801CF090) >> 0xc) + test_3;
-    uVar5 = (uint)(ushort)(D_801CF090 + test_1);
-    D_801FAA48[1].x = (short)(D_801CF096 * rcos(uVar5) >> 0xc) + test_2;
-    D_801FAA48[1].y = (short)(D_801CF096 * rsin(uVar5) >> 0xc) + test_3;
-    D_801FAA58[1].x = (short)(D_801CF098 * rcos(uVar5) >> 0xc) + test_2;
-    D_801FAA58[1].y = (short)(D_801CF098 * rsin(uVar5) >> 0xc) + test_3;
-    pDVar1 = PS1_CurrentDisplay;
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->x0 = D_801FAA48[0].x;
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->y0 = D_801FAA48[0].y;
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->x1 = D_801FAA48[1].x;
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->y1 = D_801FAA48[1].y;
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->x2 = D_801FAA58[0].x;
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->y2 = D_801FAA58[0].y;
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->x3 = D_801FAA58[1].x;
-    (PS1_CurrentDisplay->unk_poly_g4s + uVar6)->y3 = D_801FAA58[1].y;
-    AddPrim(PS1_CurrentDisplay->ordering_table,PS1_CurrentDisplay->unk_poly_g4s + uVar6);
-    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->x0 = test_2;
-    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->y0 = test_3;
-    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->x1 = D_801FAA48[0].x;
-    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->y1 = D_801FAA48[0].y;
-    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->x2 = D_801FAA48[1].x;
-    (PS1_CurrentDisplay->unk_poly_g3s + uVar6)->y2 = D_801FAA48[1].y;
-    AddPrim(PS1_CurrentDisplay->ordering_table,PS1_CurrentDisplay->unk_poly_g3s + uVar6);
-    D_801CF090 = D_801CF090 + test_1;
-    uVar6 = uVar6 + 1;
-  } while ((uVar6) < 0x10);
-  D_801CF096 = (short)(rsin((uint)D_801CF094) * 0x4b >> 0xc) + 0x69;
-  uVar2 = GetTPage(1,0,0x100,0);
-  (PS1_CurrentDisplay->drawing_environment).tpage = uVar2;
-  SetDrawEnv(PS1_CurrentDisplay->map_drawing_environment_primitives + D_801E4BE0,&PS1_CurrentDisplay->drawing_environment);
-  AddPrim(PS1_CurrentDisplay->ordering_table + 10,
-          PS1_CurrentDisplay->map_drawing_environment_primitives + D_801E4BE0);
-  D_801E4BE0 = D_801E4BE0 + 1;
-  
-  D_801CF090 = D_801CF092;
-  D_801CF094 += 10;
-  D_801CF092 += 10;
-  return;
+    D_801CF090 = D_801CF092;
+    D_801CF094 += 10;
+    D_801CF092 += 10;
 }
