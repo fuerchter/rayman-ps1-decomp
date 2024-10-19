@@ -171,7 +171,7 @@ might have actually written gotos like this?
 
 u8 prepareNewMereDenisAttack(Obj *smama_obj)
 {
-    u8 action = 0xFF;
+    u8 cur_act = 0xFF;
     Obj *wep_obj = &level.objects[mereDenis_weapon_id];
     Obj *mach_obj = &level.objects[machine_obj_id];
     Obj *poing_obj;
@@ -182,8 +182,8 @@ u8 prepareNewMereDenisAttack(Obj *smama_obj)
     {
         while (currentBossActionIsOver)
         {
-            action = mereDenisActionSequences[bossEncounter][currentBossAction++];
-            switch (action)
+            cur_act = mereDenisActionSequences[bossEncounter][currentBossAction++];
+            switch (cur_act)
             {
             case 0:
                 bossEncounter++;
@@ -332,7 +332,7 @@ u8 prepareNewMereDenisAttack(Obj *smama_obj)
                 bossReachingTimer = 1;
                 bossReachingAccuracyX = 0xFF;
                 bossReachingAccuracyY = 0;
-                setBossReachingSpeeds(smama_obj, 1U, 0xFF, 0);
+                setBossReachingSpeeds(smama_obj, 1, 0xFF, 0);
                 skipToLabel(smama_obj, 1, true);
                 currentBossActionIsOver = false;
                 break;
@@ -446,7 +446,7 @@ block_123:
                 laserSourceSprNumInAnim = 8;
                 /* data format? */
                 currentLaserSize = mereDenisActionSequences[bossEncounter][currentBossAction++];
-                switch (action)
+                switch (cur_act)
                 {
                 case 33:
                     set_main_and_sub_etat(smama_obj, 0, 22);
@@ -495,7 +495,7 @@ block_90:
                 bossXToReach = smama_obj->x_pos;
                 bossYToReach = scroll_end_y - smama_obj->offset_by - 16;
                 setBossReachingSpeeds(smama_obj, 1, 0xFF, 0xFF);
-                if (action == 22)
+                if (cur_act == 22)
                 {
                     bossReachingAccuracyX = 32;
                     bossReachingAccuracyY = 32;
@@ -522,17 +522,17 @@ block_98:
                 mere_denis_wait_time = 60;
                 swapMereDenisCollZones(smama_obj, false);
                 setMereDenisAtScrollBorder(smama_obj, smama_obj->flags >> OBJ_FLIP_X & 1);
-                if (action == 45)
+                if (cur_act == 45)
                 {
                     bossXToReach = ray.offset_bx + ray.x_pos - smama_obj->offset_bx;
                     smama_obj->x_pos = bossXToReach;
                 }
-                else if (action == 25)
+                else if (cur_act == 25)
                 {
                     bossXToReach = level.objects[machine_obj_id].x_pos + 100;
                     smama_obj->x_pos = bossXToReach + 80;
                 }
-                else /* action == 30 || action == 23 */
+                else /* cur_act == 30 || cur_act == 23 */
                 {
                     if (smama_obj->flags & FLG(OBJ_FLIP_X))
                     {
@@ -629,6 +629,7 @@ block_98:
                 
                 for (i = 0; i < (s16) sizeof(lastDroppedBombIdInSequence); i++)
                     lastDroppedBombIdInSequence[i] = 0xFF;
+                
                 lastDroppedBombXCenterPos = -32000;
                 currentBossActionIsOver = false;
                 break;
@@ -645,7 +646,8 @@ block_98:
             }
         }
     }
-    return action;
+    
+    return cur_act;
 }
 
 /* matches, but wtf even */
@@ -653,28 +655,24 @@ block_98:
 
 void fitSaveCurrentAction(Obj *obj)
 {
-    u8 var_v0;
-    s32 var_v1;
-    u8 temp_a0;
-    u8 var_v0_2;
+    u8 unk_1;
 
     do
     {
-        temp_a0 = mereDenisActionSequences[bossEncounter][currentBossAction];
-        var_v0 = 0;
-        switch (temp_a0)
+        unk_1 = false;
+        switch (mereDenisActionSequences[bossEncounter][currentBossAction])
         {
         case 1:
             currentBossAction = 0;
-            var_v0 = 1;
+            unk_1 = true;
             break;
         case 29:
-            var_v0 = 1;
+            unk_1 = true;
             break;
         case 0:
             currentBossAction = 0;
-            bossEncounter += 1;
-            var_v0 = 1;
+            bossEncounter++;
+            unk_1 = true;
             break;
         case 15:
         case 18:
@@ -682,138 +680,34 @@ void fitSaveCurrentAction(Obj *obj)
         case 24:
         case 26:
             currentBossAction++;
-            var_v0 = 1;
+            unk_1 = true;
             break;            
         case 33:
         case 43:
-            currentBossAction += 1;
-            /* fall through */
+            currentBossAction++;
         case 34:
         case 35:
         case 36:
             currentBossAction++;
-            var_v0 = 1;
+            unk_1 = true;
             break;
         case 28:
             currentBossAction += 2;
-            /* ??? */
+            /* ??? prevents jump into case 22 (target 0x27b8) */
             if (currentBossAction && currentBossAction){}
-            var_v0 = 1;
+            unk_1 = true;
             break;
         case 22:
             if (currentBossAction != 0)
             {
                 currentBossAction--;
-                var_v0 = 1;
+                unk_1 = true;
             }
             break;
         default:
             break;
         }
-    } while (var_v0 != 0);
+    } while (unk_1 != 0);
     saveCurrentBossAction = currentBossAction;
     saveBossEncounter = bossEncounter;
-}
-
-/* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/obj/space_mama", doMereDenisHit);*/
-
-void doMereDenisHit(Obj *obj, s16 sprite)
-{
-    s16 var_v0;
-    s32 temp_v0;
-    u8 temp_a0;
-    u8 temp_a2;
-
-    temp_a2 = obj->main_etat;
-    temp_a0 = obj->sub_etat;
-    if ((obj->eta[temp_a2][temp_a0].flags & 1) && (bossSafeTimer == 0))
-    {
-        var_v0 = 1;
-        switch ((temp_a2 << 8) + temp_a0)
-        {
-        case 19:
-        case 21:
-        case 22:
-        case 23:
-        case 24:
-        case 30:
-        case 31:
-        case 34:
-            var_v0 = 0x00FF;
-            break;
-        case 2:
-        case 6:
-        case 10:
-        case 11:
-        case 13:
-        case 15:
-        case 37:
-        case 44:
-            var_v0 = -1;
-            break;
-        case 3:
-        case 4:
-        case 5:
-        case 7:
-        case 8:
-        case 9:
-        case 12:
-        case 14:
-        case 16:
-        case 17:
-        case 18:
-        case 20:
-        case 25:
-        case 26:
-        case 27:
-        case 28:
-        case 29:
-        case 32:
-        case 33:
-        case 35:
-        case 36:
-        case 38:
-        case 39:
-        case 40:
-        case 41:
-        case 42:
-        case 43:
-            var_v0 = 1;
-            break;
-        }
-        if (var_v0 == sprite)
-        {
-            if (var_v0 == 1)
-            {
-                poing.damage = 1;
-                obj_hurt(obj);
-                currentPhaseHitCounter += 1;
-                changeMereDenisPhase();
-            }
-
-            if (obj->hit_points != 0)
-            {
-                if ((u32) (bossEncounter - 8) >= 2U)
-                {
-                    fitSaveCurrentAction(obj);
-
-                    if (obj->type == 0x62)
-                    {
-                        bossEncounter = 8;
-                    }
-                    else
-                        bossEncounter = 9;
-                }
-            }
-            else
-            {
-                bossEncounter = 0x0A;
-            }
-            currentBossAction = 0;
-            bossSafeTimer = 0xFF;
-            currentBossActionIsOver = 1;
-            obj->flags |= 0x100;
-        }
-    }
 }
