@@ -1,602 +1,571 @@
 #include "obj_init_kill.h"
 
-/* matches, but cleanup */
+/* matches, but the ones that have "TODO:" are still rough */
 /*INCLUDE_ASM("asm/nonmatchings/obj_init_kill", INIT_OBJECTS);*/
 
-void INIT_OBJECTS(u8 newLevel)
+void INIT_OBJECTS(u8 new_lvl)
 {
-    Obj *temp_a0_4;
-    Obj *temp_a0;
-    Obj *temp_v0_5;
-    Obj *temp_v1_2;
-    Obj *var_s4;
-    s16 temp_v0_3;
-    s32 temp_a1;
-    s32 var_v0_2;
-    s32 var_v0_3;
-    s32 var_v0_4;
-    s32 var_v0_5;
-    s32 var_v1;
-    s32 var_v1_2;
-    s16 temp_lo;
-    u16 temp_v0_2;
-    u16 temp_v0_4;
-    u16 temp_v0_6;
-    s16 temp_v1_1;
-    s32 test_1;
-    u16 temp_v1_3;
-    s16 var_s2;
-    s16 var_s5;
-    s16 var_s7;
-    u16 var_v0_1;
-    u16 var_v0_6;
-    u16 var_v0_7;
-    u8 temp_a0_2;
-    u8 temp_fp;
-    u8 temp_v0;
-    u8 temp_v1_4;
-    u8 temp_v1_5;
-    void *temp_a0_3;
-
-    var_s4 = level.objects;
-    temp_fp = level.nb_objects;
-    var_s5 = -1;
-    var_s7 = -1;
-    ray_on_poelle = 0;
+    s16 unk_1;
+    s16 unk_2;
+    s16 cnt_1;
+    Obj *cur_obj;
+    u8 nb_objs;
+    s32 unk_3;
+    s32 unk_4;
+    s32 unk_5;
+    s16 unk_6;
+    u16 unk_7;
+    s16 unk_8;
+    u16 unk_9;
+    s32 unk_10;
+    s32 unk_11;
+    s16 unk_12;
+    Obj *prev_obj;
+    Obj *pa_obj;
+    Obj *eau_obj_1;
+    Obj *eau_obj_2;
+    
+    unk_1 = -1;
+    unk_2 = -1;
+    ray_on_poelle = false;
     nb_cymbal_in_map = 0;
     PS1_SplashAlwaysObjectsCount = 0;
-    IsBossThere = 0;
+    IsBossThere = false;
     PS1_AlwaysObjectsCount = 0;
-    Mus_obj_id = -1;
+    Mus_obj_id = unk_1;
     NumScrollObj = 0;
-    rayman_obj_id = -1;
-    reduced_rayman_id = -1;
-    id_Cling_1up = -1;
-    id_Cling_Pow = -1;
-    fee_obj_id = -1;
-    eau_obj_id = -1;
-    mst_scroll_obj_id = -1;
-    bateau_obj_id = -1;
-    mama_pirate_obj_id = -1;
-    black_ray_obj_id = -1;
-    pierreAcorde_obj_id = -1;
+    rayman_obj_id = unk_1;
+    reduced_rayman_id = unk_1;
+    id_Cling_1up = unk_1;
+    id_Cling_Pow = unk_1;
+    fee_obj_id = unk_1;
+    eau_obj_id = unk_1;
+    mst_scroll_obj_id = unk_1;
+    bateau_obj_id = unk_1;
+    mama_pirate_obj_id = unk_1;
+    black_ray_obj_id = unk_1;
+    pierreAcorde_obj_id = unk_1;
     nb_wiz = 0;
-    stosko_obj_id = -1;
-    moskitomama_droite_obj_id = -1;
-    moskitomama_gauche_obj_id = -1;
-    moskitosaxo_obj_id = -1;
-    corde_dark_obj_id = -1;
-    var_s2 = 0;
-    while ((s16) var_s2 < (s32) temp_fp)
+    stosko_obj_id = unk_1;
+    moskitomama_droite_obj_id = unk_1;
+    moskitomama_gauche_obj_id = unk_1;
+    moskitosaxo_obj_id = unk_1;
+    corde_dark_obj_id = unk_1;
+
+    cnt_1 = 0;
+    cur_obj = &level.objects[cnt_1];
+    nb_objs = level.nb_objects;
+    while (cnt_1 < nb_objs)
     {
-        var_s4->id = var_s2;
-        if (newLevel != 0)
+        cur_obj->id = cnt_1;
+        if (new_lvl)
+            first_obj_init(cur_obj);
+        
+        cur_obj->active_timer = 0;
+        if (cur_obj->type == TYPE_INDICATOR)
         {
-            first_obj_init(var_s4);
+            cur_obj->main_etat = cur_obj->init_main_etat;
+            cur_obj->sub_etat = cur_obj->init_sub_etat;
         }
-        var_s4->active_timer = 0;
-        if (var_s4->type == 0xA3)
+
+        obj_init(cur_obj);
+        if (flags[cur_obj->type].flags0 & FLG(OBJ0_ALWAYS))
         {
-            var_s4->main_etat = (u8) var_s4->init_main_etat;
-            var_s4->sub_etat = (u8) var_s4->init_sub_etat;
-        }
-        obj_init(var_s4);
-        if (flags[var_s4->type].flags0 & 1)
-        {
-            var_s4->x_pos = -0x7D00;
-            var_s4->y_pos = -0x7D00;
-            var_s4->flags = (s32) (var_s4->flags & ~0x400);
+            cur_obj->x_pos = -32000;
+            cur_obj->y_pos = -32000;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
         }
         else
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+        
+        switch (cur_obj->type)
         {
-            var_s4->flags = (s32) (var_s4->flags | 0x400);
-        }
-        temp_v0 = var_s4->type;
-        switch (temp_v0)
-        {
-        case 0xFD:
-            var_s4->x_pos = 1U;
+        case TYPE_PLANCHES:
+            cur_obj->x_pos = 1;
             break;
-        case 0xFC:
-            var_s4->x_pos = (u16) (var_s4->x_pos + 2);
+        case TYPE_VAGUE_DERRIERE:
+            cur_obj->x_pos += 2;
             break;
-        case 0x85:
+        case TYPE_SUPERHELICO:
             if (!(RayEvts.super_helico))
             {
-                var_v1 = var_s4->flags & ~0x400;
-                var_v0_2 = (finBosslevel[1] << 7) & 0x400;
-                var_s4->flags = (s32) (var_v1 | var_v0_2);
+                unk_3 = cur_obj->flags & ~FLG(OBJ_ALIVE);
+                unk_4 = (finBosslevel[1] << 7) & FLG(OBJ_ALIVE);
+                cur_obj->flags = unk_3 | unk_4;
             }
             else
-            {
-                var_v0_3 = var_s4->flags & ~0x400;
-                var_s4->flags = var_v0_3;
-            }
+                cur_obj->flags &= ~FLG(OBJ_ALIVE);
             break;
-        case 0x60:
-            var_s4->field23_0x3c = 0U;
-            var_s4->iframes_timer = 0;
-            var_v0_3 = var_s4->flags | 0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0xF6:
-            corde_dark_obj_id = (s16) var_s4->id;
-            var_s4->flags |= 0x400;
+        case TYPE_TOTEM:
+            cur_obj->field23_0x3c = 0;
+            cur_obj->iframes_timer = 0;
+            cur_obj->flags |= FLG(OBJ_ALIVE);
             break;
-        case 0xDF:
-            var_s4->field23_0x3c = 0U;
-            stosko_obj_id = (s16) var_s4->id;
-            var_s4->flags &= ~0x400;
-            var_s4->flags &= ~0x800;
+        case TYPE_CORDE_DARK:
+            corde_dark_obj_id = cur_obj->id;
+            cur_obj->flags |= FLG(OBJ_ALIVE);
             break;
-        case 0xDA:
-            var_s4->field23_0x3c = 0U;
-            moskitosaxo_obj_id = (s16) var_s4->id;
-            var_s4->flags &= ~0x400;
-            var_s4->flags &= ~0x800;
+        case TYPE_HYBRIDE_STOSKO:
+            cur_obj->field23_0x3c = 0;
+            stosko_obj_id = cur_obj->id;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
             break;
-        case 0xE7:
-            var_s5 = var_s4->id;
-            var_s4->field23_0x3c = 0U;
-            moskitomama_droite_obj_id = (s16) var_s4->id;
-            var_s4->flags &= ~0x400;
-            var_s4->flags &= ~0x800;
+        case TYPE_HYBRIDE_MOSAMS:
+            cur_obj->field23_0x3c = 0;
+            moskitosaxo_obj_id = cur_obj->id;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
             break;
-        case 0xE8:
-            var_s7 = var_s4->id;
-            var_s4->field23_0x3c = 0U;
-            moskitomama_gauche_obj_id = (s16) var_s4->id;
-            var_s4->flags |= 0x4000;
-            var_s4->flags &= ~0x400;
-            var_s4->flags &= ~0x800;
+        case TYPE_HYB_BBF2_D:
+            unk_1 = cur_obj->id;
+            cur_obj->field23_0x3c = 0;
+            moskitomama_droite_obj_id = cur_obj->id;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
             break;
-        case 0xE0:
-            var_v0_3 = var_s4->flags & ~0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0xDC:
-            pierreAcorde_obj_id = (s16) var_s2;
-            var_s4->iframes_timer = 0;
-            var_v0_3 = var_s4->flags | 0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0xDB:
-            var_s4->hit_points = (u8) ((u8) var_s4->init_hit_points >> 2);
-            var_s4->flags = (s32) (var_s4->flags | 0x400);
+        case TYPE_HYB_BBF2_G:
+            unk_2 = cur_obj->id;
+            cur_obj->field23_0x3c = 0;
+            moskitomama_gauche_obj_id = cur_obj->id;
+            cur_obj->flags |= FLG(OBJ_FLIP_X);
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
+            break;
+        case TYPE_STOSKO_PINCE:
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            break;
+        case TYPE_PIERREACORDE:
+            pierreAcorde_obj_id = cnt_1;
+            cur_obj->iframes_timer = 0;
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+            break;
+        case TYPE_CORDE:
+            cur_obj->hit_points = (cur_obj->init_hit_points >> 2);
+            cur_obj->flags |= FLG(OBJ_ALIVE);
             if (pierreAcorde_obj_id != -1)
             {
-                temp_a0 = &level.objects[pierreAcorde_obj_id];
-                if ((s16) var_s4->x_pos < temp_a0->x_pos)
-                {
-                    var_s4->y_pos = (u16) temp_a0->y_pos + 0x70;
-                }
+                /* TODO: ??? */
+                pa_obj = &level.objects[pierreAcorde_obj_id];
+                if (cur_obj->x_pos < pa_obj->x_pos)
+                    cur_obj->y_pos = pa_obj->y_pos + 112;
                 else
-                {
-                    var_s4->y_pos = (u16) temp_a0->y_pos + 0x78;
-                }
-                var_s4->y_pos = (u16) var_s4->init_y_pos;
+                    cur_obj->y_pos = pa_obj->y_pos + 120;
+                
+                cur_obj->y_pos = cur_obj->init_y_pos;
             }
             break;
-        case 0xCB:
-            var_v0_3 = var_s4->flags & ~0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0xB3:
-        case 0xF2:
-            var_v0_4 = var_s4->flags & ~0x400;
-            var_v0_3 = var_v0_4 & ~0x800;
-            var_s4->flags = var_v0_3; break;
-        case 0x9D:
-            if (var_s4->hit_points != 0)
+        case TYPE_SMA_WEAPON:
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            break;
+        case TYPE_HERSE_BAS_NEXT:
+        case TYPE_HERSE_HAUT_NEXT:
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
+            break;
+        case TYPE_EAU:
+            if (cur_obj->hit_points != 0)
             {
-                test_1 = var_s4->offset_bx;
-                temp_v1_1 = xmap - test_1;
-                var_s4->x_pos = temp_v1_1;
+                /* TODO: ??? */
+                unk_5 = cur_obj->offset_bx;
+                unk_6 = xmap - unk_5;
+                cur_obj->x_pos = unk_6;
                 if (num_world == 1)
                 {
                     if (RayEvts.grain)
-                    {
-                        var_s4->hit_points = 1U;
-                    }
-                    var_s4->y_pos = (u16) ((u16) ymapmax + 0xF0);
+                        cur_obj->hit_points = 1;
+                    cur_obj->y_pos = ymapmax + SCREEN_HEIGHT;
                 }
                 else
                 {
-                    var_s4->hit_points = 0U;
-                    var_s4->field23_0x3c = temp_v1_1;
-                    if ((num_world != 3) || (num_level != 7))
+                    cur_obj->hit_points = 0;
+                    cur_obj->field23_0x3c = unk_6;
+                    if (!(num_world == 3 && num_level == 7))
                     {
-                        temp_v0_2 = (u16) ymapmax + 0xA0;
-                        var_s4->y_pos = temp_v0_2;
-                        var_s4->init_y_pos = temp_v0_2;
-                        if (((num_world == 5) && (num_level == 8)) || (num_world == 4))
+                        cur_obj->init_y_pos =
+                        cur_obj->y_pos =
+                            ymapmax + 160;
+                        if (
+                            (num_world == 5 && num_level == 8) ||
+                            num_world == 4
+                        )
                         {
-                            var_v0_7 = (u16) ymapmax + 0xAA;
-                            var_s4->y_pos = var_v0_7;
-                            var_s4->init_y_pos = var_v0_7;
+                            cur_obj->init_y_pos =
+                            cur_obj->y_pos =
+                                ymapmax + 170;
                         }
                     }
                     else
                     {
-                        var_v0_7 = var_s4->init_y_pos;
-                        var_s4->field12_0x26 = 0;
-                        var_s4->init_y_pos = var_v0_7;
+                        /* TODO: ??? */
+                        unk_7 = cur_obj->init_y_pos;
+                        cur_obj->field12_0x26 = 0;
+                        cur_obj->init_y_pos = unk_7;
                     }
                 }
-                eau_obj_id = (s16) var_s2;
-                var_s4->iframes_timer = 0;
-                var_s4->flags = (s32) (var_s4->flags | 0xC00);
-                calc_obj_pos(var_s4);
+                eau_obj_id = cnt_1;
+                cur_obj->iframes_timer = 0;
+                cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                calc_obj_pos(cur_obj);
             }
-            else if ((eau_obj_id != -1) && (num_world != 1))
+            else if (!(eau_obj_id == -1 || num_world == 1))
             {
-                var_s4->speed_y = 0;
-                var_s4->speed_x = 0;
-                var_s4->flags = (s32) (var_s4->flags & ~0x4000);
-                temp_v1_2 = &level.objects[eau_obj_id];
-                temp_v0_3 = (u16) temp_v1_2->field23_0x3c + 0x65;
-                temp_v1_2->field23_0x3c = temp_v0_3;
-                var_s4->x_pos = (u16) temp_v0_3;
-                temp_v1_3 = (u16) level.objects[eau_obj_id].y_pos;
-                var_s4->y_pos = temp_v1_3;
-                if ((num_world != 3) || (num_level != 7))
+                cur_obj->speed_y = 0;
+                cur_obj->speed_x = 0;
+                cur_obj->flags = (cur_obj->flags & ~FLG(OBJ_FLIP_X));
+                eau_obj_1 = &level.objects[eau_obj_id];
+                unk_8 = eau_obj_1->field23_0x3c + 101;
+                eau_obj_1->field23_0x3c = unk_8;
+                cur_obj->x_pos = unk_8;
+                cur_obj->y_pos = level.objects[eau_obj_id].y_pos;
+                if (!(num_world == 3 && num_level == 7))
                 {
-                    var_s4->init_y_pos = (u16) ((u16) ymapmax + 0xA0);
+                    cur_obj->init_y_pos = ymapmax + 160;
                     if (num_world == 4)
+                        cur_obj->init_y_pos = ymapmax + 170;
+                    
+                    if (num_world == 5 && num_level == 8)
                     {
-                        var_s4->init_y_pos = (u16) ((u16) ymapmax + 0xAA);
-                    }
-                    if ((num_world == 5) && (num_level == 8))
-                    {
-                        temp_v0_4 = ((u16) level.objects[eau_obj_id].y_pos + eau_obj_id) - var_s4->id;
-                        var_s4->y_pos = temp_v0_4;
-                        var_s4->init_y_pos = temp_v0_4;
+                        unk_9 = (level.objects[eau_obj_id].y_pos + eau_obj_id) - cur_obj->id;
+                        cur_obj->y_pos = unk_9;
+                        cur_obj->init_y_pos = unk_9;
                     }
                 }
                 else
                 {
-                    var_s4->init_y_pos = temp_v1_3;
-                    var_s4->field12_0x26 = 0;
+                    cur_obj->init_y_pos = cur_obj->y_pos;
+                    cur_obj->field12_0x26 = 0;
                 }
-                calc_obj_pos(var_s4);
-                var_s4->flags = (s32) (var_s4->flags | 0xC00);
-                temp_v0_5 = &level.objects[eau_obj_id];
-                temp_a0_2 = temp_v0_5->hit_points;
-                temp_v1_4 = temp_a0_2 + 1;
-                temp_v0_5->hit_points = temp_v1_4;
-                var_s4->sub_etat = temp_v1_4;
-                if ((u8) var_s4->sub_etat >= 4U)
-                {
-                    var_s4->sub_etat = (u8) (temp_a0_2 + 0xFD);
-                }
-                var_s4->iframes_timer = 0;
+                calc_obj_pos(cur_obj);
+                cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                eau_obj_2 = &level.objects[eau_obj_id];
+                cur_obj->sub_etat = ++eau_obj_2->hit_points;
+                if (cur_obj->sub_etat >= 4)
+                    cur_obj->sub_etat -= 4;
+                cur_obj->iframes_timer = 0;
             }
             else
             {
-                var_v0_4 = var_s4->flags & ~0x400;
-                var_v0_3 = var_v0_4 & ~0x800;
-            var_s4->flags = var_v0_3; break;
+                cur_obj->flags &= ~FLG(OBJ_ALIVE);
+                cur_obj->flags &= ~FLG(OBJ_ACTIVE);
             }
             break;
-        case 0x25:
-            var_s4->flags = (var_s4->flags & ~0x400 | (((((u8) RayEvts.grain) ^ 1) & 1) << 0xA));
+        case TYPE_TARZAN:
+            unk_10 = cur_obj->flags & ~FLG(OBJ_ALIVE);
+            unk_11 = !RayEvts.grain;
+            cur_obj->flags = unk_10 | (unk_11 << OBJ_ALIVE);
             break;
-        case 0x99:
-            fee_obj_id = (s16) var_s2;
-            var_v0_3 = var_s4->flags | 0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0x93:
-            if (var_s4->hit_points == 0)
+        case TYPE_FEE:
+            fee_obj_id = cnt_1;
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+            break;
+        case TYPE_MST_SCROLL:
+            if (cur_obj->hit_points == 0)
             {
-                temp_v0_6 = ray.x_pos - 0xC8;
-                var_s4->init_x_pos = temp_v0_6;
-                var_s4->x_pos = temp_v0_6;
-                var_s4->y_pos = (u16) (ray.y_pos - 0x32);
-                set_main_and_sub_etat(var_s4, 0U, 9U);
-                var_s4->speed_x = 2;
-                var_s4->speed_y = 0;
-                var_s4->field23_0x3c = 0U;
-                var_s4->field24_0x3e = 0U;
-                var_s4->timer = 0;
-                mst_scroll_obj_id = (s16) var_s2;
-                var_s4->flags = (s32) (var_s4->flags | 0x4C00);
+                cur_obj->x_pos =
+                cur_obj->init_x_pos =
+                    ray.x_pos - 200;
+                cur_obj->y_pos = ray.y_pos - 50;
+                set_main_and_sub_etat(cur_obj, 0, 9);
+                cur_obj->speed_x = 2;
+                cur_obj->speed_y = 0;
+                cur_obj->field23_0x3c = 0;
+                cur_obj->field24_0x3e = 0;
+                cur_obj->timer = 0;
+                mst_scroll_obj_id = cnt_1;
+                cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                cur_obj->flags |= FLG(OBJ_FLIP_X);
             }
             else
-            {
-                var_v0_3 = var_s4->flags | 0x400;
-                var_s4->flags = var_v0_3; break;
-            }
+                cur_obj->flags |= FLG(OBJ_ALIVE);
             break;
-        case 0x88:
-            reduced_rayman_id = (s16) var_s2;
-            var_v0_4 = var_s4->flags & ~0x400;
-            var_v0_3 = var_v0_4 & ~0x800;
-            var_s4->flags = var_v0_3; break;
-        case 0x63:
-            var_v0_4 = var_s4->flags & ~0x400;
-            var_v0_3 = var_v0_4 & ~0x800;
-            var_s4->flags = var_v0_3; break;
-        case 0x40:
-            scroll_obj_id[NumScrollObj] = (s16) var_s2;
-            NumScrollObj += 1;
-            var_s4->y_pos = var_s4->init_y_pos;
-            var_s4->x_pos = var_s4->init_x_pos;
-            var_s4->flags &= ~0x400;
+        case TYPE_DEMI_RAYMAN:
+            reduced_rayman_id = cnt_1;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
             break;
-        case 0x6:
-        case 0x8:
-        case 0x86:
-        case 0xA7:
-        case 0xB1:
-            var_v0_3 = var_s4->flags | 0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0x9:
-        case 0xA5:
-            var_v0_3 = var_s4->flags | 0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0x7A:
-            var_v0_5 = var_s4->flags;
-            var_s4->init_flag = 7;
-            var_v0_4 = var_v0_5 & ~0x400;
-            var_v0_3 = var_v0_4 & ~0x800;
-            var_s4->flags = var_v0_3; break;
-        case 0x51:
-            cymbal_obj_id[nb_cymbal_in_map++] = (s16) var_s2;
-            /*nb_cymbal_in_map += 1;*/
-            var_v1_2 = var_s4->flags | 0x400;
-            var_s4->flags = var_v1_2;
+        case TYPE_RAY_POS:
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
             break;
-        case 0x17:
-            rayman_obj_id = (s16) var_s2;
-            var_v0_3 = var_s4->flags & ~0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0xCD:
-            var_s4->flags = (s32) (var_s4->flags & ~0x400);
-            black_fist_obj_id = (s16) var_s4->id;
+        case TYPE_SCROLL:
+            scroll_obj_id[NumScrollObj] = cnt_1;
+            NumScrollObj++;
+            cur_obj->y_pos = cur_obj->init_y_pos;
+            cur_obj->x_pos = cur_obj->init_x_pos;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
             break;
-        case 0x5E:
-            var_s4->sub_etat =
-            var_s4->init_sub_etat =
+        case TYPE_FALLING_OBJ:
+        case TYPE_FALLING_OBJ2:
+        case TYPE_FALLING_OBJ3:
+        case TYPE_FALLING_YING:
+        case TYPE_FALLING_YING_OUYE:
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+            break;
+        case TYPE_BADGUY2:
+        case TYPE_BADGUY3:
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+            break;
+        case TYPE_STONEDOG2:
+            cur_obj->init_flag = 7;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
+            break;
+        case TYPE_CYMBALE:
+            cymbal_obj_id[nb_cymbal_in_map++] = cnt_1;
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+            break;
+        case TYPE_RAYMAN:
+            rayman_obj_id = cnt_1;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            break;
+        case TYPE_BLACK_FIST:
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            black_fist_obj_id = cur_obj->id;
+            break;
+        case TYPE_POING:
+            cur_obj->sub_etat =
+            cur_obj->init_sub_etat =
                 poing.sub_etat;
-            poing_obj_id = var_s2;
-            var_s4->init_flag = 7;
-            var_s4->flags = (var_s4->flags & ~0x400);
+            poing_obj_id = cnt_1;
+            cur_obj->init_flag = 7;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
             break;
-        case 0xB:
-            sbar_obj_id = (s16) var_s2;
-            var_s4->init_flag = 7;
-            var_v0_3 = var_s4->flags & ~0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0x91:
-            var_s4->iframes_timer = 0x0028;
-            var_v1_2 = var_s4->flags | 0x400;
-            var_s4->flags = var_v1_2;
+        case TYPE_BOUM:
+            sbar_obj_id = cnt_1;
+            cur_obj->init_flag = 7;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
             break;
-        case 0x15:
-            var_s4->timer = 0;
+        case TYPE_KILLING_EYES:
+            cur_obj->iframes_timer = 40;
+            cur_obj->flags |= FLG(OBJ_ALIVE);
             break;
-        case 0x13:
-            PS1_SplashAlwaysObjects[PS1_SplashAlwaysObjectsCount++] = (s16) var_s2;
-            /*PS1_SplashAlwaysObjectsCount += 1;*/
-            var_s4->flags = (s32) (var_s4->flags & ~0x400);
+        case TYPE_PHOTOGRAPHE:
+            cur_obj->timer = 0;
             break;
-        case 0x27:
-            var_s4->iframes_timer = 0;
-            
-        case 0x26:
-            var_v0_3 = var_s4->flags & ~0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0x41:
-            var_s4->field24_0x3e = 0U;
-            var_v0_3 = var_s4->flags | 0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0x4B:
-        case 0x4C:
-            /*temp_a0_3 = (var_s4->sub_etat * 8) + *((var_s4->main_etat * 4) + var_s4->unk-57);
-            temp_lo = (((temp_a0_3->unk2 * 0xC) + var_s4->animations)->unkA - 1) * (temp_a0_3->unk5 & 0xF);*/
-            temp_lo = (var_s4->animations
-            [var_s4->eta[var_s4->main_etat][var_s4->sub_etat].anim_index].frames_count -
-            1) * (var_s4->eta[var_s4->main_etat][var_s4->sub_etat].anim_speed & 0xf);
-            var_s4->init_flag = 7;
-            var_s4->flags = (s32) (var_s4->flags & ~0x400);
-            var_s4->field23_0x3c = temp_lo;
-            var_s4->field24_0x3e = temp_lo;
+        case TYPE_SPLASH:
+            PS1_SplashAlwaysObjects[PS1_SplashAlwaysObjectsCount++] = cnt_1;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
             break;
-        case 0x73:
-            var_v0_5 = var_s4->flags;
-            var_s4->init_flag = 7;
-            var_v0_4 = var_v0_5 & ~0x400;
-            var_v0_3 = var_v0_4 & ~0x800;
-            var_s4->flags = var_v0_3; break;
-        case 0x14:
-            var_s4->init_flag = 7;
-            var_s4->timer = 0;
-            var_v0_3 = var_s4->flags | 0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0x3A:
-            var_v0_3 = var_s4->flags | 0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0xD:
-        case 0xF:
-        case 0x21:
-        case 0x24:
-        case 0x2C:
-        case 0x33:
-        case 0x34:
-        case 0x3B:
-        case 0x3E:
-        case 0x42:
-        case 0x47:
-        case 0x49:
-        case 0x4E:
-        case 0x4F:
-        case 0x53:
-        case 0x5A:
-        case 0x5B:
-        case 0x5C:
-        case 0x5D:
-        case 0x61:
-        case 0x66:
-        case 0x6C:
-        case 0x6E:
-        case 0x70:
-        case 0x77:
-        case 0x79:
-        case 0x82:
-        case 0x87:
-        case 0x8B:
-        case 0x8F:
-        case 0x92:
-        case 0xBA:
-        case 0xC0:
-        case 0xC1:
-        case 0xC2:
-        case 0xC4:
-        case 0xC5:
-        case 0xCE:
-        case 0xD1:
-        case 0xD2:
-        case 0xD7:
-        case 0xE9:
-        case 0xF4:
-            var_v0_5 = var_s4->flags;
-            var_s4->init_flag = 7;
-            var_v0_4 = var_v0_5 & ~0x400;
-            var_v0_3 = var_v0_4 & ~0x800;
-            var_s4->flags = var_v0_3; break;
-        case 0xCC:
-            var_s4->animations = ray.animations;
-            var_s4->init_flag = 7;
-            var_s4->flags &= ~0x400;
-            var_s4->flags &= ~0x800;
-            black_ray_obj_id = var_s4->id;
+        case TYPE_NEN_GRAINE:
+            cur_obj->iframes_timer = 0;
+        case TYPE_GRAINE:
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
             break;
-        case 0xBE:
-            var_s4->field20_0x36 = 1;
-            var_s4->iframes_timer = 1;
-            var_s4->init_flag = 7;
-            var_s4->flags &= ~0x400;
-            var_s4->flags &= ~0x800;
+        case TYPE_SPIDER:
+            cur_obj->field24_0x3e = 0;
+            cur_obj->flags |= FLG(OBJ_ALIVE);
             break;
-        case 0x3:
-            var_s4->init_flag = 7;
-            var_v0_3 = var_s4->flags & ~0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0xA:
-            if (var_s2 > 0)
+        case TYPE_PAILLETTE:
+        case TYPE_DESTROYING_DOOR:
+            unk_12 = (
+                cur_obj->animations[
+                    cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_index
+                ].frames_count - 1) *
+                (cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_speed & 0xf);
+            cur_obj->init_flag = 7;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            cur_obj->field23_0x3c = unk_12;
+            cur_obj->field24_0x3e = unk_12;
+            break;
+        case TYPE_BB1_PLAT:
+            cur_obj->init_flag = 7;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
+            break;
+        case TYPE_GENEBADGUY:
+            cur_obj->init_flag = 7;
+            cur_obj->timer = 0;
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+            break;
+        case TYPE_CAGE:
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+            break;
+        case TYPE_BALLE1:
+        case TYPE_BALLE2:
+        case TYPE_DARK2_SORT:
+        case TYPE_STONEBOMB:
+        case TYPE_CLASH:
+        case TYPE_MST_FRUIT1:
+        case TYPE_MST_FRUIT2:
+        case TYPE_CAGE2:
+        case TYPE_DROP:
+        case TYPE_DARD:
+        case TYPE_NOTE:
+        case TYPE_RING:
+        case TYPE_PIRATE_BOMB:
+        case TYPE_STONECHIP:
+        case TYPE_EXPLOSION:
+        case TYPE_NOTE0:
+        case TYPE_NOTE1:
+        case TYPE_NOTE2:
+        case TYPE_BONNE_NOTE:
+        case TYPE_BBL:
+        case TYPE_BNOTE:
+        case TYPE_DARK2_PINK_FLY:
+        case TYPE_PI_BOUM:
+        case TYPE_WASHING_MACHINE:
+        case TYPE_TNT_BOMB:
+        case TYPE_ECLAIR:
+        case TYPE_BLACKTOON_EYES:
+        case TYPE_ETINC:
+        case TYPE_MARACAS_BAS:
+        case TYPE_NOVA2:
+        case TYPE_FLASH:
+        case TYPE_POELLE_ALWAYS:
+        case TYPE_SMA_GRAND_LASER:
+        case TYPE_SMA_BOMB:
+        case TYPE_SMA_BOMB_CHIP:
+        case TYPE_DARD_PLAFOND:
+        case TYPE_MEDAILLON_TOON:
+        case TYPE_PIEDS_RAYMAN:
+        case TYPE_FIRE_LEFT:
+        case TYPE_FIRE_RIGHT:
+        case TYPE_DARK_SORT:
+        case TYPE_HYB_BBF2_LAS:
+        case TYPE_SMA_PETIT_LASER:
+            cur_obj->init_flag = 7;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
+            break;
+        case TYPE_BLACK_RAY:
+            cur_obj->animations = ray.animations;
+            cur_obj->init_flag = 7;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
+            black_ray_obj_id = cur_obj->id;
+            break;
+        case TYPE_COUTEAU:
+            cur_obj->field20_0x36 = 1;
+            cur_obj->iframes_timer = 1;
+            cur_obj->init_flag = 7;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
+            break;
+        case TYPE_LIDOLPINK:
+            cur_obj->init_flag = 7;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            break;
+        case TYPE_FISH:
+            if (cnt_1 > 0)
             {
-                temp_a0_4 = &level.objects[var_s2 - 1];
-                var_s4->flags = var_s4->flags | 0x400;
-                if ((temp_a0_4->type == 0x0A) && (temp_a0_4->x_pos == var_s4->x_pos))
+                prev_obj = &level.objects[cnt_1 - 1];
+                cur_obj->flags |= FLG(OBJ_ALIVE);
+                if (prev_obj->type == TYPE_FISH && prev_obj->x_pos == cur_obj->x_pos)
                 {
-                    var_s4->flags &= ~0x800;
-                    var_s4->flags &= ~0x400;
+                    cur_obj->flags &= ~FLG(OBJ_ACTIVE);
+                    cur_obj->flags &= ~FLG(OBJ_ALIVE);
                 }
             }
             break;
-        case 0x2E:
-        case 0xC6:
-        case 0xC8:
-            INIT_BBMONT(var_s4);
+        case TYPE_BB1:
+        case TYPE_BB12:
+        case TYPE_BB13:
+            INIT_BBMONT(cur_obj);
             break;
-        case 0x67:
-        case 0x68:
-        case 0x84:
-            var_v0_3 = var_s4->flags | 0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0x30:
-        case 0x95:
-            var_v0_3 = var_s4->flags | 0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0x6F:
-            if (finBosslevel[1] & 8)
+        case TYPE_POI1:
+        case TYPE_POI2:
+        case TYPE_POI3:
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+            break;
+        case TYPE_FLAMME2:
+        case TYPE_CLE_SOL:
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+            break;
+        case TYPE_PI_MUS:
+            if (finBosslevel[1] & FLG(3))
             {
-                set_sub_etat(var_s4, 0x0AU);
-                var_s4->init_sub_etat = 0x0AU;
+                set_sub_etat(cur_obj, 10);
+                cur_obj->init_sub_etat = 10;
             }
-            
-        case 0x6D:
-            var_s4->init_flag = 7;
-            PS1_AlwaysObjects[PS1_AlwaysObjectsCount] = (s16) var_s4->id;
-            PS1_AlwaysObjectsCount += 1;
-            var_v0_3 = var_s4->flags | 0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0x37:
-            var_s4->init_flag = 7;
-            var_s4->flags = (s32) (var_s4->flags | 0x400);
-            Mus_obj_id = (s16) var_s4->id;
-            if (finBosslevel[1] & 8)
+        case TYPE_PI:
+            cur_obj->init_flag = 7;
+            PS1_AlwaysObjects[PS1_AlwaysObjectsCount] = cur_obj->id;
+            PS1_AlwaysObjectsCount++;
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+            break;
+        case TYPE_MUS_WAIT:
+            cur_obj->init_flag = 7;
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+            Mus_obj_id = cur_obj->id;
+            if (finBosslevel[1] & FLG(3))
             {
-                var_s4->init_sub_etat = 4U;
-                set_main_and_sub_etat(var_s4, 0U, 4U);
+                cur_obj->init_sub_etat = 4;
+                set_main_and_sub_etat(cur_obj, 0, 4);
             }
             break;
-        case 0x52:
-        case 0x8E:
-        case 0x94:
-            var_s4->init_flag = 7;
-            var_v0_3 = var_s4->flags | 0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0x4:
-        case 0x58:
-            var_v0_3 = var_s4->flags | 0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0x9F:
-            var_v0_3 = var_s4->flags | 0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0xAD:
-            var_s4->field23_0x3c = -1;
-            var_s4->field24_0x3e = 0U;
-            var_s4->timer = 0;
-            bateau_obj_id = (s16) var_s2;
-            var_v1_2 = var_s4->flags | 0x400;
-            var_s4->flags = var_v1_2;
+        case TYPE_JAUGEUP:
+        case TYPE_ONEUP:
+        case TYPE_GRAP_BONUS:
+            cur_obj->init_flag = 7;
+            cur_obj->flags |= FLG(OBJ_ALIVE);
             break;
-        case 0xBB:
-            mama_pirate_obj_id = (s16) var_s2;
-            var_v0_3 = var_s4->flags | 0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0xEE:
-            var_v0_3 = var_s4->flags & ~0x400;
-            var_s4->flags = var_v0_3; break;
-        case 0x20:
-            var_v0_5 = var_s4->flags;
-            var_s4->init_x_pos = 0U;
-            var_s4->x_pos = 0U;
-            var_s4->init_y_pos = 0U;
-            var_s4->y_pos = 0U;
-            var_v0_4 = var_v0_5 & ~0x400;
-            var_v0_3 = var_v0_4 & ~0x800;
-            var_s4->flags = var_v0_3; break;
+        case TYPE_NEUTRAL:
+        case TYPE_TAMBOUR2:
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+            break;
+        case TYPE_TIBETAIN_6:
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+            break;
+        case TYPE_BATEAU:
+            cur_obj->field23_0x3c = -1;
+            cur_obj->field24_0x3e = 0;
+            cur_obj->timer = 0;
+            bateau_obj_id = cnt_1;
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+            break;
+        case TYPE_MAMA_PIRATE:
+            mama_pirate_obj_id = cnt_1;
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+            break;
+        case TYPE_POING_FEE:
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            break;
+        case TYPE_DARK_PHASE2:
+            cur_obj->init_x_pos = 0;
+            cur_obj->x_pos = 0;
+            cur_obj->init_y_pos = 0;
+            cur_obj->y_pos = 0;
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
+            break;
         }
-        if ((t_world_info[world_index].nb_cages == 6) && (var_s4->type == 0x3A))
+
+        if (t_world_info[world_index].nb_cages == 6 && cur_obj->type == TYPE_CAGE)
         {
-            var_s4->flags &= ~0x400;
-            var_s4->flags &= ~0x800;
-            take_bonus((s16) var_s4->id);
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
+            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
+            take_bonus(cur_obj->id);
         }
-        if (((bonus_map == 0) && (((u8) flags[var_s4->type].flags1 >> 1) & 1) && (bonus_taken((s16) var_s4->id) & 0xFF)) || (var_s4->type == 0x9E))
+
+        if (
+            (
+                !bonus_map &&
+                flags[cur_obj->type].flags1 >> OBJ1_BONUS & 1 &&
+                bonus_taken(cur_obj->id)
+            ) || (cur_obj->type == TYPE_PALETTE_SWAPPER))
         {
-            var_s4->flags &= ~0x800;
-            var_s4->flags &= ~0x400;
+            cur_obj->flags &= ~FLG(OBJ_ACTIVE);
+            cur_obj->flags &= ~FLG(OBJ_ALIVE);
         }
-        if (bonus_map != 0)
-        {
-            if (var_s4->type == 0xA1)
-            {
-                nb_wiz += 1;
-            }
-        }
-        var_s2 = var_s2 + 1;
-        var_s4 += 1;
+
+        if (bonus_map && cur_obj->type == TYPE_WIZ)
+            nb_wiz++;
+        
+        cnt_1++;
+        cur_obj++;
     }
 
-    if (((s16) var_s5 != -1) && ((s16) var_s7 != -1))
+    if (!(unk_1 == -1 || unk_2 == -1))
     {
-        level.objects[(s16) var_s5].field24_0x3e = (s16) var_s7;
-        level.objects[(s16) var_s7].field24_0x3e = (s16) var_s5;
+        level.objects[unk_1].field24_0x3e = unk_2;
+        level.objects[unk_2].field24_0x3e = unk_1;
     }
-    if (bonus_map != 0)
+
+    if (bonus_map)
     {
-        temp_v1_5 = status_bar.num_wiz;
+        nb_wiz_save = status_bar.num_wiz;
         status_bar.num_wiz = 0;
-        nb_wiz_save = (s32) temp_v1_5;
     }
 }
 const u8 rodata_INIT_OBJECTS[4] = {};

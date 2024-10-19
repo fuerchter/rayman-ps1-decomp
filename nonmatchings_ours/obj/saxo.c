@@ -197,7 +197,6 @@ void DO_SAXO_COMMAND(Obj *obj)
         }
         break;
     case 2:
-        /* apply this below, then continue resolving gotos */
         if (FinAnim != 0 && obj->main_etat == 0 && obj->sub_etat == 3)
         {
             set_main_and_sub_etat(obj, Sax.field8_0xe, Sax.field9_0xf);
@@ -207,294 +206,252 @@ void DO_SAXO_COMMAND(Obj *obj)
         
         if (obj->main_etat == 0)
         {
-            if (obj->flags & 0x4000)
-            {
-                goto block_67;
-            }
-            if ((obj->x_pos + obj->offset_bx) < 0)
-            {
-                goto block_68;
-            }
-            goto block_69;
-        block_67:
-            if ((obj->x_pos + obj->offset_bx) <= (xmapmax + 0x140))
-            {
-                goto block_69;
-            }
-        block_68:
-            obj->speed_x = 0;
-        block_69:
+            if (
+                !(obj->flags & 0x4000) ?
+                    obj->x_pos + obj->offset_bx < 0 :
+                    obj->x_pos + obj->offset_bx > xmapmax + SCREEN_WIDTH
+            )
+                obj->speed_x = 0;
+            
             if (FinAnim != 0)
             {
                 switch (obj->sub_etat)
                 {
                 case 10:
-                    goto block_91;
-                case 11:
-                    temp_v0 = Sax.field10_0x10 - 1;
-                    Sax.field10_0x10 = temp_v0;
-                    if ((temp_v0 << 0x10) > 0)
+                    obj->gravity_value_2 = 5;
+                    obj->gravity_value_1 = 0;
+                    obj->speed_y = -6;
+                    obj->y_pos += obj->speed_y;
+                    var_a0 = -1;
+                    if (obj->flags & 0x4000)
                     {
-                        goto block_100;
+                        var_a0 = 1;
                     }
-                    goto block_147;
+                    obj->speed_x = var_a0;
+                    break;
+                case 11:
+                    if (--Sax.field10_0x10 > 0)
+                    {
+                        set_main_and_sub_etat(obj, 0U, 0x0AU);
+                        obj->speed_x = 0;
+                    }
+                    else
+                    {
+                        set_main_and_sub_etat(obj, 1U, 0U);
+                        var_v1_3 = -2;
+                        if (obj->flags & 0x4000)
+                        {
+                            var_v1_3 = 2;
+                        }
+                        obj->speed_x = var_v1_3;
+                    }
                 }
             }
         }
-        else
+        else if (obj->main_etat == 1)
         {
-            if (obj->main_etat != 1)
+block_666:
+            if (
+                !(obj->flags & 0x4000) ?
+                    (obj->x_pos + 0x40) < 0 :
+                    (obj->x_pos + 0xC0) > (xmapmax + 0x140)
+            )
             {
-                break;
+                obj->flags = (obj->flags & ~0x4000) | (((1 - ((obj->flags >> 0xE) & 1)) & 1) << 0xE);
+                set_main_and_sub_etat(obj, 0U, 0U);
+                obj->speed_x = 0;
+                Phase = 1;
             }
-        block_75:
-            if (!(obj->flags & 0x4000))
-            {
-                goto block_152;
-            }
-            goto block_154;
         }
         break;
     case 3:
-        if (FinAnim == 0)
+        if (FinAnim != 0 && obj->main_etat == 0 && obj->sub_etat == 3)
         {
-            goto block_81;
+            set_main_and_sub_etat(obj, Sax.field8_0xe, Sax.field9_0xf);
+            Sax.coup = 0;
+            FinAnim = 0;
         }
-        if (obj->main_etat != 0)
+
+        if (obj->main_etat == 0)
         {
-            goto block_97;
-        }
-        if (obj->sub_etat != 3)
-        {
-            goto block_81;
-        }
-        set_main_and_sub_etat(obj, Sax.field8_0xe, Sax.field9_0xf);
-        Sax.coup = 0;
-        FinAnim = 0;
-    block_81:
-        if (obj->main_etat != 0)
-        {
-            goto block_97;
-        }
-        if (obj->flags & 0x4000)
-        {
-            goto block_85;
-        }
-        if ((obj->x_pos + obj->offset_bx) < 0)
-        {
-            goto block_86;
-        }
-        goto block_87;
-    block_85:
-        if ((obj->x_pos + obj->offset_bx) <= (xmapmax + 0x140))
-        {
-            goto block_87;
-        }
-    block_86:
-        obj->speed_x = 0;
-    block_87:
-        if (FinAnim != 0)
-        {
-            switch (obj->sub_etat)
+            if (
+                !(obj->flags & 0x4000) ?
+                    obj->x_pos + obj->offset_bx < 0 :
+                    obj->x_pos + obj->offset_bx > xmapmax + SCREEN_WIDTH
+            )
+                obj->speed_x = 0;
+            
+            if (FinAnim != 0)
             {
-            case 10:
-            block_91:
-                obj->gravity_value_2 = 5;
-                obj->gravity_value_1 = 0;
-                obj->speed_y = -6;
-                var_a0 = -1;
-                obj->y_pos = obj->y_pos - 6;
-                if (obj->flags & 0x4000)
+                switch (obj->sub_etat)
                 {
-                    var_a0 = 1;
+                case 10:
+                    obj->gravity_value_2 = 5;
+                    obj->gravity_value_1 = 0;
+                    obj->speed_y = -6;
+                    obj->y_pos += obj->speed_y;
+                    var_a0 = -1;
+                    if (obj->flags & 0x4000)
+                    {
+                        var_a0 = 1;
+                    }
+                    obj->speed_x = var_a0;
+                    break;
+                case 11:
+                    Sax.field10_0x10 -= 1;
+                    set_main_and_sub_etat(obj, 1U, 0U);
+                    var_v1_2 = -2;
+                    if (obj->flags & 0x4000)
+                    {
+                        var_v1_2 = 2;
+                    }
+                    obj->speed_x = var_v1_2;
+                    obj->iframes_timer = 0x001E;
+                    break;
                 }
-                obj->speed_x = var_a0;
-                break;
-            case 11:
-                Sax.field10_0x10 -= 1;
-                set_main_and_sub_etat(obj, 1U, 0U);
-                var_v1_2 = -2;
-                if (obj->flags & 0x4000)
-                {
-                    var_v1_2 = 2;
-                }
-                obj->speed_x = var_v1_2;
-                obj->iframes_timer = 0x001E;
-                break;
             }
+            break;
         }
-        break;
-    block_97:
-        if (obj->main_etat == 1)
+        else if (obj->main_etat == 1)
         {
             if (Sax.field10_0x10 != 1)
             {
-                goto block_75;
+                goto block_666;
             }
             if (--obj->iframes_timer <= 0)
             {
-            block_100:
                 set_main_and_sub_etat(obj, 0U, 0x0AU);
                 obj->speed_x = 0;
             }
         }
         break;
     case 4:
-        if (FinAnim == 0)
+        if (FinAnim != 0 && obj->main_etat == 0 && obj->sub_etat == 3)
         {
-            goto block_105;
+            set_main_and_sub_etat(obj, Sax.field8_0xe, Sax.field9_0xf);
+            Sax.coup = 0;
+            FinAnim = 0;
         }
-        if (obj->main_etat != 0)
+        
+        if (obj->main_etat == 0)
         {
-            goto block_150;
-        }
-        if (obj->sub_etat != 3)
-        {
-            goto block_105;
-        }
-        set_main_and_sub_etat(obj, Sax.field8_0xe, Sax.field9_0xf);
-        Sax.coup = 0;
-        FinAnim = 0;
-    block_105:
-        if (obj->main_etat != 0)
-        {
-            goto block_150;
-        }
-        if (obj->flags & 0x4000)
-        {
-            goto block_109;
-        }
-        if ((obj->x_pos + obj->offset_bx) < 0)
-        {
-            goto block_110;
-        }
-        goto block_111;
-    block_109:
-        if ((obj->x_pos + obj->offset_bx) <= (xmapmax + 0x140))
-        {
-            goto block_111;
-        }
-    block_110:
-        obj->speed_x = 0;
-    block_111:
-        if (FinAnim != 0)
-        {
-            switch (obj->sub_etat)
+            if (
+                !(obj->flags & 0x4000) ?
+                    obj->x_pos + obj->offset_bx < 0 :
+                    obj->x_pos + obj->offset_bx > xmapmax + SCREEN_WIDTH
+            )
+                obj->speed_x = 0;
+            
+            if (FinAnim != 0)
             {
-            case 10:
-                obj->gravity_value_2 = 5;
-                obj->gravity_value_1 = 0;
-                temp_v1_8 = (ray.x_pos - 0x30);
-                temp_v1_8 = obj->x_pos - temp_v1_8;
-                var_a0_2 = temp_v1_8;
-                if (temp_v1_8 < 0)
+                switch (obj->sub_etat)
                 {
-                    var_a0_2 = -temp_v1_8;
-                }
-                if (var_a0_2 >= 0x65)
-                {
-                    obj->speed_y = var_a0_2 / 20;
-                    if (obj->speed_y > 9)
+                case 10:
+                    obj->gravity_value_2 = 5;
+                    obj->gravity_value_1 = 0;
+                    temp_v1_8 = (ray.x_pos - 0x30);
+                    temp_v1_8 = obj->x_pos - temp_v1_8;
+                    var_a0_2 = temp_v1_8;
+                    if (temp_v1_8 < 0)
                     {
-                        obj->speed_y = 9;
+                        var_a0_2 = -temp_v1_8;
                     }
-                    else if (obj->speed_y < 4)
+                    if (var_a0_2 >= 0x65)
                     {
-                        obj->speed_y = 4;
+                        obj->speed_y = var_a0_2 / 20;
+                        if (obj->speed_y > 9)
+                        {
+                            obj->speed_y = 9;
+                        }
+                        else if (obj->speed_y < 4)
+                        {
+                            obj->speed_y = 4;
+                        }
+                        var_v1_3 = -2;
+                        if (obj->flags & 0x4000)
+                        {
+                            var_v1_3 = 2;
+                        }
+                        obj->speed_x = var_v1_3;
                     }
+                    else
+                    {
+                        obj->speed_y = var_a0_2 / (s32) 10;
+                        if (obj->speed_y > 9)
+                        {
+                            obj->speed_y = 9;
+                        }
+                        else if (obj->speed_y < 4)
+                        {
+                            obj->speed_y = 4;
+                        }
+                        var_v1_3 = -1;
+                        if (obj->flags & 0x4000)
+                        {
+                            var_v1_3 = 1;
+                        }
+                        obj->speed_x = var_v1_3;
+                    }
+                    
+                    obj->y_pos = obj->y_pos - obj->speed_y;
+                    obj->speed_y = -obj->speed_y;
+                    break;
+                case 11:
+                    if (!(obj->flags & 0x4000))
+                    {
+                        goto block_140;
+                    }
+                    if ((obj->x_pos + 0x30) < ray.x_pos)
+                    {
+                        goto block_142;
+                    }
+                    goto block_145;
+                block_140:
+                    if (ray.x_pos < (obj->x_pos + 0x30))
+                    {
+                        goto block_142;
+                    }
+                    goto block_143;
+                block_142:
+                    set_main_and_sub_etat(obj, 0U, 0x0AU);
+                    break;
+                block_143:
+                    if ((obj->x_pos + 0x40) < 0)
+                    {
+                        goto block_155;
+                    }
+                    goto block_147;
+                block_145:
+                    if ((obj->x_pos + 0xC0) > (xmapmax + 0x140))
+                    {
+                        goto block_155;
+                    }
+                    goto block_147;
+                block_147:
+                    set_main_and_sub_etat(obj, 1U, 0U);
                     var_v1_3 = -2;
                     if (obj->flags & 0x4000)
                     {
                         var_v1_3 = 2;
                     }
                     obj->speed_x = var_v1_3;
-                }
-                else
-                {
-                    obj->speed_y = var_a0_2 / (s32) 10;
-                    if (obj->speed_y > 9)
-                    {
-                        obj->speed_y = 9;
-                    }
-                    else if (obj->speed_y < 4)
-                    {
-                        obj->speed_y = 4;
-                    }
-                    var_v1_3 = -1;
-                    if (obj->flags & 0x4000)
-                    {
-                        var_v1_3 = 1;
-                    }
-                    obj->speed_x = var_v1_3;
-                }
-                
-                obj->y_pos = obj->y_pos - obj->speed_y;
-                obj->speed_y = -obj->speed_y;
-                break;
-            case 11:
-                if (!(obj->flags & 0x4000))
-                {
-                    goto block_140;
-                }
-                if ((obj->x_pos + 0x30) < ray.x_pos)
-                {
-                    goto block_142;
-                }
-                goto block_145;
-            block_140:
-                if (ray.x_pos >= (obj->x_pos + 0x30))
-                {
-                    goto block_143;
-                }
-            block_142:
-                set_main_and_sub_etat(obj, 0U, 0x0AU);
-                break;
-            block_143:
-                if ((obj->x_pos + 0x40) < 0)
-                {
-                    goto block_155;
-                }
-                goto block_147;
-            block_145:
-                if ((obj->x_pos + 0xC0) > (xmapmax + 0x140))
-                {
-                    goto block_155;
-                }
-            block_147:
-                set_main_and_sub_etat(obj, 1U, 0U);
-                var_v1_3 = -2;
-                if (obj->flags & 0x4000)
-                {
-                    var_v1_3 = 2;
-                }
-                obj->speed_x = var_v1_3;
-                break;
-            block_150:
-                if (obj->main_etat != 1)
-                {
                     break;
                 }
-                if (obj->flags & 0x4000)
-                {
-                    goto block_154;
-                }
-            block_152:
-                if ((obj->x_pos + 0x40) < 0)
-                {
-                    goto block_155;
-                }
-                break;
-            block_154:
-                if ((obj->x_pos + 0xC0) <= (xmapmax + 0x140))
-                {
-                    break;
-                }
+            }
+        }
+        else if (obj->main_etat == 1)
+        {
+            if (
+                !(obj->flags & 0x4000) ?
+                    (obj->x_pos + 0x40) < 0 :
+                    (obj->x_pos + 0xC0) > (xmapmax + 0x140)
+            )
+            {
             block_155:
                 obj->flags = (obj->flags & ~0x4000) | (((1 - ((obj->flags >> 0xE) & 1)) & 1) << 0xE);
                 set_main_and_sub_etat(obj, 0U, 0U);
                 obj->speed_x = 0;
                 Phase = 1;
-                break;
             }
         }
         break;
@@ -507,7 +464,7 @@ void DO_SAXO_COMMAND(Obj *obj)
         }
         break;
     }
-block_158:
+
     temp_v1_9 = obj->x_pos + obj->offset_bx + obj->speed_x;
     if ((temp_v1_9 < 0) || ((xmapmax + 0x13F) < temp_v1_9))
     {
