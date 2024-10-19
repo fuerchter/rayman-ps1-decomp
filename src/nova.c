@@ -1,6 +1,30 @@
 #include "nova.h"
 
-INCLUDE_ASM("asm/nonmatchings/nova", allocateNOVA);
+/* 3AE54 8015F654 -O2 -msoft-float */
+Obj *allocateNOVA(void)
+{
+    Obj *res = null;
+    s16 i = 0;
+    Obj *cur_obj = &level.objects[i];
+    s16 nb_objs = level.nb_objects;
+    
+    while (i < nb_objs)
+    {
+        if (cur_obj->type == TYPE_NOVA2 && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+        {
+            set_main_and_sub_etat(cur_obj, 5, 20);
+            cur_obj->flags |= FLG(OBJ_ALIVE);
+            cur_obj->anim_index = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_index;
+            cur_obj->anim_frame = 0;
+            res = cur_obj;
+            break;
+        }
+        cur_obj++;
+        i++;
+    }
+    
+    return res;
+}
 
 INCLUDE_ASM("asm/nonmatchings/nova", DO_NOVA);
 

@@ -2,7 +2,7 @@
 
 /*
 attempts: 2
-matches, but goto
+matches, but goto (partially gotos-only)
 */
 /*INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SOL_ENFONCE);*/
 

@@ -190,119 +190,119 @@ returns u8 instead? see SaveGameOnDisk and betw1 var
 
 s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
 {
-  u8 *pbVar1;
-  int event_res;
-  long fd;
-  s32 betw1;
-  s32 betw2;
-  int cnt;
-  s32 betw3;
-  s32 *frame_from;
-  s32 *frame_to;
-  u8 *devname;
-  s32 chan_local;
-  s32 slot_local;
-  u8 test_4[32];
-  u8 saveicon1 [128];
-  u8 saveicon2and3 [128];
-  u8 saveiconpalette[32];
-  s32 local_c0;
-  s32 local_bc;
-  s32 local_b8;
-  s32 local_b4;
-  s32 local_b0;
-  s32 local_ac;
-  s32 local_a8;
-  s32 local_a4;
-  CardFrame0 card_frame0;
-  u8 local_20;
-  u8 *test_2;
-  u8 *new_var;
-  s32 test_3;
+    u8 *pbVar1;
+    int event_res;
+    long fd;
+    s32 betw1;
+    s32 betw2;
+    int cnt;
+    s32 betw3;
+    s32 *frame_from;
+    s32 *frame_to;
+    u8 *devname;
+    s32 chan_local;
+    s32 slot_local;
+    u8 test_4[32];
+    u8 saveicon1 [128];
+    u8 saveicon2and3 [128];
+    u8 saveiconpalette[32];
+    s32 local_c0;
+    s32 local_bc;
+    s32 local_b8;
+    s32 local_b4;
+    s32 local_b0;
+    s32 local_ac;
+    s32 local_a8;
+    s32 local_a4;
+    CardFrame0 card_frame0;
+    u8 local_20;
+    u8 *test_2;
+    u8 *new_var;
+    s32 test_3;
 
-  new_var = PS1_SaveIcon1;
-  __builtin_memcpy(saveicon1, new_var, sizeof(PS1_SaveIcon1));
-  new_var = PS1_SaveIcon2and3;
-  __builtin_memcpy(saveicon2and3, new_var, sizeof(PS1_SaveIcon2and3));
-  new_var = PS1_SaveIconPalette;
-  __builtin_memcpy(saveiconpalette, new_var, sizeof(PS1_SaveIconPalette));
-  _card_info(chan_par);
-  event_res = PS1_TestSwCARD();
-  if (event_res - 1U >= 2) {
-    if (event_res == 3) {
-      PS1_TestHwCARDOnce();
-      _card_clear(chan_par);
-      PS1_TestHwCARD();
-    }
-    PS1_TestSwCARDOnce();
-    _card_load(chan_par);
-    PS1_TestSwCARD();
-    FntPrint(s__Saving_file_8012add8);
-    devname = &PS1_SaveFilenames[slot_par - 1][0];
-    if (devname[0] == 0) {
-      sprintf(devname,s_bu02xss4u_8012ade8,chan_par,s_BISLUS00005_8012aca8,save_ray[slot_par],
-              (ushort)PS1_GlobalTimer);
-    }
-    fd = open(devname,0x10200);
-    if (fd != -1) {
-      PS1_WriteWiSaveZone();
-      loadInfoRay[slot_par - 1].num_cages = 0;
-      cnt = 0;
-      do {
-        loadInfoRay[slot_par - 1].num_cages = loadInfoRay[slot_par - 1].num_cages + (wi_save_zone[cnt].nb_cages);
-        cnt = cnt + 1;
-      } while (cnt < 24);
-      chan_local = loadInfoRay[slot_par - 1].num_cages * 100;
-      card_frame0.sc_magic[0] = 'S';
-      card_frame0.sc_magic[1] = 'C';
-      card_frame0.icon_display_flag = 0x13;
-      card_frame0.block_num = 1;
-      sprintf(card_frame0.Rayman_save_ray_pct,s_Rayman_s_03d_8012adf8,save_ray[slot_par],
-              (short)(chan_local / 102));
-      strncpy(card_frame0.Maga,s_Maga_801cf050,0x1c);
-      __builtin_memcpy(card_frame0.icon_palette, saveiconpalette, sizeof(saveiconpalette));
-      write(fd,&card_frame0,0x80);
-      write(fd,saveicon1,0x80);
-      write(fd,saveicon2and3,0x80);
-      write(fd,saveicon2and3,0x80);
-      write(fd,&nb_continue,0x80);
-      write(fd,wi_save_zone,0x80);
-      write(fd,&RayEvts,0x80);
-      write(fd,&poing,0x80);
-      write(fd,&status_bar,0x80);
-      write(fd,&ray.hit_points,0x80);
-      write(fd,save_zone,0xa80);
-      write(fd,bonus_perfect,0x80);
-      write(fd,&options_jeu,0x80);
-      if (dans_la_map_monde) {
-        write(fd,&num_world_choice,0x80);
-        write(fd,&xmap,0x80);
-        write(fd,&ymap,0x80);
-        local_20 = (u8)(ray.flags >> 0xe) & 1;
-        write(fd,&local_20,0x80);
-      }
-      else {
-        write(fd,&world_index,0x80);
-        write(fd,&xwldmapsave,0x80);
-        write(fd,&ywldmapsave,0x80);
-        write(fd,&dir_on_wldmap,0x80);
-      }
-      write(fd,finBosslevel,0x80);
-      close(fd);
-      CHANGE_STAGE_NAMES();
-      PS1_Checksum = PS1_CardFilenameChecksum(chan_par);
-      betw1 = 1;
+    new_var = PS1_SaveIcon1;
+    __builtin_memcpy(saveicon1, new_var, sizeof(PS1_SaveIcon1));
+    new_var = PS1_SaveIcon2and3;
+    __builtin_memcpy(saveicon2and3, new_var, sizeof(PS1_SaveIcon2and3));
+    new_var = PS1_SaveIconPalette;
+    __builtin_memcpy(saveiconpalette, new_var, sizeof(PS1_SaveIconPalette));
+    _card_info(chan_par);
+    event_res = PS1_TestSwCARD();
+    if (event_res - 1U >= 2) {
+        if (event_res == 3) {
+            PS1_TestHwCARDOnce();
+            _card_clear(chan_par);
+            PS1_TestHwCARD();
+        }
+        PS1_TestSwCARDOnce();
+        _card_load(chan_par);
+        PS1_TestSwCARD();
+        FntPrint(s__Saving_file_8012add8);
+        devname = &PS1_SaveFilenames[slot_par - 1][0];
+        if (devname[0] == 0) {
+            sprintf(devname,s_bu02xss4u_8012ade8,chan_par,s_BISLUS00005_8012aca8,save_ray[slot_par],
+                    (ushort)PS1_GlobalTimer);
+        }
+        fd = open(devname,0x10200);
+        if (fd != -1) {
+            PS1_WriteWiSaveZone();
+            loadInfoRay[slot_par - 1].num_cages = 0;
+            cnt = 0;
+            do {
+                loadInfoRay[slot_par - 1].num_cages = loadInfoRay[slot_par - 1].num_cages + (wi_save_zone[cnt].nb_cages);
+                cnt = cnt + 1;
+            } while (cnt < 24);
+            chan_local = loadInfoRay[slot_par - 1].num_cages * 100;
+            card_frame0.sc_magic[0] = 'S';
+            card_frame0.sc_magic[1] = 'C';
+            card_frame0.icon_display_flag = 0x13;
+            card_frame0.block_num = 1;
+            sprintf(card_frame0.Rayman_save_ray_pct,s_Rayman_s_03d_8012adf8,save_ray[slot_par],
+                    (short)(chan_local / 102));
+            strncpy(card_frame0.Maga,s_Maga_801cf050,0x1c);
+            __builtin_memcpy(card_frame0.icon_palette, saveiconpalette, sizeof(saveiconpalette));
+            write(fd,&card_frame0,0x80);
+            write(fd,saveicon1,0x80);
+            write(fd,saveicon2and3,0x80);
+            write(fd,saveicon2and3,0x80);
+            write(fd,&nb_continue,0x80);
+            write(fd,wi_save_zone,0x80);
+            write(fd,&RayEvts,0x80);
+            write(fd,&poing,0x80);
+            write(fd,&status_bar,0x80);
+            write(fd,&ray.hit_points,0x80);
+            write(fd,save_zone,0xa80);
+            write(fd,bonus_perfect,0x80);
+            write(fd,&options_jeu,0x80);
+            if (dans_la_map_monde) {
+                write(fd,&num_world_choice,0x80);
+                write(fd,&xmap,0x80);
+                write(fd,&ymap,0x80);
+                local_20 = (u8)(ray.flags >> 0xe) & 1;
+                write(fd,&local_20,0x80);
+            }
+            else {
+                write(fd,&world_index,0x80);
+                write(fd,&xwldmapsave,0x80);
+                write(fd,&ywldmapsave,0x80);
+                write(fd,&dir_on_wldmap,0x80);
+            }
+            write(fd,finBosslevel,0x80);
+            close(fd);
+            CHANGE_STAGE_NAMES();
+            PS1_Checksum = PS1_CardFilenameChecksum(chan_par);
+            betw1 = 1;
+        }
+        else {
+            FntPrint(s__Cant_open_file_8012ae0c);
+            betw1 = 0xfd;
+        }
     }
     else {
-      FntPrint(s__Cant_open_file_8012ae0c);
-      betw1 = 0xfd;
+        FntPrint(s__Cannot_create_file_8012ae20);
+        betw1 = 0xfc;
     }
-  }
-  else {
-    FntPrint(s__Cannot_create_file_8012ae20);
-    betw1 = 0xfc;
-  }
-  return betw1;
+    return betw1;
 }
 
 /* matches, but options_jeu as memcpy somehow? */
