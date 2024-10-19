@@ -124,6 +124,7 @@ void DO_POING_COLLISION(void)
                     case TYPE_PT_GRAPPIN:
                         if (RayEvts.grap && ray_mode != MODE_MORT_DE_RAYMAN)
                         {
+                            #define ABS_LT(x, y) (x >= 0 ? x < y : -(x) < y)
                             if (
                                 ABS_LT(
                                     (ray.y_pos + ray.offset_by) -
