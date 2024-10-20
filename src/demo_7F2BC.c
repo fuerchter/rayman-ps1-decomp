@@ -36,7 +36,7 @@ s16 PS1_DemoLoop(void)
     if (TempsDemo >= RunTimeDemo && !fin_du_jeu && !PS1_MENU_RETURN2)
         InitDemoJeu();
 
-    if (PS1_VideoState != VIDEOST_NOT_PLAYING)
+    if (PS1_VideoPlayState != VIDEOST_NOT_PLAYING)
         done = true;
     if (fin_du_jeu || ModeDemo || PS1_MENU_RETURN2 || MENU_RETURN)
         done = true;

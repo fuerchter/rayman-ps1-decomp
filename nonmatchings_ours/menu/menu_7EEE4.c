@@ -13,7 +13,7 @@ void DO_MENU(void)
     PS1_MENU_RETURN2 = false;
     MENU_RETURN = false;
     PROC_EXIT = false;
-    PS1_VideoState = VIDEOST_NOT_PLAYING;
+    PS1_VideoPlayState = VIDEOST_NOT_PLAYING;
     done = false;
     while (ModeDemo == 0 && !fin_du_jeu && !done)
     {
@@ -26,9 +26,9 @@ do /* TODO: ??? */
         {
         case 0:
             PS1_PlayDemo();
-            if (PS1_VideoState != VIDEOST_NOT_PLAYING)
+            if (PS1_VideoPlayState != VIDEOST_NOT_PLAYING)
             {
-                PS1_VideoState = VIDEOST_NOT_PLAYING;
+                PS1_VideoPlayState = VIDEOST_NOT_PLAYING;
             }
             else if (ModeDemo == 0)
             {

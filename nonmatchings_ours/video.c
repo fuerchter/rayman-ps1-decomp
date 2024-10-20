@@ -5,25 +5,25 @@
 
 void FUN_80132980(void)
 {
-    LoadImage(&D_801CF5E0.field3_0xc,(u_long *)D_801CF5E0.field2_0x8);
+    LoadImage(&PS1_CurrentVideoState.field3_0xc,(u_long *)PS1_CurrentVideoState.field2_0x8);
     DrawSync(0);
-    D_801CF5E0.field3_0xc.x = D_801CF5E0.field3_0xc.x + 0x10;
-    if (D_801CF5E0.field3_0xc.x < 0x140) {
-        DecDCTout((u_long *)D_801CF5E0.field2_0x8,0x680);
+    PS1_CurrentVideoState.field3_0xc.x = PS1_CurrentVideoState.field3_0xc.x + 0x10;
+    if (PS1_CurrentVideoState.field3_0xc.x < 0x140) {
+        DecDCTout((u_long *)PS1_CurrentVideoState.field2_0x8,0x680);
     }
     else {
         if (PS1_CurrentDisplay == PS1_Displays) {
             PS1_CurrentDisplay = PS1_Displays + 1;
-            D_801CF5E0.field3_0xc.x = 0;
-            D_801CF5E0.field3_0xc.y = 0x114;
+            PS1_CurrentVideoState.field3_0xc.x = 0;
+            PS1_CurrentVideoState.field3_0xc.y = 0x114;
         }
         else {
             PS1_CurrentDisplay = PS1_Displays;
-            D_801CF5E0.field3_0xc.x = 0;
-            D_801CF5E0.field3_0xc.y = 0x14;
+            PS1_CurrentVideoState.field3_0xc.x = 0;
+            PS1_CurrentVideoState.field3_0xc.y = 0x14;
         }
 
-        D_801CF5E0.field4_0x14 = 1;
+        PS1_CurrentVideoState.field4_0x14 = 1;
     }
 }
 
@@ -47,50 +47,50 @@ void PS1_PlayVideoFile(s16 video)
   else {
     FUN_80132e04(&PS1_VdoFiles[video].file.pos,1);
   }
-  FUN_80132d74(&D_801CF5E0);
+  FUN_80132d74(&PS1_CurrentVideoState);
   DecDCToutCallback(FUN_80132980);
   PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
-  FUN_80132ea0((u32 *)(&D_801CF5E0.field0_0x0)[D_801CF5E0.field6_0x16],video);
-  D_801CF5E0.field5_0x15 = 0;
-  if ((PS1_VideoState < 2) && ((u16) D_801CF5E0.frame_count < PS1_VideoLength))
+  PS1_ReadVideoFile((u32 *)(&PS1_CurrentVideoState.field0_0x0)[PS1_CurrentVideoState.field6_0x16],video);
+  PS1_CurrentVideoState.field5_0x15 = 0;
+  if ((PS1_VideoPlayState < 2) && ((u16) PS1_CurrentVideoState.frame_count < PS1_VideoLength))
   {
     do {
-      D_801CF5E0.field4_0x14 = 0;
+      PS1_CurrentVideoState.field4_0x14 = 0;
       if (temp_s3) {
         readinput();
       }
-      DecDCTout((u32 *)D_801CF5E0.field2_0x8,0x680);
-      DecDCTin((u32 *)(&D_801CF5E0.field0_0x0)[D_801CF5E0.field6_0x16],0);
+      DecDCTout((u32 *)PS1_CurrentVideoState.field2_0x8,0x680);
+      DecDCTin((u32 *)(&PS1_CurrentVideoState.field0_0x0)[PS1_CurrentVideoState.field6_0x16],0);
 
       
-      if (D_801CF5E0.field6_0x16) {
-        D_801CF5E0.field6_0x16 = 0;
-        pbVar3 = D_801CF5E0.field0_0x0;
+      if (PS1_CurrentVideoState.field6_0x16) {
+        PS1_CurrentVideoState.field6_0x16 = 0;
+        pbVar3 = PS1_CurrentVideoState.field0_0x0;
       }
       else
       {
-        D_801CF5E0.field6_0x16 = 1;
-        pbVar3 = D_801CF5E0.field1_0x4;
+        PS1_CurrentVideoState.field6_0x16 = 1;
+        pbVar3 = PS1_CurrentVideoState.field1_0x4;
 
       }
-      FUN_80132ea0(pbVar3,video);
+      PS1_ReadVideoFile(pbVar3,video);
       if ((temp_s3) &&
          ((sVar1 = but1pressed(0), sVar1 != 0 || (iVar2 = PS1_TOUCHE_0x9(0), iVar2 != 0)))) {
-        PS1_VideoState = 2;
+        PS1_VideoPlayState = 2;
       }
-      while (D_801CF5E0.field4_0x14 == 0){};
-      while (D_801CF5E0.field5_0x15 != 0){};
-    } while ((PS1_VideoState < 2) && ((u16) D_801CF5E0.frame_count < PS1_VideoLength));
+      while (PS1_CurrentVideoState.field4_0x14 == 0){};
+      while (PS1_CurrentVideoState.field5_0x15 != 0){};
+    } while ((PS1_VideoPlayState < 2) && ((u16) PS1_CurrentVideoState.frame_count < PS1_VideoLength));
   }
   SsSetSerialVol('\0',0,0);
   CdControlB('\t',(u_char *)0x0,(u_char *)0x0);
-  D_801CF5E0.field4_0x14 = 0;
-  DecDCTout((u32 *)D_801CF5E0.field2_0x8,0x680);
-  DecDCTin((u32 *)(&D_801CF5E0.field0_0x0)[D_801CF5E0.field6_0x16],0);
+  PS1_CurrentVideoState.field4_0x14 = 0;
+  DecDCTout((u32 *)PS1_CurrentVideoState.field2_0x8,0x680);
+  DecDCTin((u32 *)(&PS1_CurrentVideoState.field0_0x0)[PS1_CurrentVideoState.field6_0x16],0);
   do {
-  } while (D_801CF5E0.field4_0x14 == 0);
+  } while (PS1_CurrentVideoState.field4_0x14 == 0);
   do {
-  } while (D_801CF5E0.field5_0x15 != 0);
+  } while (PS1_CurrentVideoState.field5_0x15 != 0);
   DecDCTinCallback(0);
   DecDCToutCallback(0);
   CdDataCallback(0);
@@ -109,16 +109,16 @@ void PS1_PlayVideoFile(s16 video)
 }
 
 /* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/video", FUN_80132ea0);*/
+/*INCLUDE_ASM("asm/nonmatchings/video", PS1_ReadVideoFile);*/
 
-void FUN_80132ea0(u32 *param_1, s16 video)
+void PS1_ReadVideoFile(u32 *param_1, s16 video)
 {
     u32 *usr_dat; /* also StHEADER? */
     StHEADER *header;
     u8 vol;
 
     while (StGetNext(&usr_dat, (u32 **) &header) != 0){};
-    D_801CF5E0.frame_count = header->frameCount;
+    PS1_CurrentVideoState.frame_count = header->frameCount;
     if (video == 1)
         SsSetSerialVol(SS_SERIAL_A, 80, 80);
     else
@@ -135,10 +135,10 @@ void FUN_80132ea0(u32 *param_1, s16 video)
 
 void FUN_80132f8c(void)
 {
-    D_801CF5E0.field5_0x15 = D_801CF5E0.field5_0x15 + 1;
+    PS1_CurrentVideoState.field5_0x15 = PS1_CurrentVideoState.field5_0x15 + 1;
     __asm__("lbu     $v0,0($v1)\nnop");
-    if ((D_801CF5E0.field5_0x15 > 3) && (D_801CF5E0.field4_0x14 != 0)) {
-        D_801CF5E0.field5_0x15 = 0;
+    if ((PS1_CurrentVideoState.field5_0x15 > 3) && (PS1_CurrentVideoState.field4_0x14 != 0)) {
+        PS1_CurrentVideoState.field5_0x15 = 0;
         PutDrawEnv(&PS1_CurrentDisplay->drawing_environment);
         PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
     }

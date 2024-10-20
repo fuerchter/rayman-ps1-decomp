@@ -20,7 +20,7 @@ void PS1_PlayVideo(Video video)
         break;
     }
     PS1_LoadVideoTables();
-    PS1_VideoState = VIDEO_PRES;
+    PS1_VideoPlayState = VIDEO_PRES;
     SsSetSerialVol(SS_SERIAL_A, 0, 0);
     PS1_PlayVideoFile(video);
     new_disp = &PS1_Displays[0];
@@ -37,7 +37,7 @@ INCLUDE_ASM("asm/nonmatchings/video", FUN_80132980);
 INCLUDE_ASM("asm/nonmatchings/video", PS1_PlayVideoFile);
 
 /* E574 80132D74 -O2 -msoft-float */
-void FUN_80132d74(Unk_801cf5e0 *param_1)
+void PS1_InitVideoState(Unk_801cf5e0 *param_1)
 {
     param_1->field6_0x16 = 0;
     param_1->frame_count = 1;
@@ -55,7 +55,7 @@ void FUN_80132d74(Unk_801cf5e0 *param_1)
 }
 
 /* E604 80132E04 -O2 -msoft-float */
-void FUN_80132e04(CdlLOC *lba, u32 param_2)
+void PS1_LoadVideoFile(CdlLOC *lba, u32 param_2)
 {
     CdlLOC unk_1;
 
@@ -67,7 +67,7 @@ void FUN_80132e04(CdlLOC *lba, u32 param_2)
     while (!CdRead2(CdlModeStream|CdlModeSpeed|CdlModeRT)){};
 }
 
-INCLUDE_ASM("asm/nonmatchings/video", FUN_80132ea0);
+INCLUDE_ASM("asm/nonmatchings/video", PS1_ReadVideoFile);
 
 INCLUDE_ASM("asm/nonmatchings/video", FUN_80132f8c);
 

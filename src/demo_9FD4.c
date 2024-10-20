@@ -6,7 +6,7 @@ void InitDemoJeu(void)
     if (NumDemo == 6)
     {
         NumDemo = 0;
-        PS1_VideoState = VIDEOST_PLAYING;
+        PS1_VideoPlayState = VIDEOST_PLAYING;
         ModeDemo = 0;
         TempsDemo = 0;
         DO_FADE_OUT();
@@ -14,7 +14,7 @@ void InitDemoJeu(void)
         return;
     }
 
-    PS1_VideoState = VIDEOST_NOT_PLAYING;
+    PS1_VideoPlayState = VIDEOST_NOT_PLAYING;
     ModeDemo = 1;
     TempsDemo = 0;
 
@@ -89,7 +89,7 @@ void FinDemoJeu(void)
     {
         DO_FADE_OUT();
         PS1_PlayVideo(VIDEO_DEMO);
-        if (PS1_VideoState == VIDEOST_SKIPPED)
+        if (PS1_VideoPlayState == VIDEOST_SKIPPED)
             RunTimeDemo = 1800;
     }
 }
