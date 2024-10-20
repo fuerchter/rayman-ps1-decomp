@@ -37,20 +37,20 @@ INCLUDE_ASM("asm/nonmatchings/video", FUN_80132980);
 INCLUDE_ASM("asm/nonmatchings/video", PS1_PlayVideoFile);
 
 /* E574 80132D74 -O2 -msoft-float */
-void PS1_InitVideoState(Unk_801cf5e0 *param_1)
+void PS1_InitVideoState(VideoState *param_1)
 {
-    param_1->field6_0x16 = 0;
+    param_1->current_encode_buffer_index = 0;
     param_1->frame_count = 1;
-    param_1->field3_0xc.w = 16;
-    param_1->field3_0xc.h = 200;
-    param_1->field0_0x0 = (u8 *) D_801CEEDC;
-    param_1->field1_0x4 = (u8 *) D_801CEEE0;
-    param_1->field2_0x8 = (u8 *) D_801CEEE8;
+    param_1->frame_rect.w = 16;
+    param_1->frame_rect.h = 200;
+    param_1->encoded_frame_buffers[0] = (u8 *) D_801CEEDC;
+    param_1->encoded_frame_buffers[1] = (u8 *) D_801CEEE0;
+    param_1->decoded_frame = (u8 *) D_801CEEE8;
     if (PS1_CurrentDisplay == PS1_Displays)
-        param_1->field3_0xc.y = 20;
+        param_1->frame_rect.y = 20;
     else
-        param_1->field3_0xc.y = 276;
-    param_1->field3_0xc.x = 0;
+        param_1->frame_rect.y = 276;
+    param_1->frame_rect.x = 0;
     VSyncCallback(FUN_80132f8c);
 }
 

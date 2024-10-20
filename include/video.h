@@ -16,23 +16,22 @@ typedef s16 Video;
 #define VIDEO_MAP_INTRO 4 /* Same as the normal intro, but only plays the end */
 #define VIDEO_WIN 5
 
-typedef u8 VideoState;
+typedef u8 VideoPlayState;
 #define VIDEOST_NOT_PLAYING 0
 #define VIDEOST_PLAYING 1
 #define VIDEOST_SKIPPED 2
 
 /* based on PS1_InitVideoState */
-typedef struct Unk_801cf5e0 {
-    u8 * field0_0x0;
-    u8 * field1_0x4;
-    u8 * field2_0x8;
-    RECT field3_0xc;
-    u8 field4_0x14;
-    u8 field5_0x15;
-    u8 field6_0x16;
-    u8 field7_0x17;
+typedef struct VideoState {
+    u8 * encoded_frame_buffers[2];
+    u8 * decoded_frame;
+    RECT frame_rect;
+    u8 has_swapped_display;
+    u8 vsync_counter;
+    u8 current_encode_buffer_index;
+    /*u8 field7_0x17;*/
     s16 frame_count;
-} Unk_801cf5e0;
+} VideoState;
 
 /* .data */
 extern u32 *D_801CEEDC;
@@ -41,16 +40,16 @@ extern u32 *D_801CEEE4;
 extern u32 *D_801CEEE8;
 
 /* .data */
-extern Unk_801cf5e0 PS1_CurrentVideoState;
+extern VideoState PS1_CurrentVideoState;
 
 /**/
-extern VideoState PS1_VideoPlayState;
+extern VideoPlayState PS1_VideoPlayState;
 extern s16 PS1_VideoLength;
 
 void PS1_PlayVideo(Video video);
 void FUN_80132980(void);
 void PS1_PlayVideoFile(Video video);
-void PS1_InitVideoState(Unk_801cf5e0 *param_1);
+void PS1_InitVideoState(VideoState *param_1);
 void PS1_LoadVideoFile(CdlLOC *lba, u32 param_2);
 void PS1_ReadVideoFile(u32 *param_1, Video video);
 void FUN_80132f8c(void);
