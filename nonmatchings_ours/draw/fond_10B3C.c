@@ -184,7 +184,7 @@ void FUN_80135d5c(s32 param_1, s16 *param_2, s32 param_3, s16 param_4)
   DR_ENV *dr_env;
   int iVar13;
   short *psVar14;
-  BackgroundPosition *bg_pos;
+  DVECTOR *bg_pos;
   int iVar16;
   Sprite *bg_sprite;
   u8 cnt_1;
@@ -204,7 +204,7 @@ void FUN_80135d5c(s32 param_1, s16 *param_2, s32 param_3, s16 param_4)
     /*iVar16 = param_4;*/
     iVar6 = ((PS1_FondWidth - 0x140) << 0x10) >> 0x10;
     pSVar10 = cur_sprite; /* should be the same??? */
-    psVar14 = &bg_pos->y; /* ??? */
+    psVar14 = &bg_pos->vy; /* ??? */
     do {
       
       uVar7 = bg_sprite->id - 1 & 0xff;
@@ -215,7 +215,7 @@ void FUN_80135d5c(s32 param_1, s16 *param_2, s32 param_3, s16 param_4)
         if ((((ushort)*psVar14 - param_3) << 0x10) >> 0x10 < 1000) {
           sVar9 = (*psVar14 - param_3);
         }
-        pSVar10[0].x0 = bg_pos->x - sVar1_1;
+        pSVar10[0].x0 = bg_pos->vx - sVar1_1;
         pSVar10[0].y0 = sVar9;
         ppuVar3 = PS1_PrevPrim;
         cur_sprite->tag = cur_sprite->tag & 0xff000000 | (uint)*ppuVar3 & 0xffffff;
@@ -236,7 +236,7 @@ void FUN_80135d5c(s32 param_1, s16 *param_2, s32 param_3, s16 param_4)
         if ((((ushort)*psVar14 - param_1) << 0x10) >> 0x10 < 1000) {
           sVar9 = (*psVar14 - param_1);
         }
-        pSVar10[0].x0 = bg_pos->x - sVar1_1;
+        pSVar10[0].x0 = bg_pos->vx - sVar1_1;
         pSVar10[0].y0 = sVar9;
         cur_sprite->tag = cur_sprite->tag & 0xff000000 | (uint)pDVar2->ordering_table[0] & 0xffffff;
         pDVar2->ordering_table[0] =
