@@ -9,7 +9,7 @@ This repo does not come with any of the game's assets. A copy of the game's exe 
 git clone --recursive https://github.com/fuerchter/rayman-ps1-decomp
 ```
 Add SLUS-000.05 `sha1 4ac1789e118933762cd0ebcb9a970f63dfe2c72f` to project root  
-Get [gcc-2.5.7.tar.gz](https://github.com/decompals/old-gcc/releases), extract and add it to the tools dir (extracted path of cc1 e.g.: tool/gcc-2.5.7/cc1)
+Get [gcc-2.5.7.tar.gz](https://github.com/decompals/old-gcc/releases), extract and add it to the tools dir (extracted path of cc1 e.g.: tools/gcc-2.5.7/cc1)
 ```
 sudo apt install python3 python3-pip binutils-mipsel-linux-gnu cpp-mipsel-linux-gnu
 pip install -r requirements.txt
