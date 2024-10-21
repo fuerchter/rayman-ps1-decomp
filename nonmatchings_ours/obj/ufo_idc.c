@@ -246,20 +246,3 @@ void DO_MOVING_WITH_INDICATOR_COMMAND(Obj *ufo_idc_obj)
 
     }
 }
-
-/* matches, but */
-/*INCLUDE_ASM("asm/nonmatchings/obj/ufo_idc", DO_IDC_COMMAND);*/
-
-void DO_IDC_COMMAND(Obj *idc_obj)
-{
-    s32 temp_v1 = idc_obj->sub_etat;
-    s32 new_var2 = temp_v1;
-    
-    if ((temp_v1 < 4) && (new_var2 >= 0))
-    {
-        idc_obj->display_prio = 4;
-        idc_obj->flags &= ~0x4000;
-        return;
-    }
-    idc_obj->display_prio = 0;
-}

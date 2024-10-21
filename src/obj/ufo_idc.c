@@ -22,7 +22,23 @@ s16 test_block_chdir(Obj *obj, s16 *out_unk, s16 off_x, s16 off_y)
 
 INCLUDE_ASM("asm/nonmatchings/obj/ufo_idc", DO_MOVING_WITH_INDICATOR_COMMAND);
 
-INCLUDE_ASM("asm/nonmatchings/obj/ufo_idc", DO_IDC_COMMAND);
+/* 74E40 80199640 -O2 -msoft-float */
+void DO_IDC_COMMAND(Obj *idc_obj)
+{
+    switch (idc_obj->sub_etat)
+    {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+        idc_obj->display_prio = 4;
+        idc_obj->flags &= ~0x4000;
+        break;
+    default:
+        idc_obj->display_prio = 0;
+        break;
+    }
+}
 
 /* 74E80 80199680 -O2 -msoft-float */
 void DO_LEV_POING_COLLISION(Obj *lev_obj)

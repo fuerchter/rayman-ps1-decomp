@@ -52,8 +52,9 @@ u8 readTestArgs(Obj *obj)
     case 4:
         obj->field23_0x3c = obj->cmds[++obj->cmd_offset];
         break;
-    case 6:
-    case 7:
+    case 70:
+    case 71:
+    case 72:
         break;
     }
 
@@ -119,8 +120,9 @@ u8 skipTestArgs(Obj *obj)
     case 4:
         obj->cmd_offset++;
         break;
-    case 6:
-    case 7:
+    case 70:
+    case 71:
+    case 72:
         break;
     }
     

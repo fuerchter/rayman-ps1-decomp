@@ -1670,7 +1670,7 @@ u8 RAY_DEAD(void)
     )
     {
         ray.hit_points = 0;
-        RAY_HIT(1, 0);
+        RAY_HIT(true, null);
     }
     else if (ray.screen_y_pos > 220)
     {
