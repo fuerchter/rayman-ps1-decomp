@@ -15,9 +15,9 @@ extern u8 D_801CF101;
 
 /**/
 extern u8 NBRE_SAVE;
-extern u8 positiony_mc;
+extern u8 PS1_positiony_mc;
 extern u8 PS1_CardStringDisplayed;
-extern s16 compteur_mc;
+extern s16 PS1_compteur_mc;
 extern u8 PS1_DisplayCardContinueText;
 extern u8 PS1_NoCard;
 extern u8 D_801E5238;

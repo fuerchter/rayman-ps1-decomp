@@ -651,7 +651,7 @@ void REALISATION_ACTION(void)
         if (strcmp(save_ray[positiony], s__801cf120) != 0)
         {
             PS1_PromptCardErase();
-            if (positiony_mc == 1)
+            if (PS1_positiony_mc == 1)
             {
                 fichier_selectionne = positiony;
                 FUN_8016bbe4();

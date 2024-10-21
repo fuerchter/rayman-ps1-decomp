@@ -391,7 +391,7 @@ void DISPLAY_CONTINUE_SPR(void)
 
 void PS1_PromptCardDisplayPoing(void)
 {
-    display_sprite(mapobj, 2, 120, ((positiony_mc - 1) * 22) + 157, 1);
+    display_sprite(mapobj, 2, 120, ((PS1_positiony_mc - 1) * 22) + 157, 1);
 }
 
 /* 1B150 8013F950 -O2 */

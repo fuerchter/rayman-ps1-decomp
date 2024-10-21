@@ -8,20 +8,20 @@ void PS1_PromptCardInput(void)
 {
     if (downjoy(0) && inter_select == 0)
     {
-        positiony_mc++;
-        if (positiony_mc < 3)
+        PS1_positiony_mc++;
+        if (PS1_positiony_mc < 3)
             PlaySnd_old(68);
     }
     else if (upjoy(0) && inter_select == 0)
     {
-        positiony_mc--;
-        if (positiony_mc != 0)
+        PS1_positiony_mc--;
+        if (PS1_positiony_mc != 0)
             PlaySnd_old(68);
     }
 
-    MIN_2(positiony_mc, 2);
-    if (positiony_mc == 0)
-        positiony_mc = 1;
+    MIN_2(PS1_positiony_mc, 2);
+    if (PS1_positiony_mc == 0)
+        PS1_positiony_mc = 1;
     
     if (++inter_select > 5)
         inter_select = 0;
@@ -40,12 +40,12 @@ s16 PS1_PromptCardYesNo(void)
     PS1_PromptCardDisplayPoing();
     PS1_PromptCardInput();
     readinput();
-    if (compteur_mc != 0)
-        compteur_mc--;
+    if (PS1_compteur_mc != 0)
+        PS1_compteur_mc--;
 
     done = false;
     if (ValidButPressed())
-        done = compteur_mc == 0;
+        done = PS1_compteur_mc == 0;
     if (done)
         PlaySnd_old(69);
 
@@ -63,12 +63,12 @@ s16 PS1_PromptCardContinue(void)
     if (PS1_DisplayCardContinueText)
         display_text(s_press_x_button_to_continue_8012c378, 160, 195, 2, 0);
     readinput();
-    if (compteur_mc != 0)
-        compteur_mc--;
+    if (PS1_compteur_mc != 0)
+        PS1_compteur_mc--;
     
     done = false;
     if (ValidButPressed())
-        done = compteur_mc == 0;
+        done = PS1_compteur_mc == 0;
     
     return done;
 }
@@ -82,12 +82,12 @@ s16 PS1_PleaseInsertPad(void)
     CLRSCR();
     display_text(PS1_CardStrings[PS1_CardStringDisplayed], 160, 145, 2, 0);
     readinput();
-    if (compteur_mc != 0)
-        compteur_mc--;
+    if (PS1_compteur_mc != 0)
+        PS1_compteur_mc--;
 
     done = false;
     if (PS1_InitPAD())
-        done = compteur_mc == 0;
+        done = PS1_compteur_mc == 0;
     
     return done;
 }
@@ -136,14 +136,14 @@ void PS1_DoYouHaveCard(void)
     {
         PS1_CardStringDisplayed = 0;
         inter_select = 0;
-        compteur_mc = 10;
-        positiony_mc = 2;
+        PS1_compteur_mc = 10;
+        PS1_positiony_mc = 2;
         SYNCHRO_LOOP(PS1_PromptCardYesNo);
         FUN_801a0c68();
-        compteur_mc = 10;
+        PS1_compteur_mc = 10;
         if (!PS1_NoCard)
         {
-            if (positiony_mc == 1)
+            if (PS1_positiony_mc == 1)
             {
                 PS1_CardStringDisplayed = 1;
                 PS1_DisplayCardContinueText = false;
@@ -172,14 +172,14 @@ void PS1_PromptCardFormat(void)
     {
         PS1_CardStringDisplayed = 3;
         inter_select = 0;
-        compteur_mc = 10;
-        positiony_mc = 2;
+        PS1_compteur_mc = 10;
+        PS1_positiony_mc = 2;
         SYNCHRO_LOOP(PS1_PromptCardYesNo);
         FUN_801a0c68();
-        compteur_mc = 10;
+        PS1_compteur_mc = 10;
         if (!PS1_NoCard)
         {
-            if (positiony_mc == 2)
+            if (PS1_positiony_mc == 2)
             {
                 PS1_CardStringDisplayed = 4;
                 PS1_DisplayCardContinueText = true;
@@ -202,7 +202,7 @@ void PS1_GetNbreSave1(void)
     u8 save_itoa;
 
     NBRE_SAVE = PS1_GetNbreSave2();
-    compteur_mc = 10;
+    PS1_compteur_mc = 10;
     if (NBRE_SAVE == 0)
     {
         PS1_CardStringDisplayed = 6;
@@ -306,8 +306,8 @@ void PS1_PromptCardErase(void)
 {
     PS1_CardStringDisplayed = 9;
     inter_select = 0;
-    compteur_mc = 10;
-    positiony_mc = 2;
+    PS1_compteur_mc = 10;
+    PS1_positiony_mc = 2;
     DO_FADE_OUT();
     INIT_FADE_IN();
     SYNCHRO_LOOP(PS1_PromptCardYesNo);
@@ -320,14 +320,14 @@ u8 PS1_PromptSaveWldMap(void)
 {
     PS1_CardStringDisplayed = 10;
     inter_select = 0;
-    compteur_mc = 10;
-    positiony_mc = 1;
+    PS1_compteur_mc = 10;
+    PS1_positiony_mc = 1;
     DO_FADE_OUT();
     INIT_FADE_IN();
     SYNCHRO_LOOP(PS1_PromptCardYesNo);
     DO_FADE_OUT();
     INIT_FADE_IN();
-    return positiony_mc == 1;
+    return PS1_positiony_mc == 1;
 }
 
 /* 7CC1C 801A141C -O2 -msoft-float */
@@ -335,12 +335,12 @@ u8 PS1_PromptQuit(void)
 {
     PS1_CardStringDisplayed = 11;
     inter_select = 0;
-    compteur_mc = 10;
-    positiony_mc = 2;
+    PS1_compteur_mc = 10;
+    PS1_positiony_mc = 2;
     DO_FADE_OUT();
     INIT_FADE_IN();
     SYNCHRO_LOOP(PS1_PromptCardYesNo);
     DO_FADE_OUT();
     INIT_FADE_IN();
-    return positiony_mc == 1;
+    return PS1_positiony_mc == 1;
 }
