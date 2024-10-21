@@ -39,7 +39,26 @@ u8 readOneArg(Obj *obj)
     return false;
 }
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", readTestArgs);
+/* 56B78 8017B378 -O2 -msoft-float */
+u8 readTestArgs(Obj *obj)
+{
+    obj->nb_cmd = obj->cmds[++obj->cmd_offset];
+    switch (obj->nb_cmd)
+    {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+        obj->field23_0x3c = obj->cmds[++obj->cmd_offset];
+        break;
+    case 6:
+    case 7:
+        break;
+    }
+
+    return false;
+}
 
 /* 56BE4 8017B3E4 -O2 */
 u8 readGoXYArgs(Obj *obj)
@@ -87,7 +106,26 @@ u8 skipOneArg(Obj *obj)
     return false;
 }
 
-INCLUDE_ASM("asm/nonmatchings/command_56AF0", skipTestArgs);
+/* thanks! https://decomp.me/scratch/Cvb8F */
+/* 56D44 8017B544 -O2 -msoft-float */
+u8 skipTestArgs(Obj *obj)
+{
+    switch (obj->cmds[++obj->cmd_offset])
+    {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+        obj->cmd_offset++;
+        break;
+    case 6:
+    case 7:
+        break;
+    }
+    
+    return false;
+}
 
 /* 56D8C 8017B58C -O2 */
 u8 skipGoXYArgs(Obj *obj)
