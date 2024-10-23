@@ -460,7 +460,7 @@ block_666:
         {
             Sax.field10_0x10 = 0x03E7;
             fin_boss = 1;
-            *finBosslevel |= 4;
+            finBosslevel.mr_sax = true;
         }
         break;
     }
@@ -1002,7 +1002,7 @@ block_150:
         {
             Sax.field10_0x10 = 0x03E7;
             fin_boss = 1;
-            *finBosslevel |= 4;
+            finBosslevel.mr_sax = true;
         }
         break;
     }

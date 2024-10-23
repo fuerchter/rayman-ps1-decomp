@@ -689,7 +689,7 @@ void DETER_WORLD_AND_LEVEL(void)
     
     if (
         num_world_choice == 5 && num_level_choice == 3 &&
-        finBosslevel[1] & FLG(1)
+        finBosslevel.helped_joe_1
     )
     {
         num_level_choice++;
@@ -697,12 +697,12 @@ void DETER_WORLD_AND_LEVEL(void)
     }
     else if (
         num_world_choice == 5 && num_level_choice == 4 &&
-        finBosslevel[1] & FLG(1) && ModeDemo != 0
+        finBosslevel.helped_joe_1 && ModeDemo != 0
     )
         RayEvts.luciole = true;
     else if (
         num_world_choice == 6 &&
-        finBosslevel[0] & FLG(7)
+        finBosslevel.mr_dark
     )
     {
         You_Win = true;

@@ -883,7 +883,7 @@ void DO_BBMONT_COMMAND(Obj *obj)
         {
             fin_boss = true;
             bb1.saved_cmd = 999;
-            finBosslevel[0] |= 0x08;
+            finBosslevel.mr_stone = true;
         }
     }
     else

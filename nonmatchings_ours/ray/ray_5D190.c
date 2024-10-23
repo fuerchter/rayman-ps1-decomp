@@ -300,7 +300,7 @@ block_62:
                     skipToLabel(var_s1, var_a1_2, 1);
                     break;
                 case 0xA2:
-                    if (!(finBosslevel[1] & 4))
+                    if (!finBosslevel.helped_joe_2)
                     {
                         break;
                     }

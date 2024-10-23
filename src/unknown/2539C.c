@@ -68,8 +68,18 @@ void LOAD_CONFIG(void)
 /* 25AA8 8014A2A8 -O2 -msoft-float */
 void init_finBossLevel(void)
 {
-    finBosslevel[0] = 0;
-    finBosslevel[1] &= 0xf0;
+    finBosslevel.bzzit = false;
+    finBosslevel.moskito = false;
+    finBosslevel.mr_sax = false;
+    finBosslevel.mr_stone = false;
+    finBosslevel.viking_mama = false;
+    finBosslevel.space_mama = false;
+    finBosslevel.mr_skops = false;
+    finBosslevel.mr_dark = false;
+    finBosslevel.crazy_drummer = false;
+    finBosslevel.helped_joe_1 = false;
+    finBosslevel.helped_joe_2 = false;
+    finBosslevel.helped_musician = false;
 }
 
 /* 25ACC 8014A2CC -O2 -msoft-float */

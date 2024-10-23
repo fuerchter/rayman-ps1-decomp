@@ -32,7 +32,7 @@ void INIT_MOTEUR(u8 new_lvl)
     sko_last_action = 0;
     sko_enfonce_enable = 0;
     pixels_enfonce = 0;
-    joe_exp_probleme = finBosslevel[1] >> 2 & 1;
+    joe_exp_probleme = finBosslevel.helped_joe_2;
     if (num_world == 5 && num_level == 10)
     {
         mp.height = 32;

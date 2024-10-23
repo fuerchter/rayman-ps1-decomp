@@ -52,7 +52,7 @@ void lance_couteau_lineaire(Obj *in_obj)
                         if (level.objects[mama_pirate_obj_id].hit_points == 0)
                         {
                             fin_boss = true;
-                            finBosslevel[0] |= FLG(4);
+                            finBosslevel.viking_mama = true;
                         }
                     }
                 }

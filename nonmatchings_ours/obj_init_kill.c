@@ -90,7 +90,7 @@ void INIT_OBJECTS(u8 new_lvl)
             if (!(RayEvts.super_helico))
             {
                 unk_3 = cur_obj->flags & ~FLG(OBJ_ALIVE);
-                unk_4 = (finBosslevel[1] << 7) & FLG(OBJ_ALIVE);
+                unk_4 = finBosslevel.helped_musician << OBJ_ALIVE;
                 cur_obj->flags = unk_3 | unk_4;
             }
             else
@@ -473,7 +473,7 @@ void INIT_OBJECTS(u8 new_lvl)
             cur_obj->flags |= FLG(OBJ_ALIVE);
             break;
         case TYPE_PI_MUS:
-            if (finBosslevel[1] & FLG(3))
+            if (finBosslevel.helped_musician)
             {
                 set_sub_etat(cur_obj, 10);
                 cur_obj->init_sub_etat = 10;
@@ -488,7 +488,7 @@ void INIT_OBJECTS(u8 new_lvl)
             cur_obj->init_flag = 7;
             cur_obj->flags |= FLG(OBJ_ALIVE);
             Mus_obj_id = cur_obj->id;
-            if (finBosslevel[1] & FLG(3))
+            if (finBosslevel.helped_musician)
             {
                 cur_obj->init_sub_etat = 4;
                 set_main_and_sub_etat(cur_obj, 0, 4);

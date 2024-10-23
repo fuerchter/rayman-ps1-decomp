@@ -528,5 +528,5 @@ void goto_phase5(Obj *mr_drk_obj)
     mr_drk_obj->flags &= ~FLG(OBJ_ALIVE);
     mr_drk_obj->flags &= ~FLG(OBJ_ACTIVE);
     fin_boss = true;
-    finBosslevel[0] |= FLG(7);
+    finBosslevel.mr_dark = true;
 }

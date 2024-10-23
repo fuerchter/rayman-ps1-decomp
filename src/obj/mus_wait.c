@@ -5,10 +5,10 @@ void DO_MUSICIEN(Obj *obj)
 {
     if (
         obj->main_etat == 0 && obj->sub_etat == 4 &&
-        EOA(obj) && !(finBosslevel[1] & FLG(3))
+        EOA(obj) && !(finBosslevel.helped_musician)
     )
     {
-        finBosslevel[1] |= FLG(3);
+        finBosslevel.helped_musician = true;
         allocateSupHelico(&level.objects[Mus_obj_id]);
         Vignet_To_Display = 1;
     }

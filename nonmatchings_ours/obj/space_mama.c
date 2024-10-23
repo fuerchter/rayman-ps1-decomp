@@ -267,7 +267,7 @@ u8 prepareNewMereDenisAttack(Obj *smama_obj)
                 fix_numlevel(smama_obj);
                 new_level = true;
                 currentBossActionIsOver = false;
-                finBosslevel[0] |= FLG(5);
+                finBosslevel.space_mama = true;
                 break;
             case 41:
                 old_flip_x = smama_obj->flags >> OBJ_FLIP_X & 1;

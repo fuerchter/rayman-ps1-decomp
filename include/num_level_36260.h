@@ -10,9 +10,25 @@
 #include "ray/ray_5D190.h"
 #include "main_moteur.h"
 
+typedef struct FinBosslevel {
+    u8 bzzit : 1;
+    u8 moskito : 1;
+    u8 mr_sax : 1;
+    u8 mr_stone : 1;
+    u8 viking_mama : 1;
+    u8 space_mama : 1;
+    u8 mr_skops : 1;
+    u8 mr_dark : 1;
+    
+    u8 crazy_drummer : 1;
+    u8 helped_joe_1 : 1;
+    u8 helped_joe_2 : 1;
+    u8 helped_musician : 1;
+} FinBosslevel;
+
 /**/
 extern s16 departlevel;
-extern u8 finBosslevel[2];
+extern FinBosslevel finBosslevel;
 extern u8 fin_boss;
 
 void new_level_init(void);

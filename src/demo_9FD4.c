@@ -43,7 +43,8 @@ void InitDemoJeu(void)
     options_jeu.field14_0x24 = 0;
     options_jeu.field13_0x22 = 0;
     POINTEUR_BOUTONS_OPTIONS_BIS();
-    finBosslevel[1] |= FLG(1)|FLG(3);
+    finBosslevel.helped_joe_1 = true;
+    finBosslevel.helped_musician = true;
     num_world_choice = DemoRecordWolrd[NumDemo];
     num_level_choice = DemoRecordMap[NumDemo];
     new_world = true;
@@ -81,7 +82,8 @@ void FinDemoJeu(void)
     num_level = 0;
     num_world_choice = 0;
     num_level_choice = 0;
-    finBosslevel[1] &= ~(FLG(1)|FLG(3));
+    finBosslevel.helped_joe_1 = false;
+    finBosslevel.helped_musician = false;
     __builtin_memcpy(&options_jeu, &options_jeu_save, sizeof(OptionsJeu));
     POINTEUR_BOUTONS_OPTIONS_BIS();
     NumDemo++;

@@ -298,7 +298,7 @@ void obj_init(Obj *obj)
         INIT_SAXO(obj);
         break;
     case TYPE_PRI:
-        if (finBosslevel[1] & FLG(2))
+        if (finBosslevel.helped_joe_2)
         {
             prise_branchee = true;
             set_main_and_sub_etat(obj, 0, 2);

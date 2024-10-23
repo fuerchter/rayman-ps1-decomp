@@ -30,7 +30,7 @@ void fix_numlevel(Obj *obj)
                 {
                     num_level_choice = (u16) num_level_choice + 1;
                 }
-                if ((num_level == 5) && (*finBosslevel & 1))
+                if ((num_level == 5) && finBosslevel.bzzit)
                 {
                     num_level_choice = (u16) num_level_choice + 1;
                 }
@@ -41,13 +41,13 @@ void fix_numlevel(Obj *obj)
                         new_world = 1;
                     }
                 }
-                if ((num_level == 0x000D) && (*finBosslevel & 2))
+                if ((num_level == 0x000D) && finBosslevel.moskito)
                 {
                     num_level_choice = (u16) num_level_choice + 1;
                 }
                 if (num_level == 0x000F)
                 {
-                    if (*finBosslevel & 2)
+                    if (finBosslevel.moskito)
                     {
                         new_world = 1;
                     }
@@ -63,12 +63,12 @@ void fix_numlevel(Obj *obj)
             case 2:
                 if (num_level == 5)
                 {
-                    if (finBosslevel[1] & 1)
+                    if (finBosslevel.crazy_drummer)
                     {
                         new_world = 1;
                     }
                 }
-                if ((num_level == 9) && (*finBosslevel & 4))
+                if ((num_level == 9) && finBosslevel.mr_sax)
                 {
                     new_world = 1;
                 }
@@ -81,8 +81,7 @@ void fix_numlevel(Obj *obj)
                 }
                 if (num_level == 0x000E)
                 {
-                    var_v0 = *finBosslevel & 4;
-                    if (var_v0 != 0)
+                    if (finBosslevel.mr_sax != 0)
                     {
                         new_world = 1;
                     }
@@ -91,12 +90,12 @@ void fix_numlevel(Obj *obj)
             case 3:
                 if (num_level == 1)
                 {
-                    if (*finBosslevel & 8)
+                    if (finBosslevel.mr_stone)
                     {
                         new_world = 1;
                     }
                 }
-                if ((num_level == 9) && (*finBosslevel & 8))
+                if ((num_level == 9) && (finBosslevel.mr_stone))
                 {
                     new_world = 1;
                 }
@@ -112,15 +111,14 @@ void fix_numlevel(Obj *obj)
             case 4:
                 if (num_level == 3)
                 {
-                    if (*finBosslevel & 0x10)
+                    if (finBosslevel.viking_mama)
                     {
                         new_world = 1;
                     }
                 }
                 if (num_level == 0x000A)
                 {
-                    var_v0 = *finBosslevel & 0x20;
-                    if (var_v0 != 0)
+                    if (finBosslevel.space_mama != 0)
                     {
                         new_world = 1;
                     }
@@ -129,8 +127,7 @@ void fix_numlevel(Obj *obj)
             case 5:
                 if (num_level == 9)
                 {
-                    var_v0 = *finBosslevel & 0x40;
-                    if (var_v0 != 0)
+                    if (finBosslevel.mr_skops != 0)
                     {
                         new_world = 1;
                     }
@@ -139,8 +136,7 @@ void fix_numlevel(Obj *obj)
             case 6:
                 if (num_level == 1)
                 {
-                    var_v0 = *finBosslevel & 0x80;
-                    if (var_v0 != 0)
+                    if (finBosslevel.mr_dark != 0)
                     {
                         new_world = 1;
                     }

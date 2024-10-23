@@ -14,7 +14,7 @@ void DO_JOE_COMMAND(Obj *obj)
             {
                 Vignet_To_Display = 1;
                 vignet_joe_affichee = false;
-                finBosslevel[1] |= FLG(1);
+                finBosslevel.helped_joe_1 = true;
                 obj->timer = 0;
             }
             

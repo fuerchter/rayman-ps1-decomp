@@ -131,13 +131,13 @@ block_19:
             case 25:
                 if (arg0->init_hit_points == 5)
                 {
-                    ChangeLevel(seq_1);
-                    finBosslevel[0] |= 1;
+                    ChangeLevel();
+                    finBosslevel.bzzit = true;
                 }
                 else
                 {
                     remoteRayXToReach = -0x7D00;
-                    finBosslevel[0] |= 2;
+                    finBosslevel.moskito = true;
                     set_main_and_sub_etat(&ray, 3, 0x34);
                     arg0->nb_cmd = vblToEOA(&ray, 1) + 1;
                     fin_boss = 1;

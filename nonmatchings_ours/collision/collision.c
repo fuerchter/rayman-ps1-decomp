@@ -659,7 +659,7 @@ void DO_POING_COLLISION(void)
                             skipToLabel(other_obj, 2, true);
                             other_obj->init_sub_etat = 2;
                             prise_branchee = true;
-                            finBosslevel[1] |= FLG(2);
+                            finBosslevel.helped_joe_2 = true;
                         }
                         break;
                     case TYPE_POI3:
