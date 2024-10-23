@@ -32,7 +32,7 @@ void DO_IDC_COMMAND(Obj *idc_obj)
     case 2:
     case 3:
         idc_obj->display_prio = 4;
-        idc_obj->flags &= ~0x4000;
+        idc_obj->flags &= ~FLG(OBJ_FLIP_X);
         break;
     default:
         idc_obj->display_prio = 0;

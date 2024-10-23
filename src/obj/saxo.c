@@ -84,10 +84,6 @@ void DO_EXPLOSE_NOTE2(Obj *obj)
 }
 
 /* 50F40 80175740 -O2 -msoft-float */
-/*? PlaySnd(?, s16, s16);
-? allocateExplosion(Obj *);
-? set_main_and_sub_etat(Obj *, ?, ?);*/
-
 void DO_NOTE_CMD(Obj *obj)
 {
     s16 calc_x;
@@ -177,9 +173,6 @@ void DO_NOTE_CMD(Obj *obj)
 }
 
 /* 511C4 801759C4 -O2 -msoft-float */
-/*? calc_obj_pos(Obj *);
-? skipToLabel(Obj *, ?, ?);*/
-
 void Cree_Eclat_Note(Obj *bnote, Obj *note1, s16 index)
 {
   s16 speed_x;
@@ -393,9 +386,6 @@ void DO_NOTE_REBOND(Obj *obj)
 }
 
 /* 51828 80176028 -O2 -msoft-float */
-/*? calc_obj_pos(Obj *, s32);
-? skipToLabel(Obj *, ?, ?, s16);*/
-
 void allocateNote(Obj *obj)
 {
   Obj *noteObj;
@@ -515,9 +505,6 @@ void DO_SAXO_COUP(Obj *obj)
 }
 
 /* 51C7C 8017647C -O2 -msoft-float */
-/*? set_main_and_sub_etat(Obj *, ?, ?);
-? set_sub_etat(Obj *, ?);*/
-
 void DO_SAXO2_COUP(Obj *obj)
 {
     switch (Phase)
@@ -547,19 +534,13 @@ void DO_SAXO2_COUP(Obj *obj)
 /* 51D7C 8017657C -O2 -msoft-float */
 void SetSaxoCollNoteBox(Obj *obj)
 {
-  s16 x2;
-  s16 y2;
-  s16 w2;
-  s16 h2;
-  s16 x5;
-  s16 y5;
-  s16 w5;
-  s16 h5;
-  
-  GET_SPRITE_POS(obj, 2, &x2, &y2, &w2, &h2);
-  GET_SPRITE_POS(obj, 5, &x5, &y5, &w5, &h5);
-  Sax.note_box_coll_y = y5 + 20;
-  Sax.note_box_coll_x = x2 + ((w2 - 20) >> 1);
+    s16 x2; s16 y2; s16 w2; s16 h2;
+    s16 x5; s16 y5; s16 w5; s16 h5;
+
+    GET_SPRITE_POS(obj, 2, &x2, &y2, &w2, &h2);
+    GET_SPRITE_POS(obj, 5, &x5, &y5, &w5, &h5);
+    Sax.note_box_coll_y = y5 + 20;
+    Sax.note_box_coll_x = x2 + ((w2 - 20) >> 1);
 }
 
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO_COMMAND);
@@ -567,23 +548,18 @@ INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO_COMMAND);
 /* 52BC4 801773C4 -O2 -msoft-float */
 void DO_SAXO_ATTER(Obj *obj)
 {
-  if (obj->speed_y > 0)
-  {
-    CALC_MOV_ON_BLOC(obj);
-    screen_trembling = 1;
-    set_main_and_sub_etat(obj, 0, 0xb);
-    obj->speed_x = 0;
-    obj->speed_y = 0;
-    allocateLandingSmoke(obj);
-  }
+    if (obj->speed_y > 0)
+    {
+        CALC_MOV_ON_BLOC(obj);
+        screen_trembling = 1;
+        set_main_and_sub_etat(obj, 0, 11);
+        obj->speed_x = 0;
+        obj->speed_y = 0;
+        allocateLandingSmoke(obj);
+    }
 }
 
 /* 52C28 80177428 -O2 -msoft-float */
-/*? CALC_MOV_ON_BLOC(Obj *, s16, s32);
-? GET_SPRITE_POS(?, u16 *, u16 *, u16 *, ? *);
-? set_main_and_sub_etat(Obj *, ?, ?);
-? set_sub_etat(Obj *, ?, s32);*/
-
 void DO_SAXO2_COMMAND(Obj *obj)
 {
     s16 sprite_w;
@@ -792,30 +768,30 @@ void DO_SAXO2_COMMAND(Obj *obj)
 /* 533C8 80177BC8 -O2 -msoft-float */
 void DO_SAXO2_ATTER(Obj *obj)
 {
-  s32 four = 4;
-  s32 two = 2;
-
-  if (Phase < four && Phase >= two && obj->speed_y > 0) {
-    CALC_MOV_ON_BLOC(obj);
-    screen_trembling3 = 1;
-    set_main_and_sub_etat(obj, 0, 0xb);
-    obj->speed_x = 0;
-    obj->speed_y = 0;
-    allocateLandingSmoke(obj);
-  }
+    switch (Phase)
+    {
+    case 2:
+    case 3:
+        if (obj->speed_y > 0)
+        {
+            CALC_MOV_ON_BLOC(obj);
+            screen_trembling3 = 1;
+            set_main_and_sub_etat(obj, 0, 11);
+            obj->speed_x = 0;
+            obj->speed_y = 0;
+            allocateLandingSmoke(obj);
+        }
+        break;
+    }
 }
 
 /* 53448 80177C48 -O2 -msoft-float */
 void DO_SAXO_MARCHE(s16 hp)
 {
-  Sax.field10_0x10 = hp + 1;
+    Sax.field10_0x10 = hp + 1;
 }
 
 /* 5345C 80177C5C -O2 -msoft-float */
-/*? GET_SPRITE_POS(?, u16 *, u16 *, u16 *, ? *);
-? set_main_and_sub_etat(Obj *, ?, ?);
-? set_sub_etat(Obj *, ?, u32);*/
-
 void DO_SAXO3_COMMAND(Obj *obj)
 {
     s16 sprite_w;
