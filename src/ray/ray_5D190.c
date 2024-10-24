@@ -109,43 +109,33 @@ void IS_RAY_ON_LIANE(void)
 
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", rayMayLandOnAnObject);
 
-/* unknowns... */
 /* 5DE3C 8018263C -O2 -msoft-float */
 void set_air_speed(u8 main_etat, u8 sub_etat, s16 param_3, u8 param_4)
 {
-  s32 unk_1;
-  ObjState *eta;
-  s8 unk_2;
-  s32 right;
-  s32 left;
-  
-  unk_1 = __builtin_abs(param_3) << 0x14 >> 0x18;
-  eta = &ray.eta[main_etat][sub_etat];
-  if (unk_1 > 112)
-    unk_1 = 112;
-  
-  unk_2 = -unk_1;
-  if (ray.speed_x > 0)
-  {
-    eta->speed_x_left = -16;
-    right = param_4;
-    if (param_4 < unk_1)
-      right = unk_1;
-    eta->speed_x_right = right;
-  }
-  else if (ray.speed_x < 0)
-  {
-    left = -param_4;
-    if (unk_2 < left)
-      left = unk_2;
-    eta->speed_x_left = left;
-    eta->speed_x_right = 16;
-  }
-  else
-  {
-    eta->speed_x_left = -param_4;
-    eta->speed_x_right = param_4;
-  }
+    ObjState *eta;
+    s8 unk_1;
+    s8 unk_2;
+    
+    eta = &ray.eta[main_etat][sub_etat];
+    unk_1 = __builtin_abs(param_3) >> 4;
+    unk_1 = MIN_1(unk_1, 112);
+    unk_2 = -unk_1; /* TODO: ??? */
+
+    if (ray.speed_x > 0)
+    {
+        eta->speed_x_left = -16;
+        eta->speed_x_right = MAX_1(param_4, unk_1);
+    }
+    else if (ray.speed_x < 0)
+    {
+        eta->speed_x_left = MIN_1(-param_4, unk_2);
+        eta->speed_x_right = 16;
+    }
+    else
+    {
+        eta->speed_x_left = -param_4;
+        eta->speed_x_right = param_4;
+    }
 }
 
 /* 5DF0C 8018270C -O2 -msoft-float */

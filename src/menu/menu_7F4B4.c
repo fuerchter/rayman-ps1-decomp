@@ -473,7 +473,90 @@ void INIT_SAVE_CONTINUE(void)
   positionx = 1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", DO_COMMANDE_SAVE);
+/* 811C8 801A59C8 -O2 -msoft-float */
+void DO_COMMANDE_SAVE(void) /* TODO: macro(s)? */
+{
+    if (
+        rightjoy(0) && !upjoy(0) && !downjoy(0) &&
+        fichier_a_copier == 0 &&
+        (
+            button_released != 0 ||
+            (compteur > delai_repetition && compteur % repetition == 0)
+        )
+    )
+    {
+        if (positionx2 == D_801F5498)
+            positionx2 = 1;
+        else
+            positionx2++;
+        
+        TempsDemo = 0;
+        PlaySnd_old(68);
+    }
+
+    if (
+        leftjoy(0) && !upjoy(0) && !downjoy(0) &&
+        fichier_a_copier == 0 &&
+        (
+            button_released != 0 ||
+            (compteur > delai_repetition && compteur % repetition == 0)
+        )
+    )
+    {
+        if (positionx2 == 1)
+            positionx2 = D_801F5498;
+        else
+            positionx2--;
+        
+        TempsDemo = 0;
+        PlaySnd_old(68);
+    }
+
+    if (
+        upjoy(0) && !leftjoy(0) && !rightjoy(0) &&
+        (
+            button_released != 0 ||
+            (compteur > delai_repetition && compteur % repetition == 0)
+        )
+    )
+    {
+        if (positiony < 2)
+            positiony = NBRE_SAVE;
+        else
+            positiony--;
+        
+        TempsDemo = 0;
+        PlaySnd_old(68);
+    }
+
+    if (
+        downjoy(0) && !leftjoy(0) && !rightjoy(0) &&
+        (
+            button_released != 0 ||
+            (compteur > delai_repetition && compteur % repetition == 0)
+        )
+    )
+    {
+        if (positiony == NBRE_SAVE)
+            positiony = 1;
+        else
+            positiony++;
+        
+        TempsDemo = 0;
+        PlaySnd_old(68);
+    }
+
+    if (!rightjoy(0) && !leftjoy(0) && !downjoy(0) && !upjoy(0))
+    {
+        button_released = 1;
+        compteur = 0;
+    }
+    else
+        button_released = 0;
+    
+    if (SelectButPressed() && button_released != 0)
+        MENU_RETURN = true;
+}
 
 /* 81634 801A5E34 -O2 -msoft-float */
 void SELECTION_SAVE_OPTION(void)
