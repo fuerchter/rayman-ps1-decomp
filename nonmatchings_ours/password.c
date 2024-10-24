@@ -305,3 +305,138 @@ void PS1_UnusedGenerateAndPrintPassword(s16 param_1, s16 param_2, u8 param_3, u8
     }
     display_text(pass, param_1, param_2, param_3, param_4);
 }
+
+/* matches, but casts*/
+/*INCLUDE_ASM("asm/nonmatchings/password", FUN_801a3064);*/
+
+/* 7E864 801A3064 -O2 -msoft-float */
+void FUN_801a3064(void)
+{
+    s32 char_ind;
+    u8 valid_prs = ValidButPressed();
+
+    if ((compteur > delai_repetition || button_released != 0) && positiony != 2)
+    {
+        if ((positiony == 1 && valid_prs) || StartButPressed())
+        {
+            PlaySnd_old(69);
+            for (char_ind = 0; char_ind < (s16) LEN(PS1_CurrentTypingPassword); char_ind++)
+            {
+                *(u8 *)&PS1_CurrentPassword[char_ind] =
+                    PS1_PasswordTables.translate_table[
+                        PS1_CurrentTypingPassword[char_ind]
+                    ];
+            }
+            if (PS1_AttemptLoadSaveFromPassword() != true)
+                positiony = 2;
+            else
+                PS1_ValidPassword = true;
+        }
+
+        if (!upjoy(0) && !downjoy(0))
+        {
+            if (leftjoy(0))
+            {
+                compteur = 0;
+                if (positiony == 0)
+                {
+                    if (positionx <= 0)
+                    {
+                        positiony = 1;
+                        positionx = 0;
+                    }
+                    else
+                        positionx--;
+                }
+                else
+                {
+                    positiony = 0;
+                    positionx = ((s16) LEN(PS1_CurrentTypingPassword) - 1);
+                }
+                PlaySnd_old(68);
+            }
+            else if (rightjoy(0) || (valid_prs && positiony == 0))
+            {
+                compteur = 0;
+                if (positiony == 0)
+                {
+                    if (positionx >= ((s16) LEN(PS1_CurrentTypingPassword) - 1))
+                    {
+                        positionx = ((s16) LEN(PS1_CurrentTypingPassword) - 1);
+                        positiony = 1;
+                    }
+                    else
+                        positionx++;
+                }
+                else
+                {
+                    positiony = 0;
+                    positionx = 0;
+                }
+
+                if (valid_prs && positiony == 0)
+                    PlaySnd_old(69);
+                else
+                    PlaySnd_old(68);
+            }
+            D_801E57A8 = PS1_CurrentTypingPassword[positionx];
+        }
+        if (!rightjoy(0) && !leftjoy(0) && positiony == 0)
+        {
+            if (upjoy(0))
+            {
+                D_801E57A8++;
+                D_801E57A8 &= 0x1F;
+                if (button_released != 0)
+                    PlaySnd_old(68);
+            }
+            else if (downjoy(0))
+            {
+                D_801E57A8 += 0x1F;
+                D_801E57A8 &= 0x1F;
+                if (button_released != 0)
+                    PlaySnd_old(68);
+            }
+            PS1_CurrentTypingPassword[positionx] = D_801E57A8;
+        }
+    }
+    if (
+        !upjoy(0) && !downjoy(0) &&
+        !rightjoy(0) && !leftjoy(0) &&
+        !valid_prs && !PS1_ValidPassword
+    )
+    {
+        button_released = 1;
+        D_801F5448 = 1;
+        compteur = 0;
+    }
+    else
+    {
+        button_released = 0;
+        D_801F5448 = 0;
+    }
+}
+
+/* matches, but casts */
+/*INCLUDE_ASM("asm/nonmatchings/password", PS1_GenerateAndDisplayPassword);*/
+
+/* 7EDF8 801A35F8 -O2 -msoft-float */
+void PS1_GenerateAndDisplayPassword(void)
+{
+    /* TODO: correct sizes? */
+    u8 i;
+    u8 pass[21]; 
+    u8 pass_cen[32];
+
+    PS1_IsPasswordValid = PS1_GeneratePassword();
+    for (i = 0; i < LEN(PS1_CurrentPassword); i++)
+    {
+        pass[i * 2] = PS1_PasswordTables.display_table[*(u8 *)&PS1_CurrentPassword[i] & 0x1f];
+        pass[i * 2 + 1] = ' ';
+    }
+
+    if (PS1_IsPasswordValid == true)
+        pass[20] = '\0';
+    sprintf(pass_cen, s_s_801cf110, pass);
+    strcpy(text_to_display[0].text, pass_cen);
+}

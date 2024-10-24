@@ -269,10 +269,62 @@ void FUN_801a2d40(void)
 
 INCLUDE_ASM("asm/nonmatchings/password", FUN_801a3064);
 
-INCLUDE_ASM("asm/nonmatchings/password", PS1_MenuPassword);
+/* 7EC58 801A3458 -O2 -msoft-float */
+s16 PS1_MenuPassword(void)
+{
+    s16 x_pos;
+    u8 should_ret = false;
+    
+    CLRSCR();
+    DISPLAY_FOND_MENU();
+    DO_FADE();
+    readinput();
 
-INCLUDE_ASM("asm/nonmatchings/password", FUN_801a3550);
+    x_pos = 160;
+    display_text(s_enter_password_8012c424, x_pos, debut_titre, 1, 1);
+    display_text(s_select__return_8012c438, x_pos, D_801E4E48 + 15, 2, 10);
+    FUN_801a3064();
+    FUN_801a2d40();
+    
+    if (SelectButPressed() != 0)
+    {
+        should_ret = true;
+        MENU_RETURN = true;
+
+        while (SelectButPressed())
+            readinput();
+    }
+
+    return should_ret || PS1_ValidPassword;
+}
+
+/* 7ED50 801A3550 -O2 -msoft-float */
+void FUN_801a3550(void)
+{
+    LOAD_SAVE_SCREEN();
+    INIT_FADE_IN();
+    FUN_801a2c78();
+    SYNCHRO_LOOP(PS1_MenuPassword);
+    DO_FADE_OUT();
+    if (PS1_ValidPassword || MENU_RETURN)
+    {
+        if (positiony == 2)
+        {
+            PS1_SaveMode = 2;
+            MENU_RETURN = false;
+        }
+        else
+            PS1_SaveMode = 1;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/password", PS1_GenerateAndDisplayPassword);
 
-INCLUDE_ASM("asm/nonmatchings/password", DEPART_INIT_LOOP);
+/* TODO: bad split? here or menu_7EEE4? */
+/* 7EEB4 801A36B4 -O2 -msoft-float */
+void DEPART_INIT_LOOP(void)
+{
+    menuEtape = 0;
+    dans_la_map_monde = false;
+    PS1_ClearPassword();
+}
