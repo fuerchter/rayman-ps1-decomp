@@ -120,7 +120,110 @@ void DO_STONE_EXPLOSION(Obj *obj)
 
 INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", DO_TIR);
 
-INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", allocateStonemanStone);
+/* 388C4 8015D0C4 -O2 -msoft-float */
+void allocateStonemanStone(Obj *stmn_obj, s16 param_2, u8 param_3)
+{
+    s16 i;
+    Obj *cur_obj;
+    s16 nb_objs;
+    u8 stmn_frame;
+    s16 stmn_spr;
+    s16 stmn_x; s16 stmn_y; s16 stmn_w; s16 stmn_h;
+
+    if (stmn_obj->type == TYPE_STONEMAN1)
+    {
+        i = 0;
+        cur_obj = &level.objects[i];
+        nb_objs = level.nb_objects;
+        while (i < nb_objs)
+        {
+            cur_obj->timer = 200;
+            if (cur_obj->type == TYPE_STONEBOMB && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+            {
+                if (param_3)
+                    cur_obj->flags =
+                        (cur_obj->flags & ~FLG(OBJ_FLIP_X)) |
+                        (stmn_obj->flags & FLG(OBJ_FLIP_X));
+                else
+                    cur_obj->flags =
+                        (cur_obj->flags & ~FLG(OBJ_FLIP_X)) |
+                        (((stmn_obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X);
+                
+                cur_obj->speed_y = param_2;
+                if (!(cur_obj->flags & FLG(OBJ_FLIP_X)))
+                    cur_obj->speed_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_left;
+                else
+                    cur_obj->speed_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_right;
+                
+                stmn_frame = stmn_obj->anim_frame;
+                if (stmn_frame >= 53 && stmn_frame <= 122)
+                    stmn_spr = 3;
+                else if (stmn_frame >= 123 && stmn_frame <= 144)
+                    stmn_spr = 0;
+                else
+                    stmn_spr = -1;
+                    
+                if (stmn_spr != -1)
+                {
+                    GET_SPRITE_POS(stmn_obj, stmn_spr, &stmn_x, &stmn_y, &stmn_w, &stmn_h);
+                    cur_obj->x_pos = stmn_x - cur_obj->offset_bx + (stmn_w >> 1);
+                    cur_obj->y_pos = stmn_y - cur_obj->offset_hy;
+                    cur_obj->init_x_pos = cur_obj->x_pos;
+                    cur_obj->init_y_pos = cur_obj->y_pos;
+                    set_main_and_sub_etat(cur_obj, 2, 2);
+                    SET_X_SPEED(cur_obj);
+                    calc_obj_pos(cur_obj);
+                    cur_obj->gravity_value_1 = 0;
+                    cur_obj->gravity_value_2 = 7;
+                    cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                    cur_obj->flags &= ~FLG(OBJ_FLAG_9);
+                }
+                break;
+            }
+            cur_obj++;
+            i++;
+        }
+    }
+    else
+    {
+        i = 0;
+        cur_obj = &level.objects[i];
+        nb_objs = level.nb_objects;
+        while (i < nb_objs)
+        {
+            if (cur_obj->type == TYPE_CLASH && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+            {
+                PlaySnd(90, cur_obj->id);
+                if (param_3)
+                    cur_obj->flags =
+                        (cur_obj->flags & ~FLG(OBJ_FLIP_X)) |
+                        (stmn_obj->flags & FLG(OBJ_FLIP_X));
+                else
+                    cur_obj->flags =
+                        (cur_obj->flags & ~FLG(OBJ_FLIP_X)) |
+                        (((stmn_obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X);
+                
+                cur_obj->speed_y = param_2;
+                if (!(cur_obj->flags & FLG(OBJ_FLIP_X)))
+                    cur_obj->speed_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_left;
+                else
+                    cur_obj->speed_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_right;
+                
+                GET_SPRITE_POS(stmn_obj, 7, &stmn_x, &stmn_y, &stmn_w, &stmn_h);
+                cur_obj->x_pos = stmn_x + stmn_w - cur_obj->offset_bx;
+                cur_obj->y_pos = stmn_y - 6;
+                cur_obj->init_x_pos = cur_obj->x_pos;
+                cur_obj->init_y_pos = cur_obj->y_pos;
+                skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
+                calc_obj_pos(cur_obj);
+                cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                break;
+            }
+            cur_obj++;
+            i++;
+        }
+    }
+}
 
 /* 38CDC 8015D4DC -O2 -msoft-float */
 void DO_STONEMAN1_TIR(Obj *obj)
