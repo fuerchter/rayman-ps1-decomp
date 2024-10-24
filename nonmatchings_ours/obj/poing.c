@@ -86,34 +86,3 @@ void RAY_THROW_FIST(void)
     poing.field0_0x0 = ashl16(poing_obj->y_pos, 4);
     CALC_FIST_POS();
 }
-
-/* matches, but */
-/*INCLUDE_ASM("asm/nonmatchings/obj/poing", alter_fist_speed);*/
-
-void alter_fist_speed(Obj *obj)
-{
-    s16 temp_v0;
-    s16 spd_x;
-    s32 abs_spd_x;
-    s16 accel_x;
-
-    abs_spd_x = __builtin_abs(obj->speed_x);
-    if (abs_spd_x > 10)
-        accel_x = 2;
-    else if (abs_spd_x < 8)
-        accel_x = horloge[2] != 0;
-    else
-        accel_x = 1;
-
-    if (obj->flags & FLG(OBJ_FLIP_X))
-    {
-        spd_x = obj->speed_x;
-        spd_x -= accel_x;
-    }
-    else
-    {
-        spd_x = obj->speed_x;
-        spd_x += accel_x;
-    }
-    obj->speed_x = spd_x;
-}

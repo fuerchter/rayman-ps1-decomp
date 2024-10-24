@@ -126,7 +126,24 @@ void POING_FOLLOW(Obj *poing_obj)
         fin_poing_follow(poing_obj, false);
 }
 
-INCLUDE_ASM("asm/nonmatchings/obj/poing", alter_fist_speed);
+/* 47F9C 8016C79C -O2 -msoft-float */
+void alter_fist_speed(Obj *obj)
+{
+    u8 accel_x;
+    s32 abs_spd_x = __builtin_abs(obj->speed_x);
+    
+    if (abs_spd_x > 10)
+        accel_x = 2;
+    else if (abs_spd_x > 7)
+        accel_x = 1;
+    else
+        accel_x = horloge[2] != 0;
+
+    if (obj->flags & FLG(OBJ_FLIP_X))
+        obj->speed_x -= accel_x;
+    else
+        obj->speed_x += accel_x;
+}
 
 /* 48014 8016C814 -O2 -msoft-float */
 void switch_off_fist(Obj *obj)

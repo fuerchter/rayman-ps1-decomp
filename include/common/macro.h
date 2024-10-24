@@ -15,7 +15,10 @@
     horloge[(obj)->eta[(obj)->main_etat][(obj)->sub_etat].anim_speed & 0xf] == 0 \
 )
 
-/* TODO: apply */
+/*
+issues applying in: DO_POING, alter_fist_speed
+TODO: apply
+*/
 #define FLIP_X_SGN(obj) ((obj)->flags & FLG(OBJ_FLIP_X) ? 1 : -1)
 
 #endif
