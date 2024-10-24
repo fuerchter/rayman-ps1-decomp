@@ -281,3 +281,27 @@ u8 PS1_GeneratePassword(void)
     
     return PS1_IsPasswordValid;
 }
+
+/* matches, but casts */
+/*INCLUDE_ASM("asm/nonmatchings/password", PS1_UnusedGenerateAndPrintPassword);*/
+
+/* 7E35C 801A2B5C -O2 -msoft-float */
+void PS1_UnusedGenerateAndPrintPassword(s16 param_1, s16 param_2, u8 param_3, u8 param_4)
+{
+    u8 i;
+    u8 pass[16];
+
+    PS1_IsPasswordValid = PS1_GeneratePassword();
+    for (i = 0; i < LEN(PS1_CurrentPassword); i++)
+        pass[i] = PS1_PasswordTables.display_table[*(u8 *)&PS1_CurrentPassword[i] & 0x1F];
+    
+    if (PS1_IsPasswordValid == true)
+        pass[10] = '\0';
+    else
+    {
+        pass[10] = ' ';
+        pass[11] = 'e';
+        pass[12] = '\0';
+    }
+    display_text(pass, param_1, param_2, param_3, param_4);
+}

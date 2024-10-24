@@ -156,15 +156,116 @@ void PS1_LoadSaveFromPassword(void)
     dir_on_wldmap = 1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/password", PS1_AttemptLoadSaveFromPassword);
+/* 7E2F0 801A2AF0 -O2 -msoft-float */
+u8 PS1_AttemptLoadSaveFromPassword(void)
+{
+    if (
+        (PS1_IsPasswordValid = PS1_VerifyDecryptPassword()) == true &&
+        (PS1_IsPasswordValid = PS1_ValidatePassword()) == true
+    )
+        PS1_LoadSaveFromPassword();
+    return PS1_IsPasswordValid;
+}
 
 INCLUDE_ASM("asm/nonmatchings/password", PS1_UnusedGenerateAndPrintPassword);
 
-INCLUDE_ASM("asm/nonmatchings/password", PS1_ClearPassword);
+/* 7E35C 801A2B5C -O2 -msoft-float */
+void PS1_ClearPassword(void)
+{
+    memset(&PS1_CurrentTypingPassword, 0x1F, LEN(PS1_CurrentTypingPassword));
+}
 
-INCLUDE_ASM("asm/nonmatchings/password", FUN_801a2c78);
+/* 7E478 801A2C78 -O2 -msoft-float */
+void FUN_801a2c78(void)
+{
+    basex = 75;
+    debut_titre = 35;
+    debut_options = 95;
+    PS1_display_y1 = 131;
+    D_801E4E40 = 174;
+    D_801E4E48 = 215;
+    PS1_CharXSpacing = 21;
+    positionx = 0;
+    MENU_RETURN = false;
+    positiony = 0;
+    D_801E57A8 = 0;
+    PS1_ValidPassword = false;
+    max_compteur = 100;
+    delai_repetition = 25;
+    if (PS1_ShouldClearPassword == 1)
+        PS1_ClearPassword();
+}
 
-INCLUDE_ASM("asm/nonmatchings/password", FUN_801a2d40);
+/* 7E540 801A2D40 -O2 -msoft-float */
+void FUN_801a2d40(void)
+{
+    s32 char_ind;
+    u8 character[2];
+    s16 max_clignote = 40;
+    
+    if (compteur < max_compteur)
+    {
+        if (button_released == 0)
+            compteur++;
+        else
+            compteur = 0;
+    }
+    else if (button_released == 0)
+        compteur = delai_repetition + 1;
+    else
+        compteur = 0;
+
+    if (compteur_clignote < max_clignote)
+        compteur_clignote++;
+    else
+        compteur_clignote = 0;
+    
+    for (char_ind = 0; char_ind < (s16) LEN(PS1_CurrentTypingPassword); char_ind++)
+    {
+        character[0] =
+            PS1_PasswordTables.display_table[
+                PS1_PasswordTables.translate_table[
+                    PS1_CurrentTypingPassword[char_ind] & 0x1F
+                ]
+            ];
+        character[1] = '\0';
+        
+        if (positionx == char_ind && positiony == 0)
+        {
+            if (!(D_801F5448 && (compteur_clignote > max_clignote >> 1)))
+                display_text(
+                    character,
+                    basex + (char_ind - 1) * PS1_CharXSpacing,
+                    debut_options, 1, 6
+                );
+        }
+        else
+            display_text(
+                character,
+                basex + (char_ind - 1) * PS1_CharXSpacing,
+                debut_options,
+                1, 1
+            );
+    }
+ 
+    if (positiony == 1)
+    {
+        
+        if (!(D_801F5448 && (compteur_clignote > max_clignote >> 1)))
+            display_text(s_ok_801cf108, 160, PS1_display_y1, 1, 6);
+        display_text(s_x__validate_password_8012c3b0, 160, D_801E4E40, 2, 10);
+        display_text(s_left__right__move_8012c3c8, 160, D_801E4E48, 2, 10);
+    }
+    else if (positiony == 0)
+    {
+        display_text(s_ok_801cf108, 160, PS1_display_y1, 1, 1);
+        display_text(s_up__down__browse_8012c3e0, 160, D_801E4E40, 2, 10);
+        display_text(s_x__validate_letter_8012c3f8, 160, D_801E4E40 + 15, 2, 10);
+        display_text(s_left__right__move_8012c3c8, 160, D_801E4E48, 2, 10);
+    }
+    else
+        display_text(s_wrong_password_8012c410, 160, D_801E4E40, 1, 1);
+}
 
 INCLUDE_ASM("asm/nonmatchings/password", FUN_801a3064);
 
