@@ -90,7 +90,71 @@ INCLUDE_ASM("asm/nonmatchings/password", PS1_ValidatePassword);
 
 INCLUDE_ASM("asm/nonmatchings/password", PS1_GeneratePassword);
 
-INCLUDE_ASM("asm/nonmatchings/password", PS1_LoadSaveFromPassword);
+/* thanks! https://decomp.me/scratch/5n1p8 */
+/* 7DDEC 801A25EC -O2 -msoft-float */
+void PS1_LoadSaveFromPassword(void)
+{
+    u8 lvl;
+    u8 i;
+
+    INIT_NEW_GAME();
+    lvl = PS1_GetLevelFromPassword();
+
+    for (i = 0; i <= lvl; i++)
+        t_world_info[i].is_unlocked = true;
+    
+    t_world_info[7].is_unlocked = PS1_CurrentPassword[9].bit_2;
+    t_world_info[3].is_unlocked = PS1_CurrentPassword[8].bit_2;
+    t_world_info[18].is_unlocked = lvl > 0;
+    t_world_info[19].is_unlocked = lvl > 4;
+    t_world_info[20].is_unlocked = lvl > 6 && PS1_CurrentPassword[9].bit_2;
+    t_world_info[21].is_unlocked = lvl > 9;
+    t_world_info[22].is_unlocked = lvl > 13;
+    t_world_info[23].is_unlocked = lvl > 15;
+    t_world_info[0].nb_cages = PS1_CurrentPassword[0].bit_1 ? 6 : 0; /* TODO: macro */
+    t_world_info[1].nb_cages = PS1_CurrentPassword[2].bit_1 ? 6 : 0;
+    t_world_info[2].nb_cages = PS1_CurrentPassword[4].bit_1 ? 6 : 0;
+    t_world_info[3].nb_cages = PS1_CurrentPassword[1].bit_1 ? 6 : 0;
+    t_world_info[4].nb_cages = PS1_CurrentPassword[3].bit_1 ? 6 : 0;
+    t_world_info[5].nb_cages = PS1_CurrentPassword[5].bit_1 ? 6 : 0;
+    t_world_info[6].nb_cages = PS1_CurrentPassword[7].bit_1 ? 6 : 0;
+    t_world_info[7].nb_cages = PS1_CurrentPassword[6].bit_1 ? 6 : 0;
+    t_world_info[8].nb_cages = PS1_CurrentPassword[8].bit_1 ? 6 : 0;
+    t_world_info[9].nb_cages = PS1_CurrentPassword[9].bit_1 ? 6 : 0;
+    t_world_info[10].nb_cages = PS1_CurrentPassword[4].bit_4 ? 6 : 0;
+    t_world_info[11].nb_cages = PS1_CurrentPassword[0].bit_4 ? 6 : 0;
+    t_world_info[12].nb_cages = PS1_CurrentPassword[2].bit_4 ? 6 : 0;
+    t_world_info[13].nb_cages = PS1_CurrentPassword[1].bit_4 ? 6 : 0;
+    t_world_info[14].nb_cages = PS1_CurrentPassword[5].bit_4 ? 6 : 0;
+    t_world_info[15].nb_cages = PS1_CurrentPassword[3].bit_4 ? 6 : 0;
+    t_world_info[16].nb_cages = PS1_CurrentPassword[7].bit_4 ? 6 : 0;
+    t_world_info[17].nb_cages = 0;
+    
+    memset(&RayEvts, 0, sizeof(RayEvts));
+    RayEvts.poing = lvl > 0;
+    RayEvts.hang = lvl > 3;
+    RayEvts.grap = PS1_CurrentPassword[9].bit_3;
+    RayEvts.helico = lvl > 7;
+    RayEvts.run = lvl > 10;
+    
+    memset(&finBosslevel, 0, sizeof(finBosslevel));
+    finBosslevel.bzzit = lvl > 3;
+    finBosslevel.moskito = PS1_CurrentPassword[9].bit_3;
+    finBosslevel.mr_sax = PS1_CurrentPassword[8].bit_3;
+    finBosslevel.mr_stone = lvl > 10;
+    finBosslevel.viking_mama = lvl > 11;
+    finBosslevel.space_mama = lvl > 13;
+    finBosslevel.mr_skops = PS1_CurrentPassword[6].bit_3;
+    finBosslevel.mr_dark = PS1_CurrentPassword[6].bit_4;
+    finBosslevel.helped_musician = PS1_CurrentPassword[8].bit_4;
+
+    status_bar.num_lives = PS1_GetLivesFromPassword();
+    nb_continue = PS1_GetContinuesFromPassword();
+    world_index = 0;
+    xwldmapsave = 0;
+    ywldmapsave = 158;
+    dir_on_wldmap = 1;
+}
 
 INCLUDE_ASM("asm/nonmatchings/password", PS1_AttemptLoadSaveFromPassword);
 
