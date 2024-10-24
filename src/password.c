@@ -20,9 +20,27 @@ INCLUDE_ASM("asm/nonmatchings/password", PS1_EncryptPassword);
 
 INCLUDE_ASM("asm/nonmatchings/password", PS1_VerifyDecryptPassword);
 
-INCLUDE_ASM("asm/nonmatchings/password", FUN_801a17c8);
+/* thanks! https://decomp.me/scratch/LRbGF */
+/* 7CFC8 801A17C8 -O2 -msoft-float */
+void FUN_801a17c8(u8 param_1)
+{
+    PS1_CurrentPassword[4].bit_2 = param_1 >> 0 & 1;
+    PS1_CurrentPassword[2].bit_2 = param_1 >> 1 & 1;
+    PS1_CurrentPassword[3].bit_2 = param_1 >> 2 & 1;
+    PS1_CurrentPassword[1].bit_2 = param_1 >> 3 & 1;
+    PS1_CurrentPassword[0].bit_2 = param_1 >> 4 & 1;
+}
 
-INCLUDE_ASM("asm/nonmatchings/password", PS1_GetLevelFromPassword);
+/* 7D070 801A1870 -O2 -msoft-float */
+u8 PS1_GetLevelFromPassword(void)
+{
+    return
+        (PS1_CurrentPassword[4].bit_2 << 0) +
+        (PS1_CurrentPassword[2].bit_2 << 1) +
+        (PS1_CurrentPassword[3].bit_2 << 2) +
+        (PS1_CurrentPassword[1].bit_2 << 3) +
+        (PS1_CurrentPassword[0].bit_2 << 4);
+}
 
 INCLUDE_ASM("asm/nonmatchings/password", PS1_GeneratePassword_LivesCount);
 

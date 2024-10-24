@@ -44,7 +44,7 @@ extern u8 PS1_ValidPassword;
 
 void PS1_EncryptPassword(void);
 s32 PS1_VerifyDecryptPassword(void);
-void FUN_801a17c8(u8 arg0);
+void FUN_801a17c8(u8 param_1);
 u8 PS1_GetLevelFromPassword(void);
 void PS1_GeneratePassword_LivesCount(u8 lives_count);
 u8 PS1_GetLivesFromPassword(void);
