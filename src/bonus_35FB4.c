@@ -3,17 +3,17 @@
 /* 35FB4 8015A7B4 -O2 */
 /*s32 getbit(? *, s16);*/
 
-u8 get_bonus_map_complete(s16 world, s16 level)
+u8 get_bonus_map_complete(s16 world, s16 lvl)
 {
-    return getbit(bonus_perfect, (s16) (level - 1 + ((world - 1) << 5)));
+    return getbit(bonus_perfect, (s16) (lvl - 1 + ((world - 1) << 5)));
 }
 
 /* 35FEC 8015A7EC -O2 */
 /*? setbit(u8 *, s16);*/
 
-void set_bonus_map_complete(s16 world, s16 level)
+void set_bonus_map_complete(s16 world, s16 lvl)
 {
-    setbit(bonus_perfect, (s16) (level - 1 + ((world - 1) << 5)));
+    setbit(bonus_perfect, (s16) (lvl - 1 + ((world - 1) << 5)));
 }
 
 /* 36024 8015A824 -O2 */

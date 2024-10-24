@@ -354,7 +354,7 @@ void FUN_801314c4(void)
 INCLUDE_ASM("asm/nonmatchings/music", PS1_PlayMusic);
 
 /* D3A8 80131BA8 -O2 -msoft-float */
-void playLevelMusic(s16 world, s16 level)
+void playLevelMusic(s16 world, s16 lvl)
 {
     D_801CEEBC = false;
     PS1_Cd_Callbacks_Disable();
@@ -363,7 +363,7 @@ void playLevelMusic(s16 world, s16 level)
     CdSync(0, null);
     PS1_Cd_Callbacks_Enable();
     PS1_LevelMusic_World = world;
-    PS1_LevelMusic_Level = level;
+    PS1_LevelMusic_Level = lvl;
     PS1_LevelMusic_CmdInd = -1;
     PS1_PlayMusic();
 }

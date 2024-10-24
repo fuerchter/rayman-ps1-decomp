@@ -113,11 +113,11 @@ void FUN_80130b18(u32 param_1, CdlLOC *param_2);
 s32 FUN_80130bc4(CdlLOC loc);
 s32 FUN_80130c58(s32 param_1);
 s32 FUN_80130d00(s32 param_1, s32 param_2);
-/*u8 PS1_InitTracks(void);*/
+u8 PS1_InitTracks(void);
 s16 FUN_80131474(s16 *param_1, s16 param_2, s16 param_3);
 void FUN_801314c4(void);
 void PS1_PlayMusic(void);
-void playLevelMusic(s16 world, s16 level);
+void playLevelMusic(s16 world, s16 lvl);
 void start_cd_gros_rayman(void);
 void start_cd_suspence(void);
 void start_cd_credits(void);

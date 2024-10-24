@@ -9,7 +9,7 @@
 #include "timers.h"
 
 void DO_WIZARD(Obj *obj);
-s16 get_next_bonus_level(u8 level);
+s16 get_next_bonus_level(u8 lvl);
 void TEST_WIZARD(Obj *obj);
 
 #endif

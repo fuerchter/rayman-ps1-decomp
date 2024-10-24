@@ -13,8 +13,8 @@ extern u8 bonus_perfect[24];
 extern s16 loop_time;
 extern s32 nb_wiz_save;
 
-u8 get_bonus_map_complete(s16 world, s16 level);
-void set_bonus_map_complete(s16 world, s16 level);
+u8 get_bonus_map_complete(s16 world, s16 lvl);
+void set_bonus_map_complete(s16 world, s16 lvl);
 void DO_PERFECT_BONUS_MAP(void);
 void DO_WIZ_AFTER_BONUS_MAP(void);
 void init_bonus_perfect(void);

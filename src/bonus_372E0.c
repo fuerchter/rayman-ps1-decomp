@@ -42,14 +42,14 @@ void DO_WIZARD(Obj *obj)
 
 /* TODO: inserting nop caused reg swap */
 /* 374A8 8015BCA8 -O2 */
-s16 get_next_bonus_level(u8 level)
+s16 get_next_bonus_level(u8 lvl)
 {
     s16 res = 0;
 
     switch (num_world)
     {
     case 1:
-        switch (level)
+        switch (lvl)
         {
         case 2:
             res = 21;
@@ -66,7 +66,7 @@ s16 get_next_bonus_level(u8 level)
         }
         break;
     case 2:
-        switch (level)
+        switch (lvl)
         {
         case 4:
             res = 17;
@@ -77,7 +77,7 @@ s16 get_next_bonus_level(u8 level)
         }
         break;
     case 4:
-        switch (level)
+        switch (lvl)
         {
         case 3:
             res = 12;
@@ -88,7 +88,7 @@ s16 get_next_bonus_level(u8 level)
         }
         break;
     case 5:
-        switch (level)
+        switch (lvl)
         {
         case 2:
             res = 12;
