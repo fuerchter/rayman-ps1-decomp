@@ -42,9 +42,30 @@ u8 PS1_GetLevelFromPassword(void)
         (PS1_CurrentPassword[0].bit_2 << 4);
 }
 
-INCLUDE_ASM("asm/nonmatchings/password", PS1_GeneratePassword_LivesCount);
+/* 7D0D0 801A18D0 -O2 -msoft-float */
+void PS1_GeneratePassword_LivesCount(u8 lives_count)
+{
+    PS1_CurrentPassword[3].bit_3 = lives_count >> 0 & 1;
+    PS1_CurrentPassword[2].bit_3 = lives_count >> 1 & 1;
+    PS1_CurrentPassword[5].bit_3 = lives_count >> 2 & 1;
+    PS1_CurrentPassword[1].bit_3 = lives_count >> 3 & 1;
+    PS1_CurrentPassword[4].bit_3 = lives_count >> 4 & 1;
+    PS1_CurrentPassword[0].bit_3 = lives_count >> 5 & 1;
+    PS1_CurrentPassword[7].bit_3 = lives_count >> 6 & 1;
+}
 
-INCLUDE_ASM("asm/nonmatchings/password", PS1_GetLivesFromPassword);
+/* 7D1B8 801A19B8 -O2 -msoft-float */
+u8 PS1_GetLivesFromPassword(void)
+{
+    return
+        (PS1_CurrentPassword[3].bit_3 << 0) +
+        (PS1_CurrentPassword[2].bit_3 << 1) +
+        (PS1_CurrentPassword[5].bit_3 << 2) +
+        (PS1_CurrentPassword[1].bit_3 << 3) +
+        (PS1_CurrentPassword[4].bit_3 << 4) +
+        (PS1_CurrentPassword[0].bit_3 << 5) +
+        (PS1_CurrentPassword[7].bit_3 << 6);
+}
 
 INCLUDE_ASM("asm/nonmatchings/password", PS1_GeneratePassword_nbContinue);
 
