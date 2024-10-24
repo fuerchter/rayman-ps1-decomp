@@ -159,6 +159,11 @@ void PS1_DisplayWorldMapBg1(s16 x1, s16 y1, s16 x2, s16 y2)
 }
 
 /* 1A388 8013EB88 -O2 -msoft-float */
+extern inline s32 calc_y(s16 y) 
+{
+    return (debut_options + y * (ecarty + 23) - 23);
+}
+
 void DISPLAY_SAVE_SPRITES(s16 x, s16 y)
 {
     Obj *loc_mapobj;
@@ -167,11 +172,6 @@ void DISPLAY_SAVE_SPRITES(s16 x, s16 y)
     s16 sprite_ind_1;
     s16 sprite_ind_2;
     s16 sprite_ind_3;
-
-    inline s32 calc_y(s16 y) 
-    {
-        return (debut_options + y * (ecarty + 23) - 23);
-    }
 
     loc_mapobj = mapobj;
     num_lives = loadInfoRay[y].num_lives;
