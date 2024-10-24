@@ -3,7 +3,7 @@
 
 #include "common/obj.h"
 
-/* game specific, general macros in include/common.h */
+/* game specific, general macros are in include/common.h */
 
 #define EOA(obj) \
 ( \
@@ -14,5 +14,8 @@
     ) && \
     horloge[(obj)->eta[(obj)->main_etat][(obj)->sub_etat].anim_speed & 0xf] == 0 \
 )
+
+/* TODO: apply */
+#define FLIP_X_SGN(obj) ((obj)->flags & FLG(OBJ_FLIP_X) ? 1 : -1)
 
 #endif
