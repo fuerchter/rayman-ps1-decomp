@@ -13,6 +13,18 @@ typedef struct PasswordTables
     u8 temp_cage_counts[18];
 } PasswordTables;
 
+typedef struct PasswordChar
+{
+    u8 bit_0 : 1;
+    u8 bit_1 : 1;
+    u8 bit_2 : 1;
+    u8 bit_3 : 1;
+    u8 bit_4 : 1;
+    u8 bit_5 : 1;
+    u8 bit_6 : 1;
+    u8 bit_7 : 1;
+} PasswordChar;
+
 /* .data */
 extern PasswordTables PS1_PasswordTables;
 
@@ -23,7 +35,7 @@ extern u8 s_s_801cf110[5];
 
 /**/
 extern u8 PS1_ShouldClearPassword; /* don't understand its use in FUN_8019ebc0 */
-extern u8 PS1_CurrentPassword[10]; /* not sure if bitfields? played with it a bit https://decomp.me/scratch/tEI1H, https://decomp.me/scratch/isKTE*/
+extern PasswordChar PS1_CurrentPassword[10]; /* not sure if bitfields? played with it a bit https://decomp.me/scratch/tEI1H, https://decomp.me/scratch/isKTE*/
 extern u8 PS1_CurrentTypingPassword[10];
 extern s16 D_801E4E40;
 extern s16 D_801E4E48;

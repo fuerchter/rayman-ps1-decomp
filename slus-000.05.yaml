@@ -351,7 +351,8 @@ segments:
       - [0xA3BA4, .data, data/obj/scorpion_A3BA4] #801C83A4
       - [0xA3BC4, .data, data/obj/moskito_A3BC4] #801C83C4
       - [0xA3C88, .data, data/obj/dark_A3C88] #801C8488
-      - [0xA3CD8, .data, data/password_A3CD8] #801C84D8
+      - [0xA3CD8, data]
+      #- [0xA3CD8, .data, data/password_A3CD8] #801C84D8
       - [0xA3D40, data] #psyq afaik
       - [0xAA5E4, .data, data/draw/rollup_trans_AA5E4] #801CEDE4
       - [0xAA5F4, .data, data/world_map_AA5F4] #801CEDF4
