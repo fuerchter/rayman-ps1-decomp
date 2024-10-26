@@ -1294,35 +1294,41 @@ void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
     }
 }
 
-/* score of 60 */
+/* matches, but */
 /*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_DisplayWorldMapBg2);*/
 
-void PS1_DisplayWorldMapBg2(s16 param_1,s16 param_2,short param_3,short param_4,short param_5,short param_6)
+/* applying these would let us remove new_var_1, test_6? */
+extern inline s32 test_123(s32 param_1)
 {
-    short sVar1;
+    return param_1 / 0x40;
+}
+
+extern inline s32 test_1234(s16 param_1)
+{
+    return param_1 + test_123(param_1) * -0x40;
+}
+
+void PS1_DisplayWorldMapBg2(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6)
+{
     int iVar2;
-    int iVar3;
-    int iVar4;
-    int iVar5;
-    uint uVar6;
     int iVar7;
     short var_s3;
     u8 uVar9;
     u8 uVar10;
     RECT local_58;
-    ushort local_50;
     ushort local_48;
     short local_40;
     short local_38;
     short local_30;
     s32 test_1;
-
-    uVar10 = (param_6 / 64) + 1;
-    while ((uVar10) != 0) {
-        iVar4 = param_1;
+    s32 new_var_1;
+    int new_var_2;
+    s32 test_6;
+    
+    for (uVar10 = (param_6 / 0x40) + 1; uVar10 != 0; uVar10 = uVar10 - 1) {
         var_s3 = 0;
         
-        if ((uVar10) == (param_6 / 64) + 1U) {
+        if (uVar10 == (param_6 / 0x40) + 1U) {
             uVar9 = 0;
             var_s3 = 0x40;
         }
@@ -1331,24 +1337,26 @@ void PS1_DisplayWorldMapBg2(s16 param_1,s16 param_2,short param_3,short param_4,
             uVar9 = uVar10;
         }
         
-        if ((uVar9 != (param_6 / 64)) || (var_s3 = -0x40, (param_1 & 0x3f) != 0)) {
-            iVar7 = uVar9 * 0x40 - ((s16) (iVar4 + (iVar4 / 64) * -0x40));
+        if (((uVar9 != (param_6 / 0x40)) || (var_s3 = -0x40, (param_1 & (0x40 - 1)) != 0))) {
+            new_var_2 = uVar9 * 0x40;
+            new_var_1 = (param_1 + (param_1 / 0x40) * -0x40);
+            iVar7 = new_var_2 - ((s16) new_var_1);
             local_58.x = iVar7 + (PS1_CurrentDisplay->drawing_environment).clip.x + param_3 + var_s3;
             local_58.y = (PS1_CurrentDisplay->drawing_environment).clip.y + param_4;
             local_58.w = 0x40;
             local_58.h = param_5;
-            iVar2 = uVar9 + (iVar4 / 64);
-            iVar5 = PS1_FondImagesCount;
+            iVar2 = uVar9 + (param_1 / 0x40);
             
             LoadImage(&local_58,
-                    &PS1_FondImages[iVar2 % iVar5][((param_2 << 7))]);
+                    &PS1_FondImages[(iVar2) % PS1_FondImagesCount][((param_2 << 7))]);
             if (uVar9 == 0) {
                 local_58.x = (PS1_CurrentDisplay->drawing_environment).clip.x + param_3 + var_s3;
-                local_58.w = 0x40 - (iVar4 + (iVar4 / 64) * -0x40);
+                test_6 = (param_1 + (param_1 / 0x40) * -0x40);
+                local_58.w = 0x40 - test_6;
                 MoveImage(&local_58,(PS1_CurrentDisplay->drawing_environment).clip.x + param_3,
                         local_58.y);
             }
-            if ((uVar9) == (param_6 / 64)) {
+            if ((uVar9) == (param_6 / 0x40)) {
                 local_58.x = iVar7 + (PS1_CurrentDisplay->drawing_environment).clip.x + var_s3 + param_3;
                 local_58.w = param_6 - iVar7;
                 MoveImage(&local_58,
@@ -1356,7 +1364,6 @@ void PS1_DisplayWorldMapBg2(s16 param_1,s16 param_2,short param_3,short param_4,
                         local_58.y);
             }
         }
-        uVar10 = uVar10 - 1;
     }
     DrawSync(0);
 }
