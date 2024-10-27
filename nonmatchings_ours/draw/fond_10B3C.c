@@ -730,129 +730,157 @@ block_95:
     }
 }
 
-/* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", PS1_DisplayFondSprites);*/
+typedef struct Unk_801f8008
+{
+    s16 unk_0;
+    u8 unk_1;
+    u8 unk_2;
+} Unk_801f8008;
+
+extern Unk_801f8008 D_801F8008[6]; /* D_801F8008 and D_801F800A part of the same array? */
+/*extern u8 D_801F800A;*/
+
+/*
+score of ???
+FUN_8013613c param_4???
+*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_DisplayFondSprites);*/
 
 void PS1_DisplayFondSprites(void)
-
 {
-  u8 bVar1_1;
-  short sVar2;
-  s16 *puVar3;
-  int iVar4;
-  uint uVar5;
-  short *psVar6;
-  uint uVar7;
-  short *psVar8;
-  s16 *puVar9;
-  u8 bVar10;
-  s16 *puVar11;
-  short *psVar12;
-  u8 *pbVar13;
-  s16 uVar14;
-  short sVar15;
-  int iVar16;
-  s16 local_58 [12];
-  short local_40;
-  short local_3e [11];
-  
-  psVar12 = (short *)&D_801F8008;
-  puVar3 = (s16 *)((int)local_58 - (PS1_FondImagesCount * 2 + 0xeU & 0xfffffff8));
-  if (PS1_FondType == 6) {
-    D_801E4BC8 = 0;
-    sVar15 = PS1_FondHeight - 0xf0;
-    if ((int)(PS1_FondHeight << 0x10) >> 0x12 <= ymapmax) {
-      sVar15 = ((ymap * (((PS1_FondHeight << 0x10) >> 0x10) + -0xf0)) / ymapmax);
-    }
-    uVar5 = D_801F800A;
-    if (uVar5 < 0xff) {
-      local_40 = ((D_801F55B8 + xmap) / (int)uVar5);
-      D_801F55B8 = ((D_801F55B8 + D_801F5788) % (PS1_FondWidth * D_801F800A));
-    }
-    else {
-      local_40 = 0;
-    }
-    uVar5 = D_801F8008;
-    iVar4 = sVar15;
-    psVar8 = local_3e;
-    bVar10 = 1;
-    FUN_8013613c(uVar5 - iVar4,iVar4,0,local_40);
-    if (1 < PS1_BandeBackCount) {
-      pbVar13 = &(&D_801F8008)[4]; /* had extra .unk2 */
-      do {
-        psVar12 = psVar12 + 2;
-        uVar7 = *pbVar13;
-        if (uVar7 < 0xff) {
-          psVar6 = &D_801F55B8 + bVar10;
-          *psVar8 = ((xmap + *psVar6) / (int)uVar7);
-          *psVar6 = ((int)(*psVar6 + (&D_801F5788)[bVar10]) % (PS1_FondWidth * *pbVar13));
-        }
-        else {
-          *psVar8 = 0;
-        }
-        bVar1_1 = *(u8 *)psVar12;
-        pbVar13 = pbVar13 + 4;
-        FUN_8013613c(bVar1_1,(short)uVar5,(short)uVar5 - iVar4,*psVar8);
-                psVar8 = psVar8 + 1;
-        bVar10 = bVar10 + 1;
-        uVar5 = bVar1_1 + uVar5;
-      } while (bVar10 < PS1_BandeBackCount);
-    }
-    psVar12 = &D_801F55B8 + bVar10;
-    *psVar8 = (xmap + *psVar12) * D_801E63FA;
-    iVar16 = ymapmax;
-    *psVar12 = ((int)(*psVar12 + (&D_801F5788)[bVar10]) % PS1_FondWidth);
-    FUN_80135d5c(sVar15,&local_40,(sVar15 - iVar16) + ymap,*(s16 *)&D_801E63F8);
-  }
-  else {
-    bVar10 = 0;
-    if ((PS1_FondType == 7) || (PS1_FondType == 0xc)) {
-      D_801E4BC8 = 0;
-      puVar11 = local_58;
-      puVar9 = puVar3;
-      if (PS1_BandeBackCount != 0) {
-        do {
-          uVar5 = *(u8 *)(psVar12 + 1);
-          iVar4 = ymap / (int)uVar5;
-          uVar14 = (s16)((iVar4) % PS1_FondHeight);
-          *puVar11 = uVar14;
-          uVar5 = 0;
-          puVar11 = puVar11 + 1;
-          if (0 < *psVar12) {
-            do {
-              *puVar9 = uVar14;
-              uVar5 = uVar5 + 1;
-              puVar9 = puVar9 + 1;
-            } while ((int)(uVar5 & 0xff) < *psVar12);
-          }
-          bVar10 = bVar10 + 1;
-          psVar12 = psVar12 + 2;
-        } while (bVar10 < PS1_BandeBackCount);
-      }
-      if (PS1_FondType == 7) {
-        FUN_80136340(puVar3,(int)((ushort)xmap << 0x10) >> 0x13);
-      }
-      else {
-        CLRSCR();
-      }
-      if (PS1_BandeFrontCount != '\0') {
-        *puVar11 = ((int)(ymap * D_801E63FA) % PS1_FondHeight);
-      }
-      if (PS1_FondType == 7) {
-        FUN_80135ab0((int)((ushort)xmap << 0x10) >> 0x13,local_58);
-      }
-      else {
-        FUN_80137cc8((int)((ushort)xmap << 0x10) >> 0x13,local_58);
-      }
-    }
-    else {
-      if (((PS1_FondType == 8) || (PS1_FondType == 0xb)) || (PS1_FondType == 9 || PS1_FondType == 10)) {
+    s16 sp10[12];
+    s16 sp28[12];
+    Unk_801f8008 *var_s3_1;
+    s16 *temp_a1_1;
+    s16 *temp_a2_2;
+    s16 *var_s0_1;
+    s16 *var_s2;
+    s16 temp_hi;
+    u8 var_a1;
+    u8 var_s1_1;
+    u8 var_s1_2;
+    s16 var_s5;
+    u8 temp_a2_1;
+    u8 temp_s2_1;
+    s16 var_s6;
+    s16 *test_2;
+    s32 test_3;
+    s16 var_s7[PS1_FondImagesCount]; /* see https://decomp.me/scratch/sMPT6 */
+    s16 *new_var_1;
+    s16 *new_var_2;
+
+    var_s3_1 = &D_801F8008[0];
+    var_s6 = 0;
+    if (PS1_FondType == 6)
+    {
+        
         D_801E4BC8 = 0;
-      }
-      FUN_801366ac();
+        
+        if (ymapmax >= (PS1_FondHeight >> 2))
+        {
+            var_s5 = (ymap * (PS1_FondHeight - 0xF0)) / ymapmax;
+        }
+        else
+            var_s5 = PS1_FondHeight - 0xF0;
+
+
+        var_s0_1 = &sp28[0];
+        if ((u8) var_s3_1->unk_1 < 0xFFU)
+        {
+            test_2 = &D_801F55B8[0]; /* cannot make duplicates of this use test_2 also??? */
+            *var_s0_1 = ((xmap + *test_2) / var_s3_1->unk_1);
+            *test_2 = ((*test_2 + D_801F5788) % (PS1_FondWidth * var_s3_1->unk_1));
+        }
+        else
+        {
+            *var_s0_1 = 0;
+        }
+        temp_s2_1 = var_s3_1->unk_0;
+        var_s3_1++;
+        
+        FUN_8013613c(temp_s2_1 - var_s5, var_s5, var_s6, *var_s0_1);
+        var_s6 += temp_s2_1;
+        var_s0_1++;
+        var_s1_1 = 1;
+        new_var_2 = &D_801E63F8; /* i don't even */
+        while (var_s1_1 < (u8) PS1_BandeBackCount)
+        {
+            temp_a2_1 = var_s3_1->unk_1;
+            if (temp_a2_1 < 0xFFU)
+            {
+                *var_s0_1 = ((xmap + D_801F55B8[var_s1_1]) / temp_a2_1);
+                D_801F55B8[var_s1_1] = ((D_801F55B8[var_s1_1] + (&D_801F5788)[var_s1_1]) % (PS1_FondWidth * var_s3_1->unk_1));
+            }
+            else
+            {
+                *var_s0_1 = 0;
+            }
+            temp_s2_1 = var_s3_1->unk_0;
+            var_s3_1 += 1;            
+            FUN_8013613c(temp_s2_1, var_s6, var_s6 - var_s5, *var_s0_1);
+            var_s6 += temp_s2_1;
+            var_s0_1 += 1;
+            var_s1_1 += 1;
+        }
+
+
+        *var_s0_1 = (xmap + D_801F55B8[var_s1_1]) * D_801E63FA;
+        D_801F55B8[var_s1_1] = ((D_801F55B8[var_s1_1] + (&D_801F5788)[var_s1_1]) % PS1_FondWidth);
+        FUN_80135d5c(var_s5, sp28, (var_s5 - ymapmax) + ymap, *new_var_2);
     }
-  }
-  return;
+    else if ((PS1_FondType == 7) || (PS1_FondType == 0x0C))
+    {
+        var_s1_1 = 0;
+        D_801E4BC8 = 0;
+        var_s2 = sp10;
+        var_s0_1 = &var_s7[0];
+        while (var_s1_1 < (u8) PS1_BandeBackCount)
+        {
+            var_a1 = 0;
+            temp_hi = (ymap / var_s3_1->unk_1) % PS1_FondHeight;
+            *var_s2 = temp_hi;
+            
+            var_s2 += 1;
+            
+            while (var_a1 < var_s3_1->unk_0)
+            {
+                *var_s0_1 = temp_hi;
+                var_s0_1 += 1;
+                var_a1 += 1;
+            }
+            var_s1_1 += 1;
+            var_s3_1 += 1;
+        }
+        if (PS1_FondType == 7)
+        {
+            FUN_80136340(&var_s7[0], ((xmap) >> 3));
+        }
+        else
+        {
+            CLRSCR();
+        }
+
+        if (PS1_BandeFrontCount != 0)
+        {
+            *var_s2 = ((ymap * D_801E63FA) % PS1_FondHeight);
+        }
+
+        if (PS1_FondType == 7)
+        {
+            FUN_80135ab0(xmap >> 3, sp10);
+        }
+        else
+        {
+            FUN_80137cc8(xmap >> 3, sp10);
+        }
+    }
+    else if ((PS1_FondType == 8) || (PS1_FondType == 0x0B) || (PS1_FondType == 9 || PS1_FondType == 10))
+    {
+        D_801E4BC8 = 0;
+        FUN_801366ac();
+    }
+    else
+        FUN_801366ac();
 }
 
 /* score of ??? */

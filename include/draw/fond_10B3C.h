@@ -31,17 +31,17 @@ extern u8 PS1_FondType;
 extern u8 PS1_Tile_clut_y_offs[944]; /* see also loading_DA64.c */
 
 /* types of all of these? */
-extern u8 D_801E63F8;
+extern s16 D_801E63F8;
 extern u8 D_801E63FA;
 extern u8 D_801F51C0;
 extern u8 D_801F5788;
-extern u8 D_801F8008; /* D_801F8008 and D_801F800A part of the same array? */
-extern u8 D_801F800A;
+/*extern u8 D_801F8008;
+extern u8 D_801F800A;*/
 extern u8 D_801FA560;
 extern u8 PS1_BandeBackCount;
 extern u8 PS1_BandeFrontCount;
 extern u8 D_801F4F58;
-extern s16 D_801F55B8; /* u8[10] based on 801f55b8? but then there is 80137450 */
+extern s16 D_801F55B8[5]; /* 10 bytes, based on 80135944 */
 extern u8 D_801F84E0;
 extern u8 D_801F9900;
 extern s16 PS1_FondHeight;
