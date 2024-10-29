@@ -9,6 +9,26 @@
 #include "common/rayconst.h"
 #include "draw/draw_548CC.h" /* TODO: circular? */
 
+typedef struct Unk_801f8008
+{
+    s16 unk_0;
+    u8 unk_1;
+    u8 unk_2; /* packed? */
+} Unk_801f8008;
+
+/*
+see 8013726c,
+BinarySerializer.Ray1/DataTypes/PS1/Vignette
+tried making each field u16 also...
+*/
+typedef struct RGBA5551Color
+{
+    u8 r : 5;
+    u8 g : 5;
+    u8 b : 5;
+    u8 a : 1;
+} RGBA5551Color;
+
 /* .data */
 extern u16 D_801C71C0[5];
 
@@ -31,12 +51,10 @@ extern u8 PS1_FondType;
 extern u8 PS1_Tile_clut_y_offs[944]; /* see also loading_DA64.c */
 
 /* types of all of these? */
-extern s16 D_801E63F8;
-extern u8 D_801E63FA;
+extern Unk_801f8008 D_801E63F8[6]; /* size correct */
 extern u8 D_801F51C0;
 extern u8 D_801F5788;
-/*extern u8 D_801F8008;
-extern u8 D_801F800A;*/
+extern Unk_801f8008 D_801F8008[6]; /* size correct? */
 extern u8 D_801FA560;
 extern u8 PS1_BandeBackCount;
 extern u8 PS1_BandeFrontCount;
@@ -45,7 +63,12 @@ extern s16 D_801F55B8[5]; /* 10 bytes, based on 80135944 */
 extern u8 D_801F84E0;
 extern u8 D_801F9900;
 extern s16 PS1_FondHeight;
-extern void *PS1_FondImages[6]; /* 0th five bits: r, 1st five bits: g, 2nd five bits b (see 8013726c) */
+
+/*
+u16 * or u32 * or RGBA5551Color * doesn't seem to work (see LoadImage calls)?
+*/
+extern u8 *PS1_FondImages[6];
+
 extern s16 PS1_FondImagesCount;
 extern s16 PS1_FondWidth;
 extern u8 D_801E4BC8; /* used as index into PS1_CurrentDisplay->sprites */

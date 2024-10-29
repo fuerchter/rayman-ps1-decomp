@@ -1,7 +1,7 @@
 #include "draw/fond_10B3C.h"
 
 /*
-score of ???
+score of 215
 https://github.com/BinarySerializer/BinarySerializer.Ray1/blob/7da0e97301dd6502d027ff3c92ec2b5a00ef6e6e/src/BinarySerializer.Ray1/DataTypes/PS1/Vignette/FondSpriteData.cs
 */
 /*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFondDataAndPalettes);*/
@@ -9,26 +9,12 @@ https://github.com/BinarySerializer/BinarySerializer.Ray1/blob/7da0e97301dd6502d
 void PS1_LoadFondDataAndPalettes(void)
 {
     s32 temp_a0;
-    s32 temp_v0_1;
     s32 temp_v0_2;
     s32 temp_v0_3;
     s32 temp_v1;
     u16 var_s1_1;
-    u16 var_s1_2;
-    u16 var_s1_3;
     u8 *temp_s0_12;
-    u16 *temp_s0_10;
-    u16 *temp_s0_11;
-    u16 *temp_s0_4;
-    u16 *temp_s0_5;
-    u16 *temp_s0_6;
-    u16 *temp_s0_7;
-    u16 *temp_s0_8;
-    u16 *temp_s0_9;
-    u8 *var_s0_1;
     u32 *var_s0_2;
-    u8 *temp_s0_2;
-    u8 *temp_s0_3;
     s16 temp_t1; /* PalettesCount */
     u16 test_1; /* if i didn't use this, all the lhu's would be lbu's? */
 
@@ -43,18 +29,17 @@ void PS1_LoadFondDataAndPalettes(void)
     temp_s0_12 += 4;
     while ((var_s1_1) < PS1_BandeBackCount)
     {
-        temp_v0_1 = var_s1_1 * 4;
         test_1 = *(u16 *)temp_s0_12;
-        *(s16 *)(&D_801F8008 + temp_v0_1) = test_1;
+        D_801F8008[var_s1_1].unk_0 = test_1;
         temp_s0_12 += 2;
         test_1 = *(u16 *)temp_s0_12;
-        *(&D_801F800A + temp_v0_1) = test_1;
+        D_801F8008[var_s1_1].unk_1 = test_1;
         temp_s0_12 += 2;
         test_1 = *(u16 *)temp_s0_12;
-        (&D_801F51C0)[var_s1_1] = test_1;
+        PS1_FondSpritesIsSemiTrans[var_s1_1] = test_1;
         temp_s0_12 += 2;
         test_1 = *(u16 *)temp_s0_12;
-        (&D_801FA560)[var_s1_1] = test_1;
+        PS1_FondSpritesABR[var_s1_1] = test_1;
         temp_s0_12 += 2;
         test_1 = *(u16 *)temp_s0_12;
         (&D_801F5788)[var_s1_1] = test_1;
@@ -66,16 +51,16 @@ void PS1_LoadFondDataAndPalettes(void)
     {
         temp_v0_2 = var_s1_1 * 4;
         test_1 = *(u16 *)temp_s0_12;
-        *(s16 *)(&D_801E63F8 + temp_v0_2) = test_1;
+        D_801E63F8[var_s1_1].unk_0 = test_1;
         temp_s0_12 += 2;
         test_1 = *(u16 *)temp_s0_12;
-        *(&D_801E63FA + temp_v0_2) = test_1;
+        D_801E63F8[var_s1_1].unk_1 = test_1;
         temp_s0_12 += 2;
         test_1 = *(u16 *)temp_s0_12;
-        (&D_801F51C0)[PS1_BandeBackCount + var_s1_1] = test_1;
+        PS1_FondSpritesIsSemiTrans[PS1_BandeBackCount + var_s1_1] = test_1;
         temp_s0_12 += 2;
         test_1 = *(u16 *)temp_s0_12;
-        (&D_801FA560)[PS1_BandeBackCount + var_s1_1] = test_1;
+        PS1_FondSpritesABR[PS1_BandeBackCount + var_s1_1] = test_1;
         temp_s0_12 += 2;
         test_1 = *(u16 *)temp_s0_12;
         (&D_801F5788)[PS1_BandeBackCount + var_s1_1] = test_1;
@@ -355,8 +340,8 @@ similar to FUN_8013613c
 */
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80136340);
 
-/* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_801366ac);*/
+/* score of 7615 */
+/*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_801366ac);*/
 
 void FUN_801366ac(void)
 {
@@ -378,7 +363,7 @@ void FUN_801366ac(void)
     s32 temp_a2_2;
     s32 temp_a3_3;
     s32 temp_hi;
-    s32 temp_lo;
+    s32 temp_lo_1;
     s32 temp_lo_2;
     s32 temp_lo_3;
     s32 temp_lo_4;
@@ -411,7 +396,7 @@ void FUN_801366ac(void)
     s32 var_v1_2;
     s16 temp_a2_3;
     s16 temp_a2_4;
-    u16 temp_s1;
+    u16 temp_s1_1;
     u16 temp_t6;
     u32 var_v0;
     u8 temp_v0_4;
@@ -442,30 +427,29 @@ void FUN_801366ac(void)
             }
 block_6:
             var_s6 = 0;
-block_41:
             var_s2 = 0;
             var_s5 = 0;
         }
         else
         {
 block_7:
-            temp_lo = (PS1_FondHeight - ((ymapmax - ymap) + new_var)) / D_801F9900;
-            if ((PS1_FondHeight < 0xF0) && ((PS1_FondHeight - 0xF0) < (s16) temp_lo))
+            temp_lo_1 = (PS1_FondHeight - ((ymapmax - ymap) + 0xf0)) / D_801F9900;
+            if ((PS1_FondHeight < 0xF0) && ((PS1_FondHeight - 0xF0) < (s16) temp_lo_1))
             {
                 var_s2 = 0xF0 - PS1_FondHeight;
                 var_s6 = 0;
             }
             else
             {
-                var_s6 = temp_lo;
-                if ((temp_lo << 0x10) >= 0)
+                var_s6 = temp_lo_1;
+                if ((s16) (temp_lo_1) >= 0)
                 {
                     var_s2 = 0;
                 }
                 else
                 {
-                    var_s2 = -temp_lo;
-                    if ((s16) (temp_lo * -1) >= 0xF1)
+                    var_s2 = -temp_lo_1;
+                    if ((s16) (temp_lo_1 * -1) >= 0xF1)
                     {
                         var_s2 = 0x000000F0;
                     }
@@ -480,33 +464,27 @@ block_7:
         
         break;
     case 3:
-        temp_lo_2 = ymap / D_801F9900;
-        var_s6 = temp_lo_2;
-        temp_a0_1 = var_s6 & 0xFFFF;
-        if (PS1_FondHeight < var_s6)
+        var_s6 = ymap / D_801F9900;
+        if (var_s6 > PS1_FondHeight)
         {
             var_s5 = 0x00F0;
         }
         else
         {
-            var_s5 = 0;
             if (var_s6 >= (PS1_FondHeight - 0xF0))
             {
-                var_s5 = 0xF0 - (PS1_FondHeight - temp_lo_2);
+                var_s5 = 0xF0 - (PS1_FondHeight - var_s6);
             }
+            else
+                var_s5 = 0;
         }
         var_s2 = 0;
-        
-        
         break;
     case 4:
-        temp_lo_3 = ymap / D_801F9900;
+        var_s6 = (ymap / D_801F9900) % PS1_FondHeight;
         var_s3 = 0;
         var_s2 = 0;
         var_s5 = 0;
-        var_s6 = temp_lo_3 % PS1_FondHeight;
-        
-        
         break;
     case 1:
         var_s6 = 0;
@@ -520,13 +498,11 @@ block_7:
         }
         var_s2 = 0;
         var_s5 = 0;
-        
-        
         break;
     case 8:
         var_s6 = 0;
         var_s2 = 0;
-        temp_s1 = PS1_FondWidth;
+        temp_s1_1 = PS1_FondWidth;
         var_s5 = 0;
         PS1_FondWidth = 0x0180;
         var_s0 = 0;
@@ -536,37 +512,34 @@ block_7:
         {
             do
             {
-                temp_v0_2 = xmap + *&(&D_801F55B8)[var_s0];
-                temp_a2 = var_s0 * 4;
-                temp_v1 = *(&D_801F800A + temp_a2);
-                local_80[var_s0] = (temp_v0_2 / temp_v1);
-                temp_lo_4 = PS1_FondWidth * *(&D_801F800A + temp_a2); /* was 0x0180 instead of PS1_FondWidth */
-                temp_v0_3 = *&(&D_801F55B8)[var_s0] + (&D_801F5788)[var_s0];
-                *&(&D_801F55B8)[var_s0] = (temp_v0_3 % temp_lo_4);
+                local_80[var_s0 /* TODO: + 4 */] =
+                    ((xmap + D_801F55B8[var_s0]) /
+                    D_801F8008[var_s0].unk_1);
+                D_801F55B8[var_s0] =
+                    ((D_801F55B8[var_s0] + (&D_801F5788)[var_s0]) %
+                    (PS1_FondWidth * D_801F8008[var_s0].unk_1));
                 var_s0 += 1;
             } while ((var_s0) < test_2);
         }
         var_s0 = 0;
-        test_3 = PS1_BandeFrontCount;
+        test_2 = PS1_BandeFrontCount;
         if (test_2 != 0)
         {
             do
             {
                 temp_a0_2 = PS1_BandeBackCount + var_s0;
-                temp_v1_2 = *&(&D_801F55B8)[temp_a0_2];
-                temp_a2_2 = var_s0 * 4;
-                temp_v0_4 = *(&D_801E63FA + temp_a2_2);
-                local_80[temp_a0_2] = (xmap + (temp_v1_2 / temp_v0_4));
-                temp_lo_5 = PS1_FondWidth * *(&D_801E63FA + temp_a2_2);
-                temp_v0_5 = (&D_801F55B8)[var_s0] + (&D_801F5788)[var_s0];
-                *&(&D_801F55B8)[temp_a0_2] = (temp_v0_5 % temp_lo_5);
+                temp_v1_2 = D_801F55B8[temp_a0_2];
+                temp_v0_4 = D_801E63F8[var_s0].unk_1;
+                local_80[temp_a0_2 /* TODO: + 4 */] = (xmap + (temp_v1_2 / temp_v0_4));
+                temp_lo_5 = PS1_FondWidth * D_801E63F8[var_s0].unk_1;
+                temp_v0_5 = D_801F55B8[var_s0] + (&D_801F5788)[var_s0];
+                D_801F55B8[temp_a0_2] = (temp_v0_5 % temp_lo_5);
                 var_s0 += 1;
-            } while ((var_s0) < test_3);
+            } while ((var_s0) < test_2);
         }
         /* TODO: arg 2? */
         FUN_80138b84(var_s3, local_80, (var_s3 - ymapmax) + ymap, PS1_FondWidth);
-        PS1_FondWidth = temp_s1;
-        
+        PS1_FondWidth = temp_s1_1;
         break;
     case 9:
     case 10:
@@ -730,18 +703,8 @@ block_95:
     }
 }
 
-typedef struct Unk_801f8008
-{
-    s16 unk_0;
-    u8 unk_1;
-    u8 unk_2;
-} Unk_801f8008;
-
-extern Unk_801f8008 D_801F8008[6]; /* D_801F8008 and D_801F800A part of the same array? */
-/*extern u8 D_801F800A;*/
-
 /*
-score of ???
+score of 405
 FUN_8013613c param_4???
 */
 /*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_DisplayFondSprites);*/
@@ -802,7 +765,7 @@ void PS1_DisplayFondSprites(void)
         var_s6 += temp_s2_1;
         var_s0_1++;
         var_s1_1 = 1;
-        new_var_2 = &D_801E63F8; /* i don't even */
+        new_var_2 = &D_801E63F8[0].unk_0; /* i don't even */
         while (var_s1_1 < (u8) PS1_BandeBackCount)
         {
             temp_a2_1 = var_s3_1->unk_1;
@@ -824,7 +787,7 @@ void PS1_DisplayFondSprites(void)
         }
 
 
-        *var_s0_1 = (xmap + D_801F55B8[var_s1_1]) * D_801E63FA;
+        *var_s0_1 = (xmap + D_801F55B8[var_s1_1]) * D_801E63F8[0].unk_1;
         D_801F55B8[var_s1_1] = ((D_801F55B8[var_s1_1] + (&D_801F5788)[var_s1_1]) % PS1_FondWidth);
         FUN_80135d5c(var_s5, sp28, (var_s5 - ymapmax) + ymap, *new_var_2);
     }
@@ -862,7 +825,7 @@ void PS1_DisplayFondSprites(void)
 
         if (PS1_BandeFrontCount != 0)
         {
-            *var_s2 = ((ymap * D_801E63FA) % PS1_FondHeight);
+            *var_s2 = ((ymap * D_801E63F8[0].unk_1) % PS1_FondHeight);
         }
 
         if (PS1_FondType == 7)
