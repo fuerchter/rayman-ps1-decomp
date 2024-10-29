@@ -19,14 +19,14 @@ typedef struct Unk_801f8008
 /*
 see 8013726c,
 BinarySerializer.Ray1/DataTypes/PS1/Vignette
-tried making each field u16 also...
+if each field is u8, sizeof(RGBA5551Color) becomes 3
 */
 typedef struct RGBA5551Color
 {
-    u8 r : 5;
-    u8 g : 5;
-    u8 b : 5;
-    u8 a : 1;
+    u16 r : 5;
+    u16 g : 5;
+    u16 b : 5;
+    u16 a : 1;
 } RGBA5551Color;
 
 /* .data */
@@ -51,7 +51,7 @@ extern u8 PS1_FondType;
 extern u8 PS1_Tile_clut_y_offs[944]; /* see also loading_DA64.c */
 
 /* types of all of these? */
-extern Unk_801f8008 D_801E63F8[6]; /* size correct */
+extern Unk_801f8008 D_801E63F8[6]; /* size correct? */
 extern u8 D_801F51C0;
 extern u8 D_801F5788;
 extern Unk_801f8008 D_801F8008[6]; /* size correct? */
@@ -65,7 +65,7 @@ extern u8 D_801F9900;
 extern s16 PS1_FondHeight;
 
 /*
-u16 * or u32 * or RGBA5551Color * doesn't seem to work (see LoadImage calls)?
+u16 * or u32 * or RGBA5551Color * doesn't seem to work (see FUN_8013613c LoadImage call e.g.)?
 */
 extern u8 *PS1_FondImages[6];
 
