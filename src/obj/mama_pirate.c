@@ -244,53 +244,48 @@ void init_lance_couteau(u8 index)
 }
 
 /* 267EC 8014AFEC -O2 -msoft-float */
-u8 couteau_frame(s16 speed_x, s16 speed_y)
+u8 couteau_frame(s16 spd_x, s16 spd_y)
 {
     u8 frame;
-    s32 loc_speed_x;
-    s32 loc_speed_y;
-    s32 speed_x_check;
     s16 diff;
 
-    if (speed_x == 0)
-        frame = ((u32)speed_y / 4096) & 8;
+    if (spd_x == 0)
+        frame = ((u32) spd_y / 4096) & 8;
     else
     {
-        loc_speed_y = speed_y;
-        if (loc_speed_y == 0)
+        if (spd_y == 0)
         {
-            frame = 12;
-            loc_speed_x = speed_x;
-            if (loc_speed_x > 0)
-              frame = 4;
+            if (spd_x > 0)
+                frame = 4;
+            else
+                frame = 12;
         }
         else
         {
-            speed_x_check = speed_x < 0;
-            loc_speed_x = speed_x;
-            if (speed_x_check)
-                loc_speed_x *= -1;
-            if (loc_speed_y < 0)
-                loc_speed_y *= -1;
-            diff = loc_speed_x - loc_speed_y;
+            diff = __builtin_abs(spd_x) - __builtin_abs(spd_y);
             if (diff != 0)
             {
-                frame = 7;
                 if (diff >= 0)
                     frame = 5;
+                else
+                    frame = 7;
             }
             else
                 frame = 6;
             
-            if (speed_x > 0)
+            if (spd_x > 0)
             {
-                if (speed_y > 0)
+                if (spd_y > 0)
                     frame = 8 - frame;
             }
-            else if (speed_y < 0)
-                frame = 16 - frame;
             else
-                frame += 8;
+            {
+                if (spd_y < 0)
+                    frame = 16 - frame;
+                else
+                    frame = 8 + frame;
+            }
+
         }
     }
     return frame;

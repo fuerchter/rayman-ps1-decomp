@@ -1,180 +1,152 @@
 #include "obj/hyb_bbf2.h"
 
-/* matches, but clean up*/
+/*
+matches, but
+duplication?
+var_v1?
+*/
 /*INCLUDE_ASM("asm/nonmatchings/obj/hyb_bbf2", doBBF2command);*/
 
-void doBBF2command(Obj *obj)
+void doBBF2command(Obj *bbf2_obj)
 {
-    s16 sp18;
-    s16 sp1A;
-    s16 sp1C;
-    s16 sp1E;
-    s16 sp20;
-    s16 temp_a0_3;
-    s16 temp_a1;
-    s16 temp_a1_2;
-    s16 temp_s0;
-    s16 temp_s0_2;
-    s32 temp_v1_2;
-    s32 temp_v1_4;
-    s16 temp_v1_5;
-    s16 temp_v1_6;
-    s32 var_v0_2;
-    s32 var_v0_4;
+    s16 spr_x; s16 spr_y_1; s16 spr_w; s16 spr_h;
+    s16 spr_y_2;
+    s16 bbf2_y_1;
+    s32 bbf2_y_2;
+    s16 bbf2_y_3;
     s16 var_v1;
-    s32 temp_a0;
-    s32 temp_a0_2;
-    s32 temp_v0_1;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 temp_v1_3;
-    s32 var_v0_3;
-    u16 var_a1;
-    u16 var_v0_1;
-    u8 temp_v1_1;
-    u8 temp_v1_7;
-    u8 temp_v1_8;
+    u16 unk_2;
     s16 unk_1;
-    int new_var;
 
-    if ((obj->main_etat != 0) || (obj->sub_etat != 2))
+    if (!(bbf2_obj->main_etat == 0 && bbf2_obj->sub_etat == 2))
     {
-        temp_v1_1 = obj->type;
-        if (temp_v1_1 == 0xE7)
+        if (bbf2_obj->type == TYPE_HYB_BBF2_D)
         {
             if (BBF2DEsk == 0)
             {
                 unk_1 = 0x5A;
-                YPosBBF2D = (NiveauSol - (ray.offset_by - ray.offset_hy)) - ((((ray.x_pos + ray.offset_bx) - xmap) >> 1) - unk_1);
+                YPosBBF2D =
+                    NiveauSol - (ray.offset_by - ray.offset_hy) -
+                    (((ray.x_pos + ray.offset_bx - xmap) >> 1) - unk_1);
             }
             else
             {
-                if (BBF2DEsk == 0x64)
+                if (BBF2DEsk == 100)
                 {
-                    temp_s0 = obj->y_pos + ((obj->offset_by + obj->offset_hy) >> 1);
-                    GET_SPRITE_POS(TirBBF2G, 8, &sp18, &sp1A, &sp1C, &sp1E);
-                    temp_a0 = sp1A + sp1E;
-                    if ((temp_a0 < temp_s0) && (((obj->y_pos + obj->offset_hy) - 0xA) < temp_a0))
-                    {
-                        YPosBBF2D = YPosBBF2D + 0x32;
-                    }
-                    else if ((temp_s0 < sp1A) && (sp1A < (obj->y_pos + obj->offset_by + 0xA)))
-                    {
-                        YPosBBF2D = YPosBBF2D - 0x32;
-                    }
+                    bbf2_y_1 = bbf2_obj->y_pos + ((bbf2_obj->offset_by + bbf2_obj->offset_hy) >> 1);
+                    GET_SPRITE_POS(TirBBF2G, 8, &spr_x, &spr_y_1, &spr_w, &spr_h);
+                    if (
+                        (spr_y_1 + spr_h) < bbf2_y_1 &&
+                        ((spr_y_1 + spr_h) > bbf2_obj->y_pos + bbf2_obj->offset_hy - 0xA)
+                    )
+                        YPosBBF2D += 50;
+                    else if (
+                        spr_y_1 > bbf2_y_1 &&
+                        (spr_y_1 < (bbf2_obj->y_pos + bbf2_obj->offset_by + 0xA))
+                    )
+                        YPosBBF2D -= 50;
+                    else if (
+                        (spr_y_1 > ((bbf2_obj->y_pos + bbf2_obj->offset_hy) - 0xA)) &&
+                        ((spr_y_1 + spr_h) < (bbf2_obj->y_pos + bbf2_obj->offset_by + 0xA))
+                    )
+                        YPosBBF2D -= 80;
                     else
                     {
-                        temp_a1 = obj->y_pos;
-                        if ((((temp_a1 + obj->offset_hy) - 0xA) < sp1A) && ((sp1A + sp1E) < (temp_a1 + obj->offset_by + 0xA)))
-                        {
-                            YPosBBF2D = YPosBBF2D - 0x50;
-                        }
-                        else
-                        {
-                            unk_1 = 0x5A;
-                            YPosBBF2D = (NiveauSol - (ray.offset_by - ray.offset_hy)) - ((((ray.x_pos + ray.offset_bx) - xmap) >> 1) - unk_1);
-                        }
+                        unk_1 = 0x5A;
+                        YPosBBF2D =
+                            NiveauSol - (ray.offset_by - ray.offset_hy) -
+                            (((ray.x_pos + ray.offset_bx - xmap) >> 1) - unk_1);
                     }
                 }
                 BBF2DEsk--;
             }
-            var_a1 = (YPosBBF2D - 0x96) - obj->y_pos;
+            unk_2 = YPosBBF2D - 150 - bbf2_obj->y_pos;
         }
-        else if (temp_v1_1 == 0xE8)
+        else if (bbf2_obj->type == TYPE_HYB_BBF2_G)
         {
             if (BBF2GEsk == 0)
             {
                 unk_1 = 0x46;
-                YPosBBF2G = (NiveauSol - (ray.offset_by - ray.offset_hy)) + ((((ray.x_pos + ray.offset_bx) - xmap) >> 1) - unk_1);
+                YPosBBF2G =
+                    NiveauSol - (ray.offset_by - ray.offset_hy) +
+                    (((ray.x_pos + ray.offset_bx - xmap) >> 1) - unk_1);
             }
             else
             {
-                if (BBF2GEsk == 0x64)
+                if (BBF2GEsk == 100)
                 {
-                    temp_s0_2 = obj->y_pos + ((obj->offset_by + obj->offset_hy) >> 1);
-                    GET_SPRITE_POS(TirBBF2D, 8, &sp18, &sp1A, &sp1C, &sp1E);
-                    temp_a0_2 = sp1A + sp1E;
-                    if ((temp_a0_2 < temp_s0_2) && (((obj->y_pos + obj->offset_hy) - 0xA) < temp_a0_2))
+                    bbf2_y_1 = bbf2_obj->y_pos + ((bbf2_obj->offset_by + bbf2_obj->offset_hy) >> 1);
+                    GET_SPRITE_POS(TirBBF2D, 8, &spr_x, &spr_y_1, &spr_w, &spr_h);
+                    if (
+                        ((spr_y_1 + spr_h) < bbf2_y_1) &&
+                        ((spr_y_1 + spr_h) > ((bbf2_obj->y_pos + bbf2_obj->offset_hy) - 0xA))
+                    )
+                        YPosBBF2G += 50;
+                    else if (
+                        (spr_y_1 > bbf2_y_1) &&
+                        (spr_y_1 < (bbf2_obj->y_pos + bbf2_obj->offset_by + 0xA))
+                    )
+                        YPosBBF2G -= 50;
+                    else if (
+                        (spr_y_1 > ((bbf2_obj->y_pos + bbf2_obj->offset_hy) - 0xA)) &&
+                        ((spr_y_1 + spr_h) < (bbf2_obj->y_pos + bbf2_obj->offset_by + 0xA)))
                     {
-                        YPosBBF2G = YPosBBF2G + 0x32;
-                    }
-                    else if ((temp_s0_2 < sp1A) && (sp1A < (obj->y_pos + obj->offset_by + 0xA)))
-                    {
-                        YPosBBF2G = YPosBBF2G - 0x32;
+                        YPosBBF2G -= 80;
                     }
                     else
                     {
-                        temp_a1_2 = obj->y_pos;
-                        if ((((temp_a1_2 + obj->offset_hy) - 0xA) < sp1A) && ((sp1A + sp1E) < (temp_a1_2 + obj->offset_by + 0xA)))
-                        {
-                            YPosBBF2G = YPosBBF2G - 0x50;
-                        }
-                        else
-                        {
-                            unk_1 = 0x46;
-                            YPosBBF2G = (NiveauSol - (ray.offset_by - ray.offset_hy)) + ((((ray.x_pos + ray.offset_bx) - xmap) >> 1) - unk_1);
-                        }
+                        unk_1 = 0x46;
+                        YPosBBF2G =
+                            NiveauSol - (ray.offset_by - ray.offset_hy) +
+                            (((ray.x_pos + ray.offset_bx - xmap) >> 1) - unk_1);
                     }
                 }
                 BBF2GEsk--;
             }
-            var_a1 = (YPosBBF2G - 0x96) - obj->y_pos;
+            unk_2 = YPosBBF2G - 150 - bbf2_obj->y_pos;
         }
 
-        temp_v1_2 = obj->y_pos;
-        if (((ymap + 0x5A) >= temp_v1_2) || (((s16) var_a1) <= 0))
+        bbf2_y_2 = bbf2_obj->y_pos;
+        if (
+            ((bbf2_y_2 > ymap + 90) && (s16) unk_2 > 0) ||
+            ((bbf2_y_2 < ymap - 150) && (s16) unk_2 < 0)
+        )
         {
-            if (temp_v1_2 < (ymap - 0x96))
-            {
-                if ((s16) var_a1 < 0)
-                {
-                    var_a1 = 0;
-                    obj->speed_y = 0;
-                }
-            }
+            unk_2 = 0;
+            bbf2_obj->speed_y = 0;
         }
-        else
-        {
-            var_a1 = 0;
-            obj->speed_y = 0;            
-        }
-        var_v1 = (s16) var_a1;
-        
+
+        var_v1 = (s16) unk_2; /* TODO: ??? */
         if (var_v1 != 0)
         {
-            obj->speed_y = MAX_1(-48, MIN_1(48,
-                SGN(((s16) var_a1) - obj->speed_y) + obj->speed_y));
+            bbf2_obj->speed_y = MAX_1(-48, MIN_1(48,
+                SGN(((s16) unk_2) - bbf2_obj->speed_y) + bbf2_obj->speed_y));
         }
     }
-    GET_SPRITE_POS(&ray, 5, &sp18, &sp20, &sp1C, &sp1E);
-    temp_a0_3 = sp20 + 0xF;
-    sp20 = temp_a0_3;
-    temp_v1_6 = obj->y_pos + 0x96;
-    if ((obj->sub_etat == 0) && (temp_a0_3 > (temp_v1_6 - 0xF)) && (temp_a0_3 < (temp_v1_6 + 0xF)))
+    GET_SPRITE_POS(&ray, 5, &spr_x, &spr_y_2, &spr_w, &spr_h);
+    spr_y_2 += 15;
+    bbf2_y_3 = bbf2_obj->y_pos + 150;
+    if (
+        bbf2_obj->sub_etat == 0 &&
+        (spr_y_2 > bbf2_y_3 - 15) && (spr_y_2 < bbf2_y_3 + 15)
+    )
+        set_sub_etat(bbf2_obj, 5);
+    else if (
+        (bbf2_obj->sub_etat == 6 || bbf2_obj->sub_etat == 4) &&
+        ((spr_y_2 < bbf2_y_3 - 20) || (spr_y_2 > bbf2_y_3 + 20))
+    )
+        set_sub_etat(bbf2_obj, 7);
+    else if (
+        (bbf2_obj->sub_etat == 5 || bbf2_obj->sub_etat == 6) &&
+        (spr_y_2 > bbf2_y_3 - 7) && (spr_y_2 < bbf2_y_3 + 7)
+    )
+        set_sub_etat(bbf2_obj, 3);
+    else if (bbf2_obj->sub_etat == 3 && bbf2_obj->anim_frame == 3)
     {
-        set_sub_etat(obj, 5U);
-        return;
-    }
-    temp_v1_7 = obj->sub_etat;
-    if (((temp_v1_7 == 6) || (temp_v1_7 == 4)) && ((sp20 < (temp_v1_6 - 0x14)) || ((temp_v1_6 + 0x14) < sp20)))
-    {
-        set_sub_etat(obj, 7U);
-        return;
-    }
-    if (((u32) (obj->sub_etat - 5) < 2U) && ((temp_v1_6 - 7) < sp20) && (sp20 < (temp_v1_6 + 7)))
-    {
-        set_sub_etat(obj, 3U);
-        return;
-    }
-    temp_v1_8 = obj->sub_etat;
-    if ((temp_v1_8 == 3) && (obj->anim_frame == temp_v1_8))
-    {
-        AllocateTirBBF2(obj);
-        if (obj->type == 0xE7)
-        {
-            BBF2GEsk = 0x64;
-            return;
-        }
-        BBF2DEsk = 0x64;
+        AllocateTirBBF2(bbf2_obj);
+        if (bbf2_obj->type == TYPE_HYB_BBF2_D)
+            BBF2GEsk = 100;
+        else
+            BBF2DEsk = 100;
     }
 }

@@ -15,10 +15,10 @@ void lance_couteau_lineaire(Obj *in_obj)
     ObjState *temp_v1_6;
     s16 diff_x;
     s16 diff_y;
-    s32 var_a0_2;
-    u8 var_s5;
+    s32 unk_3;
+    u8 unk_sub_etat;
     s32 var_v1;
-    s16 temp_lo;
+    s16 unk_4;
     s16 var_s2;
     s16 var_s3;
     s32 var_a0;
@@ -70,27 +70,22 @@ void lance_couteau_lineaire(Obj *in_obj)
                 switch(CouteauxInfos[cout_ind].field9_0x10) /* TODO: continue cleaning up from here*/
                 {
                 case 1:
-                    var_a0_2 = __builtin_abs(diff_x);
-                    var_v1 = __builtin_abs(diff_y);
-                    var_s5 = 0x0B;
-                    if (var_a0_2 < var_v1)
-                    {
-                        var_a0_2 = var_v1;
-                    }
-                    temp_lo = 4;
-                    temp_lo = ashl16(var_a0_2, 4U) / temp_lo;
-                    var_s3 = convertspeed(ashl16(diff_x, 4U) / temp_lo);
-                    var_s2 = convertspeed(ashl16(diff_y, 4U) / temp_lo);
+                    unk_sub_etat = 11;
+                    unk_3 = MAX_1(__builtin_abs(diff_x), __builtin_abs(diff_y));
+                    unk_4 = 4;
+                    unk_4 = ashl16(unk_3, 4U) / unk_4;
+                    var_s3 = convertspeed(ashl16(diff_x, 4U) / unk_4);
+                    var_s2 = convertspeed(ashl16(diff_y, 4U) / unk_4);
                     var_s0 = couteau_frame(var_s3, var_s2);
                     break;
                 case 3:
-                    var_s5 = 0x0B;
+                    unk_sub_etat = 11;
                     var_s3 = convertspeed(0);
                     var_s2 = convertspeed(3);
                     var_s0 = couteau_frame(var_s3, var_s2);
                     break;
                 case 0:
-                    var_s5 = 0x0B;
+                    unk_sub_etat = 11;
                     var_a0 = -3;
                     if (diff_x >= 0)
                     {
@@ -101,7 +96,7 @@ void lance_couteau_lineaire(Obj *in_obj)
                     var_s0 = couteau_frame(var_s3, var_s2);
                     break;
                 case 2:
-                    var_s5 = 0x0E;
+                    unk_sub_etat = 14;
                     var_s3 = convertspeed(-1);
                     var_s2 = convertspeed(5);
                     var_s0 = couteau_frame(0, 1);
@@ -110,7 +105,7 @@ void lance_couteau_lineaire(Obj *in_obj)
                 temp_v1_4 = CouteauxInfos[cout_ind].field9_0x10;
                 if (temp_v1_4 == 2)
                 {
-                    in_obj->sub_etat = var_s5;
+                    in_obj->sub_etat = unk_sub_etat;
                     in_obj->anim_frame = var_s0;
                     in_obj->eta[in_obj->main_etat][in_obj->sub_etat].anim_speed &= 0xF0;
                     CouteauxInfos[cout_ind].field5_0xa = var_s3;
@@ -130,7 +125,7 @@ void lance_couteau_lineaire(Obj *in_obj)
                 }
                 if (temp_v1_4 == 3)
                 {
-                    in_obj->sub_etat = var_s5;
+                    in_obj->sub_etat = unk_sub_etat;
                     in_obj->anim_frame = var_s0;
                     CouteauxInfos[cout_ind].field5_0xa = var_s3;
                     CouteauxInfos[cout_ind].field7_0xe = var_s0;
@@ -145,7 +140,7 @@ void lance_couteau_lineaire(Obj *in_obj)
                 }
                 if (in_obj->anim_frame == (var_s0 & 0xFF))
                 {
-                    in_obj->sub_etat = var_s5;
+                    in_obj->sub_etat = unk_sub_etat;
                     in_obj->anim_frame = var_s0;
                     CouteauxInfos[cout_ind].field7_0xe = var_s0;
                     CouteauxInfos[cout_ind].field5_0xa = var_s3;
