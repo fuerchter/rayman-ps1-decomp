@@ -323,7 +323,7 @@ segments:
       - [0x9E914, .data, data/collision/bit_util] #801C3114
       - [0x9EB18, .data, data/ray/angle_rayman_9EB18] #801C3318
       - [0x9EB5C, data]
-      #- [0x9EB5C, .data, data/world_map_9EB5C] #801C335C .data referencing .rodata (could not check for matching, include_asm)
+      #- [0x9EB5C, .data, data/world_map_9EB5C] #801C335C could not check for matching, include_asm
       - [0x9ED48, .data, data/menu/menu_card_9ED48] #801C3548
       - [0x9ED80, .data, data/draw/text_9ED80] #801C3580
       - [0x9EDBC, .data, data/menu/menu_9EDBC] #801C35BC
@@ -335,7 +335,7 @@ segments:
       - [0x9FC68, .data, data/loading_tex_9FC68] #801C4468
       - [0x9FC78, .data, data/music_9FC78] #801C4478
       - [0xA0338, data]
-      #- [0xA0338, .data, data/loading_A0338] #801C4B38  .data referencing .rodata (could not check for matching, include_asm)
+      #- [0xA0338, .data, data/loading_A0338] #801C4B38 could not check for matching, include_asm
       - [0xA29C0, .data, data/draw/fond_A29C0] #801C71C0
       - [0xA29CC, .data, data/draw/text_A29CC] #801C71CC
       - [0xA2A58, .data, data/obj_util] #801C7258
@@ -352,7 +352,7 @@ segments:
       - [0xA3BC4, .data, data/obj/moskito_A3BC4] #801C83C4
       - [0xA3C88, .data, data/obj/dark_A3C88] #801C8488
       - [0xA3CD8, data]
-      #- [0xA3CD8, .data, data/password_A3CD8] #801C84D8
+      #- [0xA3CD8, .data, data/password_A3CD8] #801C84D8 include_asm
       - [0xA3D40, data] #psyq afaik
       - [0xAA5E4, .data, data/draw/rollup_trans_AA5E4] #801CEDE4
       - [0xAA5F4, .data, data/world_map_AA5F4] #801CEDF4

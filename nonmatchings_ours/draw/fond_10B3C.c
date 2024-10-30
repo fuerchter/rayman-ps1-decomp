@@ -151,7 +151,7 @@ void PS1_LoadFond(void)
 }
 
 /* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", FUN_80135d5c);*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80135d5c);*/
 
 void FUN_80135d5c(s32 param_1, s16 *param_2, s32 param_3, s16 param_4)
 {

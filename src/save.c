@@ -67,7 +67,7 @@ void saveGameState(Obj *obj, SaveState *state)
     {
         if (cur_obj->type == TYPE_NEIGE || cur_obj->type == TYPE_GENERATING_DOOR)
         {
-            unk_1 = (j << 0x10) >> 0x15;
+            unk_1 = j >> 5;
             unk_2 = 1 << (j & 0x1F);
             if (cur_obj->flags & FLG(OBJ_ALIVE))
                 state->triggered_objects[unk_1] |= unk_2;
