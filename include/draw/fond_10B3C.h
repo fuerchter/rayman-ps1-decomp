@@ -78,7 +78,7 @@ void PS1_LoadFondSprites(void);
 void PS1_LoadFondDataAndPalettes(void);
 void PS1_LoadFond(void);
 void FUN_80135ab0(s16 param_1, s16 *param_2); /* param_2 is pointer? see PS1_DisplayFondSprites */
-void FUN_80135d5c(s32 param_1, s16 *param_2, s32 param_3, s16 param_4); /* param_2 is pointer? see PS1_DisplayFondSprites */
+void FUN_80135d5c(s32 param_1, u16 *param_2, s32 param_3, s16 param_4); /* param_2 is pointer? see PS1_DisplayFondSprites */
 void FUN_8013613c(u8 param_1, u32 param_2, u8 param_3, u32 param_4);
 void FUN_80136340(s16 *param_1, u32 param_2); /* param_1 is pointer? see PS1_DisplayFondSprites */
 void FUN_801366ac(void);

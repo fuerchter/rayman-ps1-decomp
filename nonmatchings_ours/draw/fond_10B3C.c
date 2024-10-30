@@ -150,114 +150,113 @@ void PS1_LoadFond(void)
   }
 }
 
-/* score of ??? */
+/* score of 2810 */
 /*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80135d5c);*/
 
-void FUN_80135d5c(s32 param_1, s16 *param_2, s32 param_3, s16 param_4)
+void FUN_80135d5c(s32 param_1, u16 *param_2, s32 param_3, s16 param_4)
 {
-  short sVar1_1;
-  Display *pDVar2;
-  u8 **ppuVar3;
-  u8 bVar4;
-  ushort uVar5;
-  s16 iVar6;
-  uint uVar7;
-  int iVar8;
-  short sVar9;
-  SPRT *pSVar10;
-  SPRT *cur_sprite;
-  DR_ENV *dr_env;
-  int iVar13;
-  short *psVar14;
-  DVECTOR *bg_pos;
-  int iVar16;
-  Sprite *bg_sprite;
-  u8 cnt_1;
-  s16 test_1;
-  
-  uVar5 = PS1_FondWidth;
-  pDVar2 = PS1_CurrentDisplay;
-  cnt_1 = 0;
-  iVar13 = PS1_FondWidth * 2;
-  test_1 = ((NbSprite + 0xffff) << 0x10) >> 0x10;
-  bg_pos = PS1_BackgroundPositions + test_1;
-  dr_env = &PS1_CurrentDisplay->map_drawing_environment_primitives[9 + test_1];
-  bg_sprite = PS1_BackgroundSprites + test_1;
-  PS1_PrevPrim = PS1_CurrentDisplay->ordering_table + 8;
-  cur_sprite = PS1_CurrentDisplay->sprites + test_1;
-  if (NbSprite != 0) {
-    /*iVar16 = param_4;*/
-    iVar6 = ((PS1_FondWidth - 0x140) << 0x10) >> 0x10;
-    pSVar10 = cur_sprite; /* should be the same??? */
-    psVar14 = &bg_pos->vy; /* ??? */
-    do {
-      
-      uVar7 = bg_sprite->id - 1 & 0xff;
-      if (uVar7 == PS1_BandeBackCount) {
-        uVar7 = *(ushort *)(uVar7 * 2 + param_2);
-        sVar1_1 = ((int)uVar7 % param_4);
+    s16 sVar1_1;
+    Display *pDVar2;
+    u32 *ppuVar3;
+    u8 bVar4;
+    s32 fw_1;
+    s32 fw_2;
+    s16 fw_3;
+    s16 fw_4;
+    u8 uVar7;
+    s16 sVar9;
+    SPRT *pSVar10;
+    SPRT *cur_sprt;
+    DR_ENV *cur_dr_env;
+    DVECTOR *cur_pos;
+    Sprite *cur_bg_sprite;
+    u8 cnt_1;
+    s16 test_1;
+    s16 temp_v0_4;
+    u32 *new_var_1; /* ??? was permuter sugg. */
+    s16 new_var_2;
+    
+    cnt_1 = 0;
+    fw_1 = PS1_FondWidth;
+    fw_2 = PS1_FondWidth * 2;
+    fw_4 = ((PS1_FondWidth * 2 - 0x140));
+    fw_3 = ((PS1_FondWidth - 0x140));
+    /*test_1 = ((NbSprite + 0xffff) << 0x10) >> 0x10;*/
+    test_1 = ((NbSprite - 1));
+    cur_pos = &PS1_BackgroundPositions[test_1];
+    pDVar2 = PS1_CurrentDisplay;
+    cur_bg_sprite = &PS1_BackgroundSprites[test_1];
+    PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[8];
+    cur_dr_env = &PS1_CurrentDisplay->map_drawing_environment_primitives[9 + test_1];
+    
+    cur_sprt = &PS1_CurrentDisplay->sprites[test_1];
+    bVar4 = NbSprite;
+    while (cnt_1 < bVar4) {
+        uVar7 = cur_bg_sprite->id - 1;
         sVar9 = 1000;
-        if ((((ushort)*psVar14 - param_3) << 0x10) >> 0x10 < 1000) {
-          sVar9 = (*psVar14 - param_3);
+        if (uVar7 == PS1_BandeBackCount) {
+            sVar1_1 = param_2[uVar7] % param_4;
+            new_var_2 = cur_pos->vx - sVar1_1;
+            temp_v0_4 = cur_pos->vy - param_3;
+            if (sVar9 > temp_v0_4) {
+                sVar9 = temp_v0_4;
+            }
+            cur_sprt[0].x0 = new_var_2;
+            cur_sprt[0].y0 = sVar9;
+            ppuVar3 = PS1_PrevPrim;
+            cur_sprt[0].tag = cur_sprt[0].tag & 0xff000000 | *ppuVar3 & 0xffffff;
+            *ppuVar3 = (*ppuVar3 & 0xff000000 | (uint)&cur_sprt[0] & 0xffffff);
+            if (fw_3 < sVar1_1) {
+                cur_sprt[0x10].x0 = param_4 + cur_sprt[0].x0;
+                cur_sprt[0x10].y0 = cur_sprt[0].y0;
+                new_var_1 = &cur_sprt[0x10].tag;
+                cur_sprt[0x10].tag = *new_var_1 & 0xff000000 | *ppuVar3 & 0xffffff;
+                *ppuVar3 = (*ppuVar3 & 0xff000000 | (uint)(&cur_sprt[0x10]) & 0xffffff);
+            }
         }
-        pSVar10[0].x0 = bg_pos->vx - sVar1_1;
-        pSVar10[0].y0 = sVar9;
+        else {
+            PS1_PrevPrim = pDVar2->ordering_table;
+            ppuVar3 = PS1_PrevPrim;
+            sVar1_1 = param_2[uVar7] % (s16) fw_1;
+            new_var_2 = cur_pos->vx - sVar1_1;
+            temp_v0_4 = cur_pos->vy - param_1;
+            if (sVar9 > temp_v0_4) {
+                sVar9 = temp_v0_4;
+            }
+            cur_sprt[0].x0 = new_var_2;
+            cur_sprt[0].y0 = sVar9;
+            cur_sprt[0].tag = cur_sprt[0].tag & 0xff000000 | *ppuVar3 & 0xffffff;
+            *ppuVar3 =
+                (*ppuVar3 & 0xff000000 | (uint)&cur_sprt[0] & 0xffffff);
+            if (fw_3 < sVar1_1) {
+                cur_sprt[0x10].x0 = cur_sprt[0].x0 + fw_1;
+                cur_sprt[0x10].y0 = cur_sprt[0].y0;
+                new_var_1 = &cur_sprt[0x10].tag;
+                cur_sprt[0x10].tag =
+                    *new_var_1 & 0xff000000 | *ppuVar3 & 0xffffff;
+                *ppuVar3 =
+                    (*ppuVar3 & 0xff000000 | (uint)(&cur_sprt[0x10]) & 0xffffff);
+                if (fw_4 < sVar1_1) {
+                    cur_sprt[0x20].x0 = cur_sprt[0].x0 + fw_2;
+                    cur_sprt[0x20].y0 = cur_sprt[0].y0;
+                    cur_sprt[0x20].tag = cur_sprt[0x20].tag & 0xff000000 | *ppuVar3 & 0xffffff;
+                    *ppuVar3 =
+                        (*ppuVar3 & 0xff000000 | (uint)(&cur_sprt[0x20]) & 0xffffff);
+                }
+            }
+        }
+        
+        cnt_1++;
+        cur_pos--;
+        cur_bg_sprite--;
+        pSVar10--;
+        cur_sprt--;
         ppuVar3 = PS1_PrevPrim;
-        cur_sprite->tag = cur_sprite->tag & 0xff000000 | (uint)*ppuVar3 & 0xffffff;
-        *ppuVar3 = (u8 *)((uint)*ppuVar3 & 0xff000000 | (uint)cur_sprite & 0xffffff);
-        if (iVar6 < sVar1_1) {
-          pSVar10[0x10].x0 = param_4 + pSVar10[0].x0;
-          pSVar10[0x10].y0 = pSVar10[0].y0;
-          pSVar10[0x10].tag = pSVar10[0x10].tag & 0xff000000 | (uint)*ppuVar3 & 0xffffff;
-          *ppuVar3 = (u8 *)((uint)*ppuVar3 & 0xff000000 | (uint)(cur_sprite + 0x10) & 0xffffff);
-        }
-      }
-      else {
-        uVar7 = *(ushort *)(uVar7 * 2 + param_2);
-        iVar8 = (short)uVar5;
-        PS1_PrevPrim = pDVar2->ordering_table;
-        sVar1_1 = ((int)uVar7 % iVar8);
-        sVar9 = 1000;
-        if ((((ushort)*psVar14 - param_1) << 0x10) >> 0x10 < 1000) {
-          sVar9 = (*psVar14 - param_1);
-        }
-        pSVar10[0].x0 = bg_pos->vx - sVar1_1;
-        pSVar10[0].y0 = sVar9;
-        cur_sprite->tag = cur_sprite->tag & 0xff000000 | (uint)pDVar2->ordering_table[0] & 0xffffff;
-        pDVar2->ordering_table[0] =
-             (u8 *)((uint)pDVar2->ordering_table[0] & 0xff000000 | (uint)cur_sprite & 0xffffff);
-        if (iVar6 < sVar1_1) {
-          pSVar10[0x10].x0 = pSVar10[0].x0 + uVar5;
-          pSVar10[0x10].y0 = pSVar10[0].y0;
-          pSVar10[0x10].tag =
-               pSVar10[0x10].tag & 0xff000000 | (uint)pDVar2->ordering_table[0] & 0xffffff;
-          pDVar2->ordering_table[0] =
-               (u8 *)
-               ((uint)pDVar2->ordering_table[0] & 0xff000000 | (uint)(cur_sprite + 0x10) & 0xffffff);
-          if (((iVar13) + -0x140) << 0x10 >> 0x10 < sVar1_1) {
-            pSVar10[0x20].x0 = pSVar10[0].x0 + iVar13;
-            pSVar10[0x20].y0 = pSVar10[0].y0;
-            pSVar10[0x20].tag = pSVar10[0x20].tag & 0xff000000 | (uint)pDVar2->ordering_table[0] & 0xffffff;
-            pDVar2->ordering_table[0] =
-                 (u8 *)
-                 ((uint)pDVar2->ordering_table[0] & 0xff000000 | (uint)(cur_sprite + 0x20) & 0xffffff);
-          }
-        }
-      }
-      bVar4 = NbSprite;
-      ppuVar3 = PS1_PrevPrim;
-      cnt_1 = cnt_1 + 1;
-      psVar14 = psVar14 + -2;
-      bg_pos = bg_pos + -1;
-      bg_sprite = bg_sprite + -1;
-      pSVar10 = pSVar10 + -1;
-      cur_sprite = cur_sprite + -1;
-      dr_env->tag = dr_env->tag & 0xff000000 | (uint)*(s32 *)PS1_PrevPrim & 0xffffff;
-      *ppuVar3 = (u8 *)((uint)*ppuVar3 & 0xff000000 | (uint)dr_env & 0xffffff);
-      dr_env = dr_env + -1;
-    } while (cnt_1 < bVar4);
-  }
-  return;
+        bVar4 = NbSprite;
+        cur_dr_env->tag = cur_dr_env->tag & 0xff000000 | *ppuVar3 & 0xffffff;
+        *ppuVar3 = (*ppuVar3 & 0xff000000 | (uint)cur_dr_env & 0xffffff);
+        cur_dr_env--;
+    }
 }
 
 /* matches, but ... */
