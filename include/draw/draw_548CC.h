@@ -21,7 +21,7 @@ extern RGB D_801C7EAC[4];
 extern s16 D_801CF064;
 extern s16 D_801CF066;
 extern s16 D_801CF068;
-extern CVECTOR D_801CF06C; /* being treated as s32? */
+extern s32 D_801CF06C;
 extern CVECTOR D_801CF070;
 extern CVECTOR D_801CF074;
 extern CVECTOR D_801CF078;

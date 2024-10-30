@@ -1,6 +1,22 @@
 #include "obj/batteur_fou.h"
 
 /*
+DO_BAT_FLASH:
+tried adding this inline, but couldn't get it to match
+also, how does
+if (diff_y == 0)
+block connect with else???
+*/
+extern inline s16 test_123(s16 test_1, s32 add)
+{
+    /*return ((test_1 < (s16) LEN(N_anim)) * N_anim[test_1]) + add;*/
+    if (test_1 >= (s16) LEN(N_anim))
+        return add;
+    else
+        return add + N_anim[test_1];
+}
+
+/*
 score of ???
 similar with OBJ_ACTIVE loop in DO_PI_EXPLOSION?
 */
