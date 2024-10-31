@@ -77,7 +77,7 @@ extern u8 PS1_CurrentVitrailClignotement[5];
 void PS1_LoadFondSprites(void);
 void PS1_LoadFondDataAndPalettes(void);
 void PS1_LoadFond(void);
-void FUN_80135ab0(s16 param_1, s16 *param_2); /* param_2 is pointer? see PS1_DisplayFondSprites */
+void FUN_80135ab0(s16 param_1, s16 *param_2);
 void FUN_80135d5c(s32 param_1, u16 *param_2, s32 param_3, s16 param_4); /* param_2 is pointer? see PS1_DisplayFondSprites */
 void FUN_8013613c(u8 param_1, u32 param_2, u8 param_3, u32 param_4);
 void FUN_80136340(s16 *param_1, u32 param_2); /* param_1 is pointer? see PS1_DisplayFondSprites */
@@ -87,7 +87,7 @@ u8 FUN_80137998(u8 param_1, u8 param_2, s32 param_3);
 u8 PS1_GetTileV(u8 param_1, u8 param_2, s32 tile);
 u8 PS1_GetTileU(s32 param_1);
 void DRAW_MAP(void);
-void FUN_80137cc8(s32 param_1, s16 *param_2); /* param_2 is pointer? see PS1_DisplayFondSprites */
+void FUN_80137cc8(s16 param_1, s16 *param_2);
 void allume_vitraux(u8 (*param_1) [5]);
 void FUN_80138360(u8 *vit_clig);
 void FUN_80138718(u8 param_1);
