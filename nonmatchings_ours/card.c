@@ -183,7 +183,7 @@ s32 PS1_CardFilenameChecksum(u8 chan)
 }
 
 /*
-score of 985
+score of 295
 returns u8 instead? see SaveGameOnDisk and betw1 var
 */
 /*INCLUDE_ASM("asm/nonmatchings/card", PS1_WriteSave);*/
@@ -220,12 +220,9 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
     u8 *new_var;
     s32 test_3;
 
-    new_var = PS1_SaveIcon1;
-    __builtin_memcpy(saveicon1, new_var, sizeof(PS1_SaveIcon1));
-    new_var = PS1_SaveIcon2and3;
-    __builtin_memcpy(saveicon2and3, new_var, sizeof(PS1_SaveIcon2and3));
-    new_var = PS1_SaveIconPalette;
-    __builtin_memcpy(saveiconpalette, new_var, sizeof(PS1_SaveIconPalette));
+    __builtin_memcpy(saveicon1, PS1_SaveIcon1, sizeof(PS1_SaveIcon1));
+    __builtin_memcpy(saveicon2and3, PS1_SaveIcon2and3, sizeof(PS1_SaveIcon2and3));
+    __builtin_memcpy(saveiconpalette, PS1_SaveIconPalette, sizeof(PS1_SaveIconPalette));
     _card_info(chan_par);
     event_res = PS1_TestSwCARD();
     if (event_res - 1U >= 2) {
@@ -287,7 +284,7 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
                 write(fd,&ywldmapsave,0x80);
                 write(fd,&dir_on_wldmap,0x80);
             }
-            write(fd,finBosslevel,0x80);
+            write(fd,&finBosslevel,0x80);
             close(fd);
             CHANGE_STAGE_NAMES();
             PS1_Checksum = PS1_CardFilenameChecksum(chan_par);

@@ -176,6 +176,36 @@ u8 PS1_GetTileU(s32 param_1)
 
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DRAW_MAP);
 
+const u8 D_80127734[] __attribute__((aligned(2))) =
+{
+    5,   6,   7,   5,   6,   7,   3,   4,   3,   4, 
+    0,   1,   2,   0,   1,   2,   3,   4,   3,   4, 
+    5,   6,   7,   5,   6,   7,  14,   5,   6,   7, 
+    5,   6,   7,   3,   4,   3,   4,   0,   1,   2, 
+    0,   1,   2,   3,   4,   3,   4,   5,   6,   7, 
+    5,   6,   7
+};
+
+const u8 D_8012776C[] __attribute__((aligned(2))) =
+{
+    1,   1,   1,   1,   1,   1,   1,   1,   1,   1, 
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 
+    0,   0,   0,   0,   0,   0,   0,   1,   1,   1, 
+    1,   1,   1,   1,   1,   1,   1,   0,   0,   0, 
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 
+    0,   0,   0
+};
+
+const u8 D_801277A4[] __attribute__((aligned(2))) =
+{
+    0,   0,   0,   0,   0,   1,   0,   0,   0,   1, 
+    0,   0,   0,   0,   0,   1,   0,   0,   0,   1, 
+    0,   0,   0,   0,   0,   1,   1,   0,   0,   0, 
+    0,   0,   1,   0,   0,   0,   1,   0,   0,   0, 
+    0,   0,   1,   0,   0,   0,   1,   0,   0,   0, 
+    0,   0,   1
+};
+
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80137cc8);
 
 /* 13B38 80138338 -O2 -msoft-float */
@@ -333,10 +363,3 @@ INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_DisplayWorldMapBg2);
 void FUN_801392c8(void) {}
 
 void FUN_801392d0(void) {}
-
-/* three parts of rodata with same length? */
-INCLUDE_RODATA("asm/nonmatchings/draw/fond_10B3C", D_80127734);
-
-INCLUDE_RODATA("asm/nonmatchings/draw/fond_10B3C", D_8012776C);
-
-INCLUDE_RODATA("asm/nonmatchings/draw/fond_10B3C", D_801277A4);

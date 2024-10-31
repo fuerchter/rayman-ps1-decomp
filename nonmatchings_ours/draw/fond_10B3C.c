@@ -848,10 +848,6 @@ sizeof() uses unclear?
 */
 /*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80137cc8);*/
 
-extern u8 D_80127734[53];
-extern u8 D_8012776C[53];
-extern u8 D_801277A4[53];
-
 void FUN_80137cc8(s16 param_1, s16 *param_2)
 {
     POLY_FT4 *var_s3;
