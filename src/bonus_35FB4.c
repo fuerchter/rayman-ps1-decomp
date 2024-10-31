@@ -1,5 +1,11 @@
 #include "bonus_35FB4.h"
 
+#ifdef BSS_DEFS
+u8 bonus_perfect[24];
+s16 loop_time;
+s32 nb_wiz_save;
+#endif
+
 /* 35FB4 8015A7B4 -O2 */
 /*s32 getbit(? *, s16);*/
 

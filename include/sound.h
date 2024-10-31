@@ -117,6 +117,7 @@ extern s16 D_801FA578;
 extern Unk_801f7d40 D_801F7D40[8]; /* struct unclear, number of elements unclear */
 extern Unk_801f62a0 pile_snd[10]; /* struct unclear, number of elements unclear */
 extern s16 pt_pile_snd;
+extern SndFileInfo *D_801D7840;
 
 void PS1_StopPlayingAllSnd(void);
 void FUN_801658e0(void);

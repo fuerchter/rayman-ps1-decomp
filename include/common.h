@@ -4,6 +4,7 @@
 #include "psyq_3_0/SYS/TYPES.H"
 #include "include_asm.h"
 
+/*#define BSS_DEFS*/
 #define MATCHES_BUT
 /*#define NONMATCHINGS*/
 

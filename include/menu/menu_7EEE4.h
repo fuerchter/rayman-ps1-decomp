@@ -10,6 +10,7 @@ extern u8 MENU_RETURN;
 extern u8 PS1_MENU_RETURN2;
 extern u8 PROC_EXIT;
 extern u8 D_801E5920;
+extern u8 PS1_CardShouldCheckFirstBoot; /* near card stuff instead? */
 
 void DO_MENU(void);
 

@@ -63,6 +63,8 @@ extern s16 D_801F55B8[5]; /* 10 bytes, based on 80135944 */
 extern u8 D_801F84E0;
 extern u8 D_801F9900;
 extern s16 PS1_FondHeight;
+extern u8 *D_801E4F50;
+extern u8 *D_801F8180;
 
 /*
 u16 * or u32 * or RGBA5551Color * doesn't seem to work (see FUN_8013613c LoadImage call e.g.)?
@@ -80,7 +82,7 @@ void PS1_LoadFond(void);
 void FUN_80135ab0(s16 param_1, s16 *param_2);
 void FUN_80135d5c(s32 param_1, u16 *param_2, s32 param_3, s16 param_4); /* param_2 is pointer? see PS1_DisplayFondSprites */
 void FUN_8013613c(u8 param_1, u32 param_2, u8 param_3, u32 param_4);
-void FUN_80136340(s16 *param_1, u32 param_2); /* param_1 is pointer? see PS1_DisplayFondSprites */
+void FUN_80136340(u16 *param_1, u32 param_2); /* param_1 is pointer? see PS1_DisplayFondSprites */
 void FUN_801366ac(void);
 void PS1_DisplayFondSprites(void);
 u8 FUN_80137998(u8 param_1, u8 param_2, s32 param_3);

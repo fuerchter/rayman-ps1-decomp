@@ -5,9 +5,6 @@ const u8 s_great__8012a578[] = "/great !/";
 const u8 s_your_time_8012a584[] = "/your time:/";
 const u8 s_perfect__8012a594[] = "/perfect !/";
 
-extern s16 allowed_time[192];
-extern s16 loop_time;
-
 /* 343EC 80158BEC -O2 -msoft-float */
 s16 do_perfect_bonus(void)
 {

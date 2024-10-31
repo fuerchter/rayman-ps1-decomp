@@ -17,13 +17,6 @@ const u8 snd_sqrt_table[] =
   244, 245, 246, 247, 248, 249, 250, 251
 };
 
-/* too much unknown? */
-extern u8 D_801F7D41;
-extern u8 D_801F7D42;
-extern u8 D_801F7D43;
-extern u8 place_sequence[5];
-extern s16 D_801F7C80;
-
 /* 41084 80165884 -O2 -msoft-float */
 void PS1_StopPlayingAllSnd(void)
 {
@@ -116,8 +109,6 @@ INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadWorldSound);
 
 /* 4145C 80165C5C -O2 -msoft-float */
 /*s32 PS1_LoadVabBody(FileInfo param_1, s16 param_2, u8 *param_3);*/
-
-extern SndFileInfo *D_801D7840;
 
 void PS1_LoadWorldSound(s16 param_1)
 {

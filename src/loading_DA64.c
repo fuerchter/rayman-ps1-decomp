@@ -1,10 +1,5 @@
 #include "loading_DA64.h"
 
-/* unknowns */
-extern void *D_801F7E90; /* see loading_794DC, type? Obj * based on FUN_80132424? */
-extern s32 D_801D7868[2]; /* type? */
-extern s32 *D_801F59E0; /* see loading_794DC */
-
 /* DA64 80132264 -O2 -msoft-float */
 void PS1_LoadLevelMapBlock(MapData *data)
 {

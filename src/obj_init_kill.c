@@ -1,7 +1,5 @@
 #include "obj_init_kill.h"
 
-extern u8 first_boss_meet; /* TODO: decide what to do with unknown/2539C */
-
 /* 2A07C 8014E87C -O2 -msoft-float */
 s32 Prio(Obj *obj)
 {

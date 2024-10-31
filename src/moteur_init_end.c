@@ -1,9 +1,5 @@
 #include "moteur_init_end.h"
 
-/* TODO: move to header */
-extern u8 PS1_CardShouldCheckFirstBoot; /* goes with card stuff? or menu? */
-extern u8 first_boss_meet; /* this should go with Change_Wait_Anim(), so unknown/2539C? */
-
 /* 347C4 80158FC4 -O2 -msoft-float */
 void INIT_MOTEUR(u8 new_lvl)
 {

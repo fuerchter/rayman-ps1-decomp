@@ -1,5 +1,10 @@
 #include "ray/ray_32398.h"
 
+#ifdef BSS_DEFS
+Obj ray;
+Obj raytmp;
+#endif
+
 /* 32398 80156B98 -O2 -msoft-float */
 void INIT_RAY_BEGIN(void)
 {

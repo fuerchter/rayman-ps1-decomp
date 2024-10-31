@@ -2,15 +2,6 @@
 
 /* BinarySerializer.Ray1/DataTypes/PS1/Vignette */
 
-/* here or with LOAD_FND? */
-extern u8 *D_801E4F50; /* or u8 * ??? */
-extern u8 *D_801F8180; /* pointer to something for sure, sometimes set to 801f4380 */
-
-/* 801f4380 is passed at 801807ec as LoadImage param_2, also used as some FileInfo.dest's see 8019df64, frequently points to &DAT_8005866c*/
-/* here or loading_tex.h? */
-extern u16 D_801F5440;
-extern u16 D_801F55D8;
-
 /* 10B3C 8013533C -O2 -msoft-float */
 void PS1_LoadFondSprites(void)
 {
@@ -488,7 +479,7 @@ INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80136340);
 #else
 /* thanks! https://decomp.me/scratch/sMPT6 */
 /* still couldn't get fp38 */
-void FUN_80136340(u16 * param_1, u32 param_2) {
+void FUN_80136340(u16 *param_1, u32 param_2) {
     short sVar1;
     u16 bVar5;
     uint uVar10;

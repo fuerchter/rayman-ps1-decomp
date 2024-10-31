@@ -1,8 +1,5 @@
 #include "fond_5BD8C.h"
 
-extern u8 D_801E4B58;
-extern u8 *D_801F4380; /* still don't know where to put this */
-
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/fond_5BD8C", FUN_8018058c);
 #else

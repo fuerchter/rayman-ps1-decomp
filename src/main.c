@@ -2,11 +2,7 @@
 
 /* B438 8012FC38 -O2 -msoft-float */
 /* TODO: still to figure out */
-extern u8 *D_801F4380;
 /*extern s32 D_8005866C;*/ /* data from PS1_LoadFiles seems to end up in here */
-extern u8 D_801E4D48;
-
-extern u8 PS1_Ingame; /* TODO: put near PS1_CheckPauseAndCheatInputs */
 
 void main(void)
 {

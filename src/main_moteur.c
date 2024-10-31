@@ -17,8 +17,6 @@ void DO_GROS_MOTEUR_NORMAL(void)
 }
 
 /* AE28 8012F628 -O2 -msoft-float */
-extern s16 D_801E4BE0;
-
 void DO_MAIN_LOOP(void)
 {
   s16 i;

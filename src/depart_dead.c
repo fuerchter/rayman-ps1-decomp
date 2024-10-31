@@ -1,8 +1,5 @@
 #include "depart_dead.h"
 
-/**/
-extern u8 D_801E4C20;
-
 /* 7B850 801A0050 -O2 -msoft-float */
 void DEPART_WORLD(void)
 {

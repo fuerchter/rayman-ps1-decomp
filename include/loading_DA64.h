@@ -27,12 +27,15 @@ typedef struct AllFixData
     Obj objects[29];
 } AllFixData;
 
+/**/
 extern AllFixData *PS1_AllFixData;
 extern Font alpha;
 extern Font alpha2;
 extern s16 D_801D7A60;
 extern s16 D_801F8188;
 extern s16 D_801F84A8;
+extern void *D_801F7E90; /* see loading_794DC, type? Obj * based on FUN_80132424? */
+extern s32 D_801D7868[2]; /* type? */
 
 void PS1_LoadLevelMapBlock(MapData *data);
 void FUN_80132304(u32 *data, u8 height);

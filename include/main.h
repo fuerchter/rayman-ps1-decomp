@@ -7,6 +7,7 @@
 #include "psyq_3_0_missing/LIBETC.H"
 #include "psyq_3_0_missing/LIBAPI.H"
 #include "sound.h"
+#include "unknown/2539C.h"
 
 /**/
 extern u8 fin_du_jeu;

@@ -2,8 +2,6 @@
 
 const u8 s_loading_8012c368[] = "/loading.../";
 
-extern u8 *D_801F4380; /* still don't know where to put this */
-
 /* 7B048 8019F848 -O2 -msoft-float */
 s16 FUN_8019f848(void)
 {

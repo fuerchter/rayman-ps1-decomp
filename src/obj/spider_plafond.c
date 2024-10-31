@@ -1,7 +1,5 @@
 #include "obj/spider_plafond.h"
 
-extern u8 D_801F55D0;
-
 /* 537C0 80177FC0 -O2 -msoft-float */
 void get_spi_zdc(Obj *param_1, s16 *param_2, s16 *param_3, s16 *param_4, s16 *param_5)
 {

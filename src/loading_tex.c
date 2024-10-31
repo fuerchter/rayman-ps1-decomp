@@ -1,13 +1,5 @@
 #include "loading_tex.h"
 
-extern u8 *D_801F4380;
-
-/* see fond_10B3C */
-extern u16 D_801F5440;
-extern u16 D_801F55D8;
-
-extern void *D_801F8190; /* see loading_794DC */
-
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/loading_tex", FUN_801392d8);
 #else
