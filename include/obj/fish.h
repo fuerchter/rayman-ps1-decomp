@@ -7,6 +7,7 @@
 #include "world_map_677C0.h"
 #include "gendoor.h"
 
+/**/
 extern s16 PS1_SplashAlwaysObjects[12];
 extern u8 PS1_SplashAlwaysObjectsCount;
 

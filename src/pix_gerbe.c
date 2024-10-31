@@ -1,5 +1,9 @@
 #include "pix_gerbe.h"
 
+#ifdef BSS_DEFS
+PixGerbe pix_gerbe[8];
+#endif
+
 /* 3CB5C 8016135C -O2 -msoft-float */
 s32 allocate_gerbe(void)
 {

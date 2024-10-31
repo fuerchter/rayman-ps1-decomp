@@ -1,5 +1,13 @@
 #include "victoire.h"
 
+#ifdef BSS_DEFS
+u8 You_Win;
+u8 display_Vignet;
+u8 first_credit;
+u8 last_credit;
+s16 nb_credits_lines;
+#endif
+
 /* 9C90 8012E490 -O2 -msoft-float */
 void DISPLAY_TXT_CREDITS(void)
 {

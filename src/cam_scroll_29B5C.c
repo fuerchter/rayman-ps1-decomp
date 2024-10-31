@@ -1,5 +1,18 @@
 #include "cam_scroll_29B5C.h"
 
+#ifdef BSS_DEFS
+s16 h_scroll_speed;
+s16 v_scroll_speed;
+s16 scroll_start_x;
+s16 scroll_start_y;
+s16 scroll_end_x;
+s16 scroll_end_y;
+u8 scrollLocked;
+s16 screen_trembling;
+s16 screen_trembling2;
+s16 screen_trembling3;
+#endif
+
 /* 29B5C 8014E35C -O2 -msoft-float */
 s16 frapsol(s16 param_1)
 {

@@ -1,5 +1,17 @@
 #include "moteur_init_end.h"
 
+#ifdef BSS_DEFS
+s16 bonus_map;
+s16 xmapmax;
+s16 ymapmax;
+Obj rms;
+s16 ray_X_main_pos_init;
+s16 ray_Y_main_pos_init;
+s16 xmapsave;
+s16 ymapsave;
+u8 D_801F75C0;
+#endif
+
 /* 347C4 80158FC4 -O2 -msoft-float */
 void INIT_MOTEUR(u8 new_lvl)
 {

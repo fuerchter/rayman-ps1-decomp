@@ -1,5 +1,10 @@
 #include "draw/text_18118.h"
 
+#ifdef BSS_DEFS
+u8 colour;
+s16 D_801F81B0;
+#endif
+
 /* 18118 8013C918 -O2 -msoft-float */
 u8 PS1_deter_num_let_old(s32 param_1)
 {

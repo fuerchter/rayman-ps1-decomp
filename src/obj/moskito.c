@@ -1,5 +1,10 @@
 #include "obj/moskito.h"
 
+#ifdef BSS_DEFS
+u8 fistAvoided;
+u8 mstMustLeaveScreenToProceed;
+#endif
+
 /* 6F914 80194114 -O2 -msoft-float */
 void getIdealStingCoords(Obj *obj, s16 *out_x, s16 *out_y)
 {

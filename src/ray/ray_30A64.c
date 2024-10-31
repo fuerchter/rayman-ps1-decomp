@@ -1,5 +1,14 @@
 #include "ray/ray_30A64.h"
 
+#ifdef BSS_DEFS
+StatusBar status_bar;
+s16 sbar_obj_id;
+u8 nb_wiz;
+u8 nb_wiz_collected;
+s16 special_ray_mov_win_x_left;
+s16 special_ray_mov_win_x_right;
+#endif
+
 /* 30A64 80155264 -O2 -msoft-float */
 s16 RayCoince(s16 dir)
 {

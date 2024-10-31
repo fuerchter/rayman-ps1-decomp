@@ -6,6 +6,7 @@
 #include "common/level.h"
 #include "world_map_677C0.h"
 
+/**/
 extern s16 pierreAcorde_obj_id;
 
 void DO_CORDE_CASSE(Obj *obj);

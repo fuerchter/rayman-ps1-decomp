@@ -1,5 +1,15 @@
 #include "obj/saxo.h"
 
+#ifdef BSS_DEFS
+SaxData Sax;
+s16 IndexSerie;
+s16 D_801F7FA0;
+u8 NextNote;
+s16 IndexAtak;
+SaxAttackEntry attaque;
+u8 NiveauDansPhase;
+#endif
+
 /* 50CDC 801754DC -O2 -msoft-float */
 void INIT_SAXO(Obj *sax_obj)
 {

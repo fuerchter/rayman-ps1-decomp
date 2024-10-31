@@ -1,5 +1,14 @@
 #include "menu/menu_6A3BC.h"
 
+#ifdef BSS_DEFS
+Obj clock_obj;
+s16 loop_timing;
+u8 nb_continue;
+u8 Etape_History;
+u8 fin_continue;
+Obj bigray;
+#endif
+
 /* 6A3BC 8018EBBC -O2 -msoft-float */
 void INIT_NEW_GAME(void)
 {

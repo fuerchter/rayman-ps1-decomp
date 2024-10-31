@@ -1,5 +1,14 @@
 #include "menu/menu_7EEE4.h"
 
+#ifdef BSS_DEFS
+u8 menuEtape;
+u8 MENU_RETURN;
+u8 PS1_MENU_RETURN2;
+u8 PROC_EXIT;
+u8 D_801E5920;
+u8 PS1_CardShouldCheckFirstBoot;
+#endif
+
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7EEE4", DO_MENU);
 #else

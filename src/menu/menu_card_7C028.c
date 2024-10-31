@@ -3,6 +3,16 @@
 const u8 s_press_x_button_to_continue_8012c378[] = "/press x button to continue/";
 const u8 s_reading_memory_card_8012c398[] = "/reading memory card/";
 
+#ifdef BSS_DEFS
+u8 NBRE_SAVE;
+u8 PS1_positiony_mc;
+u8 PS1_CardStringDisplayed;
+s16 PS1_compteur_mc;
+u8 PS1_DisplayCardContinueText;
+u8 PS1_NoCard;
+u8 D_801E5238;
+#endif
+
 /* 7C028 801A0828 -O2 -msoft-float */
 void PS1_PromptCardInput(void)
 {

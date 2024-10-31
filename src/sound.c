@@ -17,6 +17,30 @@ const u8 snd_sqrt_table[] =
   244, 245, 246, 247, 248, 249, 250, 251
 };
 
+#ifdef BSS_DEFS
+s16 PS1_AllFix_Ray_VabId;
+s16 PS1_AllFix_Sep_VabId;
+s16 PS1_AllFix_SepAcc;
+s16 PS1_World_Ray_VabId;
+s16 PS1_World_Sep_VabId;
+s16 PS1_World_SepAcc;
+s16 indice_ray_wait;
+s16 indice_trz_wait;
+s16 stk_obj[20];
+s16 stk_snd[20];
+VoiceTableEntry voice_table[24];
+u8 D_801F6850;
+SndFileInfo D_801D8B50;
+s32 D_801D8B54;
+s32 D_801D8B58;
+s32 D_801D8B5C;
+s16 D_801FA578;
+Unk_801f7d40 D_801F7D40[8];
+Unk_801f62a0 pile_snd[10];
+s16 pt_pile_snd;
+SndFileInfo *D_801D7840;
+#endif
+
 /* 41084 80165884 -O2 -msoft-float */
 void PS1_StopPlayingAllSnd(void)
 {

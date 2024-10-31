@@ -8,6 +8,21 @@ const u8 s_picture_city_8012ba5c[] = "/picture city/";
 const u8 s_the_cave_of_skops_8012ba6c[] = "/the cave of skops/";
 const u8 s_candy_chateau_8012ba80[] = "/candy chateau/";
 
+#ifdef BSS_DEFS
+Obj *mapobj;
+Obj raylittle;
+u8 chemin_percent;
+u8 dir_on_wldmap;
+s16 xmapinit;
+s16 ymapinit;
+s16 xwldmapsave;
+s16 ywldmapsave;
+u8 nouvelle_partie;
+u8 dans_la_map_monde;
+u8 Nb_total_cages;
+u8 D_801F3EA0;
+#endif
+
 /* 677C0 8018BFC0 -O2 */
 void CalcObjPosInWorldMap(Obj *obj) {
     obj->screen_x_pos = obj->x_pos - xmap + 52;

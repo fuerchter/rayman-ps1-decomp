@@ -1,5 +1,11 @@
 #include "num_level_36260.h"
 
+#ifdef BSS_DEFS
+s16 departlevel;
+FinBosslevel finBosslevel;
+u8 fin_boss;
+#endif
+
 /* 36260 8015AA60 -O2 -msoft-float */
 void new_level_init(void)
 {

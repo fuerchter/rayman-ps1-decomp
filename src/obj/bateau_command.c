@@ -1,5 +1,9 @@
 #include "obj/bateau_command.h"
 
+#ifdef BSS_DEFS
+s16 bateau_obj_id;
+#endif
+
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/obj/bateau_command", doShipCommand);
 #else

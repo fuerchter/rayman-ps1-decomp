@@ -1,5 +1,21 @@
 #include "obj/dark_729F0.h"
 
+#ifdef BSS_DEFS
+u8 dark_phase;
+VitrauxInfo VitrauxInfos[5];
+s16 corde_dark_obj_id;
+s16 corde_x;
+s16 corde_y_bas;
+s16 corde_y_haut;
+s16 moskitomama_droite_obj_id; /* obj/hyb_bbf2.h instead? same for the other obj_ids? */
+s16 moskitomama_gauche_obj_id;
+s16 moskitosaxo_obj_id;
+s16 stosko_obj_id;
+u8 D_801E5518;
+s16 dark_rayon_dx;
+s16 dark_rayon_dy;
+#endif
+
 /* 729F0 801971F0 -O2 -msoft-float */
 void PlaceDarkPhase1et2(Obj *obj)
 {

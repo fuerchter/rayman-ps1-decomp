@@ -1,5 +1,9 @@
 #include "obj/mus_wait.h"
 
+#ifdef BSS_DEFS
+s16 Mus_obj_id;
+#endif
+
 /* 50AC4 801752C4 -O2 -msoft-float */
 void DO_MUSICIEN(Obj *obj)
 {

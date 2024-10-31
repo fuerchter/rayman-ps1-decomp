@@ -1,5 +1,12 @@
 #include "save.h"
 
+#ifdef BSS_DEFS
+SaveState save1;
+SaveState save2;
+u8 save_zone[2688];
+WorldInfoSave wi_save_zone[24];
+#endif
+
 /* 3F170 80163970 -O2 -msoft-float */
 void initGameSave(void)
 {

@@ -1,5 +1,17 @@
 #include "luciole.h"
 
+#ifdef BSS_DEFS
+s16 x_luc;
+s16 y_luc;
+s16 n_ray;
+s16 vx_luc;
+s16 vy_luc;
+s16 x_main_luc;
+s16 y_main_luc;
+s16 x_ray[4];
+s16 y_ray[4];
+#endif
+
 /* 3D384 80161B84 -O2 -msoft-float */
 void INIT_LUCIOLE(void)
 {

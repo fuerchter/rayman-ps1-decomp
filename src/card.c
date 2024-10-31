@@ -1,5 +1,20 @@
 #include "card.h"
 
+#ifdef BSS_DEFS
+LoadInfoRay loadInfoRay[6];
+u8 D_801F7F08[34];
+s32 PS1_SwCARD_EvSpERROR;
+s32 PS1_SwCARD_EvSpIOE;
+s32 PS1_SwCARD_EvSpNEW;
+s32 PS1_SwCARD_EvSpTIMOUT;
+s32 PS1_HwCARD_EvSpERROR;
+s32 PS1_HwCARD_EvSpIOE;
+s32 PS1_HwCARD_EvSpNEW;
+s32 PS1_HwCARD_EvSpTIMOUT;
+s32 PS1_Checksum;
+u8 PS1_SaveFilenames[3][32];
+#endif
+
 /* TODO:
 (only once strncmp is declared)
 warning: passing arg 2 of `strncmp' discards `const' from pointer target type

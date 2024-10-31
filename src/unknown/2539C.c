@@ -1,5 +1,11 @@
 #include "unknown/2539C.h"
 
+#ifdef BSS_DEFS
+u8 D_801E4D48;
+u8 first_boss_meet;
+RaymanEvents SauveRayEvts;
+#endif
+
 /* 2539C 80149B9C -O2 -msoft-float */
 void Deter_Option_Caract(u8 *str, s16 param_2, u32 param_3)
 {

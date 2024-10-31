@@ -1,5 +1,22 @@
 #include "moteur_update.h"
 
+#ifdef BSS_DEFS
+Obj *star_ray_der;
+Obj *star_ray_dev;
+s16 ray_wind_force;
+s16 weather_wind;
+s16 D_801F7C90;
+s16 D_801F7CA0;
+u8 PS1_MoteurTime;
+u8 oldPrio;
+s16 ray_old_main_etat;
+s16 ray_old_sub_etat;
+s16 xmap_old;
+s16 ymap_old;
+s16 reduced_rayman_id;
+u8 D_801F57F0;
+#endif
+
 /* 35314 80159B14 -O2 -msoft-float */
 void PS1_SetWindForce(void)
 {

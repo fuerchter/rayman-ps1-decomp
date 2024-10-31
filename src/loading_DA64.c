@@ -1,5 +1,16 @@
 #include "loading_DA64.h"
 
+#ifdef BSS_DEFS
+AllFixData *PS1_AllFixData;
+Font alpha;
+Font alpha2;
+s16 D_801D7A60;
+s16 D_801F8188;
+s16 D_801F84A8;
+void *D_801F7E90;
+s32 D_801D7868[2];
+#endif
+
 /* DA64 80132264 -O2 -msoft-float */
 void PS1_LoadLevelMapBlock(MapData *data)
 {

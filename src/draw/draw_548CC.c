@@ -1,5 +1,16 @@
 #include "draw/draw_548CC.h"
 
+#ifdef BSS_DEFS
+DVECTOR D_801E4E60[16];
+DVECTOR D_801E4EA8[16];
+DVECTOR D_801FAA48[2];
+DVECTOR D_801FAA58[2];
+s32 D_801F8168;
+s32 D_801F816C;
+s32 PS1_TPage_x;
+s32 PS1_TPage_y;
+#endif
+
 /* 548CC 801790CC -O2 -msoft-float */
 void FUN_801790cc(Display *display)
 {

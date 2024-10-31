@@ -1,5 +1,13 @@
 #include "obj_update.h"
 
+#ifdef BSS_DEFS
+ObjHandlers ObjectsFonctions[256];
+ObjType ot;
+s16 id_Cling_1up;
+s16 id_Cling_Pow;
+u8 ray_in_fee_zone;
+#endif
+
 void DO_BALLE(Obj *obj);
 
 void DO_BAT_COMMAND(Obj *obj);

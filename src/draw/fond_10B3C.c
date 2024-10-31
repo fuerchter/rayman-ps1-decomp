@@ -2,6 +2,38 @@
 
 /* BinarySerializer.Ray1/DataTypes/PS1/Vignette */
 
+#ifdef BSS_DEFS
+u8 PS1_FondSpritesIsSemiTrans[16];
+u8 PS1_FondSpritesABR[16];
+u8 NbSprite;
+DVECTOR *PS1_BackgroundPositions;
+Sprite *PS1_BackgroundSprites;
+u8 PS1_FondType;
+u8 PS1_Tile_clut_y_offs[944];
+
+Unk_801f8008 D_801E63F8[6];
+u8 D_801F51C0;
+u8 D_801F5788;
+Unk_801f8008 D_801F8008[6];
+u8 D_801FA560;
+u8 PS1_BandeBackCount;
+u8 PS1_BandeFrontCount;
+u8 D_801F4F58;
+s16 D_801F55B8[5];
+u8 D_801F84E0;
+u8 D_801F9900;
+s16 PS1_FondHeight;
+u8 *D_801E4F50;
+u8 *D_801F8180;
+
+u8 *PS1_FondImages[6];
+
+s16 PS1_FondImagesCount;
+s16 PS1_FondWidth;
+u8 D_801E4BC8;
+u8 PS1_CurrentVitrailClignotement[5];
+#endif
+
 /* 10B3C 8013533C -O2 -msoft-float */
 void PS1_LoadFondSprites(void)
 {

@@ -1,5 +1,23 @@
 #include "loading_tex.h"
 
+#ifdef BSS_DEFS
+s32 D_801E4D30;
+s16 D_801E5930;
+s16 D_801E63D0;
+s32 D_801E4D28;
+s16 D_801E5928;
+s16 D_801E63C8;
+s32 D_801E4D78;
+s16 D_801E5A08;
+s16 D_801E6410;
+s16 D_801E5558;
+s16 D_801E59B8;
+u8 *D_801F4380;
+void *D_801F8190;
+u16 D_801F5440;
+u16 D_801F55D8;
+#endif
+
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/loading_tex", FUN_801392d8);
 #else

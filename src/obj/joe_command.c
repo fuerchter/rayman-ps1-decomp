@@ -1,5 +1,11 @@
 #include "obj/joe_command.h"
 
+#ifdef BSS_DEFS
+s16 joe_exp_probleme;
+s16 prise_branchee;
+s16 vignet_joe_affichee;
+#endif
+
 /* 50588 80174D88 -O2 -msoft-float */
 void DO_JOE_COMMAND(Obj *obj)
 {

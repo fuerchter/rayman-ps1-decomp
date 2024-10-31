@@ -1,5 +1,11 @@
 #include "obj/fire.h"
 
+#ifdef BSS_DEFS
+s16 flamme_droite_id;
+s16 flamme_gauche_id;
+u8 flammes_actives;
+#endif
+
 /* 77E14 8019C614 -O2 -msoft-float */
 void DoFlammeCommand(Obj *obj)
 {

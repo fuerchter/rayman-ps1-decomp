@@ -1,5 +1,17 @@
 #include "draw/rollup_trans.h"
 
+#ifdef BSS_DEFS
+s16 PS1_RollUpPosition;
+SVECTOR D_801F3EC0[82];
+SVECTOR D_801F56B8;
+VECTOR D_801F57D0;
+s16 D_801F84D8;
+s16 D_801F98F8;
+s16 D_801F9930;
+s16 D_801F9938;
+s32 D_801F6390;
+#endif
+
 /* 8830 8012D030 -O2 -msoft-float */
 void FUN_8012d030(DVECTOR tpage_pos, DVECTOR param_2, s16 step_width, s16 step_height, s16 poly_count)
 {

@@ -1,5 +1,9 @@
 #include "obj/eau.h"
 
+#ifdef BSS_DEFS
+s16 eau_obj_id;
+#endif
+
 /* 4D908 80172108 -O2 -msoft-float */
 void ACTIVE_L_EAU(Obj *eau_obj)
 {

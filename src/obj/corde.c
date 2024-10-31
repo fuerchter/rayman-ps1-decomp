@@ -1,5 +1,9 @@
 #include "obj/corde.h"
 
+#ifdef BSS_DEFS
+s16 pierreAcorde_obj_id;
+#endif
+
 /* 3EB50 80163350 -O2 -msoft-float */
 void DO_CORDE_CASSE(Obj *obj)
 {

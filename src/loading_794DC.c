@@ -36,6 +36,21 @@ const u8 s_big_file_8012c2c4[] = "big_file";
 const u8 s_vab4sep_file_8012c2d0[] = "vab4sep_file";
 const u8 s_ini_file_8012c2e0[] = "ini_file";
 
+#ifdef BSS_DEFS
+s32 PS1_FileTemp;
+s16 no_fnd;
+s16 plan2_height;
+s16 plan2_width;
+BackgroundData *PS1_LevelBGBlock;
+s16 *PS1_LevelMapBlock;
+u8 *PS1_LevelObjBlock;
+u8 D_801E4B58;
+void *D_801F4410;
+void *D_801F5160;
+s32 *D_801E5260;
+s32 *D_801F59E0;
+#endif
+
 /* 794DC 8019DCDC -O2 -msoft-float */
 void PS1_Init_ImgLdrVdoTrk_Files(void)
 {

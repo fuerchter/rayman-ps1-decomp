@@ -1,5 +1,16 @@
 #include "collision/collision.h"
 
+#ifdef BSS_DEFS
+s16 ray_zdc_x;
+s16 ray_zdc_y;
+s16 ray_zdc_w;
+s16 ray_zdc_h;
+u8 in_air_because_hit;
+s16 ZDCPTR;
+s16 ray_speed_inv;
+u8 life_becoz_wiz;
+#endif
+
 /* 10000 (dist) could be a #define */
 
 /* 1B1F0 8013F9F0 -O2 -msoft-float */

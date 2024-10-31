@@ -1,5 +1,9 @@
 #include "obj/mst_scroll.h"
 
+#ifdef BSS_DEFS
+s16 mst_scroll_obj_id;
+#endif
+
 /* 4D354 80171B54 -O2 -msoft-float */
 void DO_MST_SCROLL_COMMAND(Obj *obj)
 {

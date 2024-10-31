@@ -2,6 +2,10 @@
 
 const u8 s_press_start_or_x_button_8012c468[] = "/press start or x button/";
 
+#ifdef BSS_DEFS
+s32 TempsDemo;
+#endif
+
 /* 7F2BC 801A3ABC -O1, -O2 */
 /*? display_text(? *, ?, ?, ?, s32);*/
 

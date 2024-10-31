@@ -1,5 +1,11 @@
 #include "draw/draw_hud.h"
 
+#ifdef BSS_DEFS
+GrpStar grp_stars[30];
+s16 current_star;
+Obj div_obj;
+#endif
+
 /* TODO: Display struct */
 /*extern s32 PS1_CurrentDisplay;*/
 

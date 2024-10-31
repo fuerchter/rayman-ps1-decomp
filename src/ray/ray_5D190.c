@@ -2,6 +2,34 @@
 
 /* TODO: flip the "_etat !=" in this file */
 
+#ifdef BSS_DEFS
+RaymanEvents RayEvts;
+
+RaymanEvents SauveRayEvtsDemo;
+u8 ray_on_poelle;
+s16 decalage_en_cours;
+s16 remoteRayXToReach;
+u8 dead_time;
+s16 compteur_attente;
+u8 no_ray_landing_smoke;
+s16 pos_stack[10];
+RayMode ray_mode;
+u8 ray_pos_in_stack;
+u8 ray_stack_is_full;
+u8 ray_se_noie;
+BlockType hand_btyp;
+BlockType hand_btypd;
+BlockType hand_btypg;
+s16 jump_time;
+s16 helico_time;
+u8 ray_Suphelico_bis;
+u8 ray_clic;
+s16 D_801E62F0;
+s16 ray_between_clic;
+s16 D_801F5588;
+u8 gerbe;
+#endif
+
 s32 calc_typ_trav(Obj *obj,u8 param_2);
 void ChangeLevel(void);
 s32 TEST_IS_ON_RESSORT_BLOC(Obj *obj);

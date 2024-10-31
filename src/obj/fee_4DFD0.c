@@ -1,5 +1,13 @@
 #include "obj/fee_4DFD0.h"
 
+#ifdef BSS_DEFS
+u8 display_txt_fee;
+u8 old_txt_fee;
+u8 new_txt_fee;
+s16 png_or_fee_id;
+s16 fee_obj_id;
+#endif
+
 /* 4DFD0 801727D0 -O2 -msoft-float */
 void wait_for_dialogue_fee(Obj *obj, s16 time)
 {

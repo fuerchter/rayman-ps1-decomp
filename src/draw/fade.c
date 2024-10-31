@@ -1,5 +1,11 @@
 #include "draw/fade.h"
 
+#ifdef BSS_DEFS
+s16 fade;
+u8 D_801F7FF0;
+u8 D_801F8480;
+#endif
+
 /* 44C20 80169420 -O2 -msoft-float */
 void FUN_80169420(Display *disp)
 {

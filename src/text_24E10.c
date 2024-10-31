@@ -1,5 +1,9 @@
 #include "text_24E10.h"
 
+#ifdef BSS_DEFS
+TextToDisplay text_to_display[10];
+#endif
+
 /* 24E10 80149610 -O2 -msoft-float */
 void INIT_TEXT_TO_DISPLAY(void)
 {

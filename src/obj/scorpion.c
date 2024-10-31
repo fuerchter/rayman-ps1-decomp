@@ -1,5 +1,30 @@
 #include "obj/scorpion.h"
 
+#ifdef BSS_DEFS
+u8 ecroule_rubis_list[8];
+u8 ecroule_plat_index;
+s16 rubis_list_calculated;
+s32 sko_ecran_tremble;
+s16 sko_ecroule_plat;
+u8 sko_enfonce_enable;
+u8 sko_lave_obj[20];
+u8 sko_nb_lave;
+s16 sko_pince_obj_id;
+s16 D_801E4E10;
+s16 sko_rayon_on;
+s16 sko_rayon_x;
+s16 sko_rayon_y;
+s16 sko_rayon_dx;
+s16 sko_rayon_dy;
+s16 sko_final_x;
+s16 sko_final_y;
+s32 pixels_enfonce;
+s16 sko_last_action;
+s16 sko_nb_frap;
+s16 sko_nb_hit;
+s16 sko_phase;
+#endif
+
 /*Obj * allocateNOVA(void);
 void calc_obj_pos(Obj *obj);
 Obj * findfirstObject(ObjType objType);

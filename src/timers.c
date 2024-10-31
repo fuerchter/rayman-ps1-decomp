@@ -1,5 +1,12 @@
 #include "timers.h"
 
+#ifdef BSS_DEFS
+u8 horloge[25];
+s32 map_time;
+s32 left_time;
+s16 allowed_time[192];
+#endif
+
 /* 293C4 8014DBC4 -O2 -msoft-float */
 void INIT_HORLOGES(void)
 {

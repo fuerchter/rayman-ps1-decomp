@@ -1,5 +1,28 @@
 #include "obj/dark_phase2.h"
 
+#ifdef BSS_DEFS
+Obj *dark_obj;
+s16 phase_dark2;
+u8 TextDark2_Affiche;
+s16 XText;
+s16 YText;
+s16 temps_text;
+u8 txt_dark2[104];
+s16 dark2_rayon_dx_1;
+s16 dark2_rayon_dx_2;
+s16 dark2_rayon_dy_1;
+s16 dark2_rayon_dy_2;
+s16 PosXSin1;
+s16 PosYSin1;
+s16 PosXSin2;
+s16 PosYSin2;
+s16 VitesseYText;
+u8 num_dark2_phrase;
+u8 sens_sinus_1;
+u8 sens_sinus_2;
+u8 sinus_actif;
+#endif
+
 /* 76A14 8019B214 -O2 -msoft-float */
 void AllocateDarkPhase2(Obj *mr_drk_obj)
 {

@@ -1,5 +1,14 @@
 #include "menu/menu_82008.h"
 
+#ifdef BSS_DEFS
+s16 D_801D7AA0;
+s16 D_801F5498;
+s16 PS1_Music_Max;
+s16 PS1_Soundfx_Max;
+s16 delai_barre;
+s16 delai_stereo;
+#endif
+
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/menu/menu_82008", FUN_801a6808);
 #else

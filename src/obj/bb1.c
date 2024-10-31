@@ -1,5 +1,19 @@
 #include "obj/bb1.h"
 
+#ifdef BSS_DEFS
+BB1Data bb1;
+s16 PS1_AlwaysObjects[100];
+s16 PS1_AlwaysObjectsCount;
+s16 PosPierre;
+s16 IndAtak;
+s16 IndSerie;
+s16 NextAtak;
+s16 YaDesChiens;
+s16 PierreDoitExploser;
+s16 RMrepere;
+s16 horlogeDog;
+#endif
+
 /* TODO: check rodata padding once everything is matching */
 
 /* 5783C 8017C03C -O2 -msoft-float */
@@ -1249,7 +1263,7 @@ extern ? D_801F4EE2;
 extern s16 bb1.sprite6_y;
 extern s16 ray.speed_x;*/
 
-extern inline void test_123(Obj *obj)
+extern inline void test_123098(Obj *obj)
 {
     switch (bb1.speed_x)
     {
@@ -1323,7 +1337,7 @@ void DO_BBMONT2_COMMAND(Obj *obj)
         }
         if ((FinAnim != 0) && (bb1.speed_x != (obj->sub_etat + 1)))
         {
-            test_123(obj);
+            test_123098(obj);
         }
     }
     if ((bb1.field1_0x2 < 8) && (Phase != 0) && (Phase != 5))
@@ -1375,7 +1389,7 @@ void DO_BBMONT2_COMMAND(Obj *obj)
         else if ((obj->main_etat == 0) && (obj->sub_etat == 0) && ((var_a0 + temp_s2) < ray_zdc_x))
         {
             Phase = 1;
-            test_123(obj);
+            test_123098(obj);
         }
         break;
     case 1:
@@ -1418,7 +1432,7 @@ void DO_BBMONT2_COMMAND(Obj *obj)
         {
             if (bb1.speed_x != -1)
             {
-                test_123(obj);
+                test_123098(obj);
                 bb1.field1_0x2 = 0;
             }
             else
@@ -1447,11 +1461,11 @@ void DO_BBMONT2_COMMAND(Obj *obj)
         {
             if ((obj->main_etat == 0) && (obj->sub_etat == 0x10))
             {
-                test_123(obj);
+                test_123098(obj);
             }
             if ((FinAnim != 0) && (obj->main_etat == 0) && (obj->sub_etat == 1))
             {
-                test_123(obj);
+                test_123098(obj);
             }
         }
         if (obj->main_etat == 1)
@@ -1561,7 +1575,7 @@ block_172:
                 {
                     do { } while (0); /* TODO: ??? */
                     bb1.speed_x = 3;
-                    test_123(obj);
+                    test_123098(obj);
                 }
                 goto block_147;
             }
@@ -1574,7 +1588,7 @@ block_147:
                 if (FinAnim != 0)
                 {
                     bb1.speed_x = 2;
-                    test_123(obj);
+                    test_123098(obj);
                 }
                 else
                 {

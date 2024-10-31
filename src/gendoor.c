@@ -1,5 +1,9 @@
 #include "gendoor.h"
 
+#ifdef BSS_DEFS
+u8 *link_init;
+#endif
+
 /* 31D3C 8015653C -O2 -msoft-float */
 void deactivate_ship_links(void)
 {

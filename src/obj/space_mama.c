@@ -1,5 +1,23 @@
 #include "obj/space_mama.h"
 
+#ifdef BSS_DEFS
+s16 machine_obj_id;
+s16 mereDenis_weapon_id;
+s16 circleIndex;
+s16 circleX;
+s16 circleY;
+s16 droppedBombIds[8][8];
+u8 currentBombSequence;
+u8 lastDroppedBombIdInSequence[8];
+s16 lastDroppedBombXCenterPos;
+u8 currentLaserSize;
+u8 currentPhaseHitCounter;
+u8 laserSourceSprNumInAnim;
+s32 mere_denis_wait_time;
+u8 stepsForward;
+u8 timerBeforeFirstBomb;
+#endif
+
 /* 640F0 801888F0 -O2 -msoft-float */
 void findMereDenisWeapon(void)
 {

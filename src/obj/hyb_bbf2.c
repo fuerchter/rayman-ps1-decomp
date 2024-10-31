@@ -1,5 +1,15 @@
 #include "obj/hyb_bbf2.h"
 
+#ifdef BSS_DEFS
+u8 BBF2DEsk;
+u8 BBF2GEsk;
+s16 NiveauSol;
+s16 YPosBBF2D;
+s16 YPosBBF2G;
+Obj *TirBBF2D;
+Obj *TirBBF2G;
+#endif
+
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/hyb_bbf2", doBBF2command);
 #else

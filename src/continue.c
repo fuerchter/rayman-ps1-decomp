@@ -1,5 +1,9 @@
 #include "continue.h"
 
+#ifdef BSS_DEFS
+u8 fin_dark;
+#endif
+
 /* 9424 8012DC24 -O2 -msoft-float */
 s16 continue_fonction(void)
 {

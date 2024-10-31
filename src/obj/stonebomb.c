@@ -1,5 +1,10 @@
 #include "obj/stonebomb.h"
 
+#ifdef BSS_DEFS
+s16 D_801E51E8;
+s16 D_801E51F8;
+#endif
+
 /* 38118 8015C918 -O2 -msoft-float */
 void setStoneChipPos(Obj *param_1, Obj *param_2, u8 *param_3)
 {

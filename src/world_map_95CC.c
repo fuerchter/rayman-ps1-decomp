@@ -1,5 +1,22 @@
 #include "world_map_95CC.h"
 
+#ifdef BSS_DEFS
+s16 num_world;
+s16 num_level;
+s16 xmap;
+s16 ymap;
+
+s16 new_world;
+s16 new_level;
+s16 num_world_choice;
+s16 num_level_choice;
+u8 old_num_world;
+u8 world_index;
+
+s16 inter_select;
+s16 level_select;
+#endif
+
 /* 95CC 8012DDCC -O2 */
 /*? DISPLAY_FOND_SELECT();
 ? atoi(s16, ? *, ?);

@@ -1,5 +1,12 @@
 #include "obj/black_ray_command.h"
 
+#ifdef BSS_DEFS
+RayStack rayStack[100];
+u8 black_pos_in_stack;
+s16 black_ray_obj_id;
+s16 black_fist_obj_id;
+#endif
+
 /* 4F364 80173B64 -O2 -msoft-float */
 void doBlackRaymanCommand(Obj *br_obj)
 {

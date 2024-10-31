@@ -1,5 +1,23 @@
 #include "snow.h"
 
+#ifdef BSS_DEFS
+s16 floc_ind[8];
+FloconTableEntry flocon_tab[512];
+s16 nb_floc[8];
+s16 VENT_X;
+s16 VENT_Y;
+s16 tot_nb_flocs[8];
+s16 invpx0[8];
+s16 invpx320[8];
+s16 invpy0[8];
+s16 invpy200[8];
+s16 SNSEQ_len[64];
+s16 SNSEQ_no;
+s16 SNSEQ_ptr;
+s16 SNSEQ_list[256];
+s16 SNSEQ_list_ptr;
+#endif
+
 /* 3B264 8015FA64 -O2 -msoft-float */
 void add_one_floc(void)
 {

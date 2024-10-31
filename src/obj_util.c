@@ -1,5 +1,10 @@
 #include "obj_util.h"
 
+#ifdef BSS_DEFS
+u8 lidol_to_allocate;
+Obj *lidol_source_obj;
+#endif
+
 /* 243B8 80148BB8 -O2 -msoft-float */
 void init_obj_in_the_air(Obj *obj)
 {

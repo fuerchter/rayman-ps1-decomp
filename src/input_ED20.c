@@ -1,5 +1,20 @@
 #include "input_ED20.h"
 
+#ifdef BSS_DEFS
+s32 PS1_GlobalTimer;
+u8 PS1_PadReceiveBuffer[34];
+s16 D_801E4C08;
+s16 joy_rec_left;
+s16 joy_rec_right;
+s16 joy_rec_down;
+s16 D_801F8428;
+s16 D_801F8430;
+s16 D_801F8438;
+s16 D_801F8448;
+s32 D_801E4B60;
+s16 D_801F5688;
+#endif
+
 /* ED20 80133520 -O2 -msoft-float */
 s32 readinput(void)
 {

@@ -13,6 +13,46 @@ const u8 s_left__right__modify_options_8012c538[] = "/left | right : modify opti
 const u8 s_up__down__choose_options_8012c558[] = "/up | down : choose options/";
 const u8 s_x_validate_select_quit_game_8012c578[] = "/x: validate select: quit game/";
 
+#ifdef BSS_DEFS
+s16 PS1_SaveMode;
+u8 button_released;
+s16 compteur;
+s16 max_compteur;
+s16 repetition;
+s16 delai_repetition;
+s16 positionx;
+s16 positiony;
+s16 PS1_Settings[6];
+s16 D_801D7A50;
+s16 basex;
+s16 ecart_barre;
+OptionsJeu options_jeu;
+OptionsJeu options_jeu_save;
+s16 debut_titre;
+s16 debut_options;
+s16 debut_sortie;
+s16 ecarty;
+s16 fichier_a_copier;
+s16 positionx2;
+s16 positiony2;
+s16 PS1_display_y1;
+s16 PS1_display_y2;
+s16 position;
+s16 fichier_existant;
+s16 fichier_selectionne;
+s16 realisation_effectuee;
+u8 D_801F7F68[4];
+s16 action;
+s16 fin_saisie_nom;
+u8 save_ray[4][4];
+s16 sortie_save;
+s16 compteur_clignote;
+s16 D_801F5448;
+s16 PS1_CharXSpacing;
+s16 selection_effectuee;
+s16 affiche_bon_ecran;
+#endif
+
 /*
 should probably be macro/inline:
 

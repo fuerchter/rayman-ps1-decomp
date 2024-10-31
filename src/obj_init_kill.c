@@ -1,5 +1,13 @@
 #include "obj_init_kill.h"
 
+#ifdef BSS_DEFS
+LevelData level;
+
+ActiveObjects actobj;
+s16 rayman_obj_id;
+u8 IsBossThere;
+#endif
+
 /* 2A07C 8014E87C -O2 -msoft-float */
 s32 Prio(Obj *obj)
 {

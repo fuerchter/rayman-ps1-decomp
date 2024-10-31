@@ -12,6 +12,7 @@
 #include "cam_scroll_340A4.h"
 #include "main_moteur.h"
 
+/**/
 extern Obj *star_ray_der;
 extern Obj *star_ray_dev;
 extern s16 ray_wind_force;

@@ -1,5 +1,11 @@
 #include "obj/poing.h"
 
+#ifdef BSS_DEFS
+s16 poing_obj_id;
+Poing poing;
+s16 id_obj_grapped;
+#endif
+
 /* 476F0 8016BEF0 -O2 -msoft-float */
 void fist_U_turn(Obj *obj, u8 param_2)
 {

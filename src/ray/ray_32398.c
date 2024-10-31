@@ -3,6 +3,10 @@
 #ifdef BSS_DEFS
 Obj ray;
 Obj raytmp;
+
+u8 PS1_ShoulderL;
+u8 PS1_ShoulderR;
+u8 RAY_MODE_SPEED;
 #endif
 
 /* 32398 80156B98 -O2 -msoft-float */

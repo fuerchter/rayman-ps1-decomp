@@ -1,5 +1,9 @@
 #include "main_moteur.h"
 
+#ifdef BSS_DEFS
+u8 gele;
+#endif
+
 /* AD90 8012F590 -O2 -msoft-float */
 void DO_GROS_MOTEUR_NORMAL(void)
 {

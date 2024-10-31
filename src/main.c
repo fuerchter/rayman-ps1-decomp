@@ -1,5 +1,10 @@
 #include "main.h"
 
+#ifdef BSS_DEFS
+u8 fin_du_jeu;
+u8 NewMs;
+#endif
+
 /* B438 8012FC38 -O2 -msoft-float */
 /* TODO: still to figure out */
 /*extern s32 D_8005866C;*/ /* data from PS1_LoadFiles seems to end up in here */

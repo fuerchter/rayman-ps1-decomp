@@ -1,5 +1,12 @@
 #include "cam_scroll_340A4.h"
 
+#ifdef BSS_DEFS
+s16 NumScrollObj;
+s16 scroll_obj_id[100];
+s16 scroll_x;
+s16 scroll_y;
+#endif
+
 /* 340A4 801588A4 -O2 -msoft-float */
 void DO_AUTO_SCROLL(void)
 {

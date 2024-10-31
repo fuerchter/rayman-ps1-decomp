@@ -1,5 +1,9 @@
 #include "cheats.h"
 
+#ifdef BSS_DEFS
+u8 PS1_DebugMode;
+#endif
+
 /* 7ABA0 8019F3A0 -O2 -msoft-float */
 void PS1_CheckPauseAndCheatInputs(void)
 {

@@ -1,5 +1,19 @@
 #include "obj/mama_pirate.h"
 
+#ifdef BSS_DEFS
+CouteauxInfo CouteauxInfos[5];
+u8 pma_attaque;
+u8 pma_groupe;
+s16 mama_pirate_obj_id;
+u8 pma_type_attaque;
+u8 cou_place;
+s16 cou_tempo;
+u8 pma_nb_couteau;
+u8 pma_phase;
+s16 pma_tempo;
+u8 pma_touched;
+#endif
+
 /* 25D4C 8014A54C -O2 -msoft-float */
 void pmamaFollowsShip(Obj *obj)
 {

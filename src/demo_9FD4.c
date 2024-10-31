@@ -1,5 +1,13 @@
 #include "demo_9FD4.h"
 
+#ifdef BSS_DEFS
+Record record;
+
+u8 ModeDemo;
+u16 RunTimeDemo;
+s16 NumDemo;
+#endif
+
 /* 9FD4 8012E7D4 -O2 -msoft-float */
 void InitDemoJeu(void)
 {

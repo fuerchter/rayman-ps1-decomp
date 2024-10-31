@@ -1,5 +1,13 @@
 #include "collision/block_22C84.h"
 
+#ifdef BSS_DEFS
+MapData mp;
+
+u8 ray_last_ground_btyp;
+u16 PS1_RandSum;
+s16 RandomIndex;
+#endif
+
 /* 22C84 80147484 -O2 -msoft-float */
 s16 get_center_x(Obj *obj)
 {

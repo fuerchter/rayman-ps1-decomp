@@ -1,5 +1,18 @@
 #include "draw/draw_14FF4.h"
 
+#ifdef BSS_DEFS
+Display PS1_Displays[2];
+s16 D_801E4BE0;
+
+s16 PS1_PolygonIndexTable[200];
+s16 PS1_PolygonsCount;
+s16 D_801F4A28;
+u16 PS1_Disp_Cur_Tile1;
+void *PS1_PrevPrim;
+u8 D_801E4C20;
+s16 D_801E4DF8;
+#endif
+
 /* 14FF4 801397F4 -O2 -msoft-float */
 void PS1_DrawColoredSprite(Sprite *sprite, s16 in_x, s16 in_y, u8 disp_mode)
 {

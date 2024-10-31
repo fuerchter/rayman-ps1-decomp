@@ -1,5 +1,10 @@
 #include "obj/fish.h"
 
+#ifdef BSS_DEFS
+s16 PS1_SplashAlwaysObjects[12];
+u8 PS1_SplashAlwaysObjectsCount;
+#endif
+
 /* 37A9C 8015C29C -O2 -msoft-float */
 void allocate_splash(Obj *baseObj)
 {

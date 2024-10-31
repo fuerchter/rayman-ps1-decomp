@@ -1,5 +1,13 @@
 #include "obj/dark2_pink_fly.h"
 
+#ifdef BSS_DEFS
+s16 PosArXToon1;
+s16 PosArXToon2;
+s16 PosArYToon1;
+s16 PosArYToon2;
+u8 ToonJustGivePoing;
+#endif
+
 /* 78004 8019C804 -O2 -msoft-float */
 void AllocateToons(void)
 {

@@ -1,5 +1,10 @@
 #include "video.h"
 
+#ifdef BSS_DEFS
+VideoPlayState PS1_VideoPlayState;
+s16 PS1_VideoLength;
+#endif
+
 /* E098 80132898 -O2 -msoft-float */
 void PS1_PlayVideo(Video video)
 {

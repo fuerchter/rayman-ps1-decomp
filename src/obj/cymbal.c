@@ -1,5 +1,10 @@
 #include "obj/cymbal.h"
 
+#ifdef BSS_DEFS
+s16 cymbal_obj_id[12];
+u8 nb_cymbal_in_map;
+#endif
+
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/cymbal", DO_CYMBAL_COMMAND);
 #else

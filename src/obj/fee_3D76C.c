@@ -33,6 +33,10 @@ const u8 s_youll_have_to_be_very_quick_8012ab04[] = "/you'll have to be very qui
 const u8 s_now_you_can_run_faster_8012ab28[] = "/now you can run faster/";
 const u8 s_to_run_press__while_walking_8012ab44[] = "/to run press ? while walking/";
 
+#ifdef BSS_DEFS
+u8 is_fee;
+#endif
+
 /* 3D76C 80161F6C -O2 -msoft-float */
 /*? INIT_TXT_BOX(u8 *);*/
 /*int strlen(char *s);*/ /* missing from 3.0 psyq .h but present in 3.3? */

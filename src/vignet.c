@@ -1,5 +1,10 @@
 #include "vignet.h"
 
+#ifdef BSS_DEFS
+s16 loop_nb_trames;
+u8 Vignet_To_Display;
+#endif
+
 /* 9A14 8012E214 -O2 -msoft-float */
 void DISPLAY_TXT_VIGNET(void)
 {

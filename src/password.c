@@ -16,6 +16,16 @@ const u8 s_wrong_password_8012c410[] = "/wrong password/";
 const u8 s_enter_password_8012c424[] = "/enter password/";
 const u8 s_select__return_8012c438[] = "/select : return/";
 
+#ifdef BSS_DEFS
+u8 PS1_ShouldClearPassword;
+PasswordChar PS1_CurrentPassword[10];
+u8 PS1_CurrentTypingPassword[10];
+s16 D_801E4E40;
+s16 D_801E4E48;
+u8 D_801E57A8;
+u8 PS1_ValidPassword;
+#endif
+
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/password", PS1_EncryptPassword);
 #else

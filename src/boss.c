@@ -1,5 +1,36 @@
 #include "boss.h"
 
+#ifdef BSS_DEFS
+Obj *PS1_BossObj;
+
+s16 bossScrollStartX;
+s16 bossScrollStartY;
+s16 bossScrollEndX;
+s16 bossScrollEndY;
+s16 floorLine;
+s32 bossSpeedFactor;
+s32 alternateBossSpeedFactor;
+
+u8 bossEncounter;
+u8 saveBossEncounter;
+u8 bossReachingAccuracyX;
+u8 bossReachingAccuracyY;
+u8 bossReachingTimer;
+u8 bossSafeTimer;
+s16 bossXToReach;
+s16 bossYToReach;
+
+u8 curAct;
+u8 currentBossAction;
+u8 saveCurrentBossAction;
+u8 currentBossActionIsOver;
+
+u8 Phase;
+u8 WaitForFinAtan;
+u8 FinAnim;
+u8 WaitForAnim;
+#endif
+
 /* TODO: still lots of unknowns */
 /* 66BE8 8018B3E8 -O2 -msoft-float */
 void setBossReachingSpeeds(Obj *obj, u8 horloge_ind, u8 unk_x, u8 unk_y)

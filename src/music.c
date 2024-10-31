@@ -20,6 +20,58 @@ const u8 s_iseosd_80125d2c[] = "iseos:%d\n";
 const u8 s_will_anticips_fadeouts_80125d38[] = "will anticip:%s  fadeout:%s\n";
 const u8 s_2d_markddd_80125d58[] = "%2d mark:%d-%d-%d\n";
 
+#ifdef BSS_DEFS
+s16 D_801E64B0;
+s16 PS1_ScrollLockedAudio;
+CdlLOC D_801F41D0[54];
+s32 D_801F7CA8;
+s16 PS1_LevelMusic_World;
+s16 PS1_LevelMusic_Level;
+s16 PS1_LevelMusic_CmdInd;
+s16 D_801F9940;
+s32 PS1_CurTrack;
+u8 PS1_Music_etat;
+u8 PS1_Music_track;
+u8 PS1_Music_Amin;
+u8 PS1_Music_Asec;
+u8 PS1_Music_Aframe;
+u8 PS1_Music_LevelHL;
+s16 PS1_Music_Complete_data;
+s16 PS1_Music_Fade;
+s32 PS1_Music_Fin[54];
+s16 PS1_Music_Ready_data;
+s16 PS1_Music_fadeout;
+s16 PS1_Music_ind_fade;
+s32 PS1_Music_intr_compl;
+s32 PS1_Music_intr_datar;
+u8 PS1_Music_occupe;
+s16 PS1_Music_will_anticip;
+s16 D_801F5798;
+s16 D_801E4D10;
+s32 D_801E5240;
+s32 D_801E57C0[54];
+s32 D_801F42A8[54];
+s16 D_801F5248;
+s16 D_801F7ED0;
+s16 PS1_Mark_access_num;
+s16 PS1_Mark_seq_num;
+s16 PS1_Mark_data;
+CdlLOC D_801F4E68;
+u8 PS1_CdMode;
+s32 D_801F54B0[54];
+s32 D_801F7AA8;
+s32 D_801F7D88[54];
+u32 PS1_TrackSizes[54];
+s16 PS1_TracksExist[54];
+s16 D_801E4B78;
+s16 D_801FAA50;
+s16 D_801F7A90[4];
+s16 D_801F7C80;
+CdlLOC D_801E4EF8;
+s32 D_801F4FA0;
+s16 D_801FA570;
+#endif
+
 /* B848 80130048 -O2 -msoft-float */
 void FUN_80130048(void)
 {
