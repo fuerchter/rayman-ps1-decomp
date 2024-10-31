@@ -63,7 +63,7 @@ void FUN_8019df1c(s16 param_1);
 void LOAD_BIG_RAYMAN(void);
 void LOAD_ALL_FIX(void);
 void load_world(s16 world);
-void load_level(void);
+s16 load_level(void);
 void LOAD_FND(void);
 void PS1_LoadImgWorld(void);
 void PS1_LoadVideoTables(void);
@@ -74,6 +74,7 @@ void LOAD_CONTINUE_SCREEN(void);
 void PS1_LoadImgSplash(void);
 void LOAD_SAVE_SCREEN(void);
 void FUN_8019eb30(void);
+s16 FUN_8019ebc0(void);
 void LOAD_CREDITS_VIGNET(void);
 void LOAD_VIGNET_GAME(void);
 

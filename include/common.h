@@ -5,6 +5,7 @@
 #include "include_asm.h"
 
 #define MATCHES_BUT
+/*#define NONMATCHINGS*/
 
 #define FLG(x) (1 << x)
 #define LEN(x) (sizeof(x) / sizeof(x[0]))

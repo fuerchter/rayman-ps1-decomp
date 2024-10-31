@@ -498,12 +498,12 @@ void PS1_PlayMusic(void)
                     FUN_80130a98(&D_801E4EF8, &unk_3, &unk_4);
                     D_801E5240 = FUN_80130bc4(unk_4);
                     PS1_Music_pcom = CdlSetloc;
-                    CdControl(PS1_Music_pcom, &D_801E4EF8, null);
+                    CdControl(PS1_Music_pcom, (u8 *)&D_801E4EF8, null);
                 }
                 else
                 {
                     PS1_Music_pcom = CdlSetloc;
-                    CdControl(PS1_Music_pcom, (u_char *)&D_801F41D0[PS1_CurTrack], null);
+                    CdControl(PS1_Music_pcom, (u8 *)&D_801F41D0[PS1_CurTrack], null);
                 }
 
                 done = true;

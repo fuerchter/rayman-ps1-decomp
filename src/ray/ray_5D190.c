@@ -833,7 +833,605 @@ void ray_inertia_speed(u8 param_1, s16 param_2, s16 prev_speed_x, s16 param_4)
 }
 #endif
 
+#ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_SWIP);
+#else
+/*
+score of (m2c: 435, m2c gotos: 1350)
+attempts: 4
+*/
+/*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_SWIP);*/
+
+void RAY_SWIP(void)
+{
+    u8 sp10;
+    Obj *temp_s1;
+    s16 temp_a2;
+    s16 temp_v0;
+    s16 temp_v1_1;
+    s16 var_s2;
+    s32 var_v0_1;
+    s32 var_v0_2;
+    s32 var_v0_3;
+    s32 var_a1;
+    u8 var_s0;
+    s32 var_s4;
+    s32 var_v1;
+    u8 temp_s1_2;
+    u8 temp_v1_2;
+
+    /*var_s0 = saved_reg_s0;*/
+    var_s2 = 0;
+    var_s4 = 0x10;
+    if (num_world == 3)
+    {
+        var_s4 = 0x20;
+    }
+    if (ray.field20_0x36 != -1)
+    {
+        temp_s1 = &level.objects[ray.field20_0x36];
+        if (!(temp_s1->flags & 0x10000))
+        {
+            ray.field20_0x36 = -1;
+        }
+        temp_v1_1 = temp_s1->ray_dist;
+        var_v0_1 = __builtin_abs(temp_v1_1); /* abs? */
+        if ((var_v0_1 >= 9) || (temp_v1_1 < 0) || (ray.field20_0x36 == -1))
+        {
+            rayMayLandOnAnObject(&sp10, ray.field20_0x36);
+            if (ray.field20_0x36 != -1)
+            {
+                if (__builtin_abs(temp_s1->ray_dist) >= 9)
+                {
+                    ray.field20_0x36 = -1;
+                    temp_s1_2 = ray.main_etat;
+                    set_main_etat(&ray, 2);
+                    
+                    if (ray_on_poelle != 0)
+                    {
+                        if ((temp_s1_2 == 0) && (ray.sub_etat == 0x28))
+                        {
+                            set_sub_etat((Obj *) (&ray), 0x1A);
+                        }
+                        else
+                        {
+                            set_sub_etat(&ray, 0x1C);
+                        }
+                    }
+                    else if ((temp_s1_2 & 0xFF) == 1)
+                    {
+                        if ((ray.sub_etat == 9) || ((ray.sub_etat == 0x0B)))
+                        {
+                            ray.flags = (ray.flags & ~0x4000) | (((((u32) ray.flags >> 0xE) ^ 1) & 1) << 0xE);
+                        }
+                        if (temp_s1_2 == 1)
+                        {
+                            if (ray.sub_etat == 3)
+                            {
+                                set_sub_etat((Obj *) (&ray.sub_etat - 0x58), 0x20);
+                            }
+                            else
+                            {
+                                set_sub_etat((Obj *) (&ray.sub_etat - 0x58), 0x18);
+                            }
+                        }
+                        else
+                        {
+                            goto block_27;
+                        }
+                    }
+                    else
+                    {
+block_27:
+                        set_sub_etat(&ray, 1);
+                    }
+                    ray.field24_0x3e = 0;
+                    jump_time = 0;
+                }
+            }
+        }
+    }
+    if (ray_in_fee_zone == 0)
+    {
+        SET_X_SPEED(&ray);
+    }
+    if ((ray.main_etat == 1) && ((ray.sub_etat == 9) || (ray.sub_etat == 0x30) || (ray.sub_etat == 0x0B)))
+    {
+        ray.speed_x = (u16) -(s32) ray.speed_x;
+    }
+    temp_v0 = ashl16((s16) ray.speed_x, 4);
+    temp_a2 = temp_v0;
+    if ((s16) ray.speed_x != 0)
+    {
+        var_a1 = -(__builtin_abs(temp_v0) < 0x101);
+        if (ray_wind_force > 0)
+        {
+            ray.speed_x = (s16) ray.speed_x + 0xA;
+        }
+        else if (ray_wind_force < 0)
+        {
+            ray.speed_x = (s16) ray.speed_x - 0xA;
+        }
+    }
+    else
+    {
+        var_a1 = 0;
+    }
+    /* could try gotos-only for this entire section... */
+    if(ray.main_etat == 2)
+    {
+        if ((ray.sub_etat == 0x0F) || (ray.nb_cmd != 0))
+        {
+            if (ray.flags & 0x4000)
+            {
+                var_s0 = 0xC;
+                if (decalage_en_cours <= 0)
+                {
+                    var_s0 = 8;
+                }
+            }
+            else
+            {
+                var_s0 = 8;
+                if (decalage_en_cours < 0)
+                {
+                    var_s0 = 0xC;
+                }
+            }
+        }
+        else
+        {
+            var_s0 = var_a1;
+        }
+        var_s2 = 0;
+    /*default:
+block_57:
+        var_s2 = 0;
+        break;*/
+    }
+    else if(ray.main_etat == 0 || ray.main_etat == 1 || ray.main_etat == 3)
+    {
+        if (ray.field20_0x36 != -1)
+        {
+            var_s0 = 0;
+block_1:
+            var_s2 = 0;
+        }
+        else
+        {
+            switch (ray.btypes[0])
+            {
+            case 0:
+            case 1:
+            case 8:
+            case 9:
+            case 24:
+            case 25:
+            case 30:
+                /* not sure about this */
+                if (
+                    !(!((block_flags[ray.btypes[0]] & 1) ||
+                    (block_flags[ray.btypes[4]] >> 3 & 1) ||
+                    !(block_flags[ray.btypes[4]] >> 1 & 1)))
+                )
+                {
+                    if ((ray.speed_x != 0 || decalage_en_cours != 0 || ray_wind_force != 0))
+                    {
+                        var_s0 = var_s4;
+                        var_s2 = 0;
+                    }
+                    else
+                    {
+
+                        var_s0 = var_a1;
+                        var_s2 = 0;
+                    }
+                }
+                else
+                {
+                    var_s0 = var_a1;
+                    var_s2 = 0;
+                }
+                break;
+            case 15:
+                
+                switch (ray.btypes[3])
+                {
+                case 20:
+                case 21:
+                    var_s0 = var_s4;
+                    var_s2 = -4;
+                    break;
+                case 22:
+                case 23:
+                    var_s0 = var_s4;
+                    var_s2 = 4;
+                    break;
+                case 18:
+                    var_s0 = var_s4;
+                    var_s2 = -6;
+                    break;
+                case 19:
+                    var_s0 = var_s4;
+                    var_s2 = 6;
+                    break;
+                default:
+                    var_s0 = var_a1;
+                    var_s2 = 0;
+                    break;
+                }
+                break;
+            case 20:
+            case 21:
+                var_s0 = var_s4;
+                var_s2 = -4;
+                break;
+            case 22:
+            case 23:
+                var_s0 = var_s4;
+                var_s2 = 4;
+                break;
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 12:
+            case 14:
+                var_s0 = var_a1;
+                var_s2 = 0;
+                break;
+            case 18:
+                var_s0 = var_s4;
+                var_s2 = -6;
+                break;
+            case 19:
+                var_s0 = var_s4;
+                var_s2 = 6;
+                break;
+            }
+        }
+    }
+    if (ray_on_poelle == 1)
+    {
+        var_s0 = var_s0 >> 1;
+    }
+    ray_inertia_speed(var_s0, var_s2, temp_a2, ray_wind_force);
+}
+
+/*
+void RAY_SWIP(void)
+{
+    u8 sp10;
+    Obj *temp_s1;
+    s16 temp_v1_1;
+    s16 var_s2;
+    s32 var_v0_1;
+    s16 var_v0_2;
+    s16 var_v0_3;
+    s16 temp_v0;
+    s32 var_a1;
+    u8 var_s0;
+    s32 var_s4;
+    s32 var_v1;
+    u8 temp_s1_2;
+    u8 temp_v1_2;
+
+    var_s2 = 0;
+    var_s4 = 0x10;
+    if (num_world != 3)
+    {
+        goto block_2;
+    }
+    var_s4 = 0x20;
+block_2:
+    if (ray.field20_0x36 == -1)
+    {
+        goto block_29;
+    }
+    temp_s1 = &level.objects[ray.field20_0x36];
+    if (temp_s1->flags & 0x10000)
+    {
+        goto block_5;
+    }
+    ray.field20_0x36 = -1;
+block_5:
+    temp_v1_1 = temp_s1->ray_dist;
+    var_v0_1 = __builtin_abs(temp_v1_1);
+block_7:
+    if (var_v0_1 >= 9)
+    {
+        goto block_10;
+    }
+    if (temp_v1_1 < 0)
+    {
+        goto block_10;
+    }
+    if (ray.field20_0x36 != -1)
+    {
+        goto block_29;
+    }
+block_10:
+    rayMayLandOnAnObject(&sp10, ray.field20_0x36);
+    if (ray.field20_0x36 == -1)
+    {
+        goto block_29;
+    }
+
+    if (__builtin_abs(temp_s1->ray_dist) < 9)
+    {
+        goto block_29;
+    }
+    ray.field20_0x36 = -1;
+    temp_s1_2 = ray.main_etat;
+    set_main_etat(&ray, 2U);
+    if (ray_on_poelle == 0)
+    {
+        goto block_19;
+    }
+    if (temp_s1_2 != 0)
+    {
+        goto block_18;
+    }
+    if (ray.sub_etat != 0x28)
+    {
+        goto block_18;
+    }
+    set_sub_etat(&ray, 0x1AU);
+    goto block_28;
+block_18:
+    set_sub_etat(&ray, 0x1CU);
+    goto block_28;
+block_19:
+    if ((temp_s1_2 & 0xFF) != 1)
+    {
+        goto block_27;
+    }
+    if (ray.sub_etat == 9)
+    {
+        goto block_22;
+    }
+    if (ray.sub_etat != 0x0B)
+    {
+        goto block_23;
+    }
+block_22:
+    ray.flags = (ray.flags & ~0x4000) | (((((u32) ray.flags >> 0xE) ^ 1) & 1) << 0xE);
+block_23:
+    if (temp_s1_2 != 1)
+    {
+        goto block_27;
+    }
+    if (ray.sub_etat != 3)
+    {
+        goto block_26;
+    }
+    set_sub_etat(&ray, 0x20U);
+    goto block_28;
+block_26:
+    set_sub_etat(&ray, 0x18U);
+    goto block_28;
+block_27:
+    set_sub_etat(&ray, 1U);
+block_28:
+    ray.field24_0x3e = 0;
+    jump_time = 0;
+block_29:
+    if (ray_in_fee_zone != 0)
+    {
+        goto block_31;
+    }
+    SET_X_SPEED(&ray);
+block_31:
+    if (ray.main_etat != 1)
+    {
+        goto block_36;
+    }
+    if (ray.sub_etat == 9)
+    {
+        goto block_35;
+    }
+    if (ray.sub_etat == 0x30)
+    {
+        goto block_35;
+    }
+    if (ray.sub_etat != 0x0B)
+    {
+        goto block_36;
+    }
+block_35:
+    ray.speed_x = (u16) -(s32) ray.speed_x;
+block_36:
+    temp_v0 = ashl16((s16) ray.speed_x, 4U);
+    if ((s16) ray.speed_x == 0)
+    {
+        goto block_43;
+    }
+block_39:
+    var_a1 = -(__builtin_abs(temp_v0) < 0x101);
+    if (ray_wind_force <= 0)
+    {
+        goto block_41;
+    }
+    ray.speed_x = (s16) ray.speed_x + 0xA;
+    goto block_44;
+block_41:
+    if (ray_wind_force >= 0)
+    {
+        goto block_44;
+    }
+    ray.speed_x = (s16) ray.speed_x - 0xA;
+    goto block_44;
+block_43:
+    var_a1 = 0;
+block_44:
+    if (ray.main_etat != 2)
+    {
+        goto block_53;
+    }
+    if (ray.sub_etat == 0x0F)
+    {
+        goto block_47;
+    }
+    if (ray.nb_cmd == 0)
+    {
+        goto block_52;
+    }
+block_47:
+    if (!(ray.flags & 0x4000))
+    {
+        goto block_50;
+    }
+    var_s0 = 0xC;
+    if (decalage_en_cours > 0)
+    {
+        var_s2 = 0;
+        goto block_75;
+    }
+    var_s0 = 8;
+    var_s2 = 0;
+    goto block_75;
+block_50:
+    var_s0 = 8;
+    if (decalage_en_cours >= 0)
+    {
+        var_s2 = 0;
+        goto block_75;
+    }
+    var_s0 = 0xC;
+    var_s2 = 0;
+    goto block_75;
+block_52:
+    var_s0 = var_a1;
+    var_s2 = 0;
+    goto block_75;
+block_53:
+    if (!(ray.main_etat == 0 || ray.main_etat == 1 || ray.main_etat == 3))
+    {
+        goto block_75;
+    }
+block_55:
+    if (ray.field20_0x36 == -1)
+    {
+        goto block_58;
+    }
+    var_s0 = 0;
+block_57:
+    var_s2 = 0;
+    goto block_75;
+block_58:
+    switch (ray.btypes[0])
+    {
+    case 0:
+    case 1:
+    case 8:
+    case 9:
+    case 24:
+    case 25:
+    case 30:
+        if (block_flags[ray.btypes[0]] & 1)
+        {
+            goto block_63;
+        }
+        temp_v1_2 = block_flags[ray.btypes[4]];
+        if ((temp_v1_2 >> 3) & 1)
+        {
+            goto block_63;
+        }
+        var_s0 = var_a1;
+        if ((temp_v1_2 >> 1) & 1)
+        {
+            var_s2 = 0;
+        goto block_75;
+        }
+    block_63:
+        var_s0 = var_s4;
+        if ((s16) ray.speed_x != 0)
+        {
+            goto block_66;
+        }
+        var_s2 = 0;
+        if (decalage_en_cours != 0)
+        {
+            goto block_75;
+        }
+        if (ray_wind_force == 0)
+        {
+            goto block_67;
+        }
+    block_66:
+        var_s2 = 0;
+        goto block_75;
+    block_67:
+        var_s0 = var_a1;
+        var_s2 = 0;
+        goto block_75;
+    case 15:
+        var_s0 = var_a1;
+        switch (ray.btypes[3])
+        {
+        case 20:
+        case 21:
+            var_s0 = var_s4;
+            var_s2 = -4;
+            goto block_75;
+        case 22:
+        case 23:
+            var_s0 = var_s4;
+            var_s2 = 4;
+            goto block_75;
+        case 18:
+            var_s0 = var_s4;
+            var_s2 = -6;
+            goto block_75;
+        case 19:
+            var_s0 = var_s4;
+            var_s2 = 6;
+        }
+        break;
+    case 20:
+    case 21:
+        var_s0 = var_s4;
+        var_s2 = -4;
+        goto block_75;
+    case 22:
+    case 23:
+        var_s0 = var_s4;
+        var_s2 = 4;
+        goto block_75;
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 12:
+    case 14:
+        var_s0 = var_a1;
+        var_s2 = 0;
+        goto block_75;
+    case 18:
+        var_s0 = var_s4;
+        var_s2 = -6;
+        goto block_75;
+    case 19:
+        var_s0 = var_s4;
+        var_s2 = 6;
+    }
+
+block_75:
+    if (ray_on_poelle != 1)
+    {
+        goto block_77;
+    }
+    var_s0 = var_s0 >> 1;
+block_77:
+    ray_inertia_speed(var_s0, var_s2, temp_v0, ray_wind_force);
+    return;
+}
+*/
+#endif
 
 /* 5EF40 80183740 -O2 -msoft-float */
 void RAY_STOP(void)

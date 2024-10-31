@@ -456,4 +456,102 @@ void DO_DARK2_SORT_COMMAND(Obj *ds2_obj)
 }
 #endif
 
+#ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/obj/dark_phase2", allocate_DARK2_SORT);
+#else
+/*
+score of ???
+attempts: 3
+looked at android
+looked at allocate_DARK_SORT
+*/
+/*INCLUDE_ASM("asm/nonmatchings/obj/dark_phase2", allocate_DARK2_SORT);*/
+
+void allocate_DARK2_SORT(s32 param_1, s16 param_2, s16 param_3, s16 param_4)
+{
+    Obj *temp_t6;
+    Obj *cur_obj_1;
+    Obj *cur_obj_2;
+    Obj *cur_obj_3;
+    Obj *var_a0_4;
+    s16 temp_v0;
+    s16 temp_v0_2;
+    s16 temp_v0_3;
+    s16 cnt_1;
+    s16 check_1;
+    s32 check_2;
+    s32 check_3;
+    Obj *var_v1_1;
+    Obj *var_v1_2;
+    Obj *var_v1_3;
+    s16 nb_objs;
+    int new_var;
+
+    check_1 = 0;
+    cnt_1 = 0;
+    cur_obj_1 = level.objects;
+    nb_objs = level.nb_objects;
+    do
+    {
+        if ((cur_obj_1->type == 0x21) && !(cur_obj_1->flags & 0x800))
+        {
+            check_1 = 1;
+        }
+        cur_obj_1 += 1;
+        cnt_1 = cnt_1 + 1;
+    } while ((check_1 == 0) && (cnt_1 < nb_objs));
+    cur_obj_1 = cur_obj_1 - 1;
+    
+    if (check_1 == 0)
+        return;
+    
+    temp_t6 = cur_obj_1;
+    check_1 = 0;
+    do
+    {
+        if ((cur_obj_1->type == 0x21) && (cur_obj_1->flags & 0x800))
+        {
+            check_1 = 1;
+        }
+        cur_obj_1 += 1;
+        cnt_1 = cnt_1 + 1;
+    } while ((check_1 == 0) && (cnt_1 < nb_objs));
+    cur_obj_1 = cur_obj_1 - 1;
+
+    if (check_1 == 0)
+    {
+        check_1 = 1;
+        cur_obj_1 = temp_t6;
+    }
+    else
+    {
+        check_1 = 0;
+        do
+        {
+            if ((cur_obj_1->type == 0x21) && !(cur_obj_1->flags & 0x800))
+            {
+                check_1 = 1;
+            }
+            cur_obj_1 += 1;
+            cnt_1 = cnt_1 + 1;
+        } while ((check_1 == 0) && (cnt_1 < nb_objs));
+        cur_obj_1 = cur_obj_1 - 1;
+        if (check_1 == 0)
+        {
+            check_1 = 1;
+            cur_obj_1 = temp_t6;
+        }
+    }
+
+    if (check_1 == 0)
+        return;
+    
+    cur_obj_1->x_pos = param_1;
+    cur_obj_1->y_pos = param_2;
+    cur_obj_1->hit_points = 1;
+    cur_obj_1->iframes_timer = param_4;
+    cur_obj_1->field23_0x3c = 0;
+    cur_obj_1->flags |= 0xC00;
+    set_main_and_sub_etat(cur_obj_1, 0, param_3);
+}
+#endif

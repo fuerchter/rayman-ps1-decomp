@@ -311,7 +311,6 @@ INCLUDE_ASM("asm/nonmatchings/ray/ray_32398", DO_RAYMAN);
 
 /*s32 FUN_80133984(?);
 s32 FUN_801339f4(?);*/
-void setvol(ushort param_1, u8);
 
 void DO_RAYMAN(void)
 {
