@@ -14,10 +14,10 @@ undefined reference, even if specified in addrs-u.txt??? */
 extern void *D_801F4410;
 extern void *D_801F5160; /* type? very prominent in everything up to LOAD_FND */
 extern void *D_801F7E90; /* see loading_DA64 */
-extern s32 D_80058674;
+/*extern s32 D_80058674;
 extern s32 D_80058678;
 extern s32 D_8005867C;
-extern s32 D_80058684;
+extern s32 D_80058684;*/
 extern void *D_801D7840;
 extern s32 *D_801E5260;
 extern s32 *D_801F59E0; /* see loading_DA64 */
@@ -29,10 +29,10 @@ extern void *D_801F8180;
 before rodata even, what is this?
 can write *(s32*)0x800D0004 instead of it e.g.
 */
-extern s32 D_800D0004;
+/*extern s32 D_800D0004;
 extern s32 D_80010004;
 extern s32 D_80010008;
-extern s32 D_8001000C;
+extern s32 D_8001000C;*/
 
 const u8 s_img_file_8012c230[] = "img_file";
 const u8 s_ldr_file_8012c23c[] = "ldr_file";
@@ -145,7 +145,7 @@ void LOAD_BIG_RAYMAN(void)
     PS1_FileTemp = PS1_LoadFiles(PS1_IniFiles, 0, 1, 0);
     D_801F4410 = (void *)0x800D0000;
     D_801F5160 = (void *)0x800D0000;
-    D_801F7E90 = D_800D0004 + (void *)0x800D0000;
+    D_801F7E90 = *(s32*)0x800D0004 + (void *)0x800D0000;
     FUN_80132424();
     D_801F4380 = &D_801F4410[((s32 *) D_801F5160)[2]];
     FUN_801393c8(((s32 *) D_801F5160)[3] - ((s32 *) D_801F5160)[2]);
@@ -162,9 +162,9 @@ void LOAD_ALL_FIX(void)
     PS1_FileTemp = PS1_LoadFiles(PS1_FxsFiles, 0, 1, 0);
     D_801F4410 = (void *)0x80010000;
     D_801F5160 = (void *)0x80010000;
-    PS1_AllFixData = D_80010004 + (void *)0x80010000;
-    D_801F4380 = D_80010008 + (void *)0x80010000;
-    PS1_LoadAllFixTextures(D_8001000C - D_80010008);
+    PS1_AllFixData = *(s32*)0x80010004 + (void *)0x80010000;
+    D_801F4380 = *(s32*)0x80010008 + (void *)0x80010000;
+    PS1_LoadAllFixTextures(*(s32*)0x8001000C - *(s32*)0x80010008);
     LoadClut(&D_801F4410[((s32 *) D_801F5160)[3]], 768, 492);
     LoadClut(&D_801F4410[((s32 *) D_801F5160)[4]], 768, 495);
     LoadClut(&D_801F4410[((s32 *) D_801F5160)[5]], 768, 490);
@@ -183,10 +183,10 @@ void load_world(s16 world)
     PS1_FileTemp = PS1_LoadFiles(&PS1_WldFiles[world - 1], 0, 1, 0);
     D_801F4410 = (void *)0x8005866C;
     D_801F5160 = (void *)0x8005866C;
-    D_801D7840 = D_80058674 + (void *)0x8005866C;
-    D_801F4380 = D_80058678 + (void *)0x8005866C;
-    D_801F8190 = D_80058684 + (void *)0x8005866C;
-    FUN_8013948c(D_8005867C - D_80058678);
+    D_801D7840 = *(s32*)0x80058674 + (void *)0x8005866C;
+    D_801F4380 = *(s32*)0x80058678 + (void *)0x8005866C;
+    D_801F8190 = *(s32*)0x80058684 + (void *)0x8005866C;
+    FUN_8013948c(*(s32*)0x8005867C - *(s32*)0x80058678);
     LoadClut(&D_801F4410[((s32 *) D_801F5160)[4]], 768, 490);
     LoadClut(&D_801F4410[((s32 *) D_801F5160)[5]], 768, 491);
     FUN_80139688(((s32 *) D_801F5160)[7] - ((s32 *) D_801F5160)[6]);

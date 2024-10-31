@@ -1,6 +1,9 @@
 #NOTES
-#hardcoded pointers: the address 0x8005866C (main(), loading_794DC.c, data/loading_A0338 e.g.), FUN_80132864 (unused), data/loading_AA6EC, FUN_8019fb84, loading_tex.c (??? i can't tell), PS1_DrawColoredSprite, loading_9FB74.c, video_AA6DC.c
-#deal with WorldInfo.state
+#hardcoded pointers:
+#	the address 0x8005866C (main(), loading_794DC.c, loading_A0338.c, first_init.c)
+#	FUN_80132864 (unused), FUN_8019fb84, PS1_DrawColoredSprite
+#	loading_tex.c (??? i can't tell)
+#	(.data) loading_AA6EC.c, loading_9FB74.c, video_AA6DC.c
 
 #see DO_BBL_COMMAND for current way of writing block_flags[mp.map[...]]
 #apply MAX/MIN macros to code from before then
