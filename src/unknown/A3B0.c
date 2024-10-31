@@ -58,4 +58,28 @@ void DO_AFFICHE_PAUSE(void)
     }
 }
 
+#ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/unknown/A3B0", FUN_8012eda4);
+#else
+/* matches, but */
+/*INCLUDE_ASM("asm/nonmatchings/unknown/A3B0", FUN_8012eda4);*/
+
+s32 FUN_8012eda4(s16 param_1, s16 param_2)
+{
+    s32 temp_v0;
+    s32 var_v0;
+    s32 var_v1;
+    s32 test_1 = param_2; /* TODO: remove? */
+
+    if (param_1 >> 1 > 0)
+    {
+        var_v1 = ((((param_1 >> 1) - 1) << 7) + 0x40) << 0xA;
+    }
+    else
+    {
+        var_v1 = 0;
+    }
+    
+    return var_v1 + ((param_1 >> 0x1) ? test_1 << 9 : test_1 << 8);
+}
+#endif

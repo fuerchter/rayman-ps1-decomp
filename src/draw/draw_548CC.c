@@ -110,7 +110,105 @@ void PS1_PerfectBonusDrawBg(void)
     D_801CF086 = D_801CF088;
 }
 
+#ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/draw/draw_548CC", DISPLAY_FOND_MENU);
+#else
+/* matches, but cleanup */
+/*INCLUDE_ASM("asm/nonmatchings/draw/draw_548CC", DISPLAY_FOND_MENU);*/
+
+void DISPLAY_FOND_MENU(void)
+{
+    s32 unk_2;
+    u16 ind_1;
+    u16 ind_2;
+    u16 unk_1 = 256;
+    u16 offs_x = SCREEN_WIDTH / 2;
+    u16 offs_y = SCREEN_HEIGHT / 2;
+    u16 cnt_1 = 0;
+    
+    while (cnt_1 < LEN(PS1_CurrentDisplay->unk_poly_g4s)) /* or unk_poly_g3s? */
+    {
+        SetPolyG4(PS1_CurrentDisplay->unk_poly_g4s + cnt_1);
+        SetSemiTrans(PS1_CurrentDisplay->unk_poly_g4s + cnt_1, false);
+        SetShadeTex(PS1_CurrentDisplay->unk_poly_g4s + cnt_1, true);
+        SetPolyG3(PS1_CurrentDisplay->unk_poly_g3s + cnt_1);
+        SetSemiTrans(PS1_CurrentDisplay->unk_poly_g3s + cnt_1, false);
+        SetShadeTex(PS1_CurrentDisplay->unk_poly_g3s + cnt_1, true);
+        
+        unk_2 = cnt_1; /* TODO: ??? */
+        ind_1 = unk_2 & 3;
+        if (ind_1 != 3)
+            ind_2 = ind_1 + 1;
+        else
+            ind_2 = 0;
+        
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->r0 = D_801C7EAC[ind_1].r;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->g0 = D_801C7EAC[ind_1].g;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->b0 = D_801C7EAC[ind_1].b;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->r1 = D_801C7EAC[ind_2].r;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->g1 = D_801C7EAC[ind_2].g;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->b1 = D_801C7EAC[ind_2].b;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->r1 = D_801C7EAC[ind_1].r;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->g1 = D_801C7EAC[ind_1].g;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->b1 = D_801C7EAC[ind_1].b;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->r2 = D_801C7EAC[ind_2].r;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->g2 = D_801C7EAC[ind_2].g;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->b2 = D_801C7EAC[ind_2].b;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->r2 = 0;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->g2 = 0;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->b2 = 0;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->r3 = 0;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->g3 = 0;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->b3 = 0;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->r0 = 0;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->g0 = 0;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->b0 = 0;
+        
+        D_801FAA48[0].vx = (D_801CF096 * rcos(D_801CF090) >> 12) + offs_x;
+        D_801FAA48[0].vy = (D_801CF096 * rsin(D_801CF090) >> 12) + offs_y;
+        D_801FAA58[0].vx = (D_801CF098 * rcos(D_801CF090) >> 12) + offs_x;
+        D_801FAA58[0].vy = (D_801CF098 * rsin(D_801CF090) >> 12) + offs_y;
+        ind_1 = D_801CF090 + unk_1; /* TODO: ??? */
+        D_801FAA48[1].vx = (D_801CF096 * rcos(ind_1) >> 12) + offs_x;
+        D_801FAA48[1].vy = (D_801CF096 * rsin(ind_1) >> 12) + offs_y;
+        D_801FAA58[1].vx = (D_801CF098 * rcos(ind_1) >> 12) + offs_x;
+        D_801FAA58[1].vy = (D_801CF098 * rsin(ind_1) >> 12) + offs_y;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->x0 = D_801FAA48[0].vx;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->y0 = D_801FAA48[0].vy;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->x1 = D_801FAA48[1].vx;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->y1 = D_801FAA48[1].vy;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->x2 = D_801FAA58[0].vx;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->y2 = D_801FAA58[0].vy;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->x3 = D_801FAA58[1].vx;
+        (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->y3 = D_801FAA58[1].vy;
+        AddPrim(PS1_CurrentDisplay->ordering_table, PS1_CurrentDisplay->unk_poly_g4s + cnt_1);
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->x0 = offs_x;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->y0 = offs_y;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->x1 = D_801FAA48[0].vx;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->y1 = D_801FAA48[0].vy;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->x2 = D_801FAA48[1].vx;
+        (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->y2 = D_801FAA48[1].vy;
+        AddPrim(PS1_CurrentDisplay->ordering_table, PS1_CurrentDisplay->unk_poly_g3s + cnt_1);
+        D_801CF090 += unk_1;
+        cnt_1++;
+    }
+    D_801CF096 = (rsin(D_801CF094) * 75 >> 12) + 105;
+    (PS1_CurrentDisplay->drawing_environment).tpage = GetTPage(1, 0, 256, 0);
+    SetDrawEnv(
+        PS1_CurrentDisplay->map_drawing_environment_primitives + D_801E4BE0,
+        &PS1_CurrentDisplay->drawing_environment
+    );
+    AddPrim(
+        &PS1_CurrentDisplay->ordering_table[10], 
+        PS1_CurrentDisplay->map_drawing_environment_primitives + D_801E4BE0
+    );
+    D_801E4BE0++;
+    
+    D_801CF090 = D_801CF092;
+    D_801CF094 += 10;
+    D_801CF092 += 10;
+}
+#endif
 
 /* 56A60 8017B260 -O2 -msoft-float */
 void FUN_8017b260(u16 param_1)

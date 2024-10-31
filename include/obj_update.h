@@ -10,8 +10,8 @@
 #include "collision/block_6E5E0.h" /* why do we need to include this? recale_position? */
 #include "obj_util.h"
 
-/* keeping this for nonmatchings_ours */
-/*#include "obj/moskito.h"
+/* TODO: required? */
+#include "obj/moskito.h"
 #include "obj/saxo.h"
 #include "obj/bb1.h"
 #include "obj/mama_pirate.h"
@@ -28,7 +28,7 @@
 #include "obj/bag1.h"
 #include "obj/fish.h"
 #include "obj/walk_note_command.h"
-#include "obj/medaillon_toon.h"*/
+#include "obj/medaillon_toon.h"
 
 typedef struct ObjHandlers
 {

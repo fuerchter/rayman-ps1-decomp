@@ -543,7 +543,481 @@ void SetSaxoCollNoteBox(Obj *obj)
     Sax.note_box_coll_x = x2 + ((w2 - 20) >> 1);
 }
 
+#ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO_COMMAND);
+#else
+/* matches, but gotos */
+/* 51E0C 8017660C -O2 -msoft-float */
+/*INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO_COMMAND);*/
+
+/*? GET_SPRITE_POS(?, u16 *, u16 *, u16 *, ? *);
+u8 PrepareAtak();
+? calc_obj_dir(Obj *);
+? set_main_and_sub_etat(Obj *, u8, u8, u32);
+? set_sub_etat(Obj *, ?);
+? skipToLabel(Obj *, ?, ?);*/
+
+void DO_SAXO_COMMAND(Obj *obj)
+{
+    s16 sp18;
+    s16 sp1A;
+    s16 temp_a0;
+    s16 temp_v0_2;
+    s16 temp_v1_7;
+    s16 var_a0;
+    s16 var_a0_2;
+    s16 var_v0;
+    s16 var_v0_2;
+    s16 var_v1;
+    s16 var_v1_2;
+    s16 var_v1_3;
+    s32 temp_lo_1;
+    s32 temp_lo_2;
+    s32 temp_s0;
+    s32 temp_v1_9;
+    u16 temp_v0;
+    u16 temp_v0_3;
+    s16 temp_v1_1;
+    u32 temp_a3;
+    s16 temp_v1_8;
+    u8 temp_a1;
+    s16 temp_s2;
+    s16 temp_v1_2;
+    u8 temp_v1_3;
+    u8 temp_v1_4;
+    u8 temp_v1_5;
+    u8 temp_v1_6;
+    int new_var;
+    s16 *speed_y;
+
+    new_var = 0x20;
+    scrollLocked = 1;
+    GET_SPRITE_POS(obj, 2, &Sax.sprite2_x, &Sax.sprite2_y, &sp18, &sp1A);
+    if (obj->flags & 0x4000)
+    {
+        Sax.sprite2_x = Sax.sprite2_x - new_var + sp18;
+    }
+    Sax.sprite2_x += 0xC;
+    Sax.sprite2_y += 0xC;
+    Sax.x_pos = obj->x_pos;
+    Sax.y_pos = obj->y_pos;
+    SetSaxoCollNoteBox(obj);
+    if ((obj->hit_points == 0) && (Phase != 0x64))
+    {
+        Sax.coup = 0;
+        if (
+            ((block_flags[
+                (u16) *(
+                    (
+                        ((obj->x_pos + obj->offset_bx) >> 4) +
+                        (mp.width * ((obj->y_pos + obj->offset_by) >> 4)) << 0x10 >> 0x10
+                    ) +
+                    mp.map
+                ) >> 0xA
+            ] >> 1) & 1)
+        )
+        {
+            obj->anim_frame = 0xFF;
+            set_main_and_sub_etat(obj, 0U, 4U);
+            skipToLabel(obj, 0, 1);
+            Phase = 0x64;
+            Sax.field10_0x10 = 0x01A4;
+            obj->speed_x = 0;
+            obj->speed_y = 0;
+        }
+    }
+    if (Sax.coup == 1)
+    {
+        DO_SAXO_COUP(obj);
+        FinAnim = 0;
+    }
+    else
+    {
+        if (
+            obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1) &&
+            horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+        )
+        {
+            FinAnim = 1;
+            WaitForAnim = 0;
+        }
+        else
+        {
+            FinAnim = 0;
+        }
+    }
+
+    temp_v1_1 = obj->x_pos;
+    switch (Phase)
+    {
+    case 0:
+        if ((obj->main_etat != 0) || (obj->sub_etat != 0))
+        {
+            if ((ray.x_pos < (temp_v1_1 + 0xDC)) && (temp_v1_1 < (ray.x_pos + 0x6E)))
+            {
+                WaitForAnim = 1;
+            }
+            else
+            {
+                set_main_and_sub_etat(obj, 0U, 2U);
+            }
+            if ((WaitForAnim != 0) && (FinAnim != 0))
+            {
+                Phase = 1;
+                NiveauDansPhase = 1;
+                IndexAtak = 0;
+                IndexSerie = 0;
+                NextNote = PrepareAtak();
+                set_main_and_sub_etat(obj, 0U, 1U);
+            }
+        }
+        break;
+    case 1:
+        temp_s0 = ((u32) obj->flags >> 0xE) & 1;
+        calc_obj_dir(obj);
+        if ((((u32) obj->flags >> 0xE) & 1) != temp_s0)
+        {
+            set_main_and_sub_etat(obj, 0U, 0U);
+            obj->speed_x = 0;
+            FinAnim = 0;
+        }
+        switch (obj->sub_etat)
+        {
+        case 1:
+            if ((horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0) && ((temp_v1_3 = obj->anim_frame, (temp_v1_3 == 0x18)) || ((temp_v1_3 == 0x1C) && (WaitForFinAtan == 0)) || ((temp_v1_3 == 0x20) && (WaitForFinAtan == 0))))
+            {
+                SAXO_TIRE(obj);
+            }
+            break;
+        case 3:
+            if (FinAnim != 0)
+            {
+                Sax.coup = 0;
+            }
+            break;
+        case 2:
+            if (FinAnim != 0)
+            {
+                if (WaitForFinAtan < 2U)
+                {
+                    switch (attaque.next_note)
+                    {
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                        set_sub_etat(obj, 1U);
+                        break;
+                    case 7:
+                        set_main_and_sub_etat(obj, 0U, 0x0AU);
+                        Phase = 2;
+                        Sax.field10_0x10 = 3;
+                        break;
+                    case 8:
+                        set_main_and_sub_etat(obj, 0U, 0x0AU);
+                        Phase = 3;
+                        Sax.field10_0x10 = 2;
+                        break;
+                    case 9:
+                        set_main_and_sub_etat(obj, 0U, 0x0AU);
+                        Phase = 4;
+                        break;
+                    }
+                }
+                else
+                {
+                    WaitForFinAtan--;
+                }
+            }
+            break;
+        case 0:
+            if (FinAnim != 0)
+            {
+                set_sub_etat(obj, 1U);
+                NextNote = PrepareAtak();
+            }
+            break;
+        }
+        break;
+    case 2:
+        if (FinAnim != 0 && obj->main_etat == 0 && obj->sub_etat == 3)
+        {
+            set_main_and_sub_etat(obj, Sax.field8_0xe, Sax.field9_0xf);
+            Sax.coup = 0;
+            FinAnim = 0;
+        }
+        
+        if (obj->main_etat == 0)
+        {
+            if (
+                !(obj->flags & 0x4000) ?
+                    obj->x_pos + obj->offset_bx < 0 :
+                    obj->x_pos + obj->offset_bx > xmapmax + SCREEN_WIDTH
+            )
+                obj->speed_x = 0;
+            
+            if (FinAnim != 0)
+            {
+                switch (obj->sub_etat)
+                {
+                case 10:
+                    obj->gravity_value_2 = 5;
+                    obj->gravity_value_1 = 0;
+                    obj->speed_y = -6;
+                    obj->y_pos += obj->speed_y;
+                    var_a0 = -1;
+                    if (obj->flags & 0x4000)
+                    {
+                        var_a0 = 1;
+                    }
+                    obj->speed_x = var_a0;
+                    break;
+                case 11:
+                    if (--Sax.field10_0x10 > 0)
+                    {
+                        set_main_and_sub_etat(obj, 0U, 0x0AU);
+                        obj->speed_x = 0;
+                    }
+                    else
+                    {
+                        set_main_and_sub_etat(obj, 1U, 0U);
+                        var_v1_3 = -2;
+                        if (obj->flags & 0x4000)
+                        {
+                            var_v1_3 = 2;
+                        }
+                        obj->speed_x = var_v1_3;
+                    }
+                }
+            }
+        }
+        else if (obj->main_etat == 1)
+        {
+block_666:
+            if (
+                !(obj->flags & 0x4000) ?
+                    (obj->x_pos + 0x40) < 0 :
+                    (obj->x_pos + 0xC0) > (xmapmax + 0x140)
+            )
+            {
+                obj->flags = (obj->flags & ~0x4000) | (((1 - ((obj->flags >> 0xE) & 1)) & 1) << 0xE);
+                set_main_and_sub_etat(obj, 0U, 0U);
+                obj->speed_x = 0;
+                Phase = 1;
+            }
+        }
+        break;
+    case 3:
+        if (FinAnim != 0 && obj->main_etat == 0 && obj->sub_etat == 3)
+        {
+            set_main_and_sub_etat(obj, Sax.field8_0xe, Sax.field9_0xf);
+            Sax.coup = 0;
+            FinAnim = 0;
+        }
+
+        if (obj->main_etat == 0)
+        {
+            if (
+                !(obj->flags & 0x4000) ?
+                    obj->x_pos + obj->offset_bx < 0 :
+                    obj->x_pos + obj->offset_bx > xmapmax + SCREEN_WIDTH
+            )
+                obj->speed_x = 0;
+            
+            if (FinAnim != 0)
+            {
+                switch (obj->sub_etat)
+                {
+                case 10:
+                    obj->gravity_value_2 = 5;
+                    obj->gravity_value_1 = 0;
+                    obj->speed_y = -6;
+                    obj->y_pos += obj->speed_y;
+                    var_a0 = -1;
+                    if (obj->flags & 0x4000)
+                    {
+                        var_a0 = 1;
+                    }
+                    obj->speed_x = var_a0;
+                    break;
+                case 11:
+                    Sax.field10_0x10 -= 1;
+                    set_main_and_sub_etat(obj, 1U, 0U);
+                    var_v1_2 = -2;
+                    if (obj->flags & 0x4000)
+                    {
+                        var_v1_2 = 2;
+                    }
+                    obj->speed_x = var_v1_2;
+                    obj->iframes_timer = 0x001E;
+                    break;
+                }
+            }
+            break;
+        }
+        else if (obj->main_etat == 1)
+        {
+            if (Sax.field10_0x10 != 1)
+            {
+                goto block_666;
+            }
+            if (--obj->iframes_timer <= 0)
+            {
+                set_main_and_sub_etat(obj, 0U, 0x0AU);
+                obj->speed_x = 0;
+            }
+        }
+        break;
+    case 4:
+        if (FinAnim != 0 && obj->main_etat == 0 && obj->sub_etat == 3)
+        {
+            set_main_and_sub_etat(obj, Sax.field8_0xe, Sax.field9_0xf);
+            Sax.coup = 0;
+            FinAnim = 0;
+        }
+        
+        if (obj->main_etat == 0)
+        {
+            if (
+                !(obj->flags & 0x4000) ?
+                    obj->x_pos + obj->offset_bx < 0 :
+                    obj->x_pos + obj->offset_bx > xmapmax + SCREEN_WIDTH
+            )
+                obj->speed_x = 0;
+            
+            if (FinAnim != 0)
+            {
+                switch (obj->sub_etat)
+                {
+                case 10:
+                    obj->gravity_value_2 = 5;
+                    obj->gravity_value_1 = 0;
+                    temp_v1_8 = (ray.x_pos - 0x30);
+                    temp_v1_8 = obj->x_pos - temp_v1_8;
+                    var_a0_2 = temp_v1_8;
+                    if (temp_v1_8 < 0)
+                    {
+                        var_a0_2 = -temp_v1_8;
+                    }
+                    if (var_a0_2 >= 0x65)
+                    {
+                        obj->speed_y = var_a0_2 / 20;
+                        if (obj->speed_y > 9)
+                        {
+                            obj->speed_y = 9;
+                        }
+                        else if (obj->speed_y < 4)
+                        {
+                            obj->speed_y = 4;
+                        }
+                        var_v1_3 = -2;
+                        if (obj->flags & 0x4000)
+                        {
+                            var_v1_3 = 2;
+                        }
+                        obj->speed_x = var_v1_3;
+                    }
+                    else
+                    {
+                        obj->speed_y = var_a0_2 / (s32) 10;
+                        if (obj->speed_y > 9)
+                        {
+                            obj->speed_y = 9;
+                        }
+                        else if (obj->speed_y < 4)
+                        {
+                            obj->speed_y = 4;
+                        }
+                        var_v1_3 = -1;
+                        if (obj->flags & 0x4000)
+                        {
+                            var_v1_3 = 1;
+                        }
+                        obj->speed_x = var_v1_3;
+                    }
+                    
+                    obj->y_pos = obj->y_pos - obj->speed_y;
+                    obj->speed_y = -obj->speed_y;
+                    break;
+                case 11:
+                    if (!(obj->flags & 0x4000))
+                    {
+                        goto block_140;
+                    }
+                    if ((obj->x_pos + 0x30) < ray.x_pos)
+                    {
+                        goto block_142;
+                    }
+                    goto block_145;
+                block_140:
+                    if (ray.x_pos < (obj->x_pos + 0x30))
+                    {
+                        goto block_142;
+                    }
+                    goto block_143;
+                block_142:
+                    set_main_and_sub_etat(obj, 0U, 0x0AU);
+                    break;
+                block_143:
+                    if ((obj->x_pos + 0x40) < 0)
+                    {
+                        goto block_155;
+                    }
+                    goto block_147;
+                block_145:
+                    if ((obj->x_pos + 0xC0) > (xmapmax + 0x140))
+                    {
+                        goto block_155;
+                    }
+                    goto block_147;
+                block_147:
+                    set_main_and_sub_etat(obj, 1U, 0U);
+                    var_v1_3 = -2;
+                    if (obj->flags & 0x4000)
+                    {
+                        var_v1_3 = 2;
+                    }
+                    obj->speed_x = var_v1_3;
+                    break;
+                }
+            }
+        }
+        else if (obj->main_etat == 1)
+        {
+            if (
+                !(obj->flags & 0x4000) ?
+                    (obj->x_pos + 0x40) < 0 :
+                    (obj->x_pos + 0xC0) > (xmapmax + 0x140)
+            )
+            {
+            block_155:
+                obj->flags = (obj->flags & ~0x4000) | (((1 - ((obj->flags >> 0xE) & 1)) & 1) << 0xE);
+                set_main_and_sub_etat(obj, 0U, 0U);
+                obj->speed_x = 0;
+                Phase = 1;
+            }
+        }
+        break;
+    case 0x64:
+        if (--Sax.field10_0x10 <= 0)
+        {
+            Sax.field10_0x10 = 0x03E7;
+            fin_boss = 1;
+            finBosslevel.mr_sax = true;
+        }
+        break;
+    }
+
+    temp_v1_9 = obj->x_pos + obj->offset_bx + obj->speed_x;
+    if ((temp_v1_9 < 0) || ((xmapmax + 0x13F) < temp_v1_9))
+    {
+        obj->speed_x = 0;
+    }
+}
+#endif
 
 /* 52BC4 801773C4 -O2 -msoft-float */
 void DO_SAXO_ATTER(Obj *obj)

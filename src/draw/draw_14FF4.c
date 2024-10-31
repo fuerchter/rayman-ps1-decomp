@@ -554,7 +554,82 @@ void DISPLAY_CLING(void)
     }
 }
 
+#ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", display_bar_boss);
+#else
+/* matches, but gross */
+/*INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", display_bar_boss);*/
+
+void display_bar_boss(Obj *boss_obj)
+{
+    u8 hp;
+    Obj *poing_obj;
+    u8 init_hp;
+    s32 unk_1;
+    s32 unk_2;
+    s32 unk_3;
+    s32 disp_mode;
+
+    if (scrollLocked)
+    {
+        hp = boss_obj->hit_points;
+        if (hp != 0)
+        {
+            poing_obj = &level.objects[poing_obj_id];
+            init_hp = boss_obj->init_hit_points;
+            unk_1 = 6;
+            unk_2 = (29 - init_hp) * unk_1;
+            unk_3 = 20 - unk_2;
+            disp_mode = 1;
+            display_sprite(poing_obj, 61, unk_3 - (init_hp - hp) * unk_1, 217, disp_mode);
+            display_sprite(poing_obj, 60, 20 - unk_2 + 1, 216, disp_mode);
+            switch (boss_obj->type)
+            {
+            case TYPE_MOSKITO:
+                display_sprite(poing_obj, 62, 0, 206, disp_mode);
+                break;
+            case TYPE_MOSKITO2:
+                display_sprite(poing_obj, 62, 0, 206, disp_mode);
+                break;
+            case TYPE_BB1:
+                display_sprite(poing_obj, 106, 0, 206, disp_mode);
+                break;
+            case TYPE_BB12:
+                display_sprite(poing_obj, 106, 0, 206, disp_mode);
+                break;
+            case TYPE_SPACE_MAMA:
+                display_sprite(poing_obj, 108, 0, 206, disp_mode);
+                break;
+            case TYPE_SPACE_MAMA2:
+                display_sprite(poing_obj, 108, 0, 206, disp_mode);
+                break;
+            case TYPE_MAMA_PIRATE:
+                display_sprite(poing_obj, 111, 0, 206, disp_mode);
+                break;
+            case TYPE_SCORPION:
+                display_sprite(poing_obj, 107, 0, 206, disp_mode);
+                break;
+            case TYPE_HYB_BBF2_D:
+                display_sprite(poing_obj, 110, 0, 206, disp_mode);
+                break;
+            case TYPE_HYBRIDE_STOSKO:
+                display_sprite(poing_obj, 110, 0, 206, disp_mode);
+                break;
+            case TYPE_HYBRIDE_MOSAMS:
+                display_sprite(poing_obj, 110, 0, 206, disp_mode);
+                break;
+            case TYPE_DARK:
+                display_sprite(poing_obj, 110, 0, 206, disp_mode);
+                break;
+            case TYPE_SAXO:
+            case TYPE_SAXO2:
+                display_sprite(poing_obj, 109, 0, 206, disp_mode);
+                break;
+            }
+        }
+    }
+}
+#endif
 
 /* 16314 8013AB14 -O2 -msoft-float */
 void DISPLAY_FIXE(s16 left_time)

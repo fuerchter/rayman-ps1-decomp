@@ -4,7 +4,7 @@
 #include "psyq_3_0/SYS/TYPES.H"
 #include "include_asm.h"
 
-/*#define NONMATCHINGS*/
+#define MATCHES_BUT
 
 #define FLG(x) (1 << x)
 #define LEN(x) (sizeof(x) / sizeof(x[0]))
