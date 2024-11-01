@@ -108,7 +108,7 @@ extern s16 indice_trz_wait;
 extern s16 stk_obj[20];
 extern s16 stk_snd[20];
 extern VoiceTableEntry voice_table[24];
-extern u8 D_801F6850;
+extern u8 D_801F6850[SS_SEQ_TABSIZ * 2 * 10];
 extern SndFileInfo D_801D8B50;
 extern s32 D_801D8B54;
 extern s32 D_801D8B58;

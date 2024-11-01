@@ -1307,6 +1307,9 @@ void DO_BBMONT2_COMMAND(Obj *obj)
     u8 test_5;
     u32 test_6;
 
+    #ifdef NUGGET
+    printf("DO_BBMONT2_COMMAND\n");
+    #endif
     temp_s2 = (u16) obj->x_pos + obj->offset_bx;
     temp_s3 = obj->offset_hy + (u16) obj->y_pos + 0x40;
     if ((obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1)) && (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0))

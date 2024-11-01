@@ -367,6 +367,9 @@ void DO_DARD_PLAFOND_ALWAYS(Obj *obj)
     u32 var_v0_13;
     u8 var_v0_12;
 
+    #ifdef NUGGET
+    printf("DO_DARD_PLAFOND_ALWAYS\n");
+    #endif
     if (obj->cmd != 1)
     {
         diff_x = (ray.offset_bx + ray.x_pos) - (obj->offset_bx + (u16) obj->x_pos);

@@ -421,6 +421,9 @@ void display_text(u8 *text, s16 in_x, s16 in_y, u8 font_size, u8 param_5)
     u8 temp_a1_2;
     u8 clut_x;
 
+    #ifdef NUGGET
+    printf("display_text\n");
+    #endif
     /*var_s1 = saved_reg_s1;
     var_s7 = saved_reg_s7;*/
     sprite_ind = 0;

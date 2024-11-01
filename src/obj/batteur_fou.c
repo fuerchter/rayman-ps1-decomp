@@ -154,6 +154,9 @@ void bat_init_scroll(Obj *obj)
     s16 var_v0_3;
     s16 var_v0_4;
 
+    #ifdef NUGGET
+    printf("bat_init_scroll\n");
+    #endif
     temp_v0_1 = obj->offset_bx + obj->x_pos;
     temp_v1_1 = obj->offset_by + obj->y_pos + 0x18;
     if (((u8) block_flags[PS1_BTYPAbsPos(temp_v0_1, temp_v1_1) & 0xFF] >> 1) & 1)

@@ -45,6 +45,9 @@ void DO_MOVING_WITH_INDICATOR_COMMAND(Obj *ufo_idc_obj)
     u8 temp_s1;
     u8 temp_v1;
 
+    #ifdef NUGGET
+    printf("DO_MOVING_WITH_INDICATOR_COMMAND\n");
+    #endif
     ufo_idc_obj->flags &= ~0x4000;
     if (
         (ufo_idc_obj->main_etat == 0) && (ufo_idc_obj->sub_etat == 0x0E) &&

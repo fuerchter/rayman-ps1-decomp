@@ -510,6 +510,9 @@ void allocate_DARK2_SORT(s32 param_1, s16 param_2, s16 param_3, s16 param_4)
     s16 nb_objs;
     int new_var;
 
+    #ifdef NUGGET
+    printf("allocate_DARK2_SORT\n");
+    #endif
     check_1 = 0;
     cnt_1 = 0;
     cur_obj_1 = level.objects;

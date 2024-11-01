@@ -122,6 +122,9 @@ void restoreGameState(SaveState *save_param)
     u8 test_3;
     Obj *new_var;
 
+    #ifdef NUGGET
+    printf("restoreGameState\n");
+    #endif
     if (save_param->has_saved)
     {
         if (RayEvts.demi)

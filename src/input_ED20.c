@@ -803,6 +803,9 @@ s32 TOUCHE(Input param_1)
     s32 *new_var;
     s32 var_a0;
 
+    #ifdef NUGGET
+    printf("TOUCHE\n");
+    #endif
     /*var_v0 = *(&jtbl_80127304 + (temp_a0 * 4));*/
     switch (param_1)
     {

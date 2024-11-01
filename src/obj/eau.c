@@ -82,6 +82,9 @@ void DO_EAU_QUI_MONTE(Obj *obj)
     u8 temp_v0_7;
     s16 other_1;
 
+    #ifdef NUGGET
+    printf("DO_EAU_QUI_MONTE\n");
+    #endif
     if ((ray.flags & 0x400) && ((ray.main_etat != 3) || (ray.sub_etat != 0x17)))
     {
         switch (num_world)

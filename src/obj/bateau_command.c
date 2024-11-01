@@ -30,6 +30,9 @@ void doShipCommand(Obj *obj)
     u8 test_3;
     u32 test_4;
 
+    #ifdef NUGGET
+    printf("doShipCommand\n");
+    #endif
     /*var_s3 = saved_reg_s3;*/
     temp_v1 = obj->cmd;
     switch (temp_v1)

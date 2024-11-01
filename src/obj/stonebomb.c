@@ -155,6 +155,9 @@ void DO_TIR(Obj *param_1)
     u32 test_3;
     u32 test_4;
 
+    #ifdef NUGGET
+    printf("DO_TIR\n");
+    #endif
     if (param_1->main_etat == 0)
     {
         if (param_1->sub_etat == 11)

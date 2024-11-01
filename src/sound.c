@@ -29,7 +29,7 @@ s16 indice_trz_wait;
 s16 stk_obj[20];
 s16 stk_snd[20];
 VoiceTableEntry voice_table[24];
-u8 D_801F6850;
+u8 D_801F6850[SS_SEQ_TABSIZ * 2 * 10];
 SndFileInfo D_801D8B50;
 s32 D_801D8B54;
 s32 D_801D8B58;
@@ -192,7 +192,7 @@ s32 PS1_SongIsPlaying(s16 sep_ind)
 /* 41818 80166018 -O2 -msoft-float */
 void FUN_80166018(void)
 {
-  SsSetTableSize(&D_801F6850, 2, 10);
+  SsSetTableSize(D_801F6850, 2, 10);
   SsSetTickMode(SS_TICK120);
   SsStart();
   SsSetMVol(127, 127);
@@ -631,6 +631,9 @@ void PlaySnd(short snd,short obj_id)
   s16 cnt_4;
   s16 test_4;
   
+  #ifdef NUGGET
+  printf("PlaySnd\n");
+  #endif
   if ((ray.scale != 0) && (obj_id == reduced_rayman_id)) {
     obj_id = 0xffff;
   }

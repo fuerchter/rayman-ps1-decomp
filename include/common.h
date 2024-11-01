@@ -4,9 +4,14 @@
 #include "psyq_3_0/SYS/TYPES.H"
 #include "include_asm.h"
 
-/*#define BSS_DEFS*/
+/*#define NUGGET*/
 #define MATCHES_BUT
-/*#define NONMATCHINGS*/
+
+#ifdef NUGGET
+#define BSS_DEFS
+#define MATCHES_BUT
+#define NONMATCHINGS
+#endif
 
 #define FLG(x) (1 << x)
 #define LEN(x) (sizeof(x) / sizeof(x[0]))

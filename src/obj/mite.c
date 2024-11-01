@@ -180,6 +180,9 @@ void DO_MIT_ATTAK(Obj *obj)
     u8 temp_a0_2;
     s16 new_var;
 
+    #ifdef NUGGET
+    printf("DO_MIT_ATTAK\n");
+    #endif
     if ((obj->main_etat == 0) && (obj->sub_etat == 0x0A))
     {
         temp_v0_1 = obj->field20_0x36;

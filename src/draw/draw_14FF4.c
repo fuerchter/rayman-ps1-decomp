@@ -1220,6 +1220,9 @@ void DISPLAY_ALL_OBJECTS(void)
     ActiveObjects *new_var2;
     s16 *new_var3;
 
+    #ifdef NUGGET
+    printf("DISPLAY_ALL_OBJECTS\n");
+    #endif
     PS1_BossObj = null;
     prio = 7;
     PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[6];

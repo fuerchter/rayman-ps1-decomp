@@ -888,6 +888,9 @@ void RAY_SWIP(void)
     u8 temp_s1_2;
     u8 temp_v1_2;
 
+    #ifdef NUGGET
+    printf("RAY_SWIP\n");
+    #endif
     /*var_s0 = saved_reg_s0;*/
     var_s2 = 0;
     var_s4 = 0x10;

@@ -45,6 +45,10 @@ INCLUDE_ASM("asm/nonmatchings/video", FUN_80132980);
 
 void FUN_80132980(void)
 {
+    #ifdef NUGGET
+    printf("FUN_80132980\n");
+    #endif
+
     LoadImage(&PS1_CurrentVideoState.frame_rect,(u_long *)PS1_CurrentVideoState.decoded_frame);
     DrawSync(0);
     PS1_CurrentVideoState.frame_rect.x = PS1_CurrentVideoState.frame_rect.x + 0x10;
@@ -82,6 +86,9 @@ void PS1_PlayVideoFile(s16 video)
   u8 temp_s3;
   u16 frame_count;
   
+  #ifdef NUGGET
+  printf("PS1_PlayVideoFile\n");
+  #endif
   ResetCallback();
   DecDCTReset(0);
   temp_s3 = 1;
@@ -94,17 +101,15 @@ void PS1_PlayVideoFile(s16 video)
   PS1_InitVideoState(&PS1_CurrentVideoState);
   DecDCToutCallback(FUN_80132980);
   PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
-  PS1_ReadVideoFile((u32 *)(&PS1_CurrentVideoState.encoded_frame_buffers[0])[PS1_CurrentVideoState.current_encode_buffer_index],video);
+  PS1_ReadVideoFile(PS1_CurrentVideoState.encoded_frame_buffers[PS1_CurrentVideoState.current_encode_buffer_index],video);
   PS1_CurrentVideoState.vsync_counter = 0;
-  if ((PS1_VideoPlayState < 2) && ((u16) PS1_CurrentVideoState.frame_count < PS1_VideoLength))
-  {
-    do {
+    while ((PS1_VideoPlayState < 2) && ((u16) PS1_CurrentVideoState.frame_count < PS1_VideoLength)) {
       PS1_CurrentVideoState.has_swapped_display = 0;
       if (temp_s3) {
         readinput();
       }
       DecDCTout((u32 *)PS1_CurrentVideoState.decoded_frame,0x680);
-      DecDCTin((u32 *)(&PS1_CurrentVideoState.encoded_frame_buffers[0])[PS1_CurrentVideoState.current_encode_buffer_index],0);
+      DecDCTin(PS1_CurrentVideoState.encoded_frame_buffers[PS1_CurrentVideoState.current_encode_buffer_index],0);
 
       
       if (PS1_CurrentVideoState.current_encode_buffer_index) {
@@ -122,19 +127,22 @@ void PS1_PlayVideoFile(s16 video)
          ((sVar1 = but1pressed(0), sVar1 != 0 || (iVar2 = PS1_TOUCHE_0x9(0), iVar2 != 0)))) {
         PS1_VideoPlayState = 2;
       }
+      #ifndef NUGGET
       while (PS1_CurrentVideoState.has_swapped_display == 0){};
       while (PS1_CurrentVideoState.vsync_counter != 0){};
-    } while ((PS1_VideoPlayState < 2) && ((u16) PS1_CurrentVideoState.frame_count < PS1_VideoLength));
-  }
+      #endif
+    }
   SsSetSerialVol('\0',0,0);
   CdControlB('\t',(u_char *)0x0,(u_char *)0x0);
   PS1_CurrentVideoState.has_swapped_display = 0;
   DecDCTout((u32 *)PS1_CurrentVideoState.decoded_frame,0x680);
   DecDCTin((u32 *)(&PS1_CurrentVideoState.encoded_frame_buffers[0])[PS1_CurrentVideoState.current_encode_buffer_index],0);
+  #ifndef NUGGET
   do {
   } while (PS1_CurrentVideoState.has_swapped_display == 0);
   do {
   } while (PS1_CurrentVideoState.vsync_counter != 0);
+  #endif
   DecDCTinCallback(0);
   DecDCToutCallback(0);
   CdDataCallback(0);
@@ -196,6 +204,9 @@ void PS1_ReadVideoFile(u32 *param_1, s16 video)
     StHEADER *header;
     u8 vol;
 
+    #ifdef NUGGET
+    printf("PS1_ReadVideoFile\n");
+    #endif
     while (StGetNext(&usr_dat, (u32 **) &header) != 0){};
     PS1_CurrentVideoState.frame_count = header->frameCount;
     if (video == 1)
@@ -218,6 +229,9 @@ INCLUDE_ASM("asm/nonmatchings/video", FUN_80132f8c);
 
 void FUN_80132f8c(void)
 {
+    #ifdef NUGGET
+    printf("FUN_80132f8c\n");
+    #endif
     PS1_CurrentVideoState.vsync_counter = PS1_CurrentVideoState.vsync_counter + 1;
     /*__asm__("lbu     $v0,0($v1)\nnop");*/
     if ((PS1_CurrentVideoState.vsync_counter > 3) && (PS1_CurrentVideoState.has_swapped_display != 0)) {
