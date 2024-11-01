@@ -49,6 +49,15 @@ void INIT_NEW_GAME(void)
     
     init_finBossLevel();
     INIT_WORLD_INFO();
+
+    #ifdef NUGGET
+    for (i = 1; i < (s16) LEN(t_world_info); i++)
+    {
+        t_world_info[i].is_unlocked = true;
+    }
+    ((u8*)&RayEvts)[0] = 0x87;
+    ((u8*)&RayEvts)[1] = 0x01;
+    #endif
 }
 
 /*

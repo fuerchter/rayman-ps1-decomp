@@ -187,10 +187,12 @@ INCLUDE_ASM("asm/nonmatchings/moteur_init_end", restore_gendoor_link);
 /*
 score of ???
 idk what it wants from me in the save1.link_init loop
+
+version with lower score below. crashes on ppw1 photographer though
 */
 /*INCLUDE_ASM("asm/nonmatchings/moteur_init_end", restore_gendoor_link);*/
 
-/*void restore_gendoor_link(void)
+void restore_gendoor_link(void)
 {
     Obj *temp_v1;
     Obj *var_v0_2;
@@ -205,6 +207,10 @@ idk what it wants from me in the save1.link_init loop
     u32 var_v1;
     u8 temp_a1;
     s16 test_1;
+
+    #ifdef NUGGET
+    printf("restore_gendoor_link\n");
+    #endif
 
     var_t0 = 0;
     var_a2 = &level.objects[0];
@@ -252,10 +258,9 @@ block_12:
         var_t0 = var_t0 + 1;
         var_a2 += 1;
     }
-}*/
+}
 
-/* lower score, but not sure if busted */
-void restore_gendoor_link(void)
+/*void restore_gendoor_link(void)
 {
     Obj *temp_v1;
     Obj *var_v0_2;
@@ -316,7 +321,7 @@ block_12:
         var_t0 = var_t0 + 1;
         var_a2 += 1;
     }
-}
+}*/
 #endif
 
 /* 34FEC 801597EC -O2 -msoft-float */

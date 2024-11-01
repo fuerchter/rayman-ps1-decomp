@@ -641,7 +641,7 @@ void FUN_801366ac(void)
     s32 var_s4;
     u16 var_s6;
     s32 var_v1_1;
-    u16 temp_s1_1;
+    s16 temp_s1_1;
     s16 new_var2;
     
     u8 test_2;
@@ -735,6 +735,8 @@ void FUN_801366ac(void)
         var_s5 = 0;
         var_s3 = (u16) PS1_FondHeight - 0xF0;
 
+        /* TODO: nugget bad */
+        #ifndef NUGGET
         temp_s1_1 = PS1_FondWidth;
         PS1_FondWidth = 0x0180;
         var_s0_1 = 0;
@@ -761,6 +763,7 @@ void FUN_801366ac(void)
         }
         FUN_80138b84(var_s3, local_80, (var_s3 - ymapmax) + ymap, PS1_FondWidth);
         PS1_FondWidth = temp_s1_1;
+        #endif
         break;
     case 9:
     case 10:
@@ -1097,10 +1100,9 @@ u8 PS1_GetTileU(s32 param_1)
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DRAW_MAP);
 #else
 /* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/fond_10B3C", DRAW_MAP);*/
+/*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DRAW_MAP);*/
 
 void DRAW_MAP(void)
-
 {
   u32 uVar1;
   u32 uVar2;
