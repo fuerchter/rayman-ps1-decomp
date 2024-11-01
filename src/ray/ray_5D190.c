@@ -12,7 +12,7 @@ s16 remoteRayXToReach;
 u8 dead_time;
 s16 compteur_attente;
 u8 no_ray_landing_smoke;
-s16 pos_stack[10];
+s16 pos_stack[11];
 RayMode ray_mode;
 u8 ray_pos_in_stack;
 u8 ray_stack_is_full;
@@ -2675,8 +2675,8 @@ void RAY_IN_THE_AIR(void)
     ray_eta = ray.eta;
     if (ray_wind_force != 0)
         ray.nb_cmd = 1;
-    memmove(&pos_stack[1], &pos_stack[0], sizeof(pos_stack) - sizeof(s16));
-    *pos_stack = ray.x_pos;
+    memmove(&pos_stack[1], &pos_stack[0], sizeof(pos_stack) - 2 * sizeof(s16));
+    pos_stack[0] = ray.x_pos;
     if (ray.sub_etat == 7)
         ray.field20_0x36 = -1;
     may_land_obj = true;

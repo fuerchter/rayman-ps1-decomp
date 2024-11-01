@@ -5,7 +5,7 @@ NUG_DIR           := nugget
 PSYQ_LIB		  := $(NUG_DIR)/psyq/lib
 SRC_DIR           := src
 
-CFLAGS            := -Iinclude -G0 -O2 -fno-builtin
+CFLAGS            := -Iinclude -G0 -O2 -fno-builtin -fno-toplevel-reorder
 #-lc instead of full path???
 LDFLAGS           = -Xlinker --defsym=TLOAD_ADDR=0x80125000
 LDFLAGS           += -Wl,--start-group $(PSYQ_LIB)/CARD.o $(PSYQ_LIB)/PAD.o $(PSYQ_LIB)/LIBAPI.a $(PSYQ_LIB)/LIBC.a $(PSYQ_LIB)/LIBCD.a $(PSYQ_LIB)/LIBCARD.a $(PSYQ_LIB)/LIBSND.a $(PSYQ_LIB)/LIBSPU.a $(PSYQ_LIB)/LIBETC.a $(PSYQ_LIB)/LIBGTE.a $(PSYQ_LIB)/LIBGPU.a $(PSYQ_LIB)/LIBPRESS.a -Wl,--end-group

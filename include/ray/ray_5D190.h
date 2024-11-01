@@ -23,7 +23,7 @@ extern s16 remoteRayXToReach;
 extern u8 dead_time;
 extern s16 compteur_attente;
 extern u8 no_ray_landing_smoke;
-extern s16 pos_stack[10];
+extern s16 pos_stack[11]; /* this was size 10, but the memmove at 80186d2c writes past it? */
 extern RayMode ray_mode;
 extern u8 ray_pos_in_stack;
 extern u8 ray_stack_is_full;
