@@ -109,7 +109,8 @@ extern s16 stk_obj[20];
 extern s16 stk_snd[20];
 extern VoiceTableEntry voice_table[24];
 extern u8 D_801F6850[SS_SEQ_TABSIZ * 2 * 10];
-extern SndFileInfo D_801D8B50;
+/*cannot do this...: extern u8 D_801D8B50[PS1_BigFiles[0].file.size];*/
+extern u8 D_801D8B50[41616];
 extern s32 D_801D8B54;
 extern s32 D_801D8B58;
 extern s32 D_801D8B5C;

@@ -30,7 +30,7 @@ s16 stk_obj[20];
 s16 stk_snd[20];
 VoiceTableEntry voice_table[24];
 u8 D_801F6850[SS_SEQ_TABSIZ * 2 * 10];
-SndFileInfo D_801D8B50;
+u8 D_801D8B50[41616];
 s32 D_801D8B54;
 s32 D_801D8B58;
 s32 D_801D8B5C;
@@ -95,33 +95,36 @@ INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadAllFixSound);
 
 void PS1_LoadAllFixSound(void)
 {
-  if (D_801CEFDC == 0)
-  {
-    SsUtReverbOff();
-    /* load RAY\SND\BIGFIX.ALL to 801D8B50 */
-    PS1_BigFiles[0].dest = (u8 *) &D_801D8B50;
-    PS1_FileTemp = PS1_LoadFiles(PS1_BigFiles, 0, 1, 0);
-    if (D_801D8B50.field0_0x0 == 3)
+    SndFileInfo *file_info;
+
+    if (D_801CEFDC == 0)
     {
-      PS1_AllFix_Ray_VabId = 0;
-      PS1_AllFix_Ray_VabId = SsVabOpenHead(((u8 *) &D_801D8B50) + D_801D8B50.ray_vh_offs, 0);
-      if (PS1_AllFix_Ray_VabId != -1)
-        PS1_FileTemp = PS1_LoadVabBody(PS1_VabFiles[0], PS1_AllFix_Ray_VabId, 0);
-      PS1_AllFix_Sep_VabId = 2;
-      PS1_AllFix_Sep_VabId = SsVabOpenHead(((u8 *) &D_801D8B50) + D_801D8B50.sep_vh_offs, 2);
-      if (PS1_AllFix_Sep_VabId != -1)
-        PS1_FileTemp = PS1_LoadVabBody(PS1_Vab4sepFiles[0], PS1_AllFix_Sep_VabId, 0);
-      PS1_AllFix_SepAcc = 0;
-      if (PS1_AllFix_Sep_VabId != -1)
-        PS1_AllFix_SepAcc = SsSepOpen(((u8 *) &D_801D8B50) + D_801D8B50.seq_offs, PS1_AllFix_Sep_VabId, D_801C7C78[0]);
+        SsUtReverbOff();
+        /* load RAY\SND\BIGFIX.ALL to 801D8B50 */
+        PS1_BigFiles[0].dest = D_801D8B50;
+        file_info = (SndFileInfo *)D_801D8B50;
+        PS1_FileTemp = PS1_LoadFiles(PS1_BigFiles, 0, 1, 0);
+        if (file_info->field0_0x0 == 3)
+        {
+            PS1_AllFix_Ray_VabId = 0;
+            PS1_AllFix_Ray_VabId = SsVabOpenHead(((u8 *) file_info) + file_info->ray_vh_offs, 0);
+            if (PS1_AllFix_Ray_VabId != -1)
+                PS1_FileTemp = PS1_LoadVabBody(PS1_VabFiles[0], PS1_AllFix_Ray_VabId, 0);
+            PS1_AllFix_Sep_VabId = 2;
+            PS1_AllFix_Sep_VabId = SsVabOpenHead(((u8 *) file_info) + file_info->sep_vh_offs, 2);
+            if (PS1_AllFix_Sep_VabId != -1)
+                PS1_FileTemp = PS1_LoadVabBody(PS1_Vab4sepFiles[0], PS1_AllFix_Sep_VabId, 0);
+            PS1_AllFix_SepAcc = 0;
+            if (PS1_AllFix_Sep_VabId != -1)
+                PS1_AllFix_SepAcc = SsSepOpen(((u8 *) file_info) + file_info->seq_offs, PS1_AllFix_Sep_VabId, D_801C7C78[0]);
+        }
+        SsUtReverbOn();
+        LOAD_CONFIG();
+        PS1_SetSoundVolume(options_jeu.Soundfx);
+        PS1_SetStereoEnabled(options_jeu.StereoEnabled);
+        PS1_SetMusicVolume(options_jeu.Music);
+        D_801CEFDC = 1;
     }
-    SsUtReverbOn();
-    LOAD_CONFIG();
-    PS1_SetSoundVolume(options_jeu.Soundfx);
-    PS1_SetStereoEnabled(options_jeu.StereoEnabled);
-    PS1_SetMusicVolume(options_jeu.Music);
-    D_801CEFDC = 1;
-  }
 }
 #endif
 
