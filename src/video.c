@@ -1,5 +1,7 @@
 #include "video.h"
 
+/* TODO: DecDCTout constant 1664? */
+
 #ifdef BSS_DEFS
 VideoPlayState PS1_VideoPlayState;
 s16 PS1_VideoLength;
@@ -37,40 +39,36 @@ void PS1_PlayVideo(Video video)
     D_801CF0CD = false;
 }
 
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/video", FUN_80132980);
-#else
-/* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/video", FUN_80132980);*/
-
+/* E180 80132980 -O2 -msoft-float */
 void FUN_80132980(void)
 {
     #ifdef NUGGET
     printf("FUN_80132980\n");
     #endif
 
-    LoadImage(&PS1_CurrentVideoState.frame_rect,(u_long *)PS1_CurrentVideoState.decoded_frame);
+    LoadImage(&PS1_CurrentVideoState.frame_rect, (u32 *)PS1_CurrentVideoState.decoded_frame);
     DrawSync(0);
-    PS1_CurrentVideoState.frame_rect.x = PS1_CurrentVideoState.frame_rect.x + 0x10;
-    if (PS1_CurrentVideoState.frame_rect.x < 0x140) {
-        DecDCTout((u_long *)PS1_CurrentVideoState.decoded_frame,0x680);
-    }
-    else {
-        if (PS1_CurrentDisplay == PS1_Displays) {
-            PS1_CurrentDisplay = PS1_Displays + 1;
+    PS1_CurrentVideoState.frame_rect.x += 16;
+    if (PS1_CurrentVideoState.frame_rect.x < SCREEN_WIDTH)
+        DecDCTout((u32 *)PS1_CurrentVideoState.decoded_frame, 1664);
+    else
+    {
+        if (PS1_CurrentDisplay == &PS1_Displays[0])
+        {
+            PS1_CurrentDisplay = &PS1_Displays[1];
             PS1_CurrentVideoState.frame_rect.x = 0;
-            PS1_CurrentVideoState.frame_rect.y = 0x114;
+            PS1_CurrentVideoState.frame_rect.y = 276;
         }
-        else {
-            PS1_CurrentDisplay = PS1_Displays;
+        else
+        {
+            PS1_CurrentDisplay = &PS1_Displays[0];
             PS1_CurrentVideoState.frame_rect.x = 0;
-            PS1_CurrentVideoState.frame_rect.y = 0x14;
+            PS1_CurrentVideoState.frame_rect.y = 20;
         }
 
-        PS1_CurrentVideoState.has_swapped_display = 1;
+        PS1_CurrentVideoState.has_swapped_display = true;
     }
 }
-#endif
 
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/video", PS1_PlayVideoFile);
@@ -108,7 +106,7 @@ void PS1_PlayVideoFile(s16 video)
       if (temp_s3) {
         readinput();
       }
-      DecDCTout((u32 *)PS1_CurrentVideoState.decoded_frame,0x680);
+      DecDCTout((u32 *)PS1_CurrentVideoState.decoded_frame,1664);
       DecDCTin(PS1_CurrentVideoState.encoded_frame_buffers[PS1_CurrentVideoState.current_encode_buffer_index],0);
 
       
@@ -135,7 +133,7 @@ void PS1_PlayVideoFile(s16 video)
   SsSetSerialVol('\0',0,0);
   CdControlB('\t',(u_char *)0x0,(u_char *)0x0);
   PS1_CurrentVideoState.has_swapped_display = 0;
-  DecDCTout((u32 *)PS1_CurrentVideoState.decoded_frame,0x680);
+  DecDCTout((u32 *)PS1_CurrentVideoState.decoded_frame,1664);
   DecDCTin((u32 *)(&PS1_CurrentVideoState.encoded_frame_buffers[0])[PS1_CurrentVideoState.current_encode_buffer_index],0);
   #ifndef NUGGET
   do {
@@ -192,34 +190,30 @@ void PS1_LoadVideoFile(CdlLOC *lba, u32 param_2)
     while (!CdRead2(CdlModeStream|CdlModeSpeed|CdlModeRT)){};
 }
 
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/video", PS1_ReadVideoFile);
-#else
-/* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/video", PS1_ReadVideoFile);*/
-
-void PS1_ReadVideoFile(u32 *param_1, s16 video)
+/* E6A0 80132EA0 -O2 -msoft-float */
+void PS1_ReadVideoFile(u32 *param_1, Video video)
 {
-    u32 *usr_dat; /* also StHEADER? */
+    u32 *user_data; /* also StHEADER? */
     StHEADER *header;
     u8 vol;
 
     #ifdef NUGGET
     printf("PS1_ReadVideoFile\n");
     #endif
-    while (StGetNext(&usr_dat, (u32 **) &header) != 0){};
+    while (StGetNext(&user_data, (u32 **)&header)){};
     PS1_CurrentVideoState.frame_count = header->frameCount;
-    if (video == 1)
+
+    if (video == VIDEO_PRES)
         SsSetSerialVol(SS_SERIAL_A, 80, 80);
     else
     {
-        vol = (options_jeu.Music * 127 / 20);
+        vol = options_jeu.Music * 127 / 20;
         SsSetSerialVol(SS_SERIAL_A, vol, vol);
     }
-    DecDCTvlc(usr_dat, param_1);
-    StFreeRing(usr_dat);
+
+    DecDCTvlc(user_data, param_1);
+    StFreeRing(user_data);
 }
-#endif
 
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/video", FUN_80132f8c);
