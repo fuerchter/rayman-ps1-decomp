@@ -23,7 +23,7 @@ typedef struct RayStack
 } RayStack;
 
 /**/
-extern RayStack rayStack[100];
+extern RayStack rayStack[101];
 extern u8 black_pos_in_stack;
 extern s16 black_ray_obj_id;
 extern s16 black_fist_obj_id;

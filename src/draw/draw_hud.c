@@ -59,7 +59,7 @@ void display_etoile(s32 in_x, s32 in_y)
             0
         );
     }
-    if (current_star < 30)
+    if (current_star < (s16) LEN(grp_stars))
         current_star++;
 }
 

@@ -3181,7 +3181,7 @@ void stackRay(void)
         cur->poing_flip_x = poing_obj->flags >> OBJ_FLIP_X & 1;
     }
     ray_pos_in_stack++;
-    if (ray_pos_in_stack > 100)
+    if (ray_pos_in_stack > LEN(rayStack) - 1)
     {
         ray_pos_in_stack = 0;
         ray_stack_is_full = true;

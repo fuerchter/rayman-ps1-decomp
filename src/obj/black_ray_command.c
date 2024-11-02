@@ -1,7 +1,7 @@
 #include "obj/black_ray_command.h"
 
 #ifdef BSS_DEFS
-RayStack rayStack[100];
+RayStack rayStack[101];
 u8 black_pos_in_stack;
 s16 black_ray_obj_id;
 s16 black_fist_obj_id;
@@ -99,7 +99,7 @@ void doBlackRaymanCommand(Obj *br_obj)
                 fist_obj->flags &= ~FLG(OBJ_ALIVE);
             
             black_pos_in_stack++;
-            if (black_pos_in_stack > LEN(rayStack))
+            if (black_pos_in_stack > LEN(rayStack) - 1)
                 black_pos_in_stack = 0;
         }
     }
