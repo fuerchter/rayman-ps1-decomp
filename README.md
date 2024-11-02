@@ -23,4 +23,5 @@ Tools (among others): Authors of [splat](https://github.com/ethteck/splat), [m2c
 [mkst:](https://github.com/mkst) For helping us when we had questions.  
 [RayCarrot:](https://github.com/RayCarrot) A lot of labelling in ghidra, projects used as resources/game documentation.  
 [Falcury:](https://github.com/Falcury) Also looking into technical stuff (PC version).  
+[Mc-muffin:](https://github.com/Mc-muffin) Helping match a bunch of functions (see decomp.me links)  
 [sotn-decomp:](https://github.com/xeeynamo/sotn-decomp) Big brother decomp to look up to.

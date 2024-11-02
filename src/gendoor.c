@@ -106,9 +106,6 @@ void correct_gendoor_link(void)
     u8 *test_3;
     s16 nb_objs = level.nb_objects;
 
-    #ifdef NUGGET
-    printf("correct_gendoor_link\n");
-    #endif
     cnt_1 = 0;
     cur_obj = &level.objects[0];
     while (cnt_1 < nb_objs)
