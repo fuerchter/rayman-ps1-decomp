@@ -6,7 +6,7 @@
 #include "common/rayevts.h"
 #include "common/level.h"
 #include "common/world_map.h"
-#include "psyq_3_0/MEMORY.H"
+#include "MEMORY.H"
 #include "moteur_update.h"
 #include "ray/ray_5D190.h"
 #include "gendoor.h"

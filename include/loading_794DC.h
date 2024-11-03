@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "common/fileinfo.h"
-#include "psyq_3_0/LIBGPU.H"
+#include "LIBGPU.H"
 #include "loading_DA64.h"
 #include "loading_tex.h"
 #include "sound.h"

@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "common/display.h"
-#include "psyq_3_0/LIBGPU.H"
+#include "LIBGPU.H"
 
 void PS1_ClearScreen(void);
 

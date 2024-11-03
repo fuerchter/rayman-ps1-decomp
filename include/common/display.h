@@ -2,7 +2,7 @@
 #define DISPLAY_H
 
 #include "common.h"
-#include "psyq_3_0/LIBGPU.H"
+#include "LIBGPU.H"
 
 typedef struct DRENVAndTile {
     DR_ENV drawing_environment;

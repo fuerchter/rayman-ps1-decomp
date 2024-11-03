@@ -4,8 +4,8 @@
 #include "common.h"
 #include "common/fileinfo.h"
 #include "common/world_map.h"
-#include "psyq_3_0/LIBSND.H"
-#include "psyq_3_0/STDIO.H"
+#include "LIBSND.H"
+#include "STDIO.H"
 
 /* .data */
 extern u8 *D_801CEEEC;

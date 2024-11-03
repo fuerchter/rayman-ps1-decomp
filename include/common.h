@@ -1,7 +1,7 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include "psyq_3_0/SYS/TYPES.H"
+#include "SYS/TYPES.H"
 #include "include_asm.h"
 
 /*#define NUGGET*/

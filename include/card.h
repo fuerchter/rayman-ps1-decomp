@@ -3,8 +3,8 @@
 
 #include "common.h"
 #include "common/rayevts.h"
-#include "psyq_3_0/KERNEL.H"
-#include "psyq_3_0/SYS/FILE.H"
+#include "KERNEL.H"
+#include "SYS/FILE.H"
 #include "menu/menu_7F4B4.h"
 #include "input_ED20.h"
 #include "save.h"

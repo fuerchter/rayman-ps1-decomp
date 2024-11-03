@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "common/text_to_display.h"
-#include "psyq_3_0/LIBGPU.H"
+#include "LIBGPU.H"
 #include "draw/draw_14FF4.h"
 #include "draw/draw_548CC.h"
 #include "text_24E10.h" /* TODO: circular? */

@@ -2,8 +2,8 @@
 #define FOND_10B3C_H
 
 #include "common.h"
-#include "psyq_3_0/LIBGPU.H"
-#include "psyq_3_0/MEMORY.H"
+#include "LIBGPU.H"
+#include "MEMORY.H"
 #include "common/display.h"
 #include "common/obj.h"
 #include "common/rayconst.h"

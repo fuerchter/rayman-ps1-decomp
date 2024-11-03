@@ -2,7 +2,7 @@
 #define FIRST_INIT_H
 
 #include "common.h"
-#include "psyq_3_0/LIBGPU.H"
+#include "LIBGPU.H"
 #include "psyq_3_0_missing/LIBCD.H"
 #include "draw/fade.h"
 #include "draw/rollup_trans.h"

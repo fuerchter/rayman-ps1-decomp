@@ -2,9 +2,9 @@
 #define VIDEO_H
 
 #include "common.h"
-#include "psyq_3_0/LIBCD.H"
+#include "LIBCD.H"
 #include "psyq_3_0_missing/LIBCD.H"
-#include "psyq_3_0/LIBPRESS.H"
+#include "LIBPRESS.H"
 #include "psyq_3_0_missing/LIBPRESS.H"
 #include "draw/fade.h"
 
