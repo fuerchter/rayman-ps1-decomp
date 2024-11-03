@@ -125,22 +125,18 @@ void PS1_PlayVideoFile(s16 video)
          ((sVar1 = but1pressed(0), sVar1 != 0 || (iVar2 = PS1_TOUCHE_0x9(0), iVar2 != 0)))) {
         PS1_VideoPlayState = 2;
       }
-      #ifndef NUGGET
       while (PS1_CurrentVideoState.has_swapped_display == 0){};
       while (PS1_CurrentVideoState.vsync_counter != 0){};
-      #endif
     }
   SsSetSerialVol('\0',0,0);
   CdControlB('\t',(u_char *)0x0,(u_char *)0x0);
   PS1_CurrentVideoState.has_swapped_display = 0;
   DecDCTout((u32 *)PS1_CurrentVideoState.decoded_frame,1664);
   DecDCTin((u32 *)(&PS1_CurrentVideoState.encoded_frame_buffers[0])[PS1_CurrentVideoState.current_encode_buffer_index],0);
-  #ifndef NUGGET
   do {
   } while (PS1_CurrentVideoState.has_swapped_display == 0);
   do {
   } while (PS1_CurrentVideoState.vsync_counter != 0);
-  #endif
   DecDCTinCallback(0);
   DecDCToutCallback(0);
   CdDataCallback(0);

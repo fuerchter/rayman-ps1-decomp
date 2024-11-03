@@ -152,6 +152,10 @@ void allocatePirateGuetteurBomb(Obj *obj, s32 param_2, u8 param_3, u8 param_4)
     ObjState *temp_v1_3;
     s16 nb_objs;
 
+    #ifdef NUGGET
+    /* reg s3 set to 2 at 801424dc. but can have other values? */
+    var_s3 = 2;
+    #endif
     temp_v0 = hasGuetteurABomb(obj, param_2);
     if (((s16) temp_v0 != -1))
     {
@@ -305,7 +309,7 @@ void DO_PAR_POING_COLLISION(Obj *obj, s16 param_2)
         if (obj->type == TYPE_PIRATE_GUETTEUR2 && eta_flags & 4)
             allocatePirateGuetteurBomb(obj, 1, 0, 20);
 
-        poing.damage = true;
+        poing.damage = 1;
         obj_hurt(obj);
         
         if (obj->hit_points == 0)

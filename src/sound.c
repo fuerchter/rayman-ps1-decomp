@@ -832,17 +832,14 @@ void PlaySnd(short snd,short obj_id)
         goto block_1;
     }
     test_4 = stk_obj[cnt_4];
-    if (test_4 == obj_id) {
+    if (test_4 == obj_id || test_4 == -2) {
+        goto block_2;
         /* improves score */
         /*iVar6 = obj_id;
         stk_obj[cnt_4] = iVar6;*/
-        stk_obj[cnt_4] = obj_id;
-        stk_snd[cnt_4] = snd;
-        return;
     }
     cnt_4 = cnt_4 + 1;
-  } while (test_4 != -2);
-  goto block_2;
+  } while (true);
 block_1: 
   if (snd != 0)
   {
