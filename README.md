@@ -2,9 +2,9 @@
 Please help matching the remaining [~50 nonmatching non-psyq functions](https://docs.google.com/spreadsheets/d/1vJuS9sQnzeYvZqrR-QtGGEMYePni6XKZGVvfAUoAtjU)!
 
 WIP matching decompilation of [Rayman on the PS1](http://redump.org/disc/8326/). We had symbols from [Rayman Classic](https://raymanpc.com/wiki/en/Rayman_Classic). Unfortunately, I worked rather messy (code style, etc.).  
-This repo does not come with any of the game's assets. A copy of the game's exe is required to build.
+This repo does not come with any of the game's assets.
 
-## Build instructions for ubuntu (24.04.1 LTS) and WSL:
+## Build instructions for ubuntu (24.04.1 LTS) and WSL with splat:
 ```
 git clone --recursive https://github.com/fuerchter/rayman-ps1-decomp
 ```
@@ -13,8 +13,8 @@ Get [gcc-2.5.7.tar.gz](https://github.com/decompals/old-gcc/releases), extract a
 ```
 sudo apt install python3 python3-pip binutils-mipsel-linux-gnu cpp-mipsel-linux-gnu
 pip install -r requirements.txt
-make extract
-make
+make -f mk-splat.mk extract
+make -f mk-splat.mk
 ```
 sha1sum should print OK
 

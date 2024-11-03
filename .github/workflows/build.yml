@@ -43,10 +43,10 @@ jobs:
         mkdir tools/gcc-2.5.7 &&
         tar -xzvf gcc-2.5.7.tar.gz -C tools/gcc-2.5.7
     - name: Extract
-      run: make extract
+      run: make -f mk-splat.mk extract
     - name: Make
       id: make
-      run: make
+      run: make -f mk-splat.mk
     - if: always() && steps.make.outcome != 'success'
       uses: actions/upload-artifact@v4
       with:
