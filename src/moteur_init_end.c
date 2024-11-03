@@ -208,10 +208,6 @@ void restore_gendoor_link(void)
     u8 temp_a1;
     s16 test_1;
 
-    #ifdef NUGGET
-    printf("restore_gendoor_link\n");
-    #endif
-
     var_t0 = 0;
     var_a2 = &level.objects[0];
     test_1 = level.nb_objects;
@@ -276,9 +272,6 @@ block_12:
     s16 temp_a1;
     s16 test_1;
 
-    #ifdef NUGGET
-    printf("restore_gendoor_link\n");
-    #endif
     var_t0 = 0;
     var_a2 = &level.objects[0];
     test_1 = level.nb_objects;

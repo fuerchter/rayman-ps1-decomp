@@ -83,9 +83,6 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
     u8 var_s3_1;
     s16 test_3;
 
-    #ifdef NUGGET
-    printf("calc_typ_trav\n");
-    #endif
     var_s3_1 = param_2;
     var_v0_1 = 0;
     var_s0_1 = 0;
@@ -525,9 +522,6 @@ void CALC_MOV_ON_BLOC(Obj *obj)
     u8 temp_v1_2;
     u8 temp_v1_3;
 
-    #ifdef NUGGET
-    printf("CALC_MOV_ON_BLOC\n");
-    #endif
     /*var_s2_1 = saved_reg_s2;*/
     temp_v1 = obj->type;
     temp_a0 = temp_v1 * 4;

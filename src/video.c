@@ -42,10 +42,6 @@ void PS1_PlayVideo(Video video)
 /* E180 80132980 -O2 -msoft-float */
 void FUN_80132980(void)
 {
-    #ifdef NUGGET
-    printf("FUN_80132980\n");
-    #endif
-
     LoadImage(&PS1_CurrentVideoState.frame_rect, (u32 *)PS1_CurrentVideoState.decoded_frame);
     DrawSync(0);
     PS1_CurrentVideoState.frame_rect.x += 16;
@@ -84,9 +80,6 @@ void PS1_PlayVideoFile(s16 video)
   u8 temp_s3;
   u16 frame_count;
   
-  #ifdef NUGGET
-  printf("PS1_PlayVideoFile\n");
-  #endif
   ResetCallback();
   DecDCTReset(0);
   temp_s3 = 1;
@@ -193,9 +186,6 @@ void PS1_ReadVideoFile(u32 *param_1, Video video)
     StHEADER *header;
     u8 vol;
 
-    #ifdef NUGGET
-    printf("PS1_ReadVideoFile\n");
-    #endif
     while (StGetNext(&user_data, (u32 **)&header)){};
     PS1_CurrentVideoState.frame_count = header->frameCount;
 
@@ -219,9 +209,6 @@ INCLUDE_ASM("asm/nonmatchings/video", FUN_80132f8c);
 
 void FUN_80132f8c(void)
 {
-    #ifdef NUGGET
-    printf("FUN_80132f8c\n");
-    #endif
     PS1_CurrentVideoState.vsync_counter = PS1_CurrentVideoState.vsync_counter + 1;
     /*__asm__("lbu     $v0,0($v1)\nnop");*/
     if ((PS1_CurrentVideoState.vsync_counter > 3) && (PS1_CurrentVideoState.has_swapped_display != 0)) {

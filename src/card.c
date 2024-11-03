@@ -430,9 +430,6 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
     u8 *new_var;
     s32 test_3;
 
-    #ifdef NUGGET
-    printf("PS1_WriteSave\n");
-    #endif
     __builtin_memcpy(saveicon1, PS1_SaveIcon1, sizeof(PS1_SaveIcon1));
     __builtin_memcpy(saveicon2and3, PS1_SaveIcon2and3, sizeof(PS1_SaveIcon2and3));
     __builtin_memcpy(saveiconpalette, PS1_SaveIconPalette, sizeof(PS1_SaveIconPalette));

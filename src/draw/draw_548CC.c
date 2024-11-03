@@ -93,9 +93,6 @@ void Display_and_free_luciole(void)
     s16 sp40;
     u16 test_1 = 0x100;
 
-    #ifdef NUGGET
-    printf("Display_and_free_luciole\n");
-    #endif
     var_v0 = rand();
     temp_v0_1 = var_v0 - ((var_v0 / 4) * 4);
     unk_1 = temp_v0_1 + 0x97;

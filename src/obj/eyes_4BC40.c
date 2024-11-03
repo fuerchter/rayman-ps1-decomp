@@ -34,9 +34,6 @@ void DO_ROLL_EYES(Obj *obj)
     u8 y_gt_0;
     u8 x_gt_0;
 
-    #ifdef NUGGET
-    printf("DO_ROLL_EYES\n");
-    #endif
     if (obj->type == 0x91)
     {
         switch (obj->sub_etat)

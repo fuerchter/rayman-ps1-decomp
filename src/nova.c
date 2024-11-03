@@ -55,9 +55,6 @@ void DO_NOVA(Obj *in_obj)
     s16 test_7;
     s16 test_8;
 
-    #ifdef NUGGET
-    printf("DO_NOVA\n");
-    #endif
     temp_v0 = allocateNOVA();
     if (temp_v0 != 0)
     {

@@ -14,12 +14,7 @@ void SYNCHRO_LOOP(s16 (*func)())
   do
   {
     if (PS1_MemoryUsageDisplayMode != 0)
-    {
-        #ifdef NUGGET
-        printf("SL: PS1_MemoryUsageDisplayMode\n");
-        #endif
       ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 0, 0, 0);
-    }
     
     new_disp_1 = &PS1_Displays[0];
     if (PS1_CurrentDisplay == &PS1_Displays[0])

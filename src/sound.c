@@ -634,9 +634,6 @@ void PlaySnd(short snd,short obj_id)
   s16 cnt_4;
   s16 test_4;
   
-  #ifdef NUGGET
-  printf("PlaySnd\n");
-  #endif
   if ((ray.scale != 0) && (obj_id == reduced_rayman_id)) {
     obj_id = 0xffff;
   }

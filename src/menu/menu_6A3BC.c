@@ -50,7 +50,7 @@ void INIT_NEW_GAME(void)
     init_finBossLevel();
     INIT_WORLD_INFO();
 
-    #ifdef NUGGET
+    #ifdef CHEATS
     for (i = 1; i < (s16) LEN(t_world_info); i++)
     {
         t_world_info[i].is_unlocked = true;

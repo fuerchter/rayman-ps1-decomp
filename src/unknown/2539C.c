@@ -88,9 +88,6 @@ void Bresenham(void (*param_1)(s16, s16), s16 param_2, s16 param_3, s16 param_4,
     s32 test_1;
     s32 test_2;
 
-    #ifdef NUGGET
-    printf("Bresenham\n");
-    #endif
     /*sp18 = param_1;*/
     sp10 = param_2;
     sp14 = param_3;

@@ -17,9 +17,6 @@ void FUN_8018058c(u32 *param_1, s32 param_2, s32 param_3, s16 x, s16 y, s16 h, s
     RECT sp28;
     RECT sp30;
 
-    #ifdef NUGGET
-    printf("FUN_8018058c\n");
-    #endif
     sp10.x = x;
     sp10.y = y;
     sp10.w = w;
@@ -91,9 +88,6 @@ void FUN_80180804(u32 *param_1, s32 param_2, s32 param_3, s16 x, s16 y, s16 h, s
     RECT sp28;
     RECT sp30;
 
-    #ifdef NUGGET
-    printf("FUN_80180804\n");
-    #endif
     sp10.x = x;
     sp10.y = y;
     sp10.w = w;

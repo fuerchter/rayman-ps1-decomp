@@ -118,9 +118,6 @@ void PS1_LoadFondDataAndPalettes(void)
     s16 temp_t1; /* PalettesCount */
     u16 test_1; /* if i didn't use this, all the lhu's would be lbu's? */
 
-    #ifdef NUGGET
-    printf("PS1_LoadFondDataAndPalettes\n");
-    #endif
     temp_s0_12 = D_801E4F50;
     test_1 = *(u16 *)temp_s0_12;
     NbSprite = test_1;
@@ -217,9 +214,6 @@ void PS1_LoadFond(void)
   u8 *new_var;
   u8 *test_2;
   
-  #ifdef NUGGET
-  printf("PS1_LoadFond\n");
-  #endif
   memset(&D_801F55B8,0,10);
   __builtin_memcpy(&test_1, &D_801F8180[0], sizeof(Fond));
   D_801F84E0 = test_1.unk_0;
@@ -348,9 +342,6 @@ void FUN_80135d5c(s32 param_1, u16 *param_2, s32 param_3, s16 param_4)
     u32 *new_var_1; /* ??? was permuter sugg. */
     s16 new_var_2;
     
-    #ifdef NUGGET
-    printf("FUN_80135d5c\n");
-    #endif
     cnt_1 = 0;
     fw_1 = PS1_FondWidth;
     fw_2 = PS1_FondWidth * 2;
@@ -537,9 +528,6 @@ void FUN_80136340(u16 *param_1, u32 param_2) {
     u16 var_s6[PS1_FondImagesCount];
     u16 var_s5[PS1_FondImagesCount];
 
-    #ifdef NUGGET
-    printf("FUN_80136340\n");
-    #endif
     param_2 = (u16) param_2;
     uVar10 = param_2 & 0x3f;
     fp28 = (param_2 >> 6);
@@ -645,9 +633,6 @@ void FUN_801366ac(void)
     u8 test_2;
     s32 new_var = 0xF0;
 
-    #ifdef NUGGET
-    printf("FUN_801366ac\n");
-    #endif
     /*var_s3 = saved_reg_s3;*/
     switch (PS1_FondType)
     {
@@ -947,9 +932,6 @@ void PS1_DisplayFondSprites(void)
     s16 *new_var_1;
     s16 *new_var_2;
 
-    #ifdef NUGGET
-    printf("PS1_DisplayFondSprites\n");
-    #endif
     var_s3_1 = &D_801F8008[0];
     var_s6 = 0;
     if (PS1_FondType == 6)
@@ -1117,9 +1099,6 @@ void DRAW_MAP(void)
   int new_var2;
   s32 test_2;
   
-  #ifdef NUGGET
-  printf("DRAW_MAP\n");
-  #endif
   iVar4 = -(((((u16) xmap << 0x10) >> 0x10) + ((((u16) xmap << 0x10) >> 0x10) / 16) * -0x10) << 0x10 >> 0x10);
   y_pos = -(new_var2 = ((((((ushort) ymap) << 0x10) >> 0x10) + ((((((ushort) ymap) << 0x10) >> 0x10) / 16) * (-0x10))) << 0x10) >> 0x10);
   iVar8 = (((ushort)ymap << 0x10) >> 0x14) * mp.width;
@@ -1396,9 +1375,6 @@ void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
     u16 new_var;
     SPRT *test_1;
 
-    #ifdef NUGGET
-    printf("FUN_80138718\n");
-    #endif
     var_s3 = 0;
     var_s4 = &PS1_CurrentDisplay->map_drawing_environment_primitives[9];
     if (NbSprite != 0)

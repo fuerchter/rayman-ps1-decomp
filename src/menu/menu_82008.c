@@ -35,9 +35,6 @@ void FUN_801a6808(void)
     volatile long long test_4;
     s32 test_3 = 0x64;
 
-    #ifdef NUGGET
-    printf("FUN_801a6808\n");
-    #endif
     if (test_4)
     {
         test_1 = 0x5a;
