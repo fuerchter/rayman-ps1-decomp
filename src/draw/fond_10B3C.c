@@ -12,14 +12,12 @@ u8 PS1_FondType;
 u8 PS1_Tile_clut_y_offs[944];
 
 Unk_801f8008 D_801E63F8[6];
-u8 D_801F51C0;
-u8 D_801F5788;
+u8 D_801F5788[16];
 Unk_801f8008 D_801F8008[6];
-u8 D_801FA560;
 u8 PS1_BandeBackCount;
 u8 PS1_BandeFrontCount;
 u8 D_801F4F58;
-s16 D_801F55B8[5];
+s16 D_801F55B8[8];
 u8 D_801F84E0;
 u8 D_801F9900;
 s16 PS1_FondHeight;
@@ -147,7 +145,7 @@ void PS1_LoadFondDataAndPalettes(void)
         PS1_FondSpritesABR[var_s1_1] = test_1;
         temp_s0_12 += 2;
         test_1 = *(u16 *)temp_s0_12;
-        (&D_801F5788)[var_s1_1] = test_1;
+        D_801F5788[var_s1_1] = test_1;
         var_s1_1 += 1;
         temp_s0_12 += 2;
     }
@@ -168,7 +166,7 @@ void PS1_LoadFondDataAndPalettes(void)
         PS1_FondSpritesABR[PS1_BandeBackCount + var_s1_1] = test_1;
         temp_s0_12 += 2;
         test_1 = *(u16 *)temp_s0_12;
-        (&D_801F5788)[PS1_BandeBackCount + var_s1_1] = test_1;
+        D_801F5788[PS1_BandeBackCount + var_s1_1] = test_1;
         temp_s0_12 += 2;
         var_s1_1 += 1;
     }
@@ -735,8 +733,6 @@ void FUN_801366ac(void)
         var_s5 = 0;
         var_s3 = (u16) PS1_FondHeight - 0xF0;
 
-        /* TODO: nugget bad */
-        #ifndef NUGGET
         temp_s1_1 = PS1_FondWidth;
         PS1_FondWidth = 0x0180;
         var_s0_1 = 0;
@@ -746,7 +742,7 @@ void FUN_801366ac(void)
                 ((xmap + D_801F55B8[var_s0_1]) /
                 D_801F8008[var_s0_1].unk_1);
             D_801F55B8[var_s0_1] =
-                ((D_801F55B8[var_s0_1] + (&D_801F5788)[var_s0_1]) %
+                ((D_801F55B8[var_s0_1] + D_801F5788[var_s0_1]) %
                 (PS1_FondWidth * D_801F8008[var_s0_1].unk_1));
             var_s0_1 += 1;
         }
@@ -757,13 +753,12 @@ void FUN_801366ac(void)
             local_80[temp_a0_2] =
                 (xmap + (D_801F55B8[temp_a0_2] / D_801E63F8[var_s0_1].unk_1));
             D_801F55B8[temp_a0_2] =
-                ((D_801F55B8[var_s0_1] + (&D_801F5788)[var_s0_1]) %
+                ((D_801F55B8[var_s0_1] + D_801F5788[var_s0_1]) %
                 (PS1_FondWidth * D_801E63F8[var_s0_1].unk_1));
             var_s0_1 += 1;
         }
         FUN_80138b84(var_s3, local_80, (var_s3 - ymapmax) + ymap, PS1_FondWidth);
         PS1_FondWidth = temp_s1_1;
-        #endif
         break;
     case 9:
     case 10:
@@ -975,7 +970,7 @@ void PS1_DisplayFondSprites(void)
         {
             test_2 = &D_801F55B8[0]; /* cannot make duplicates of this use test_2 also??? */
             *var_s0_1 = ((xmap + *test_2) / var_s3_1->unk_1);
-            *test_2 = ((*test_2 + D_801F5788) % (PS1_FondWidth * var_s3_1->unk_1));
+            *test_2 = ((*test_2 + D_801F5788[0]) % (PS1_FondWidth * var_s3_1->unk_1));
         }
         else
         {
@@ -995,7 +990,7 @@ void PS1_DisplayFondSprites(void)
             if (temp_a2_1 < 0xFFU)
             {
                 *var_s0_1 = ((xmap + D_801F55B8[var_s1_1]) / temp_a2_1);
-                D_801F55B8[var_s1_1] = ((D_801F55B8[var_s1_1] + (&D_801F5788)[var_s1_1]) % (PS1_FondWidth * var_s3_1->unk_1));
+                D_801F55B8[var_s1_1] = ((D_801F55B8[var_s1_1] + D_801F5788[var_s1_1]) % (PS1_FondWidth * var_s3_1->unk_1));
             }
             else
             {
@@ -1011,7 +1006,7 @@ void PS1_DisplayFondSprites(void)
 
 
         *var_s0_1 = (xmap + D_801F55B8[var_s1_1]) * D_801E63F8[0].unk_1;
-        D_801F55B8[var_s1_1] = ((D_801F55B8[var_s1_1] + (&D_801F5788)[var_s1_1]) % PS1_FondWidth);
+        D_801F55B8[var_s1_1] = ((D_801F55B8[var_s1_1] + D_801F5788[var_s1_1]) % PS1_FondWidth);
         FUN_80135d5c(var_s5, sp28, (var_s5 - ymapmax) + ymap, *new_var_2);
     }
     else if ((PS1_FondType == 7) || (PS1_FondType == 0x0C))
