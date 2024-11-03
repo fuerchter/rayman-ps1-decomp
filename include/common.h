@@ -10,7 +10,7 @@
 #ifdef NUGGET
 #define BSS_DEFS
 #define MATCHES_BUT
-#define NONMATCHINGS /* only these have nugget printf currently */
+#define NONMATCHINGS
 #endif
 
 #define FLG(x) (1 << x)

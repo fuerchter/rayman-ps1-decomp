@@ -605,6 +605,7 @@ INCLUDE_ASM("asm/nonmatchings/sound", PlaySnd);
 /*
 score of ???
 attempts: 3
+had m2c gotos-only in nonmatchings_ours in git history
 */
 /*INCLUDE_ASM("asm/nonmatchings/sound", PlaySnd);*/
 

@@ -280,6 +280,80 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
         return var_v0;
     }
 }
+
+#ifdef ALTERNATIVE
+s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
+{
+    u8 sp10[128]; /* size correct? */
+    s32 temp_v1;
+    u8 *var_a2_1;
+    s32 var_a2_2;
+    s32 var_a2_3;
+    s32 var_s1;
+    s32 var_v0;
+    struct DIRENTRY *var_a3_1;
+    struct DIRENTRY *var_a3_2;
+    struct DIRENTRY *var_s0;
+    u16 test_1;
+
+    strcpy(sp10, name_start);
+    strcat(sp10, s__801cf02c);
+    
+    switch (PS1_TestCard(0))
+    {
+    case 0:
+        /*
+        15 * 5
+        tried rewriting as for()
+        tried rewriting as var_a3_1 != &file[15]
+        checked in debugger
+        */
+        var_a3_1 = file;
+        var_a2_1 = 0;
+        while (var_a2_1 < 0x4b)
+        {
+            __builtin_memcpy(var_a3_1->name, s_no_card_801cf030, sizeof(s_no_card_801cf030));
+            var_a3_1 += 1;
+            var_a2_1 += 5;
+        }
+      
+        return 0x0000000F;
+    case 1:
+        var_a3_1 = file;
+        var_a2_1 = 0;
+        while (var_a2_1 < 0x4b)
+        {
+            __builtin_memcpy(var_a3_1->name, s_unformat_8012ac78, sizeof(s_unformat_8012ac78));
+            var_a3_1 += 1;
+            var_a2_1 += 5;
+        }
+        
+        return 0x0000000F;
+        break;
+    case -1:
+        var_a3_1 = file;
+        var_a2_1 = 0;
+        while (var_a2_1 < 0x4b)
+        {
+            __builtin_memcpy(var_a3_1->name, s_error_801cf038, sizeof(s_error_801cf038));
+            var_a3_1 += 1;
+            var_a2_1 += 5;
+        }
+        return 0x0000000F;
+    default:
+        var_v0 = 0;
+        if (firstfile(sp10, file) == file)
+        {
+            do
+            {
+                var_v0 += 1;
+                file += 1;
+            } while (nextfile(file) == file);
+        }
+        return var_v0;
+    }
+}
+#endif
 #endif
 
 #ifndef MATCHES_BUT
