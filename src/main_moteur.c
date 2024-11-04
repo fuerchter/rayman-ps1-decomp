@@ -129,7 +129,7 @@ void DO_MAIN_LOOP(void)
   PS1_CheckPauseAndCheatInputs();
   if (dead_time != 64 && PS1_CanPlayDeathMusic)
   {
-    PS1_PlayDeathMusic();
+    start_cd_perdu();
     PS1_CanPlayDeathMusic = false;
   }
   FUN_80168f48();

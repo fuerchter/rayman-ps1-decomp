@@ -51,7 +51,7 @@ s16 display_credits_prg(void)
 /* 9DF4 8012E5F4 -O2 -msoft-float */
 void DISPLAY_CREDITS(void)
 {
-    start_cd_credits();
+    start_cd_replay();
     INIT_CREDITS();
     let_shadow = false;
     while (display_Vignet < 6)
@@ -87,7 +87,7 @@ void DO_VICTOIRE(void)
     star_ray_dev = null;
     if (You_Win)
     {
-        PS1_PlayCDTrack_0_3();
+        start_cd_rap();
         if (num_level_choice > 1)
         {
             DO_FADE_OUT();

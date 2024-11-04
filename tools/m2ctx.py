@@ -13,6 +13,7 @@ src_dir = root_dir + "src/"
 # Project-specific
 CPP_FLAGS = [
     "-Iinclude",
+    "-Itools/psyq-3.0-converted/include",
     "-DIGNORE_ASM"
 ]
 

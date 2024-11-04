@@ -121,26 +121,12 @@ s16 WORLD_CHOICE(void)
 }
 
 /* 98D4 8012E0D4 -O2 */
-/*? DETER_WORLD_AND_LEVEL();
-? FIN_WORLD_CHOICE();
-? PS1_LoadImaWorld();
-? INIT_CHEMIN();
-? INIT_FADE_IN();
-? INIT_FADE_OUT();
-? INIT_RAY(s16);
-? PS1_PlayCDTrack_0_3();
-? PlaySnd_old(?, u16, u16);
-? SYNCHRO_LOOP(? *);
-? readinput();
-? stop_cd();*/
-/*extern ? WORLD_CHOICE;*/
-
 void DO_WORLD_MAP(void)
 {
     if (ModeDemo == 0)
         PS1_LoadImgWorld();
     
-    PS1_PlayCDTrack_0_3();
+    start_cd_rap();
     INIT_FADE_IN();
     INIT_RAY(new_level);
     INIT_CHEMIN();

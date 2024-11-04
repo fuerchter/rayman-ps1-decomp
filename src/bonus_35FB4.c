@@ -23,9 +23,6 @@ void set_bonus_map_complete(s16 world, s16 lvl)
 }
 
 /* 36024 8015A824 -O2 */
-/*? SYNCHRO_LOOP(? *);
-? start_cd_gagne(s16);*/
-
 void DO_PERFECT_BONUS_MAP(void)
 {
     if (loop_time < 0)
@@ -35,7 +32,7 @@ void DO_PERFECT_BONUS_MAP(void)
     {
         loop_time++;
         departlevel = false;
-        start_cd_gagne();
+        FUN_80131cc0();
         SYNCHRO_LOOP(do_perfect_bonus);
         status_bar.num_wiz = nb_wiz_save;
         nb_wiz_save = 0;

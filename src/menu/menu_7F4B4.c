@@ -284,7 +284,7 @@ void PS1_InitCardOrPassword(void)
 {
     LOAD_SAVE_SCREEN();
     PS1_TextBoxCardOrPassword();
-    PS1_PlayCDTrack_0_3();
+    start_cd_rap();
     INIT_FADE_IN();
     SYNCHRO_LOOP(PS1_MenuCardOrPassword);
     DO_FADE_OUT();
@@ -354,7 +354,7 @@ void DO_SAVE_CHOICE(void)
     let_shadow = true;
     LOAD_SAVE_SCREEN();
     PS1_CheckCardChanged();
-    PS1_PlayCDTrack_0_3();
+    start_cd_rap();
     INIT_FADE_IN();
     INIT_SAVE_CHOICE();
     INIT_SAVE_CONTINUE();
