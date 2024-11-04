@@ -23,8 +23,8 @@ typedef u8 VideoPlayState;
 
 /* based on PS1_InitVideoState, RayCarrot found volatiles */
 typedef struct VideoState {
-    u8 * encoded_frame_buffers[2];
-    u8 * decoded_frame;
+    u32 * encoded_frame_buffers[2];
+    u32 * decoded_frame;
     RECT frame_rect;
     vu8 has_swapped_display;
     vu8 vsync_counter;

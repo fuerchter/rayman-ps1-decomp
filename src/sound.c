@@ -709,7 +709,7 @@ void PlaySnd(short snd,short obj_id)
         tone = hard_sound_table[15].tone;
         unaff_s6 = hard_sound_table[15].note;
       }
-      erase_pile_snd(0xffffffff);
+      erase_pile_snd(-1);
       break;
     case 0x50:
       indice_trz_wait = indice_trz_wait + 1;

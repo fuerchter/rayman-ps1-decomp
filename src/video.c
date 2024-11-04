@@ -46,7 +46,7 @@ void FUN_80132980(void)
     DrawSync(0);
     PS1_CurrentVideoState.frame_rect.x += 16;
     if (PS1_CurrentVideoState.frame_rect.x < SCREEN_WIDTH)
-        DecDCTout((u32 *)PS1_CurrentVideoState.decoded_frame, 1664);
+        DecDCTout(PS1_CurrentVideoState.decoded_frame, 1664);
     else
     {
         if (PS1_CurrentDisplay == &PS1_Displays[0])
@@ -155,9 +155,9 @@ void PS1_InitVideoState(VideoState *param_1)
     param_1->frame_count = 1;
     param_1->frame_rect.w = 16;
     param_1->frame_rect.h = 200;
-    param_1->encoded_frame_buffers[0] = (u8 *) D_801CEEDC;
-    param_1->encoded_frame_buffers[1] = (u8 *) D_801CEEE0;
-    param_1->decoded_frame = (u8 *) D_801CEEE8;
+    param_1->encoded_frame_buffers[0] = D_801CEEDC;
+    param_1->encoded_frame_buffers[1] = D_801CEEE0;
+    param_1->decoded_frame = D_801CEEE8;
     if (PS1_CurrentDisplay == PS1_Displays)
         param_1->frame_rect.y = 20;
     else

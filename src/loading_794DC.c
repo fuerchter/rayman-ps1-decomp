@@ -427,7 +427,7 @@ s16 FUN_8019ebc0(void)
             plan2_height = 180;
             D_801E4B58 = 0;
             D_801CF0CA = 0;
-            return;
+            break;
         case 2:
             D_801F4380 += 0x19000;
             plan2_width = 208;

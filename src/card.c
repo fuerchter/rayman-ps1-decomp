@@ -626,7 +626,7 @@ s32 SaveGameOnDisk(u8 slot)
         PS1_CheckCardChanged();
         strcpy(filename, PS1_SaveFilenames[slot - 1]);
         if (filename[0] != '\0')
-            delete(&filename);
+            delete(filename);
         strncpy(&PS1_SaveFilenames[slot - 1][17], save_ray[slot], 3);
         res = (u8) PS1_WriteSave(0, slot);
     }
