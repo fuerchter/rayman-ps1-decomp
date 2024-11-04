@@ -8,9 +8,14 @@
 #include "common/mapdata.h"
 #include "obj_init_kill.h"
 #include "bonus_35FB4.h"
+#include "ray/angle_rayman.h"
 #include "obj/mus_wait.h"
 #include "obj/joe_command.h"
-#include "ray/angle_rayman.h"
+#include "obj/blacktoon1.h"
+#include "obj/pi_boum.h"
+#include "obj/ufo_idc.h"
+#include "obj/hyb_bbf2.h"
+#include "obj/dark2_pink_fly.h"
 
 typedef struct ZDC
 {

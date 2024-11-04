@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "world_map_95CC.h"
+#include "first_init.h"
 
 /* .data */
 extern u8 PS1_ShouldFadeOutWorldIntro;

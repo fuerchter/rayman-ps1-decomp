@@ -3,13 +3,13 @@
 
 #include "common.h"
 #include "common/ray.h"
-#include "collision/block_22C84.h"
 #include "obj_update.h"
 #include "obj_init_kill.h"
 #include "collision/etat.h"
 #include "collision/bit_util.h"
 #include "ray/ray_5D190.h"
 #include "command_56AF0.h"
+#include "obj/rayon.h"
 
 s32 MURDUR(s16 x, s16 y); /* s16 or RayTestBlocSH needs casts */
 s16 dist_to_bloc_floor(s16 btyp, s16 x, s16 y);

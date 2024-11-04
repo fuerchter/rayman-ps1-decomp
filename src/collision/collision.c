@@ -1539,7 +1539,7 @@ void DO_POING_COLLISION(void)
                         }
                         break;
                     case TYPE_LEVIER:
-                        DO_LEV_POING_COLLISION(other_obj, sprite);
+                        DO_LEV_POING_COLLISION(other_obj);
                         break;
                     case TYPE_SPIDER:
                         obj_hurt(other_obj);
@@ -1858,14 +1858,14 @@ void DO_POING_COLLISION(void)
                     case TYPE_PIRATE_POELLE_D:
                     case TYPE_PIRATE_P_45:
                     case TYPE_PIRATE_P_D_45:
-                        DO_PIRATE_POELLE_POING_COLLISION(other_obj, sprite);
+                        DO_PIRATE_POELLE_POING_COLLISION(other_obj);
                         break;
                     case TYPE_HYB_BBF2_D:
                     case TYPE_HYB_BBF2_G:
-                        DO_HYB_BBF2_POING_COLLISION(other_obj, sprite);
+                        DO_HYB_BBF2_POING_COLLISION(other_obj);
                         break;
                     case TYPE_SPIDER_PLAFOND:
-                        DO_SPIDER_PLAFOND_POING_COLLISION(other_obj, sprite);
+                        DO_SPIDER_PLAFOND_POING_COLLISION(other_obj);
                         break;
                     case TYPE_PRI:
                         if (

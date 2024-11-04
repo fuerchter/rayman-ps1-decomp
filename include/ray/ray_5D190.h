@@ -7,6 +7,8 @@
 #include "moteur_update.h"
 #include "obj/stonebomb.h"
 #include "obj/corde.h"
+#include "obj/maracas.h"
+#include "obj/cymbal2.h"
 
 typedef s16 RayMode;
 #define MODE_NONE 0

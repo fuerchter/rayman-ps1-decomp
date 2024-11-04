@@ -30,7 +30,7 @@ void move_down_ray(void);
 void RecaleRayPosInJumelle(void);
 void RAY_TO_THE_RIGHT(void);
 void RAY_TO_THE_LEFT(void);
-void FUN_80156040(void);
+void PS1_Ray_Cave_Vines_Slide(void);
 void TEST_FIN_FOLLOW(void);
 void RAY_FOLLOW(void);
 void DO_FIXE(void);

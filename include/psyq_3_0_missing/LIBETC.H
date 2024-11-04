@@ -6,5 +6,6 @@ int ResetCallback(void) ;
 int StopCallback(void) ;
 int VSync(int mode);
 int VSyncCallback(void (*f)(void)) ;
+void PadStop(void);
 
 #endif

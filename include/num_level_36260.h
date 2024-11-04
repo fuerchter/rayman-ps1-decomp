@@ -9,6 +9,7 @@
 #include "cam_scroll_340A4.h"
 #include "ray/ray_5D190.h"
 #include "main_moteur.h"
+#include "unknown/3F0B8.h"
 
 typedef struct FinBosslevel {
     u8 bzzit : 1;

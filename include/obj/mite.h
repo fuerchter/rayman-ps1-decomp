@@ -2,7 +2,7 @@
 #define MITE_H
 
 #include "common.h"
-#include "obj_init_kill.h"
+#include "obj/mite_badguy.h"
 
 void mite_esquive_poing(Obj *mit_obj, s16 *out_diff_x);
 u8 HAS_MIT_JUMP(Obj *obj);

@@ -9,6 +9,7 @@
 #include "obj/poing.h"
 #include "boss.h"
 #include "obj/black_ray_command.h"
+#include "obj/dark_74FEC.h" /* TODO: circular? */
 
 typedef struct VitrauxInfo
 {

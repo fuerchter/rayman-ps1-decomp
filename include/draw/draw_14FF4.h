@@ -13,6 +13,7 @@
 #include "boss.h"
 #include "pix_gerbe.h"
 #include "obj/cymbal.h"
+#include "obj/dark_phase2.h"
 
 /* .data */
 extern s16 PS1_PolygonIndexTableCount;

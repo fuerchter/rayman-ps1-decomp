@@ -4,6 +4,7 @@
 #include "common.h"
 #include "sound.h"
 #include "synchro_loop.h"
+#include "unknown/5C2BC.h"
 
 /* .data */
 extern u8 *PS1_CardStrings[13];

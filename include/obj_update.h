@@ -6,6 +6,9 @@
 #include "common/obj.h"
 #include "timers.h"
 #include "moteur_update.h"
+#include "unknown/29F3C.h"
+#include "bonus_372E0.h"
+#include "special_platform.h"
 
 #include "collision/block_6E5E0.h" /* why do we need to include this? recale_position? */
 #include "obj_util.h"
@@ -16,7 +19,6 @@
 #include "obj/bb1.h"
 #include "obj/mama_pirate.h"
 #include "obj/scorpion.h"
-#include "bonus_372E0.h"
 #include "obj/poi_command.h"
 #include "obj/moving_platform_command.h"
 #include "obj/maracas_command.h"
@@ -29,6 +31,9 @@
 #include "obj/fish.h"
 #include "obj/walk_note_command.h"
 #include "obj/medaillon_toon.h"
+#include "obj/batteur_fou.h"
+#include "obj/pirate_poelle.h"
+#include "obj/spider_plafond.h"
 
 typedef struct ObjHandlers
 {

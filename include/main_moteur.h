@@ -11,6 +11,7 @@
 #include "music.h"
 #include "vignet.h"
 #include "moteur_init_end.h"
+#include "unknown/A3B0.h"
 
 /* .data */
 extern RECT PS1_MemoryUsageRects[2];

@@ -11,6 +11,7 @@
 #include "ray/ray_5D190.h"
 #include "cam_scroll_340A4.h"
 #include "main_moteur.h"
+#include "unknown/29A18.h"
 
 /**/
 extern Obj *star_ray_der;

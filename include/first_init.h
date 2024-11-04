@@ -7,6 +7,8 @@
 #include "draw/fade.h"
 #include "draw/rollup_trans.h"
 #include "unknown/7BB28.h"
+#include "unknown/5C2BC.h"
+#include "unknown/A3B0.h"
 
 /* .data */
 extern RECT D_801CF0E0;

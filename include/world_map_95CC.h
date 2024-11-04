@@ -5,6 +5,7 @@
 #include "common/text_to_display.h"
 #include "draw/text_18118.h"
 #include "world_map_677C0.h"
+#include "unknown/7BB28.h"
 
 /* .data */
 extern u8 s_level_801cedf4[7];
