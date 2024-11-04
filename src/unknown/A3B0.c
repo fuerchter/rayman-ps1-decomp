@@ -29,7 +29,7 @@ void DO_GROS_RAYMAN(void)
 {
     LOAD_BIG_RAYMAN();
     joy_done = 1;
-    FUN_80131c28();
+    start_cd_gros_rayman();
     INIT_FADE_IN();
     INIT_LOADER_ANIM();
     SYNCHRO_LOOP(loader_anim_prg);

@@ -513,7 +513,7 @@ void TEST_SIGNPOST(void)
     ray.speed_x = 0;
     if (!fin_boss && !ray_on_poelle && num_world != 6)
       gele = 2;
-    FUN_80131cc0();
+    start_cd_gagne();
   }
   else if (ray.main_etat == 3 && (sub_etat = ray.sub_etat, sub_etat == 23 || sub_etat == 52))
   {
@@ -540,7 +540,7 @@ void TEST_SIGNPOST(void)
   {
     if (ray.sub_etat != 14)
     {
-      FUN_80131cc0();
+      start_cd_gagne();
       set_sub_etat(&ray, 14);
       ray.anim_frame = 0;
     }

@@ -32,7 +32,7 @@ void DO_PERFECT_BONUS_MAP(void)
     {
         loop_time++;
         departlevel = false;
-        FUN_80131cc0();
+        start_cd_gagne();
         SYNCHRO_LOOP(do_perfect_bonus);
         status_bar.num_wiz = nb_wiz_save;
         nb_wiz_save = 0;

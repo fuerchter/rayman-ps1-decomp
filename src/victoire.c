@@ -58,7 +58,7 @@ void DISPLAY_CREDITS(void)
     {
         LOAD_CREDITS_VIGNET();
         if (display_Vignet == 0)
-            FUN_80131c94();
+            start_cd_credits();
         INIT_FADE_IN();
         SYNCHRO_LOOP(display_credits_prg);
         PROC_EXIT = false;

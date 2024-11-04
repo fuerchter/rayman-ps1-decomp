@@ -820,7 +820,7 @@ void PlaySnd(short snd,short obj_id)
     }
     if (((((snd == 0xcb) || (snd == 0xed)) || (snd == 0xd1)) || ((snd == 0xe1 || (snd == 0xec)))) &&
        ((dead_time == 0x40 || (dead_time == 0x80)))) {
-      FUN_80132110();
+      start_cd_bbdead();
     }
   }
   /* somewhat similar to last_snd */

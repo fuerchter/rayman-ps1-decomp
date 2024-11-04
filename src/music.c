@@ -620,7 +620,7 @@ void playLevelMusic(s16 world, s16 lvl)
 }
 
 /* D428 80131C28 -O2 -msoft-float */
-void FUN_80131c28(void)
+void start_cd_gros_rayman(void)
 {
     playLevelMusic(0, 9);
 }
@@ -638,14 +638,14 @@ void start_cd_replay(void)
 }
 
 /* D494 80131C94 -O2 -msoft-float */
-void FUN_80131c94(void)
+void start_cd_credits(void)
 {
     playLevelMusic(0, 8);
     stop_all_snd();
 }
 
 /* D4C0 80131CC0 -O2 -msoft-float */
-void FUN_80131cc0(void)
+void start_cd_gagne(void)
 {
     D_801F5248 = true;
     FUN_80131e40();
@@ -804,7 +804,7 @@ void change_audio_track_puit(void)
 }
 
 /* D910 80132110 -O2 -msoft-float */
-void FUN_80132110(void)
+void start_cd_bbdead(void)
 {
     D_801F5248 = true;
     FUN_80131e40();
