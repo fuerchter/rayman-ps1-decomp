@@ -8,3 +8,4 @@ def apply(config, args):
     config["myimg"] = f"build/{basename}"
     config["mapfile"] = f"build/{basename}.map"
     config["source_directories"] = ["src", "src/obj", "include"]
+    config["make_command"] = ["make", "-f", "mk-splat.mk"]

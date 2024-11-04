@@ -233,7 +233,7 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
     switch (PS1_TestCard(0))
     {
     case 0:
-        test_4 = s_no_card_801cf030;
+        test_4 = (s32 *)s_no_card_801cf030;
         var_a3_1 = file;
         var_a2_1 = 0;
         do
@@ -245,7 +245,7 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
       
         return 0x0000000F;
     case 1:
-        test_4 = s_unformat_8012ac78;
+        test_4 = (s32 *)s_unformat_8012ac78;
         var_a3_1 = file;
         var_a2_1 = 0;
         do

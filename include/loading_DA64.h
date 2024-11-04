@@ -35,7 +35,7 @@ extern s16 D_801D7A60;
 extern s16 D_801F8188;
 extern s16 D_801F84A8;
 extern void *D_801F7E90; /* see loading_794DC, type? Obj * based on FUN_80132424? */
-extern s32 D_801D7868[2]; /* type? */
+extern s32 D_801D7868[2]; /* TODO: type? should be struct? first 4 bytes are pointer, next 4 bytes??? */
 
 void PS1_LoadLevelMapBlock(MapData *data);
 void FUN_80132304(u32 *data, u8 height);

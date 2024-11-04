@@ -139,7 +139,7 @@ void init_fee(void)
           __builtin_memcpy(text_to_display[7].text, s_press_the__button_to_punch_8012a88c, sizeof(s_press_the__button_to_punch_8012a88c));
           __builtin_memcpy(text_to_display[8].text, s_the_longer_you_press_8012a8ac, sizeof(s_the_longer_you_press_8012a8ac));
           __builtin_memcpy(text_to_display[9].text, s_the_further_you_punch_8012a8c4, sizeof(s_the_further_you_punch_8012a8c4));
-          Deter_Option_Caract(&text_to_display[7].text, options_jeu.Fist, 0xb);
+          Deter_Option_Caract(text_to_display[7].text, options_jeu.Fist, 0xb);
           break;
         case 8:
           is_fee = true;
@@ -156,7 +156,7 @@ void init_fee(void)
           __builtin_memcpy(text_to_display[5].text, s_now_you_can_grab_things_8012a9bc, sizeof(s_now_you_can_grab_things_8012a9bc));
           __builtin_memcpy(text_to_display[6].text, s_with_your_fist_8012a9d8, sizeof(s_with_your_fist_8012a9d8));
           __builtin_memcpy(text_to_display[7].text, s_to_grab_use_the__button_8012a9ec, sizeof(s_to_grab_use_the__button_8012a9ec));
-          Deter_Option_Caract(&text_to_display[7].text, options_jeu.Fist, 0x11);
+          Deter_Option_Caract(text_to_display[7].text, options_jeu.Fist, 0x11);
           break;
       }
       break;
@@ -172,7 +172,7 @@ void init_fee(void)
           __builtin_memcpy(text_to_display[7].text, s_now_you_can_use_your_hair_8012aa78, sizeof(s_now_you_can_use_your_hair_8012aa78));
           __builtin_memcpy(text_to_display[8].text, s_as_a_helicopter_8012aa94, sizeof(s_as_a_helicopter_8012aa94));
           __builtin_memcpy(text_to_display[9].text, s_to_do_it_press__twice_8012aaa8, sizeof(s_to_do_it_press__twice_8012aaa8));
-          Deter_Option_Caract(&text_to_display[9].text, options_jeu.Jump, 0x10);
+          Deter_Option_Caract(text_to_display[9].text, options_jeu.Jump, 0x10);
           break;
       }
       break;
@@ -186,7 +186,7 @@ void init_fee(void)
           __builtin_memcpy(text_to_display[2].text, s_youll_have_to_be_very_quick_8012ab04, sizeof(s_youll_have_to_be_very_quick_8012ab04));
           __builtin_memcpy(text_to_display[5].text, s_now_you_can_run_faster_8012ab28, sizeof(s_now_you_can_run_faster_8012ab28));
           __builtin_memcpy(text_to_display[7].text, s_to_run_press__while_walking_8012ab44, sizeof(s_to_run_press__while_walking_8012ab44));
-          Deter_Option_Caract(&text_to_display[7].text,options_jeu.Action,0xe);
+          Deter_Option_Caract(text_to_display[7].text,options_jeu.Action,0xe);
           break; 
       }
       break;

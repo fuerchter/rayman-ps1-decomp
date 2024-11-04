@@ -1598,7 +1598,7 @@ void PS1_DisplayWorldMapBg2(s16 param_1, s16 param_2, s16 param_3, s16 param_4, 
             iVar2 = uVar9 + (param_1 / 0x40);
             
             LoadImage(&local_58,
-                    &PS1_FondImages[(iVar2) % PS1_FondImagesCount][((param_2 << 7))]);
+                    (u32 *)&PS1_FondImages[(iVar2) % PS1_FondImagesCount][((param_2 << 7))]);
             if (uVar9 == 0) {
                 local_58.x = (PS1_CurrentDisplay->drawing_environment).clip.x + param_3 + var_s3;
                 test_6 = (param_1 + (param_1 / 0x40) * -0x40);
