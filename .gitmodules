@@ -10,3 +10,9 @@
 [submodule "tools/decomp-permuter"]
 	path = tools/decomp-permuter
 	url = https://github.com/simonlindholm/decomp-permuter
+[submodule "tools/nugget"]
+	path = tools/nugget
+	url = https://github.com/pcsx-redux/nugget/
+[submodule "tools/psyq-3.0-converted"]
+	path = tools/psyq-3.0-converted
+	url = https://github.com/fuerchter/psyq-3.0-converted
