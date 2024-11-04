@@ -29,7 +29,7 @@ CROSS             := mipsel-linux-gnu-
 CPP               := $(CROSS)cpp
 CPP_FLAGS         := -Iinclude -I$(TOOLS_DIR)/psyq-3.0-converted/include
 CC                := $(TOOLS_DIR)/gcc-2.5.7/cc1
-CC_FLAGS          := -quiet -mgas -msoft-float -G0 -O2 -fno-builtin -gcoff
+CC_FLAGS          := -quiet -mgas -msoft-float -G0 -O2 -fno-builtin -gcoff -Wimplicit
 MASPSX            := $(PYTHON) $(TOOLS_DIR)/maspsx/maspsx.py
 MASPSX_FLAGS      := --macro-inc --expand-div --aspsx-version=2.08
 AS                := $(CROSS)as

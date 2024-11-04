@@ -185,7 +185,7 @@ u8 PS1_TestCard(u8 par_chan)
             return 1;
         default:
             FntPrint(s_Error_801cf024);
-            return 0xFF;
+            return 0xFF; /* TODO: callers check -1 instead */
         }
         break;
     default:
