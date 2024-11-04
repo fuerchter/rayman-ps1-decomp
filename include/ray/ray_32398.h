@@ -10,6 +10,7 @@
 #include "collision/collision.h"
 #include "save.h"
 #include "obj/eau.h"
+#include "obj/graine.h"
 
 /**/
 extern u8 PS1_ShoulderL;

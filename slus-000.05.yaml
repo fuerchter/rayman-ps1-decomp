@@ -179,8 +179,7 @@ segments:
       - [0x38118, c, obj/stonebomb] #8015c918
       - [0x395B0, c, obj/spider_395B0] #8015ddb0
       - [0x3979C, c, obj/platform] #8015df9c
-      - [0x398E8, c, obj/graine] #8015e0e8 TODO: includes DO_TARZAN()? merge with nen_graine?
-      - [0x39B90, c, obj/nen_graine] #8015e214
+      - [0x398E8, c, obj/graine] #8015e0e8
       - [0x39CD8, c, obj/big_clown] #8015e4d8
       - [0x39DC8, c, obj/wat_clown] #8015e5c8
       - [0x3A004, c, obj/trompette] #8015e804
@@ -396,7 +395,7 @@ segments:
       - [0xAA918, .data, data/menu/menu_AA918] #801CF118
       - [0xAA95C, data] #psyq afaik
       - [0xAABF8, .data, data/bonus_AABF8] #801CF3F8
-      - [0xAAC08, .data, data/obj/nen_graine_AAC08] #801CF408
+      - [0xAAC08, .data, data/obj/graine_AAC08] #801CF408
       - [0xAAC10, .data, data/draw/fade_AAC10] #801CF410
       - [0xAAC18, .data, data/draw/draw_AAC18] #801CF418
       - [0xAAC38, .data, data/first_init_AAC38] #801CF438
