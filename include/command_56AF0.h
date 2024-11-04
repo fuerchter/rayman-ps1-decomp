@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/obj.h"
+#include "collision/block_22C84.h"
 
 typedef struct CommandTableEntry
 {

@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/record.h"
+#include "input_ED20.h"
 
 void PS1_FinishRecordingDemo(void);
 
