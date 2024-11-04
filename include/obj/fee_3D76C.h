@@ -4,7 +4,6 @@
 #include "common.h"
 #include "common/text_to_display.h"
 #include "obj/fee_4DFD0.h"
-#include "main.h"
 
 /**/
 extern u8 is_fee;

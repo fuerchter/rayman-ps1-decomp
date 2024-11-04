@@ -2,7 +2,7 @@
 #define DEPART_DEAD_H
 
 #include "common.h"
-#include "main.h"
+#include "world_map_95CC.h"
 
 /* .data */
 extern u8 PS1_ShouldFadeOutWorldIntro;

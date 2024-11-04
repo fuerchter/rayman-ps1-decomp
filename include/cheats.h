@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "common/rayevts.h"
+#include "common/fin_du_jeu.h"
 #include "main_moteur.h"
 #include "ray/ray_30A64.h"
 #include "ray/ray_5D190.h"

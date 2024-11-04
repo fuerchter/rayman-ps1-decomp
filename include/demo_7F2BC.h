@@ -3,7 +3,6 @@
 
 #include "common.h"
 #include "demo_9FD4.h"
-#include "main.h"
 
 /**/
 extern s32 TempsDemo;

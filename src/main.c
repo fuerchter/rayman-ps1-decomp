@@ -2,7 +2,6 @@
 
 #ifdef BSS_DEFS
 u8 fin_du_jeu;
-u8 NewMs;
 #endif
 
 /* B438 8012FC38 -O2 -msoft-float */

@@ -7,6 +7,7 @@
 #include "obj_update.h"
 #include "obj/scorpion.h"
 #include "bonus_372E0.h"
+#include "unknown/2539C.h"
 
 /**/
 extern s16 bonus_map;
@@ -18,6 +19,7 @@ extern s16 ray_Y_main_pos_init;
 extern s16 xmapsave;
 extern s16 ymapsave;
 extern u8 D_801F75C0;
+extern u8 NewMs;
 
 void INIT_MOTEUR(u8 new_lvl);
 void INIT_MOTEUR_BEGIN(void);

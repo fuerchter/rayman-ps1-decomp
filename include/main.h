@@ -4,14 +4,11 @@
 #include "common.h"
 #include "common/rayevts.h"
 #include "common/record.h"
+#include "common/fin_du_jeu.h"
 #include "psyq_3_0_missing/LIBETC.H"
 #include "psyq_3_0_missing/LIBAPI.H"
 #include "sound.h"
 #include "unknown/2539C.h"
-
-/**/
-extern u8 fin_du_jeu;
-extern u8 NewMs;
 
 void main(void);
 
