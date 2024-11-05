@@ -6,7 +6,7 @@ void DO_TARZAN(Obj *tz_obj)
     s16 i;
     Obj *cur_obj;
     s16 nb_objs;
-    
+
     DO_ONE_CMD(tz_obj);
     if (tz_obj->main_etat == 0 && tz_obj->sub_etat == 4)
     {
@@ -18,7 +18,7 @@ void DO_TARZAN(Obj *tz_obj)
         {
             if ((cur_obj->type == TYPE_GRAINE) && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
             {
-                cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                 set_main_and_sub_etat(cur_obj, 2, 2);
                 cur_obj->x_pos = tz_obj->x_pos + tz_obj->offset_bx + cur_obj->offset_bx;
                 cur_obj->y_pos = tz_obj->y_pos + 50;
@@ -60,7 +60,6 @@ Obj *oldest_planted(void)
         }
         cur_obj++;
         cnt_1++;
-        
     }
 
     cnt_2 = 0;
@@ -90,7 +89,7 @@ void DO_GROWING_PLATFORM(void)
 
     if (D_801CF408 != true)
         D_801CF408 = false;
-    
+
     if (ray.anim_frame == ray.animations[ray.anim_index].frames_count - 1)
     {
         if (D_801CF408 == false)
@@ -98,8 +97,8 @@ void DO_GROWING_PLATFORM(void)
             oldest_obj = oldest_planted();
             if (oldest_obj->flags & FLG(OBJ_ACTIVE))
                 DO_NOVA(oldest_obj);
-            
-            oldest_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+
+            oldest_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             main_etat = 0;
             sub_etat = 38;
             set_main_and_sub_etat(oldest_obj, main_etat, sub_etat);

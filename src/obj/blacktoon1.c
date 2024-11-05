@@ -16,12 +16,12 @@ void allocateBlacktoonEyes(Obj *bt1_obj)
             cur_obj->y_pos = bt1_obj->y_pos;
             cur_obj->speed_y = 0;
             cur_obj->speed_x = 0;
-            set_main_and_sub_etat(cur_obj,cur_obj->init_main_etat,cur_obj->init_sub_etat);
+            set_main_and_sub_etat(cur_obj, cur_obj->init_main_etat, cur_obj->init_sub_etat);
             calc_obj_pos(cur_obj);
             calc_obj_dir(cur_obj);
             cur_obj->cmd_offset = -1;
             cur_obj->nb_cmd = 0;
-            cur_obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+            cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
             cur_obj->flags &= ~FLG(OBJ_FLAG_9);
             break;
         }
@@ -41,7 +41,7 @@ void DO_BLK_SPEED_COMMAND(Obj *obj)
         cen_y = get_center_y(obj);
         if (on_block_chdir(obj, cen_x, cen_y) && test_allowed(obj, cen_x, cen_y))
             skipToLabel(obj, 99, true);
-        
+
         obj->speed_x = obj->iframes_timer;
         obj->speed_y = obj->field20_0x36;
         if (obj->speed_x > 0)
@@ -72,7 +72,7 @@ void DO_BLK_LR_COMMAND(Obj *obj)
             obj->flags &= ~FLG(OBJ_FLIP_X);
         else
             obj->flags |= FLG(OBJ_FLIP_X);
-        
+
         if (obj->field56_0x69 & 2)
         {
             SET_X_SPEED(obj);
@@ -171,7 +171,7 @@ void DO_BLK_NOP_COMMAND(Obj *obj)
             {
                 skipToLabel(obj, 2, 1U);
             }
-            
+
             obj->speed_y = 0;
         }
         else

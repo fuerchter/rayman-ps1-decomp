@@ -20,7 +20,7 @@ void allocateStoskoClaw(Obj *stsk_obj)
             cur_obj->speed_x = 0;
             calc_obj_pos(cur_obj);
             cur_obj->cmd_offset = -1;
-            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             cur_obj->nb_cmd = 0;
             stsk_obj->field24_0x3e = i;
             break;
@@ -87,7 +87,7 @@ void doSTOSKOcommand(Obj *stsk_obj)
         }
         else
         {
-            if(EOA(stsk_obj))
+            if (EOA(stsk_obj))
                 allocateStoskoClaw(stsk_obj);
         }
         break;

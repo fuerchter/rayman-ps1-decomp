@@ -38,7 +38,7 @@ void AllocateDarkPhase2(Obj *mr_drk_obj)
             cur_obj->init_y_pos = cur_obj->y_pos = mr_drk_obj->y_pos;
             cur_obj->speed_x = 0;
             cur_obj->speed_y = 0;
-            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             set_main_and_sub_etat(cur_obj, 0, 38);
 
             dark_obj = mr_drk_obj;
@@ -60,7 +60,8 @@ void DO_DARK2_AFFICHE_TEXT(void)
     if (TextDark2_Affiche)
     {
         let_shadow = true;
-        x = XText; y = YText;
+        x = XText;
+        y = YText;
         temps_text += 3;
         display_text_sin(txt_dark2, x, y, temps_text & 0xFFFF, 2, 10);
     }
@@ -311,7 +312,7 @@ void DO_DARK_PHASE2_COMMAND(Obj *dp2_obj)
                 temps_text = 0;
                 num_dark2_phrase = 1;
             }
-            else 
+            else
             {
                 if (YText < -20)
                 {
@@ -392,7 +393,7 @@ void DO_DARK2_SORT_COMMAND(Obj *ds2_obj)
                     if (ds2_obj->anim_frame == 1)
                     {
                         unk_x_1 = PosXSin1;
-    block_1:
+block_1:
                         allocate_DARK2_SORT(unk_x_1, unk_y_1, ds2_obj->sub_etat, ds2_obj->iframes_timer);
                         ds2_obj->hit_points = 0;
                     }
@@ -417,7 +418,7 @@ void DO_DARK2_SORT_COMMAND(Obj *ds2_obj)
                     if (ds2_obj->anim_frame == 1)
                     {
                         unk_x_1 = PosXSin2;
-    goto block_1;
+                        goto block_1;
                     }
                 }
             }
@@ -450,7 +451,7 @@ void DO_DARK2_SORT_COMMAND(Obj *ds2_obj)
                     {
                         dark2_rayon_dx_1 += SGN(unk_x_2 - dark2_rayon_dx_1);
                         dark2_rayon_dy_1 += SGN(unk_y_2 - dark2_rayon_dy_1);
-                        
+
                         allocate_DARK2_SORT(
                             ds2_obj->x_pos + dark2_rayon_dx_1,
                             ds2_obj->y_pos + dark2_rayon_dy_1,
@@ -524,10 +525,10 @@ void allocate_DARK2_SORT(s32 param_1, s16 param_2, s16 param_3, s16 param_4)
         cnt_1 = cnt_1 + 1;
     } while ((check_1 == 0) && (cnt_1 < nb_objs));
     cur_obj_1 = cur_obj_1 - 1;
-    
+
     if (check_1 == 0)
         return;
-    
+
     temp_t6 = cur_obj_1;
     check_1 = 0;
     do
@@ -568,7 +569,7 @@ void allocate_DARK2_SORT(s32 param_1, s16 param_2, s16 param_3, s16 param_4)
 
     if (check_1 == 0)
         return;
-    
+
     cur_obj_1->x_pos = param_1;
     cur_obj_1->y_pos = param_2;
     cur_obj_1->hit_points = 1;

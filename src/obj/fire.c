@@ -24,7 +24,7 @@ void AllocateFlammes(s16 param_1)
     s16 i = 0;
     Obj *cur_obj = &level.objects[i];
     s16 nb_objs = level.nb_objects;
-    
+
     while (i < nb_objs)
     {
         if (
@@ -41,7 +41,7 @@ void AllocateFlammes(s16 param_1)
             cur_obj->y_pos = firstFloorBelow(cur_obj) - cur_obj->offset_by;
             cur_obj->speed_x = 0;
             cur_obj->speed_y = 0;
-            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             flammes_actives = 2;
             flamme_gauche_id = cur_obj->id;
             break;
@@ -60,7 +60,7 @@ void AllocateFlammes(s16 param_1)
             cur_obj->y_pos = firstFloorBelow(cur_obj) - cur_obj->offset_by;
             cur_obj->speed_x = 0;
             cur_obj->speed_y = 0;
-            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             flammes_actives = 2;
             flamme_droite_id = cur_obj->id;
             break;

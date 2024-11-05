@@ -6,7 +6,7 @@ void allocateSTOSKO(void)
     s16 y;
     Obj *obj = &level.objects[stosko_obj_id];
 
-    obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+    obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
     obj->x_pos = 160;
     obj->y_pos = ymap - 50;
     y = firstFloorBelow(obj) - obj->offset_by;
@@ -39,7 +39,7 @@ void allocateMOSKITOMAMA(void)
     boss_obj->speed_y = 0;
     boss_obj->init_x_pos = boss_obj->x_pos = 280 - boss_obj->offset_bx;
     boss_obj->init_y_pos = boss_obj->y_pos = ymap - 200;
-    boss_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+    boss_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
     BBF2DEsk = 0;
 
     unk_1 = 70;
@@ -52,7 +52,7 @@ void allocateMOSKITOMAMA(void)
     boss_obj->init_y_pos = boss_obj->y_pos = ymap - 200;
     boss_obj->speed_x = 0;
     boss_obj->speed_y = 0;
-    boss_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+    boss_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
     BBF2GEsk = 0;
 
     RayEvts.poing = true;
@@ -70,7 +70,7 @@ void allocateMOSKITOSAXO(void)
         RAY_DEMIRAY();
     }
     RayEvts.run = true;
-    obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+    obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
     obj->init_x_pos = obj->x_pos = xmap - (obj->offset_bx - 160);
     obj->init_y_pos = obj->y_pos = ymap - obj->offset_by;
     RayEvts.poing = true;

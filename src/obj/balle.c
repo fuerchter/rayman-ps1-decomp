@@ -4,7 +4,7 @@
 void DO_BALLE(Obj *obj)
 {
     ObjState *obj_eta = &obj->eta[obj->main_etat][obj->sub_etat];
-    
+
     if (obj->type == TYPE_BALLE2)
     {
         obj_eta->speed_x_left = -1;

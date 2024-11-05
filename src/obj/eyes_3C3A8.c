@@ -6,13 +6,13 @@ void DO_REDEYE_FIRE(s16 x_pos, s16 y_pos, s16 param_3)
     s16 i = 0;
     Obj *cur_obj = &level.objects[i];
     s16 nb_objs = level.nb_objects;
-    
+
     while (i < nb_objs)
     {
         if (cur_obj->type == TYPE_FLASH && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
         {
             cur_obj->flags &= ~FLG(OBJ_FLIP_X);
-            switch(param_3)
+            switch (param_3)
             {
             case 0:
                 cur_obj->iframes_timer = 256;
@@ -169,7 +169,7 @@ void DO_REDEYE_FIRE(s16 x_pos, s16 y_pos, s16 param_3)
             cur_obj->init_x_pos = cur_obj->iframes_timer;
             cur_obj->init_y_pos = cur_obj->field20_0x36;
             calc_obj_pos(cur_obj);
-            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             PlaySnd(205, i);
             break;
         }

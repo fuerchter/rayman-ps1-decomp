@@ -42,7 +42,7 @@ void DO_CORDE_COMMAND(Obj *obj)
             ray_x_pos = bVar2;
             ray_y_pos = ray.y_pos;
             bVar2 = true;
-            switch(obj->sub_etat)
+            switch (obj->sub_etat)
             {
             case 16:
                 obj_y_offs = 48;
@@ -84,7 +84,7 @@ void DO_CORDE_COMMAND(Obj *obj)
 
                 if (level.objects[pierreAcorde_obj_id].iframes_timer == 0)
                     DO_FUMEE_CORDE(obj_x_pos + 128, ray_y_pos + 30);
-                
+
                 level.objects[pierreAcorde_obj_id].field23_0x3c = 0;
                 return;
             }
@@ -131,14 +131,14 @@ void DO_PAC_COMMAND(Obj *obj)
 /* 4FEF8 801746F8 -O2 -msoft-float */
 void DO_CFUMEE_COMMAND(Obj *obj)
 {
-  obj->y_pos = ray.y_pos + -98;
-  if (
-    obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1 &&
-    horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0 &&
-    level.objects[pierreAcorde_obj_id].iframes_timer == 0
-  )
-  {
-    obj->flags &= ~FLG(OBJ_ALIVE);
-    obj->flags &= ~FLG(OBJ_ACTIVE);
-  }
+    obj->y_pos = ray.y_pos + -98;
+    if (
+        obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1 &&
+        horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0 &&
+        level.objects[pierreAcorde_obj_id].iframes_timer == 0
+    )
+    {
+        obj->flags &= ~FLG(OBJ_ALIVE);
+        obj->flags &= ~FLG(OBJ_ACTIVE);
+    }
 }

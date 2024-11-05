@@ -22,8 +22,8 @@ void DO_CLOWN_TNT_COMMAND(Obj *obj)
     case GO_WAIT:
         break;
     case GO_SPEED:
-        obj->speed_x =  obj->iframes_timer;
-        obj->speed_y =  obj->field20_0x36;
+        obj->speed_x = obj->iframes_timer;
+        obj->speed_y = obj->field20_0x36;
         break;
     case GO_LEFT:
     case GO_RIGHT:
@@ -66,16 +66,16 @@ void DO_CLOWN_TNT_COMMAND(Obj *obj)
     }
     else
         obj->speed_x = 0;
-    
+
     offs_bx = obj->offset_bx;
     if (obj->flags & FLG(OBJ_FLIP_X))
         offs_bx += 16;
     else
         offs_bx -= 16;
-    
+
     if (on_block_chdir(obj, offs_bx, obj->offset_by))
         obj->speed_x = 0;
-    
+
     if (obj->main_etat == 0)
     {
         if (obj->sub_etat == 3)

@@ -7,7 +7,7 @@ void DO_CLOWN_TNT_ATTACK(Obj *ct_obj)
     s16 i = 0;
     Obj *cur_obj = &level.objects[i];
     s16 nb_objs = level.nb_objects;
-    
+
     while (i < nb_objs)
     {
         if (cur_obj->type == TYPE_TNT_BOMB && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
@@ -42,12 +42,12 @@ void DO_CLOWN_TNT_ATTACK(Obj *ct_obj)
                 spr_y += 32;
                 spr_x += 16;
             }
-            
+
             cur_obj->x_pos = spr_x - cur_obj->offset_bx + (spr_w >> 1);
             cur_obj->y_pos = spr_y - cur_obj->offset_hy;
             cur_obj->init_x_pos = cur_obj->x_pos;
             cur_obj->init_y_pos = cur_obj->y_pos;
-            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             cur_obj->anim_frame = 0;
             calc_obj_pos(ct_obj);
             break;

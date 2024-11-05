@@ -102,7 +102,8 @@ void doBBF2command(Obj *bbf2_obj)
                         YPosBBF2G -= 50;
                     else if (
                         (spr_y_1 > ((bbf2_obj->y_pos + bbf2_obj->offset_hy) - 0xA)) &&
-                        ((spr_y_1 + spr_h) < (bbf2_obj->y_pos + bbf2_obj->offset_by + 0xA)))
+                        ((spr_y_1 + spr_h) < (bbf2_obj->y_pos + bbf2_obj->offset_by + 0xA))
+                    )
                     {
                         YPosBBF2G -= 80;
                     }
@@ -226,7 +227,7 @@ void AllocateTirBBF2(Obj *bbf2_obj)
                 cur_obj->flags |= FLG(OBJ_FLIP_X);
             }
             cur_obj->speed_y = 0;
-            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             cur_obj->field24_0x3e = bbf2_obj->field24_0x3e;
             break;
         }
@@ -246,7 +247,7 @@ void DO_HYB_BBF2_LAS(Obj *las_obj)
     s16 las_x; s16 las_y; s16 las_w; s16 las_h;
     s16 cur_x; s16 cur_y; s16 cur_w; s16 cur_h;
     s16 unk_1 = las_obj->field24_0x3e;
-    
+
     if (level.objects[unk_1].type == TYPE_HYB_BBF2_D || level.objects[unk_1].type == TYPE_HYB_BBF2_G)
     {
         unk_obj = &level.objects[unk_1];
@@ -267,7 +268,7 @@ void DO_HYB_BBF2_LAS(Obj *las_obj)
                         cur_obj_1->x_pos += las_w;
                     cur_obj_1->y_pos = las_y + (las_h >> 1) - ((cur_obj_1->offset_by + cur_obj_1->offset_hy) >> 1);
                     calc_obj_pos(cur_obj_1);
-                    cur_obj_1->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                    cur_obj_1->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                     break;
                 }
                 cur_obj_1++;
@@ -278,7 +279,7 @@ void DO_HYB_BBF2_LAS(Obj *las_obj)
             las_obj->flags &= ~FLG(OBJ_ACTIVE);
         }
     }
-    
+
     if (las_obj->speed_y == 0)
     {
         j = 0;
@@ -320,7 +321,7 @@ s32 OBJ_IN_COL_ZDC(Obj *obj1, Obj *obj2)
         x1 += zdc1->x_pos;
     else
         x1 = (x1 + w1) - (zdc1->x_pos + zdc1->width);
-    
+
     if (!(obj2->flags & FLG(OBJ_FLIP_X)))
         x2 += zdc2->x_pos;
     else

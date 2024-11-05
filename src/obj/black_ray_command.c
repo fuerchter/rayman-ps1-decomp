@@ -80,7 +80,7 @@ void doBlackRaymanCommand(Obj *br_obj)
             br_obj->speed_y = 0;
             if (br_obj->display_prio == 0)
                 DO_NOVA(br_obj);
-            
+
             br_obj->display_prio = 4;
             fist_obj = &level.objects[black_fist_obj_id];
             if (br_stack->poing_is_active)
@@ -97,7 +97,7 @@ void doBlackRaymanCommand(Obj *br_obj)
             }
             else
                 fist_obj->flags &= ~FLG(OBJ_ALIVE);
-            
+
             black_pos_in_stack++;
             if (black_pos_in_stack > LEN(rayStack) - 1)
                 black_pos_in_stack = 0;

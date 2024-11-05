@@ -13,7 +13,7 @@ Obj *allocateExplosion(Obj *unk_obj)
         if (cur_obj->type == TYPE_EXPLOSION && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
         {
             set_main_and_sub_etat(cur_obj, 0, 0);
-            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             cur_obj->x_pos = unk_obj->x_pos + unk_obj->offset_bx - cur_obj->offset_bx;
             cur_obj->y_pos = unk_obj->y_pos + unk_obj->offset_by - cur_obj->offset_by + 10;
             calc_obj_pos(cur_obj);

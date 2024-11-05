@@ -15,7 +15,7 @@ void allocateOtherPosts(Obj *her_bh_obj)
     {
         i++;
         cur_obj = &level.objects[cur_id];
-        cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+        cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
         cur_obj->anim_frame = (her_bh_obj->anim_frame + i) % her_bh_frames;
         cur_obj->init_x_pos = her_bh_obj->init_x_pos + i * ((her_bh_obj->hit_points - 2) << 5);
         cur_obj->init_y_pos = her_bh_obj->init_y_pos;

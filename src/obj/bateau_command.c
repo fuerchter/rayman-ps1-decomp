@@ -101,7 +101,6 @@ void doShipCommand(Obj *obj)
                                 break;
                             }
                         } while (temp_v1_3 != obj->type);
-                        
 
                         if (temp_v1_3 != obj->type)
                         {

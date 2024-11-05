@@ -3,10 +3,10 @@
 /* 4D6EC 80171EEC -O2 */
 void DO_CCL_COMMAND(Obj *obj)
 {
-  u8 hp;
+    u8 hp;
 
-  switch(obj->cmd)
-  {
+    switch (obj->cmd)
+    {
     case GO_WAIT:
     case GO_NOP:
         SET_X_SPEED(obj);
@@ -27,5 +27,5 @@ void DO_CCL_COMMAND(Obj *obj)
         SET_X_SPEED(obj);
         CALC_MOV_ON_BLOC(obj);
         break;
-  }
+    }
 }

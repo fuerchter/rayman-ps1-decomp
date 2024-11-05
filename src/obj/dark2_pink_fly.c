@@ -35,7 +35,7 @@ void AllocateToons(void)
             cur_obj->speed_y = 0;
             cur_obj->hit_points = 0;
             cur_obj->field23_0x3c = 0;
-            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
 
             unk_1 = i;
             unk_2 = 1;
@@ -56,7 +56,7 @@ void AllocateToons(void)
             cur_obj->speed_y = 0;
             cur_obj->hit_points = 1;
             cur_obj->field23_0x3c = 0;
-            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
 
             cur_obj->field24_0x3e = unk_1;
             level.objects[unk_1].field24_0x3e = i;
@@ -93,7 +93,7 @@ void DO_DARK2_TOONS_COMMAND(Obj *d2fly_obj)
         diff_x = PosArXToon2 - (d2fly_obj->x_pos + d2fly_obj->offset_bx);
         diff_y = PosArYToon2 - (d2fly_obj->y_pos + d2fly_obj->offset_by);
     }
-    
+
     /*
     TODO:
     replace level.objects[d2fly_obj->field24_0x3e] ???
@@ -164,7 +164,7 @@ void DO_DARK2_TOONS_COMMAND(Obj *d2fly_obj)
         diff_x = ashl16(diff_x, 5) / dist;
         diff_y = ashl16(diff_y, 5) / dist;
     }
-    
+
     d2fly_obj->speed_y = MAX_1(-40, MIN_1(40,
         SGN(diff_y - d2fly_obj->speed_y) + d2fly_obj->speed_y));
     d2fly_obj->speed_x = MAX_1(-40, MIN_1(40,
@@ -174,7 +174,7 @@ void DO_DARK2_TOONS_COMMAND(Obj *d2fly_obj)
         d2fly_obj->flags |= FLG(OBJ_FLIP_X);
     else if (d2fly_obj->speed_x < 0 && d2fly_obj->flags & FLG(OBJ_FLIP_X))
         d2fly_obj->flags &= ~FLG(OBJ_FLIP_X);
-    
+
     if (d2fly_obj->y_pos < ymap - 200)
     {
         d2fly_obj->flags &= ~FLG(OBJ_ALIVE);

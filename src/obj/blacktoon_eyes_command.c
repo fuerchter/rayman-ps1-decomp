@@ -4,7 +4,7 @@
 void DO_BLKTOON_EYES_CMD(Obj *obj)
 {
     s16 prev_spd_x = obj->speed_x;
-    
+
     SET_X_SPEED(obj);
     if (prev_spd_x * obj->speed_x < 0)
     {

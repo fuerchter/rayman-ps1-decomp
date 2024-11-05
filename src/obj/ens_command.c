@@ -8,13 +8,13 @@ void DO_ENSEIGNE_COMMAND(Obj *obj)
     {
         if (obj->main_etat == 0 && obj->sub_etat == 0)
             skipToLabel(obj, 1, true);
-        
+
         if (
             obj->main_etat == 0 && obj->sub_etat == 1 &&
             obj->anim_frame >= obj->animations[1].frames_count - 1
         )
             skipToLabel(obj, 2, true);
-        
+
         if (
             obj->main_etat == 0 && obj->sub_etat == 2 &&
             obj->anim_frame >= obj->animations[2].frames_count - 1

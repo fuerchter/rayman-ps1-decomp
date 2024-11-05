@@ -21,7 +21,7 @@ void DO_TEN_COMMAND(Obj *obj)
             obj->timer++;
             if (++obj->field56_0x69 > 2)
                 obj->field56_0x69 = 1;
-            
+
             if (obj->hit_points != 1)
                 allocate_badguy(obj, obj->field56_0x69, 1, -1);
             else
@@ -59,7 +59,7 @@ void DO_TEN_COMMAND(Obj *obj)
         obj->timer++;
         if (obj->field56_0x69 != 3 && obj->timer > 252)
             obj->field56_0x69 = 3;
-        
+
         obj->speed_x = 0;
         obj->speed_y = 0;
         if (obj->anim_frame > 12)
@@ -71,10 +71,10 @@ void DO_TEN_COMMAND(Obj *obj)
     {
         if (obj->field24_0x3e != 0)
             obj->timer++;
-        
+
         if (obj->timer > 253)
             skipToLabel(obj, 2, true);
-        
+
         SET_X_SPEED(obj);
         CALC_MOV_ON_BLOC(obj);
     }

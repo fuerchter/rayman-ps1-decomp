@@ -77,13 +77,13 @@ void DO_TOTEM_COMMAND(Obj *tot_obj)
             {
                 if (cur_obj->type == TYPE_BOUT_TOTEM)
                 {
-                    
+
                     for (j = 0; j < 6; cur_obj++, j++)
                     {
                         GET_SPRITE_POS(tot_obj, j, &x, &y, &w, &h);
                         cur_obj->x_pos = x;
                         cur_obj->y_pos = y;
-                        cur_obj->flags |= FLG(OBJ_ACTIVE)|FLG(OBJ_ALIVE);
+                        cur_obj->flags |= FLG(OBJ_ACTIVE) | FLG(OBJ_ALIVE);
                         if (j == 0)
                         {
                             cur_obj->speed_x = 0;
@@ -147,8 +147,7 @@ void DO_TOTEM_COMMAND(Obj *tot_obj)
                 }
                 i++;
                 cur_obj++;
-            } while(i < nb_objs);
-            
+            } while (i < nb_objs);
         }
     }
     else if (!(tot_obj->sub_etat == 6 || tot_obj->sub_etat == 7 || tot_obj->sub_etat == 3))
@@ -165,12 +164,12 @@ void DO_TOTEM_COMMAND(Obj *tot_obj)
                 IndSerie--;
             IndAtak = 0;
         }
-        
+
         if (tot_obj->anim_frame == (tot_obj->animations[tot_obj->anim_index].frames_count - 1))
             unk_1 = horloge[tot_obj->eta[tot_obj->main_etat][tot_obj->sub_etat].anim_speed & 0xf] == 0;
         else
             unk_1 = false;
-        
+
         switch (tot_obj->sub_etat)
         {
         case 3:
@@ -313,7 +312,7 @@ void allocateDog(Obj *bb1_obj)
                 cur->cmd_offset = -1;
                 cur->x_pos = new_x;
                 cur->y_pos = bb1_obj->y_pos - 20;
-                cur->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+                cur->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
                 cur->speed_x = 0;
                 cur->speed_y = 0;
                 cur->main_etat = 2;
@@ -337,188 +336,194 @@ void allocateDog(Obj *bb1_obj)
 /* 58278 8017CA78 -O2 -msoft-float */
 void allocateTir(Obj *bb1_obj, s16 param_2)
 {
-  s32 sprite_ind;
-  s16 x; s16 y; s16 w; s16 h;
-  s32 new_x_1;
-  s32 bb1_x;
-  s32 new_spd_x;
-  s32 new_x_2;
-  u8 nb_objs = level.nb_objects;
-  s16 i = 0;
-  Obj *cur_obj = level.objects;
+    s32 sprite_ind;
+    s16 x; s16 y; s16 w; s16 h;
+    s32 new_x_1;
+    s32 bb1_x;
+    s32 new_spd_x;
+    s32 new_x_2;
+    u8 nb_objs = level.nb_objects;
+    s16 i = 0;
+    Obj *cur_obj = level.objects;
 
-  if (nb_objs != 0)
-  {
-    do {
-      if (cur_obj->type == TYPE_BBL && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
-      {
-        if (param_2 != 0)
-          sprite_ind = 8;
-        else
-          sprite_ind = 9;
-        cur_obj->flags &= ~FLG(OBJ_FLIP_X);
-        GET_SPRITE_POS(bb1_obj, sprite_ind, &x, &y, &w, &h);
-        if (param_2 == 1)
+    if (nb_objs != 0)
+    {
+        do
         {
-          new_x_1 = x - cur_obj->offset_bx + (w >> 1);
-          if (bb1_obj->flags & FLG(OBJ_FLIP_X))
-            new_x_1 += 64;
-          else
-            new_x_1 -= 64;
-          cur_obj->x_pos = new_x_1;
-          cur_obj->y_pos = y - 40;
-          if (bb1_obj->flags & FLG(OBJ_FLIP_X))
-            new_spd_x = 12;
-          else
-            new_spd_x = -12;
-          cur_obj->speed_x = new_spd_x;
-          cur_obj->speed_y = 0;
-          cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | bb1_obj->flags & FLG(OBJ_FLIP_X);
-        }
-        else if (param_2 == 0)
-        {
-          new_x_1 = (x - cur_obj->offset_bx) + (w >> 1);
-          if (bb1_obj->flags & FLG(OBJ_FLIP_X))
-            new_x_1 += 9;
-          else
-            new_x_1 -= 9;
-          cur_obj->x_pos = new_x_1;
-          cur_obj->y_pos = y - 40;
-          if (bb1_obj->flags & FLG(OBJ_FLIP_X))
-            new_spd_x = 2;
-          else
-            new_spd_x = -2;
-          cur_obj->speed_x = new_spd_x;
-          cur_obj->speed_y = -5;
-          cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | bb1_obj->flags & FLG(OBJ_FLIP_X);
-        }
-        else
-        {
-          if (param_2 == 3)
-          {
-            bb1_x = bb1_obj->x_pos;
-            if (!(bb1_obj->flags & FLG(OBJ_FLIP_X)))
-                cur_obj->x_pos = bb1_x - 36;
-            else
-                cur_obj->x_pos = bb1_x + 120;
-            cur_obj->y_pos = bb1_obj->y_pos - 185;
-            cur_obj->speed_y = 4;  
-          }
-          else
-          {
-            if (param_2 < 10)
+            if (cur_obj->type == TYPE_BBL && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
             {
-              cur_obj->x_pos = ray.x_pos;
-              if (cur_obj->x_pos < 40)
-                cur_obj->x_pos = 40;
-              if (cur_obj->x_pos > 200)
-                cur_obj->x_pos = 200;              
-            }
-            else
-            {
-              if (bb1_obj->flags & FLG(OBJ_FLIP_X))
-                new_x_2 = 240 - bb1.field8_0xe * 50;
-              else {
-                new_x_2 = bb1.field8_0xe * 50 - 20;
-              }
-              cur_obj->x_pos = new_x_2;
-            }
-            cur_obj->y_pos = bb1_obj->y_pos - 200;
-            cur_obj->speed_y = 0;
-          }
-          cur_obj->speed_x = 0;
-        }
-        cur_obj->iframes_timer = 38;
-        if (param_2 != 3)
-          cur_obj->gravity_value_2 = 10;
-        else
-          cur_obj->gravity_value_2 = 7;
+                if (param_2 != 0)
+                    sprite_ind = 8;
+                else
+                    sprite_ind = 9;
+                cur_obj->flags &= ~FLG(OBJ_FLIP_X);
+                GET_SPRITE_POS(bb1_obj, sprite_ind, &x, &y, &w, &h);
+                if (param_2 == 1)
+                {
+                    new_x_1 = x - cur_obj->offset_bx + (w >> 1);
+                    if (bb1_obj->flags & FLG(OBJ_FLIP_X))
+                        new_x_1 += 64;
+                    else
+                        new_x_1 -= 64;
+                    cur_obj->x_pos = new_x_1;
+                    cur_obj->y_pos = y - 40;
+                    if (bb1_obj->flags & FLG(OBJ_FLIP_X))
+                        new_spd_x = 12;
+                    else
+                        new_spd_x = -12;
+                    cur_obj->speed_x = new_spd_x;
+                    cur_obj->speed_y = 0;
+                    cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | bb1_obj->flags & FLG(OBJ_FLIP_X);
+                }
+                else if (param_2 == 0)
+                {
+                    new_x_1 = (x - cur_obj->offset_bx) + (w >> 1);
+                    if (bb1_obj->flags & FLG(OBJ_FLIP_X))
+                        new_x_1 += 9;
+                    else
+                        new_x_1 -= 9;
+                    cur_obj->x_pos = new_x_1;
+                    cur_obj->y_pos = y - 40;
+                    if (bb1_obj->flags & FLG(OBJ_FLIP_X))
+                        new_spd_x = 2;
+                    else
+                        new_spd_x = -2;
+                    cur_obj->speed_x = new_spd_x;
+                    cur_obj->speed_y = -5;
+                    cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | bb1_obj->flags & FLG(OBJ_FLIP_X);
+                }
+                else
+                {
+                    if (param_2 == 3)
+                    {
+                        bb1_x = bb1_obj->x_pos;
+                        if (!(bb1_obj->flags & FLG(OBJ_FLIP_X)))
+                            cur_obj->x_pos = bb1_x - 36;
+                        else
+                            cur_obj->x_pos = bb1_x + 120;
+                        cur_obj->y_pos = bb1_obj->y_pos - 185;
+                        cur_obj->speed_y = 4;
+                    }
+                    else
+                    {
+                        if (param_2 < 10)
+                        {
+                            cur_obj->x_pos = ray.x_pos;
+                            if (cur_obj->x_pos < 40)
+                                cur_obj->x_pos = 40;
+                            if (cur_obj->x_pos > 200)
+                                cur_obj->x_pos = 200;
+                        }
+                        else
+                        {
+                            if (bb1_obj->flags & FLG(OBJ_FLIP_X))
+                                new_x_2 = 240 - bb1.field8_0xe * 50;
+                            else
+                            {
+                                new_x_2 = bb1.field8_0xe * 50 - 20;
+                            }
+                            cur_obj->x_pos = new_x_2;
+                        }
+                        cur_obj->y_pos = bb1_obj->y_pos - 200;
+                        cur_obj->speed_y = 0;
+                    }
+                    cur_obj->speed_x = 0;
+                }
+                cur_obj->iframes_timer = 38;
+                if (param_2 != 3)
+                    cur_obj->gravity_value_2 = 10;
+                else
+                    cur_obj->gravity_value_2 = 7;
 
-        if (param_2 == 0)
-          cur_obj->gravity_value_2 = 3;
-        cur_obj->main_etat = 2;
-        cur_obj->sub_etat = 6;
-        skipToLabel(cur_obj, 1, true);
-        calc_obj_pos(cur_obj);
-        cur_obj->gravity_value_1 = 0;
-        cur_obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
-        if (param_2 < 10)
-          cur_obj->field23_0x3c = param_2;
-        else
-          cur_obj->field23_0x3c = 4;
-        if (param_2 != 3) {
-          PS1_AlwaysObjects[PS1_AlwaysObjectsCount] = cur_obj->id;
-          PS1_AlwaysObjectsCount++;
-        }
-        break;
-      }
-      cur_obj++;
-      i++;
-    } while (i < nb_objs);
-  }
+                if (param_2 == 0)
+                    cur_obj->gravity_value_2 = 3;
+                cur_obj->main_etat = 2;
+                cur_obj->sub_etat = 6;
+                skipToLabel(cur_obj, 1, true);
+                calc_obj_pos(cur_obj);
+                cur_obj->gravity_value_1 = 0;
+                cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
+                if (param_2 < 10)
+                    cur_obj->field23_0x3c = param_2;
+                else
+                    cur_obj->field23_0x3c = 4;
+                if (param_2 != 3)
+                {
+                    PS1_AlwaysObjects[PS1_AlwaysObjectsCount] = cur_obj->id;
+                    PS1_AlwaysObjectsCount++;
+                }
+                break;
+            }
+            cur_obj++;
+            i++;
+        } while (i < nb_objs);
+    }
 }
 
 /* 58644 8017CE44 -O2 -msoft-float */
 void CreateFirstBBL(void)
 {
-  Obj *obj;
-  s16 i;
-  u8 nb_objs;
-  
-  obj = level.objects;
-  i = 0;
-  nb_objs = level.nb_objects;
-  if (nb_objs != 0) {
-    do {
-      if (obj->type == TYPE_BBL && !(obj->flags & FLG(OBJ_ACTIVE))) {
-        obj->x_pos = -40;
-        PosPierre = -15;
-        obj->y_pos = 160;
-        obj->speed_x = 0;
-        obj->speed_y = 0;
-        obj->iframes_timer = 38;
-        obj->gravity_value_2 = 3;
-        obj->main_etat = 2;
-        obj->sub_etat = 6;
-        obj->flags = obj->flags & ~FLG(OBJ_FLIP_X);
-        skipToLabel(obj, 1, true);
-        calc_obj_pos(obj);
-        obj->gravity_value_1 = 0;
-        obj->field23_0x3c = 2;
-        obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
-        PS1_AlwaysObjects[PS1_AlwaysObjectsCount] = obj->id;
-        PS1_AlwaysObjectsCount++;
-        break;
-      }
-      obj++;
-      i++;
-    } while (nb_objs > i);
-  }
+    Obj *obj;
+    s16 i;
+    u8 nb_objs;
+
+    obj = level.objects;
+    i = 0;
+    nb_objs = level.nb_objects;
+    if (nb_objs != 0)
+    {
+        do
+        {
+            if (obj->type == TYPE_BBL && !(obj->flags & FLG(OBJ_ACTIVE)))
+            {
+                obj->x_pos = -40;
+                PosPierre = -15;
+                obj->y_pos = 160;
+                obj->speed_x = 0;
+                obj->speed_y = 0;
+                obj->iframes_timer = 38;
+                obj->gravity_value_2 = 3;
+                obj->main_etat = 2;
+                obj->sub_etat = 6;
+                obj->flags = obj->flags & ~FLG(OBJ_FLIP_X);
+                skipToLabel(obj, 1, true);
+                calc_obj_pos(obj);
+                obj->gravity_value_1 = 0;
+                obj->field23_0x3c = 2;
+                obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
+                PS1_AlwaysObjects[PS1_AlwaysObjectsCount] = obj->id;
+                PS1_AlwaysObjectsCount++;
+                break;
+            }
+            obj++;
+            i++;
+        } while (nb_objs > i);
+    }
 }
 
 /* 58784 8017CF84 -O2 -msoft-float */
 void INIT_BBMONT(Obj *obj)
 {
-  calc_obj_pos(obj);
-  obj->field23_0x3c = 0;
-  obj->gravity_value_2 = 10;
-  Phase = 0;
-  WaitForAnim = false;
-  WaitForFinAtan = 10;
-  PosPierre = 9999;
-  PierreDoitExploser = 0;
-  IndSerie = 0;
-  IndAtak = 0;
-  RMrepere = 0;
-  YaDesChiens = 0;
-  screen_trembling2 = 0;
-  obj->flags |= FLG(OBJ_ALIVE);
-  obj->flags &= ~FLG(OBJ_ACTIVE);
-  bb1.field1_0x2 = -1;
-  bb1.speed_x = 0;
-  bb1.saved_cmd = 0;
-  bb1.field2_0x4 = 0;
-  bb1.field8_0xe = 1;
+    calc_obj_pos(obj);
+    obj->field23_0x3c = 0;
+    obj->gravity_value_2 = 10;
+    Phase = 0;
+    WaitForAnim = false;
+    WaitForFinAtan = 10;
+    PosPierre = 9999;
+    PierreDoitExploser = 0;
+    IndSerie = 0;
+    IndAtak = 0;
+    RMrepere = 0;
+    YaDesChiens = 0;
+    screen_trembling2 = 0;
+    obj->flags |= FLG(OBJ_ALIVE);
+    obj->flags &= ~FLG(OBJ_ACTIVE);
+    bb1.field1_0x2 = -1;
+    bb1.speed_x = 0;
+    bb1.saved_cmd = 0;
+    bb1.field2_0x4 = 0;
+    bb1.field8_0xe = 1;
 }
 
 /* 5884C 8017D04C -O2 -msoft-float */
@@ -565,7 +570,7 @@ void DO_BBL_COMMAND(Obj *obj)
         ] >> BLOCK_FLAG_4 & 1
     )
     {
-        switch(obj->field23_0x3c)
+        switch (obj->field23_0x3c)
         {
         case 1:
             PlaySnd(200, obj->id);
@@ -573,7 +578,7 @@ void DO_BBL_COMMAND(Obj *obj)
             spd_x_abs = __builtin_abs(spd_x);
             if (spd_x_abs == 12)
             {
-                
+
                 if (spd_x > 0)
                     new_spd_x = -13;
                 else
@@ -626,105 +631,106 @@ void DO_BBL_COMMAND(Obj *obj)
 /* 58B04 8017D304 -O2 -msoft-float */
 void BBMONT_ECLAIR(Obj *bb1_obj)
 {
-  s16 new_spd_x;
-  s32 new_x;
-  s16 x; s16 y; s16 w; s16 h;
-  u8 nb_objs = level.nb_objects;
-  s16 i = 0;
-  Obj *cur_obj = level.objects;
+    s16 new_spd_x;
+    s32 new_x;
+    s16 x; s16 y; s16 w; s16 h;
+    u8 nb_objs = level.nb_objects;
+    s16 i = 0;
+    Obj *cur_obj = level.objects;
 
-  if (nb_objs != 0)
-  {
-    do {
-      if (cur_obj->type == TYPE_ECLAIR && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
-      {
-        cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | bb1_obj->flags & FLG(OBJ_FLIP_X);
-        cur_obj->speed_y = 0;
-        if (!(cur_obj->flags & FLG(OBJ_FLIP_X)))
-          cur_obj->speed_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_left;
-        else
-          cur_obj->speed_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_right;
-        GET_SPRITE_POS(bb1_obj, 10, &x, &y, &w, &h);
-        new_x = (x + w) - cur_obj->offset_bx;
-        if ((bb1_obj->flags & FLG(OBJ_FLIP_X)))
-          new_x += 16;
-        else
-          new_x -= 16;
-        cur_obj->x_pos = new_x;
-        cur_obj->y_pos = y;
-        cur_obj->init_x_pos = cur_obj->x_pos;
-        cur_obj->init_y_pos = cur_obj->y_pos;
-        skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
-        calc_obj_pos(cur_obj);
-        cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
-        allocateExplosion(cur_obj);
-        break;
-      }
-      cur_obj++;
-      i++;
-    } while (i < nb_objs);
-  }
+    if (nb_objs != 0)
+    {
+        do
+        {
+            if (cur_obj->type == TYPE_ECLAIR && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+            {
+                cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | bb1_obj->flags & FLG(OBJ_FLIP_X);
+                cur_obj->speed_y = 0;
+                if (!(cur_obj->flags & FLG(OBJ_FLIP_X)))
+                    cur_obj->speed_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_left;
+                else
+                    cur_obj->speed_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_right;
+                GET_SPRITE_POS(bb1_obj, 10, &x, &y, &w, &h);
+                new_x = (x + w) - cur_obj->offset_bx;
+                if ((bb1_obj->flags & FLG(OBJ_FLIP_X)))
+                    new_x += 16;
+                else
+                    new_x -= 16;
+                cur_obj->x_pos = new_x;
+                cur_obj->y_pos = y;
+                cur_obj->init_x_pos = cur_obj->x_pos;
+                cur_obj->init_y_pos = cur_obj->y_pos;
+                skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
+                calc_obj_pos(cur_obj);
+                cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
+                allocateExplosion(cur_obj);
+                break;
+            }
+            cur_obj++;
+            i++;
+        } while (i < nb_objs);
+    }
 }
 
 /* 58CC4 8017D4C4 -O2 -msoft-float */
 void BBMONT_ETINCELLES(Obj *in_obj)
 {
-  s16 in_x; s16 in_y; s16 in_w; s16 in_h;
-  s16 i = 0;
-  Obj *cur_obj = &level.objects[0];
-  u8 nb_objs = level.nb_objects;
+    s16 in_x; s16 in_y; s16 in_w; s16 in_h;
+    s16 i = 0;
+    Obj *cur_obj = &level.objects[0];
+    u8 nb_objs = level.nb_objects;
 
-  while (i < nb_objs)
-  {
-    if (cur_obj->type == TYPE_ETINC && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+    while (i < nb_objs)
     {
+        if (cur_obj->type == TYPE_ETINC && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+        {
       /* sprite 3 */
-      cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | in_obj->flags & FLG(OBJ_FLIP_X);
-      cur_obj->speed_y = 0;
-      if (!(cur_obj->flags & FLG(OBJ_FLIP_X)))
-        cur_obj->speed_x = 7;
-      else
-        cur_obj->speed_x = -7;
+            cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | in_obj->flags & FLG(OBJ_FLIP_X);
+            cur_obj->speed_y = 0;
+            if (!(cur_obj->flags & FLG(OBJ_FLIP_X)))
+                cur_obj->speed_x = 7;
+            else
+                cur_obj->speed_x = -7;
 
-      GET_SPRITE_POS(in_obj, 3, &in_x, &in_y, &in_w, &in_h);
-      if (!(in_obj->flags & FLG(OBJ_FLIP_X)))
-        in_w = 0;
-      
-      cur_obj->x_pos = in_x + in_w - cur_obj->offset_bx;
-      cur_obj->y_pos = in_y - 8;
-      cur_obj->init_x_pos = cur_obj->x_pos;
-      cur_obj->init_y_pos = cur_obj->y_pos;
-      skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
-      calc_obj_pos(cur_obj);
-      cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            GET_SPRITE_POS(in_obj, 3, &in_x, &in_y, &in_w, &in_h);
+            if (!(in_obj->flags & FLG(OBJ_FLIP_X)))
+                in_w = 0;
+
+            cur_obj->x_pos = in_x + in_w - cur_obj->offset_bx;
+            cur_obj->y_pos = in_y - 8;
+            cur_obj->init_x_pos = cur_obj->x_pos;
+            cur_obj->init_y_pos = cur_obj->y_pos;
+            skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
+            calc_obj_pos(cur_obj);
+            cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
 
       /* sprite 2 */
-      cur_obj++;
-      cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | in_obj->flags & FLG(OBJ_FLIP_X);
-      cur_obj->speed_y = 0;
-      if (!(cur_obj->flags & FLG(OBJ_FLIP_X)))
-        cur_obj->speed_x = 7;
-      else
-        cur_obj->speed_x = -7;
+            cur_obj++;
+            cur_obj->flags = cur_obj->flags & ~FLG(OBJ_FLIP_X) | in_obj->flags & FLG(OBJ_FLIP_X);
+            cur_obj->speed_y = 0;
+            if (!(cur_obj->flags & FLG(OBJ_FLIP_X)))
+                cur_obj->speed_x = 7;
+            else
+                cur_obj->speed_x = -7;
 
-      GET_SPRITE_POS(in_obj, 2, &in_x, &in_y, &in_w, &in_h);
-      if (!(in_obj->flags & FLG(OBJ_FLIP_X)))
-        in_w = 0;
-      
-      cur_obj->x_pos = in_x + in_w - cur_obj->offset_bx;
-      cur_obj->y_pos = in_y - 8;
-      cur_obj->init_x_pos = cur_obj->x_pos;
-      cur_obj->init_y_pos = cur_obj->y_pos;
-      skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
-      calc_obj_pos(cur_obj);
-      cur_obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
-      
-      allocateExplosion(cur_obj);
-      break;
+            GET_SPRITE_POS(in_obj, 2, &in_x, &in_y, &in_w, &in_h);
+            if (!(in_obj->flags & FLG(OBJ_FLIP_X)))
+                in_w = 0;
+
+            cur_obj->x_pos = in_x + in_w - cur_obj->offset_bx;
+            cur_obj->y_pos = in_y - 8;
+            cur_obj->init_x_pos = cur_obj->x_pos;
+            cur_obj->init_y_pos = cur_obj->y_pos;
+            skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
+            calc_obj_pos(cur_obj);
+            cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
+
+            allocateExplosion(cur_obj);
+            break;
+        }
+        cur_obj++;
+        i++;
     }
-    cur_obj++;
-    i++;
-  }
 }
 
 /* 58F14 8017D714 -O2 -msoft-float */
@@ -742,60 +748,60 @@ void Cree_BBL(Obj *obj)
 /* 58F54 8017D754 -O2 -msoft-float */
 void BB_Attaque(Obj *obj)
 {
-  switch(NextAtak)
-  {
-  case 0:
-    set_main_and_sub_etat(obj, 0, 4);
-    Phase = 1;
-    break;
-  case 1:
-    set_main_and_sub_etat(obj, 0, 3);
-    Phase = 2;
-    break;
-  case 2:
-    set_main_and_sub_etat(obj, 0, 6);
-    Phase = 3;
-    break;
-  case 3:
-    set_main_and_sub_etat(obj, 0, 7);
-    Phase = 4;
-    break;
-  case 4:
-    set_main_and_sub_etat(obj, 0, 2);
-    Phase = 5;
-    break;
-  case 5:
-    set_main_and_sub_etat(obj, 0, 4);
-    Phase = 12;
-    break;
-  case 6:
-    set_main_and_sub_etat(obj, 2, 3);
-    obj->iframes_timer = 35;
-    Phase = 11;
-    bb1.field8_0xe = 1;
-    break;
-  case 7:
-    set_main_and_sub_etat(obj, 0, 22);
-    Phase = 13;
-  }
+    switch (NextAtak)
+    {
+    case 0:
+        set_main_and_sub_etat(obj, 0, 4);
+        Phase = 1;
+        break;
+    case 1:
+        set_main_and_sub_etat(obj, 0, 3);
+        Phase = 2;
+        break;
+    case 2:
+        set_main_and_sub_etat(obj, 0, 6);
+        Phase = 3;
+        break;
+    case 3:
+        set_main_and_sub_etat(obj, 0, 7);
+        Phase = 4;
+        break;
+    case 4:
+        set_main_and_sub_etat(obj, 0, 2);
+        Phase = 5;
+        break;
+    case 5:
+        set_main_and_sub_etat(obj, 0, 4);
+        Phase = 12;
+        break;
+    case 6:
+        set_main_and_sub_etat(obj, 2, 3);
+        obj->iframes_timer = 35;
+        Phase = 11;
+        bb1.field8_0xe = 1;
+        break;
+    case 7:
+        set_main_and_sub_etat(obj, 0, 22);
+        Phase = 13;
+    }
 }
 
 /* 5908C 8017D88C -O2 -msoft-float */
 void Fin_BB_Attaque(Obj *obj)
 {
-  IndAtak++;
-  if (IndAtak < 7)
-    NextAtak = SerieAtakBB[IndSerie][IndAtak].attack;
-  else
-    NextAtak = 0xff;
+    IndAtak++;
+    if (IndAtak < 7)
+        NextAtak = SerieAtakBB[IndSerie][IndAtak].attack;
+    else
+        NextAtak = 0xff;
 
-  if (NextAtak == 0xff)
-  {
-    IndAtak = 0;
-    NextAtak = SerieAtakBB[IndSerie][IndAtak].attack;
-  }
-  WaitForFinAtan = SerieAtakBB[IndSerie][IndAtak].wait_for_fin_atan;
-  BB_Attaque(obj);
+    if (NextAtak == 0xff)
+    {
+        IndAtak = 0;
+        NextAtak = SerieAtakBB[IndSerie][IndAtak].attack;
+    }
+    WaitForFinAtan = SerieAtakBB[IndSerie][IndAtak].wait_for_fin_atan;
+    BB_Attaque(obj);
 }
 
 /* 59198 8017D998 -O2 -msoft-float */
@@ -890,7 +896,7 @@ void DO_BBMONT_COMMAND(Obj *obj)
         else
             bb1.field2_0x4 = 0;
     }
-    
+
     if (bb1.field2_0x4 == 3)
     {
         if (--bb1.saved_cmd <= 0)
@@ -902,12 +908,12 @@ void DO_BBMONT_COMMAND(Obj *obj)
     }
     else
     {
-        switch(obj->cmd)
+        switch (obj->cmd)
         {
         case GO_LEFT:
             obj->flags &= ~FLG(OBJ_FLIP_X);
         case GO_RIGHT:
-            if(obj->cmd == GO_RIGHT)
+            if (obj->cmd == GO_RIGHT)
                 obj->flags |= FLG(OBJ_FLIP_X);
             SET_X_SPEED(obj);
             if (block_flags[calc_typ_travd(obj, false)] >> BLOCK_FLAG_4 & 1)
@@ -919,7 +925,7 @@ void DO_BBMONT_COMMAND(Obj *obj)
                     WaitForFinAtan = 2;
                 Phase = 8;
             }
-            
+
             if (Phase == 7)
             {
                 /* different way to write this, or is this the nicest??? */
@@ -927,7 +933,8 @@ void DO_BBMONT_COMMAND(Obj *obj)
                 x_1 = obj->x_pos;
                 if (
                     (obj->flags & FLG(OBJ_FLIP_X) && (x_1 < pos_pierre + 14)) ||
-                    (!(obj->flags & FLG(OBJ_FLIP_X))  && (x_1 < pos_pierre - 6)))
+                    (!(obj->flags & FLG(OBJ_FLIP_X)) && (x_1 < pos_pierre - 6))
+                )
                 {
                     pos_pierre = PosPierre;
                     x_2 = obj->x_pos;
@@ -945,7 +952,7 @@ void DO_BBMONT_COMMAND(Obj *obj)
             CALC_MOV_ON_BLOC(obj);
             break;
         case GO_WAIT:
-            switch(Phase)
+            switch (Phase)
             {
             case 0:
                 if (bb1.field8_0xe != 0)
@@ -1041,7 +1048,7 @@ void DO_BBMONT_COMMAND(Obj *obj)
                 }
 
                 if (FinAnim)
-                    BB_Atan(obj);                
+                    BB_Atan(obj);
                 break;
             case 5:
                 if (
@@ -1114,7 +1121,6 @@ void DO_BBMONT_COMMAND(Obj *obj)
                                 bb1.field8_0xe = 0;
                             }
                         }
-
                     }
                 }
                 break;
@@ -1125,7 +1131,7 @@ void DO_BBMONT_COMMAND(Obj *obj)
                     obj->sub_etat != 9
                 )
                     PierreDoitExploser = true;
-                
+
                 if (FinAnim && bb1.field2_0x4 != 2)
                 {
                     set_main_and_sub_etat(obj, 1, 0);
@@ -1148,7 +1154,7 @@ void DO_BBMONT_COMMAND(Obj *obj)
                 }
                 break;
             case 11:
-                switch(obj->sub_etat)
+                switch (obj->sub_etat)
                 {
                 case 0:
                 case 3:
@@ -1164,7 +1170,7 @@ void DO_BBMONT_COMMAND(Obj *obj)
                     }
                     else
                     {
-                        set_sub_etat(obj,  4);
+                        set_sub_etat(obj, 4);
                         if (obj->flags & FLG(OBJ_FLIP_X))
                             new_spd_x_2 = 2;
                         else
@@ -1239,10 +1245,10 @@ void DO_BBMONT_COMMAND(Obj *obj)
 /* 5A260 8017EA60 -O2 -msoft-float */
 void DO_BBMONT_TOUCHE(Obj *obj)
 {
-  set_sub_etat(obj, 8);
-  obj->anim_frame = 0;
-  Phase = 7;
-  WaitForFinAtan = 2;
+    set_sub_etat(obj, 8);
+    obj->anim_frame = 0;
+    Phase = 7;
+    WaitForFinAtan = 2;
 }
 
 #ifndef NONMATCHINGS
@@ -1323,7 +1329,7 @@ void DO_BBMONT2_COMMAND(Obj *obj)
         obj->speed_x = 0;
         obj->speed_y = 0;
     }
-    
+
     if (obj->main_etat == 1)
     {
         if (Phase == 0)
@@ -1400,7 +1406,8 @@ void DO_BBMONT2_COMMAND(Obj *obj)
                     (s16) (((obj->x_pos + obj->offset_bx) >> 4) + mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
                 ] >> 10
             ] >> 1 & 1)
-        ) {
+        )
+        {
             set_main_and_sub_etat(obj, 2U, 4U);
             obj->gravity_value_2 = 5;
             obj->gravity_value_1 = 0;
@@ -1416,7 +1423,8 @@ void DO_BBMONT2_COMMAND(Obj *obj)
                     (s16) (((obj->x_pos + (obj->offset_bx - 8)) >> 4) + mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
                 ] >> 10
             ] >> 1 & 1)
-        ) {
+        )
+        {
             set_main_and_sub_etat(obj, 2U, 1U);
             obj->gravity_value_2 = 5;
             obj->gravity_value_1 = 0;
@@ -1427,7 +1435,7 @@ void DO_BBMONT2_COMMAND(Obj *obj)
         break;
     case 3:
         scroll_end_x = MAX_1(scroll_end_x, 0x15cc);
-        
+
         if (((temp_s2 + 0x20) < ray_zdc_x) && (bb1.field1_0x2 == -1) && (temp_s3 < ray_zdc_y))
         {
             if (bb1.speed_x != -1)
@@ -1476,7 +1484,8 @@ void DO_BBMONT2_COMMAND(Obj *obj)
                         (s16) (((obj->x_pos + (obj->offset_bx - 8)) >> 4) + mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
                     ] >> 10
                 ] >> 1 & 1)
-            ) {
+            )
+            {
                 obj->speed_y = -6;
                 obj->speed_x = 3;
                 set_main_and_sub_etat(obj, 2U, 4U);
@@ -1534,7 +1543,8 @@ void DO_BBMONT2_COMMAND(Obj *obj)
                         (s16) (((obj->x_pos + obj->offset_bx + (!(obj->flags & 0x4000) ? -0x10 : 0x10)) >> 4) + mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
                     ] >> 10
                 ] >> 1 & 1)
-            ) {
+            )
+            {
                 obj->speed_y = 0;
                 obj->speed_x = 0;
                 /* see also: makeUturn() case TYPE_SPIDER_PLAFOND */
@@ -1598,7 +1608,6 @@ block_147:
                         bb1.field1_0x2 = -0x001E;
                     }
                 }
-
             }
         }
         if (obj->main_etat == 1)
@@ -1609,7 +1618,8 @@ block_147:
                         (s16) (((obj->x_pos + obj->offset_bx + (!(obj->flags & 0x4000) ? -0x10 : 0x10)) >> 4) + mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
                     ] >> 10
                 ] >> 1 & 1)
-            ) {
+            )
+            {
                 if (bb1.speed_x == 3)
                 {
                     set_main_and_sub_etat(obj, 2U, 4U);
@@ -1636,7 +1646,6 @@ block_147:
                 goto block_173;
             }
             return;
-            
         }
         if (((ray_zdc_x + ((s16) ray_zdc_w >> 1)) - temp_s2) >= 0x191)
         {
@@ -1732,13 +1741,13 @@ void DO_BBMONT3_COMMAND(Obj *obj)
     u8 eight;
 
     if (
-      obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1) &&
-      horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+        obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1) &&
+        horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
     )
         FinAnim = true;
     else
         FinAnim = false;
-    
+
     if (obj->main_etat == 1)
     {
         SET_X_SPEED(obj);
@@ -1766,7 +1775,7 @@ void DO_BBMONT3_COMMAND(Obj *obj)
         obj->flags &= ~FLG(OBJ_FLIP_X);
         if (obj->main_etat != 2)
             CALC_MOV_ON_BLOC(obj);
-        
+
         if (FinAnim && obj->main_etat == 0)
         {
             bb1.speed_x = 2;
@@ -1774,19 +1783,15 @@ void DO_BBMONT3_COMMAND(Obj *obj)
         }
         eight = 8;
         if (
-          (obj->main_etat == 1) &&
-          ((block_flags
-            [
-              *(u16 *)(
-                (
-                  (s16)(
-                    ((obj->x_pos + (obj->offset_bx - eight)) >> 4) +
-                    mp.width * ((obj->y_pos + obj->offset_by + eight) >> 4)
-                  ) << 1
-                ) + (s32)mp.map
-              ) >> 10
-            ] >> 1 & 1) == 0
-          )
+            (obj->main_etat == 1) &&
+            ((block_flags
+                [
+                    mp.map[
+                        (s16)(((obj->x_pos + (obj->offset_bx - eight)) >> 4) +
+                        mp.width * ((obj->y_pos + obj->offset_by + eight) >> 4))
+                    ] >> 10
+                ] >> 1 & 1) == 0
+            )
         )
         {
             set_main_and_sub_etat(obj, 2, 4);
@@ -1798,19 +1803,15 @@ void DO_BBMONT3_COMMAND(Obj *obj)
         break;
     case 1:
         if (
-          (obj->main_etat == 1) &&
-          ((block_flags
-            [
-              *(u16 *)(
-                (
-                  (s16)(
-                    ((obj->x_pos + (obj->offset_bx)) >> 4) +
-                    mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4)
-                  ) << 1
-                ) + (s32)mp.map
-              ) >> 10
-            ] >> 1 & 1) == 0
-          )
+            (obj->main_etat == 1) &&
+            ((block_flags
+                [
+                    mp.map[
+                        (s16)(((obj->x_pos + (obj->offset_bx)) >> 4) +
+                        mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
+                    ] >> 10
+                ] >> 1 & 1) == 0
+            )
         )
         {
             set_main_and_sub_etat(obj, 0, 1);
@@ -1860,19 +1861,19 @@ void DO_BBMONT4_COMMAND(Obj *obj)
 {
     obj->flags |= FLG(OBJ_FLIP_X);
     if (
-      obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1) &&
-      horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+        obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1) &&
+        horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
     )
         FinAnim = true;
     else
         FinAnim = false;
-    
+
     if (obj->main_etat == 0)
     {
         if (
-          obj->sub_etat == 7 &&
-          obj->anim_frame == 0x2C &&
-          horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
+            obj->sub_etat == 7 &&
+            obj->anim_frame == 0x2C &&
+            horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
         )
             BBMONT_ETINCELLES(obj);
         if (FinAnim && obj->sub_etat == 0)

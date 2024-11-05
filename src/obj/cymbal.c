@@ -24,7 +24,7 @@ void DO_CYMBAL_COMMAND(Obj *obj)
     u8 sub_etat;
     s16 spd_x = obj->speed_x;
     s16 diff_x = ray.x_pos + ray.offset_bx - obj->x_pos - obj->offset_bx;
-    
+
     if (ray.field20_0x36 == obj->id)
     {
         obj->gravity_value_2 = 5;
@@ -91,7 +91,6 @@ void DO_CYMBAL_COMMAND(Obj *obj)
                 }
             }
         }
-
     }
     else
     {
@@ -109,12 +108,12 @@ void DO_CYMBAL_COMMAND(Obj *obj)
     }
     if (on_block_chdir(obj, obj->offset_bx + spd_x * 2, obj->offset_by))
         spd_x = 0;
-    
+
     obj->speed_x = spd_x;
     if (obj->main_etat == 0)
     {
         sub_etat = obj->sub_etat;
-        if(sub_etat == 0)
+        if (sub_etat == 0)
         {
             if (obj->field24_0x3e == 0 && ray.field20_0x36 == obj->id)
             {
@@ -128,7 +127,7 @@ void DO_CYMBAL_COMMAND(Obj *obj)
                     obj->timer++;
             }
         }
-        else if(sub_etat == 1)
+        else if (sub_etat == 1)
         {
             obj->field24_0x3e = 0;
             if (
@@ -152,7 +151,7 @@ void DO_CYMBAL_COMMAND(Obj *obj)
                 }
             }
         }
-        else if(sub_etat == 3)
+        else if (sub_etat == 3)
         {
             if (!(ray.flags & FLG(OBJ_ACTIVE)) && obj->anim_frame == 0 && ray.field20_0x36 == obj->id)
             {
@@ -173,7 +172,7 @@ void DO_CYMBAL_COMMAND(Obj *obj)
 s32 on_block_chdir(Obj *obj, s16 param_2, s16 param_3);*/
 
 void DO_2_PARTS_CYMBAL(Obj *cym_obj)
-{    
+{
     s16 cym_x; s16 cym_y; s16 cym_w; s16 cym_h;
     s16 cym_offs_bx; s16 cym_offs_by;
     u8 cym_sub_etat;
@@ -219,9 +218,9 @@ void DO_2_PARTS_CYMBAL(Obj *cym_obj)
         link_obj = &level.objects[link_init[cym_obj->id]];
         if (!(link_obj->flags & FLG(OBJ_ACTIVE)))
             link_obj->flags = link_obj->flags | FLG(OBJ_ACTIVE);
-        
+
         unk_1 = -1;
-        if (*(s32 *)&cym_obj->speed_x == 0)
+        if (*(s32 *) &cym_obj->speed_x == 0)
         {
             if (cym_obj->field24_0x3e == 1)
             {
@@ -270,7 +269,7 @@ void DO_2_PARTS_CYMBAL(Obj *cym_obj)
                     }
                     else
                         link_obj->speed_y = 1;
-                } 
+                }
             }
             else
             {
@@ -280,7 +279,7 @@ void DO_2_PARTS_CYMBAL(Obj *cym_obj)
                         cym_sub_etat = 7;
                     else
                         cym_sub_etat = 11;
-                    
+
                     if (
                         cym_obj->main_etat == 0 && cym_obj->sub_etat == cym_sub_etat &&
                         cym_obj->anim_frame == 0

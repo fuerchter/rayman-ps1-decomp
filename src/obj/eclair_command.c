@@ -16,13 +16,12 @@ void DO_ECLAIR_COMMAND(Obj *obj)
     u8 temp_v1;
     s16 nb_objs;
 
-
     temp_v1 = obj->cmd;
     switch (temp_v1)
     {
     default:
         goto block_1;
-    block_2:
+block_2:
         var_s0->flags = temp_v1_2 & ~0x4000;
         var_s0->speed_y = 0;
         var_s0->speed_x = 0;
@@ -41,11 +40,11 @@ void DO_ECLAIR_COMMAND(Obj *obj)
         var_s0->nb_cmd = 0;
         var_s0->flags |= 0xC00;
         goto block_3;
-    block_1:
+block_1:
         break;
     case 0:
         obj->flags &= ~0x4000;
-        
+
     case 1:
         if (obj->cmd == 1)
         {
@@ -58,7 +57,8 @@ void DO_ECLAIR_COMMAND(Obj *obj)
                 mp.map[
                     (s16) (((obj->x_pos + obj->offset_bx) >> 4) + mp.width * ((obj->y_pos + obj->offset_by) >> 4))
                 ] >> 10
-            ] >> BLOCK_CH_DIR & 1)
+            ] >> BLOCK_CH_DIR & 1
+        )
         {
             var_s0 = level.objects;
             var_a1 = 0;

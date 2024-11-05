@@ -36,7 +36,7 @@ void DO_BAT_FLASH(s32 in_x, s32 in_y)
         diff_x = -diff_x;
     if (!y_gt_0)
         diff_y = -diff_y;
-    
+
     if (diff_x > 200)
     {
         diff_x = ashr16(diff_x, 1);
@@ -192,8 +192,6 @@ void bat_init_scroll(Obj *obj)
             {
                 temp_v0_1 = temp_v0_1 + 0x10;
             }
-            
-
         }
     }
     bossScrollEndX = temp_v0_1 + 0x20;
@@ -356,7 +354,7 @@ void DO_BAT_COMMAND(Obj *obj)
         break;
     case 16:
         obj->speed_y = -8;
-        if(EOA(obj))
+        if (EOA(obj))
         {
             if (obj->y_pos + obj->offset_by < ymap)
             {

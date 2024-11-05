@@ -60,7 +60,7 @@ void init_vitraux(void)
         boss_index_2 = boss_index_1;
         if (boss_index_1 > 4)
             return;
-        
+
         if (cur_obj->type == TYPE_VITRAIL)
         {
             VitrauxInfos[boss_index_2].obj_id = i;
@@ -157,14 +157,14 @@ void DARK_phase1(Obj *mr_drk_obj)
         {
         case 40:
             flag_set = mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].flags & 0x10;
-            if(
+            if (
                 ((flag_set && mr_drk_obj->anim_frame == 0) ||
                 (!flag_set && mr_drk_obj->anim_frame == mr_drk_obj->animations[mr_drk_obj->anim_index].frames_count - 1)) &&
                 horloge[mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].anim_speed & 0xf] == 0
             )
             {
-                    goto_phase2(mr_drk_obj);
-                    return;
+                goto_phase2(mr_drk_obj);
+                return;
             }
             break;
         case 27:
@@ -177,24 +177,24 @@ void DARK_phase1(Obj *mr_drk_obj)
             {
                 var_s2->y_pos = ((temp_s1->offset_by + (u16) temp_s1->y_pos) - var_s2->offset_by) - 5;
             }
-            
+
             flag_set = mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].flags & 0x10;
-            if(
+            if (
                 ((flag_set && mr_drk_obj->anim_frame == 0) ||
-                (!flag_set && mr_drk_obj->anim_frame == mr_drk_obj->animations[mr_drk_obj->anim_index].frames_count - 1)) &&
+                 (!flag_set && mr_drk_obj->anim_frame == mr_drk_obj->animations[mr_drk_obj->anim_index].frames_count - 1)) &&
                 horloge[mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].anim_speed & 0xf] == 0
             )
             {
 
-                    temp_s1->field23_0x3c--;
-                    if ((temp_s1->field23_0x3c) == 0)
-                    {
-                        set_main_and_sub_etat(mr_drk_obj, 0U, 0x28U);
-                        return;
-                    }
-                    temp_s1->iframes_timer = 0;
-                    set_main_and_sub_etat(mr_drk_obj, 0U, 0x1CU);
+                temp_s1->field23_0x3c--;
+                if ((temp_s1->field23_0x3c) == 0)
+                {
+                    set_main_and_sub_etat(mr_drk_obj, 0U, 0x28U);
                     return;
+                }
+                temp_s1->iframes_timer = 0;
+                set_main_and_sub_etat(mr_drk_obj, 0U, 0x1CU);
+                return;
             }
             break;
         case 29:
@@ -207,9 +207,9 @@ void DARK_phase1(Obj *mr_drk_obj)
             {
                 var_s2->y_pos = ((temp_s1->offset_by + (u16) temp_s1->y_pos) - var_s2->offset_by) - 5;
             }
-            
+
             flag_set = mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].flags & 0x10;
-            if(
+            if (
                 ((flag_set && mr_drk_obj->anim_frame == 0) ||
                 (!flag_set && mr_drk_obj->anim_frame == mr_drk_obj->animations[mr_drk_obj->anim_index].frames_count - 1)) &&
                 horloge[mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].anim_speed & 0xf] == 0
@@ -314,7 +314,7 @@ void DARK_phase3(Obj *mr_drk_obj)
             if (unk_1 == 0)
             {
                 boss_obj->field23_0x3c = 2;
-                allume_vitraux((u8 (*)[5]) vitrail_clignotement[0]);
+                allume_vitraux((u8(*)[5]) vitrail_clignotement[0]);
                 flags[boss_obj->type].flags0 |= FLG(OBJ0_BOSS);
                 scrollLocked = true;
                 allocateSTOSKO();
@@ -339,7 +339,7 @@ void DARK_phase3(Obj *mr_drk_obj)
                 boss_obj->field23_0x3c = 2;
                 if (moskitomama_gauche_obj_id != -1)
                     level.objects[moskitomama_gauche_obj_id].field23_0x3c = 2;
-                allume_vitraux((u8 (*)[5]) vitrail_clignotement[1]);
+                allume_vitraux((u8(*)[5]) vitrail_clignotement[1]);
                 flags[boss_obj->type].flags0 |= FLG(OBJ0_BOSS);
                 scrollLocked = true;
                 allocateMOSKITOMAMA();
@@ -362,7 +362,7 @@ void DARK_phase3(Obj *mr_drk_obj)
             if (unk_1 == 0)
             {
                 boss_obj->field23_0x3c = 2;
-                allume_vitraux((u8 (*)[5]) vitrail_clignotement[2]);
+                allume_vitraux((u8(*)[5]) vitrail_clignotement[2]);
                 flags[boss_obj->type].flags0 |= FLG(OBJ0_BOSS);
                 scrollLocked = true;
                 allocateMOSKITOSAXO();
@@ -378,7 +378,7 @@ void DARK_phase3(Obj *mr_drk_obj)
         }
         break;
     case 3:
-        allume_vitraux((u8 (*)[5]) vitrail_clignotement[3]);
+        allume_vitraux((u8(*)[5]) vitrail_clignotement[3]);
         goto_phase5(mr_drk_obj);
         break;
     }
@@ -422,12 +422,12 @@ void DO_DARK_COMMAND(Obj *mr_drk_obj)
                 {
                     if (dark_phase == 4)
                     {
-                        if(EOA(mr_drk_obj))
+                        if (EOA(mr_drk_obj))
                             goto_phase5(mr_drk_obj);
                     }
                     else
                     {
-                        if(EOA(mr_drk_obj))
+                        if (EOA(mr_drk_obj))
                         {
                             mr_drk_obj->flags &= ~FLG(OBJ_ACTIVE);
                             mr_drk_obj->flags &= ~FLG(OBJ_ALIVE);
@@ -465,19 +465,19 @@ void DO_DARK_COMMAND(Obj *mr_drk_obj)
                     break;
                 case 22:
                     D_801E5518 = 2;
-                    allume_vitraux((u8 (*)[5]) vitrail_clignotement[0]);
+                    allume_vitraux((u8(*)[5]) vitrail_clignotement[0]);
                     allocate_DARK_SORT(sort_x, sort_y, 18, 3);
                     allocate_DARK_SORT(sort_x, sort_y, 18, 5);
                     break;
                 case 23:
                     D_801E5518 = 2;
-                    allume_vitraux((u8 (*)[5]) vitrail_clignotement[1]);
+                    allume_vitraux((u8(*)[5]) vitrail_clignotement[1]);
                     allocate_DARK_SORT(sort_x, sort_y, 19, 1);
                     allocate_DARK_SORT(sort_x, sort_y, 19, 4);
                     break;
                 case 24:
                     D_801E5518 = 2;
-                    allume_vitraux((u8 (*)[5]) vitrail_clignotement[2]);
+                    allume_vitraux((u8(*)[5]) vitrail_clignotement[2]);
                     allocate_DARK_SORT(sort_x, sort_y, 20, 1);
                     allocate_DARK_SORT(sort_x, sort_y, 20, 2);
                     break;
@@ -494,7 +494,7 @@ void DO_DARK_COMMAND(Obj *mr_drk_obj)
                             if (horloge[mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].anim_speed & 0xF] == 0)
                             {
                                 DO_NOVA2(mr_drk_obj);
-                                mr_drk_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE)|FLG(OBJ_FLIP_X);
+                                mr_drk_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE) | FLG(OBJ_FLIP_X);
                             }
                         }
                         else if (mr_drk_obj->anim_frame == 22)
@@ -610,7 +610,6 @@ void DO_DARK_SORT_COMMAND(Obj *param_1)
                 ray_pos_in_stack = 0;
                 black_pos_in_stack = 0;
                 temp_s0->flags |= 0xC00;
-                
             }
             var_s3 = (temp_s0->offset_bx + (u16) temp_s0->init_x_pos) - (param_1->offset_bx + (u16) param_1->x_pos);
             var_a1 = (temp_s0->offset_by + (u16) temp_s0->init_y_pos) - (param_1->offset_by + (u16) param_1->y_pos);
@@ -690,7 +689,7 @@ void DO_DARK_SORT_COLLISION(Obj *obj)
             RAY_DEMIRAY();
             break;
         case 3:
-            DO_NOVA(&ray); 
+            DO_NOVA(&ray);
             RayEvts.poing = false;
             break;
         }
@@ -722,7 +721,7 @@ void allocate_DARK_SORT(s16 x, s16 y, s16 sub_etat, s16 iframes)
         cur_obj->hit_points = 1;
         cur_obj->iframes_timer = iframes;
         cur_obj->field23_0x3c = 0;
-        cur_obj->flags |= FLG(OBJ_ACTIVE)|FLG(OBJ_ALIVE);
+        cur_obj->flags |= FLG(OBJ_ACTIVE) | FLG(OBJ_ALIVE);
         set_main_and_sub_etat(cur_obj, 0, sub_etat);
         cur_obj->anim_frame = 0;
     }
@@ -748,7 +747,7 @@ void allocate_DARK_SORT(s16 x, s16 y, s16 sub_etat, s16 iframes)
         cur_obj->hit_points = 1;
         cur_obj->iframes_timer = iframes;
         cur_obj->field23_0x3c = 0;
-        cur_obj->flags |= FLG(OBJ_ACTIVE)|FLG(OBJ_ALIVE);
+        cur_obj->flags |= FLG(OBJ_ACTIVE) | FLG(OBJ_ALIVE);
         set_main_and_sub_etat(cur_obj, 0, sub_etat);
         cur_obj->anim_frame = 0;
     }
@@ -786,7 +785,7 @@ void corde_en_haut(u8 param_1)
             set_main_and_sub_etat(poing_obj, 5, 64);
             poing_obj->x_pos = corde_dark_obj->x_pos + corde_dark_obj->offset_bx - poing_obj->offset_bx;
             poing_obj->y_pos = corde_dark_obj->y_pos + corde_dark_obj->offset_by - poing_obj->offset_by - 5;
-            poing_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            poing_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
         }
     }
 }
@@ -812,9 +811,9 @@ void goto_phase1(Obj *mr_drk_obj)
     scroll_end_y = ymap;
     scroll_start_y = ymap;
     flags[mr_drk_obj->type].flags0 &=
-        (FLG(OBJ0_ALWAYS)|FLG(OBJ0_BALLE)|FLG(OBJ0_NO_COLLISION)|
-        FLG(OBJ0_HIT_RAY)|FLG(OBJ0_KEEP_ACTIVE)|
-        FLG(OBJ0_DETECT_ZONE)|FLG(OBJ0_FLAG6));
+        (FLG(OBJ0_ALWAYS) | FLG(OBJ0_BALLE) | FLG(OBJ0_NO_COLLISION) |
+         FLG(OBJ0_HIT_RAY) | FLG(OBJ0_KEEP_ACTIVE) |
+         FLG(OBJ0_DETECT_ZONE) | FLG(OBJ0_FLAG6));
     mr_drk_obj->field23_0x3c = 0;
     scrollLocked = false;
     RayEvts.poing = false;
@@ -839,15 +838,15 @@ void goto_phase2(Obj *mr_drk_obj)
     scroll_end_y = ymap;
     scroll_start_y = ymap;
     flags[mr_drk_obj->type].flags0 &=
-        (FLG(OBJ0_ALWAYS)|FLG(OBJ0_BALLE)|FLG(OBJ0_NO_COLLISION)|
-        FLG(OBJ0_HIT_RAY)|FLG(OBJ0_KEEP_ACTIVE)|
-        FLG(OBJ0_DETECT_ZONE)|FLG(OBJ0_FLAG6));
+        (FLG(OBJ0_ALWAYS) | FLG(OBJ0_BALLE) | FLG(OBJ0_NO_COLLISION) |
+         FLG(OBJ0_HIT_RAY) | FLG(OBJ0_KEEP_ACTIVE) |
+         FLG(OBJ0_DETECT_ZONE) | FLG(OBJ0_FLAG6));
     scrollLocked = false;
     PlaceDarkPhase1et2(mr_drk_obj);
     init_corde(mr_drk_obj);
     corde_en_haut(true);
     mr_drk_obj->field23_0x3c = 0;
-    mr_drk_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+    mr_drk_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
     AllocateDarkPhase2(mr_drk_obj);
 }
 
@@ -862,9 +861,9 @@ void goto_phase3(Obj *mr_drk_obj)
     scroll_end_y = ymap;
     scroll_start_y = ymap;
     flags[mr_drk_obj->type].flags0 &=
-        (FLG(OBJ0_ALWAYS)|FLG(OBJ0_BALLE)|FLG(OBJ0_NO_COLLISION)|
-        FLG(OBJ0_HIT_RAY)|FLG(OBJ0_KEEP_ACTIVE)|
-        FLG(OBJ0_DETECT_ZONE)|FLG(OBJ0_FLAG6));
+        (FLG(OBJ0_ALWAYS) | FLG(OBJ0_BALLE) | FLG(OBJ0_NO_COLLISION) |
+         FLG(OBJ0_HIT_RAY) | FLG(OBJ0_KEEP_ACTIVE) |
+         FLG(OBJ0_DETECT_ZONE) | FLG(OBJ0_FLAG6));
     scrollLocked = false;
     PlaceDarkPhase1et2(mr_drk_obj);
     init_corde(mr_drk_obj);
@@ -877,7 +876,7 @@ void goto_phase3(Obj *mr_drk_obj)
     y = ymap - mr_drk_obj->offset_by - 20; /* could also write this as one-liner with double assignment */
     mr_drk_obj->y_pos = y;
     mr_drk_obj->init_y_pos = y;
-    mr_drk_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+    mr_drk_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
     set_main_and_sub_etat(mr_drk_obj, 0, 21);
     dark_attaque = 0;
     type_dark_attaque = *dark_sequence;
@@ -894,9 +893,9 @@ void goto_phase5(Obj *mr_drk_obj)
     scroll_end_y = ymap;
     scroll_start_y = ymap;
     flags[mr_drk_obj->type].flags0 &=
-        (FLG(OBJ0_ALWAYS)|FLG(OBJ0_BALLE)|FLG(OBJ0_NO_COLLISION)|
-        FLG(OBJ0_HIT_RAY)|FLG(OBJ0_KEEP_ACTIVE)|
-        FLG(OBJ0_DETECT_ZONE)|FLG(OBJ0_FLAG6));
+        (FLG(OBJ0_ALWAYS) | FLG(OBJ0_BALLE) | FLG(OBJ0_NO_COLLISION) |
+         FLG(OBJ0_HIT_RAY) | FLG(OBJ0_KEEP_ACTIVE) |
+         FLG(OBJ0_DETECT_ZONE) | FLG(OBJ0_FLAG6));
     scrollLocked = false;
     PlaceDarkPhase1et2(mr_drk_obj);
     init_corde(mr_drk_obj);

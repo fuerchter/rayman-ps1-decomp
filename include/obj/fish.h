@@ -11,9 +11,9 @@
 extern s16 PS1_SplashAlwaysObjects[12];
 extern u8 PS1_SplashAlwaysObjectsCount;
 
-void allocate_splash(Obj *baseObj);
-u8 can_free_fish(Obj *fish);
-void DESACTIVE_FISH_COLLIS(Obj *obj);
-void DO_PYRANHA(Obj *obj);
+void allocate_splash(Obj *base_obj);
+u8 can_free_fish(Obj *fish_obj);
+void DESACTIVE_FISH_COLLIS(Obj *fish_obj);
+void DO_PYRANHA(Obj *in_obj);
 
 #endif
