@@ -70,7 +70,7 @@ s16 PS1_CalcTextWidth(u8 *str, u8 font)
 {
     s16 res = 0;
     u8 i = 0;
-    
+
     while (str[i] != 0)
     {
         res += PS1_calc_let_Width(deter_num_let(str[i]), font);
@@ -101,7 +101,7 @@ void PS1_DisplayMenuTexts(u8 index, MenuText *in_menus)
     u8 i;
     s32 unk_2;
     MenuText *menu = &in_menus[index];
-    
+
     PS1_PolygonsCount = 0;
     PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[6];
     sel_row = menu->selected_row;
@@ -112,7 +112,7 @@ void PS1_DisplayMenuTexts(u8 index, MenuText *in_menus)
         PS1_DrawSprite(&alpha.sprites[40], 39, (unk_1 - *count) * 36 + 4, 0);
     }
     PS1_DisplayMenuText(menu->header, 1, menu->color);
-    
+
     for (i = 0; i < *count; i++)
     {
         unk_2 = i + 7;
@@ -268,8 +268,10 @@ void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font_size, u8 
     s16 unk_y_1;
     s16 unk_1;
     s16 space_width;
-    s16 unk_x; s16 unk_y_2;
-    s16 i; u8 let;
+    s16 unk_x;
+    s16 unk_y_2;
+    s16 i;
+    u8 let;
     Sprite *sprite;
     s16 unk_y_3;
 
@@ -349,7 +351,7 @@ void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font_size, u8 
                     (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->b0 = 20;
 
                     PS1_CurrentDisplay->polygons[PS1_PolygonsCount].clut = sprite->clut;
-                    FUN_8017b260(*(s16 *)&sprite->tpage); /* TODO: sprite tpage s16 maybe? */
+                    FUN_8017b260(*(s16 *) &sprite->tpage); /* TODO: sprite tpage s16 maybe? */
                     PS1_CurrentDisplay->polygons[PS1_PolygonsCount].tpage = GetTPage(0, 0, PS1_TPage_x, PS1_TPage_y);
 
                     (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->u0 = sprite->page_x;
@@ -456,7 +458,7 @@ void display_text(u8 *text, s16 in_x, s16 in_y, u8 font_size, u8 param_5)
         var_s5 = null;
         break;
     }
-    
+
     temp_a1_2 = sp28 & 0xF;
     var_s6 = temp_a1_2;
     if (sp28 & 0x80)
@@ -550,7 +552,7 @@ void display_text(u8 *text, s16 in_x, s16 in_y, u8 font_size, u8 param_5)
                     (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->b0 = 0x14;
 
                     PS1_CurrentDisplay->polygons[PS1_PolygonsCount].clut = sprite->clut;
-                    FUN_8017b260(*(s16 *)&sprite->tpage); /* TODO: sprite tpage s16 maybe? */
+                    FUN_8017b260(*(s16 *) &sprite->tpage); /* TODO: sprite tpage s16 maybe? */
                     PS1_CurrentDisplay->polygons[PS1_PolygonsCount].tpage = GetTPage(0, 0, PS1_TPage_x, PS1_TPage_y);
 
                     (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->u0 = sprite->page_x;
@@ -571,7 +573,7 @@ void display_text(u8 *text, s16 in_x, s16 in_y, u8 font_size, u8 param_5)
                     (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->x3 = unk_x + (sprite->width + 5);
                     (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->y3 = unk_y_2;
                     (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->y3 += 5; /* TODO: */
-                    
+
                     AddPrim(&PS1_CurrentDisplay->ordering_table[9], PS1_CurrentDisplay->polygons + PS1_PolygonsCount);
                     PS1_PolygonsCount = (u16) PS1_PolygonsCount + 1;
                 }
@@ -593,6 +595,6 @@ void display_box_text(TextToDisplay *txt)
 
     if (txt->field8_0x3d != 0 || txt->is_fond)
         DISPLAY_BLACKBOX(x - 3, y - 3, w + 6, h + 6, 254, txt->is_fond);
-    
+
     display_text(txt->text, txt->x_pos, txt->y_pos, txt->font_size, txt->color);
 }

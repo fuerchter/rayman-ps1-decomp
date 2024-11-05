@@ -36,7 +36,7 @@ void FUN_8012d030(DVECTOR tpage_pos, DVECTOR param_2, s16 step_width, s16 step_h
         unk_x_1 = pos_x;
         if (!unk_1)
             unk_x_1 = pos_x - 128;
-        
+
         cnt_y = 0;
         pos_y = 0;
         while (cnt_y < steps_y)
@@ -54,7 +54,7 @@ void FUN_8012d030(DVECTOR tpage_pos, DVECTOR param_2, s16 step_width, s16 step_h
                 poly_1->tpage = tpage_1;
             else
                 poly_1->tpage = tpage_2;
-            
+
             poly_2->u0 = unk_x_1;
             poly_2->v0 = pos_y;
             poly_2->u1 = unk_x_1 + step_width;
@@ -68,13 +68,13 @@ void FUN_8012d030(DVECTOR tpage_pos, DVECTOR param_2, s16 step_width, s16 step_h
                 poly_2->tpage = tpage_1;
             else
                 poly_2->tpage = tpage_2;
-            
+
             cnt_y++;
             pos_y += step_height;
             poly_1++;
             poly_2++;
         }
-        
+
         cnt_x++;
         pos_x += step_width;
     }
@@ -154,7 +154,7 @@ void PS1_RollUpTransition(s16 rollup_pos, s16 left_to_right)
     SetTransMatrix(&unk_1);
     rsin(4096 - 1);
     rcos(4096 - 1);
-    
+
     if (left_to_right == true)
     {
         unk_2 = 395;
@@ -165,7 +165,7 @@ void PS1_RollUpTransition(s16 rollup_pos, s16 left_to_right)
         unk_2 = 495;
         unk_x = SCREEN_WIDTH - (rollup_pos * unk_2 / 100);
     }
-    
+
     unk_3 = 125;
     unk_4 = 20;
     unk_5 = D_801F84D8;
@@ -215,10 +215,10 @@ void PS1_RollUpTransition(s16 rollup_pos, s16 left_to_right)
         while (cnt_y < D_801F98F8)
         {
             avg_z4 = AverageZ4(
-                RotTransPers(&cur_vec[0], (s32 *)&cur_poly->x0, &rtp_p, &rtp_flag),
-                RotTransPers(&cur_vec[1], (s32 *)&cur_poly->x2, &rtp_p, &rtp_flag),
-                RotTransPers(&cur_vec[D_801F98F8] + 1, (s32 *)&cur_poly->x1, &rtp_p, &rtp_flag),
-                RotTransPers(&cur_vec[D_801F98F8] + 2, (s32 *)&cur_poly->x3, &rtp_p, &rtp_flag)
+                RotTransPers(&cur_vec[0], (s32 *) &cur_poly->x0, &rtp_p, &rtp_flag),
+                RotTransPers(&cur_vec[1], (s32 *) &cur_poly->x2, &rtp_p, &rtp_flag),
+                RotTransPers(&cur_vec[D_801F98F8] + 1, (s32 *) &cur_poly->x1, &rtp_p, &rtp_flag),
+                RotTransPers(&cur_vec[D_801F98F8] + 2, (s32 *) &cur_poly->x3, &rtp_p, &rtp_flag)
             );
             AddPrim(&PS1_CurrentDisplay->ordering_table[(16 * 4 + 1) - avg_z4], cur_poly);
             cur_vec++;

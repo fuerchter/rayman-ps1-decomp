@@ -32,7 +32,7 @@ void PS1_PromptCardInput(void)
     MIN_2(PS1_positiony_mc, 2);
     if (PS1_positiony_mc == 0)
         PS1_positiony_mc = 1;
-    
+
     if (++inter_select > 5)
         inter_select = 0;
 }
@@ -75,11 +75,11 @@ s16 PS1_PromptCardContinue(void)
     readinput();
     if (PS1_compteur_mc != 0)
         PS1_compteur_mc--;
-    
+
     done = false;
     if (ValidButPressed())
         done = PS1_compteur_mc == 0;
-    
+
     return done;
 }
 
@@ -98,7 +98,7 @@ s16 PS1_PleaseInsertPad(void)
     done = false;
     if (PS1_InitPAD())
         done = PS1_compteur_mc == 0;
-    
+
     return done;
 }
 
@@ -255,10 +255,10 @@ s16 PS1_ReadingMemoryCard(void)
 void FUN_801a1110(void)
 {
     u8 unk_1 = true;
-    
+
     if (fade == 0)
         INIT_FADE_IN();
-    
+
     do
     {
         do
@@ -279,13 +279,13 @@ void FUN_801a1110(void)
                 {
                     if (NBRE_SAVE != 0)
                         PS1_PromptCardFormat();
-                    
+
                     if (!PS1_NoCard && NBRE_SAVE != 0)
                         FUN_801a0c68();
                 }
                 D_801E5238 = PS1_NoCard;
             } while (PS1_NoCard);
-            
+
             if (NBRE_SAVE != 0)
                 PS1_GetNbreSave1();
         } while (PS1_NoCard);
