@@ -90,7 +90,8 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
     {
         var_s3_1 = ashr16(var_s3_1 & 0xFF, 1U);
         if (
-            !(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40) && !(test_3 & 0xFF))
+            !(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40) && !(test_3 & 0xFF)
+        )
         {
             var_s3_1 = 1;
         }
@@ -129,7 +130,6 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
         if (obj->speed_x >= 0)
         {
             var_s0_1 += 0x11;
-            
         }
         else
         {
@@ -143,7 +143,6 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
         if (obj->speed_x <= 0)
         {
             var_s0_1 += 0x11;
-            
         }
         else
         {
@@ -203,7 +202,6 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
             if (obj->speed_x >= 0)
             {
                 var_s0_1 += 0x11;
-                
             }
             else
             {
@@ -217,7 +215,6 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
             if (obj->speed_x <= 0)
             {
                 var_s0_1 += 0x11;
-                
             }
             else
             {
@@ -264,14 +261,14 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
     var_s2 = 0;
     while (var_s3_1 >= var_s0_2)
     {
-        
+
         if (((s16) MURDUR(temp_v1_0, (temp_v0_0 - temp_s0) - ((var_s3_1 - var_s0_2) * 0x10))) != 0)
         {
             var_s2 += 1;
         }
         var_s0_2 += 1;
     }
-    
+
     if (var_s2 & 0xFF)
     {
         var_v0_1 = 0x0000000F;
@@ -331,8 +328,8 @@ u8 calc_typ_travd(Obj *obj, u8 param_2)
             GET_SPRITE_POS(obj, obj->follow_sprite, &foll_x, &foll_y, &foll_w, &foll_h);
         else
             foll_y = 0;
-        
-        unk_2 = ashr16(- (foll_y + obj->offset_hy) + obj->offset_by, 4);
+
+        unk_2 = ashr16(-(foll_y + obj->offset_hy) + obj->offset_by, 4);
         if (obj->type == TYPE_RAYMAN && ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40)
             unk_2 = ashr16(unk_2, 1);
         if (unk_2 != 0)
@@ -593,8 +590,6 @@ void CALC_MOV_ON_BLOC(Obj *obj)
                 break;
             }
             var_s4 = var_s2_1;
-            
-
         }
         else
         {
@@ -781,7 +776,6 @@ void CALC_MOV_ON_BLOC(Obj *obj)
                         TEST_FIN_BLOC(obj);
                     }
                 }
-
             }
             else
             {
@@ -803,7 +797,7 @@ void recale_position(Obj *obj)
     s16 btyp = PS1_BTYPAbsPos(obj->x_pos + obj->offset_bx, obj->y_pos + obj->offset_by);
     s16 unk_1;
 
-    switch(btyp)
+    switch (btyp)
     {
     case BTYP_SOLID_RIGHT_45:
     case BTYP_SLIPPERY_RIGHT_45:

@@ -10,7 +10,7 @@ void set2bits(s32 *param_1, u8 pos, s32 param_3)
     s32 unk_1 = (0xf - pos) << 1;
     s32 unk_2 = 3 << unk_1;
     s32 unk_3 = param_3 << unk_1;
-    
+
     *param_1 = unk_3 | (*param_1 & ~unk_2);
 }
 
@@ -35,7 +35,7 @@ void save_objects_flags(void)
     s32 nb_objs = level.nb_objects;
 
     while (i < nb_objs)
-    {        
+    {
         set2bits(
             &saveobj[i >> 4],
             i & 0xF,
@@ -89,7 +89,7 @@ void snapToSprite(Obj *obj_1, Obj *obj_2, u8 obj_2_spr, s32 x_offs, u16 y_offs)
             obj_2_eta_2 = &obj_2->eta[obj_2_eta_1->next_main_etat][obj_2_eta_1->next_sub_etat];
             obj_2_anim_index = obj_2_eta_2->anim_index;
             obj_2_frames_count = obj_2->animations[obj_2_anim_index].frames_count;
-            
+
             obj_2_anim_frame = (obj_2_eta_2->flags & 0x10) ? (obj_2_frames_count - 1) : 0;
         }
     }
@@ -265,12 +265,12 @@ s32 ashl16(s16 value, u8 shift)
         unk_1 = -value << sh;
     else
         unk_1 = value << sh;
-    
+
     if (sgn_bit)
         res = -unk_1;
     else
         res = unk_1;
-        
+
     return res;
 }
 
@@ -281,7 +281,7 @@ s16 ashr16(s16 value, u8 shift)
     s32 unk_1;
     s16 sgn_bit = value & (1 << 15);
     s32 sh = shift;
-    
+
     if (sgn_bit)
         res = -value >> sh;
     else
@@ -302,17 +302,17 @@ s32 ashl32(s32 value, u8 shift)
     s32 res;
     s32 sgn_bit = value & (1 << 31);
     s32 sh = shift;
-    
+
     if (sgn_bit)
         value = -value << sh;
     else
         value = value << sh;
-    
+
     if (sgn_bit)
         res = -value;
     else
         res = value;
-    
+
     return res;
 }
 
@@ -322,16 +322,16 @@ s32 ashr32(s32 value, u8 shift)
     s32 res;
     s32 sgn_bit = value & (1 << 31);
     s32 sh = shift;
-    
+
     if (sgn_bit)
         value = -value >> sh;
     else
         value = value >> sh;
-    
+
     if (sgn_bit)
         res = -value;
     else
         res = value;
-    
+
     return res;
 }

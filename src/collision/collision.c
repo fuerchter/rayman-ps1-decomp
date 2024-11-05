@@ -67,8 +67,8 @@ s16 in_coll_sprite_list(Obj *obj, s16 param_2) /* has ugly stuff, but overall fi
     u8 unk_1[16];
     s16 i;
     s16 res = false;
-    
-    switch(obj->type)
+
+    switch (obj->type)
     {
     case TYPE_GENEBADGUY:
         unk_1[0] = 0;
@@ -149,7 +149,7 @@ s32 box_inter_h_line(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 par
     {
         if (param_6 < param_1 && param_7 > param_1)
             res = true;
-        else if(param_6 < param_2 && param_7 > param_2)
+        else if (param_6 < param_2 && param_7 > param_2)
             res = true;
     }
 
@@ -367,14 +367,14 @@ void GET_OBJ_ZDC(Obj *obj, s16 *out_x, s16 *out_y, s16 *out_w, s16 *out_h)
                 *out_w = 6;
                 *out_h = 22;
             }
-            else if(obj->sub_etat == 1)
+            else if (obj->sub_etat == 1)
             {
                 *out_x = anim_x + 6;
                 *out_y = anim_y + 18;
                 *out_w = 13;
                 *out_h = 11;
             }
-            else if(obj->sub_etat == 0)
+            else if (obj->sub_etat == 0)
             {
                 *out_x = anim_x + 7;
                 *out_y = anim_y + 8;
@@ -514,8 +514,8 @@ s16 GET_SPRITE_ZDC(Obj *obj, s16 index, s16 *out_x, s16 *out_y, s16 *out_w, s16 
             break;
         case TYPE_GENEBADGUY:
             if (
-              (obj->main_etat == 0 && obj->sub_etat == 0) ||
-              (obj->main_etat == 1 && obj->sub_etat == 0)
+                (obj->main_etat == 0 && obj->sub_etat == 0) ||
+                (obj->main_etat == 1 && obj->sub_etat == 0)
             )
             {
                 switch (index)
@@ -627,91 +627,91 @@ s16 GET_SPRITE_ZDC(Obj *obj, s16 index, s16 *out_x, s16 *out_y, s16 *out_w, s16 
     return succ;
 }
 
-
 /* 1C3F8 80140BF8 -O2 -msoft-float */
 s32 BOX_HIT_SPECIAL_ZDC(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
 {
-  u8 frame;
-  s16 d;
-  s16 bb1_x_1; s16 bb1_y_1; s16 bb1_w_1; s16 bb1_h_1;
-  s16 bb1_x_2; s16 bb1_y_2; s16 bb1_w_2; s16 bb1_h_2;
-  s16 res = -1;
+    u8 frame;
+    s16 d;
+    s16 bb1_x_1; s16 bb1_y_1; s16 bb1_w_1; s16 bb1_h_1;
+    s16 bb1_x_2; s16 bb1_y_2; s16 bb1_w_2; s16 bb1_h_2;
+    s16 res = -1;
 
-  switch(obj->type)
-  {
-  case TYPE_BAG1:
-    frame = obj->anim_frame;
-    d = bagD[frame];
-    if (d != -1)
+    switch (obj->type)
     {
-      if (inter_box(
-        in_x, in_y, in_w, in_h,
-        obj->x_pos + obj->offset_bx - (bagW[frame] >> 1),
-        obj->y_pos + obj->offset_by + d - bagH[frame],
-        bagW[frame],
-        bagH[frame]
-      ))
-        res = 1;
-    }
-    break;
-  case TYPE_BB1:
-  case TYPE_BB12: 
-  case TYPE_BB13:
-  case TYPE_BB14:
-    if (in_h == ray_zdc_h)
-    {
-      GET_BB1_ZDCs(
-        obj,
-        &bb1_x_1, &bb1_y_1, &bb1_w_1, &bb1_h_1,
-        &bb1_x_2, &bb1_y_2, &bb1_w_2, &bb1_h_2
-      );
-      
-      /* TODO: write a bit nicer, not sure how yet */
-      if (!inter_box(
-        in_x, in_y, in_w, in_h,
-        bb1_x_1, bb1_y_1, bb1_w_1, bb1_h_1
-      ))
-      {
-        if (inter_box(
-          in_x, in_y, in_w, in_h,
-          bb1_x_2, bb1_y_2, bb1_w_2, bb1_h_2
-        ))
-          res = 1;
-      }
-      else
-        res = 1;
-    }
-    else {
-      GET_BB1_ZDCs(
-        obj,
-        &bb1_x_1, &bb1_y_1, &bb1_w_1, &bb1_h_1,
-        &bb1_x_2, &bb1_y_2, &bb1_w_2, &bb1_h_2
-      );
+    case TYPE_BAG1:
+        frame = obj->anim_frame;
+        d = bagD[frame];
+        if (d != -1)
+        {
+            if (inter_box(
+                    in_x, in_y, in_w, in_h,
+                    obj->x_pos + obj->offset_bx - (bagW[frame] >> 1),
+                    obj->y_pos + obj->offset_by + d - bagH[frame],
+                    bagW[frame],
+                    bagH[frame]
+                ))
+                res = 1;
+        }
+        break;
+    case TYPE_BB1:
+    case TYPE_BB12:
+    case TYPE_BB13:
+    case TYPE_BB14:
+        if (in_h == ray_zdc_h)
+        {
+            GET_BB1_ZDCs(
+                obj,
+                &bb1_x_1, &bb1_y_1, &bb1_w_1, &bb1_h_1,
+                &bb1_x_2, &bb1_y_2, &bb1_w_2, &bb1_h_2
+            );
 
-      if (inter_box(
-        in_x, in_y, in_w, in_h,
-        bb1_x_1, bb1_y_1, bb1_w_1, bb1_h_1
-      ))
-        res = 6;
-      if (inter_box(
-        in_x, in_y, in_w, in_h,
-        bb1_x_2, bb1_y_2, bb1_w_2, bb1_h_2
-      ))
-        res = 1;
-      
-      if (obj->main_etat == 0 && obj->sub_etat == 10)
-      {
-        GET_SPRITE_POS(obj, 9, &bb1_x_1, &bb1_y_1, &bb1_h_1, &bb1_w_1);
-        if (inter_box(
-          in_x, in_y, in_w, in_h,
-          bb1_x_1, bb1_y_1, bb1_w_1, bb1_h_1
-        ))
-          res = 9;
-      }
+            /* TODO: write a bit nicer, not sure how yet */
+            if (!inter_box(
+                    in_x, in_y, in_w, in_h,
+                    bb1_x_1, bb1_y_1, bb1_w_1, bb1_h_1
+                ))
+            {
+                if (inter_box(
+                        in_x, in_y, in_w, in_h,
+                        bb1_x_2, bb1_y_2, bb1_w_2, bb1_h_2
+                    ))
+                    res = 1;
+            }
+            else
+                res = 1;
+        }
+        else
+        {
+            GET_BB1_ZDCs(
+                obj,
+                &bb1_x_1, &bb1_y_1, &bb1_w_1, &bb1_h_1,
+                &bb1_x_2, &bb1_y_2, &bb1_w_2, &bb1_h_2
+            );
+
+            if (inter_box(
+                    in_x, in_y, in_w, in_h,
+                    bb1_x_1, bb1_y_1, bb1_w_1, bb1_h_1
+                ))
+                res = 6;
+            if (inter_box(
+                    in_x, in_y, in_w, in_h,
+                    bb1_x_2, bb1_y_2, bb1_w_2, bb1_h_2
+                ))
+                res = 1;
+
+            if (obj->main_etat == 0 && obj->sub_etat == 10)
+            {
+                GET_SPRITE_POS(obj, 9, &bb1_x_1, &bb1_y_1, &bb1_h_1, &bb1_w_1);
+                if (inter_box(
+                        in_x, in_y, in_w, in_h,
+                        bb1_x_1, bb1_y_1, bb1_w_1, bb1_h_1
+                    ))
+                    res = 9;
+            }
+        }
+        break;
     }
-    break;
-  }
-  return res;
+    return res;
 }
 
 /* 1C7E4 80140FE4 -O2 -msoft-float */
@@ -745,7 +745,7 @@ s32 BOX_IN_COLL_ZONES(s16 obj_type, s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj 
             )
         )
             nb_zdc--;
-        
+
         for (i = 0; i < nb_zdc; i++)
         {
             cur_zdc = get_zdc(obj, i);
@@ -762,7 +762,7 @@ s32 BOX_IN_COLL_ZONES(s16 obj_type, s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj 
                             unk_x += unk_w - cur_zdc->width - cur_zdc->x_pos;
                         else
                             unk_x += cur_zdc->x_pos;
-                        
+
                         unk_y += cur_zdc->y_pos;
                         unk_w = cur_zdc->width;
                         unk_h = cur_zdc->height;
@@ -829,15 +829,15 @@ s32 COLL_BOX_SPRITE(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
   s16 unk_1;
   s16 spr_x; s16 spr_y; s16 spr_w; s16 spr_h;
   s32 spr;
-  
-  unk_1 = GET_SPRITE_POS(obj, obj->hit_sprite, &spr_x, &spr_y, &spr_w, &spr_h);
-  if (unk_1 != 0)
-    unk_1 = inter_box(in_x, in_y, in_w, in_h, spr_x, spr_y, spr_w, spr_h);
-  if (unk_1 != 0)
-    spr = obj->hit_sprite;
-  else
-    spr = -1;
-  return spr;
+
+    unk_1 = GET_SPRITE_POS(obj, obj->hit_sprite, &spr_x, &spr_y, &spr_w, &spr_h);
+    if (unk_1 != 0)
+        unk_1 = inter_box(in_x, in_y, in_w, in_h, spr_x, spr_y, spr_w, spr_h);
+    if (unk_1 != 0)
+        spr = obj->hit_sprite;
+    else
+        spr = -1;
+    return spr;
 }
 
 /* 1CE18 80141618 -O2 -msoft-float */
@@ -859,8 +859,8 @@ s16 CHECK_BOX_COLLISION(s16 obj_type, s16 x, s16 y, s16 w, s16 h, Obj *obj)
 s16 possible_sprite(Obj *obj, s16 index)
 {
     s16 spr[12];
-    
-    switch(obj->type)
+
+    switch (obj->type)
     {
     case TYPE_BON3:
         spr[0] = 0;
@@ -947,7 +947,7 @@ s16 setToleranceDist(s16 in_x, s16 in_w, s16 in_y)
         unk_2 = 4;
     else
         unk_2 = 8;
-    
+
     if ((ray_x >= in_x - unk_2) && (ray_x <= unk_1 + unk_2))
     {
         if (ray_x >= in_x && ray_x <= unk_1)
@@ -975,210 +975,211 @@ s16 setToleranceDist(s16 in_x, s16 in_w, s16 in_y)
 /* 1D228 80141A28 -O2 -msoft-float */
 void SET_RAY_DIST_MULTISPR_CANTCHANGE(Obj *obj)
 {
-  s16 unk_1;
-  s16 i;
-  s16 new_dist;
-  s16 ray_x; s16 ray_y;
-  s16 spr_x; s16 spr_y; s16 spr_w; s16 spr_h;
-  s16 diff_x;
-  s16 sprite;
-  
-  if (RayEvts.demi)
-    unk_1 = 4;
-  else
-    unk_1 = 8;
-  i = 0;
-  new_dist = 10000;
-  ray_x = ray.x_pos + ray.offset_bx;
-  ray_y = ray.y_pos + ray.offset_by;
-  
-  if (ray.field20_0x36 == obj->id)
-  {
-    GET_SPRITE_POS(obj, obj->follow_sprite, &spr_x, &spr_y, &spr_w, &spr_h);
-    spr_y += obj->offset_hy;
-    if (obj->type == TYPE_ROULETTE || obj->type == TYPE_ROULETTE2 || obj->type == TYPE_ROULETTE3)
+    s16 unk_1;
+    s16 i;
+    s16 new_dist;
+    s16 ray_x; s16 ray_y;
+    s16 spr_x; s16 spr_y; s16 spr_w; s16 spr_h;
+    s16 diff_x;
+    s16 sprite;
+
+    if (RayEvts.demi)
+        unk_1 = 4;
+    else
+        unk_1 = 8;
+    i = 0;
+    new_dist = 10000;
+    ray_x = ray.x_pos + ray.offset_bx;
+    ray_y = ray.y_pos + ray.offset_by;
+
+    if (ray.field20_0x36 == obj->id)
     {
-      spr_w -= 10;
-      spr_x += 5;
+        GET_SPRITE_POS(obj, obj->follow_sprite, &spr_x, &spr_y, &spr_w, &spr_h);
+        spr_y += obj->offset_hy;
+        if (obj->type == TYPE_ROULETTE || obj->type == TYPE_ROULETTE2 || obj->type == TYPE_ROULETTE3)
+        {
+            spr_w -= 10;
+            spr_x += 5;
+        }
+
+        if (obj->type == TYPE_TIBETAIN_6 && ray.main_etat == 0 && (obj->anim_frame >= 10 && obj->anim_frame < 40))
+        {
+            diff_x = (ray.x_pos + ray.offset_bx) - (spr_x + (spr_w >> 1));
+            if (diff_x > 0)
+                ray.x_pos--;
+            else if (diff_x < 0)
+                ray.x_pos++;
+            ray_x = ray.x_pos + ray.offset_bx;
+        }
+        new_dist = setToleranceDist(spr_x, spr_w, spr_y);
     }
 
-    if (obj->type == TYPE_TIBETAIN_6 && ray.main_etat == 0 && (obj->anim_frame >= 10 && obj->anim_frame < 40))
+    if (new_dist == 10000)
     {
-      diff_x = (ray.x_pos + ray.offset_bx) - (spr_x + (spr_w >> 1));
-      if (diff_x > 0)
-        ray.x_pos--;
-      else if(diff_x < 0)
-        ray.x_pos++;
-      ray_x = ray.x_pos + ray.offset_bx;
+        sprite = possible_sprite(obj, i++);
+        while (sprite != 0xFF)
+        {
+            GET_SPRITE_POS(obj, sprite, &spr_x, &spr_y, &spr_w, &spr_h);
+            spr_y += obj->offset_hy;
+            if (obj->type == TYPE_ROULETTE || obj->type == TYPE_ROULETTE2 || obj->type == TYPE_ROULETTE3)
+            {
+                spr_w -= 10;
+                spr_x += 5;
+            }
+
+            if ((ray_x <= spr_x + spr_w + unk_1) && (ray_x >= spr_x - unk_1))
+            {
+                new_dist = ray_y - spr_y;
+                if (obj->type == TYPE_TIBETAIN_6 && (new_dist >= 8 && new_dist <= 10))
+                    new_dist = 0;
+            }
+            else
+                new_dist = 10000;
+
+            if (new_dist != 10000)
+                obj->follow_sprite = sprite;
+
+            sprite = possible_sprite(obj, i++);
+            if (__builtin_abs(new_dist) < 8)
+                break;
+        }
     }
-    new_dist = setToleranceDist(spr_x, spr_w, spr_y);
-  }
-
-  if (new_dist == 10000)
-  {
-    sprite = possible_sprite(obj, i++);
-    while (sprite != 0xFF)
-    {
-      GET_SPRITE_POS(obj, sprite, &spr_x, &spr_y, &spr_w, &spr_h);
-      spr_y += obj->offset_hy;
-      if (obj->type == TYPE_ROULETTE || obj->type == TYPE_ROULETTE2 || obj->type == TYPE_ROULETTE3)
-      {
-        spr_w -= 10;
-        spr_x += 5;
-      }
-
-      if ((ray_x <= spr_x + spr_w + unk_1) && (ray_x >= spr_x - unk_1))
-      {
-        new_dist = ray_y - spr_y;
-        if (obj->type == TYPE_TIBETAIN_6 && (new_dist >= 8 && new_dist <= 10))
-          new_dist = 0;
-      }
-      else
-        new_dist = 10000;
-      
-      if (new_dist != 10000)
-        obj->follow_sprite = sprite;
-
-      sprite = possible_sprite(obj, i++);
-      if(__builtin_abs(new_dist) < 8) break;
-    }
-  }
-  obj->ray_dist = new_dist;
+    obj->ray_dist = new_dist;
 }
 
 /* 1D594 80141D94 -O2 -msoft-float */
 void SET_RAY_DIST_PI(Obj *obj)
 {
-  s16 x; s16 y; s16 w; s16 h;
-  s16 new_dist;
-  s16 prev_flip_x = (obj->flags >> OBJ_FLIP_X & 1) << OBJ_FLIP_X;
-  
-  obj->flags &= ~FLG(OBJ_FLIP_X);
-  GET_SPRITE_POS(obj, 2, &x, &y, &w, &h);
-  obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | prev_flip_x;
-  y += obj->offset_hy;
-  x += 4;
-  w = 55;
-  new_dist = setToleranceDist(x, w, y);
-  if (new_dist != 10000)
-    obj->follow_sprite = 2;
-  obj->ray_dist = new_dist;
+    s16 x; s16 y; s16 w; s16 h;
+    s16 new_dist;
+    s16 prev_flip_x = (obj->flags >> OBJ_FLIP_X & 1) << OBJ_FLIP_X;
+
+    obj->flags &= ~FLG(OBJ_FLIP_X);
+    GET_SPRITE_POS(obj, 2, &x, &y, &w, &h);
+    obj->flags = obj->flags & ~FLG(OBJ_FLIP_X) | prev_flip_x;
+    y += obj->offset_hy;
+    x += 4;
+    w = 55;
+    new_dist = setToleranceDist(x, w, y);
+    if (new_dist != 10000)
+        obj->follow_sprite = 2;
+    obj->ray_dist = new_dist;
 }
 
 /* 1D66C 80141E6C -O2 -msoft-float */
 void SET_RAY_DIST_BAG(Obj *obj)
 {
-  s16 x; s16 y; s16 w; s16 h;
-  s16 new_w;
-  s16 new_dist = 0;
-  
-  if (obj->sub_etat == 3 || (obj->sub_etat == 6 && obj->anim_frame < 12))
-  {
-    GET_SPRITE_POS(obj, obj->follow_sprite, &x, &y, &w, &h);
-    new_w = 45;
-    y += obj->offset_hy;
-    x += ((s16) (w - new_w) >> 1);
-    w = new_w;
-    new_dist = setToleranceDist(x, w, y);
-  }
-  else
-    new_dist = 10000;
-  
-  if (ray.field20_0x36 == obj->id && obj->sub_etat == 6 && obj->anim_frame == 11)
-  {
-    ray.field20_0x36 = -1;
-    set_main_and_sub_etat(&ray, 2, 0);
-    new_dist = 10000;
-    ray.speed_y -= 10;
-  }
-  obj->ray_dist = new_dist;
+    s16 x; s16 y; s16 w; s16 h;
+    s16 new_w;
+    s16 new_dist = 0;
+
+    if (obj->sub_etat == 3 || (obj->sub_etat == 6 && obj->anim_frame < 12))
+    {
+        GET_SPRITE_POS(obj, obj->follow_sprite, &x, &y, &w, &h);
+        new_w = 45;
+        y += obj->offset_hy;
+        x += ((s16) (w - new_w) >> 1);
+        w = new_w;
+        new_dist = setToleranceDist(x, w, y);
+    }
+    else
+        new_dist = 10000;
+
+    if (ray.field20_0x36 == obj->id && obj->sub_etat == 6 && obj->anim_frame == 11)
+    {
+        ray.field20_0x36 = -1;
+        set_main_and_sub_etat(&ray, 2, 0);
+        new_dist = 10000;
+        ray.speed_y -= 10;
+    }
+    obj->ray_dist = new_dist;
 }
 
 /* 1D798 80141F98 -O2 -msoft-float */
 void SET_RAY_DIST(Obj *obj)
 {
-  ObjType type;
-  s16 x; s16 y; s16 w; s16 h;
-  
-  type = obj->type;
-  if (flags[type].flags1 >> OBJ1_RAY_DIST_MULTISPR_CANTCHANGE & 1)
-    SET_RAY_DIST_MULTISPR_CANTCHANGE(obj);
-  else
-  {
-    if (type == TYPE_PI || type == TYPE_BBL)
-      SET_RAY_DIST_PI(obj);
-    else if (type == TYPE_BAG3)
-      SET_RAY_DIST_BAG(obj);
+    ObjType type;
+    s16 x; s16 y; s16 w; s16 h;
+
+    type = obj->type;
+    if (flags[type].flags1 >> OBJ1_RAY_DIST_MULTISPR_CANTCHANGE & 1)
+        SET_RAY_DIST_MULTISPR_CANTCHANGE(obj);
     else
     {
-      GET_SPRITE_POS(obj, obj->follow_sprite, &x, &y, &w, &h);
-      y += obj->offset_hy;
-      type = obj->type;
-      if (
-        type == TYPE_FALLING_OBJ || type == TYPE_FALLING_OBJ2 || type == TYPE_FALLING_OBJ3 ||
-        type == TYPE_FALLING_YING || type == TYPE_FALLING_YING_OUYE
-      )
-      {
-        x -= 2;
-        w += 4;
-      }
-      else if (type == TYPE_MOVE_START_NUA || (type == TYPE_PLATFORM && num_world == 2))
-        w -= 8;
-      
-      obj->ray_dist = setToleranceDist(x, w, y);
+        if (type == TYPE_PI || type == TYPE_BBL)
+            SET_RAY_DIST_PI(obj);
+        else if (type == TYPE_BAG3)
+            SET_RAY_DIST_BAG(obj);
+        else
+        {
+            GET_SPRITE_POS(obj, obj->follow_sprite, &x, &y, &w, &h);
+            y += obj->offset_hy;
+            type = obj->type;
+            if (
+                type == TYPE_FALLING_OBJ || type == TYPE_FALLING_OBJ2 || type == TYPE_FALLING_OBJ3 ||
+                type == TYPE_FALLING_YING || type == TYPE_FALLING_YING_OUYE
+            )
+            {
+                x -= 2;
+                w += 4;
+            }
+            else if (type == TYPE_MOVE_START_NUA || (type == TYPE_PLATFORM && num_world == 2))
+                w -= 8;
+
+            obj->ray_dist = setToleranceDist(x, w, y);
+        }
     }
-  }
 }
 
 /* 1D8FC 801420FC -O2 -msoft-float */
 void do_boum(void)
 {
-  Obj *obj;
-  
-  allocatePoingBoum();
-  poing.is_boum = true;
-  obj = &level.objects[poing_obj_id];
-  if (!poing.is_returning)
-  {
-    poing.is_returning = true;
-    poing.charge = 0;
-    obj->speed_x = 0;
-    fist_U_turn(obj, true);
-    obj->anim_index = obj->eta[obj->main_etat][obj->sub_etat].anim_index;
-  }
+    Obj *obj;
+
+    allocatePoingBoum();
+    poing.is_boum = true;
+    obj = &level.objects[poing_obj_id];
+    if (!poing.is_returning)
+    {
+        poing.is_returning = true;
+        poing.charge = 0;
+        obj->speed_x = 0;
+        fist_U_turn(obj, true);
+        obj->anim_index = obj->eta[obj->main_etat][obj->sub_etat].anim_index;
+    }
 }
 
 /* 1D9A0 801421A0 -O2 -msoft-float */
 void DO_PNG_COLL_STONEMAN(Obj *obj)
 {
-  u8 prev_flip_x;
-  
-  if (!(obj->main_etat == 0 && obj->sub_etat == 1))
-    obj_hurt(obj);
-  prev_flip_x = (obj->flags >> OBJ_FLIP_X & 1);
-  calc_obj_dir(obj);
-  skipToLabel(obj, 8, true);
-  if ((obj->flags >> OBJ_FLIP_X & 1) != prev_flip_x)
-  {
-    skipToLabel(obj, 1, true);
-    if (obj->type == TYPE_STONEMAN1)
-      allocateStonemanStone(obj, -2, 0);
-  }
-  if (obj->hit_points < 3)
-  {
-    if (obj->type == TYPE_STONEMAN1)
-      allocateStonemanStone(obj, -2, 0);
-    if (obj->hit_points == 0)
+    u8 prev_flip_x;
+
+    if (!(obj->main_etat == 0 && obj->sub_etat == 1))
+        obj_hurt(obj);
+    prev_flip_x = (obj->flags >> OBJ_FLIP_X & 1);
+    calc_obj_dir(obj);
+    skipToLabel(obj, 8, true);
+    if ((obj->flags >> OBJ_FLIP_X & 1) != prev_flip_x)
     {
-      obj->hit_points = obj->init_hit_points;
-      skipToLabel(obj, 0, true);
+        skipToLabel(obj, 1, true);
+        if (obj->type == TYPE_STONEMAN1)
+            allocateStonemanStone(obj, -2, 0);
     }
-    else
+    if (obj->hit_points < 3)
     {
-      skipToLabel(obj, 1, true);
-      obj->change_anim_mode = ANIMMODE_RESET;
+        if (obj->type == TYPE_STONEMAN1)
+            allocateStonemanStone(obj, -2, 0);
+        if (obj->hit_points == 0)
+        {
+            obj->hit_points = obj->init_hit_points;
+            skipToLabel(obj, 0, true);
+        }
+        else
+        {
+            skipToLabel(obj, 1, true);
+            obj->change_anim_mode = ANIMMODE_RESET;
+        }
     }
-  }
 }
 
 /* 1DAC4 801422C4 -O2 -msoft-float */
@@ -1245,7 +1246,7 @@ void DO_POING_COLLISION(void)
             poing_obj->x_pos + poing_obj->offset_bx,
             poing_obj->y_pos + (poing_obj->offset_by + poing_obj->offset_hy >> 1)
         );
-    
+
     if (block_flags[btyp] >> BLOCK_SOLID & 1)
     {
         do_boum();
@@ -1259,7 +1260,7 @@ void DO_POING_COLLISION(void)
         {
             if (new_world || new_level || fin_boss)
                 break;
-        
+
             if (
                 other_obj->display_prio != 0 && other_obj->hit_points != 0 &&
                 other_obj->eta[other_obj->main_etat][other_obj->sub_etat].flags & FLG(3)
@@ -1350,7 +1351,7 @@ void DO_POING_COLLISION(void)
                             {
                                 SET_RAY_BALANCE();
                                 id_obj_grapped = other_obj->id;
-                                
+
                                 other_obj->follow_x =
                                 unk_1 =
                                     ANGLE_RAYMAN(other_obj);
@@ -1358,17 +1359,17 @@ void DO_POING_COLLISION(void)
                                     other_obj->field24_0x3e = -1;
                                 else if (unk_1 <= 256)
                                 {
-                                    if(unk_1 == 256 && !(ray.flags & FLG(OBJ_FLIP_X)))
+                                    if (unk_1 == 256 && !(ray.flags & FLG(OBJ_FLIP_X)))
                                         other_obj->field24_0x3e = -1;
                                     else
                                         other_obj->field24_0x3e = 1;
                                 }
                                 else /* TODO: ??? */
                                     other_obj->field24_0x3e = 1;
-                                
+
                                 if (other_obj->main_etat == 0 && other_obj->sub_etat == 0)
                                     skipToLabel(other_obj, 0, true);
-                                
+
                                 poing.is_active = false;
                                 poing.is_returning = false;
                                 poing_obj->flags &= ~FLG(OBJ_ALIVE);
@@ -1415,7 +1416,7 @@ void DO_POING_COLLISION(void)
                             }
                             else if (png_spd_x < 0)
                                 other_obj->flags |= FLG(OBJ_FLIP_X);
-                            
+
                             allocateBlacktoonEyes(other_obj);
                             if (other_obj->flags & FLG(OBJ_FLIP_X))
                                 skipToLabel(other_obj, 2, true);
@@ -1557,7 +1558,7 @@ void DO_POING_COLLISION(void)
                                 other_obj->sub_etat == 4 || other_obj->sub_etat == 5)
                             )
                                 other_obj->cmd_context_index = 0xFF;
-                            
+
                             other_obj->field23_0x3c = 0;
                             if (level.objects[poing_obj_id].speed_x > 0)
                             {
@@ -1633,7 +1634,7 @@ void DO_POING_COLLISION(void)
                             PlaySnd(139, other_obj->id);
                             break;
                         }
-                        
+
                         switch (poing.sub_etat)
                         {
                         case 1:
@@ -1656,7 +1657,7 @@ void DO_POING_COLLISION(void)
                         fall_x_accel = fall_x_accel * 5 + 10;
                         if (poing_obj->speed_x < 0)
                             fall_x_accel = -fall_x_accel;
-                        
+
                         make_my_fruit_go_down(other_obj, fall_x_accel);
                         break;
                     case TYPE_TARZAN:
@@ -1745,7 +1746,7 @@ void DO_POING_COLLISION(void)
                             skipToLabel(other_obj, 3, true);
                         else if (poing_obj->speed_x < 0)
                             skipToLabel(other_obj, 2, true);
-                        
+
                         other_obj->speed_x = 0;
                         other_obj->y_pos -= 2;
                         if (other_obj->hit_points != 0)
@@ -1774,7 +1775,7 @@ void DO_POING_COLLISION(void)
                             other_obj->flags &= ~FLG(OBJ_FLIP_X);
                         else if (poing_obj->speed_x < 0)
                             other_obj->flags |= FLG(OBJ_FLIP_X);
-                        
+
                         if (other_obj->hit_points == 0)
                         {
                             set_main_and_sub_etat(other_obj, 0, 1);
@@ -1794,7 +1795,7 @@ void DO_POING_COLLISION(void)
                             other_obj->flags &= ~FLG(OBJ_FLIP_X);
                         else if (poing_obj->speed_x < 0)
                             other_obj->flags |= FLG(OBJ_FLIP_X);
-                        
+
                         if (other_obj->hit_points != 0)
                         {
                             other_obj->y_pos -= 2;
@@ -1815,7 +1816,7 @@ void DO_POING_COLLISION(void)
                             other_obj->flags &= ~FLG(OBJ_FLIP_X);
                         else if (poing_obj->speed_x < 0)
                             other_obj->flags |= FLG(OBJ_FLIP_X);
-                        
+
                         if (other_obj->hit_points != 0)
                         {
                             if (!(other_obj->flags & FLG(OBJ_FLIP_X)))
@@ -1899,7 +1900,7 @@ void DO_POING_COLLISION(void)
                     unk_1 = other_obj->eta[other_obj->main_etat][other_obj->sub_etat].anim_speed >> 4;
                     if (!(unk_1 == 10 || unk_1 == 11))
                         other_obj->gravity_value_2 = 0;
-                    
+
                     if (other_obj->hit_points == old_hp && (flags[other_obj->type].flags3 & FLG(OBJ3_POING_COLLISION_SND)))
                         PlaySnd(214, other_obj->id);
                     break;
@@ -1963,7 +1964,7 @@ s16 COLL_RAY_PIC(void)
                         (mp.map[unk_3] & 0xFC00) == 0x2000 ||
                         (mp.map[unk_2] & 0xFC00) == 0x2000
                     )
-                        res = true;                        
+                        res = true;
                 }
 
                 if (
@@ -1993,186 +1994,189 @@ s16 COLL_RAY_PIC(void)
 /* 1F3D0 80143BD0 -O2 -msoft-float */
 void COLL_RAY_BLK_MORTEL(void)
 {
-  u16 mp_map;
-  
-  if ((ray.y_pos + ray.offset_by) < (mp.height * 16))
-  {
-    mp_map = mp.map[ray.ray_dist] & 0xfc00;
-    if (mp_map == 0x6000) {
-      set_main_and_sub_etat(&ray, 3, 32);
-      dead_time = 1;
-      ray.speed_y = 0;
-      ray.speed_x = 0;
-      ray.y_pos += 5;
-      stop_all_snd();
-    }
-    else if (ray.btypes[3] == BTYP_SPIKES) {
-      set_main_and_sub_etat(&ray, 3, 32);
-      dead_time = 1;
-      ray.speed_y = 0;
-      ray.speed_x = 0;
-      stop_all_snd();
-    }
-    else if (mp_map == 0x6400) {
-      set_main_and_sub_etat(&ray, 2, 31);
-      scroll_end_y = ymap;
-      scroll_start_y = ymap;
-    }
-    else if (
-        RayEvts.unused_death &&
-        block_flags[mp.map[ray.ray_dist] >> 10] >> BLOCK_SOLID & 1 &&
-        !(ray.main_etat == 3 && ray.sub_etat == 38)
-    )
+    u16 mp_map;
+
+    if ((ray.y_pos + ray.offset_by) < (mp.height * 16))
     {
-      set_main_and_sub_etat(&ray, 3, 38);
-      dead_time = 1;
-      ray.speed_y = 0;
-      ray.speed_x = 0;
+        mp_map = mp.map[ray.ray_dist] & 0xfc00;
+        if (mp_map == 0x6000)
+        {
+            set_main_and_sub_etat(&ray, 3, 32);
+            dead_time = 1;
+            ray.speed_y = 0;
+            ray.speed_x = 0;
+            ray.y_pos += 5;
+            stop_all_snd();
+        }
+        else if (ray.btypes[3] == BTYP_SPIKES)
+        {
+            set_main_and_sub_etat(&ray, 3, 32);
+            dead_time = 1;
+            ray.speed_y = 0;
+            ray.speed_x = 0;
+            stop_all_snd();
+        }
+        else if (mp_map == 0x6400)
+        {
+            set_main_and_sub_etat(&ray, 2, 31);
+            scroll_end_y = ymap;
+            scroll_start_y = ymap;
+        }
+        else if (
+            RayEvts.unused_death &&
+            block_flags[mp.map[ray.ray_dist] >> 10] >> BLOCK_SOLID & 1 &&
+            !(ray.main_etat == 3 && ray.sub_etat == 38)
+        )
+        {
+            set_main_and_sub_etat(&ray, 3, 38);
+            dead_time = 1;
+            ray.speed_y = 0;
+            ray.speed_x = 0;
+        }
     }
-  }
 }
 
 /* 1F5B0 80143DB0 -O2 -msoft-float */
 void RAY_KO(void)
 {
-  set_main_and_sub_etat(&ray, 3, 0);
-  ray.speed_y = 0;
-  ray.speed_x = 0;
-  ray.field56_0x69 = 0;
+    set_main_and_sub_etat(&ray, 3, 0);
+    ray.speed_y = 0;
+    ray.speed_x = 0;
+    ray.field56_0x69 = 0;
 }
 
 /* 1F5F4 80143DF4 -O2 -msoft-float */
 void RAY_HIT(u8 hurt, Obj *obj)
 {
-  u16 ray_x_pos;
-  s16 ray_offset_bx;
-  u8 typ_trav;
-  ObjType obj_type;
-  s16 eject_sens;
-  s32 diff_spd_x;
-  s16 new_speed;
+    u16 ray_x_pos;
+    s16 ray_offset_bx;
+    u8 typ_trav;
+    ObjType obj_type;
+    s16 eject_sens;
+    s32 diff_spd_x;
+    s16 new_speed;
 
-  if (hurt)
-  {
-    RAY_HURT();
-    ray_x_pos = ray.x_pos;
-    ray_offset_bx = ray.offset_bx;
+    if (hurt)
+    {
+        RAY_HURT();
+        ray_x_pos = ray.x_pos;
+        ray_offset_bx = ray.offset_bx;
     /* not sure how to change into cast... */
-    while ((s16) PS1_BTYPAbsPos((ray_offset_bx + ray_x_pos) << 0x10 >> 0x10, ray.y_pos + ray.offset_by) == BTYP_WATER)
-      ray.y_pos--;
-    ray.btypes[0] = BTYP_NONE;
-  }
+        while ((s16) PS1_BTYPAbsPos((ray_offset_bx + ray_x_pos) << 0x10 >> 0x10, ray.y_pos + ray.offset_by) == BTYP_WATER)
+            ray.y_pos--;
+        ray.btypes[0] = BTYP_NONE;
+    }
 
-  if (ray.main_etat == 6)
-  {
-    set_main_and_sub_etat(&ray, 6, 8);
-    ray.speed_y = 0;
-    ray.speed_x = 0;
-    poing.is_charging = false;
-  }
-  else if (
-    ray.flags & FLG(OBJ_ALIVE) &&
-    !(ray.main_etat == 3 && (ray.sub_etat == 22 || ray.sub_etat == 32 || ray.sub_etat == 38)) &&
-    !(ray.main_etat == 2 && ray.sub_etat == 31)
-  )
-  {
-    if (
-      ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40 &&
-      (typ_trav = calc_typ_trav(&ray, 2), block_flags[typ_trav] >> BLOCK_FLAG_4 & 1)
+    if (ray.main_etat == 6)
+    {
+        set_main_and_sub_etat(&ray, 6, 8);
+        ray.speed_y = 0;
+        ray.speed_x = 0;
+        poing.is_charging = false;
+    }
+    else if (
+        ray.flags & FLG(OBJ_ALIVE) &&
+        !(ray.main_etat == 3 && (ray.sub_etat == 22 || ray.sub_etat == 32 || ray.sub_etat == 38)) &&
+        !(ray.main_etat == 2 && ray.sub_etat == 31)
     )
-      set_main_and_sub_etat(&ray, 0, 61);
-    else
-      set_main_and_sub_etat(&ray, 2, 8);
-    
-    ray_speed_inv = 0;
-    if (!obj && !(ray.main_etat == 0 && ray.sub_etat == 61))
     {
-      if (ray.flags & FLG(OBJ_FLIP_X))
-        ray.speed_x = -2;
-      else
-        ray.speed_x = 2;
-      ray.speed_y = -3;
-    }
-    else if (!(ray.main_etat == 0 && ray.sub_etat == 61))
-    {
-      obj_type = obj->type;
-      if (obj_type == TYPE_SAXO2)
-        eject_sens = saxo2_get_eject_sens();
-      else if (obj_type == TYPE_SCORPION)
-        eject_sens = sko_get_eject_sens();
-      else if (obj_type == TYPE_BB12)
-        eject_sens = 1;
-      else if (obj_type == TYPE_BB13)
-        eject_sens = -1;
-      else if (obj_type == TYPE_MITE)
-      {
-        if (obj->flags & FLG(OBJ_FLIP_X))
-          eject_sens = 1;
+        if (
+            ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40 &&
+            (typ_trav = calc_typ_trav(&ray, 2), block_flags[typ_trav] >> BLOCK_FLAG_4 & 1)
+        )
+            set_main_and_sub_etat(&ray, 0, 61);
         else
-          eject_sens = -1;
-      }
-      else if (obj_type == TYPE_BATTEUR_FOU)
-        eject_sens = bat_get_eject_sens(obj);
-      else if (obj_type == TYPE_MAMA_PIRATE)
-        eject_sens = pma_get_eject_sens(obj);
-      else if (obj_type == TYPE_FIRE_LEFT)
-        eject_sens = 1;
-      else if (obj_type == TYPE_FIRE_RIGHT)
-        eject_sens = -1;
-      else
-      {
-        /* sgn() call on android */
-        diff_spd_x = obj->speed_x - ray.speed_x;
-        if (diff_spd_x >= 0)
-          eject_sens = diff_spd_x > 0;
-        else
-          eject_sens = -1;
-        if (eject_sens == 0)
+            set_main_and_sub_etat(&ray, 2, 8);
+
+        ray_speed_inv = 0;
+        if (!obj && !(ray.main_etat == 0 && ray.sub_etat == 61))
         {
-          if (ray.flags & FLG(OBJ_FLIP_X))
-            eject_sens = -1;
-          else
-            eject_sens = 1;
+            if (ray.flags & FLG(OBJ_FLIP_X))
+                ray.speed_x = -2;
+            else
+                ray.speed_x = 2;
+            ray.speed_y = -3;
         }
-      }
+        else if (!(ray.main_etat == 0 && ray.sub_etat == 61))
+        {
+            obj_type = obj->type;
+            if (obj_type == TYPE_SAXO2)
+                eject_sens = saxo2_get_eject_sens();
+            else if (obj_type == TYPE_SCORPION)
+                eject_sens = sko_get_eject_sens();
+            else if (obj_type == TYPE_BB12)
+                eject_sens = 1;
+            else if (obj_type == TYPE_BB13)
+                eject_sens = -1;
+            else if (obj_type == TYPE_MITE)
+            {
+                if (obj->flags & FLG(OBJ_FLIP_X))
+                    eject_sens = 1;
+                else
+                    eject_sens = -1;
+            }
+            else if (obj_type == TYPE_BATTEUR_FOU)
+                eject_sens = bat_get_eject_sens(obj);
+            else if (obj_type == TYPE_MAMA_PIRATE)
+                eject_sens = pma_get_eject_sens(obj);
+            else if (obj_type == TYPE_FIRE_LEFT)
+                eject_sens = 1;
+            else if (obj_type == TYPE_FIRE_RIGHT)
+                eject_sens = -1;
+            else
+            {
+        /* sgn() call on android */
+                diff_spd_x = obj->speed_x - ray.speed_x;
+                if (diff_spd_x >= 0)
+                    eject_sens = diff_spd_x > 0;
+                else
+                    eject_sens = -1;
+                if (eject_sens == 0)
+                {
+                    if (ray.flags & FLG(OBJ_FLIP_X))
+                        eject_sens = -1;
+                    else
+                        eject_sens = 1;
+                }
+            }
 
-      if (flags[obj->type].flags1 >> OBJ1_BIG_RAY_HIT_KNOCKBACK & 1)
-        new_speed = 5;
-      else if (obj->type == TYPE_SAXO2)
-        new_speed = 4;
-      else
-        new_speed = 2;
+            if (flags[obj->type].flags1 >> OBJ1_BIG_RAY_HIT_KNOCKBACK & 1)
+                new_speed = 5;
+            else if (obj->type == TYPE_SAXO2)
+                new_speed = 4;
+            else
+                new_speed = 2;
 
-      if (eject_sens == 1)
-        ray.speed_x = new_speed;
-      else if (eject_sens == -1)
-        ray.speed_x = -new_speed;
-      ray.speed_y = ~new_speed;
+            if (eject_sens == 1)
+                ray.speed_x = new_speed;
+            else if (eject_sens == -1)
+                ray.speed_x = -new_speed;
+            ray.speed_y = ~new_speed;
+        }
+
+        in_air_because_hit = true;
+        jump_time = 0;
+        helico_time = -1;
+        ray.gravity_value_1 = 0;
+        ray.gravity_value_2 = 0;
+        ray.field20_0x36 = -1;
+        poing.is_charging = false;
+        decalage_en_cours = 0;
+        ray.nb_cmd = 0;
+        if (RayEvts.super_helico)
+            button_released = 1;
+        Reset_air_speed(false);
     }
-
-    in_air_because_hit = true;
-    jump_time = 0;
-    helico_time = -1;
-    ray.gravity_value_1 = 0;
-    ray.gravity_value_2 = 0;
-    ray.field20_0x36 = -1;
-    poing.is_charging = false;
-    decalage_en_cours = 0;
-    ray.nb_cmd = 0;
-    if (RayEvts.super_helico)
-      button_released = 1;
-    Reset_air_speed(false);
-  }
 }
 
 /* 1FA54 80144254 -O2 -msoft-float */
 void standard_frontZone(Obj *obj, s16 *x, s16 *w)
 {
-  if (!(obj->flags & FLG(OBJ_FLIP_X)))
-    *x -= obj->detect_zone;
-  else
-    *x += (*w >> 1);
-  *w = obj->detect_zone + (*w >> 1);
+    if (!(obj->flags & FLG(OBJ_FLIP_X)))
+        *x -= obj->detect_zone;
+    else
+        *x += (*w >> 1);
+    *w = obj->detect_zone + (*w >> 1);
 }
 
 #ifndef MATCHES_BUT
@@ -2186,9 +2190,9 @@ void SET_DETECT_ZONE_FLAG(Obj *obj)
     s16 obj_x; s16 obj_y; s16 obj_w; s16 obj_h;
     s32 unk_1;
     u16 det_zn_flg;
-    
+
     GET_ANIM_POS(obj, &obj_x, &obj_y, &obj_w, &obj_h);
-    switch(obj->type)
+    switch (obj->type)
     {
     case TYPE_FEE:
         obj_x += (obj_h >> 1) - (obj->detect_zone >> 1);
@@ -2211,7 +2215,7 @@ void SET_DETECT_ZONE_FLAG(Obj *obj)
         break;
     case TYPE_BLACKTOON1:
         unk_1 = -1;
-        switch(obj->follow_sprite)
+        switch (obj->follow_sprite)
         {
         case 3:
             if (obj->main_etat == 0 && obj->sub_etat == 0)
@@ -2291,7 +2295,7 @@ void SET_DETECT_ZONE_FLAG(Obj *obj)
             obj_x += (obj_w >> 1) - (obj->detect_zone >> 1);
         else
             obj_x += (obj_w >> 1);
-        
+
         obj_w = (obj->detect_zone >> 1);
         obj_y += (obj_h >> 1);
         obj_h = (obj_h >> 1) + obj->detect_zone;
@@ -2307,7 +2311,7 @@ void SET_DETECT_ZONE_FLAG(Obj *obj)
             obj_x -= obj->detect_zone;
         else
             obj_x = obj_x + -unk_1 + (obj_w >> 1);
-        
+
         obj_w = obj->detect_zone + unk_1;
         obj_y -= ((obj->detect_zone - obj_h) >> 1);
         obj_h = obj->detect_zone;
@@ -2387,76 +2391,77 @@ void SET_DETECT_ZONE_FLAG(Obj *obj)
 /* 201D8 801449D8 -O2 -msoft-float */
 void goToRay(Obj *obj)
 {
-  s32 follow_sprite;
-  
-  PlaySnd(204, obj->id);
-  switch(obj->type)
-  {
-  case TYPE_STALAG:
-    if (obj->sub_etat == 4)
-      calc_obj_dir(obj);
-    else
-      obj->flags &= ~FLG(OBJ_FLIP_X);
-    break;
-  case TYPE_PLATFORM:
-  case TYPE_FALLPLAT:
-  case TYPE_LIFTPLAT:
-  case TYPE_MOVE_PLAT:
-  case TYPE_INST_PLAT:
-  case TYPE_CRUMBLE_PLAT:
-  case TYPE_BOING_PLAT:
-  case TYPE_ONOFF_PLAT:
-  case TYPE_AUTOJUMP_PLAT:
-  case TYPE_OUYE:
-  case TYPE_SIGNPOST:
-  case TYPE_MOVE_OUYE:
-  case TYPE_STONEBOMB2:
-  case TYPE_CAGE:
-  case TYPE_MOVE_START_NUA:
-  case TYPE_BIG_BOING_PLAT:
-  case TYPE_STONEBOMB3:
-  case TYPE_JAUGEUP:
-  case TYPE_MORNINGSTAR_MOUNTAI:
-  case TYPE_MARTEAU:
-  case TYPE_MOVE_MARTEAU:
-  case TYPE_GROSPIC:
-  case TYPE_PI:
-  case TYPE_ONEUP:
-  case TYPE_KILLING_EYES:
-  case TYPE_RUBIS:
-  case TYPE_MARK_AUTOJUMP_PLAT:
-    obj->flags &= ~FLG(OBJ_FLIP_X);
-    break;
-  case TYPE_BADGUY1:
-  case TYPE_BADGUY2:
-  case TYPE_BADGUY3:
-    calc_obj_dir(obj);
-    if (obj->flags & FLG(OBJ_FLIP_X))
-      skipToLabel(obj, 3, true);
-    else
-      skipToLabel(obj, 2, true);
-    break;
-  case TYPE_BLACKTOON1:
-    follow_sprite = obj->follow_sprite;
-    if (
-      follow_sprite < 2 ||
-      (follow_sprite >= 4 && ((s16) follow_sprite >= 8 || follow_sprite < 6)))
+    s32 follow_sprite;
+
+    PlaySnd(204, obj->id);
+    switch (obj->type)
     {
-      calc_obj_dir(obj);
-      if (obj->flags & FLG(OBJ_FLIP_X))
-        skipToLabel(obj, 3, true);
-      else
-        skipToLabel(obj, 2, true);
+    case TYPE_STALAG:
+        if (obj->sub_etat == 4)
+            calc_obj_dir(obj);
+        else
+            obj->flags &= ~FLG(OBJ_FLIP_X);
+        break;
+    case TYPE_PLATFORM:
+    case TYPE_FALLPLAT:
+    case TYPE_LIFTPLAT:
+    case TYPE_MOVE_PLAT:
+    case TYPE_INST_PLAT:
+    case TYPE_CRUMBLE_PLAT:
+    case TYPE_BOING_PLAT:
+    case TYPE_ONOFF_PLAT:
+    case TYPE_AUTOJUMP_PLAT:
+    case TYPE_OUYE:
+    case TYPE_SIGNPOST:
+    case TYPE_MOVE_OUYE:
+    case TYPE_STONEBOMB2:
+    case TYPE_CAGE:
+    case TYPE_MOVE_START_NUA:
+    case TYPE_BIG_BOING_PLAT:
+    case TYPE_STONEBOMB3:
+    case TYPE_JAUGEUP:
+    case TYPE_MORNINGSTAR_MOUNTAI:
+    case TYPE_MARTEAU:
+    case TYPE_MOVE_MARTEAU:
+    case TYPE_GROSPIC:
+    case TYPE_PI:
+    case TYPE_ONEUP:
+    case TYPE_KILLING_EYES:
+    case TYPE_RUBIS:
+    case TYPE_MARK_AUTOJUMP_PLAT:
+        obj->flags &= ~FLG(OBJ_FLIP_X);
+        break;
+    case TYPE_BADGUY1:
+    case TYPE_BADGUY2:
+    case TYPE_BADGUY3:
+        calc_obj_dir(obj);
+        if (obj->flags & FLG(OBJ_FLIP_X))
+            skipToLabel(obj, 3, true);
+        else
+            skipToLabel(obj, 2, true);
+        break;
+    case TYPE_BLACKTOON1:
+        follow_sprite = obj->follow_sprite;
+        if (
+            follow_sprite < 2 ||
+            (follow_sprite >= 4 && ((s16) follow_sprite >= 8 || follow_sprite < 6))
+        )
+        {
+            calc_obj_dir(obj);
+            if (obj->flags & FLG(OBJ_FLIP_X))
+                skipToLabel(obj, 3, true);
+            else
+                skipToLabel(obj, 2, true);
+        }
+        break;
+    case TYPE_BIG_CLOWN:
+        calc_obj_dir(obj);
+        skipToLabel(obj, 7, true);
+        break;
+    default:
+        calc_obj_dir(obj);
+        break;
     }
-    break;
-  case TYPE_BIG_CLOWN:
-    calc_obj_dir(obj);
-    skipToLabel(obj, 7, true);
-    break;
-  default:
-    calc_obj_dir(obj);
-    break;
-  }
 }
 
 /* 20304 80144B04 -O2 -msoft-float */
@@ -2495,7 +2500,7 @@ void DO_COLL_RAY_CYMBALE(Obj *cym_obj)
     s16 ray_speed_y;
     s16 diff_x;
     s16 sprite = 0; /* i think, BOX_IN_COLL_ZONES returned a sprite? */
-    
+
     if (cym_obj->type == TYPE_CYMBAL2)
     {
         cym_sub_etat = 10;
@@ -2540,7 +2545,7 @@ void DO_COLL_RAY_CYMBALE(Obj *cym_obj)
             ray.speed_y = 0;
         }
 
-        if(!(ray.main_etat == 2 && ray.sub_etat == 8))
+        if (!(ray.main_etat == 2 && ray.sub_etat == 8))
         {
             if (
                 !(ray.main_etat == 0 && ray.sub_etat == 61) &&
@@ -2591,7 +2596,7 @@ void DO_COLL_RAY_CYMBALE(Obj *cym_obj)
 /* 2081C 8014501C -O2 -msoft-float */
 void DoAudioStartRaymanCollision(Obj *obj)
 {
-  manage_snd_event(obj);
+    manage_snd_event(obj);
 }
 
 /* 2083C 8014503C -O2 -msoft-float */
@@ -2648,7 +2653,7 @@ void PS1_DoRaymanCollision(void)
                     }
                     else
                         status_bar.num_wiz++;
-                    
+
                     if (status_bar.num_wiz >= 100)
                     {
                         DO_NOVA(cur_obj);
@@ -2656,7 +2661,7 @@ void PS1_DoRaymanCollision(void)
                             id_Cling_1up = -1;
                         else
                             id_Cling_1up = NOVA_STATUS_BAR();
-                        
+
                         if (id_Cling_1up == -1)
                             Add_One_RAY_lives();
                         life_becoz_wiz = true;
@@ -2852,7 +2857,7 @@ void DO_COLLISIONS(void)
         {
             if (new_world || new_level || fin_boss)
                 break;
-            
+
             obj_type = cur_obj->type;
             if (
                 !(flags[obj_type].flags0 >> OBJ0_NO_COLLISION & 1) &&
@@ -2868,7 +2873,7 @@ void DO_COLLISIONS(void)
                         (cur_obj->type == TYPE_MST_SCROLL && cur_obj->hit_points != 0)
                     )
                         ray_collided = -1;
-                    
+
                     if (ray_collided != -1)
                     {
                         switch (cur_obj->type)
@@ -2920,7 +2925,7 @@ void DO_COLLISIONS(void)
                                     poing_obj->init_sub_etat = 8;
                                 else
                                 {
-                                    switch(poing_obj->init_sub_etat)
+                                    switch (poing_obj->init_sub_etat)
                                     {
                                     case 1:
                                         poing_obj->init_sub_etat = 8;
@@ -3027,104 +3032,104 @@ void DO_COLLISIONS(void)
 /* 218C0 801460C0 -O2 -msoft-float */
 void DO_OBJ_COLLISIONS(Obj *in_obj, s32 offs)
 {
-  s16 in_x; s16 in_y; s16 in_w; s16 in_h;
-  u8 done;
-  s16 i;
-  Obj *cur_obj;
-  s16 cur_x; s16 cur_y; s16 cur_w; s16 cur_h;
-  
-  GET_ANIM_POS(in_obj, &in_x, &in_y, &in_w, &in_h);
-  done = false;
-  if (in_obj->type == TYPE_FALLING_OBJ || in_obj->type == TYPE_FALLING_OBJ2 || in_obj->type == TYPE_FALLING_OBJ3)
-  {
-    in_x += 10;
-    in_y += 20;
-    in_w += -20;
-    in_h += -25;
-  }
-  else
-  {
-    in_x = offs + in_x;
-    in_y = offs + in_y;
-    in_w -= offs * 2;
-    in_h -= offs * 2;
-  }
-  i = 0;
-  cur_obj = &level.objects[actobj.objects[i]];
-  if (i < actobj.num_active_objects)
-  {
-    do {
-      if (in_obj != cur_obj)
-      {
-        switch(cur_obj->type)
-        {
-        case TYPE_BADGUY1:
-          if (
-            !(cur_obj->main_etat == 2 || (cur_obj->main_etat == 0 && cur_obj->sub_etat == 3)) &&
-            (
-              !(cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].flags & 0x40) &&
-              GET_SPRITE_POS(cur_obj, cur_obj->follow_sprite, &cur_x, &cur_y, &cur_w, &cur_h) &&
-              inter_box(cur_x, cur_y, cur_w, cur_h, in_x, in_y, in_w, in_h)
-            )
-          )
-          {
-            set_main_and_sub_etat(cur_obj, 0, 4);
-            cur_obj->follow_sprite = 4;
-            cur_obj->follow_y = 0;
-            cur_obj->speed_x = 0;
-            cur_obj->speed_y = 0;
-            cur_obj->offset_hy = 11;
-            cur_obj->flags |= FLG(OBJ_FOLLOW_ENABLED);
-            if (ray.field20_0x36 == in_obj->id)
-              RAY_TOMBE();
-            if (cur_obj->cmd == GO_WAIT)
-            {
-              if ((cur_obj->flags & FLG(OBJ_FLIP_X)))
-                skipToLabel(cur_obj, 3, true);
-              else
-                skipToLabel(cur_obj, 2, true);
-            }
-            set_sub_etat(in_obj, 9);
-            in_obj->flags &= ~FLG(OBJ_ACTIVE);
-            done = true;
-          }
-          break;
-        case TYPE_BOUEE_JOE:
-          if (
-            GET_SPRITE_POS(cur_obj, cur_obj->follow_sprite, &cur_x, &cur_y, &cur_w, &cur_h) &&
-            in_obj->type == TYPE_POI2 &&
-            inter_box(cur_x, cur_y, cur_w, cur_h, in_x, in_y, in_w, in_h) &&
-            !(cur_obj->main_etat == 2 && cur_obj->sub_etat == 6)
-          )
-          {
-            /* sgn() on android */
-            if (
-              in_obj->flags & FLG(OBJ_FLIP_X) &&
-              (cur_obj->x_pos + cur_obj->offset_bx) - in_obj->x_pos - in_obj->offset_bx > -1
-            )
-            {
-              cur_obj->field56_0x69 = 1;
-              skipToLabel(in_obj, 3, true);
-              cur_obj->speed_x = 8;
-            }
-            if (
-              !(in_obj->flags & FLG(OBJ_FLIP_X)) &&
-              (cur_obj->x_pos + cur_obj->offset_bx) - in_obj->x_pos - in_obj->offset_bx < 0
-            )
-            {
-              cur_obj->field56_0x69 = 1;
-              skipToLabel(in_obj, 4, true);
-              cur_obj->speed_x = -8;
-            }
-          }
-          break;
-        }
+    s16 in_x; s16 in_y; s16 in_w; s16 in_h;
+    u8 done;
+    s16 i;
+    Obj *cur_obj;
+    s16 cur_x; s16 cur_y; s16 cur_w; s16 cur_h;
 
-        if (done)
-          break;
-      }
-      i++;
-      cur_obj = &level.objects[actobj.objects[i]];
-    } while (i < actobj.num_active_objects);
-  }
+    GET_ANIM_POS(in_obj, &in_x, &in_y, &in_w, &in_h);
+    done = false;
+    if (in_obj->type == TYPE_FALLING_OBJ || in_obj->type == TYPE_FALLING_OBJ2 || in_obj->type == TYPE_FALLING_OBJ3)
+    {
+        in_x += 10;
+        in_y += 20;
+        in_w += -20;
+        in_h += -25;
+    }
+    else
+    {
+        in_x = offs + in_x;
+        in_y = offs + in_y;
+        in_w -= offs * 2;
+        in_h -= offs * 2;
+    }
+    i = 0;
+    cur_obj = &level.objects[actobj.objects[i]];
+    if (i < actobj.num_active_objects)
+    {
+        do
+        {
+            if (in_obj != cur_obj)
+            {
+                switch (cur_obj->type)
+                {
+                case TYPE_BADGUY1:
+                    if (
+                        !(cur_obj->main_etat == 2 || (cur_obj->main_etat == 0 && cur_obj->sub_etat == 3)) &&
+                        (!(cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].flags & 0x40) &&
+                         GET_SPRITE_POS(cur_obj, cur_obj->follow_sprite, &cur_x, &cur_y, &cur_w, &cur_h) &&
+                         inter_box(cur_x, cur_y, cur_w, cur_h, in_x, in_y, in_w, in_h)
+                        )
+                    )
+                    {
+                        set_main_and_sub_etat(cur_obj, 0, 4);
+                        cur_obj->follow_sprite = 4;
+                        cur_obj->follow_y = 0;
+                        cur_obj->speed_x = 0;
+                        cur_obj->speed_y = 0;
+                        cur_obj->offset_hy = 11;
+                        cur_obj->flags |= FLG(OBJ_FOLLOW_ENABLED);
+                        if (ray.field20_0x36 == in_obj->id)
+                            RAY_TOMBE();
+                        if (cur_obj->cmd == GO_WAIT)
+                        {
+                            if ((cur_obj->flags & FLG(OBJ_FLIP_X)))
+                                skipToLabel(cur_obj, 3, true);
+                            else
+                                skipToLabel(cur_obj, 2, true);
+                        }
+                        set_sub_etat(in_obj, 9);
+                        in_obj->flags &= ~FLG(OBJ_ACTIVE);
+                        done = true;
+                    }
+                    break;
+                case TYPE_BOUEE_JOE:
+                    if (
+                        GET_SPRITE_POS(cur_obj, cur_obj->follow_sprite, &cur_x, &cur_y, &cur_w, &cur_h) &&
+                        in_obj->type == TYPE_POI2 &&
+                        inter_box(cur_x, cur_y, cur_w, cur_h, in_x, in_y, in_w, in_h) &&
+                        !(cur_obj->main_etat == 2 && cur_obj->sub_etat == 6)
+                    )
+                    {
+                        /* sgn() on android */
+                        if (
+                            in_obj->flags & FLG(OBJ_FLIP_X) &&
+                            (cur_obj->x_pos + cur_obj->offset_bx) - in_obj->x_pos - in_obj->offset_bx > -1
+                        )
+                        {
+                            cur_obj->field56_0x69 = 1;
+                            skipToLabel(in_obj, 3, true);
+                            cur_obj->speed_x = 8;
+                        }
+                        if (
+                            !(in_obj->flags & FLG(OBJ_FLIP_X)) &&
+                            (cur_obj->x_pos + cur_obj->offset_bx) - in_obj->x_pos - in_obj->offset_bx < 0
+                        )
+                        {
+                            cur_obj->field56_0x69 = 1;
+                            skipToLabel(in_obj, 4, true);
+                            cur_obj->speed_x = -8;
+                        }
+                    }
+                    break;
+                }
+
+                if (done)
+                    break;
+            }
+            i++;
+            cur_obj = &level.objects[actobj.objects[i]];
+        } while (i < actobj.num_active_objects);
+    }
 }

@@ -13,7 +13,7 @@ s16 get_center_x(Obj *obj)
 {
     s16 res;
 
-    switch(obj->type)
+    switch (obj->type)
     {
     case TYPE_MOVE_MARTEAU:
         res = 70;
@@ -55,7 +55,7 @@ s16 get_center_x(Obj *obj)
         res = 128;
         break;
     case TYPE_BLACKTOON1:
-        switch(obj->follow_sprite)
+        switch (obj->follow_sprite)
         {
         case 5:
         case 6:
@@ -94,7 +94,7 @@ s16 get_center_y(Obj *obj)
 {
     s16 res;
 
-    switch(obj->type)
+    switch (obj->type)
     {
     case TYPE_SPIDER_PLAFOND:
         res = 90;
@@ -140,7 +140,7 @@ s16 get_center_y(Obj *obj)
         res = 64;
         break;
     case TYPE_BLACKTOON1:
-        switch(obj->follow_sprite)
+        switch (obj->follow_sprite)
         {
         case 6:
         case 7:
@@ -357,7 +357,7 @@ void calc_obj_dir(Obj *obj)
 /* 236C4 80147EC4 -O2 -msoft-float */
 s32 OBJ_IN_ZONE(Obj *obj)
 {
-    switch(obj->type)
+    switch (obj->type)
     {
     case TYPE_BADGUY2:
     case TYPE_BADGUY3:
@@ -382,8 +382,8 @@ void makeUturn(Obj *obj)
     u8 label = 0xFF;
     u8 foll_spr;
     Obj *unk_1;
-    
-    switch(obj->type)
+
+    switch (obj->type)
     {
     case TYPE_BLACKTOON1:
         foll_spr = obj->follow_sprite;
@@ -437,7 +437,6 @@ void makeUturn(Obj *obj)
                 {
                     label = 1;
                     obj->flags |= FLG(OBJ_FLIP_X);
-
                 }
                 else if (obj->cmd == GO_RIGHT)
                 {
@@ -533,7 +532,7 @@ void makeUturn(Obj *obj)
             label = 0;
             obj->flags &= ~FLG(OBJ_FLIP_X);
         }
-        break; 
+        break;
     case TYPE_MITE2:
         if (!(obj->flags & FLG(OBJ_FLIP_X)))
             obj->flags |= FLG(OBJ_FLIP_X);
@@ -615,54 +614,55 @@ not sure there is a good solution
 
 void calc_btyp_square(Obj *obj)
 {
-  u8 x_offs;
-  s16 x_1;
-  int y_1;
-  short x_3;
-  short y_2;
-  short x_4;
-  short x_5;
-  int x_2;
-  
-  if (obj->type == TYPE_RAYMAN)
-  {
-    if (RayEvts.demi)
-      x_offs = 4;
-    else
-      x_offs = 8;
-  }
-  else
-    x_offs = 16;
+    u8 x_offs;
+    s16 x_1;
+    int y_1;
+    short x_3;
+    short y_2;
+    short x_4;
+    short x_5;
+    int x_2;
 
-  x_1 = (s16) (obj->x_pos + obj->offset_bx);
-  y_1 = (s16) ((obj->y_pos + obj->offset_by));
-  y_2 = ashr16(y_1,4);
-  x_2 = x_1;
-  x_3 = ashr16(x_2,4);
-  x_4 = ashr16(x_2 - x_offs,4);
-  x_5 = ashr16(x_2 + x_offs,4);
-  obj->btypes[3] = BTYP(x_3,y_2 + -1);
-  obj->btypes[1] = BTYP(x_4,y_2);
-  if (obj->main_etat == 2) {
-    obj->btypes[0] = bloc_floor((u8) BTYP(x_3,y_2),(s16)(x_2 + (x_2 / 16) * -0x10),
-                       (s16)(y_1 + (y_1 / 16) * -0x10));
-  }
-  else {
-    obj->btypes[0] = BTYP(x_3,y_2);
-  }
-  obj->btypes[2] = BTYP(x_5,y_2);
-  obj->btypes[4] = BTYP(x_3,y_2 + 1);
+    if (obj->type == TYPE_RAYMAN)
+    {
+        if (RayEvts.demi)
+            x_offs = 4;
+        else
+            x_offs = 8;
+    }
+    else
+        x_offs = 16;
+
+    x_1 = (s16) (obj->x_pos + obj->offset_bx);
+    y_1 = (s16) ((obj->y_pos + obj->offset_by));
+    y_2 = ashr16(y_1, 4);
+    x_2 = x_1;
+    x_3 = ashr16(x_2, 4);
+    x_4 = ashr16(x_2 - x_offs, 4);
+    x_5 = ashr16(x_2 + x_offs, 4);
+    obj->btypes[3] = BTYP(x_3, y_2 + -1);
+    obj->btypes[1] = BTYP(x_4, y_2);
+    if (obj->main_etat == 2)
+    {
+        obj->btypes[0] = bloc_floor((u8) BTYP(x_3, y_2), (s16) (x_2 + (x_2 / 16) * -0x10), (s16) (y_1 + (y_1 / 16) * -0x10));
+    }
+    else
+    {
+        obj->btypes[0] = BTYP(x_3, y_2);
+    }
+    obj->btypes[2] = BTYP(x_5, y_2);
+    obj->btypes[4] = BTYP(x_3, y_2 + 1);
 }
 #endif
 
 /* 23F10 80148710 -O2 -msoft-float */
 void DO_OBJ_REBOND_EN_X(Obj *obj)
 {
-  if (
-    block_flags[obj->btypes[2]] >> BLOCK_FLAG_4 & 1 ||
-    block_flags[obj->btypes[1]] >> BLOCK_FLAG_4 & 1
-  )
-    obj->speed_x = -obj->speed_x;
+    if (
+        block_flags[obj->btypes[2]] >> BLOCK_FLAG_4 & 1 ||
+        block_flags[obj->btypes[1]] >> BLOCK_FLAG_4 & 1
+    )
+        obj->speed_x = -obj->speed_x;
 }
 
 /* 23F80 80148780 -O2 -msoft-float */
@@ -707,7 +707,7 @@ u32 calc_btyp(Obj *obj)
             break;
         }
     }
-    
+
     if (!(block_flags[obj->btypes[0]] >> BLOCK_SOLID & 1))
     {
         if (obj->type == TYPE_RAYMAN)
@@ -752,7 +752,7 @@ u32 calc_btyp(Obj *obj)
                                 else
                                     obj->field23_0x3c = 1;
                             }
-                            
+
                             ray_btypes = ray.btypes;
                             if (btypes_1_2_solid)
                                 new_btyp = &ray_btypes[2];

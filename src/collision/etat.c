@@ -5,11 +5,11 @@ s32 vblToEOA(Obj *obj, u8 factor)
 {
     ObjState *eta = &obj->eta[obj->main_etat][obj->sub_etat];
     s32 anim_speed = eta->anim_speed & 15;
-    s32 res = 
+    s32 res =
         (s16) (obj->animations[eta->anim_index].frames_count *
         anim_speed * factor - horloge[anim_speed] + 1);
     MAX_2(res, 1);
-    
+
     return res;
 }
 
@@ -17,7 +17,7 @@ s32 vblToEOA(Obj *obj, u8 factor)
 void GET_ANIM_POS(Obj *obj, s16 *x, s16 *y, s16 *w, s16 *h)
 {
     AnimationFrame *frame = &obj->animations[obj->anim_index].frames[obj->anim_frame];
-    
+
     *w = frame->width;
     *h = frame->height;
     if (!(obj->flags & FLG(OBJ_FLIP_X)))
