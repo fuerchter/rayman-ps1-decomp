@@ -17,7 +17,7 @@ void FUN_801790cc(Display *display)
     u16 i;
     u16 unk_2;
     u16 unk_1 = 0x100;
-    
+
     for (i = 0; i < LEN(display->field_0x66dc_0x673b); i++)
     {
         SetTile(display->field_0x66dc_0x673b + i);
@@ -155,7 +155,6 @@ block_9:
         }
         D_801CF06C = 1;
         D_801CF064 = D_801CF064 + 1;
-        
     }
     var_s3_3 = 0;
     while (var_s3_3 < 0x10)
@@ -163,7 +162,7 @@ block_9:
         SetPolyF4(&PS1_CurrentDisplay->unk_poly_f4s[var_s3_3]);
         SetSemiTrans(&PS1_CurrentDisplay->unk_poly_f4s[var_s3_3], 0);
         SetShadeTex(&PS1_CurrentDisplay->unk_poly_f4s[var_s3_3], 1);
-        
+
         (PS1_CurrentDisplay->unk_poly_f4s + var_s3_3)->r0 = 0; /* TODO: bleh */
         PS1_CurrentDisplay->unk_poly_f4s[var_s3_3].g0 = 0;
         PS1_CurrentDisplay->unk_poly_f4s[var_s3_3].b0 = 0;
@@ -200,19 +199,19 @@ block_9:
     }
     if ((D_801CF066 > 0) || (D_801CF068 > 0))
     {
-        
+
         PS1_CurrentDisplay->field_0x66dc_0x673b[0].x0 = 0;
         PS1_CurrentDisplay->field_0x66dc_0x673b[0].y0 = 0;
         PS1_CurrentDisplay->field_0x66dc_0x673b[0].w = 0x0140;
         PS1_CurrentDisplay->field_0x66dc_0x673b[0].h = MAX_1(D_801CF420, 0);
         PS1_CurrentDisplay->field_0x66dc_0x673b[0].code &= 0xFD;
-        
+
         PS1_CurrentDisplay->field_0x66dc_0x673b[1].x0 = 0;
         PS1_CurrentDisplay->field_0x66dc_0x673b[1].y0 = unk_1 + D_801CF420;
         PS1_CurrentDisplay->field_0x66dc_0x673b[1].w = 0x0140;
-        PS1_CurrentDisplay->field_0x66dc_0x673b[1].h = MAX_1(0xF0 - D_801CF420  - unk_1, 0); /* order of subs correct? */
+        PS1_CurrentDisplay->field_0x66dc_0x673b[1].h = MAX_1(0xF0 - D_801CF420 - unk_1, 0); /* order of subs correct? */
         PS1_CurrentDisplay->field_0x66dc_0x673b[1].code &= 0xFD;
-        
+
         PS1_CurrentDisplay->field_0x66dc_0x673b[2].x0 = 0;
         PS1_CurrentDisplay->field_0x66dc_0x673b[2].y0 = D_801CF420;
         PS1_CurrentDisplay->field_0x66dc_0x673b[2].w = MAX_1(D_801CF418, 0);
@@ -224,7 +223,7 @@ block_9:
         PS1_CurrentDisplay->field_0x66dc_0x673b[3].code &= 0xFD; /* ??? */
         PS1_CurrentDisplay->field_0x66dc_0x673b[3].w = MAX_1(0x140 - D_801CF418 - sp30, 0); /* order of subs correct? */
         PS1_CurrentDisplay->field_0x66dc_0x673b[3].h = unk_1;
-        
+
         AddPrim(&PS1_CurrentDisplay->ordering_table[9], &PS1_CurrentDisplay->field_0x66dc_0x673b[0]);
         AddPrim(&PS1_CurrentDisplay->ordering_table[9], &PS1_CurrentDisplay->field_0x66dc_0x673b[1]);
         AddPrim(&PS1_CurrentDisplay->ordering_table[9], &PS1_CurrentDisplay->field_0x66dc_0x673b[2]);
@@ -246,17 +245,17 @@ skipped_1:
         unk_y_2_3_first = sp28 + D_801CF420;
         unk_x_2_3_fourth = sp10 + D_801CF418;
         unk_y_2_3_snd = sp18 + D_801CF420;
-        
+
         PS1_CurrentDisplay->unk_poly_f4s[0].x0 = D_801E4EA8[0].vx + D_801CF428;
         PS1_CurrentDisplay->unk_poly_f4s[0].y0 = D_801E4EA8[0].vy + D_801CF430;
         PS1_CurrentDisplay->unk_poly_f4s[0].x1 = D_801E4EA8[1].vx + D_801CF428;
-        
+
         PS1_CurrentDisplay->unk_poly_f4s[0].x2 = unk_x_2_3_first;
         PS1_CurrentDisplay->unk_poly_f4s[0].x3 = unk_x_2_3_first;
-        
+
         PS1_CurrentDisplay->unk_poly_f4s[0].y2 = unk_y_2_3_first;
         PS1_CurrentDisplay->unk_poly_f4s[0].y1 = D_801E4EA8[1].vy + D_801CF430;
-        
+
         PS1_CurrentDisplay->unk_poly_f4s[0].y3 = unk_y_2_3_snd;
         PS1_CurrentDisplay->unk_poly_f4s[1].x0 = D_801E4EA8[1].vx + D_801CF428;
         PS1_CurrentDisplay->unk_poly_f4s[1].y0 = D_801E4EA8[1].vy + D_801CF430;
@@ -272,7 +271,7 @@ skipped_1:
         PS1_CurrentDisplay->unk_poly_f4s[2].x2 = unk_x_2_3_first;
         PS1_CurrentDisplay->unk_poly_f4s[2].y2 = D_801CF420;
         PS1_CurrentDisplay->unk_poly_f4s[2].y3 = D_801CF420;
-        
+
         PS1_CurrentDisplay->unk_poly_f4s[2].x3 = unk_x_2_3_snd;
         PS1_CurrentDisplay->unk_poly_f4s[2].y1 = D_801E4EA8[3].vy + D_801CF430;
         PS1_CurrentDisplay->unk_poly_f4s[3].x0 = D_801E4EA8[3].vx + D_801CF428;
@@ -281,7 +280,7 @@ skipped_1:
         PS1_CurrentDisplay->unk_poly_f4s[3].x2 = unk_x_2_3_snd;
         PS1_CurrentDisplay->unk_poly_f4s[3].y2 = D_801CF420;
         PS1_CurrentDisplay->unk_poly_f4s[3].y3 = D_801CF420;
-        
+
         PS1_CurrentDisplay->unk_poly_f4s[3].x3 = unk_x_2_3_third;
         PS1_CurrentDisplay->unk_poly_f4s[3].y1 = D_801E4EA8[4].vy + D_801CF430;
         PS1_CurrentDisplay->unk_poly_f4s[4].x0 = D_801E4EA8[4].vx + D_801CF428;
@@ -289,7 +288,7 @@ skipped_1:
         PS1_CurrentDisplay->unk_poly_f4s[4].x1 = D_801E4EA8[5].vx + D_801CF428;
         PS1_CurrentDisplay->unk_poly_f4s[4].x2 = unk_x_2_3_third;
         PS1_CurrentDisplay->unk_poly_f4s[4].y2 = D_801CF420;
-        
+
         PS1_CurrentDisplay->unk_poly_f4s[4].x3 = unk_x_2_3_fourth;
         PS1_CurrentDisplay->unk_poly_f4s[4].y3 = D_801CF420;
         PS1_CurrentDisplay->unk_poly_f4s[4].y1 = D_801E4EA8[5].vy + D_801CF430;
@@ -323,13 +322,13 @@ skipped_1:
         PS1_CurrentDisplay->unk_poly_f4s[8].x2 = D_801CF418;
         PS1_CurrentDisplay->unk_poly_f4s[8].y2 = unk_y_2_3_first;
         PS1_CurrentDisplay->unk_poly_f4s[8].x3 = D_801CF418;
-        
+
         PS1_CurrentDisplay->unk_poly_f4s[8].y3 = unk_y_2_3_third;
         PS1_CurrentDisplay->unk_poly_f4s[8].y1 = D_801E4EA8[9].vy + D_801CF430;
         PS1_CurrentDisplay->unk_poly_f4s[9].x0 = D_801E4EA8[9].vx + D_801CF428;
         PS1_CurrentDisplay->unk_poly_f4s[9].y0 = D_801E4EA8[9].vy + D_801CF430;
         PS1_CurrentDisplay->unk_poly_f4s[9].x1 = D_801E4EA8[10].vx + D_801CF428;
-        
+
         PS1_CurrentDisplay->unk_poly_f4s[9].x2 = D_801CF418;
         PS1_CurrentDisplay->unk_poly_f4s[9].y2 = unk_y_2_3_third;
         PS1_CurrentDisplay->unk_poly_f4s[9].x3 = D_801CF418;
@@ -490,7 +489,7 @@ void PS1_PerfectBonusDrawBg(void)
     CVECTOR *col_2 = &D_801CF074;
     CVECTOR *col_3 = &D_801CF078;
     CVECTOR *col_4 = &D_801CF07C;
-    
+
     while (i < LEN(PS1_CurrentDisplay->unk_poly_g3s))
     {
         SetPolyG3(&PS1_CurrentDisplay->unk_poly_g3s[i]);
@@ -537,7 +536,7 @@ void PS1_PerfectBonusDrawBg(void)
         (PS1_CurrentDisplay->unk_poly_g3s + i)->r0 = 0;
         (PS1_CurrentDisplay->unk_poly_g3s + i)->g0 = 0;
         (PS1_CurrentDisplay->unk_poly_g3s + i)->b0 = 0;
-        
+
         D_801FAA48[0].vx = (D_801CF08A * rcos(D_801CF086) >> 12) + unk_3;
         D_801FAA48[0].vy = (D_801CF08A * rsin(D_801CF086) >> 12) + unk_4;
         unk_2 = D_801CF086 + unk_5;
@@ -572,7 +571,7 @@ void DISPLAY_FOND_MENU(void)
     u16 offs_x = SCREEN_WIDTH / 2;
     u16 offs_y = SCREEN_HEIGHT / 2;
     u16 cnt_1 = 0;
-    
+
     while (cnt_1 < LEN(PS1_CurrentDisplay->unk_poly_g4s)) /* or unk_poly_g3s? */
     {
         SetPolyG4(PS1_CurrentDisplay->unk_poly_g4s + cnt_1);
@@ -581,14 +580,14 @@ void DISPLAY_FOND_MENU(void)
         SetPolyG3(PS1_CurrentDisplay->unk_poly_g3s + cnt_1);
         SetSemiTrans(PS1_CurrentDisplay->unk_poly_g3s + cnt_1, false);
         SetShadeTex(PS1_CurrentDisplay->unk_poly_g3s + cnt_1, true);
-        
+
         unk_2 = cnt_1; /* TODO: ??? */
         ind_1 = unk_2 & 3;
         if (ind_1 != 3)
             ind_2 = ind_1 + 1;
         else
             ind_2 = 0;
-        
+
         (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->r0 = D_801C7EAC[ind_1].r;
         (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->g0 = D_801C7EAC[ind_1].g;
         (PS1_CurrentDisplay->unk_poly_g4s + cnt_1)->b0 = D_801C7EAC[ind_1].b;
@@ -610,7 +609,7 @@ void DISPLAY_FOND_MENU(void)
         (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->r0 = 0;
         (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->g0 = 0;
         (PS1_CurrentDisplay->unk_poly_g3s + cnt_1)->b0 = 0;
-        
+
         D_801FAA48[0].vx = (D_801CF096 * rcos(D_801CF090) >> 12) + offs_x;
         D_801FAA48[0].vy = (D_801CF096 * rsin(D_801CF090) >> 12) + offs_y;
         D_801FAA58[0].vx = (D_801CF098 * rcos(D_801CF090) >> 12) + offs_x;
@@ -646,11 +645,11 @@ void DISPLAY_FOND_MENU(void)
         &PS1_CurrentDisplay->drawing_environment
     );
     AddPrim(
-        &PS1_CurrentDisplay->ordering_table[10], 
+        &PS1_CurrentDisplay->ordering_table[10],
         PS1_CurrentDisplay->map_drawing_environment_primitives + D_801E4BE0
     );
     D_801E4BE0++;
-    
+
     D_801CF090 = D_801CF092;
     D_801CF094 += 10;
     D_801CF092 += 10;

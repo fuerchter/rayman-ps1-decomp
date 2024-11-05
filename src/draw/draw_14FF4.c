@@ -30,13 +30,13 @@ void PS1_DrawColoredSprite(Sprite *sprite, s16 in_x, s16 in_y, u8 disp_mode)
     {
         offs = PS1_PolygonsCount * sizeof(POLY_FT4);
         if (PS1_CurrentDisplay != PS1_Displays)
-            poly = (POLY_FT4 *)(0x800E3F2C + offs);
+            poly = (POLY_FT4 *) (0x800E3F2C + offs);
         else
-            poly = (POLY_FT4 *)(0x800D772C + offs);
+            poly = (POLY_FT4 *) (0x800D772C + offs);
         SetPolyFT4(poly);
         PS1_PolygonsCount++;
     }
-    
+
     if (sprite->id != 0)
     {
         page_x = sprite->page_x;
@@ -241,7 +241,7 @@ void PS1_DrawScaledSprite(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 param
     s16 unk_x_2;
     s16 unk_y_1;
     s16 unk_x_3;
-    s16 unk_y_2;    
+    s16 unk_y_2;
     POLY_FT4 *poly = &PS1_CurrentDisplay->polygons[PS1_PolygonsCount++];
 
     if (sprite->id != 0)
@@ -313,7 +313,7 @@ void FUN_80139d5c(s16 *p_poly_x, s16 *p_poly_y, s16 param_3, s16 param_4, s16 an
     s16 old_poly_x = *p_poly_x;
     s16 old_poly_y = *p_poly_y;
 
-    *p_poly_x = 
+    *p_poly_x =
         (old_poly_x * rcos(angle) >> 12) -
         (old_poly_y * rsin(angle) >> 12) +
         (
@@ -346,18 +346,18 @@ void PS1_DrawRay(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 angle_ind)
     s16 unk0[16]; s16 unk20[16]; s16 unk40[16]; s16 unk60[16];
     s16 unk80[16]; s16 unkA0[16]; s16 unkC0[16]; s16 unkE0[16];
     POLY_FT4 *poly = &PS1_CurrentDisplay->polygons[PS1_PolygonsCount++];
-    
+
     if (sprite->id != 0)
     {
         page_x = sprite->page_x;
         page_y = sprite->page_y;
         height = sprite->height;
         width = sprite->width;
-        
+
         unk_height_1 = height + 1;
         if (D_801E4C20)
             unk_height_1 = height;
-        
+
         unk_x_1 = page_x + width - 1;
         unk_y_1 = page_y + unk_height_1 - 1;
         unk_x_2 = x + width - 1;
@@ -383,7 +383,7 @@ void PS1_DrawRay(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 angle_ind)
             D_801CF600[angle_ind] = unk_1 - (unk_1 / 4096 * 4096);
             if (angle_ind == 0)
                 D_801CEF78 -= 3;
-            
+
             unk80[angle_ind] = x + (width >> 1);
             unkA0[angle_ind] = y + (unk_height_1 >> 1);
             unkC0[angle_ind] =
@@ -406,7 +406,7 @@ void PS1_DrawRay(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 angle_ind)
             poly->y2 = unk60[angle_ind];
             poly->x3 = unk40[angle_ind];
             poly->y3 = unk60[angle_ind];
-            
+
             FUN_80139d5c(&poly->x0, &poly->y0, unkC0[angle_ind], unkE0[angle_ind], unk_3);
             FUN_80139d5c(&poly->x1, &poly->y1, unkC0[angle_ind], unkE0[angle_ind], unk_3);
             FUN_80139d5c(&poly->x2, &poly->y2, unkC0[angle_ind], unkE0[angle_ind], unk_3);
@@ -439,7 +439,7 @@ void PS1_DrawRay(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 angle_ind)
             poly->u3 = unk_x_1;
             poly->v3 = unk_y_1;
         }
-        
+
         if (D_801E4C20)
         {
             if (D_801CEF78 <= 0)
@@ -692,7 +692,7 @@ void FUN_8013ad54(s16 param_1, s16 param_2, s16 param_3)
     u8 spr_1 = (param_1 / 100);
     s32 spr_add = 28; /* TODO: did not get this in DISPLAY_FIXE, so define instead? */
     s32 display_mode = 0;
-    
+
     display_sprite(sbar_obj, spr_1 + spr_add, param_2, param_3, display_mode);
     display_sprite(sbar_obj, spr_2 + spr_add, param_2 + 16, param_3, display_mode);
     display_sprite(sbar_obj, spr_3 + spr_add, param_2 + 32, param_3, display_mode);
@@ -730,7 +730,7 @@ void DISPLAY_PTS_TO_PLAN2(s32 x1, s32 y1, s32 x2, s32 y2, s16 percentage)
     s16 new_x2 = x2 + x_offs - xmap;
     s16 new_y1 = y1 + y_offs - ymap;
     s16 new_y2 = y2 + y_offs - ymap;
-    
+
     Bresenham(
         DISPLAY_POINT,
         new_x1, new_y1,
@@ -761,7 +761,7 @@ void draw_flocon1_Normal(s16 x0, s16 y0)
 void draw_flocon2_Normal(s16 x0, s16 y0)
 {
     TILE_1 *tile = &PS1_CurrentDisplay->tile1s[PS1_Disp_Cur_Tile1++];
-    
+
     tile->r0 = 199; tile->g0 = 223; tile->b0 = 247;
     tile->x0 = x0; tile->y0 = y0;
     AddPrim(PS1_PrevPrim, tile);
@@ -772,7 +772,7 @@ void draw_flocon2_Normal(s16 x0, s16 y0)
 void draw_flocon3_Normal(s16 x0, s16 y0)
 {
     SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
-    
+
     sprt->u0 = 8; sprt->v0 = 0;
     sprt->x0 = x0; sprt->y0 = y0;
     AddPrim(PS1_PrevPrim, sprt);
@@ -794,7 +794,7 @@ void draw_flocon4_Normal(s16 x0, s16 y0)
 void draw_flocon5_Normal(s16 x0, s16 y0)
 {
     SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
-    
+
     sprt->u0 = 40; sprt->v0 = 0;
     sprt->x0 = x0; sprt->y0 = y0;
     AddPrim(PS1_PrevPrim, sprt);
@@ -816,7 +816,7 @@ void FUN_8013b294(s16 x0, s16 y0)
 void FUN_8013b304(s16 x0, s16 y0)
 {
     SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
-    
+
     sprt->u0 = 56; sprt->v0 = 0;
     sprt->x0 = x0; sprt->y0 = y0;
     AddPrim(PS1_PrevPrim, sprt);
@@ -890,7 +890,7 @@ void display_flocons_behind(void)
     prev_pcx = PROJ_CENTER_X;
     prev_pcy = PROJ_CENTER_Y;
     set_proj_center(160, 170);
-    
+
     cnt_1 = 6;
     cnt_2 = 3;
     cnt_3 = 32;
@@ -1026,7 +1026,7 @@ void display_flocons_before(void)
     dr_env = &PS1_CurrentDisplay->map_drawing_environment_primitives[6];
     AddPrim(ot_7, dr_env);
     PS1_PrevPrim = dr_env;
-    
+
     prev_pcx = PROJ_CENTER_X;
     prev_pcy = PROJ_CENTER_Y;
     set_proj_center(160, 170);
@@ -1095,7 +1095,7 @@ void display_pix_gerbes(void)
     s16 spd_y;
     u8 color;
     TILE_1 *cur_tile1 = &PS1_CurrentDisplay->tile1s[PS1_Disp_Cur_Tile1];
-    
+
     for (i = 0; i < (s16) LEN(pix_gerbe); i++)
     {
         if (pix_gerbe[i].is_active)
@@ -1115,36 +1115,36 @@ void display_pix_gerbes(void)
 
                     switch (color)
                     {
-                        case 4:
-                            cur_tile1->r0 = 123;
-                            cur_tile1->g0 = 135;
-                            cur_tile1->b0 = 187;
-                            break;
-                        case 5:
-                            cur_tile1->r0 = 151;
-                            cur_tile1->g0 = 159;
-                            cur_tile1->b0 = 219;
-                            break;
-                        case 6:
-                            cur_tile1->r0 = 187;
-                            cur_tile1->g0 = 187;
-                            cur_tile1->b0 = 251;
-                            break;
-                        case 7:
-                            cur_tile1->r0 = 199;
-                            cur_tile1->g0 = 213;
-                            cur_tile1->b0 = 251;
-                            break;
-                        case 88:
-                            cur_tile1->r0 = 255;
-                            cur_tile1->g0 = 191;
-                            cur_tile1->b0 = 167;
-                            break;
-                        default:
-                            cur_tile1->r0 = 187;
-                            cur_tile1->g0 = 187;
-                            cur_tile1->b0 = 251;
-                            break;
+                    case 4:
+                        cur_tile1->r0 = 123;
+                        cur_tile1->g0 = 135;
+                        cur_tile1->b0 = 187;
+                        break;
+                    case 5:
+                        cur_tile1->r0 = 151;
+                        cur_tile1->g0 = 159;
+                        cur_tile1->b0 = 219;
+                        break;
+                    case 6:
+                        cur_tile1->r0 = 187;
+                        cur_tile1->g0 = 187;
+                        cur_tile1->b0 = 251;
+                        break;
+                    case 7:
+                        cur_tile1->r0 = 199;
+                        cur_tile1->g0 = 213;
+                        cur_tile1->b0 = 251;
+                        break;
+                    case 88:
+                        cur_tile1->r0 = 255;
+                        cur_tile1->g0 = 191;
+                        cur_tile1->b0 = 167;
+                        break;
+                    default:
+                        cur_tile1->r0 = 187;
+                        cur_tile1->g0 = 187;
+                        cur_tile1->b0 = 251;
+                        break;
                     }
                     cur_tile1->x0 = cur_item->x_pos >> 6;
                     cur_tile1->y0 = cur_item->y_pos >> 6;
@@ -1170,16 +1170,18 @@ void DISPLAY_CYMBALE(Obj *obj, u8 param_2)
     s16 x; s16 y;
     Animation *anim = &obj->animations[obj->anim_index];
     AnimationLayer *layer = &anim->layers[(anim->layers_count & 0x3FFF) * obj->anim_frame];
-    
+
     if (!param_2)
     {
-        end = 5; begin = 3;
+        end = 5;
+        begin = 3;
     }
     else
     {
-        end = 2; begin = 0;
+        end = 2;
+        begin = 0;
     }
-    
+
     for (i = begin; i <= end; i++)
     {
         sprite = &obj->sprites[layer[i].sprite];
@@ -1231,7 +1233,7 @@ void DISPLAY_ALL_OBJECTS(void)
         {
             if (prio == 1 && (flags[obj->type].flags0 >> OBJ0_BOSS & 1))
                 PS1_BossObj = obj;
-            
+
             if (obj->display_prio == prio)
             {
                 if (num_world == 5 && num_level == 4 && obj->type == TYPE_MEDAILLON_TOON)
@@ -1268,7 +1270,7 @@ void DISPLAY_ALL_OBJECTS(void)
                                 SetPolyG4(&PS1_CurrentDisplay->field_0x6094_0x60b7);
                                 SetSemiTrans(&PS1_CurrentDisplay->field_0x6094_0x60b7, true);
                                 SetShadeTex(&PS1_CurrentDisplay->field_0x6094_0x60b7, true);
-                                
+
                                 PS1_CurrentDisplay->field_0x6094_0x60b7.x0 = 0;
                                 PS1_CurrentDisplay->field_0x6094_0x60b7.y0 = obj->screen_y_pos + 25;
                                 PS1_CurrentDisplay->field_0x6094_0x60b7.x1 = SCREEN_WIDTH;
@@ -1323,7 +1325,7 @@ void DISPLAY_ALL_OBJECTS(void)
         {
             if (ray.iframes_timer % 2 || ray.iframes_timer > 90)
             {
-                if (((ray.flags & (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE))) == (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE))))
+                if (((ray.flags & (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE))) == (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE))))
                     display2(&ray);
             }
             DISPLAY_POING();
@@ -1339,7 +1341,7 @@ void DISPLAY_ALL_OBJECTS(void)
                 }
             }
         }
-        
+
         prio--;
         if (prio < 1)
         {

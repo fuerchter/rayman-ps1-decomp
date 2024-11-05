@@ -32,7 +32,7 @@ void display_etoile(s32 in_x, s32 in_y)
     u8 sprite;
 
     __builtin_memcpy(loc_star_spr, PS1_star_spr, sizeof(PS1_star_spr));
-    
+
     temp = &grp_stars[current_star];
     star = temp;
     star->timer++;
@@ -95,63 +95,63 @@ void display_grp_stars(void)
 /* 19D20 8013E520 -O2 -msoft-float */
 void DISPLAY_TEXT_FEE(void)
 {
-  u8 txt_fee;
-  Obj *obj;
-  TextToDisplay ttd;
-  s16 cen_x;
-  s16 obj_x;
-  s16 marg_x;
-  
-  DISPLAY_BLACKBOX(0, 0, SCREEN_WIDTH, 20, 0, false);
-  DISPLAY_BLACKBOX(0, 190, SCREEN_WIDTH, 50, 0, false);
-  txt_fee = display_txt_fee;
-  if (txt_fee != 0xff)
-  {
-    obj = &level.objects[png_or_fee_id];
-    __builtin_memcpy(&ttd, &text_to_display[txt_fee], sizeof(TextToDisplay));
-    if (ttd.text[0] != '\0')
+    u8 txt_fee;
+    Obj *obj;
+    TextToDisplay ttd;
+    s16 cen_x;
+    s16 obj_x;
+    s16 marg_x;
+
+    DISPLAY_BLACKBOX(0, 0, SCREEN_WIDTH, 20, 0, false);
+    DISPLAY_BLACKBOX(0, 190, SCREEN_WIDTH, 50, 0, false);
+    txt_fee = display_txt_fee;
+    if (txt_fee != 0xff)
     {
-        if (obj->flags & FLG(OBJ_ALIVE))
+        obj = &level.objects[png_or_fee_id];
+        __builtin_memcpy(&ttd, &text_to_display[txt_fee], sizeof(TextToDisplay));
+        if (ttd.text[0] != '\0')
         {
-            obj->screen_y_pos = 220 - obj->offset_by;
-            cen_x = ttd.centered_x_pos;
-            obj_x = obj->offset_bx + obj->screen_x_pos;
-            marg_x = 8;
-            if (cen_x < obj_x - marg_x)
+            if (obj->flags & FLG(OBJ_ALIVE))
             {
-                if (cen_x + ttd.width > obj_x)
+                obj->screen_y_pos = 220 - obj->offset_by;
+                cen_x = ttd.centered_x_pos;
+                obj_x = obj->offset_bx + obj->screen_x_pos;
+                marg_x = 8;
+                if (cen_x < obj_x - marg_x)
                 {
-                    ttd.text[(s16) ((obj_x - (cen_x + marg_x)) / 7)] = '\0';
-                    display_box_text(&ttd);
+                    if (cen_x + ttd.width > obj_x)
+                    {
+                        ttd.text[(s16) ((obj_x - (cen_x + marg_x)) / 7)] = '\0';
+                        display_box_text(&ttd);
+                    }
+                    else
+                        display_box_text(&ttd);
                 }
-                else
+                else if (cen_x + ttd.width <= obj_x)
                     display_box_text(&ttd);
+
+                DISPLAY_BLACKBOX(
+                    obj_x,
+                    obj->screen_y_pos + obj->offset_by - 20,
+                    30,
+                    18,
+                    0,
+                    false
+                );
+                display2(obj);
             }
-            else if (cen_x + ttd.width <= obj_x)
+            else
                 display_box_text(&ttd);
-            
-            DISPLAY_BLACKBOX(
-                obj_x,
-                obj->screen_y_pos + obj->offset_by - 20,
-                30,
-                18,
-                0,
-                false
-            );
-            display2(obj);
         }
-        else
+    }
+
+    txt_fee = old_txt_fee;
+    if (txt_fee != 0xff)
+    {
+        __builtin_memcpy(&ttd, &text_to_display[txt_fee], sizeof(TextToDisplay));
+        if (ttd.text[0] != '\0')
             display_box_text(&ttd);
     }
-  }
-
-  txt_fee = old_txt_fee;
-  if (txt_fee != 0xff)
-  {
-    __builtin_memcpy(&ttd, &text_to_display[txt_fee], sizeof(TextToDisplay));
-    if (ttd.text[0] != '\0')
-      display_box_text(&ttd);
-  }
 }
 
 #ifndef MATCHES_BUT
@@ -185,10 +185,11 @@ void DisplayJumellesNormal(void)
     sprites = mapobj[24].sprites;
     PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[9];
     sprite = &sprites[1];
-    
+
     height_1 = sprite->height;
     width_1 = sprite->width;
-    do {
+    do
+    {
         x_4 = 160 - width_1 * 2;
         PS1_DrawColoredSprite(sprite, x_4, 53, 1);
     } while (0);
@@ -220,7 +221,7 @@ void DisplayJumellesNormal(void)
     x_5 += sprite->width;
     PS1_DrawColoredSprite(sprite, x_5, y_3, 3);
     PS1_DrawColoredSprite(sprite, sprite->width + x_5, y_3, 2);
-    
+
     height_2 = sprite->height;
     w_1 = x_4 - height_2;
     width_2 = sprite->width;
@@ -242,7 +243,7 @@ void PS1_DisplayWorldMapBg1(s16 x1, s16 y1, s16 x2, s16 y2)
 }
 
 /* 1A388 8013EB88 -O2 -msoft-float */
-extern inline s32 calc_y(s16 y) 
+extern inline s32 calc_y(s16 y)
 {
     return (debut_options + y * (ecarty + 23) - 23);
 }
@@ -271,7 +272,7 @@ void DISPLAY_SAVE_SPRITES(s16 x, s16 y)
     display_sprite(loc_mapobj, 57, x, calc_y(y), 0);
     x += loc_mapobj->sprites[57].width;
     display_sprite(&div_obj, sprite_ind_1, x, calc_y(y), 0);
-    
+
     pct = loadInfoRay[y].num_cages * 100 / 102;
     sprite_ind_1 = ((s16) pct / 100) + 28;
     sprite_ind_2 = ((s16) pct / 10 % 10) + 28;
@@ -290,15 +291,15 @@ void DISPLAY_SAVE_SPRITES(s16 x, s16 y)
 
 void DISPLAY_SAVE_POING(void)
 {
-  Obj *obj;
-  s16 temp;
-  
-  obj = mapobj;
-  display_sprite(obj, 2, 10, debut_options + (positiony - 1) * (ecarty + 23) - 23, 1);
-  temp = 11;
-  display_sprite(obj, 2, (positionx2 - 1) * 100, debut_sortie - ((obj->sprites[2].height >> 1) + temp), 1);
-  if (fichier_a_copier != 0)
-    display_sprite(obj, 1, 10, debut_options + (fichier_a_copier - 1) * (ecarty + 23) - 23, 1);
+    Obj *obj;
+    s16 temp;
+
+    obj = mapobj;
+    display_sprite(obj, 2, 10, debut_options + (positiony - 1) * (ecarty + 23) - 23, 1);
+    temp = 11;
+    display_sprite(obj, 2, (positionx2 - 1) * 100, debut_sortie - ((obj->sprites[2].height >> 1) + temp), 1);
+    if (fichier_a_copier != 0)
+        display_sprite(obj, 1, 10, debut_options + (fichier_a_copier - 1) * (ecarty + 23) - 23, 1);
 }
 
 /* 1A9D8 8013F1D8 -O2 -msoft-float */
@@ -359,92 +360,92 @@ void display_time(s16 time)
 /* 1AC60 8013F460 -O2 */
 void PS1_LoadPts(void)
 {
-  u8 image [250];
-  RECT rect;
-  u8 *pixel_1;
-  u8 *pixel_2;
-  s32 i;
-  
-  rect.x = SCREEN_WIDTH; rect.y = 0; rect.w = 40; rect.h = 8;
-  ClearImage(&rect, 0, 0, 0);
-  i = 63;
-  pixel_1 = image + i;
-  while (i >= 0)
-  {
-    *pixel_1 = 0;
-    i--;
-    pixel_1--;
-  }
+    u8 image [250];
+    RECT rect;
+    u8 *pixel_1;
+    u8 *pixel_2;
+    s32 i;
+    
+    rect.x = SCREEN_WIDTH; rect.y = 0; rect.w = 40; rect.h = 8;
+    ClearImage(&rect, 0, 0, 0);
+    i = 63;
+    pixel_1 = image + i;
+    while (i >= 0)
+    {
+        *pixel_1 = 0;
+        i--;
+        pixel_1--;
+    }
 
-  rect.w = 4;
-  image[1] = 4; image[8] = 5;
-  LoadImage(&rect, (u32 *)&image);
-  DrawSync(0);
+    rect.w = 4;
+    image[1] = 4; image[8] = 5;
+    LoadImage(&rect, (u32 *)&image);
+    DrawSync(0);
 
-  image[0] = 6; image[8] = 7; image[1] = 7; image[9] = 8;
-  rect.x = rect.x + rect.w;
-  LoadImage(&rect, (u32 *)&image);
-  DrawSync(0);
-  
-  image[0] = 0; image[17] = 6; image[10] = 6; image[8] = 6;
-  image[1] = 6; image[9] = 8;
-  rect.x = rect.x + rect.w;
-  LoadImage(&rect, (u32 *)&image);
-  DrawSync(0);
+    image[0] = 6; image[8] = 7; image[1] = 7; image[9] = 8;
+    rect.x = rect.x + rect.w;
+    LoadImage(&rect, (u32 *)&image);
+    DrawSync(0);
+    
+    image[0] = 0; image[17] = 6; image[10] = 6; image[8] = 6;
+    image[1] = 6; image[9] = 8;
+    rect.x = rect.x + rect.w;
+    LoadImage(&rect, (u32 *)&image);
+    DrawSync(0);
 
-  image[10] = 2; image[1] = 2; image[17] = 3; image[8]= 3;
-  image[2] = 4; image[9] = 5;
-  rect.x = rect.x + rect.w;
-  LoadImage(&rect, (u32 *)&image);
-  DrawSync(0);
+    image[10] = 2; image[1] = 2; image[17] = 3; image[8]= 3;
+    image[2] = 4; image[9] = 5;
+    rect.x = rect.x + rect.w;
+    LoadImage(&rect, (u32 *)&image);
+    DrawSync(0);
 
-  image[8] = 0; image[1] = 0; image[11] = 2; image[2] = 2;
-  image[18] = 3; image[9] = 3; image[3] = 3; image[25] = 4;
-  image[16] = 4; image[10] = 4; image[17] = 5; image[24] = 6;
-  rect.x = rect.x + rect.w;
-  LoadImage(&rect, (u32 *)&image);
-  DrawSync(0);
+    image[8] = 0; image[1] = 0; image[11] = 2; image[2] = 2;
+    image[18] = 3; image[9] = 3; image[3] = 3; image[25] = 4;
+    image[16] = 4; image[10] = 4; image[17] = 5; image[24] = 6;
+    rect.x = rect.x + rect.w;
+    LoadImage(&rect, (u32 *)&image);
+    DrawSync(0);
 
-  image[3] = 0; image[24] = 0; image[26] = 6; image[25] = 6;
-  image[19] = 6; image[16] = 6; image[11] = 6; image[8] = 6;
-  image[2] = 6; image[1] = 6; image[18] = 7; image[17] = 7;
-  image[10] = 7; image[9] = 7;
-  rect.x = rect.x + rect.w;
-  LoadImage(&rect, (u32 *)&image);
-  DrawSync(0);
+    image[3] = 0; image[24] = 0; image[26] = 6; image[25] = 6;
+    image[19] = 6; image[16] = 6; image[11] = 6; image[8] = 6;
+    image[2] = 6; image[1] = 6; image[18] = 7; image[17] = 7;
+    image[10] = 7; image[9] = 7;
+    rect.x = rect.x + rect.w;
+    LoadImage(&rect, (u32 *)&image);
+    DrawSync(0);
 
-  image[26] = 6; image[25] = 6; image[19] = 6; image[16] = 6;
-  image[11] = 6; image[8] = 6; image[2] = 6; image[1] = 6;
-  image[18] = 8; image[17] = 8; image[10] = 8; image[9] = 8;
-  rect.x = rect.x + rect.w;
-  LoadImage(&rect, (u32 *)&image);
-  DrawSync(0);
+    image[26] = 6; image[25] = 6; image[19] = 6; image[16] = 6;
+    image[11] = 6; image[8] = 6; image[2] = 6; image[1] = 6;
+    image[18] = 8; image[17] = 8; image[10] = 8; image[9] = 8;
+    rect.x = rect.x + rect.w;
+    LoadImage(&rect, (u32 *)&image);
+    DrawSync(0);
 
-  image[8] = 0; image[1] = 0; image[43] = 6; image[42] = 6;
-  image[29] = 6; image[24] = 6; image[21] = 6; image[16] = 6;
-  image[3] = 6; image[2] = 6; image[36] = 7; image[33] = 7;
-  image[12] = 7; image[9] = 7; image[20] = 8; image[19] = 8;
-  image[18] = 8; image[17] = 8; image[11] = 8; image[10] = 8;
-  image[35] = 8; image[34] = 8; image[28] = 8; image[27] = 8;
-  image[26] = 8; image[25] = 8;
-  rect.x = rect.x + rect.w;
-  LoadImage(&rect, (u32 *)&image);
-  DrawSync(0);
-  i = 63;
-  pixel_2 = image + i;
-  rect.x = rect.x + rect.w;
-  while (i > -1)
-  {
-    *pixel_2 = 0;
-    i--;
-    pixel_2--;
-  }
+    image[8] = 0; image[1] = 0; image[43] = 6; image[42] = 6;
+    image[29] = 6; image[24] = 6; image[21] = 6; image[16] = 6;
+    image[3] = 6; image[2] = 6; image[36] = 7; image[33] = 7;
+    image[12] = 7; image[9] = 7; image[20] = 8; image[19] = 8;
+    image[18] = 8; image[17] = 8; image[11] = 8; image[10] = 8;
+    image[35] = 8; image[34] = 8; image[28] = 8; image[27] = 8;
+    image[26] = 8; image[25] = 8;
+    rect.x = rect.x + rect.w;
+    LoadImage(&rect, (u32 *)&image);
+    DrawSync(0);
+    i = 63;
+    pixel_2 = image + i;
+    rect.x = rect.x + rect.w;
+    while (i > -1)
+    {
+        *pixel_2 = 0;
+        i--;
+        pixel_2--;
+    }
 
-  image[8] = 12; image[1] = 12; image[26] = 80; image[25] = 80;
-  image[19] = 80; image[16] = 80; image[11] = 80; image[2] = 80;
-  image[9] = 14; image[18] = 9; image[17] = 10; image[10] = 10;
-  LoadImage(&rect, (u32 *)&image);
-  DrawSync(0);
+    image[8] = 12; image[1] = 12; image[26] = 80; image[25] = 80;
+    image[19] = 80; image[16] = 80; image[11] = 80; image[2] = 80;
+    image[9] = 14; image[18] = 9; image[17] = 10; image[10] = 10;
+    LoadImage(&rect, (u32 *)&image);
+    DrawSync(0);
 }
 
 /* modulo but no tge... */

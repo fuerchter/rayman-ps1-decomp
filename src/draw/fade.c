@@ -12,7 +12,7 @@ void FUN_80169420(Display *disp)
     s16 i;
     TILE *cur_tile;
     DRAWENV *drawenv;
-    
+
     for (i = 0; i < (s16) LEN(disp->field_0x60bc_0x660b); i++)
     {
         cur_tile = &disp->field_0x60bc_0x660b[i].tile;
@@ -81,7 +81,7 @@ void PS1_LightningDraw(s16 param_1)
         D_801CF410 = param_1;
         D_801CEFF6 = 2;
     }
-    
+
     switch (D_801CF014)
     {
     case 0:
@@ -128,11 +128,11 @@ void PS1_LightningDraw(s16 param_1)
             D_801CF00C = -10;
         else if (D_801CF010 == 0)
             D_801CF00C = 10;
-        
+
         D_801CF010 += D_801CF00C;
         if (D_801CF010 == 0)
             D_801CF014 = 3;
-        
+
         PS1_CurrentDisplay->field_0x60bc_0x660b[5].tile.r0 = D_801CF010;
         PS1_CurrentDisplay->field_0x60bc_0x660b[5].tile.g0 = D_801CF010;
         PS1_CurrentDisplay->field_0x60bc_0x660b[5].tile.b0 = D_801CF010;
@@ -161,7 +161,7 @@ void PS1_LightningDraw(s16 param_1)
 
         if (D_801CEFF4 != 0)
             (D_801C7D68[D_801CEFF4 - 1])(&D_801CF008, D_801CF410);
-        
+
         if (!((s16) var_s0))
         {
             D_801CF012 = 0;
@@ -175,7 +175,7 @@ void PS1_LightningDraw(s16 param_1)
         PS1_CurrentDisplay->field_0x60bc_0x660b[5].tile.b0 = D_801CF010;
         AddPrim(&PS1_CurrentDisplay->ordering_table[D_801CF410], &PS1_CurrentDisplay->field_0x60bc_0x660b[5].tile);
         AddPrim(&PS1_CurrentDisplay->ordering_table[D_801CF410], &PS1_CurrentDisplay->field_0x60bc_0x660b[5]);
-        break;    
+        break;
     }
 }
 #endif
@@ -286,10 +286,10 @@ void DO_FADE_OUT(void)
     new_disp = &PS1_Displays[0];
     if (PS1_CurrentDisplay == &PS1_Displays[0])
         new_disp = &PS1_Displays[1];
-        
+
     MoveImage(
         &new_disp->drawing_environment.clip,
-        PS1_CurrentDisplay->drawing_environment.clip.x, 
+        PS1_CurrentDisplay->drawing_environment.clip.x,
         PS1_CurrentDisplay->drawing_environment.clip.y
     );
     INIT_FADE_OUT();
@@ -304,11 +304,11 @@ void PS1_DO_PICTURE_IN_PICTURE(void)
     POLY_FT4 *poly_1 = &PS1_CurrentDisplay->polygons[PS1_PolygonsCount++];
     POLY_FT4 *poly_2 = &PS1_CurrentDisplay->polygons[PS1_PolygonsCount];
     PS1_PolygonsCount += 2;
-    
+
     new_disp = &PS1_Displays[0];
     if (PS1_CurrentDisplay == &PS1_Displays[0])
         new_disp = &PS1_Displays[1];
-    
+
     poly_1->x0 = 120;
     poly_1->y0 = 5;
     poly_1->x1 = 152;
