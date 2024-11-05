@@ -6,6 +6,6 @@
 #include "common/level.h"
 #include "command_56AF0.h"
 
-void MARACAS_GO(Obj *obj);
+void MARACAS_GO(Obj *in_obj);
 
 #endif

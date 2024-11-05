@@ -1,46 +1,42 @@
 #include "obj/maracas.h"
 
 /* 3AB5C 8015F35C -O2 */
-void MARACAS_GO(Obj *obj)
+void MARACAS_GO(Obj *in_obj)
 {
-  Obj *basObj;
-  s16 i;
-  u8 nb_obj_1;
-  u8 nb_obj_2;
-  ObjFlags basObj_not_flip;
-  ObjFlags obj_get_flip;
+    ObjFlags cur_obj_not_flip;
+    ObjFlags in_obj_get_flip;
+    s16 i = 0;
+    Obj *cur_obj = &level.objects[i];
+    s16 nb_objs = level.nb_objects;
 
-  i = 0;
-  basObj = level.objects;
-  nb_obj_1 = level.nb_objects;
-  if (nb_obj_1 != 0) {
-    nb_obj_2 = nb_obj_1;
-    do {
+    while (i < nb_objs)
+    {
+        if ((cur_obj->type == TYPE_MARACAS_BAS) && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+        {
+            cur_obj_not_flip = ~FLG(OBJ_FLIP_X);
+            cur_obj_not_flip &= cur_obj->flags;
+            in_obj_get_flip = in_obj->flags & FLG(OBJ_FLIP_X);
+            cur_obj->flags = cur_obj_not_flip | in_obj_get_flip;
 
-      if ((basObj->type == TYPE_MARACAS_BAS) && !(basObj->flags & FLG(OBJ_ACTIVE))) {
-        basObj_not_flip = ~FLG(OBJ_FLIP_X);
-        basObj_not_flip &= basObj->flags;
-        obj_get_flip = obj->flags & FLG(OBJ_FLIP_X);
-        basObj->flags = basObj_not_flip | obj_get_flip;
-        
-        basObj->speed_y = 0;
-        basObj->speed_x = 0;
-        basObj->x_pos = obj->x_pos;
-        basObj->y_pos = obj->y_pos;
-        calc_obj_pos(basObj);
-        basObj->flags = basObj->flags | (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
-        basObj->gravity_value_1 = 0;
-        basObj->gravity_value_2 = 7;
-        break;
-      }
-      basObj++;
-      i++;
-    } while (i < nb_obj_2);
-  }
-  skipToLabel(obj, 99, true);
-  if (obj->cmd == GO_SPEED) {
-    obj->speed_x = basObj->iframes_timer;
-    obj->speed_y = basObj->field20_0x36;
-  }
-  set_main_and_sub_etat(obj, 0, 12);
+            cur_obj->speed_y = 0;
+            cur_obj->speed_x = 0;
+            cur_obj->x_pos = in_obj->x_pos;
+            cur_obj->y_pos = in_obj->y_pos;
+            calc_obj_pos(cur_obj);
+            cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
+            cur_obj->gravity_value_1 = 0;
+            cur_obj->gravity_value_2 = 7;
+            break;
+        }
+        cur_obj++;
+        i++;
+    }
+
+    skipToLabel(in_obj, 99, true);
+    if (in_obj->cmd == GO_SPEED)
+    {
+        in_obj->speed_x = cur_obj->iframes_timer;
+        in_obj->speed_y = cur_obj->field20_0x36;
+    }
+    set_main_and_sub_etat(in_obj, 0, 12);
 }

@@ -4,7 +4,7 @@
 void DO_PETIT_COUTEAU_COMMAND(Obj *obj)
 {
     if (obj->hit_points < 3)
-        obj->anim_frame = obj->hit_points -1;
+        obj->anim_frame = obj->hit_points - 1;
     else
         obj->anim_frame = obj->hit_points - 3;
 }

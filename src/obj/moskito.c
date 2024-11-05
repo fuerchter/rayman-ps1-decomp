@@ -8,20 +8,20 @@ u8 mstMustLeaveScreenToProceed;
 /* 6F914 80194114 -O2 -msoft-float */
 void getIdealStingCoords(Obj *obj, s16 *out_x, s16 *out_y)
 {
-  s16 x;
-  s16 calc_y;
-  s16 calc_x;
-  
-  x = ray_zdc_x;
-  calc_y = ray_zdc_y + (ray_zdc_h >> 1);
-  calc_x = x + (ray_zdc_w >> 1) - obj->offset_bx;
-  *out_x = calc_x;
-  if (obj->flags & FLG(OBJ_FLIP_X))
-    calc_x -= 48;
-  else
-    calc_x += 48;
-  *out_x = calc_x;
-  *out_y = calc_y - 112;
+    s16 x;
+    s16 calc_y;
+    s16 calc_x;
+
+    x = ray_zdc_x;
+    calc_y = ray_zdc_y + (ray_zdc_h >> 1);
+    calc_x = x + (ray_zdc_w >> 1) - obj->offset_bx;
+    *out_x = calc_x;
+    if (obj->flags & FLG(OBJ_FLIP_X))
+        calc_x -= 48;
+    else
+        calc_x += 48;
+    *out_x = calc_x;
+    *out_y = calc_y - 112;
 }
 
 /* 6F988 80194188 -O2 -msoft-float */
@@ -52,7 +52,7 @@ void PS1_setBossScrollLimits_moskito(Obj *obj)
     floorLine = firstFloorBelow(obj);
     bossScrollStartY = floorLine - 256;
     bossScrollEndY = floorLine - 176;
-    
+
     if (bossScrollStartX < 0)
         bossScrollStartX = 0;
     if (bossScrollStartX > xmapmax)
@@ -104,42 +104,41 @@ u8 moskitoCanAttak(Obj *obj)
     return res;
 }
 
-
 /* 6FCCC 801944CC -O2 -msoft-float */
 /* param_2 is some moskito obj flag */
 s16 setMoskitoAtScrollBorder(Obj *obj, u8 param_2)
 {
-  s32 width;
-  s16 res;
-  
-  width = SCREEN_WIDTH;
-  switch (param_2)
-  {
+    s32 width;
+    s16 res;
+
+    width = SCREEN_WIDTH;
+    switch (param_2)
+    {
     case 0:
-      res = -1;
-      obj->x_pos = scroll_start_x - obj->offset_bx;
-      obj->flags &= ~FLG(OBJ_FLIP_X);
-      break;
-    case 1:
-      res = 1;
-      obj->x_pos = scroll_end_x - (obj->offset_bx - width);
-      obj->flags |= FLG(OBJ_FLIP_X);
-      break;
-    default:
-      res = obj->offset_bx + obj->x_pos - ((scroll_start_x + scroll_end_x + SCREEN_WIDTH) / 2);
-      if (res >= 1)
-      {
-        obj->x_pos = scroll_end_x - (obj->offset_bx - width);
-        obj->flags &= ~FLG(OBJ_FLIP_X);
-      }
-      else
-      {
+        res = -1;
         obj->x_pos = scroll_start_x - obj->offset_bx;
+        obj->flags &= ~FLG(OBJ_FLIP_X);
+        break;
+    case 1:
+        res = 1;
+        obj->x_pos = scroll_end_x - (obj->offset_bx - width);
         obj->flags |= FLG(OBJ_FLIP_X);
-      }
-      break;
-  }
-  return res;
+        break;
+    default:
+        res = obj->offset_bx + obj->x_pos - ((scroll_start_x + scroll_end_x + SCREEN_WIDTH) / 2);
+        if (res >= 1)
+        {
+            obj->x_pos = scroll_end_x - (obj->offset_bx - width);
+            obj->flags &= ~FLG(OBJ_FLIP_X);
+        }
+        else
+        {
+            obj->x_pos = scroll_start_x - obj->offset_bx;
+            obj->flags |= FLG(OBJ_FLIP_X);
+        }
+        break;
+    }
+    return res;
 }
 
 #ifndef MATCHES_BUT
@@ -191,7 +190,7 @@ void prepareNewMoskitoAttack(Obj *arg0)
     u8 *seq_2_tmp_2;
     u8 *seq_2_tmp_3;
     u8 **seq_2_tmp_1;
-    
+
     temp_v0 = scroll_start_x + scroll_end_x + 0x140;
     temp_s7 = (temp_v0 + (temp_v0 >> 0x1F)) >> 1;
     if (currentBossActionIsOver != 0)
@@ -236,7 +235,7 @@ void prepareNewMoskitoAttack(Obj *arg0)
                     temp_v0_5 = currentBossAction & 0xFF;
                     curAct_tmp_2 = seq_2_tmp_3[temp_v0_5];
                     curAct = curAct_tmp_2;
-                    if ((u8)(curAct_tmp_2 - 0x14) < 2)
+                    if ((u8) (curAct_tmp_2 - 0x14) < 2)
                     {
                         seq_2_tmp_1 = seq_2;
                         do
@@ -301,7 +300,8 @@ block_19:
                     nb_obj = level.nb_objects;
                     if (nb_obj != 0)
                     {
-                        do {
+                        do
+                        {
                             if (cur_obj->type == 0xAB)
                             {
                                 arg0->sprites = cur_obj->sprites;
@@ -314,13 +314,13 @@ block_19:
                                 arg0->anim_frame = 0;
                                 arg0->offset_by += 4;
                                 arg0->flags &= ~0x4000;
-                                
+
                                 ray.flags &= ~0x800;
                                 break;
                             }
                             i = i + 1;
                             cur_obj += 1;
-                        } while(i < nb_obj);
+                        } while (i < nb_obj);
                     }
                 }
                 skipToLabel(arg0, 1, 1);
@@ -333,7 +333,7 @@ block_19:
                     arg0->offset_by += 0xF0;
                 }
                 half_wid = 160;
-                new_x = (u16)scroll_start_x - (arg0->offset_bx - half_wid);
+                new_x = (u16) scroll_start_x - (arg0->offset_bx - half_wid);
                 bossXToReach = new_x;
                 arg0->x_pos = new_x;
                 arg0->flags &= ~0x4000;
@@ -348,7 +348,7 @@ block_19:
             case 17:
                 half_wid = 160;
                 bossXToReach = scroll_start_x - (arg0->offset_bx - half_wid);
-                new_y = (u16)floorLine - 0xE6;
+                new_y = (u16) floorLine - 0xE6;
                 bossYToReach = new_y;
                 set_main_and_sub_etat(arg0, 0, 6);
 block_88:
@@ -464,7 +464,7 @@ block_52:
                     flag_after = arg0->flags | 0x4000;
                 }
                 arg0->flags = flag_after;
-                
+
             case 13:
                 fistAvoided = 0;
                 flag_before = (arg0->flags >> 0xE) & 1;
@@ -489,7 +489,7 @@ block_52:
                 break;
             case 7:
                 set_main_and_sub_etat(arg0, 0, 0xC);
-                
+
             case 8:
                 if (curAct == 8)
                 {
@@ -646,7 +646,7 @@ Obj *allocateMoskitoFruit(Obj *mst2_obj)
         cur_obj_type = cur_obj->type;
         if (cur_obj_type == type_check && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
         {
-            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             GET_SPRITE_POS(mst2_obj, spr_ind, &unk_x, &unk_y, &unk_w, &unk_h);
             cur_obj->x_pos = unk_x - cur_obj->offset_bx + (unk_w >> 1);
             cur_obj->y_pos = unk_y - cur_obj->offset_hy;
@@ -668,7 +668,7 @@ Obj *allocateMoskitoFruit(Obj *mst2_obj)
             cur_obj->anim_frame = 0;
             calc_obj_pos(cur_obj);
             cur_obj->gravity_value_1 = 0;
-            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             cur_obj->flags = (cur_obj->flags & ~FLG(OBJ_FLIP_X)) | (mst2_obj->flags & FLG(OBJ_FLIP_X));
             cur_obj->flags &= ~FLG(OBJ_FLAG_9);
             res = cur_obj;
@@ -729,12 +729,12 @@ void moskitoDropFruitOnRay(Obj *obj)
     cen_x = ray_zdc_x + (ray_zdc_w >> 1);
     cen_y = ray_zdc_y + (ray_zdc_h >> 1);
     if (
-      scroll_start_x <= x_2 &&
-      scroll_end_x + SCREEN_WIDTH >= x_2 &&
-      cen_x >= x_1 &&
-      cen_y >= y_1 &&
-      cen_x <= x_1 + unk_3 &&
-      cen_y <= y_1 + unk_4 
+        scroll_start_x <= x_2 &&
+        scroll_end_x + SCREEN_WIDTH >= x_2 &&
+        cen_x >= x_1 &&
+        cen_y >= y_1 &&
+        cen_x <= x_1 + unk_3 &&
+        cen_y <= y_1 + unk_4
     )
     {
         allocateMoskitoFruit(obj);
@@ -795,14 +795,13 @@ void doMoskitoCommand(Obj *obj)
                         fistAvoided = true;
                         poing_obj = &level.objects[poing_obj_id];
                         if (
-                          obj->y_pos + (obj->offset_by + obj->offset_hy) / 2
-                          >
-                          poing_obj->y_pos + (poing_obj->offset_by + poing_obj->offset_hy) / 2
+                            obj->y_pos + (obj->offset_by + obj->offset_hy) / 2 >
+                            poing_obj->y_pos + (poing_obj->offset_by + poing_obj->offset_hy) / 2
                         )
                             obj->speed_y += 80;
                         else
                             obj->speed_y -= 80;
-                        
+
                         if ((obj->x_pos + obj->offset_bx) > (poing_obj->x_pos + poing_obj->offset_bx))
                             obj->speed_x += 80;
                         else
@@ -832,7 +831,7 @@ u8 tellNextMoskitoAction(Obj *obj)
     else
         actions = &moskitoActionSequences[saveBossEncounter][saveCurrentBossAction];
 
-    switch(actions[0])
+    switch (actions[0])
     {
     case 2:
         return moskitoActionSequences[bossEncounter][0];

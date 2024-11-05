@@ -44,7 +44,7 @@ void allocatePirateNgaweRing(Obj *param_1, s16 param_2, u8 param_3)
     u16 temp_v1;
     u32 temp_a0;
     s16 nb_objs;
-    
+
     i = 0;
     cur_obj = &level.objects[i];
     nb_objs = level.nb_objects;
@@ -105,7 +105,7 @@ void DO_NGW_TIR(Obj *obj)
 {
     if (obj->anim_frame < 26)
         obj->field24_0x3e = 0;
-    
+
     if (
         obj->field24_0x3e == 0 && obj->anim_frame == 26 &&
         horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
@@ -132,7 +132,7 @@ void NGW_REACT_TO_RAY_IN_ZONE(Obj *obj)
 void DO_ONE_NGW_COMMAND(Obj *obj)
 {
     s32 prev_flip_x = obj->flags >> OBJ_FLIP_X & 1;
-    
+
     calc_obj_dir(obj);
     switch (obj->main_etat * 0x100 + obj->sub_etat)
     {
@@ -182,10 +182,10 @@ void DO_ONE_NGW_COMMAND(Obj *obj)
                 )
                     if (prev_flip_x == (obj->flags >> OBJ_FLIP_X & 1))
                         prev_flip_x = (obj->flags >> OBJ_FLIP_X ^ 1) & 1;
-                
+
                 if ((obj->flags >> OBJ_FLIP_X & 1) != prev_flip_x)
                     set_main_and_sub_etat(obj, 0, 6);
-                
+
                 SET_X_SPEED(obj);
                 CALC_MOV_ON_BLOC(obj);
             }
@@ -271,7 +271,7 @@ void DO_NGW_POING_COLLISION(Obj *ngw_obj)
 void DO_ONE_NGW_RING_COMMAND(Obj *ring_obj)
 {
     Obj *unk_obj = &level.objects[ring_obj->field23_0x3c];
-    
+
     if (!(unk_obj->flags & FLG(OBJ_ACTIVE)))
     {
         ring_obj->flags = ring_obj->flags & ~FLG(OBJ_ALIVE);
@@ -289,7 +289,7 @@ void DO_ONE_NGW_RING_COMMAND(Obj *ring_obj)
         }
         else
         {
-            ring_obj->flags |= FLG(OBJ_FLAG_0)|FLG(OBJ_CMD_TEST);
+            ring_obj->flags |= FLG(OBJ_FLAG_0) | FLG(OBJ_CMD_TEST);
             ring_obj->field24_0x3e = __builtin_abs(
                 (s16) ((ring_obj->offset_bx + ring_obj->x_pos) - unk_obj->x_pos - unk_obj->offset_bx)
             );

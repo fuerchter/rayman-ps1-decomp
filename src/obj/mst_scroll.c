@@ -38,7 +38,7 @@ void DO_MST_SCROLL_COMMAND(Obj *obj)
 
         if (!(scroll_x == -1 || obj->timer == 2))
             obj->timer = 1;
-        
+
         if (horloge[5] != 0)
         {
             if (obj->field20_0x36 > obj->x_pos)

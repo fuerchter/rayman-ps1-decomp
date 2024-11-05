@@ -4,7 +4,7 @@
 void DO_NOVA2_COMMAND(Obj *obj)
 {
     s16 unk_1 = obj->field23_0x3c;
-    
+
     if (unk_1 != 0x00FF)
     {
         if (unk_1 == -1)

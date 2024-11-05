@@ -2,7 +2,7 @@
 
 /* 4CB88 80171388 -O2 -msoft-float */
 s16 MarCoince(Obj *obj, s16 dir)
-{    
+{
     s32 map_ind;
     s32 pos_to_check;
     s16 res = false;
@@ -87,19 +87,19 @@ void DO_MOVE_MARACAS_COMMAND(Obj *obj)
     s16 diff_x;
     s16 diff_x_inv;
     s32 diff_x_less;
-    
+
     if (obj->main_etat == 0 && obj->sub_etat == 0x0C)
     {
         cen_x = get_center_x(obj);
         cen_y = get_center_y(obj);
-        if ((s16)on_block_chdir(obj, cen_x, cen_y) && (s16)test_allowed(obj, cen_x, cen_y))
+        if ((s16) on_block_chdir(obj, cen_x, cen_y) && (s16) test_allowed(obj, cen_x, cen_y))
             skipToLabel(obj, 99, true);
-        
+
         obj->flags &= ~FLG(OBJ_FLIP_X);
         speed_x = 0;
         if (obj->cmd == 0x14)
             obj->speed_y = obj->field20_0x36;
-        
+
         if (ray.field20_0x36 == obj->id)
         {
             diff_x = (ray.offset_bx + ray.x_pos) - (obj->offset_bx + obj->x_pos);

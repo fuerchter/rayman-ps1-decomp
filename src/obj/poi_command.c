@@ -60,7 +60,7 @@ void DO_POISSON_BLEU_CMD(Obj *obj)
         }
         obj->y_pos = obj->init_y_pos;
     }
-  
+
     if (obj->main_etat == 2 && obj->sub_etat == 17)
     {
         if (obj->init_y_pos <= obj->y_pos)
@@ -74,7 +74,7 @@ void DO_POISSON_BLEU_CMD(Obj *obj)
     }
     if (obj->main_etat == 2 && obj->sub_etat == 18)
     {
-        if(EOA(obj))
+        if (EOA(obj))
         {
             if (obj->speed_y == 5)
             {

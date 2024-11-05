@@ -7,7 +7,7 @@ void FUN_80180b04(Obj *obj, u8 param_2)
         obj->type = TYPE_PIRATE_GUETTEUR;
     else
         obj->type = TYPE_PIRATE_GUETTEUR2;
-    
+
     obj->zdc = type_zdc[obj->type];
 }
 
@@ -36,7 +36,7 @@ void DO_ONE_PAR_COMMAND(Obj *obj)
         calc_obj_dir(obj);
     else
         guetteurFollowsShip(obj);
-    
+
     switch (obj->main_etat * 0x100 + obj->sub_etat)
     {
     case 0x3:
@@ -57,7 +57,7 @@ void DO_ONE_PAR_COMMAND(Obj *obj)
         break;
     case 0x8:
     case 0xB:
-    case 0x14:    
+    case 0x14:
         if (poing.is_active)
             set_sub_etat(obj, 18);
         break;
@@ -71,7 +71,7 @@ void DO_ONE_PAR_COMMAND(Obj *obj)
         break;
     case 0x6:
         obj->flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (flip_x << OBJ_FLIP_X);
-        if(EOA(obj))
+        if (EOA(obj))
         {
             FUN_80180b04(obj, 0);
             obj->speed_x = 0;
@@ -79,7 +79,7 @@ void DO_ONE_PAR_COMMAND(Obj *obj)
         break;
     case 0x9:
         obj->flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (flip_x << OBJ_FLIP_X);
-        if(EOA(obj))
+        if (EOA(obj))
         {
             SET_X_SPEED(obj);
             obj->speed_y = -3;
@@ -159,7 +159,7 @@ void allocatePirateGuetteurBomb(Obj *obj, s32 param_2, u8 param_3, u8 param_4)
     temp_v0 = hasGuetteurABomb(obj, param_2);
     if (((s16) temp_v0 != -1))
     {
-        
+
         i = 0;
         cur_obj = &level.objects[i];
         nb_objs = level.nb_objects;
@@ -259,7 +259,7 @@ void DO_PAR_TIR(Obj *obj)
             !(sub_etat == 13 && obj->anim_frame > 1)
         )
             obj->field24_0x3e = 0;
-        
+
         if (obj->field24_0x3e == 0)
         {
             sub_etat = obj->sub_etat;
@@ -300,7 +300,7 @@ void DO_PAR_TIR(Obj *obj)
 void DO_PAR_POING_COLLISION(Obj *obj, s16 param_2)
 {
     u8 eta_flags = obj->eta[obj->main_etat][obj->sub_etat].flags;
-    
+
     if (
         eta_flags & 1 && obj->iframes_timer == 0 &&
         (obj->type == TYPE_PIRATE_GUETTEUR || param_2 == 3)
@@ -311,7 +311,7 @@ void DO_PAR_POING_COLLISION(Obj *obj, s16 param_2)
 
         poing.damage = 1;
         obj_hurt(obj);
-        
+
         if (obj->hit_points == 0)
             set_main_and_sub_etat(obj, 0, 3);
         else
@@ -333,7 +333,6 @@ void DO_PAR_POING_COLLISION(Obj *obj, s16 param_2)
             else
                 set_main_and_sub_etat(obj, 0, 1);
         }
-
     }
 }
 

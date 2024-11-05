@@ -54,7 +54,7 @@ void DO_POELLE_COMMAND(Obj *po_obj)
         }
         else
             po_obj->iframes_timer--;
-        
+
         GET_SPRITE_POS(po_obj, 0, &po_x, &po_y, &po_w, &po_h);
         po_y = (po_y + po_obj->offset_hy) - (po_obj->y_pos + po_obj->offset_by);
         po_obj->x_pos = (ray.offset_bx + ray.x_pos) - po_obj->offset_bx;

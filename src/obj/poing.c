@@ -55,14 +55,14 @@ void RAY_THROW_FIST(void)
     s32 unk_1;
     s16 unk_2;
     Obj *poing_obj = &level.objects[poing_obj_id];
-    
+
     if (ray.main_etat == 2 && (ray.sub_etat == 25 || ray.sub_etat == 26))
         set_sub_etat(&ray, 29);
     else if (ray.main_etat == 2 && (ray.sub_etat == 27 || ray.sub_etat == 28))
         set_sub_etat(&ray, 30);
     else if (!(ray.main_etat == 2 && (ray.sub_etat == 17 || ray.sub_etat == 18 || ray.sub_etat == 19)))
         set_sub_etat(&ray, 13);
-    
+
     if (ray.main_etat == 0)
     {
         if (ray.flags & FLG(OBJ_FLIP_X))
@@ -75,7 +75,7 @@ void RAY_THROW_FIST(void)
     poing.is_boum = false;
     poing.is_returning = false;
     poing_obj->flags = (poing_obj->flags & ~FLG(OBJ_FLIP_X)) | (ray.flags & FLG(OBJ_FLIP_X));
-    poing_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+    poing_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
     poing_obj->speed_y = 0;
     poing_obj->anim_frame = 0;
     poing_obj->field20_0x36 = -1;
@@ -110,9 +110,9 @@ void RAY_THROW_FIST(void)
             decalage_en_cours < 0
     )
         poing.speed_x += MAX_1(__builtin_abs(ray.speed_x) - 5, 0);
-    
+
     poing.speed_x = MIN_1(poing.speed_x, 16);
-    
+
     if (poing_obj->flags & FLG(OBJ_FLIP_X))
     {
         poing_obj->x_pos += 11;
@@ -158,7 +158,7 @@ void RAY_PREPARE_FIST(void)
             eta_main[13].anim_speed =
                 eta_main[13].anim_speed & 0xf |
                 anim_spd & 0xf0;
-            
+
             poing.charge = 32;
             RAY_THROW_FIST();
             helico_time = -1;
@@ -226,7 +226,7 @@ void alter_fist_speed(Obj *obj)
 {
     u8 accel_x;
     s32 abs_spd_x = __builtin_abs(obj->speed_x);
-    
+
     if (abs_spd_x > 10)
         accel_x = 2;
     else if (abs_spd_x > 7)
@@ -266,7 +266,7 @@ void DO_POING(Obj *obj)
         {
             if (!poing.is_boum)
                 DO_POING_COLLISION();
-            
+
             CALC_FIST_POS();
             obj->y_pos = poing.field0_0x0 >> 4;
             if (poing.charge > 0)
@@ -275,7 +275,7 @@ void DO_POING(Obj *obj)
                     poing.charge = 0;
                 else
                     poing.charge -= poing.field4_0xa;
-                
+
                 if (poing.charge == 0)
                     fist_U_turn(obj, false);
             }
@@ -285,10 +285,10 @@ void DO_POING(Obj *obj)
             {
                 if (__builtin_abs(obj->speed_x) < poing.speed_x)
                     alter_fist_speed(obj);
-                
+
                 ray_diff_x = ray_zdc_x + (ray_zdc_w >> 1) - obj->offset_bx;
                 ray_diff_x += 11 * FLIP_X_SGN(obj);
-                
+
                 if (ray.main_etat == 4)
                     ray_diff_x += 11 * FLIP_X_SGN(obj);
 
@@ -341,11 +341,11 @@ void allocatePoingBoum(void)
 {
     Obj *poing_obj;
     s16 poing_x; s16 poing_y; s16 poing_w; s16 poing_h;
-    s16 boum_x; s16 boum_y; s16 boum_w; s16 boum_h;    
+    s16 boum_x; s16 boum_y; s16 boum_w; s16 boum_h;
     s16 i = 0;
     Obj *cur_obj = &level.objects[i];
     s16 nb_objs = level.nb_objects;
-    
+
     while (i < nb_objs)
     {
         if (cur_obj->type == TYPE_BOUM && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
@@ -360,7 +360,7 @@ void allocatePoingBoum(void)
             cur_obj->y_pos =
                 poing_y + (poing_h >> 1) - ((cur_obj->offset_by + cur_obj->offset_hy) >> 1);
             calc_obj_pos(cur_obj);
-            cur_obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+            cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
             break;
         }
         cur_obj++;

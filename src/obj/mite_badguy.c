@@ -11,7 +11,7 @@ void calc_esquive_poing(Obj *mit_obj, s16 *out_diff_x, s16 *out_diff_y, s16 *out
     s16 unk_x; s16 unk_y;
     s16 mit_y;
     Obj *poing_obj = &level.objects[poing_obj_id];
-    
+
     if (!(poing_obj->flags & FLG(OBJ_ACTIVE)))
     {
         unk_x = ray.x_pos + ray.offset_bx;
@@ -59,13 +59,12 @@ void DO_PTI_ESQUIVE(Obj *bg3_obj)
                 bg3_obj->speed_y = 0;
                 set_main_and_sub_etat(bg3_obj, 0, 15);
                 bg3_obj->flags &= ~FLG(OBJ_READ_CMDS);
-                
+
                 if (bg3_obj->flags & FLG(OBJ_FLIP_X))
                     label = 3;
                 else
                     label = 2;
                 skipToLabel(bg3_obj, label, true);
-                
             }
             return; /* TODO: different control flow?? */
         }

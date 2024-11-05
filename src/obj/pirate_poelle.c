@@ -9,7 +9,7 @@ void DO_PIRATE_POELLE(Obj *pirp_obj)
     s16 pirp_x; s16 pirp_y; s16 pirp_w; s16 pirp_h;
     s16 cen_x = get_center_x(pirp_obj);
     s16 cen_y = get_center_y(pirp_obj);
-    
+
     if (on_block_chdir(pirp_obj, cen_x, cen_y))
     {
         if (
@@ -24,7 +24,7 @@ void DO_PIRATE_POELLE(Obj *pirp_obj)
                     pirp_obj->speed_x = -36;
                 else
                     pirp_obj->speed_x = 36;
-                
+
                 test_allowed(pirp_obj, cen_x, cen_y);
             }
             else if (test_allowed(pirp_obj, cen_x, cen_y))
@@ -75,7 +75,7 @@ void DO_PIRATE_POELLE(Obj *pirp_obj)
                 cur_obj->init_y_pos =
                 cur_obj->y_pos =
                     (pirp_y - cur_obj->offset_by) + pirp_h + 2;
-                cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                 cur_obj->flags &= ~FLG(OBJ_READ_CMDS);
                 break;
             }
@@ -169,7 +169,7 @@ void PIRATE_POELLE_REACT(Obj *obj)
                 set_main_and_sub_etat(obj, 1, 5);
             else
                 set_main_and_sub_etat(obj, 1, 20);
-            
+
             switch (obj->type)
             {
             case TYPE_PIRATE_POELLE:

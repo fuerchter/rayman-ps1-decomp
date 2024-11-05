@@ -11,7 +11,7 @@ void DO_INTERACT_PLAT(Obj *unk_obj)
     s16 i = 0;
     Obj *cur_obj = &level.objects[i];
     s16 nb_objs = level.nb_objects;
-    
+
     while (i < nb_objs)
     {
         obj_type = cur_obj->type;

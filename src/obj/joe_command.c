@@ -23,7 +23,7 @@ void DO_JOE_COMMAND(Obj *obj)
                 finBosslevel.helped_joe_1 = true;
                 obj->timer = 0;
             }
-            
+
             obj->timer++;
             if (obj->timer > 100)
             {

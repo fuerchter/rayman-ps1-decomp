@@ -6,7 +6,7 @@ void mite_esquive_poing(Obj *mit_obj, s16 *out_diff_x)
     s16 unk_x_1; s16 unk_y_1;
     s16 unk_y_2;    
     Obj *poing_obj = &level.objects[poing_obj_id];
-    
+
     if (!(poing_obj->flags & FLG(OBJ_ACTIVE)))
     {
         unk_x_1 = ray.x_pos + ray.offset_bx;
@@ -21,7 +21,7 @@ void mite_esquive_poing(Obj *mit_obj, s16 *out_diff_x)
     }
     unk_y_2 = mit_obj->y_pos + ((mit_obj->offset_hy + mit_obj->offset_by) >> 1) - unk_y_1;
     *out_diff_x = unk_x_1 - mit_obj->x_pos - mit_obj->offset_bx;
-    
+
     if (unk_y_2 < 0)
     {
         if (poing_obj->speed_y > 0)
@@ -62,7 +62,7 @@ void mite_esquive_poing(Obj *mit_obj, s16 *out_diff_x)
 u8 HAS_MIT_JUMP(Obj *obj)
 {
     u8 res = false;
-    
+
     if (obj->main_etat != 2)
     {
         if (obj->eta[obj->main_etat][obj->sub_etat].flags & 1)
@@ -87,9 +87,8 @@ u8 HAS_MIT_JUMP(Obj *obj)
 /* 4AACC 8016F2CC -O2 -msoft-float */
 u8 ray_over_mit(Obj *obj, s16 param_2)
 {
-    return
-        (!(obj->flags & FLG(OBJ_FLIP_X)) && param_2 > 0) ||
-        (obj->flags & FLG(OBJ_FLIP_X) && param_2 < 0);
+    return (!(obj->flags & FLG(OBJ_FLIP_X)) && param_2 > 0) ||
+           (obj->flags & FLG(OBJ_FLIP_X) && param_2 < 0);
 }
 
 /* 4AB0C 8016F30C -O2 -msoft-float */
@@ -107,7 +106,7 @@ void fix_mit_Xspeed(Obj *obj, s16 param_2)
                 obj->speed_y++;
             else
                 HAS_MIT_JUMP(obj);
-            
+
             if (!(obj->flags & FLG(OBJ_FLIP_X)))
                 spd_x = 4;
             else
@@ -123,7 +122,6 @@ void fix_mit_Xspeed(Obj *obj, s16 param_2)
                     obj->speed_x = 0;
                 else
                     obj->speed_x *= 2;
-                    
             }
             else if ((obj->x_pos > obj->init_x_pos) && !(obj->flags & FLG(OBJ_FLIP_X)))
             {
@@ -284,24 +282,21 @@ void DO_MIT_ATTAK(Obj *obj)
                             if (obj->speed_x < 0)
                             {
                                 goto block_47;
-                                
                             }
                             else
                                 goto block_37;
-                                
                         }
                         else
                         {
                             obj->speed_x = -4;
                             goto block_40;
                         }
-
                     }
-    block_37:
-                    if (obj->flags & 0x4000) 
+block_37:
+                    if (obj->flags & 0x4000)
                     {
                         obj->speed_x = 4;
-    block_40:
+block_40:
                         if (temp_v1_2 >= 0xB)
                         {
                             obj->speed_y = -1;
@@ -321,7 +316,7 @@ void DO_MIT_ATTAK(Obj *obj)
                     }
                     else
                     {
-    block_47:
+block_47:
                         if (((temp_v1_2) >= -9) && (ray.main_etat == 0))
                         {
                             obj->speed_y = 0;
@@ -332,7 +327,8 @@ void DO_MIT_ATTAK(Obj *obj)
                         }
                         if (
                             (var_v0_1 < 8 && ((!(obj->flags & 0x4000)))) ||
-                            ((var_v0_1 > 8) && (obj->flags & 0x4000)))
+                            ((var_v0_1 > 8) && (obj->flags & 0x4000))
+                        )
                         {
                             if (--obj->speed_x < -4)
                             {
@@ -376,7 +372,7 @@ u8 IS_MIT_PAF(Obj *obj)
     s16 unk_x_3;
     s16 spd_x;
     s32 res = false;
-    
+
     if (obj->main_etat == 0 && obj->sub_etat == 3)
     {
         obj->speed_y = -4;
@@ -391,7 +387,7 @@ u8 IS_MIT_PAF(Obj *obj)
     )
     {
         res = true;
-        if(EOA(obj))
+        if (EOA(obj))
             obj->field20_0x36 = 0;
         else
         {
@@ -408,7 +404,7 @@ u8 IS_MIT_PAF(Obj *obj)
                         unk_x_3 = unk_x_1 - unk_x_2;
                     else
                         unk_x_3 = unk_x_2 - unk_x_1;
-                    
+
                     if (unk_x_3 < 8)
                     {
                         if (!(obj->flags & FLG(OBJ_FLIP_X)))
@@ -448,7 +444,7 @@ void DO_MIT_COMMAND(Obj *obj)
     s32 prev_flip_x;
     s32 new_var;
     ObjState *obj_eta = &obj->eta[obj->main_etat][obj->sub_etat];
-    
+
     if (!IS_MIT_PAF(obj))
     {
         if (obj->field20_0x36 >= 500)
@@ -463,7 +459,7 @@ void DO_MIT_COMMAND(Obj *obj)
                 obj->flags &= ~FLG(OBJ_FLIP_X);
             else if (obj->cmd == GO_RIGHT)
                 obj->flags |= FLG(OBJ_FLIP_X);
-            
+
             if (obj->detect_zone_flag != 0)
             {
                 diff_x_1 = (ray.x_pos + ray.offset_bx) - obj->x_pos - obj->offset_bx;
@@ -513,7 +509,7 @@ void DO_MIT_COMMAND(Obj *obj)
                             (obj->main_etat == 0 && obj->sub_etat == 10)
                         )
                             set_main_and_sub_etat(obj, 0, 8);
-                        
+
                         obj->speed_x = 0;
                         break;
                     case 1:
@@ -551,7 +547,7 @@ void DO_MIT_COMMAND(Obj *obj)
                 {
                     if (obj->main_etat == 1)
                         set_main_etat(obj, 0);
-                    
+
                     set_sub_etat(obj, 11);
                     obj->field24_0x3e = 1;
                     obj->timer = 0;
@@ -566,7 +562,7 @@ void DO_MIT_COMMAND(Obj *obj)
 
                 if (obj->y_pos + obj->offset_hy < ymap - 50)
                     obj->speed_y += 2;
-                
+
                 fix_mit_Xspeed(obj, diff_x_1);
             }
             else
@@ -589,10 +585,10 @@ void DO_MIT_COMMAND(Obj *obj)
 
             if (block_flags[obj->btypes[3]] >> BLOCK_FULLY_SOLID & 1)
                 obj->speed_y = 0;
-            
+
             if (block_flags[calc_typ_travd(obj, false)] >> BLOCK_FULLY_SOLID & 1)
                 obj->speed_x = 0;
-            
+
             if (obj->main_etat != 2)
                 CALC_MOV_ON_BLOC(obj);
         }
@@ -632,7 +628,7 @@ void DO_MITE2_COMMAND(Obj *obj)
             SET_X_SPEED(obj);
             CALC_MOV_ON_BLOC(obj);
         }
-        
+
         unk_1 = calc_typ_travd(obj, false);
         if (obj->main_etat == 2)
         {
