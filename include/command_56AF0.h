@@ -7,9 +7,9 @@
 
 typedef struct CommandTableEntry
 {
-    u8 (* read)(Obj *);
-    u8 (* skip)(Obj *);
-    u8 (* handle)(Obj *);
+    u8 (*read)(Obj *);
+    u8 (*skip)(Obj *);
+    u8 (*handle)(Obj *);
 } CommandTableEntry;
 
 /* .data */
@@ -58,7 +58,7 @@ u8 handle_GO_TEST(Obj *obj);
 u8 readOneCommand(Obj *arg0);
 u8 skipOneCommand(Obj *obj);
 void GET_OBJ_CMD(Obj *obj);
-void pushCmdContext(Obj *obj,u16 count);
+void pushCmdContext(Obj *obj, u16 count);
 void skipToLabel(Obj *obj, u8 label, u8 skip_label_cmd);
 void pushToLabel(Obj *obj, u8 label, u8 skip_label_cmd);
 

@@ -13,10 +13,10 @@
 /* but0pressed etc. return int in ghidra */
 typedef struct OptionsJeu
 {
-    s16 (* Fire1ButtonFunc)();
-    s16 (* Fire0ButtonFunc)();
-    s16 (* Button4Func)();
-    s16 (* Button3Func)();
+    s16 (*Fire1ButtonFunc)();
+    s16 (*Fire0ButtonFunc)();
+    s16 (*Button4Func)();
+    s16 (*Button3Func)();
     u16 Jump;
     u16 Fist;
     u16 field6_0x14;

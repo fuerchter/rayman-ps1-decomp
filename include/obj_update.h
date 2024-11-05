@@ -37,7 +37,7 @@
 
 typedef struct ObjHandlers
 {
-    void (* do_obj)(Obj *);
+    void (*do_obj)(Obj *);
 } ObjHandlers;
 
 /**/

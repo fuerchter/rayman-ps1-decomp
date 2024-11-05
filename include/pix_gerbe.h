@@ -4,7 +4,8 @@
 #include "common.h"
 #include "collision/block_22C84.h"
 
-typedef struct PixGerbeItem {
+typedef struct PixGerbeItem
+{
     s16 x_pos;
     s16 y_pos;
     u16 speed_x;
@@ -13,7 +14,8 @@ typedef struct PixGerbeItem {
     u8 unk_1;
 } PixGerbeItem;
 
-typedef struct PixGerbe {
+typedef struct PixGerbe
+{
     PixGerbeItem items[64];
     s16 is_active;
 } PixGerbe;

@@ -4,12 +4,14 @@
 #include "common.h"
 #include "LIBGPU.H"
 
-typedef struct DRENVAndTile {
+typedef struct DRENVAndTile
+{
     DR_ENV drawing_environment;
     TILE tile;
 } DRENVAndTile;
 
-typedef struct Display {
+typedef struct Display
+{
     DISPENV field0_0x0;
     DRAWENV drawing_environment;
     DR_ENV map_drawing_environment_primitives[25];

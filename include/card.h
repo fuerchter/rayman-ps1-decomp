@@ -19,7 +19,8 @@ typedef struct CardFrame0
     u8 icon_palette[32];
 } CardFrame0;
 
-typedef struct LoadInfoRay {
+typedef struct LoadInfoRay
+{
     u8 num_lives;
     u8 num_wiz;
     u8 num_cages;

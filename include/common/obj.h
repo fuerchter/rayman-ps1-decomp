@@ -38,8 +38,8 @@ typedef struct AnimationFrame
 
 typedef struct Animation
 {
-    AnimationLayer * layers;
-    AnimationFrame * frames;
+    AnimationLayer *layers;
+    AnimationFrame *frames;
     u16 layers_count;
     u16 frames_count;
 } Animation;
@@ -425,13 +425,14 @@ typedef u32 ObjFlags;
 #define FLG_OBJ_NONE 0
 #define FLG_OBJ_ANIM_COUNT_MASK 0xFF
 
-typedef struct Obj {
-    Sprite * sprites;
-    Animation * animations;
-    u8 * img_buffer;
-    ObjState * * eta;
-    u8 * cmds;
-    s16 * cmd_labels;
+typedef struct Obj
+{
+    Sprite *sprites;
+    Animation *animations;
+    u8 *img_buffer;
+    ObjState **eta;
+    u8 *cmds;
+    s16 *cmd_labels;
     CmdContext cmd_contexts[1];
     s16 x_pos;
     s16 y_pos;

@@ -11,7 +11,8 @@
 #include "main_moteur.h"
 #include "unknown/3F0B8.h"
 
-typedef struct FinBosslevel {
+typedef struct FinBosslevel
+{
     u8 bzzit : 1;
     u8 moskito : 1;
     u8 mr_sax : 1;
@@ -20,7 +21,7 @@ typedef struct FinBosslevel {
     u8 space_mama : 1;
     u8 mr_skops : 1;
     u8 mr_dark : 1;
-    
+
     u8 crazy_drummer : 1;
     u8 helped_joe_1 : 1;
     u8 helped_joe_2 : 1;

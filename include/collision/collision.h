@@ -50,7 +50,7 @@ void PS1_SetZDC(s16 x, s16 y, u8 w, u8 h, u8 flags, u8 sprite);
 void PS1_SetTypeZDC(ObjType type, u16 param_2, s32 param_3);
 u16 get_nb_zdc(Obj *obj);
 u16 get_zdc_index(Obj *obj);
-ZDC * get_zdc(Obj *obj, s16 param_2);
+ZDC *get_zdc(Obj *obj, s16 param_2);
 s16 get_ZDCPTR(void);
 s16 in_coll_sprite_list(Obj *obj, s16 param_2);
 s32 box_inter_v_line(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6, s16 param_7);

@@ -88,7 +88,7 @@ u8 PS1_GetTileV(u8 param_1, u8 param_2, s32 tile);
 u8 PS1_GetTileU(s32 param_1);
 void DRAW_MAP(void);
 void FUN_80137cc8(s16 param_1, s16 *param_2);
-void allume_vitraux(u8 (*param_1) [5]);
+void allume_vitraux(u8 (*param_1)[5]);
 void FUN_80138360(u8 *vit_clig);
 void FUN_80138718(u8 param_1);
 void FUN_80138b84(s16 in_h_1, s16 *param_2, s16 in_h_2, s16 in_w_1);

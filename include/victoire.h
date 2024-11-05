@@ -6,7 +6,7 @@
 
 typedef struct Credit
 {
-    u8 * text;
+    u8 *text;
     s16 x_pos;
     s16 y_pos;
     u8 font;

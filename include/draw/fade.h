@@ -5,7 +5,8 @@
 #include "common/display.h"
 #include "draw/draw_548CC.h"
 
-typedef struct RGBAArray {
+typedef struct RGBAArray
+{
     u8 data[4];
 } RGBAArray;
 

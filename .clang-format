@@ -1,0 +1,39 @@
+#all comments refer to commit e038c4f
+#c89 comment style?
+#break after locals like in PS1_InitAllowedTime? strange breaks in gendoor.c
+#will leave multiple var decl. alone (https://stackoverflow.com/questions/56730663/is-it-possible-for-clang-format-to-split-multiple-variable-declarations-of-the-s)
+#TEST_WIZARD y_diff_1 ternary...
+#BreakBeforeTernaryOperators: True #no effect?
+#AlignArrayOfStructures ???
+#card.c PS1_SaveIcon1???
+#explicitly disable ghidra-style func arguments (comma without space?)
+#InsertBraces: False #fond_5BD8C FUN_8018058c e.g... seems to leave the ones that are like this alone, though
+#pointer cast (s32*) vs (s32 *)
+#prevent breaking assignments like in FUN_80132304
+#BreakBeforeBinaryOperators: All #PS1_Music_Apply_Fade e.g.
+#FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE) adds spaces
+#https://discourse.llvm.org/t/clang-format-leading-whitespace/46841 ?
+#src/data {704} vs { 704 }
+
+LineEnding: LF
+UseTab: Never
+IndentWidth: 4
+BreakBeforeBraces: Allman #puts do{}while(); braces on newline...
+
+ColumnLimit: 0
+AlignAfterOpenBracket: BlockIndent
+SpaceAfterCStyleCast: True
+SpaceBeforeAssignmentOperators: True
+SpaceBeforeParens: ControlStatements
+SpaceBeforeSquareBrackets: False
+AllowShortBlocksOnASingleLine: Always #FUN_8019f8d0 while (FUN_80131db8() == false)
+PointerAlignment: Right
+IndentCaseLabels: False
+IndentGotoLabels: False
+AlignOperands: AlignAfterOperator
+QualifierAlignment: Left
+AlignArrayOfStructures: Left #only kind of works with data
+SortIncludes: Never
+SkipMacroDefinitionBody: True
+AlignTrailingComments:
+    Kind: Leave

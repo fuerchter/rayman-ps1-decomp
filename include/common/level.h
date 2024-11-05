@@ -6,7 +6,7 @@
 
 typedef struct LevelData
 {
-    Obj * objects;
+    Obj *objects;
     u8 nb_objects;
 } LevelData;
 

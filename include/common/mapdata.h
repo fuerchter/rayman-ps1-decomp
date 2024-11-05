@@ -4,7 +4,8 @@
 #include "common.h"
 #include "common/obj.h"
 
-typedef struct MapData {
+typedef struct MapData
+{
     s16 width;
     s16 height;
     s32 length;

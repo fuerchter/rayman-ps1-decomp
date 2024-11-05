@@ -8,7 +8,8 @@
 #include "draw/draw_548CC.h"
 #include "text_24E10.h" /* TODO: circular? */
 
-typedef struct MenuText {
+typedef struct MenuText
+{
     u8 *header;
     u8 *rows[6];
     RECT vignette_rect;

@@ -15,8 +15,8 @@
 
 typedef struct Font
 {
-    Sprite * sprites;
-    u8 * img_buffer;
+    Sprite *sprites;
+    u8 *img_buffer;
     s32 nb_sprites;
 } Font;
 

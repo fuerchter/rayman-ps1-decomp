@@ -4,7 +4,7 @@
 #include "common.h"
 #include "collision/block_22C84.h"
 
-Obj * allocateExplosion(Obj *unk_obj);
+Obj *allocateExplosion(Obj *unk_obj);
 void BombExplosion(Obj *obj);
 
 #endif

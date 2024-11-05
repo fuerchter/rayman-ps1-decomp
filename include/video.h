@@ -22,9 +22,10 @@ typedef u8 VideoPlayState;
 #define VIDEOST_SKIPPED 2
 
 /* based on PS1_InitVideoState, RayCarrot found volatiles */
-typedef struct VideoState {
-    u32 * encoded_frame_buffers[2];
-    u32 * decoded_frame;
+typedef struct VideoState
+{
+    u32 *encoded_frame_buffers[2];
+    u32 *decoded_frame;
     RECT frame_rect;
     vu8 has_swapped_display;
     vu8 vsync_counter;

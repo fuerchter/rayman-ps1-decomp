@@ -8,7 +8,8 @@
 #include "main_moteur.h"
 #include "luciole.h"
 
-typedef struct RGB {
+typedef struct RGB
+{
     u8 r;
     u8 g;
     u8 b;

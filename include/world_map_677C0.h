@@ -26,7 +26,7 @@ typedef struct WorldInfo
     u8 world;
     u8 level;
     u8 color;
-    u8 * level_name;
+    u8 *level_name;
 } WorldInfo;
 
 /* .data */
