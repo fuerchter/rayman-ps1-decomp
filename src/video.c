@@ -42,7 +42,7 @@ void PS1_PlayVideo(Video video)
 /* E180 80132980 -O2 -msoft-float */
 void FUN_80132980(void)
 {
-    LoadImage(&PS1_CurrentVideoState.frame_rect, (u32 *)PS1_CurrentVideoState.decoded_frame);
+    LoadImage(&PS1_CurrentVideoState.frame_rect, (u32 *) PS1_CurrentVideoState.decoded_frame);
     DrawSync(0);
     PS1_CurrentVideoState.frame_rect.x += 16;
     if (PS1_CurrentVideoState.frame_rect.x < SCREEN_WIDTH)
@@ -74,77 +74,85 @@ INCLUDE_ASM("asm/nonmatchings/video", PS1_PlayVideoFile);
 
 void PS1_PlayVideoFile(s16 video)
 {
-  short sVar1;
-  int iVar2;
-  u32 *pbVar3;
-  u8 temp_s3;
-  u16 frame_count;
-  
-  ResetCallback();
-  DecDCTReset(0);
-  temp_s3 = 1;
-  if (video == 4) {
-    PS1_LoadVideoFile(&PS1_VdoFiles[video].file.pos,0x6b9);
-  }
-  else {
-    PS1_LoadVideoFile(&PS1_VdoFiles[video].file.pos,1);
-  }
-  PS1_InitVideoState(&PS1_CurrentVideoState);
-  DecDCToutCallback(FUN_80132980);
-  PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
-  PS1_ReadVideoFile(PS1_CurrentVideoState.encoded_frame_buffers[PS1_CurrentVideoState.current_encode_buffer_index],video);
-  PS1_CurrentVideoState.vsync_counter = 0;
-    while ((PS1_VideoPlayState < 2) && ((u16) PS1_CurrentVideoState.frame_count < PS1_VideoLength)) {
-      PS1_CurrentVideoState.has_swapped_display = 0;
-      if (temp_s3) {
-        readinput();
-      }
-      DecDCTout((u32 *)PS1_CurrentVideoState.decoded_frame,1664);
-      DecDCTin(PS1_CurrentVideoState.encoded_frame_buffers[PS1_CurrentVideoState.current_encode_buffer_index],0);
+    short sVar1;
+    int iVar2;
+    u32 *pbVar3;
+    u8 temp_s3;
+    u16 frame_count;
 
-      
-      if (PS1_CurrentVideoState.current_encode_buffer_index) {
-        PS1_CurrentVideoState.current_encode_buffer_index = 0;
-        pbVar3 = PS1_CurrentVideoState.encoded_frame_buffers[0];
-      }
-      else
-      {
-        PS1_CurrentVideoState.current_encode_buffer_index = 1;
-        pbVar3 = PS1_CurrentVideoState.encoded_frame_buffers[1];
-
-      }
-      PS1_ReadVideoFile(pbVar3,video);
-      if ((temp_s3) &&
-         ((sVar1 = but1pressed(0), sVar1 != 0 || (iVar2 = PS1_TOUCHE_0x9(0), iVar2 != 0)))) {
-        PS1_VideoPlayState = 2;
-      }
-      while (PS1_CurrentVideoState.has_swapped_display == 0){};
-      while (PS1_CurrentVideoState.vsync_counter != 0){};
+    ResetCallback();
+    DecDCTReset(0);
+    temp_s3 = 1;
+    if (video == 4)
+    {
+        PS1_LoadVideoFile(&PS1_VdoFiles[video].file.pos, 0x6b9);
     }
-  SsSetSerialVol('\0',0,0);
-  CdControlB('\t',(u_char *)0x0,(u_char *)0x0);
-  PS1_CurrentVideoState.has_swapped_display = 0;
-  DecDCTout((u32 *)PS1_CurrentVideoState.decoded_frame,1664);
-  DecDCTin((u32 *)(&PS1_CurrentVideoState.encoded_frame_buffers[0])[PS1_CurrentVideoState.current_encode_buffer_index],0);
-  do {
-  } while (PS1_CurrentVideoState.has_swapped_display == 0);
-  do {
-  } while (PS1_CurrentVideoState.vsync_counter != 0);
-  DecDCTinCallback(0);
-  DecDCToutCallback(0);
-  CdDataCallback(0);
-  CdReadyCallback((void *)0x0);
-  VSyncCallback((void *)0x0);
-  iVar2 = 1;
-  do {
-    VSync(0);
-    iVar2 = iVar2 + 1;
-  } while (iVar2 < 4);
+    else
+    {
+        PS1_LoadVideoFile(&PS1_VdoFiles[video].file.pos, 1);
+    }
+    PS1_InitVideoState(&PS1_CurrentVideoState);
+    DecDCToutCallback(FUN_80132980);
+    PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
+    PS1_ReadVideoFile(PS1_CurrentVideoState.encoded_frame_buffers[PS1_CurrentVideoState.current_encode_buffer_index], video);
+    PS1_CurrentVideoState.vsync_counter = 0;
+    while ((PS1_VideoPlayState < 2) && ((u16) PS1_CurrentVideoState.frame_count < PS1_VideoLength))
+    {
+        PS1_CurrentVideoState.has_swapped_display = 0;
+        if (temp_s3)
+        {
+            readinput();
+        }
+        DecDCTout((u32 *) PS1_CurrentVideoState.decoded_frame, 1664);
+        DecDCTin(PS1_CurrentVideoState.encoded_frame_buffers[PS1_CurrentVideoState.current_encode_buffer_index], 0);
 
-  while (temp_s3 != 0 && (((s16) but1pressed(0)) || (PS1_TOUCHE_0x9(0)))) {
-    readinput();
-  }
-  return;
+        if (PS1_CurrentVideoState.current_encode_buffer_index)
+        {
+            PS1_CurrentVideoState.current_encode_buffer_index = 0;
+            pbVar3 = PS1_CurrentVideoState.encoded_frame_buffers[0];
+        }
+        else
+        {
+            PS1_CurrentVideoState.current_encode_buffer_index = 1;
+            pbVar3 = PS1_CurrentVideoState.encoded_frame_buffers[1];
+        }
+        PS1_ReadVideoFile(pbVar3, video);
+        if ((temp_s3) &&
+            ((sVar1 = but1pressed(0), sVar1 != 0 || (iVar2 = PS1_TOUCHE_0x9(0), iVar2 != 0))))
+        {
+            PS1_VideoPlayState = 2;
+        }
+        while (PS1_CurrentVideoState.has_swapped_display == 0) {};
+        while (PS1_CurrentVideoState.vsync_counter != 0) {};
+    }
+    SsSetSerialVol('\0', 0, 0);
+    CdControlB('\t', (u_char *) 0x0, (u_char *) 0x0);
+    PS1_CurrentVideoState.has_swapped_display = 0;
+    DecDCTout((u32 *) PS1_CurrentVideoState.decoded_frame, 1664);
+    DecDCTin((u32 *) (&PS1_CurrentVideoState.encoded_frame_buffers[0])[PS1_CurrentVideoState.current_encode_buffer_index], 0);
+    do
+    {
+    } while (PS1_CurrentVideoState.has_swapped_display == 0);
+    do
+    {
+    } while (PS1_CurrentVideoState.vsync_counter != 0);
+    DecDCTinCallback(0);
+    DecDCToutCallback(0);
+    CdDataCallback(0);
+    CdReadyCallback((void *) 0x0);
+    VSyncCallback((void *) 0x0);
+    iVar2 = 1;
+    do
+    {
+        VSync(0);
+        iVar2 = iVar2 + 1;
+    } while (iVar2 < 4);
+
+    while (temp_s3 != 0 && (((s16) but1pressed(0)) || (PS1_TOUCHE_0x9(0))))
+    {
+        readinput();
+    }
+    return;
 }
 #endif
 
@@ -174,9 +182,9 @@ void PS1_LoadVideoFile(CdlLOC *lba, u32 param_2)
     CdIntToPos(CdPosToInt(lba) + (param_2 - 5) * 10, &unk_1);
     StSetRing(D_801CEEE4, 32);
     StSetStream(0, param_2, 0x0FFFFFFF, null, null);
-    while (!CdControl(CdlSeekL, &unk_1.minute, null)){};
+    while (!CdControl(CdlSeekL, &unk_1.minute, null)) {};
     CdSync(1, null);
-    while (!CdRead2(CdlModeStream|CdlModeSpeed|CdlModeRT)){};
+    while (!CdRead2(CdlModeStream | CdlModeSpeed | CdlModeRT)) {};
 }
 
 /* E6A0 80132EA0 -O2 -msoft-float */
@@ -186,7 +194,7 @@ void PS1_ReadVideoFile(u32 *param_1, Video video)
     StHEADER *header;
     u8 vol;
 
-    while (StGetNext(&user_data, (u32 **)&header)){};
+    while (StGetNext(&user_data, (u32 **) &header)) {}
     PS1_CurrentVideoState.frame_count = header->frameCount;
 
     if (video == VIDEO_PRES)
@@ -211,7 +219,8 @@ void FUN_80132f8c(void)
 {
     PS1_CurrentVideoState.vsync_counter = PS1_CurrentVideoState.vsync_counter + 1;
     /*__asm__("lbu     $v0,0($v1)\nnop");*/
-    if ((PS1_CurrentVideoState.vsync_counter > 3) && (PS1_CurrentVideoState.has_swapped_display != 0)) {
+    if ((PS1_CurrentVideoState.vsync_counter > 3) && (PS1_CurrentVideoState.has_swapped_display != 0))
+    {
         PS1_CurrentVideoState.vsync_counter = 0;
         PutDrawEnv(&PS1_CurrentDisplay->drawing_environment);
         PutDispEnv(&PS1_CurrentDisplay->field0_0x0);

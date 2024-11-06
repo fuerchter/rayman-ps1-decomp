@@ -59,7 +59,7 @@ void sub_one_floc(void)
     s16 unk_1 = myRand(511);
     s16 i = LEN(nb_floc) - 1;
     s16 done = false;
-    
+
     while (!done && i > -1)
     {
         if (floc_ind[i] <= unk_1 && nb_floc[i] > 0)
@@ -69,7 +69,7 @@ void sub_one_floc(void)
         }
         i--;
     }
-    
+
     if (i == -1)
     {
         i = LEN(nb_floc) - 1;
@@ -189,7 +189,7 @@ void do_flocons(s16 x_map, s16 y_map, s16 x_map_old, s16 y_map_old)
 
     if (__builtin_abs(unk_y_2) == 3 && horloge[4] < 3)
         unk_y_1 += SGN(VENT_Y);
-    
+
     set_proj_center(SCREEN_WIDTH / 2, 170);
     i = 0;
     unk_1 = -0x40;
@@ -222,7 +222,7 @@ void do_flocons(s16 x_map, s16 y_map, s16 x_map_old, s16 y_map_old)
                 cur_floc->field1_0x2 = y_0;
             else if (cur_floc->field1_0x2 < y_0)
                 cur_floc->field1_0x2 = y_200;
-            
+
             cur_floc++;
             flc_i_2++;
         }
@@ -300,7 +300,7 @@ void set_SNSEQ_list(s16 param_1)
             *cur_sn++ = 2;
         else
             *cur_sn++ = 4;
-        
+
         if (VENT_Y > 0)
         {
             *cur_sn++ = 8;
@@ -320,7 +320,7 @@ void set_SNSEQ_list(s16 param_1)
             *cur_sn++ = 2;
         else
             *cur_sn++ = 4;
-        
+
         if (VENT_X > -8)
         {
             *cur_sn++ = 6;
@@ -340,7 +340,7 @@ void set_SNSEQ_list(s16 param_1)
             *cur_sn++ = 2;
         else
             *cur_sn++ = 4;
-        
+
         if (VENT_X > 8)
         {
             *cur_sn++ = 6;
@@ -360,7 +360,7 @@ void set_SNSEQ_list(s16 param_1)
             *cur_sn++ = 2;
         else
             *cur_sn++ = 4;
-        
+
         if (VENT_X > -16)
         {
             *cur_sn++ = 6;
@@ -380,7 +380,7 @@ void set_SNSEQ_list(s16 param_1)
             *cur_sn++ = 2;
         else
             *cur_sn++ = 4;
-        
+
         if (VENT_X > 16)
         {
             *cur_sn++ = 6;
@@ -400,7 +400,7 @@ void set_SNSEQ_list(s16 param_1)
             *cur_sn++ = 2;
         else
             *cur_sn++ = 4;
-        
+
         if (VENT_X > 0)
         {
             *cur_sn++ = 6;
@@ -420,7 +420,7 @@ void set_SNSEQ_list(s16 param_1)
             *cur_sn++ = 4;
         else
             *cur_sn++ = 6;
-        
+
         if (VENT_Y > -16)
         {
             *cur_sn++ = 8;
@@ -455,7 +455,7 @@ void DO_SNOW_SEQUENCE(void)
 {
     s16 first; s16 second;
 
-    switch(SNSEQ_no)
+    switch (SNSEQ_no)
     {
     case 0:
         break;

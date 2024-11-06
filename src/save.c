@@ -51,16 +51,16 @@ void saveGameState(Obj *obj, SaveState *state)
     }
     else
         state->save_obj_id = -1;
-    
+
     memcpy(state->link_init, link_init, level.nb_objects);
-    
+
     for (i = 0; i < LEN(ray.btypes); i++)
         state->ray_btypes[i] = ray.btypes[i];
     state->ray_anim_index = ray.anim_index;
     state->ray_anim_frame = ray.anim_frame;
     state->ray_main_etat = ray.main_etat;
     state->ray_sub_etat = ray.sub_etat;
-    
+
     for (i = 0; i < LEN(nb_floc); i++)
         state->nb_floc[i] = nb_floc[i];
     state->vent_x = VENT_X;
@@ -139,7 +139,7 @@ void restoreGameState(SaveState *save_param)
         ray.screen_x_pos = save_param->ray_screen_x;
         ray.screen_y_pos = save_param->ray_screen_y;
         /*PS1_MoteurTime = save->unk38;*/
-        
+
         var_v0_2 = 1;
         ray.flags = (ray.flags & ~0x4000) | ((save_param->ray_flip_x & var_v0_2) << 0xE);
         RayEvts.super_helico = save_param->rayevts_1;
@@ -264,7 +264,7 @@ void PS1_PhotographerCollision(void)
 {
     s16 i = 0;
     Obj *cur_obj = &level.objects[actobj.objects[i]];
-    
+
     while (i < actobj.num_active_objects)
     {
         if (cur_obj->type == TYPE_PHOTOGRAPHE)
@@ -302,7 +302,6 @@ void PS1_PhotographerCollision(void)
                         skipToLabel(cur_obj, 0, true);
                     }
                 }
-
             }
         }
         i++;

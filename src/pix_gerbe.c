@@ -9,7 +9,7 @@ s32 allocate_gerbe(void)
 {
     s16 i;
     s16 res = -1;
-    
+
     for (i = 0; i < (s16) LEN(pix_gerbe); i++)
     {
         if (!pix_gerbe[i].is_active)
@@ -30,10 +30,10 @@ void start_pix_gerbe(s32 x_pos, s32 y_pos)
     s16 i;
     s16 spd_x; s16 spd_y;
     s16 grb = allocate_gerbe();
-    
+
     if (grb != -1)
     {
-        cur_data = (s16 *)&pix_gerbe[grb]; /* struct access instead??? */
+        cur_data = (s16 *) &pix_gerbe[grb]; /* struct access instead??? */
         for (
             i = 0;
             i < (s16) LEN(pix_gerbe[grb].items) - grb * (s16) LEN(pix_gerbe);
@@ -48,8 +48,8 @@ void start_pix_gerbe(s32 x_pos, s32 y_pos)
             spd_x -= i << 1;
             *cur_data++ = spd_x;
             *cur_data++ = spd_y;
-            ((u8 *)cur_data)[0] = myRand(8) + 8; /* y_accel */
-            ((u8 *)cur_data)[1] = 128; /* unk_1 */
+            ((u8 *) cur_data)[0] = myRand(8) + 8; /* y_accel */
+            ((u8 *) cur_data)[1] = 128; /* unk_1 */
             cur_data++;
         }
     }
@@ -96,7 +96,7 @@ void do_pix_gerbes(void)
                         cur_item->unk_1 = 0;
                     else
                         new_active = true;
-                    
+
                     cur_item->speed_y += cur_item->y_accel;
                 }
                 cur_item++;

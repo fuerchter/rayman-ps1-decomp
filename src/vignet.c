@@ -42,7 +42,7 @@ s16 display_vignet_prg(void)
         ) || loop_timing < 1
     )
         unk_1 = true;
-    
+
     if (unk_1)
     {
         if (text_to_display[new_txt_fee + 2].text[0] == '\0')

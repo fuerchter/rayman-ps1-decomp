@@ -2,13 +2,13 @@
 
 s32 PS1_LoadToVRAM(s16 w, s16 h, s16 x, s16 y, u8 *data)
 {
-  RECT rect;
+    RECT rect;
 
-  rect.x = x; rect.y = y;
-  rect.w = w; rect.h = h;
-  LoadImage(&rect, (u32 *)data);
-  DrawSync(0);
-  return w * h * 2;
+    rect.x = x; rect.y = y;
+    rect.w = w; rect.h = h;
+    LoadImage(&rect, (u32 *)data);
+    DrawSync(0);
+    return w * h * 2;
 }
 
 #ifndef MATCHES_BUT
@@ -27,7 +27,7 @@ void PS1_LoadVRAMBlock(s16 start_page, s16 start_pos, s16 end_page, s16 end_pos,
     s16 temp_s2 = start_pos >> 1;
     s16 temp_s3 = end_pos + ((start_pos & 1) << 8);
     s16 temp_a2 = end_page + ((start_page & 1) << 8);
-    
+
     if (start_page < 0xA && start_pos >= 0xA)
     {
         if (start_page >= 8)
@@ -105,7 +105,6 @@ void PS1_LoadVRAMBlock(s16 start_page, s16 start_pos, s16 end_page, s16 end_pos,
                 data
             );
         }
-
     }
     else if (temp_t0 == temp_s2)
     {

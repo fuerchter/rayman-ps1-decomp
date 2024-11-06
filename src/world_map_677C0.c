@@ -24,7 +24,8 @@ u8 D_801F3EA0;
 #endif
 
 /* 677C0 8018BFC0 -O2 */
-void CalcObjPosInWorldMap(Obj *obj) {
+void CalcObjPosInWorldMap(Obj *obj)
+{
     obj->screen_x_pos = obj->x_pos - xmap + 52;
     obj->screen_y_pos = obj->y_pos - ymap + 55;
 }
@@ -32,30 +33,30 @@ void CalcObjPosInWorldMap(Obj *obj) {
 /* 677F4 8018BFF4 -O2 -msoft-float */
 void DoScrollInWorldMap(s16 h_speed, s16 v_speed)
 {
-  ymap += v_speed;
-  xmap += h_speed;
+    ymap += v_speed;
+    xmap += h_speed;
 
-  if(xmap < scroll_start_x)
-  {
-    xmap = scroll_start_x;
-    dhspeed = 0;
-  }
-  else if(xmap > scroll_end_x)
-  {
-    xmap = scroll_end_x;
-    dhspeed = 0;
-  }
-  if (ymap < scroll_start_y)
-  {
-    ymap = scroll_start_y;
-    dvspeed = 0;
-  }
-  else if(ymap > scroll_end_y)
-  {
-    ymap = scroll_end_y;
-    dvspeed = 0;
-  }
-  CalcObjPosInWorldMap(&ray);
+    if (xmap < scroll_start_x)
+    {
+        xmap = scroll_start_x;
+        dhspeed = 0;
+    }
+    else if (xmap > scroll_end_x)
+    {
+        xmap = scroll_end_x;
+        dhspeed = 0;
+    }
+    if (ymap < scroll_start_y)
+    {
+        ymap = scroll_start_y;
+        dvspeed = 0;
+    }
+    else if (ymap > scroll_end_y)
+    {
+        ymap = scroll_end_y;
+        dvspeed = 0;
+    }
+    CalcObjPosInWorldMap(&ray);
 }
 
 /* 678DC 8018C0DC -O2 */
@@ -63,7 +64,7 @@ void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y)
 {
     if (to != from)
     {
-        if(!(t_world_info[to].has_drawn_path))
+        if (!(t_world_info[to].has_drawn_path))
         {
             if (t_world_info[to].is_unlocked)
             {
@@ -130,7 +131,7 @@ void PS1_DisplayPlateau(void)
     s16 i = 0;
     WorldInfo *cur_wi = &t_world_info[i];
     Obj *cur_obj = &mapobj[i];
-    
+
     while (i < (s16) LEN(t_world_info))
     {
         if (
@@ -139,7 +140,7 @@ void PS1_DisplayPlateau(void)
             cur_obj->screen_y_pos + (u32) cur_obj->offset_by - 46 <= 150
         )
             DISPLAY_PLATEAU(cur_obj);
-        
+
         cur_wi++;
         cur_obj++;
         i++;
@@ -157,11 +158,11 @@ void DO_MEDAILLONS(void)
 
     if (chemin_percent <= 99 && horloge[2] != 0)
         chemin_percent++;
-    
+
     i = 0;
     cur_obj = &mapobj[i];
     cur_wi = &t_world_info[i];
-    while(i < (s16) LEN(t_world_info))
+    while (i < (s16) LEN(t_world_info))
     {
         CalcObjPosInWorldMap(cur_obj);
         if (cur_wi->is_unlocking && chemin_percent >= 99)
@@ -210,21 +211,21 @@ void DO_MEDAILLONS(void)
 
 void INIT_LEVEL_STAGE_NAME(void)
 {
-  if (t_world_info[num_world_choice].world == 7 && NBRE_SAVE == 0)
-    PS1_GenerateAndDisplayPassword();
-  else
-    __builtin_memcpy(&text_to_display[0].text, t_world_info[num_world_choice].level_name, sizeof(text_to_display[0].text));
+    if (t_world_info[num_world_choice].world == 7 && NBRE_SAVE == 0)
+        PS1_GenerateAndDisplayPassword();
+    else
+        __builtin_memcpy(&text_to_display[0].text, t_world_info[num_world_choice].level_name, sizeof(text_to_display[0].text));
 
-  text_to_display[0].font_size = 2;
-  text_to_display[0].x_pos = 450;
-  text_to_display[0].y_pos = 220;
-  text_to_display[0].is_fond = false;
-  text_to_display[0].field8_0x3d = true;
-  INIT_TXT_BOX(text_to_display);
-  text_to_display[0].centered_y_pos -= 6;
-  text_to_display[0].width += 10;
-  text_to_display[0].height += 6;
-  text_to_display[0].color = t_world_info[num_world_choice].color;
+    text_to_display[0].font_size = 2;
+    text_to_display[0].x_pos = 450;
+    text_to_display[0].y_pos = 220;
+    text_to_display[0].is_fond = false;
+    text_to_display[0].field8_0x3d = true;
+    INIT_TXT_BOX(text_to_display);
+    text_to_display[0].centered_y_pos -= 6;
+    text_to_display[0].width += 10;
+    text_to_display[0].height += 6;
+    text_to_display[0].color = t_world_info[num_world_choice].color;
 }
 
 #ifndef MATCHES_BUT
@@ -239,11 +240,11 @@ void INIT_WORLD_STAGE_NAME(void)
     u8 new_color;
     u8 save_text[80];
 
-    switch(t_world_info[num_world_choice].world)
+    switch (t_world_info[num_world_choice].world)
     {
     case 7:
         new_color = t_world_info[num_world_choice].color;
-        switch(fichier_selectionne)
+        switch (fichier_selectionne)
         {
         case 0:
             if (NBRE_SAVE != 0)
@@ -252,19 +253,19 @@ void INIT_WORLD_STAGE_NAME(void)
                 __builtin_memcpy(text_to_display[2].text, s_password_8012ba1c, sizeof(s_password_8012ba1c));
             break;
         case 1:
-            *(u16 *)&save_text[0] = *(u16 *)&s__801cf0a8[0];
+            *(u16 *) &save_text[0] = *(u16 *) &s__801cf0a8[0];
             strcat(save_text, save_ray[fichier_selectionne]);
             strcat(save_text, s__801cf0a8);
             __builtin_memcpy(text_to_display[2].text, save_text, sizeof(text_to_display[2].text));
             break;
         case 2:
-            *(u16 *)&save_text[0] = *(u16 *)&s__801cf0a8[0];
+            *(u16 *) &save_text[0] = *(u16 *) &s__801cf0a8[0];
             strcat(save_text, save_ray[fichier_selectionne]);
             strcat(save_text, s__801cf0a8);
             __builtin_memcpy(text_to_display[2].text, save_text, sizeof(text_to_display[2].text));
             break;
         case 3:
-            *(u16 *)&save_text[0] = *(u16 *)&s__801cf0a8[0];
+            *(u16 *) &save_text[0] = *(u16 *) &s__801cf0a8[0];
             strcat(save_text, save_ray[fichier_selectionne]);
             strcat(save_text, s__801cf0a8);
             __builtin_memcpy(text_to_display[2].text, save_text, sizeof(text_to_display[2].text));
@@ -296,7 +297,7 @@ void INIT_WORLD_STAGE_NAME(void)
         new_color = 1;
         break;
     }
-    
+
     text_to_display[2].font_size = 1;
     text_to_display[2].x_pos = 450;
     text_to_display[2].y_pos = 40;
@@ -311,7 +312,8 @@ const u8 rodata_INIT_WORLD_STAGE_NAME[4] = {};
 #endif
 
 /* 68CB8 8018D4B8 -O2 */
-void INIT_STAGE_NAME(void) {
+void INIT_STAGE_NAME(void)
+{
     INIT_TEXT_TO_DISPLAY();
     INIT_LEVEL_STAGE_NAME();
     INIT_WORLD_STAGE_NAME();
@@ -332,7 +334,7 @@ void INIT_STAGE_NAME(void) {
 ? INIT_WORLD_STAGE_NAME(s32, s32, ? *, void *);*/
 
 void CHANGE_STAGE_NAMES(void)
-{    
+{
     __builtin_memcpy(&text_to_display[1], &text_to_display[0], sizeof(TextToDisplay));
     INIT_LEVEL_STAGE_NAME();
     if (t_world_info[num_world_choice].world != t_world_info[old_num_world].world)
@@ -345,43 +347,43 @@ void CHANGE_STAGE_NAMES(void)
 /* 68EF4 8018D6F4 -O2 */
 void PS1_CardDisplayPassword(void)
 {
-  u8 color;
+    u8 color;
 
-  __builtin_memcpy(&text_to_display[1], &text_to_display[0], sizeof(TextToDisplay));
-  __builtin_memcpy(&text_to_display[3], &text_to_display[2], sizeof(TextToDisplay));
+    __builtin_memcpy(&text_to_display[1], &text_to_display[0], sizeof(TextToDisplay));
+    __builtin_memcpy(&text_to_display[3], &text_to_display[2], sizeof(TextToDisplay));
 
-  PS1_GenerateAndDisplayPassword();
+    PS1_GenerateAndDisplayPassword();
 
-  color = t_world_info[num_world_choice].color;
-  text_to_display[2].font_size = 1;
-  text_to_display[2].color = color;
-  text_to_display[2].x_pos = 450;
-  text_to_display[2].y_pos = 40;
-  text_to_display[2].is_fond = false;
-  text_to_display[2].field8_0x3d = 0;
-  INIT_TXT_BOX(&text_to_display[2]);
+    color = t_world_info[num_world_choice].color;
+    text_to_display[2].font_size = 1;
+    text_to_display[2].color = color;
+    text_to_display[2].x_pos = 450;
+    text_to_display[2].y_pos = 40;
+    text_to_display[2].is_fond = false;
+    text_to_display[2].field8_0x3d = 0;
+    INIT_TXT_BOX(&text_to_display[2]);
 
-  text_to_display[0].font_size = 2;
-  text_to_display[0].x_pos = 450;
-  text_to_display[0].y_pos = 220;
-  text_to_display[0].is_fond = false;
-  text_to_display[0].field8_0x3d = 0;
-  text_to_display[2].width += 10;
-  text_to_display[2].height += 2;
-  INIT_TXT_BOX(&text_to_display[0]);
+    text_to_display[0].font_size = 2;
+    text_to_display[0].x_pos = 450;
+    text_to_display[0].y_pos = 220;
+    text_to_display[0].is_fond = false;
+    text_to_display[0].field8_0x3d = 0;
+    text_to_display[2].width += 10;
+    text_to_display[2].height += 2;
+    INIT_TXT_BOX(&text_to_display[0]);
 
-  text_to_display[0].centered_y_pos -= 6;
-  text_to_display[0].width += 10;
-  text_to_display[0].height += 6;
-  text_to_display[0].color = t_world_info[num_world_choice].color;
-  text_to_display[1].x_pos = 160;
-  text_to_display[1].y_pos = 250;
-  text_to_display[1].field8_0x3d = 0;
-  text_to_display[1].is_fond = false;
-  text_to_display[3].x_pos = 160;
-  text_to_display[3].y_pos = -50;
-  text_to_display[3].field8_0x3d = 0;
-  text_to_display[3].is_fond = false;
+    text_to_display[0].centered_y_pos -= 6;
+    text_to_display[0].width += 10;
+    text_to_display[0].height += 6;
+    text_to_display[0].color = t_world_info[num_world_choice].color;
+    text_to_display[1].x_pos = 160;
+    text_to_display[1].y_pos = 250;
+    text_to_display[1].field8_0x3d = 0;
+    text_to_display[1].is_fond = false;
+    text_to_display[3].x_pos = 160;
+    text_to_display[3].y_pos = -50;
+    text_to_display[3].field8_0x3d = 0;
+    text_to_display[3].is_fond = false;
 }
 
 /* 691E0 8018D9E0 -O2 */
@@ -470,7 +472,7 @@ void INIT_CHEMIN(void)
         num_world_choice = world_index;
     }
     old_num_world = num_world_choice;
-    
+
     INIT_LITTLE_RAY();
     set_main_and_sub_etat(&ray, 0, 0);
     ray.x_pos = t_world_info[num_world_choice].x_pos - ray.offset_bx + 4;
@@ -496,7 +498,7 @@ void INIT_CHEMIN(void)
             if (t_world_info[world_ind].nb_cages != 0)
             {
                 Nb_total_cages += t_world_info[world_ind].nb_cages;
-                
+
                 if (t_world_info[world_ind].nb_cages == 6)
                     cur_obj->init_sub_etat = 52;
                 else
@@ -663,7 +665,7 @@ void DO_RAYMAN_IN_WLD_MAP(void)
             ray.flags &= ~FLG(OBJ_FLIP_X);
         else
             ray.flags |= FLG(OBJ_FLIP_X);
-        
+
         if (diff_x != 0 && diff_y != 0)
         {
             if (__builtin_abs(diff_y) > __builtin_abs(diff_x))
@@ -693,7 +695,7 @@ void DO_RAYMAN_IN_WLD_MAP(void)
             unk_5 = -(diff_y > 0) & unk_4;
         else
             unk_5 = -unk_4;
-        
+
         ray.speed_x = t_world_info[old_num_world].x_pos + unk_3 - ray.offset_bx - ray.x_pos;
         ray.speed_y = t_world_info[old_num_world].y_pos + unk_5 - ray.offset_by - (s16) (ray.y_pos - 8);
         if (
@@ -712,7 +714,7 @@ void DO_RAYMAN_IN_WLD_MAP(void)
             }
         }
     }
-    
+
     MoveRayInWorldMap();
     CalcObjPosInWorldMap(&ray);
     unk_6 = &ray; /* TODO: clean up somehow */
@@ -734,18 +736,19 @@ void DO_CHEMIN(void)
 /* 6A0C8 8018E8C8 -O2 -msoft-float */
 void INIT_PASTILLES_SAUVE(void)
 {
-  u8 *name;
-  
-  if (NBRE_SAVE != 0)
-    name = PTR_s_save_game_801c353c;
-  else
-    name = PTR_s_no_save_available_801c3544;
-  t_world_info[18].level_name = name;
-  t_world_info[19].level_name = name;
-  t_world_info[20].level_name = name;
-  t_world_info[21].level_name = name;
-  t_world_info[22].level_name = name;
-  t_world_info[23].level_name = name;
+    u8 *name;
+
+    if (NBRE_SAVE != 0)
+        name = PTR_s_save_game_801c353c;
+    else
+        name = PTR_s_no_save_available_801c3544;
+
+    t_world_info[18].level_name = name;
+    t_world_info[19].level_name = name;
+    t_world_info[20].level_name = name;
+    t_world_info[21].level_name = name;
+    t_world_info[22].level_name = name;
+    t_world_info[23].level_name = name;
 }
 
 /* 6A130 8018E930 -O2 */
@@ -782,7 +785,7 @@ void DETER_WORLD_AND_LEVEL(void)
         num_level_choice = t_world_info[num_world_choice].level;
         num_world_choice = t_world_info[num_world_choice].world;
     }
-    
+
     if (
         num_world_choice == 5 && num_level_choice == 3 &&
         finBosslevel.helped_joe_1

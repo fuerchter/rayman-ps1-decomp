@@ -12,7 +12,7 @@ s16 nb_credits_lines;
 void DISPLAY_TXT_CREDITS(void)
 {
     u32 i;
-    
+
     for (i = first_credit; i <= last_credit; i++)
         display_text(
             credits[i].text,

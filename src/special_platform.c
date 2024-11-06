@@ -203,7 +203,6 @@ void DO_SPECIAL_PLATFORM(Obj *obj)
                         ray.field24_0x3e = 0;
                     }
                 }
-
             }
         }
         else
@@ -272,7 +271,7 @@ void DO_SPECIAL_PLATFORM(Obj *obj)
                 if (obj->sub_etat == 6)
                 {
                     flag_set = obj->eta[obj->main_etat][obj->sub_etat].flags & 0x10;
-                    if(
+                    if (
                         ((flag_set && obj->anim_frame == 0) ||
                         (!flag_set && obj->anim_frame == obj->animations[obj->anim_index].frames_count - 1)) &&
                         horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xf] == 0
@@ -316,7 +315,7 @@ void DO_SPECIAL_PLATFORM(Obj *obj)
                 var_s1_1 = 1;
                 set_main_and_sub_etat(obj, 2U, 4U);
                 temp_v0_11 = (u16) obj->field20_0x36;
-                
+
                 obj->field24_0x3e = 0;
                 obj->gravity_value_1 = 0;
                 obj->gravity_value_2 = 0;
@@ -341,7 +340,7 @@ void DO_SPECIAL_PLATFORM(Obj *obj)
                 obj->iframes_timer = 0;
                 obj->y_pos = obj->init_y_pos;
                 obj->speed_y = 0;
-                
+
                 if (ray.field20_0x36 == obj->id)
                 {
                     ray.y_pos += obj->init_y_pos - obj->y_pos;
@@ -392,7 +391,7 @@ void DO_SPECIAL_PLATFORM(Obj *obj)
                 var_s1_1 = 1;
                 set_main_and_sub_etat(obj, 2U, 3U);
                 temp_v0_11 = (u16) obj->field20_0x36;
-                
+
                 obj->field24_0x3e = 0;
                 obj->gravity_value_1 = 0;
                 obj->gravity_value_2 = 0;
@@ -537,6 +536,5 @@ void DO_SPECIAL_PLATFORM(Obj *obj)
         }
         break;
     }
-
 }
 #endif

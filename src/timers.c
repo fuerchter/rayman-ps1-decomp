@@ -36,7 +36,7 @@ void PS1_InitAllowedTime(void)
     s16 cnt_1;
     s16 cnt_2;
     s16 *cur;
-    
+
     for (cnt_1 = 1; cnt_1 <= (s16) LEN(allowed_time) >> 5; cnt_1++)
     {
         cnt_2 = (cnt_1 - 1);
@@ -265,7 +265,7 @@ void calc_left_time(void)
     s32 unk_1;
     s16 nw = (num_world << 5) - ((1 << 5) + 1);
     s16 index = nw + num_level;
-    
+
     if (map_time == 1)
     {
         left_time = allowed_time[index];

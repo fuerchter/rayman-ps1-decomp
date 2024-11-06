@@ -45,11 +45,11 @@ void PS1_EncryptPassword(void)
     bVar3 = 0;
     while (bVar3 < 10)
     {
-        *(u8 *)&PS1_CurrentPassword[bVar3] ^= PS1_PasswordTables.xor_table[bVar3];
-        uVar4 = uVar4 + ((*(u8 *)&PS1_CurrentPassword[bVar3] >> 1) * PS1_PasswordTables.verification_table[bVar3]);
+        *(u8 *) &PS1_CurrentPassword[bVar3] ^= PS1_PasswordTables.xor_table[bVar3];
+        uVar4 = uVar4 + ((*(u8 *) &PS1_CurrentPassword[bVar3] >> 1) * PS1_PasswordTables.verification_table[bVar3]);
         bVar3 = bVar3 + 1;
     }
-    
+
     new_var = uVar4 >> 0;
     PS1_CurrentPassword[9].bit_0 = (new_var);
     PS1_CurrentPassword[7].bit_0 = (uVar4 >> 1);
@@ -82,13 +82,13 @@ s32 PS1_VerifyDecryptPassword(void)
     var_a2 = 0;
     do
     {
-        var_t4 += (*(u8 *)&PS1_CurrentPassword[var_a2] >> 1) * PS1_PasswordTables.verification_table[var_a2];
-        *(u8 *)&PS1_CurrentPassword[var_a2] ^= PS1_PasswordTables.xor_table[var_a2];
+        var_t4 += (*(u8 *) &PS1_CurrentPassword[var_a2] >> 1) * PS1_PasswordTables.verification_table[var_a2];
+        *(u8 *) &PS1_CurrentPassword[var_a2] ^= PS1_PasswordTables.xor_table[var_a2];
         var_a2 += 1;
     } while (var_a2 < 10);
-    
+
     new_var = (PS1_CurrentPassword[9].bit_0 << 0);
-    temp_lo = 
+    temp_lo =
         new_var +
         (PS1_CurrentPassword[7].bit_0 << 1) +
         (PS1_CurrentPassword[6].bit_0 << 2) +
@@ -118,12 +118,11 @@ void FUN_801a17c8(u8 param_1)
 /* 7D070 801A1870 -O2 -msoft-float */
 u8 PS1_GetLevelFromPassword(void)
 {
-    return
-        (PS1_CurrentPassword[4].bit_2 << 0) +
-        (PS1_CurrentPassword[2].bit_2 << 1) +
-        (PS1_CurrentPassword[3].bit_2 << 2) +
-        (PS1_CurrentPassword[1].bit_2 << 3) +
-        (PS1_CurrentPassword[0].bit_2 << 4);
+    return (PS1_CurrentPassword[4].bit_2 << 0) +
+           (PS1_CurrentPassword[2].bit_2 << 1) +
+           (PS1_CurrentPassword[3].bit_2 << 2) +
+           (PS1_CurrentPassword[1].bit_2 << 3) +
+           (PS1_CurrentPassword[0].bit_2 << 4);
 }
 
 /* 7D0D0 801A18D0 -O2 -msoft-float */
@@ -141,14 +140,13 @@ void PS1_GeneratePassword_LivesCount(u8 lives_count)
 /* 7D1B8 801A19B8 -O2 -msoft-float */
 u8 PS1_GetLivesFromPassword(void)
 {
-    return
-        (PS1_CurrentPassword[3].bit_3 << 0) +
-        (PS1_CurrentPassword[2].bit_3 << 1) +
-        (PS1_CurrentPassword[5].bit_3 << 2) +
-        (PS1_CurrentPassword[1].bit_3 << 3) +
-        (PS1_CurrentPassword[4].bit_3 << 4) +
-        (PS1_CurrentPassword[0].bit_3 << 5) +
-        (PS1_CurrentPassword[7].bit_3 << 6);
+    return (PS1_CurrentPassword[3].bit_3 << 0) +
+           (PS1_CurrentPassword[2].bit_3 << 1) +
+           (PS1_CurrentPassword[5].bit_3 << 2) +
+           (PS1_CurrentPassword[1].bit_3 << 3) +
+           (PS1_CurrentPassword[4].bit_3 << 4) +
+           (PS1_CurrentPassword[0].bit_3 << 5) +
+           (PS1_CurrentPassword[7].bit_3 << 6);
 }
 
 /* 7D240 801A1A40 -O2 -msoft-float */
@@ -163,11 +161,10 @@ void PS1_GeneratePassword_nbContinue(u8 param_1)
 /* 7D2C8 801A1AC8 -O2 -msoft-float */
 u8 PS1_GetContinuesFromPassword(void)
 {
-    return
-        (PS1_CurrentPassword[5].bit_2 << 0) +
-        (PS1_CurrentPassword[7].bit_2 << 1) +
-        (PS1_CurrentPassword[6].bit_2 << 2) +
-        (PS1_CurrentPassword[9].bit_4 << 3);
+    return (PS1_CurrentPassword[5].bit_2 << 0) +
+           (PS1_CurrentPassword[7].bit_2 << 1) +
+           (PS1_CurrentPassword[6].bit_2 << 2) +
+           (PS1_CurrentPassword[9].bit_4 << 3);
 }
 
 #ifndef MATCHES_BUT
@@ -201,12 +198,12 @@ u8 PS1_ValidatePassword(void)
     PS1_PasswordTables.temp_cage_counts[15] = PS1_CurrentPassword[3].bit_4 & 1;
     PS1_PasswordTables.temp_cage_counts[16] = PS1_CurrentPassword[7].bit_4 & 1;
     PS1_PasswordTables.temp_cage_counts[17] = PS1_CurrentPassword[6].bit_4 & 1;
-    
+
     is_valid =
         lvl < LEN(PS1_PasswordTables.temp_cage_counts) &&
         !(lvl == 2 || lvl == 3) &&
         !(lvl == 6 || lvl == 7);
-    
+
     if (!is_valid)
         return 2;
 
@@ -222,7 +219,7 @@ u8 PS1_ValidatePassword(void)
             lvl >= 4;
     else
         is_valid = lvl < 9;
-    
+
     if (!is_valid)
         return 5;
 
@@ -238,7 +235,7 @@ u8 PS1_ValidatePassword(void)
         is_valid = lvl >= 10;
     else
         is_valid =
-            lvl < 11 && 
+            lvl < 11 &&
             PS1_PasswordTables.temp_cage_counts[11] == 0;
 
     if (!is_valid)
@@ -263,7 +260,7 @@ u8 PS1_ValidatePassword(void)
         is_valid =
             PS1_PasswordTables.temp_cage_counts[3] == 0 &&
             !PS1_CurrentPassword[9].bit_3;
-    
+
     if (!is_valid)
         return 0x0F;
 
@@ -273,7 +270,7 @@ u8 PS1_ValidatePassword(void)
         is_valid =
             (PS1_PasswordTables.temp_cage_counts[7] == 0) &&
             !PS1_CurrentPassword[8].bit_3;
-    
+
     if (!is_valid)
         return 0x10;
 
@@ -293,11 +290,11 @@ u8 PS1_ValidatePassword(void)
     cc_sum = 0;
     for (i = lvl + 1; i < LEN(PS1_PasswordTables.temp_cage_counts); i++)
         cc_sum += PS1_PasswordTables.temp_cage_counts[i];
-    
+
     is_valid = cc_sum == 0;
     if (!is_valid)
         return 0x0E;
-    
+
     if (lvl > 8)
         is_valid =
             PS1_CurrentPassword[9].bit_3 &&
@@ -318,14 +315,14 @@ u8 PS1_ValidatePassword(void)
         cc_sum = 0;
         for (i = 0; i < 17; i++)
             cc_sum += PS1_PasswordTables.temp_cage_counts[i];
-        
+
         is_valid =
             cc_sum == 17 &&
             PS1_CurrentPassword[6].bit_3 &&
             PS1_CurrentPassword[9].bit_2 &&
             PS1_CurrentPassword[8].bit_2;
     }
-    
+
     if (is_valid)
         return is_valid;
     else
@@ -366,14 +363,15 @@ u8 PS1_GeneratePassword(void)
     PS1_CurrentPassword[6].bit_4 = finBosslevel.mr_dark;
     PS1_CurrentPassword[8].bit_2 = t_world_info[3].is_unlocked || t_world_info[3].is_unlocking;
     PS1_CurrentPassword[9].bit_2 = t_world_info[7].is_unlocked || t_world_info[7].is_unlocking;
-    
+
     i = 18;
-    do {
+    do
+    {
         i--;
         if (i == 3 || i == 7)
             i -= 2;
     } while (!(t_world_info[i].is_unlocked == true || t_world_info[i].is_unlocking == true));
-    
+
     FUN_801a17c8(i);
     PS1_CurrentPassword[9].bit_3 = finBosslevel.moskito;
     PS1_CurrentPassword[6].bit_3 = finBosslevel.mr_skops;
@@ -385,7 +383,7 @@ u8 PS1_GeneratePassword(void)
     PS1_IsPasswordValid = PS1_ValidatePassword();
     if (PS1_IsPasswordValid == true)
         PS1_EncryptPassword();
-    
+
     return PS1_IsPasswordValid;
 }
 #endif
@@ -402,7 +400,7 @@ void PS1_LoadSaveFromPassword(void)
 
     for (i = 0; i <= lvl; i++)
         t_world_info[i].is_unlocked = true;
-    
+
     t_world_info[7].is_unlocked = PS1_CurrentPassword[9].bit_2;
     t_world_info[3].is_unlocked = PS1_CurrentPassword[8].bit_2;
     t_world_info[18].is_unlocked = lvl > 0;
@@ -429,14 +427,14 @@ void PS1_LoadSaveFromPassword(void)
     t_world_info[15].nb_cages = PS1_CurrentPassword[3].bit_4 ? 6 : 0;
     t_world_info[16].nb_cages = PS1_CurrentPassword[7].bit_4 ? 6 : 0;
     t_world_info[17].nb_cages = 0;
-    
+
     memset(&RayEvts, 0, sizeof(RayEvts));
     RayEvts.poing = lvl > 0;
     RayEvts.hang = lvl > 3;
     RayEvts.grap = PS1_CurrentPassword[9].bit_3;
     RayEvts.helico = lvl > 7;
     RayEvts.run = lvl > 10;
-    
+
     memset(&finBosslevel, 0, sizeof(finBosslevel));
     finBosslevel.bzzit = lvl > 3;
     finBosslevel.moskito = PS1_CurrentPassword[9].bit_3;
@@ -481,8 +479,8 @@ void PS1_UnusedGenerateAndPrintPassword(s16 param_1, s16 param_2, u8 param_3, u8
 
     PS1_IsPasswordValid = PS1_GeneratePassword();
     for (i = 0; i < LEN(PS1_CurrentPassword); i++)
-        pass[i] = PS1_PasswordTables.display_table[*(u8 *)&PS1_CurrentPassword[i] & 0x1F];
-    
+        pass[i] = PS1_PasswordTables.display_table[*(u8 *) &PS1_CurrentPassword[i] & 0x1F];
+
     if (PS1_IsPasswordValid == true)
         pass[10] = '\0';
     else
@@ -528,7 +526,7 @@ void FUN_801a2d40(void)
     s32 char_ind;
     u8 character[2];
     s16 max_clignote = 40;
-    
+
     if (compteur < max_compteur)
     {
         if (button_released == 0)
@@ -545,7 +543,7 @@ void FUN_801a2d40(void)
         compteur_clignote++;
     else
         compteur_clignote = 0;
-    
+
     for (char_ind = 0; char_ind < (s16) LEN(PS1_CurrentTypingPassword); char_ind++)
     {
         character[0] =
@@ -555,7 +553,7 @@ void FUN_801a2d40(void)
                 ]
             ];
         character[1] = '\0';
-        
+
         if (positionx == char_ind && positiony == 0)
         {
             if (!(D_801F5448 && (compteur_clignote > max_clignote >> 1)))
@@ -573,10 +571,10 @@ void FUN_801a2d40(void)
                 1, 1
             );
     }
- 
+
     if (positiony == 1)
     {
-        
+
         if (!(D_801F5448 && (compteur_clignote > max_clignote >> 1)))
             display_text(s_ok_801cf108, 160, PS1_display_y1, 1, 6);
         display_text(s_x__validate_password_8012c3b0, 160, D_801E4E40, 2, 10);
@@ -612,7 +610,7 @@ void FUN_801a3064(void)
             PlaySnd_old(69);
             for (char_ind = 0; char_ind < (s16) LEN(PS1_CurrentTypingPassword); char_ind++)
             {
-                *(u8 *)&PS1_CurrentPassword[char_ind] =
+                *(u8 *) &PS1_CurrentPassword[char_ind] =
                     PS1_PasswordTables.translate_table[
                         PS1_CurrentTypingPassword[char_ind]
                     ];
@@ -713,7 +711,7 @@ s16 PS1_MenuPassword(void)
 {
     s16 x_pos;
     u8 should_ret = false;
-    
+
     CLRSCR();
     DISPLAY_FOND_MENU();
     DO_FADE();
@@ -724,7 +722,7 @@ s16 PS1_MenuPassword(void)
     display_text(s_select__return_8012c438, x_pos, D_801E4E48 + 15, 2, 10);
     FUN_801a3064();
     FUN_801a2d40();
-    
+
     if (SelectButPressed() != 0)
     {
         should_ret = true;
@@ -768,13 +766,13 @@ void PS1_GenerateAndDisplayPassword(void)
 {
     /* TODO: correct sizes? */
     u8 i;
-    u8 pass[21]; 
+    u8 pass[21];
     u8 pass_cen[32];
 
     PS1_IsPasswordValid = PS1_GeneratePassword();
     for (i = 0; i < LEN(PS1_CurrentPassword); i++)
     {
-        pass[i * 2] = PS1_PasswordTables.display_table[*(u8 *)&PS1_CurrentPassword[i] & 0x1f];
+        pass[i * 2] = PS1_PasswordTables.display_table[*(u8 *) &PS1_CurrentPassword[i] & 0x1f];
         pass[i * 2 + 1] = ' ';
     }
 

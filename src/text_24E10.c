@@ -90,7 +90,7 @@ s32 calc_largmax_text(u8 *param_1, s32 param_2, s16 space_width, s16 param_4, u8
         cur_char = param_1[i];
         if (cur_char == '/')
             break;
-        
+
         if (cur_char == ' ')
             res += space_width;
         else
@@ -169,7 +169,7 @@ void INIT_TXT_BOX(TextToDisplay *out_txt)
             }
             else
                 num_let = deter_num_let(cur_char);
-            
+
             if (num_let != 0)
             {
                 unk_2++;
@@ -178,7 +178,7 @@ void INIT_TXT_BOX(TextToDisplay *out_txt)
 
             i++;
         }
-        
+
         if (height_mul == 0)
         {
             width_1 = width_2;
@@ -186,12 +186,12 @@ void INIT_TXT_BOX(TextToDisplay *out_txt)
         }
         else
             height_mul--;
-        
+
         if (unk_3)
             out_txt->centered_x_pos = out_txt->x_pos - (width_1 >> 1);
         else
             out_txt->centered_x_pos = out_txt->x_pos;
-        
+
         out_txt->width = width_1 + 2;
         out_txt->height = height_mul * height_font - 2;
         out_txt->centered_y_pos = out_txt->y_pos - height_font + 2;

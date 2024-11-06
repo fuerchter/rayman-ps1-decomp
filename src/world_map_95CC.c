@@ -18,15 +18,6 @@ s16 level_select;
 #endif
 
 /* 95CC 8012DDCC -O2 */
-/*? DISPLAY_FOND_SELECT();
-? atoi(s16, ? *, ?);
-s32 but0pressed(?);
-s32 but1pressed(?);
-? display_text(? *, ?, ?, ?, s32);
-s32 leftjoy(?);
-? readinput();
-s32 rightjoy(?);*/
-
 s16 select_level_prg(void)
 {
     u8 num[10];
@@ -53,7 +44,7 @@ s16 select_level_prg(void)
         inter_select = 0;
 
     /* TODO: either *pressed() functions return s16 or this is cast */
-    return (s16)but0pressed(0) || (s16)but1pressed(0);
+    return (s16) but0pressed(0) || (s16) but1pressed(0);
 }
 
 /* 975C 8012DF5C -O2 */
@@ -74,36 +65,24 @@ void DISPLAY_STAGE_NAMES(void)
     TextToDisplay *cur;
 
     if (&text_to_display[1])
-       display_box_text(&text_to_display[1]);
+        display_box_text(&text_to_display[1]);
 
     cur = &text_to_display[0];
     if (cur)
-       display_box_text(cur);
+        display_box_text(cur);
 
     cur = &text_to_display[3];
     if (cur)
-       display_box_text(cur);
+        display_box_text(cur);
 
     cur = &text_to_display[2];
     if (cur)
-       display_box_text(cur);
+        display_box_text(cur);
 }
 
 /* 980C 8012E00C -O2 */
-/*? DISPLAY_PLAT_WAY();
-? DISPLAY_STAGE_NAMES();
-? DO_CHEMIN();
-? DO_FADE();
-? DisplayJumellesNormal();
-? FUN_8013af14();
-? FUN_8013eb38(s16, s16, ?, ?);
-? PS1_DisplayWorldMapObjects();
-s32 SelectButPressed();
-? display2(? *);
-? readinput();*/
-
 s16 WORLD_CHOICE(void)
-{  
+{
     let_shadow = false;
     DO_FADE();
     PS1_DisplayWorldMapBg1(xmap, ymap, 44, 55);
@@ -125,7 +104,7 @@ void DO_WORLD_MAP(void)
 {
     if (ModeDemo == 0)
         PS1_LoadImgWorld();
-    
+
     start_cd_rap();
     INIT_FADE_IN();
     INIT_RAY(new_level);
