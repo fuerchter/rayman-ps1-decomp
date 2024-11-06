@@ -22,12 +22,12 @@ void DO_SPIDER_COMMAND(Obj *obj)
             obj->flags &= ~FLG(OBJ_FLIP_X);
         else
             obj->flags |= FLG(OBJ_FLIP_X);
-        
+
         SET_X_SPEED(obj);
         obj->field23_0x3c = 1;
         if (obj->main_etat == 0)
             set_main_and_sub_etat(obj, 1, 0);
-        
+
         if (obj->main_etat == 1)
         {
             if (block_flags[calc_typ_travd(obj, false)] & 1)
@@ -53,7 +53,7 @@ void DO_SPIDER_COMMAND(Obj *obj)
         case 0:
             if (obj->sub_etat == 4)
                 obj->field24_0x3e = 0;
-            
+
             if (obj->sub_etat == 8)
                 TEST_FIN_BLOC(obj);
             break;
@@ -62,7 +62,7 @@ void DO_SPIDER_COMMAND(Obj *obj)
                 SET_X_SPEED(obj);
             else
                 obj->speed_x = 0;
-            
+
             CALC_MOV_ON_BLOC(obj);
         }
         break;

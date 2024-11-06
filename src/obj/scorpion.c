@@ -25,17 +25,12 @@ s16 sko_nb_hit;
 s16 sko_phase;
 #endif
 
-/*Obj * allocateNOVA(void);
-void calc_obj_pos(Obj *obj);
-Obj * findfirstObject(ObjType objType);
-void start_pix_gerbe(s32 param_1, s32 param_2);*/
-
 /* 6C6E4 80190EE4 -O2 -msoft-float */
 void swap(s32 ind_1, s32 ind_2)
 {
-  u8 temp = ecroule_rubis_list[ind_1];
-  ecroule_rubis_list[ind_1] = ecroule_rubis_list[ind_2];
-  ecroule_rubis_list[ind_2] = temp;
+    u8 temp = ecroule_rubis_list[ind_1];
+    ecroule_rubis_list[ind_1] = ecroule_rubis_list[ind_2];
+    ecroule_rubis_list[ind_2] = temp;
 }
 
 /* 6C72C 80190F2C -O2 -msoft-float */
@@ -76,7 +71,8 @@ void set_rubis_list(void)
         cur_obj++;
     }
 
-    do {
+    do
+    {
         swapped = false;
         for (j = 0; j < (s16) LEN(ecroule_rubis_list) - 1; j++)
         {
@@ -105,7 +101,8 @@ void set_rubis_list(void)
     {
         mp_height = &mp.height; /* a little weird? */
         cur_lave_obj = &sko_lave_obj[0];
-        do {
+        do
+        {
             level.objects[*cur_lave_obj].init_y_pos = *mp_height * 16 - 60;
             level.objects[*cur_lave_obj].y_pos = level.objects[*cur_lave_obj].init_y_pos;
             cur_lave_obj++;
@@ -116,66 +113,67 @@ void set_rubis_list(void)
 /* 6CA0C 8019120C -O2 -msoft-float */
 void allocate_rayon(s16 x, s16 y)
 {
-  s16 found = false;
-  u8 nb_objs = level.nb_objects;
-  s16 i = 0;
-  Obj *cur_obj = &level.objects[0];
+    s16 found = false;
+    s16 i = 0;
+    Obj *cur_obj = &level.objects[i];
+    u8 nb_objs = level.nb_objects;
 
-  do {
-    if (cur_obj->type == TYPE_RAYON && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
-      found = true;
-    cur_obj++;
-    i++;
-  } while (!found && i < nb_objs);
-  i = 999; /* can also assign anything to nb_objs and it has same effect */
-  if (found)
-  {
-    cur_obj--;
-    cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
-    cur_obj->flags &= ~(FLG(OBJ_FLAG_9));
-    cur_obj->x_pos = x;
-    cur_obj->y_pos = y;
-    cur_obj->speed_x = 0;
-    cur_obj->speed_y = 0;
-    set_main_etat(cur_obj, 3);
-    set_sub_etat(cur_obj, 0);
-  }
+    do
+    {
+        if (cur_obj->type == TYPE_RAYON && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+            found = true;
+        cur_obj++;
+        i++;
+    } while (!found && i < nb_objs);
+    i = 999; /* can also assign anything to nb_objs and it has same effect */
+    if (found)
+    {
+        cur_obj--;
+        cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
+        cur_obj->flags &= ~(FLG(OBJ_FLAG_9));
+        cur_obj->x_pos = x;
+        cur_obj->y_pos = y;
+        cur_obj->speed_x = 0;
+        cur_obj->speed_y = 0;
+        set_main_etat(cur_obj, 3);
+        set_sub_etat(cur_obj, 0);
+    }
 }
 
 /* 6CAE0 801912E0 -O2 -msoft-float */
 void allocate_8_petits_rayons(s16 x, s16 y)
 {
-  Obj *found_obj;
-  s16 i;
-  Obj *rayon_obj;
-  
-  found_obj = allocateNOVA();
-  if (found_obj != null)
-  {
-    found_obj->x_pos = x + 64;
-    found_obj->y_pos = y + 64;
-    found_obj->display_prio = 1;
-    found_obj->field23_0x3c = 0;
-    found_obj->flags |= FLG(OBJ_ACTIVE);
-    calc_obj_pos(found_obj);
-  }
-  start_pix_gerbe(x + 140, y + 32);
-  found_obj = findfirstObject(TYPE_RAYON);
-  i = 0;
-  rayon_obj = &found_obj[10];
-  while (i < 8)
-  {
-    rayon_obj->x_pos = x + 8;
-    rayon_obj->y_pos = y;
-    rayon_obj->main_etat = 3;
-    rayon_obj->sub_etat = 2;
-    rayon_obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
-    rayon_obj->speed_x = D_801C83A4[i];
-    rayon_obj->speed_y = D_801C83B4[i];
-    rayon_obj->anim_frame = 2;
-    i++;
-    rayon_obj++;
-  }
+    Obj *found_obj;
+    s16 i;
+    Obj *rayon_obj;
+
+    found_obj = allocateNOVA();
+    if (found_obj != null)
+    {
+        found_obj->x_pos = x + 64;
+        found_obj->y_pos = y + 64;
+        found_obj->display_prio = 1;
+        found_obj->field23_0x3c = 0;
+        found_obj->flags |= FLG(OBJ_ACTIVE);
+        calc_obj_pos(found_obj);
+    }
+    start_pix_gerbe(x + 140, y + 32);
+    found_obj = findfirstObject(TYPE_RAYON);
+    i = 0;
+    rayon_obj = &found_obj[10];
+    while (i < 8)
+    {
+        rayon_obj->x_pos = x + 8;
+        rayon_obj->y_pos = y;
+        rayon_obj->main_etat = 3;
+        rayon_obj->sub_etat = 2;
+        rayon_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
+        rayon_obj->speed_x = D_801C83A4[i];
+        rayon_obj->speed_y = D_801C83B4[i];
+        rayon_obj->anim_frame = 2;
+        i++;
+        rayon_obj++;
+    }
 }
 
 /* 6CBF4 801913F4 -O2 -msoft-float */
@@ -214,7 +212,7 @@ void do_sko_rayon(void)
         }
         sko_rayon_x += sko_rayon_dx;
         sko_rayon_y += sko_rayon_dy;
-        
+
         if (horloge[3] == 0 && dist != 0)
             allocate_rayon(sko_rayon_x, sko_rayon_y);
     }
@@ -273,7 +271,7 @@ void do_sko_rayon2(void)
         horl_zero = horloge[3] == 0;
         if (horl_zero && dist != 0)
             allocate_rayon(sko_rayon_x, sko_rayon_y);
-        
+
         if (sko_rayon_on == 0)
         {
             sko_rayon_x = -32000;
@@ -304,7 +302,7 @@ void start_sko_rayon(s16 obj_x, s16 obj_y)
 /* 6D2E0 80191AE0 -O2 -msoft-float */
 void start_sko_rayon2(s16 obj_x, s16 obj_y)
 {
-    Obj* final_obj;
+    Obj *final_obj;
 
     if (poing.is_active)
         final_obj = &level.objects[poing_obj_id];
@@ -351,79 +349,89 @@ matches, but goto (partially gotos-only)
 /* 6D438 80191C38 -O2 -msoft-float */
 void DO_SOL_ENFONCE(void)
 {
-  u8 bVar1;
-  int iVar2;
-  s16 iVar3;
-  
-  if (((ray_mode == MODE_MORT_DE_RAYMAN) || ((ray.main_etat == 2 && (ray.sub_etat == 9)))) ||
-     ((ray.main_etat == 3 && ((ray.sub_etat == 0x17 || (ray.sub_etat == 0x34)))))) {
-    sko_enfonce_enable = 0;
-    pixels_enfonce = 0;
-  }
-  if (sko_ecran_tremble != 0) {
-    sko_ecran_tremble--;
-    if (horloge[4] >= 2)
-      xmap += 2;
-    else
-      xmap -= 2;
-  }
-  if (!(pixels_enfonce < 0x60 && sko_enfonce_enable == 1))
-  {
-      if (pixels_enfonce < 0xC4 && sko_enfonce_enable == 2)
-      {
-          goto block_19;
-      }
-  }
-  else if (pixels_enfonce < 0x60 && sko_enfonce_enable == 1 && horloge[2] != 0)
-  {
+    u8 bVar1;
+    int iVar2;
+    s16 iVar3;
+
+    if (((ray_mode == MODE_MORT_DE_RAYMAN) || ((ray.main_etat == 2 && (ray.sub_etat == 9)))) ||
+        ((ray.main_etat == 3 && ((ray.sub_etat == 0x17 || (ray.sub_etat == 0x34))))))
+    {
+        sko_enfonce_enable = 0;
+        pixels_enfonce = 0;
+    }
+    if (sko_ecran_tremble != 0)
+    {
+        sko_ecran_tremble--;
+        if (horloge[4] >= 2)
+            xmap += 2;
+        else
+            xmap -= 2;
+    }
+    if (!(pixels_enfonce < 0x60 && sko_enfonce_enable == 1))
+    {
+        if (pixels_enfonce < 0xC4 && sko_enfonce_enable == 2)
+        {
+            goto block_19;
+        }
+    }
+    else if (pixels_enfonce < 0x60 && sko_enfonce_enable == 1 && horloge[2] != 0)
+    {
 block_19:
-      if (((s16) sko_enfonce_enable == 2) && (horloge[4] == 0))
-      {
-          goto block_21;
-      }
-  }
-  else if (pixels_enfonce < 0x60 && sko_enfonce_enable == 1 && horloge[2] == 0)
-  {
-    block_21:
-      if (horloge[4] >= 2) {
-        xmap += 3;
-      }
-      else {
-        xmap -= 3;
-      }
-      ymapmax = ymapmax + -1;
-      scroll_end_y = scroll_end_y + -1;
-      pixels_enfonce = pixels_enfonce + 1;
-      iVar3 = 0;
-      if ((pixels_enfonce & 0xf) == 0) {
-        mp.height = mp.height + -1;
-      }
-      iVar2 = 0;
-      if (sko_nb_lave != 0) {
-        do {
-          iVar2 = iVar2 >> 0x10;
-          level.objects[sko_lave_obj[iVar3]].y_pos = level.objects[sko_lave_obj[iVar3]].y_pos + -1;
-          level.objects[sko_lave_obj[iVar3]].init_y_pos =
-              level.objects[sko_lave_obj[iVar3]].init_y_pos + -1;
-          if ((sko_enfonce_enable == 1) && (horloge[10] == 0)) {
-            level.objects[sko_lave_obj[iVar3]].y_pos = level.objects[sko_lave_obj[iVar3]].y_pos + -1;
-            level.objects[sko_lave_obj[iVar3]].init_y_pos =
-                level.objects[sko_lave_obj[iVar3]].init_y_pos + -1;
-          }
-          iVar3 = iVar3 + 1;
-        } while (iVar3 < sko_nb_lave);
-      }
-  }
-  if ((pixels_enfonce == 0x60) && (sko_enfonce_enable == 1)) {
-    pixels_enfonce = 0;
-    sko_enfonce_enable = 0;
-    sko_ecran_tremble = 0x3c;
-  }
-  if ((pixels_enfonce == 0xc4) && (sko_enfonce_enable == 2)) {
-    pixels_enfonce = 0;
-    sko_enfonce_enable = 0;
-    sko_ecran_tremble = 0x3c;
-  }
+        if (((s16) sko_enfonce_enable == 2) && (horloge[4] == 0))
+        {
+            goto block_21;
+        }
+    }
+    else if (pixels_enfonce < 0x60 && sko_enfonce_enable == 1 && horloge[2] == 0)
+    {
+block_21:
+        if (horloge[4] >= 2)
+        {
+            xmap += 3;
+        }
+        else
+        {
+            xmap -= 3;
+        }
+        ymapmax = ymapmax + -1;
+        scroll_end_y = scroll_end_y + -1;
+        pixels_enfonce = pixels_enfonce + 1;
+        iVar3 = 0;
+        if ((pixels_enfonce & 0xf) == 0)
+        {
+            mp.height = mp.height + -1;
+        }
+        iVar2 = 0;
+        if (sko_nb_lave != 0)
+        {
+            do
+            {
+                iVar2 = iVar2 >> 0x10;
+                level.objects[sko_lave_obj[iVar3]].y_pos = level.objects[sko_lave_obj[iVar3]].y_pos + -1;
+                level.objects[sko_lave_obj[iVar3]].init_y_pos =
+                    level.objects[sko_lave_obj[iVar3]].init_y_pos + -1;
+                if ((sko_enfonce_enable == 1) && (horloge[10] == 0))
+                {
+                    level.objects[sko_lave_obj[iVar3]].y_pos = level.objects[sko_lave_obj[iVar3]].y_pos + -1;
+                    level.objects[sko_lave_obj[iVar3]].init_y_pos =
+                        level.objects[sko_lave_obj[iVar3]].init_y_pos + -1;
+                }
+                iVar3 = iVar3 + 1;
+            } while (iVar3 < sko_nb_lave);
+        }
+    }
+    if ((pixels_enfonce == 0x60) && (sko_enfonce_enable == 1))
+    {
+        pixels_enfonce = 0;
+        sko_enfonce_enable = 0;
+        sko_ecran_tremble = 0x3c;
+    }
+    if ((pixels_enfonce == 0xc4) && (sko_enfonce_enable == 2))
+    {
+        pixels_enfonce = 0;
+        sko_enfonce_enable = 0;
+        sko_ecran_tremble = 0x3c;
+    }
 }
 #endif
 
@@ -481,8 +489,8 @@ void DO_SKO_PHASE_1(Obj *obj)
 {
     s16 sub_etat = obj->sub_etat;
     if (
-      obj->main_etat == 0 && sub_etat == 4 &&
-      obj->anim_frame == 27 && screen_trembling == 0
+        obj->main_etat == 0 && sub_etat == 4 &&
+        obj->anim_frame == 27 && screen_trembling == 0
     )
     {
         screen_trembling = 1;
@@ -600,69 +608,69 @@ void DO_SKO_PHASE_3(Obj *obj)
 /* 6DDC0 801925C0 -O2 -msoft-float */
 void DO_SKO_PINCE(Obj *obj)
 {
-  u8 sub_etat;
-  s32 pince_id;
-  
-  if (obj->main_etat == 0)
-  {
-    sub_etat = obj->sub_etat;
-    if (sub_etat == 8)
+    u8 sub_etat;
+    s32 pince_id;
+
+    if (obj->main_etat == 0)
     {
-      if (obj->anim_frame == 65)
-      {
-        lance_pince(obj);
-        set_sub_etat(obj, 9);
-        skipToLabel(obj, 9, true);
-      }
+        sub_etat = obj->sub_etat;
+        if (sub_etat == 8)
+        {
+            if (obj->anim_frame == 65)
+            {
+                lance_pince(obj);
+                set_sub_etat(obj, 9);
+                skipToLabel(obj, 9, true);
+            }
+        }
+        else if (sub_etat == 9)
+        {
+            pince_id = sko_pince_obj_id;
+            level.objects[pince_id].speed_x += 2;
+            if (-level.objects[pince_id].speed_x == -110)
+                set_sub_etat(obj, 10);
+        }
+        else if (sub_etat == 10 && obj->anim_frame == 7)
+        {
+            pince_id = sko_pince_obj_id;
+            level.objects[pince_id].flags &= ~FLG(OBJ_ALIVE);
+            level.objects[pince_id].x_pos = -32000;
+            level.objects[pince_id].y_pos = -32000;
+        }
     }
-    else if (sub_etat == 9)
-    {
-      pince_id = sko_pince_obj_id;
-      level.objects[pince_id].speed_x += 2;
-      if (-level.objects[pince_id].speed_x == -110)
-        set_sub_etat(obj, 10);
-    }
-    else if (sub_etat == 10 && obj->anim_frame == 7)
-    {
-      pince_id = sko_pince_obj_id;
-      level.objects[pince_id].flags &= ~FLG(OBJ_ALIVE);
-      level.objects[pince_id].x_pos = -32000;
-      level.objects[pince_id].y_pos = -32000;
-    }
-  }
 }
 
 /* 6DF18 80192718 -O2 -msoft-float */
 void DO_SCORPION_COLLISION(Obj *obj)
 {
-  s16 iVar1 = -1;
-  s16 rayon_x = sko_rayon_x + 120;
-  s16 rayon_y = sko_rayon_y + 120;
+    s16 iVar1 = -1;
+    s16 rayon_x = sko_rayon_x + 120;
+    s16 rayon_y = sko_rayon_y + 120;
 
-  s16 unk_1 = 11;
-  if (!(obj->main_etat == 0 && (obj->sub_etat == unk_1 || obj->sub_etat == 12)))
-  {
-    iVar1 = BOX_IN_COLL_ZONES(
-        150,
-        rayon_x, rayon_y,
-        16, 16,
-        obj
-    );
-  }
+    s16 unk_1 = 11;
+    if (!(obj->main_etat == 0 && (obj->sub_etat == unk_1 || obj->sub_etat == 12)))
+    {
+        iVar1 = BOX_IN_COLL_ZONES(
+            150,
+            rayon_x, rayon_y,
+            16, 16,
+            obj
+        );
+    }
 
-  if (iVar1 != -1)
-  {
-    set_sub_etat(obj, 11);
-    allocate_8_petits_rayons(sko_rayon_x, sko_rayon_y);
-    sko_rayon_x = 33536;
-    sko_rayon_y = 33536;
-    sko_rayon_on = 0;
-    obj->hit_points--;
-    if (obj->hit_points == 1)
-      skipToLabel(obj, 13, true);
-    if (obj->hit_points == 0)
-      set_sub_etat(obj, 12);
-  }
+    if (iVar1 != -1)
+    {
+        set_sub_etat(obj, 11);
+        allocate_8_petits_rayons(sko_rayon_x, sko_rayon_y);
+        sko_rayon_x = 33536;
+        sko_rayon_y = 33536;
+        sko_rayon_on = 0;
+        obj->hit_points--;
+        if (obj->hit_points == 1)
+            skipToLabel(obj, 13, true);
+        if (obj->hit_points == 0)
+            set_sub_etat(obj, 12);
+    }
 }
 
 /* 6E034 80192834 -O2 -msoft-float */
@@ -688,7 +696,7 @@ void DO_SKO(Obj *obj)
     Obj *cur_obj;
     s16 i;
     u8 nb_objs;
-    
+
     if (main_etat == 0 && sub_etat == 1)
     {
         if (obj->anim_frame == 0)
@@ -793,7 +801,7 @@ void SKO_ray_in_zone(Obj *obj)
     case 0:
         if (main_etat == 0)
         {
-            switch(sub_etat)
+            switch (sub_etat)
             {
             case 0:
                 set_sub_etat(obj, 1);

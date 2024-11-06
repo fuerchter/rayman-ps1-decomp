@@ -12,7 +12,7 @@ void trompetteWind(Obj *obj, u8 param_2)
         trp_x -= 16 - trp_w;
     else
         trp_x -= 76 + trp_w;
-    
+
     trp_w += 92;
     trp_h = ashr16(trp_h, 1) + 2;
     trp_y += ashr16(trp_h, 2);
@@ -29,7 +29,7 @@ void trompetteWind(Obj *obj, u8 param_2)
     }
     else
         unk_1 = 0;
-    
+
     if (unk_1 != 0)
     {
         ray_wind_force += unk_1;
@@ -45,7 +45,7 @@ void DO_TRP_ATTAK(Obj *obj)
 
     if (obj->timer != 0)
         obj->timer--;
-    
+
     if (obj->main_etat == 0)
     {
         sub_etat = obj->sub_etat;

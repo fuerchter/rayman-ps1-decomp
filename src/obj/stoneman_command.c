@@ -15,7 +15,7 @@ void DO_STONEMAN_COMMAND(Obj *obj)
         SET_X_SPEED(obj);
         if (obj->main_etat == 0)
             set_main_and_sub_etat(obj, 1, 0);
-        
+
         if (block_flags[calc_typ_travd(obj, false)] >> BLOCK_FULLY_SOLID & 1)
         {
             if (obj->cmd == GO_LEFT)
@@ -28,7 +28,7 @@ void DO_STONEMAN_COMMAND(Obj *obj)
                 obj->flags = obj->flags & ~FLG(OBJ_FLIP_X);
                 skipToLabel(obj, 4, true);
             }
-            
+
             obj->x_pos -= obj->speed_x;
         }
         SET_X_SPEED(obj);

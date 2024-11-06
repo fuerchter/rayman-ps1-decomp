@@ -40,7 +40,7 @@ void setStoneChipPos(Obj *param_1, Obj *param_2, u8 *param_3)
             break;
         }
         calc_obj_pos(param_2);
-        param_2->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+        param_2->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
         param_2->flags &= ~FLG(OBJ_FLAG_9);
         *param_3 = true;
     }
@@ -73,7 +73,7 @@ void allocateStoneChips(Obj *in_obj)
         se_3 = 13;
         break;
     }
-    
+
     i = 0;
     cur_obj = &level.objects[i];
     nb_objs = level.nb_objects;
@@ -118,7 +118,7 @@ void DO_STONE_EXPLOSION(Obj *obj)
             obj->flags &= ~FLG(OBJ_ALIVE);
         else
             obj->y_pos = ymap + 484;
-        
+
         allocateExplosion(obj);
     }
 }
@@ -199,7 +199,7 @@ void DO_TIR(Obj *param_1)
 
                         if (param_1->type == 0x0E)
                         {
-                            
+
                             if (param_1->x_pos - ray.x_pos < 0)
                             {
                                 var_a2 = (ray.x_pos - param_1->x_pos) >> 5;
@@ -210,7 +210,7 @@ void DO_TIR(Obj *param_1)
                             temp_v1_6 = (ray.y_pos - param_1->y_pos) * 2;
                             test_3 = (s16) var_a2;
                             temp_v0_2 = param_1->x_pos - ray.x_pos;
-                            
+
                             if (temp_v0_2 >= 0)
                             {
                                 var_v0 = (temp_v1_6 / temp_v0_2) - test_3;
@@ -274,13 +274,13 @@ void allocateStonemanStone(Obj *stmn_obj, s16 param_2, u8 param_3)
                     cur_obj->flags =
                         (cur_obj->flags & ~FLG(OBJ_FLIP_X)) |
                         (((stmn_obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X);
-                
+
                 cur_obj->speed_y = param_2;
                 if (!(cur_obj->flags & FLG(OBJ_FLIP_X)))
                     cur_obj->speed_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_left;
                 else
                     cur_obj->speed_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_right;
-                
+
                 stmn_frame = stmn_obj->anim_frame;
                 if (stmn_frame >= 53 && stmn_frame <= 122)
                     stmn_spr = 3;
@@ -288,7 +288,7 @@ void allocateStonemanStone(Obj *stmn_obj, s16 param_2, u8 param_3)
                     stmn_spr = 0;
                 else
                     stmn_spr = -1;
-                    
+
                 if (stmn_spr != -1)
                 {
                     GET_SPRITE_POS(stmn_obj, stmn_spr, &stmn_x, &stmn_y, &stmn_w, &stmn_h);
@@ -301,7 +301,7 @@ void allocateStonemanStone(Obj *stmn_obj, s16 param_2, u8 param_3)
                     calc_obj_pos(cur_obj);
                     cur_obj->gravity_value_1 = 0;
                     cur_obj->gravity_value_2 = 7;
-                    cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                    cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                     cur_obj->flags &= ~FLG(OBJ_FLAG_9);
                 }
                 break;
@@ -328,13 +328,13 @@ void allocateStonemanStone(Obj *stmn_obj, s16 param_2, u8 param_3)
                     cur_obj->flags =
                         (cur_obj->flags & ~FLG(OBJ_FLIP_X)) |
                         (((stmn_obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X);
-                
+
                 cur_obj->speed_y = param_2;
                 if (!(cur_obj->flags & FLG(OBJ_FLIP_X)))
                     cur_obj->speed_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_left;
                 else
                     cur_obj->speed_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_right;
-                
+
                 GET_SPRITE_POS(stmn_obj, 7, &stmn_x, &stmn_y, &stmn_w, &stmn_h);
                 cur_obj->x_pos = stmn_x + stmn_w - cur_obj->offset_bx;
                 cur_obj->y_pos = stmn_y - 6;
@@ -342,7 +342,7 @@ void allocateStonemanStone(Obj *stmn_obj, s16 param_2, u8 param_3)
                 cur_obj->init_y_pos = cur_obj->y_pos;
                 skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
                 calc_obj_pos(cur_obj);
-                cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                 break;
             }
             cur_obj++;
@@ -359,10 +359,10 @@ void DO_STONEMAN1_TIR(Obj *obj)
     {
         if (!(obj->sub_etat == 2 && obj->anim_frame >= 144))
             obj->field24_0x3e = 0;
-        
+
         if (obj->sub_etat == 1 || obj->sub_etat == 2)
         {
-            if(EOA(obj))
+            if (EOA(obj))
             {
                 if (obj->detect_zone_flag != 0)
                     skipToLabel(obj, 7, true);
@@ -394,10 +394,10 @@ void DO_STONEMAN2_TIR(Obj *obj)
     {
         if (obj->sub_etat != 6)
             obj->field24_0x3e = 0;
-        
+
         if (obj->sub_etat == 1 || obj->sub_etat == 6)
         {
-            if(EOA(obj))
+            if (EOA(obj))
             {
                 if (obj->detect_zone_flag != 0)
                     skipToLabel(obj, 7, true);
@@ -429,7 +429,7 @@ void allocateStonewomanStone(Obj *stwmn_obj, s16 param_2)
     s16 i = 0;
     Obj *cur_obj = &level.objects[i];
     s16 nb_objs = level.nb_objects;
-    
+
     while (i < nb_objs)
     {
         if (cur_obj->type == TYPE_STONEBOMB && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
@@ -439,7 +439,7 @@ void allocateStonewomanStone(Obj *stwmn_obj, s16 param_2)
                 cur_obj->flags = (cur_obj->flags & ~FLG(OBJ_FLIP_X)) | (stwmn_obj->flags & FLG(OBJ_FLIP_X));
             else
                 cur_obj->flags = (cur_obj->flags & ~FLG(OBJ_FLIP_X)) | (((stwmn_obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X);
-            
+
             sprite = -1;
             if (stwmn_obj->main_etat == 0)
             {
@@ -454,7 +454,7 @@ void allocateStonewomanStone(Obj *stwmn_obj, s16 param_2)
                         sprite = 3;
                 }
             }
-            
+
             if (sprite != -1)
             {
                 GET_SPRITE_POS(stwmn_obj, sprite, &spr_x, &spr_y, &spr_w, &spr_h);
@@ -504,7 +504,7 @@ void allocateStonewomanStone(Obj *stwmn_obj, s16 param_2)
                 calc_obj_pos(cur_obj);
                 cur_obj->gravity_value_1 = 0;
                 cur_obj->gravity_value_2 = 7;
-                cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                 cur_obj->flags &= ~FLG(OBJ_FLAG_9);
             }
             break;
@@ -524,7 +524,7 @@ void DO_STONEWOMAN_TIR(Obj *obj)
             !(obj->sub_etat == 9 && obj->anim_frame > 54)
         )
             obj->field24_0x3e = 0;
-        
+
         if (
             (obj->sub_etat == 0 || obj->sub_etat == 14 || obj->sub_etat == 8) &&
             obj->anim_frame == 0

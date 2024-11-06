@@ -13,84 +13,85 @@ u8 NiveauDansPhase;
 /* 50CDC 801754DC -O2 -msoft-float */
 void INIT_SAXO(Obj *sax_obj)
 {
-  sax_obj->y_pos = firstFloorBelow(sax_obj) - sax_obj->offset_by;
-  calc_obj_pos(sax_obj);
-  sax_obj->speed_x = 0;
-  sax_obj->speed_y = 0;
-  Phase = 0;
-  IsBossThere = false;
-  IndexSerie = 0;
-  sax_obj->flags = (sax_obj->flags | FLG(OBJ_ALIVE)) & ~FLG(OBJ_ACTIVE);
-  if (sax_obj->type == TYPE_SAXO)
-    sax_obj->hit_points = Sax.saved_hp;
-  Sax.coup = 0;
-  D_801F7FA0 = 0;
-  Sax.field10_0x10 = 0;
+    sax_obj->y_pos = firstFloorBelow(sax_obj) - sax_obj->offset_by;
+    calc_obj_pos(sax_obj);
+    sax_obj->speed_x = 0;
+    sax_obj->speed_y = 0;
+    Phase = 0;
+    IsBossThere = false;
+    IndexSerie = 0;
+    sax_obj->flags = (sax_obj->flags | FLG(OBJ_ALIVE)) & ~FLG(OBJ_ACTIVE);
+    if (sax_obj->type == TYPE_SAXO)
+        sax_obj->hit_points = Sax.saved_hp;
+    Sax.coup = 0;
+    D_801F7FA0 = 0;
+    Sax.field10_0x10 = 0;
 }
 
 /* TODO: param_2 */
 /* 50D7C 8017557C -O2 -msoft-float */
 void allocateNote2(Obj *note_obj, s16 param_2)
 {
-  Obj *cur_obj;
-  s16 i;
-  u8 nb_objs;
-  u8 offs_half;
-  u16 offs_x;
-  
-  if (note_obj->iframes_timer > 0)
-  {
-    cur_obj = level.objects;
-    i = 0;
-    nb_objs = level.nb_objects;
-    if (nb_objs != 0)
-    {
-      do {
-        if (cur_obj->type == TYPE_NOTE2 && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
-        {
-          cur_obj->flags &= ~FLG(OBJ_FLIP_X);
-          cur_obj->speed_y = 0;
-          cur_obj->speed_x = 0;
+    Obj *cur_obj;
+    s16 i;
+    u8 nb_objs;
+    u8 offs_half;
+    u16 offs_x;
 
-          offs_half = note_obj->offset_bx / 2;
-          offs_x = offs_half;
-          if (param_2 != 0)
-            offs_x = -offs_half;
-          cur_obj->x_pos = offs_x + note_obj->x_pos;
-          cur_obj->y_pos = note_obj->y_pos;
-          
-          cur_obj->main_etat = 0;
-          cur_obj->sub_etat = param_2 + 2;
-          cur_obj->init_x_pos = cur_obj->x_pos;
-          cur_obj->init_y_pos = cur_obj->y_pos;
-          skipToLabel(cur_obj,1,true);
-          calc_obj_pos(cur_obj);
-          cur_obj->flags = (cur_obj->flags | FLG(OBJ_ALIVE)) & ~FLG(OBJ_FLAG_9) | FLG(OBJ_ACTIVE);
-          cur_obj->gravity_value_1 = 0;
-          cur_obj->iframes_timer = note_obj->iframes_timer - 1;
-          calc_obj_pos(cur_obj);
-          cur_obj->field23_0x3c = 10;
-          allocateExplosion(cur_obj);
-          break;
+    if (note_obj->iframes_timer > 0)
+    {
+        cur_obj = level.objects;
+        i = 0;
+        nb_objs = level.nb_objects;
+        if (nb_objs != 0)
+        {
+            do
+            {
+                if (cur_obj->type == TYPE_NOTE2 && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+                {
+                    cur_obj->flags &= ~FLG(OBJ_FLIP_X);
+                    cur_obj->speed_y = 0;
+                    cur_obj->speed_x = 0;
+
+                    offs_half = note_obj->offset_bx / 2;
+                    offs_x = offs_half;
+                    if (param_2 != 0)
+                        offs_x = -offs_half;
+                    cur_obj->x_pos = offs_x + note_obj->x_pos;
+                    cur_obj->y_pos = note_obj->y_pos;
+
+                    cur_obj->main_etat = 0;
+                    cur_obj->sub_etat = param_2 + 2;
+                    cur_obj->init_x_pos = cur_obj->x_pos;
+                    cur_obj->init_y_pos = cur_obj->y_pos;
+                    skipToLabel(cur_obj, 1, true);
+                    calc_obj_pos(cur_obj);
+                    cur_obj->flags = (cur_obj->flags | FLG(OBJ_ALIVE)) & ~FLG(OBJ_FLAG_9) | FLG(OBJ_ACTIVE);
+                    cur_obj->gravity_value_1 = 0;
+                    cur_obj->iframes_timer = note_obj->iframes_timer - 1;
+                    calc_obj_pos(cur_obj);
+                    cur_obj->field23_0x3c = 10;
+                    allocateExplosion(cur_obj);
+                    break;
+                }
+                cur_obj++;
+                i++;
+            } while (i < nb_objs);
         }
-        cur_obj++;
-        i++;
-      } while (i < nb_objs);
     }
-  }
 }
 
 /* 50EE0 801756E0 -O2 -msoft-float */
 void DO_EXPLOSE_NOTE2(Obj *obj)
 {
-  obj->speed_x = 0;
-  obj->speed_y = 0;
-  calc_obj_pos(obj);
-  set_main_and_sub_etat(obj, 0, 1);
-  PlaySnd(0xf6, obj->id);
-  allocateExplosion(obj);
-  obj->field23_0x3c = 10;
-  obj->iframes_timer = 3;
+    obj->speed_x = 0;
+    obj->speed_y = 0;
+    calc_obj_pos(obj);
+    set_main_and_sub_etat(obj, 0, 1);
+    PlaySnd(0xf6, obj->id);
+    allocateExplosion(obj);
+    obj->field23_0x3c = 10;
+    obj->iframes_timer = 3;
 }
 
 /* 50F40 80175740 -O2 -msoft-float */
@@ -123,7 +124,7 @@ void DO_NOTE_CMD(Obj *obj)
                 temp_v0_2 = var_v1;
                 if (calc_x < 50)
                     offs_x = 2;
-                
+
                 if (horloge[temp_v0_2] < (temp_v0_2 / 2))
                     obj->x_pos = obj->init_x_pos + offs_x;
                 else
@@ -135,7 +136,7 @@ void DO_NOTE_CMD(Obj *obj)
         if (obj->main_etat == 0)
         {
             obj->field23_0x3c--;
-            if(obj->field23_0x3c == 0)
+            if (obj->field23_0x3c == 0)
             {
                 switch (obj->sub_etat)
                 {
@@ -185,172 +186,175 @@ void DO_NOTE_CMD(Obj *obj)
 /* 511C4 801759C4 -O2 -msoft-float */
 void Cree_Eclat_Note(Obj *bnote, Obj *note1, s16 index)
 {
-  s16 speed_x;
-  
-  if (bnote->type == TYPE_BNOTE)
-  {
-    if (bnote->flags & FLG(OBJ_ACTIVE))
-    {
-        do {
-            bnote++;
-            if (bnote->type != TYPE_BNOTE)
-                return;
-        } while (bnote->flags & FLG(OBJ_ACTIVE));
-    }
-  }
+    s16 speed_x;
 
-  if (bnote->type == TYPE_BNOTE)
-  {
-    if (index < 4)
+    if (bnote->type == TYPE_BNOTE)
     {
-        bnote->flags = (bnote->flags & ~FLG(OBJ_FLIP_X)) | ((index % 2) & 1) << OBJ_FLIP_X;
-        if (index < 2)
-            bnote->speed_y = -1;
-        else
-            bnote->speed_y = 1;
-
-        if (bnote->flags & FLG(OBJ_FLIP_X))
-            speed_x = 1;
-        else
-            speed_x = -1;
-        bnote->speed_x = speed_x;
-    }
-    else
-    {
-        bnote->flags = (bnote->flags & ~FLG(OBJ_FLIP_X)) | ((index % 2) & 1) << OBJ_FLIP_X;
-        switch(index)
+        if (bnote->flags & FLG(OBJ_ACTIVE))
         {
-        case 4:
-            bnote->speed_y = 0;
-            bnote->speed_x = -2;
-            break;
-        case 5:
-            bnote->speed_x = 2;
-            bnote->speed_y = 0;
-            break;
-        case 6:
-            bnote->speed_x = 0;
-            bnote->speed_y = -2;
-            break;
-        case 7:
-            bnote->speed_x = 0;
-            bnote->speed_y = 2;
-            break;
+            do
+            {
+                bnote++;
+                if (bnote->type != TYPE_BNOTE)
+                    return;
+            } while (bnote->flags & FLG(OBJ_ACTIVE));
         }
     }
-    bnote->x_pos = note1->x_pos;
-    bnote->y_pos = note1->y_pos;
-    bnote->main_etat = 2;
-    bnote->sub_etat = 5;
-    skipToLabel(bnote, 1, true);
-    calc_obj_pos(bnote);
-    bnote->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
-    calc_obj_pos(bnote);
-  }
+
+    if (bnote->type == TYPE_BNOTE)
+    {
+        if (index < 4)
+        {
+            bnote->flags = (bnote->flags & ~FLG(OBJ_FLIP_X)) | ((index % 2) & 1) << OBJ_FLIP_X;
+            if (index < 2)
+                bnote->speed_y = -1;
+            else
+                bnote->speed_y = 1;
+
+            if (bnote->flags & FLG(OBJ_FLIP_X))
+                speed_x = 1;
+            else
+                speed_x = -1;
+            bnote->speed_x = speed_x;
+        }
+        else
+        {
+            bnote->flags = (bnote->flags & ~FLG(OBJ_FLIP_X)) | ((index % 2) & 1) << OBJ_FLIP_X;
+            switch (index)
+            {
+            case 4:
+                bnote->speed_y = 0;
+                bnote->speed_x = -2;
+                break;
+            case 5:
+                bnote->speed_x = 2;
+                bnote->speed_y = 0;
+                break;
+            case 6:
+                bnote->speed_x = 0;
+                bnote->speed_y = -2;
+                break;
+            case 7:
+                bnote->speed_x = 0;
+                bnote->speed_y = 2;
+                break;
+            }
+        }
+        bnote->x_pos = note1->x_pos;
+        bnote->y_pos = note1->y_pos;
+        bnote->main_etat = 2;
+        bnote->sub_etat = 5;
+        skipToLabel(bnote, 1, true);
+        calc_obj_pos(bnote);
+        bnote->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
+        calc_obj_pos(bnote);
+    }
 }
 
 /* 513AC 80175BAC -O2 -msoft-float */
 void DO_EXPLOSE_NOTE1(Obj *obj)
 {
-  Obj *cur_obj;
-  s16 i;
-  u8 nb_objs_1;
-  u8 nb_objs_2;
-  
-  cur_obj = level.objects;
-  i = 0;
-  nb_objs_1 = level.nb_objects;
-  if (nb_objs_1 != 0)
-  {
-    nb_objs_2 = nb_objs_1;
-    do {
-      if (cur_obj->type == TYPE_BNOTE && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
-      {
-        PlaySnd(0xf4,obj->id);
-        allocateExplosion(obj);
-        Cree_Eclat_Note(cur_obj,obj,0);
-        cur_obj++;
-        Cree_Eclat_Note(cur_obj,obj,1);
-        cur_obj++;
-        Cree_Eclat_Note(cur_obj,obj,2);
-        cur_obj++;
-        Cree_Eclat_Note(cur_obj,obj,3);
-        cur_obj++;
-        Cree_Eclat_Note(cur_obj,obj,4);
-        cur_obj++;
-        Cree_Eclat_Note(cur_obj,obj,5);
-        cur_obj++;
-        Cree_Eclat_Note(cur_obj,obj,6);
-        cur_obj++;
-        Cree_Eclat_Note(cur_obj,obj,7);
-        obj->flags &= ~FLG(OBJ_ACTIVE);
-        obj->flags &= ~FLG(OBJ_ALIVE);
-        break;
-      }
-      cur_obj++;
-      i++;
-    } while (i < nb_objs_2);
-  }
+    Obj *cur_obj;
+    s16 i;
+    u8 nb_objs_1;
+    u8 nb_objs_2;
+
+    cur_obj = level.objects;
+    i = 0;
+    nb_objs_1 = level.nb_objects;
+    if (nb_objs_1 != 0)
+    {
+        nb_objs_2 = nb_objs_1;
+        do
+        {
+            if (cur_obj->type == TYPE_BNOTE && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
+            {
+                PlaySnd(0xf4, obj->id);
+                allocateExplosion(obj);
+                Cree_Eclat_Note(cur_obj, obj, 0);
+                cur_obj++;
+                Cree_Eclat_Note(cur_obj, obj, 1);
+                cur_obj++;
+                Cree_Eclat_Note(cur_obj, obj, 2);
+                cur_obj++;
+                Cree_Eclat_Note(cur_obj, obj, 3);
+                cur_obj++;
+                Cree_Eclat_Note(cur_obj, obj, 4);
+                cur_obj++;
+                Cree_Eclat_Note(cur_obj, obj, 5);
+                cur_obj++;
+                Cree_Eclat_Note(cur_obj, obj, 6);
+                cur_obj++;
+                Cree_Eclat_Note(cur_obj, obj, 7);
+                obj->flags &= ~FLG(OBJ_ACTIVE);
+                obj->flags &= ~FLG(OBJ_ALIVE);
+                break;
+            }
+            cur_obj++;
+            i++;
+        } while (i < nb_objs_2);
+    }
 }
 
 /* 514F4 80175CF4 -O2 -msoft-float */
 void BonneNote(Obj *orig_obj)
 {
-  Obj *obj;
-  s16 i;
-  u8 nb_objs;
-  s16 speed_x;
-  
-  obj = level.objects;
-  i = 0;
-  nb_objs = level.nb_objects;
-  if (nb_objs != 0)
-  {
-    do {
-      if (obj->type == TYPE_BONNE_NOTE && !(obj->flags & FLG(OBJ_ACTIVE)))
-      {
-        if (orig_obj->speed_x == 0)
+    Obj *obj;
+    s16 i;
+    u8 nb_objs;
+    s16 speed_x;
+
+    obj = level.objects;
+    i = 0;
+    nb_objs = level.nb_objects;
+    if (nb_objs != 0)
+    {
+        do
         {
-          obj->flags &= ~FLG(OBJ_FLIP_X);
-          obj->speed_x = -1;
-          obj->speed_y = -4;
-          obj->gravity_value_2 = 10;
-          obj->field23_0x3c = 2;
-        }
-        else
-        {
-          speed_x = 4;
-          if (level.objects[poing_obj_id].speed_x < 0)
-            speed_x = -4;
-          obj->speed_x = speed_x;
-          if (speed_x < 0)
-            obj->flags &= ~FLG(OBJ_FLIP_X);
-          else
-            obj->flags |= FLG(OBJ_FLIP_X);
-          obj->gravity_value_2 = 0xff;
-          obj->field23_0x3c = 1;
-          obj->speed_y = -1;
-        }
-        obj->x_pos = orig_obj->x_pos;
-        obj->y_pos = orig_obj->y_pos;
-        obj->main_etat = 2;
-        obj->sub_etat = 3;
-        obj->init_x_pos = obj->x_pos;
-        skipToLabel(obj, 1, true);
-        calc_obj_pos(obj);
-        obj->gravity_value_1 = 0;
-        
-        obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
-        obj->iframes_timer = 200;
-        orig_obj->flags &= ~FLG(OBJ_ACTIVE);
-        orig_obj->flags &= ~FLG(OBJ_ALIVE);
-        calc_obj_pos(obj);
-        break;
-      }
-      obj++;
-      i++;
-    } while (i < nb_objs);
-  }
+            if (obj->type == TYPE_BONNE_NOTE && !(obj->flags & FLG(OBJ_ACTIVE)))
+            {
+                if (orig_obj->speed_x == 0)
+                {
+                    obj->flags &= ~FLG(OBJ_FLIP_X);
+                    obj->speed_x = -1;
+                    obj->speed_y = -4;
+                    obj->gravity_value_2 = 10;
+                    obj->field23_0x3c = 2;
+                }
+                else
+                {
+                    speed_x = 4;
+                    if (level.objects[poing_obj_id].speed_x < 0)
+                        speed_x = -4;
+                    obj->speed_x = speed_x;
+                    if (speed_x < 0)
+                        obj->flags &= ~FLG(OBJ_FLIP_X);
+                    else
+                        obj->flags |= FLG(OBJ_FLIP_X);
+                    obj->gravity_value_2 = 0xff;
+                    obj->field23_0x3c = 1;
+                    obj->speed_y = -1;
+                }
+                obj->x_pos = orig_obj->x_pos;
+                obj->y_pos = orig_obj->y_pos;
+                obj->main_etat = 2;
+                obj->sub_etat = 3;
+                obj->init_x_pos = obj->x_pos;
+                skipToLabel(obj, 1, true);
+                calc_obj_pos(obj);
+                obj->gravity_value_1 = 0;
+
+                obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
+                obj->iframes_timer = 200;
+                orig_obj->flags &= ~FLG(OBJ_ACTIVE);
+                orig_obj->flags &= ~FLG(OBJ_ALIVE);
+                calc_obj_pos(obj);
+                break;
+            }
+            obj++;
+            i++;
+        } while (i < nb_objs);
+    }
 }
 
 /* 516B4 80175EB4 -O2 -msoft-float */
@@ -398,88 +402,87 @@ void DO_NOTE_REBOND(Obj *obj)
 /* 51828 80176028 -O2 -msoft-float */
 void allocateNote(Obj *obj)
 {
-  Obj *noteObj;
-  s16 i;
-  u8 nb_objs_1;
-  u8 nb_objs_2;
+    Obj *note_obj;
+    s16 i;
+    u8 nb_objs_1;
+    u8 nb_objs_2;
 
-  noteObj = level.objects;
-  i = 0;
-  nb_objs_1 = level.nb_objects;
-  if (nb_objs_1 != 0)
-  {
-    nb_objs_2 = nb_objs_1;
-    do {
-      if ((noteObj->type == atak[NextNote].type + TYPE_NOTE0))
-      {
-        if(!(noteObj->flags & FLG(OBJ_ACTIVE)))
+    note_obj = level.objects;
+    i = 0;
+    nb_objs_1 = level.nb_objects;
+    if (nb_objs_1 != 0)
+    {
+        nb_objs_2 = nb_objs_1;
+        do
         {
-            noteObj->flags = noteObj->flags & ~FLG(OBJ_FLIP_X) | obj->flags & FLG(OBJ_FLIP_X);
-            noteObj->speed_y = atak[NextNote].speed_y;
-            if (noteObj->flags & FLG(OBJ_FLIP_X))
+            if ((note_obj->type == atak[NextNote].type + TYPE_NOTE0))
             {
-                noteObj->speed_x = atak[NextNote].speed_x;
-                noteObj->x_pos = Sax.sprite2_x + 0x17 - noteObj->offset_bx;
+                if (!(note_obj->flags & FLG(OBJ_ACTIVE)))
+                {
+                    note_obj->flags = note_obj->flags & ~FLG(OBJ_FLIP_X) | obj->flags & FLG(OBJ_FLIP_X);
+                    note_obj->speed_y = atak[NextNote].speed_y;
+                    if (note_obj->flags & FLG(OBJ_FLIP_X))
+                    {
+                        note_obj->speed_x = atak[NextNote].speed_x;
+                        note_obj->x_pos = Sax.sprite2_x + 0x17 - note_obj->offset_bx;
+                    }
+                    else
+                    {
+                        note_obj->speed_x = -atak[NextNote].speed_x;
+                        note_obj->x_pos = Sax.sprite2_x + 9 - note_obj->offset_bx;
+                    }
+                    note_obj->y_pos = (Sax.sprite2_y - note_obj->offset_by) + 0x19;
+                    note_obj->main_etat = 2;
+                    note_obj->sub_etat = atak[NextNote].type;
+                    skipToLabel(note_obj, 1, true);
+                    calc_obj_pos(note_obj);
+                    note_obj->flags = (note_obj->flags | FLG(OBJ_ALIVE)) & ~FLG(OBJ_FLAG_9) | FLG(OBJ_ACTIVE);
+                    note_obj->gravity_value_1 = 0;
+                    note_obj->gravity_value_2 = 10;
+                    note_obj->iframes_timer = atak[NextNote].initial_iframes;
+                    calc_obj_pos(note_obj);
+                    break;
+                }
             }
-            else
-            {
-                noteObj->speed_x = -atak[NextNote].speed_x;
-                noteObj->x_pos = Sax.sprite2_x + 9 - noteObj->offset_bx;
-            }
-            noteObj->y_pos = (Sax.sprite2_y - noteObj->offset_by) + 0x19;
-            noteObj->main_etat = 2;
-            noteObj->sub_etat = atak[NextNote].type;
-            skipToLabel(noteObj, 1, true);
-            calc_obj_pos(noteObj);
-            noteObj->flags = (noteObj->flags | FLG(OBJ_ALIVE)) & ~FLG(OBJ_FLAG_9) | FLG(OBJ_ACTIVE);
-            noteObj->gravity_value_1 = 0;
-            noteObj->gravity_value_2 = 10;
-            noteObj->iframes_timer = atak[NextNote].initial_iframes;
-            calc_obj_pos(noteObj);
-            break;
-        }
-      }
-      noteObj++;
-      i++;
-    } while (i < nb_objs_2);
-  }
+            note_obj++;
+            i++;
+        } while (i < nb_objs_2);
+    }
 }
 
 /* 51A30 80176230 -O2 -msoft-float */
 u8 PrepareAtak(void)
 {
-  s16 is;
-  s16 ia;
-  
-  is = IndexSerie;
-  ia = IndexAtak;
-  attaque.next_note = SerieDatak[is][ia].next_note;
-  attaque.time = SerieDatak[is][ia].time;
-  attaque.end = SerieDatak[is][ia].end;
-  if (attaque.end)
-    IndexAtak = 0;
-  else
-    IndexAtak++;
+    s16 is = IndexSerie;
+    s16 ia = IndexAtak;
 
-  return attaque.next_note;
+    attaque.next_note = SerieDatak[is][ia].next_note;
+    attaque.time = SerieDatak[is][ia].time;
+    attaque.end = SerieDatak[is][ia].end;
+    if (attaque.end)
+        IndexAtak = 0;
+    else
+        IndexAtak++;
+
+    return attaque.next_note;
 }
 
 /* 51AE0 801762E0 -O2 -msoft-float */
 void SAXO_TIRE(Obj *obj)
 {
-  if (obj->type == TYPE_SAXO)
-  {
-    if (NextNote > 6)
-      NextNote--;
-    allocateNote(obj);
-    WaitForFinAtan = attaque.time + 1;
-    NextNote = PrepareAtak();
-  }
-  else
-  {
-    NextNote = 0;
-    allocateNote(obj);
-  }
+    if (obj->type == TYPE_SAXO)
+    {
+        if (NextNote > 6)
+            NextNote--;
+        allocateNote(obj);
+        WaitForFinAtan = attaque.time + 1;
+        NextNote = PrepareAtak();
+    }
+    else
+    {
+        NextNote = 0;
+        allocateNote(obj);
+    }
 }
 
 /* 51B80 80176380 -O2 -msoft-float */
@@ -501,7 +504,7 @@ void DO_SAXO_COUP(Obj *obj)
             }
             else
                 Sax.coup = 0;
-            
+
             IndexSerie++;
             if (IndexSerie >= 4)
                 IndexSerie = 3;
@@ -616,15 +619,12 @@ void DO_SAXO_COMMAND(Obj *obj)
     {
         Sax.coup = 0;
         if (
-            ((block_flags[
-                (u16) *(
-                    (
-                        ((obj->x_pos + obj->offset_bx) >> 4) +
-                        (mp.width * ((obj->y_pos + obj->offset_by) >> 4)) << 0x10 >> 0x10
-                    ) +
-                    mp.map
-                ) >> 0xA
-            ] >> 1) & 1)
+            (block_flags[
+                mp.map[
+                    (s16) (((obj->x_pos + obj->offset_bx) >> 4) +
+                    (mp.width * ((obj->y_pos + obj->offset_by) >> 4)))
+                ] >> 10
+            ] >> BLOCK_SOLID & 1)
         )
         {
             obj->anim_frame = 0xFF;
@@ -759,7 +759,7 @@ void DO_SAXO_COMMAND(Obj *obj)
             Sax.coup = 0;
             FinAnim = 0;
         }
-        
+
         if (obj->main_etat == 0)
         {
             if (
@@ -768,7 +768,7 @@ void DO_SAXO_COMMAND(Obj *obj)
                     obj->x_pos + obj->offset_bx > xmapmax + SCREEN_WIDTH
             )
                 obj->speed_x = 0;
-            
+
             if (FinAnim != 0)
             {
                 switch (obj->sub_etat)
@@ -836,7 +836,7 @@ block_666:
                     obj->x_pos + obj->offset_bx > xmapmax + SCREEN_WIDTH
             )
                 obj->speed_x = 0;
-            
+
             if (FinAnim != 0)
             {
                 switch (obj->sub_etat)
@@ -888,7 +888,7 @@ block_666:
             Sax.coup = 0;
             FinAnim = 0;
         }
-        
+
         if (obj->main_etat == 0)
         {
             if (
@@ -897,7 +897,7 @@ block_666:
                     obj->x_pos + obj->offset_bx > xmapmax + SCREEN_WIDTH
             )
                 obj->speed_x = 0;
-            
+
             if (FinAnim != 0)
             {
                 switch (obj->sub_etat)
@@ -948,7 +948,7 @@ block_666:
                         }
                         obj->speed_x = var_v1_3;
                     }
-                    
+
                     obj->y_pos = obj->y_pos - obj->speed_y;
                     obj->speed_y = -obj->speed_y;
                     break;
@@ -962,28 +962,28 @@ block_666:
                         goto block_142;
                     }
                     goto block_145;
-                block_140:
+block_140:
                     if (ray.x_pos < (obj->x_pos + 0x30))
                     {
                         goto block_142;
                     }
                     goto block_143;
-                block_142:
+block_142:
                     set_main_and_sub_etat(obj, 0U, 0x0AU);
                     break;
-                block_143:
+block_143:
                     if ((obj->x_pos + 0x40) < 0)
                     {
                         goto block_155;
                     }
                     goto block_147;
-                block_145:
+block_145:
                     if ((obj->x_pos + 0xC0) > (xmapmax + 0x140))
                     {
                         goto block_155;
                     }
                     goto block_147;
-                block_147:
+block_147:
                     set_main_and_sub_etat(obj, 1U, 0U);
                     var_v1_3 = -2;
                     if (obj->flags & 0x4000)
@@ -1003,7 +1003,7 @@ block_666:
                     (obj->x_pos + 0xC0) > (xmapmax + 0x140)
             )
             {
-            block_155:
+block_155:
                 obj->flags = (obj->flags & ~0x4000) | (((1 - ((obj->flags >> 0xE) & 1)) & 1) << 0xE);
                 set_main_and_sub_etat(obj, 0U, 0U);
                 obj->speed_x = 0;
@@ -1071,8 +1071,8 @@ void DO_SAXO2_COMMAND(Obj *obj)
     if (Sax.coup == 1)
         DO_SAXO2_COUP(obj);
     if (
-      obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1) &&
-      horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+        obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1) &&
+        horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
     )
     {
         FinAnim = true;
@@ -1080,18 +1080,18 @@ void DO_SAXO2_COMMAND(Obj *obj)
     }
     else
         FinAnim = false;
-    
+
     x_pos = obj->x_pos;
     if (xmapmax < ray.x_pos + 150 && (mp.height * 16 - 110) < ray.y_pos)
         Sax.saved_hp = obj->hit_points;
-    
+
     switch (Phase)
     {
     case 0:
         CALC_MOV_ON_BLOC(obj);
         if (ray.x_pos < x_pos + 220 && ray.x_pos + 220 > x_pos)
             WaitForAnim = true;
-        
+
         if (WaitForAnim && FinAnim)
         {
             Phase = 1;
@@ -1107,14 +1107,14 @@ void DO_SAXO2_COMMAND(Obj *obj)
             if (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0)
             {
                 anim_frame = obj->anim_frame;
-                if(
-                  anim_frame == 24 ||
-                  (anim_frame == 28 && NiveauDansPhase >= 2) ||
-                  (anim_frame == 32 && NiveauDansPhase >= 4)
+                if (
+                    anim_frame == 24 ||
+                    (anim_frame == 28 && NiveauDansPhase >= 2) ||
+                    (anim_frame == 32 && NiveauDansPhase >= 4)
                 )
                 {
-                  SAXO_TIRE(obj);
-                  NiveauDansPhase++;
+                    SAXO_TIRE(obj);
+                    NiveauDansPhase++;
                 }
             }
             break;
@@ -1175,72 +1175,72 @@ void DO_SAXO2_COMMAND(Obj *obj)
         main_etat = obj->main_etat;
         if (main_etat != 1)
         {
-          if (main_etat < 2 && main_etat == 0 && FinAnim)
-          {
-            switch (obj->sub_etat)
+            if (main_etat < 2 && main_etat == 0 && FinAnim)
             {
-            case 0:
-            case 2:
-            case 3:
-            case 11:
-                set_main_and_sub_etat(obj, 1, 0);
-                obj->speed_x = Sax.field10_0x10;
-                Sax.coup = 0;
-                break;
-            case 10:
-                set_main_and_sub_etat(obj, 2, 1);
-                obj->anim_frame = obj->gravity_value_2;
-                obj->gravity_value_2 = 5;
-                obj->gravity_value_1 = 0;
-                obj->speed_y = -7;
-                obj->speed_x = 2;
-                obj->y_pos -= 7;
-                break;
+                switch (obj->sub_etat)
+                {
+                case 0:
+                case 2:
+                case 3:
+                case 11:
+                    set_main_and_sub_etat(obj, 1, 0);
+                    obj->speed_x = Sax.field10_0x10;
+                    Sax.coup = 0;
+                    break;
+                case 10:
+                    set_main_and_sub_etat(obj, 2, 1);
+                    obj->anim_frame = obj->gravity_value_2;
+                    obj->gravity_value_2 = 5;
+                    obj->gravity_value_1 = 0;
+                    obj->speed_y = -7;
+                    obj->speed_x = 2;
+                    obj->y_pos -= 7;
+                    break;
+                }
             }
-          }
         }
         else
         {
             offs_x = obj->offset_bx + 50;
             /* TODO: shifts/div? */
             if (
-              !((block_flags[
-                (u16)mp.map[(s16)(
-                  ((obj->x_pos + offs_x) >> 4) +
-                  (mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
-                )] >> 10
-              ] >> BLOCK_SOLID) & 1)
+                !(block_flags[
+                    mp.map[
+                        (s16)(((obj->x_pos + offs_x) >> 4) +
+                        (mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4)))
+                    ] >> 10
+                ] >> BLOCK_SOLID & 1)
             )
             {
-              set_main_and_sub_etat(obj, 0, 0xA);
-              obj->speed_x = 0;
+                set_main_and_sub_etat(obj, 0, 0xA);
+                obj->speed_x = 0;
             }
             else if (xmap < obj->x_pos + 150)
             {
-              if (Sax.field10_0x10 == 2)
-              {
-                  if (horloge[2] != 0)
-                  {
+                if (Sax.field10_0x10 == 2)
+                {
+                    if (horloge[2] != 0)
+                    {
+                        obj->speed_x = 1;
+                        should_dec = horloge[4] < 2;
+                    }
+                    else
+                    {
+                        obj->speed_x = 2;
+                        break;
+                    }
+                }
+                else
+                {
                     obj->speed_x = 1;
-                    should_dec = horloge[4] < 2;
-                  }
-                  else
-                  {
-                    obj->speed_x = 2;
-                    break;
-                  }
-              }
-              else
-              {
-                obj->speed_x = 1;
-                should_dec = horloge[2];
-              }
-              
-              if (should_dec != 0)
-                obj->anim_frame--;
+                    should_dec = horloge[2];
+                }
+
+                if (should_dec != 0)
+                    obj->anim_frame--;
             }
             else
-              obj->speed_x = 2;
+                obj->speed_x = 2;
             break;
         }
     }
@@ -1297,8 +1297,8 @@ void DO_SAXO3_COMMAND(Obj *obj)
     if (Phase == 2 && obj->main_etat == 0 && obj->sub_etat != 0)
         Phase = 0;
     if (
-      obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1) &&
-      horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+        obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1) &&
+        horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
     )
     {
         FinAnim = true;
@@ -1306,15 +1306,15 @@ void DO_SAXO3_COMMAND(Obj *obj)
     }
     else
         FinAnim = false;
-    
+
     switch (Phase)
     {
     case 0:
-      break;
+        break;
     case 1:
-        switch(obj->sub_etat)
+        switch (obj->sub_etat)
         {
-          case 1:
+        case 1:
             if ((obj->anim_frame == 24) && (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0))
                 SAXO_TIRE(obj);
             if (FinAnim)
@@ -1326,7 +1326,7 @@ void DO_SAXO3_COMMAND(Obj *obj)
                 Phase++;
             }
             break;
-          case 3:
+        case 3:
             if (FinAnim)
                 Sax.coup = 0;
             break;
@@ -1345,19 +1345,19 @@ void DO_SAXO3_COMMAND(Obj *obj)
 /* 53758 80177F58 -O2 -msoft-float */
 void DO_SAXO3_DEBUT(Obj *obj)
 {
-  if (Phase == 0)
-  {
-    Phase = 1;
-    WaitForFinAtan = 1;
-    set_main_and_sub_etat(obj,0,1);
-  }
+    if (Phase == 0)
+    {
+        Phase = 1;
+        WaitForFinAtan = 1;
+        set_main_and_sub_etat(obj, 0, 1);
+    }
 }
 
 /* 5379C 80177F9C -O2 -msoft-float */
 s32 saxo2_get_eject_sens(void)
 {
-  if (Phase <= 1)
-    return -1;
-  else
-    return 1;
+    if (Phase <= 1)
+        return -1;
+    else
+        return 1;
 }

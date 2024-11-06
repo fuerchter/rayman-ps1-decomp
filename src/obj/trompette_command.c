@@ -22,7 +22,7 @@ void DO_TRP_COMMAND(Obj *obj)
                 obj->flags &= ~FLG(OBJ_FLIP_X);
             else
                 obj->flags |= FLG(OBJ_FLIP_X);
-            
+
             if (
                 (obj->main_etat == 0 && obj->sub_etat == 0) ||
                 (obj->main_etat == 1 && obj->sub_etat == 0)

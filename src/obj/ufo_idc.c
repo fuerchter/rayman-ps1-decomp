@@ -6,7 +6,7 @@ s16 test_block_chdir(Obj *obj, s16 *out_unk, s16 off_x, s16 off_y)
     u8 res = false;
     s16 obj_x = (obj->x_pos + off_x) >> 4;
     s16 obj_y = (obj->y_pos + off_y) >> 4;
-    
+
     *out_unk = obj_x + obj_y * mp.width;
     if (*out_unk != obj->test_block_index)
     {
@@ -256,7 +256,6 @@ void DO_MOVING_WITH_INDICATOR_COMMAND(Obj *ufo_idc_obj)
                         spd_x = 0;
                         spd_y = var_a0_2;
                         break;
-
                     }
                     ufo_idc_obj->speed_x = spd_x;
                     ufo_idc_obj->speed_y = spd_y;
@@ -266,7 +265,6 @@ void DO_MOVING_WITH_INDICATOR_COMMAND(Obj *ufo_idc_obj)
             var_a2 = var_a2 + 1;
             var_a3 = &level.objects[actobj.objects[var_a2]];
         }
-
     }
 }
 #endif

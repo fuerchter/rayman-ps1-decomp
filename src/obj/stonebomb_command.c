@@ -49,7 +49,7 @@ void DO_ONE_STONECHIP_COMMAND(Obj *obj)
 void DO_STONEBOMB_COMMAND(Obj *obj)
 {
     u8 timer_0 = false;
-    
+
     if (obj->type == TYPE_STONEBOMB)
     {
         if (obj->timer == 0)
@@ -61,7 +61,7 @@ void DO_STONEBOMB_COMMAND(Obj *obj)
         {
             if (horloge[3] == 0)
                 obj->timer--;
-            
+
             if (obj->timer == 0)
             {
                 DO_STONE_EXPLOSION(obj);

@@ -186,7 +186,7 @@ void allocateMereDenisBombChips(Obj *bomb_obj)
             )
             {
                 cur_obj->flags = (cur_obj->flags & ~FLG(OBJ_FLIP_X) | (bomb_obj->flags & FLG(OBJ_FLIP_X)));
-                cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                 cur_obj->x_pos = bomb_obj->x_pos;
                 cur_obj->y_pos = bomb_obj->y_pos;
                 set_main_and_sub_etat(
@@ -246,7 +246,7 @@ void mereDenisDropBomb(Obj *smama_obj)
     s16 nb_objs;
     u8 new_sub_etat;
     u8 new_flip_x;
-    
+
     if (currentBombSequence == 0xfe && lastDroppedBombXCenterPos == -32000)
     {
         ray_x = ray.x_pos + ray.offset_bx;
@@ -265,7 +265,7 @@ void mereDenisDropBomb(Obj *smama_obj)
                     cur_obj->x_pos = smama_x_1 - cur_obj->offset_bx;
                     cur_obj->y_pos = smama_obj->y_pos + smama_obj->offset_by - cur_obj->offset_by - 33;
                     cur_obj->timer = 50;
-                    cur_obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+                    cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
                     break;
                 }
                 cur_obj++;
@@ -296,44 +296,50 @@ void mereDenisDropBomb(Obj *smama_obj)
                     #ifdef OPT_0
                     /* ABS_LT, see DO_POING_COLLISION */
                     if (
-                        (smama_x_2 - lastDroppedBombXCenterPos < 0 ?
-                            -(smama_x_2 - lastDroppedBombXCenterPos) < 0x25 :
-                            (smama_x_2 - lastDroppedBombXCenterPos < 0x25)
+                        (smama_x_2 - lastDroppedBombXCenterPos < 0 ? -(smama_x_2 - lastDroppedBombXCenterPos) < 0x25 : (smama_x_2 - lastDroppedBombXCenterPos < 0x25)
                         )
                     )
                         return;
                     #endif
                     #ifdef OPT_1
-                    if (__builtin_abs(smama_x_2 - lastDroppedBombXCenterPos) < 0x25) {
+                    if (__builtin_abs(smama_x_2 - lastDroppedBombXCenterPos) < 0x25)
+                    {
                         return;
                     }
                     #endif
                     #ifdef OPT_2
-                    if (smama_x_2 - lastDroppedBombXCenterPos < 0) {
-                        if (-(smama_x_2 - lastDroppedBombXCenterPos) < 0x25) {
-                        return;
+                    if (smama_x_2 - lastDroppedBombXCenterPos < 0)
+                    {
+                        if (-(smama_x_2 - lastDroppedBombXCenterPos) < 0x25)
+                        {
+                            return;
                         }
                     }
                     else
                     {
-                        if (smama_x_2 - lastDroppedBombXCenterPos < 0x25) {
-                        do {} while (0);
-                        return;
+                        if (smama_x_2 - lastDroppedBombXCenterPos < 0x25)
+                        {
+                            do
+                            {
+                            } while (0);
+                            return;
                         }
                     }
                     #endif
                     #ifdef OPT_3 /* ghidra unmodified */
                     iVar2 = smama_x_2 - lastDroppedBombXCenterPos;
-                    if (iVar2 < 0) {
+                    if (iVar2 < 0)
+                    {
                         iVar2 = lastDroppedBombXCenterPos - smama_x_2;
                     }
-                    if (iVar2 < 0x25) {
+                    if (iVar2 < 0x25)
+                    {
                         return;
                     }
                     #endif
                 }
                 lastDroppedBombIdInSequence[i]++;
-                switch(bombSequences[currentBombSequence][i][lastDroppedBombIdInSequence[i]])
+                switch (bombSequences[currentBombSequence][i][lastDroppedBombIdInSequence[i]])
                 {
                 case 0:
                 case 4:
@@ -381,7 +387,7 @@ void mereDenisDropBomb(Obj *smama_obj)
                             cur_obj->anim_frame = 0;
                             cur_obj->x_pos = smama_x_2 - cur_obj->offset_bx;
                             cur_obj->y_pos = (smama_obj->y_pos + smama_obj->offset_by - cur_obj->offset_by) + (i - 6) * 11;
-                            cur_obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+                            cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
                             break;
                         }
                         cur_obj++;
@@ -412,7 +418,7 @@ void swapMereDenisCollZones(Obj *obj, u8 smama2)
         obj->type = TYPE_SPACE_MAMA;
     else
         obj->type = TYPE_SPACE_MAMA2;
-    
+
     obj->zdc = type_zdc[obj->type];
 }
 
@@ -433,7 +439,7 @@ u8 prepareNewMereDenisAttack(Obj *smama_obj)
     Obj *poing_obj;
     s32 old_flip_x;
     s16 i;
-    
+
     if (circleIndex == -32000)
     {
         while (currentBossActionIsOver)
@@ -508,7 +514,7 @@ u8 prepareNewMereDenisAttack(Obj *smama_obj)
                         bossXToReach = smama_obj->x_pos + bossXToReach;
                     else if (poing_obj->speed_x > 0)
                         bossXToReach = smama_obj->x_pos - bossXToReach;
-                    
+
                     bossReachingAccuracyX = 0xFF;
                     bossReachingAccuracyY = 0xFF;
                     bossReachingTimer = 1;
@@ -861,7 +867,7 @@ block_98:
                     smama_obj->x_pos += 144;
                     bossXToReach = scroll_start_x - smama_obj->offset_bx - 144;
                 }
-                smama_obj->y_pos = 
+                smama_obj->y_pos =
                     floorLine - smama_obj->offset_by -
                     (mereDenisActionSequences[bossEncounter][currentBossAction++] + 32);
                 bossYToReach = smama_obj->y_pos;
@@ -873,19 +879,21 @@ block_98:
                 skipToLabel(smama_obj, 1, true);
                 timerBeforeFirstBomb = 41;
                 currentBombSequence = mereDenisActionSequences[bossEncounter][currentBossAction++];
-                
+
                 if (currentBombSequence == 0xFF)
                 {
-                    do {
-                        do {
+                    do
+                    {
+                        do
+                        {
                             currentBombSequence = myRand(6);
                         } while (currentBombSequence == 1);
                     } while (currentBombSequence == 6);
                 }
-                
+
                 for (i = 0; i < (s16) sizeof(lastDroppedBombIdInSequence); i++)
                     lastDroppedBombIdInSequence[i] = 0xFF;
-                
+
                 lastDroppedBombXCenterPos = -32000;
                 currentBossActionIsOver = false;
                 break;
@@ -902,7 +910,7 @@ block_98:
             }
         }
     }
-    
+
     return cur_act;
 }
 #endif
@@ -988,7 +996,7 @@ void allocateSpaceMamaLaser(Obj *smama_obj)
         {
             if (smama_obj->type == TYPE_SPACE_MAMA2)
                 smama_obj = &level.objects[mereDenis_weapon_id];
-            
+
             cur_obj->field20_0x36 = smama_obj->id;
             cur_obj->field24_0x3e = laserSourceSprNumInAnim;
             cur_obj->flags &= ~FLG(OBJ_READ_CMDS);
@@ -999,7 +1007,7 @@ void allocateSpaceMamaLaser(Obj *smama_obj)
             cur_obj->sub_etat = sub_etat;
             smama_obj->field20_0x36 = cur_obj->id;
             snapLaserToWeapon(cur_obj, true);
-            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             calc_obj_pos(cur_obj);
             break;
         }
@@ -1019,7 +1027,7 @@ void doMereDenisCommand(Obj *obj)
     {
         if (bossSafeTimer != 0)
             bossSafeTimer--;
-        
+
         if (!(obj->flags & FLG(OBJ_FLAG_0)))
         {
             if (obj->cmd == GO_WAIT)
@@ -1057,47 +1065,47 @@ void doMereDenisCommand(Obj *obj)
 /* 666A4 8018AEA4 -O2 -msoft-float */
 void changeMereDenisPhase(void)
 {
-  u8 old_encounter;
-  u8 *encounter;
-  u8 *action;
-  
-  if (bossEncounter == 8 || bossEncounter == 9)
-  {
-    encounter = &saveBossEncounter;
-    action = &saveCurrentBossAction;
-  }
-  else
-  {
-    encounter = &bossEncounter;
-    action = &currentBossAction;
-  }
-  old_encounter = *encounter;
+    u8 old_encounter;
+    u8 *encounter;
+    u8 *action;
 
-  switch (*encounter)
-  {
-  case 1:
-    if (currentPhaseHitCounter > 1 && stepsForward > 2)
+    if (bossEncounter == 8 || bossEncounter == 9)
     {
-      *encounter = 2;
-      stepsForward = 0;
+        encounter = &saveBossEncounter;
+        action = &saveCurrentBossAction;
     }
-    break;
-  case 2:
-    if (currentPhaseHitCounter > 2)
-      *encounter = 3;
-    break;
-  case 3:
-  case 4:
-  case 5:
-  case 6: /* set to this at some point in prepareNewMereDenisAttack, not sure if max for space_mama */
-    break;
-  }
+    else
+    {
+        encounter = &bossEncounter;
+        action = &currentBossAction;
+    }
+    old_encounter = *encounter;
 
-  if (old_encounter != *encounter)
-  {
-    *action = 0;
-    currentPhaseHitCounter = 0;
-  }
+    switch (*encounter)
+    {
+    case 1:
+        if (currentPhaseHitCounter > 1 && stepsForward > 2)
+        {
+            *encounter = 2;
+            stepsForward = 0;
+        }
+        break;
+    case 2:
+        if (currentPhaseHitCounter > 2)
+            *encounter = 3;
+        break;
+    case 3:
+    case 4:
+    case 5:
+    case 6: /* set to this at some point in prepareNewMereDenisAttack, not sure if max for space_mama */
+        break;
+    }
+
+    if (old_encounter != *encounter)
+    {
+        *action = 0;
+        currentPhaseHitCounter = 0;
+    }
 }
 
 #ifndef MATCHES_BUT
@@ -1134,7 +1142,7 @@ void fitSaveCurrentAction(Obj *obj)
         case 26:
             currentBossAction++;
             unk_1 = true;
-            break;            
+            break;
         case 33:
         case 43:
             currentBossAction++;
@@ -1147,7 +1155,7 @@ void fitSaveCurrentAction(Obj *obj)
         case 28:
             currentBossAction += 2;
             /* ??? prevents jump into case 22 (target 0x27b8) */
-            if (currentBossAction && currentBossAction){}
+            if (currentBossAction && currentBossAction) {}
             unk_1 = true;
             break;
         case 22:
@@ -1172,7 +1180,7 @@ void doMereDenisHit(Obj *obj, s16 sprite)
     s16 unk_1;
     u8 main_etat = obj->main_etat;
     u8 sub_etat = obj->sub_etat;
-    
+
     if ((obj->eta[main_etat][sub_etat].flags & 1) && bossSafeTimer == 0)
     {
         switch (main_etat * 0x100 + sub_etat)
@@ -1225,7 +1233,7 @@ void doMereDenisHit(Obj *obj, s16 sprite)
             }
             else
                 bossEncounter = 10;
-            
+
             currentBossAction = 0;
             bossSafeTimer = 0xFF;
             currentBossActionIsOver = true;
@@ -1269,11 +1277,11 @@ void mereDenisBigLaserCommand(Obj *laser_obj)
                 unk_eta->anim_index = 1;
                 break;
             case 47:
-                unk_eta->anim_index = 0;      
-                break;  
+                unk_eta->anim_index = 0;
+                break;
             case 48:
                 unk_eta->anim_index = 28;
-                break;        
+                break;
             }
         }
     }

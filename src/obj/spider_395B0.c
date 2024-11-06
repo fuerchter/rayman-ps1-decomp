@@ -14,7 +14,7 @@ void allocateDard(Obj *spi_obj)
     s16 i = 0;
     Obj *cur_obj = &level.objects[i];
     s16 nb_objs = level.nb_objects;
-    
+
     while (i < nb_objs)
     {
         unk_1 = &cur_obj->offset_by; /* TODO: ??? */
@@ -26,7 +26,7 @@ void allocateDard(Obj *spi_obj)
                 cur_obj->speed_x = -3;
             else
                 cur_obj->speed_x = 3;
-            
+
             GET_SPRITE_POS(spi_obj, 3, &spi_x, &spi_y, &spi_w, &spi_h);
             cur_obj->x_pos = spi_x + (spi_w >> 1) - cur_obj->offset_bx;
             cur_obj->y_pos = spi_y + (spi_h >> 1) - *unk_1;
@@ -37,7 +37,7 @@ void allocateDard(Obj *spi_obj)
             cur_obj->sub_etat = 9;
             skipToLabel(cur_obj, (u8) (cur_obj->flags >> OBJ_FLIP_X) & 1, true);
             calc_obj_pos(cur_obj);
-            cur_obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+            cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
             cur_obj->flags &= ~FLG(OBJ_FLAG_9);
             cur_obj->anim_frame = 9;
             break;

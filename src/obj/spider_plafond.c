@@ -8,7 +8,7 @@ u8 D_801F55D0;
 void get_spi_zdc(Obj *param_1, s16 *param_2, s16 *param_3, s16 *param_4, s16 *param_5)
 {
     u8 eta_flags = param_1->eta[param_1->main_etat][param_1->sub_etat].flags;
-    
+
     if (eta_flags & 0x40)
     {
         *param_2 = param_1->x_pos + 69;
@@ -100,7 +100,8 @@ void DO_SPIDER_PLAFOND(Obj *obj)
             if (
                 ((((temp_v0_2 < temp_a0_2) == 0)) || (temp_v0_2 >= temp_a3)) &&
                 ((temp_a0_2 >= temp_v1_3) || (temp_a3 >= temp_v1_3)) &&
-                (temp_t0 <= temp_a2 + 0x3C) && (temp_t0 >= temp_a2 - 0x3C))
+                (temp_t0 <= temp_a2 + 0x3C) && (temp_t0 >= temp_a2 - 0x3C)
+            )
             {
                 obj->speed_x = 0;
                 obj->speed_y = 0;
@@ -168,7 +169,7 @@ void DO_SPIDER_PLAFOND(Obj *obj)
                 var_s2->speed_x = 0;
                 var_s2->speed_y = 0x0020;
                 var_s2->cmd_offset = -1;
-                
+
                 var_s2->flags = (s32) (var_s2->flags & ~0x4000);
                 temp_a2_2 = ((u16) sp18 - var_s2->offset_bx) + ((s32) ((u16) sp1C << 0x10) >> 0x11);
                 var_s2->x_pos = temp_a2_2;
@@ -196,7 +197,8 @@ void DO_SPIDER_PLAFOND(Obj *obj)
 
     if (
         (obj->main_etat == 0) &&
-        ((temp_v1_4 = obj->sub_etat, (temp_v1_4 == 0x14)) || (temp_v1_4 == 0x0D) || (temp_v1_4 == 0x17)))
+        ((temp_v1_4 = obj->sub_etat, (temp_v1_4 == 0x14)) || (temp_v1_4 == 0x0D) || (temp_v1_4 == 0x17))
+    )
     {
         test_1 = ray.x_pos > obj->x_pos;
         obj->flags = (obj->flags & ~0x4000) | ((test_1) << 0xE);
@@ -450,7 +452,6 @@ block_86:
                         if (obj->speed_x < diff_x && (obj->speed_x - 1) >= 0x20)
                         {
                             var_v0_4 = 0x0020;
-
                         }
                         else if (obj->speed_x < diff_x || obj->speed_x < 0x20)
                         {
@@ -465,7 +466,7 @@ block_90:
                 }
                 else
                 {
-                    
+
                     /*if (
                         (
                             (var_s3 < obj->speed_x && (obj->speed_x + 1) < 0x20) ||
@@ -505,7 +506,6 @@ block_100:
                         }
                         else
                             goto block_101;
-                        
                     }
                     var_v0_8 = diff_x << 0x10;
                     if (temp_v1_1 < 0x20)

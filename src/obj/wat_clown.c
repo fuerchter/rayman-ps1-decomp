@@ -6,7 +6,7 @@ void allocatedrop(Obj *watc_obj)
     s16 i = 0;
     Obj *cur_obj = &level.objects[i];
     s16 nb_objs = level.nb_objects;
-    
+
     while (i < nb_objs)
     {
         if (cur_obj->type == TYPE_DROP && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
@@ -18,7 +18,7 @@ void allocatedrop(Obj *watc_obj)
                 cur_obj->speed_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_left;
             else
                 cur_obj->speed_x = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].speed_x_right;
-            
+
             cur_obj->x_pos = (watc_obj->x_pos + watc_obj->offset_bx) - cur_obj->offset_bx;
             cur_obj->y_pos = watc_obj->y_pos - 25;
             cur_obj->init_x_pos = cur_obj->x_pos;
@@ -27,7 +27,7 @@ void allocatedrop(Obj *watc_obj)
             skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
             calc_obj_pos(cur_obj);
             cur_obj->flags &= ~FLG(OBJ_FLAG_9);
-            cur_obj->flags |= (FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE));
+            cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
             break;
         }
         cur_obj++;

@@ -6,12 +6,12 @@ void allocateSupHelico(Obj *mus_obj)
     s16 i = 0;
     Obj *cur_obj = &level.objects[i];
     s16 nb_objs = level.nb_objects;
-    
+
     while (i < nb_objs)
     {
         if (cur_obj->type == TYPE_SUPERHELICO && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
         {
-            cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+            cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             cur_obj->x_pos = mus_obj->x_pos;
             cur_obj->y_pos = mus_obj->y_pos;
             set_main_and_sub_etat(cur_obj, 2, 18);

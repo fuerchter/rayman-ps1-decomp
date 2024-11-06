@@ -3,9 +3,8 @@
 /* 4E7DC 80172FDC -O2 -msoft-float */
 u8 IS_STONEWOMAN_WAIT(Obj *obj)
 {
-    return
-        obj->main_etat == 0 &&
-        (obj->sub_etat == 0 || obj->sub_etat == 14 || obj->sub_etat == 8);
+    return obj->main_etat == 0 &&
+           (obj->sub_etat == 0 || obj->sub_etat == 14 || obj->sub_etat == 8);
 }
 
 #ifndef MATCHES_BUT
@@ -61,7 +60,7 @@ void DO_STONEWOMAN_COMMAND(Obj *obj)
             {
                 if (diff_x < 170 && diff_y < 38)
                     obj->field56_0x69 = 1;
-                
+
                 if (IS_STONEWOMAN_WAIT(obj))
                 {
                     if (diff_x < 95 && diff_y < 50 && obj->timer == 0)
@@ -112,10 +111,9 @@ void DO_STONEWOMAN_COMMAND(Obj *obj)
                 if (unk_1 < 0)
                     skipToLabel(obj, 13, true);
                 else
-                    skipToLabel(obj, 17, true);                
+                    skipToLabel(obj, 17, true);
             }
         }
-
     }
 
     SET_X_SPEED(obj);
@@ -136,7 +134,7 @@ void DO_NOMOVE_STONEWOMAN_COMMAND(Obj *obj)
         calc_obj_dir(obj);
         if ((obj->flags >> OBJ_FLIP_X & 1) != prev_flip_x)
             skipToLabel(obj, 11, false);
-        
+
         if (obj->timer == 0)
             DO_STONEWOMAN_TIR(obj);
         else

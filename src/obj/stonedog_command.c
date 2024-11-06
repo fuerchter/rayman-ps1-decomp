@@ -23,18 +23,18 @@ void DO_STONEDOG_COMMAND(Obj *obj)
             obj->flags &= ~FLG(OBJ_FLIP_X);
         else
             obj->flags |= FLG(OBJ_FLIP_X);
-        
+
         SET_X_SPEED(obj);
         if (obj->main_etat == 0)
             set_main_and_sub_etat(obj, 1, 0);
-        
+
         if (block_flags[calc_typ_travd(obj, false)] >> BLOCK_FULLY_SOLID & 1)
         {
             if (obj->cmd == GO_LEFT)
                 obj->flags |= FLG(OBJ_FLIP_X);
             else
                 obj->flags &= ~FLG(OBJ_FLIP_X);
-            
+
             skipToLabel(obj, 2, true);
             obj->gravity_value_2 = 5;
             obj->gravity_value_1 = 0;
@@ -54,7 +54,7 @@ void DO_STONEDOG_COMMAND(Obj *obj)
                 skipToLabel(obj, 9, true);
             else
                 skipToLabel(obj, 8, true);
-            
+
             obj->gravity_value_2 = 5;
             obj->gravity_value_1 = 0;
         }
@@ -63,7 +63,7 @@ void DO_STONEDOG_COMMAND(Obj *obj)
             block_flags[obj->btypes[3]] >> BLOCK_FLAG_4 & 1
         )
             obj->speed_y++;
-        
+
         SET_X_SPEED(obj);
         if (obj->main_etat != 2)
             CALC_MOV_ON_BLOC(obj);

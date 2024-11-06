@@ -7,7 +7,7 @@ void allocatePaillette(Obj *ray_obj)
     s16 i = 0;
     Obj *cur_obj = &level.objects[i];
     s16 nb_objs = level.nb_objects;
-    
+
     while (i < nb_objs)
     {
         if (cur_obj->type == TYPE_RAYON && !(cur_obj->flags & 0x800))
@@ -21,8 +21,8 @@ void allocatePaillette(Obj *ray_obj)
 
     if (!found_obj)
         found_obj = findfirstObject(TYPE_RAYON);
-    
-    found_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+
+    found_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
     found_obj->flags &= ~FLG(OBJ_FLAG_9);
     found_obj->active_timer = 0;
     found_obj->x_pos = ray_obj->x_pos - 40;
