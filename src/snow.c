@@ -143,13 +143,22 @@ void init_flocons(void)
     VENT_Y = 0;
 }
 
+/* 3B718 8015FF18 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/snow", do_flocons);
 #else
-/* matches, but more cleanup left? */
-/*INCLUDE_ASM("asm/nonmatchings/snow", do_flocons);*/
+/* more cleanup left? */
+extern inline s32 do_flocons_1(s16 param_1)
+{
+    return param_1 / 4;
+}
 
-void do_flocons(s16 x_map, s16 y_map, s16 x_map_old, s16 y_map_old)
+extern inline s32 do_flocons_2(s16 param_1)
+{
+    return param_1 - do_flocons_test_1(param_1) * 4;
+}
+
+void do_flocons(s16 in_x_map, s16 in_y_map, s16 in_x_map_old, s16 in_y_map_old)
 {
     s16 unk_x_1; s16 unk_y_1;
     s32 remove_1; s32 remove_2; /* TODO: ??? */
@@ -192,14 +201,13 @@ void do_flocons(s16 x_map, s16 y_map, s16 x_map_old, s16 y_map_old)
 
     set_proj_center(SCREEN_WIDTH / 2, 170);
     i = 0;
-    unk_1 = -0x40;
-    while (unk_1 < 0xC0)
+    unk_1 = -64;
+    while (unk_1 < 32 * 6)
     {
-
         flc_i_1 = floc_ind[i];
-        unk_y_3 = (y_map_old - y_map);
+        unk_y_3 = in_y_map_old - in_y_map;
         unk_y_3 += unk_y_1;
-        unk_x_3 = (x_map_old - x_map) + unk_x_1;
+        unk_x_3 = in_x_map_old - in_x_map + unk_x_1;
         y_0 = invpy0[i];
         y_200 = invpy200[i];
         x_0 = invpx0[i];
@@ -226,7 +234,7 @@ void do_flocons(s16 x_map, s16 y_map, s16 x_map_old, s16 y_map_old)
             cur_floc++;
             flc_i_2++;
         }
-        unk_1 += 0x20;
+        unk_1 += 32;
         i++;
     }
 

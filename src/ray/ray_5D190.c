@@ -130,320 +130,198 @@ void IS_RAY_ON_LIANE(void)
         ray.timer--;
 }
 
+/* 5D518 80181D18 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", rayMayLandOnAnObject);
 #else
 /*
-matches, but
-do{}while(0); and other cleanup
-see "var_a1_1 =" for alternative
+do{}while(0);
+see "var_a1_1 =" for old alternative
 */
-/*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", rayMayLandOnAnObject);*/
-
-/*int GET_SPRITE_POS(Obj *obj,int spriteIndex,short *x,short *y,ushort *w,ushort *h);
-s16 ashr16(ushort param_1,uint param_2);
-extern s16 helico_time;*/
-
 void rayMayLandOnAnObject(u8 *param_1, s16 param_2)
 {
-    s16 sp18;
-    s16 sp1A;
-    s16 sp1C;
-    s16 sp1E;
-    u8 var_a1_2;
-    Obj *var_s1;
-    s16 temp_v0;
-    s16 var_a0_2;
-    s16 var_a0_3;
     s16 var_a1_1;
-    s16 var_s0_1;
-    s16 var_s0_2;
-    s16 var_s2;
-    s16 var_v0;
-    s16 var_v1;
-    s32 var_v1_2;
-    s32 temp_v1_4;
-    s32 var_v0_2;
-    s16 var_a0;
-    u8 temp_v0_2;
-    u8 temp_v1_1;
-    s32 temp_v1_2;
-    u8 temp_v1_3;
-    ActiveObjects *new_var;
-    RaymanEvents *test_1;
-    s32 test_2;
 
-    if ((RayEvts.demi))
-    {
-        var_s2 = 8;
-    }
-    else
-        var_s2 = 4;
+    s16 unk_1;
+    s16 i;
+    Obj *cur_obj;
+    u8 cur_type;
+    s16 unk_y;
+    u8 new_me; u8 new_se;
+    s16 foll_x; s16 foll_y; s16 foll_w; s16 foll_h;
 
+    unk_1 = RayEvts.demi ? 8 : 4;
     ray.field20_0x36 = -1;
-    var_s0_1 = 0;
 
-    var_s1 = &level.objects[actobj.objects[0]];
-    while (var_s0_1 < actobj.num_active_objects)
+    i = 0;
+    cur_obj = &level.objects[actobj.objects[i]];
+    while (i < actobj.num_active_objects)
     {
-        if ((var_s1->flags & 0x10000) && var_s1->id != param_2)
+        if (cur_obj->flags & FLG(OBJ_FOLLOW_ENABLED) && cur_obj->id != param_2)
         {
-            if ((((u8) flags[var_s1->type].flags1 >> 5) & 1))
-            {
-                var_a0 = instantSpeed(var_s1->speed_y);
-            }
+            if (flags[cur_obj->type].flags1 >> OBJ1_USE_INSTANT_SPEED_Y & 1)
+                unk_y = instantSpeed(cur_obj->speed_y);
             else
-            {
-                var_a0 = var_s1->speed_y;
-            }
-            var_v0 = __builtin_abs((s16) (var_a0 + (var_s1->follow_y - ray.speed_y)));
-            temp_v0 = var_v0 + 2;
-            var_a0_2 = temp_v0;
-            if (temp_v0 < var_s2)
-            {
-                var_a0_2 = var_s2;
-            }
+                unk_y = cur_obj->speed_y;
 
-            temp_v1_1 = var_s1->type;
-            if ((temp_v1_1 == 0x6D) || (temp_v1_1 == 0xF1) || (temp_v1_1 == 0xB3))
-            {
-                var_a0_2 += 8;
-            }
+            unk_y = __builtin_abs(
+                    (s16) (unk_y + (cur_obj->follow_y - ray.speed_y))
+                ) + 2;
+            MAX_2(unk_y, unk_1);
 
-            if (__builtin_abs(var_s1->ray_dist) < var_a0_2 && !(((u8) block_flags[calc_typ_trav(&ray, 2) & 0xFF] >> 4) & 1))
+            cur_type = cur_obj->type;
+            if (cur_type == TYPE_PI || cur_type == TYPE_HERSE_HAUT || cur_type == TYPE_HERSE_BAS_NEXT)
+                unk_y += 8;
+
+            if (
+                __builtin_abs(cur_obj->ray_dist) < unk_y &&
+                !(block_flags[(u8) calc_typ_trav(&ray, 2)] >> BLOCK_FLAG_4 & 1)
+            )
             {
-                ray.field20_0x36 = actobj.objects[var_s0_1];
-                if ((left_time == -2) && (map_time & 1))
-                {
-                    map_time += 1;
-                }
+                ray.field20_0x36 = actobj.objects[i];
+                if (left_time == -2 && (map_time % 2 != 0))
+                    map_time++;
+
                 ray.field23_0x3c = -1;
                 ray_last_ground_btyp = 1;
                 if (ray.main_etat == 2)
                 {
-                    temp_v1_2 = var_s1->type;
-                    switch (temp_v1_2)
+                    switch (cur_obj->type)
                     {
-                    case 0xa0:
-                        PlaySnd(0x006E, var_s1->id);
+                    case TYPE_TIBETAIN_2:
+                        PlaySnd(110, cur_obj->id);
                         break;
-                    case 1:
-block_52:
-                        if (num_world == 1)
-                        {
-                            var_a0_3 = 0x0013;
-                            PlaySnd(var_a0_3, -1);
-                            break;
-                        }
-                        var_a0_3 = 0x00F2;
-                        if (num_world == 4)
-                        {
-                            var_a0_3 = 0x0013;
-                            PlaySnd(var_a0_3, -1);
-                            break;
-                        }
-                        PlaySnd(var_a0_3, -1);
+                    case TYPE_PLATFORM:
+                        if (num_world == 1 || num_world == 4)
+                            PlaySnd(19, -1);
+                        else
+                            PlaySnd(242, -1);
                         break;
-                    case 0x10:
-                    case 0x11:
-block_55:
-                        var_a0_3 = 0x0013;
+                    case TYPE_FALLPLAT:
+                    case TYPE_LIFTPLAT:
                         if (num_world == 4 || num_world == 5)
-                        {
-                            PlaySnd(var_a0_3, -1);
-                            break;
-                        }
-                        var_a0_3 = 0x00F2;
-                        PlaySnd(var_a0_3, -1);
+                            PlaySnd(19, -1);
+                        else
+                            PlaySnd(242, -1);
                         break;
-                    case 0x16:
-                    case 0x1a:
-                    case 0x1b:
-                    case 0x1c:
-                    case 0x3f:
-block_57:
-                        var_a0_3 = 0x00F2;
+                    case TYPE_MOVE_PLAT:
+                    case TYPE_CRUMBLE_PLAT:
+                    case TYPE_BOING_PLAT:
+                    case TYPE_ONOFF_PLAT:
+                    case TYPE_MOVE_START_NUA:
                         if (num_world == 4)
-                        {
-                            var_a0_3 = 0x0013;
-                            PlaySnd(var_a0_3, -1);
-                            break;
-                        }
-                        PlaySnd(var_a0_3, -1);
+                            PlaySnd(19, -1);
+                        else
+                            PlaySnd(242, -1);
                         break;
-                    case 0x54:
-                    case 0x56:
-                    case 0x57:
-                    case 0x58:
-                    case 0x9f:
-                    case 0xb2:
-                    case 0xb3:
+                    case TYPE_TIBETAIN:
+                    case TYPE_MARACAS:
+                    case TYPE_TAMBOUR1:
+                    case TYPE_TAMBOUR2:
+                    case TYPE_TIBETAIN_6:
+                    case TYPE_HERSE_BAS:
+                    case TYPE_HERSE_BAS_NEXT:
                         break;
-                    case 0xed:
-                        var_a0_3 = 0x00F8;
-                        PlaySnd(var_a0_3, -1);
+                    case TYPE_GOMME:
+                        PlaySnd(248, -1);
                         break;
-                    case 0xf3:
-                        PlaySnd(0x0034, -1);
+                    case TYPE_MARK_AUTOJUMP_PLAT:
+                        PlaySnd(52, -1);
                         break;
                     default:
-                        PlaySnd(0x0013, -1);
+                        PlaySnd(19, -1);
                         break;
                     }
                 }
-block_62:
-                temp_v0_2 = var_s1->type;
-                /*if ((temp_v0_2 - 8) > 0xC7U)
+                
+                switch (cur_obj->type)
                 {
-                    goto block_111;
-                }*/
-                switch (temp_v0_2)
-                {
-                case 0x51:
-                    var_s1->field24_0x3e = 0;
+                case TYPE_CYMBALE:
+                    cur_obj->field24_0x3e = 0;
                     break;
-                case 0x8:
-                case 0x86:
-                case 0xA7:
-                    if (var_s1->main_etat != 0)
-                    {
-                        break;
-                    }
-                    if (var_s1->sub_etat != 0x0D)
-                    {
-                        break;
-                    }
-                    set_main_and_sub_etat(var_s1, 0, 0xF);
+                case TYPE_FALLING_OBJ:
+                case TYPE_FALLING_OBJ2:
+                case TYPE_FALLING_OBJ3:
+                    if (cur_obj->main_etat == 0 && cur_obj->sub_etat == 13)
+                        set_main_and_sub_etat(cur_obj, 0, 15);
                     break;
-                case 0x83:
-                    if (var_s1->sub_etat != 3)
-                    {
-                        break;
-                    }
-                    var_a1_2 = 0;
-                    skipToLabel(var_s1, var_a1_2, 1);
+                case TYPE_BAG3:
+                    if (cur_obj->sub_etat == 3)
+                        skipToLabel(cur_obj, 0, true);                    
                     break;
-                case 0x56:
-                    if (var_s1->sub_etat == 4)
+                case TYPE_MARACAS:
+                    if (cur_obj->sub_etat == 4)
                     {
-                        /* alternative to do{}while(0); */
-                        if (/*var_a1_1 = */ var_s1->hit_points == 0)
-                        {
-                            set_sub_etat(var_s1, 5);
-                        }
+                        /*
+                        alternative to do{}while(0);
+                        possible up to commit fed31ab
+                        */
+                        if (/*var_a1_1 = */ cur_obj->hit_points == 0)
+                            set_sub_etat(cur_obj, 5);
                         else
+                            MARACAS_GO(cur_obj);
+                    }
+                    break;
+                case TYPE_TAMBOUR1:
+                    cur_obj->field56_0x69 = 0x10;
+                    if (cur_obj->main_etat == 0)
+                    {
+                        if (cur_obj->sub_etat == 7)
                         {
-                            MARACAS_GO(var_s1);
+                            set_main_and_sub_etat(cur_obj, 2, 0);
+                            PlaySnd(110, cur_obj->id);
+                        }
+                        else if (cur_obj->sub_etat == 9)
+                        {
+                            set_main_and_sub_etat(cur_obj, 2, 2);
+                            PlaySnd(112, cur_obj->id);
                         }
                     }
                     break;
-                case 0x57:
-                    var_s1->field56_0x69 = 0x10;
-                    if (var_s1->main_etat == 0)
-                    {
-                        temp_v1_3 = var_s1->sub_etat;
-                        if (temp_v1_3 == 7)
-                        {
-                            set_main_and_sub_etat(var_s1, 2, 0);
-                            PlaySnd(0x006E, var_s1->id);
-                        }
-                        else if (temp_v1_3 == 9)
-                        {
-                            set_main_and_sub_etat(var_s1, 2, 2);
-                            PlaySnd(0x0070, var_s1->id);
-                        }
-                    }
+                case TYPE_TAMBOUR2:
+                    cur_obj->field56_0x69 = 0x10;
+                    set_main_and_sub_etat(cur_obj, 2, 1);
+                    PlaySnd(111, cur_obj->id);
                     break;
-                case 0x58:
-                    var_s1->field56_0x69 = 0x10;
-                    set_main_and_sub_etat(var_s1, 2, 1);
-                    PlaySnd(0x006F, var_s1->id);
+                case TYPE_CYMBAL2:
+                    /* TODO: macroooooooooooooooooo */
+                    if (cur_obj->main_etat == 0 && cur_obj->sub_etat == 13)
+                        START_2_PARTS_CYMBAL_ACTION(cur_obj);
                     break;
-                case 0xA9:
-                    if (var_s1->main_etat != 0)
-                    {
-                        break;
-                    }
-                    if (var_s1->sub_etat != 0x0D)
-                    {
-                        break;
-                    }
-                    START_2_PARTS_CYMBAL_ACTION(var_s1);
+                case TYPE_ROULETTE:
+                    if (cur_obj->main_etat == 0 && cur_obj->sub_etat == 10)
+                        skipToLabel(cur_obj, 1, true);
                     break;
-                case 0x8A:
-                    if (var_s1->main_etat != 0)
-                    {
-                        break;
-                    }
-                    if (var_s1->sub_etat != 0x0A)
-                    {
-                        break;
-                    }
-                    skipToLabel(var_s1, 1, 1);
+                case TYPE_ROULETTE2:
+                    if (cur_obj->main_etat == 0 && cur_obj->sub_etat == 13)
+                        skipToLabel(cur_obj, 1, true);
                     break;
-                case 0x9A:
-                    if (var_s1->main_etat != 0)
-                    {
-                        break;
-                    }
-                    if (var_s1->sub_etat != 0x0D)
-                    {
-                        break;
-                    }
-                    skipToLabel(var_s1, 1, 1);
+                case TYPE_ROULETTE3:
+                    if (cur_obj->main_etat == 0 && cur_obj->sub_etat == 15)
+                        skipToLabel(cur_obj, 1, true);
                     break;
-                case 0x9B:
-                    if (var_s1->main_etat != 0)
-                    {
-                        break;
-                    }
-                    if (var_s1->sub_etat != 0x0F)
-                    {
-                        break;
-                    }
-                    skipToLabel(var_s1, 1, 1);
+                case TYPE_MOVE_START_PLAT:
+                    if (cur_obj->main_etat == 0 && cur_obj->sub_etat == 0)
+                        skipToLabel(cur_obj, 0, true);
                     break;
-                case 0x31:
-                    if (var_s1->main_etat != 0)
-                    {
-                        break;
-                    }
-                    if (var_s1->sub_etat != 0)
-                    {
-                        break;
-                    }
-                    var_a1_2 = 0;
-                    skipToLabel(var_s1, var_a1_2, 1);
+                case TYPE_MOVE_START_NUA:
+                    if (!(cur_obj->main_etat == 0 && cur_obj->sub_etat == 10))
+                        skipToLabel(cur_obj, 0, true);
                     break;
-                case 0x3F:
-                    if (var_s1->main_etat != 0)
-                    {
-                        var_a1_2 = 0;
-                        skipToLabel(var_s1, var_a1_2, 1);
-                        break;
-                    }
-                    if (var_s1->sub_etat == 0x0A)
-                    {
-                        break;
-                    }
-                case 0x10:
-                case 0x11:
-                    var_a1_2 = 0;
-                    skipToLabel(var_s1, var_a1_2, 1);
+                case TYPE_FALLPLAT:
+                case TYPE_LIFTPLAT:
+                    skipToLabel(cur_obj, 0, true);
                     break;
-                case 0xA2:
-                    if (!finBosslevel.helped_joe_2)
-                    {
-                        break;
-                    }
-                    START_UFO(var_s1);
+                case TYPE_UFO_IDC:
+                    if (finBosslevel.helped_joe_2)
+                        START_UFO(cur_obj);                    
                     break;
-                case 0xCF:
-                    if (var_s1->main_etat != 0 || var_s1->sub_etat != 1)
+                case TYPE_POELLE:
+                    if (!(cur_obj->main_etat == 0 && cur_obj->sub_etat == 1))
                     {
-                        set_main_and_sub_etat(var_s1, 0, 1);
-                        var_s1->flags &= 0xFFFEFFFF;
-                        ray_on_poelle = 1;
+                        set_main_and_sub_etat(cur_obj, 0, 1);
+                        cur_obj->flags &= ~FLG(OBJ_FOLLOW_ENABLED);
+                        ray_on_poelle = true;
                         ray.field20_0x36 = -1;
                         ray.speed_x = 1;
                         PS1_SetSauveRayEvts();
@@ -464,51 +342,38 @@ block_62:
                         RayEvts.unused_death = false;
                     }
                     break;
-                case 0x43:
-                    if (var_s1->main_etat != 0)
-                    {
-                        break;
-                    }
-                    if (var_s1->sub_etat != 2)
-                    {
-                        break;
-                    }
-                    set_sub_etat(var_s1, 9);
+                case TYPE_SWING_PLAT:
+                    if (cur_obj->main_etat == 0 && cur_obj->sub_etat == 2)
+                        set_sub_etat(cur_obj, 9);
                     break;
-                case 0x1B:
-                case 0x44:
-                    var_v1_2 = ray.speed_y;
-                    if (var_v1_2 < 2)
-                    {
-                        var_v1_2 = 2;
-                    }
-                    var_s1->field20_0x36 = var_v1_2;
+                case TYPE_BOING_PLAT:
+                case TYPE_BIG_BOING_PLAT:
+                    cur_obj->field20_0x36 = MAX_1(ray.speed_y, 2);
                     break;
                 }
 
                 if (ray.main_etat == 2)
                 {
+                    new_me = 1; new_se = 3;
                     if (
-                        __builtin_abs(ray.speed_x) >= ashr16(ray.eta[1][3].speed_x_right, 4) &&
+                        __builtin_abs(ray.speed_x) >= ashr16(ray.eta[new_me][new_se].speed_x_right, 4) &&
                         (RayEvts.run)
                     )
                     {
                         do{}while(0);
-                        set_main_and_sub_etat(&ray, 1, 3);
+                        set_main_and_sub_etat(&ray, new_me, new_se);
                     }
                     else
                     {
                         set_main_etat(&ray, 0);
                         set_sub_etat(&ray, 8);
-                        if (ray.field24_0x3e >= 0xC9)
-                        {
+                        if (ray.field24_0x3e > 200)
                             allocateRayLandingSmoke();
-                        }
                     }
                 }
 
-                GET_SPRITE_POS(var_s1, (s32) var_s1->follow_sprite, &sp18, &sp1A, &sp1C, &sp1E);
-                ray.speed_y = ((var_s1->offset_hy + (u16) sp1A) - ray.offset_by) - ray.y_pos;
+                GET_SPRITE_POS(cur_obj, cur_obj->follow_sprite, &foll_x, &foll_y, &foll_w, &foll_h);
+                ray.speed_y = cur_obj->offset_hy + foll_y - ray.offset_by - ray.y_pos;
                 *param_1 = 0;
                 ray.field24_0x3e = -1;
                 helico_time = -1;
@@ -516,18 +381,14 @@ block_62:
             }
         }
 
-        var_s0_1 = var_s0_1 + 1;
-        var_s1 = &level.objects[actobj.objects[var_s0_1]];
+        i++;
+        cur_obj = &level.objects[actobj.objects[i]];
     }
-block_122:
+
     if (param_2 != -1 && ray.field20_0x36 == -1)
-    {
         ray.field20_0x36 = param_2;
-    }
     else if (ray.field20_0x36 != -1)
-    {
         level.objects[ray.field20_0x36].ray_dist = 0;
-    }
 }
 #endif
 

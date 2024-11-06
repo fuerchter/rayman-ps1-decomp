@@ -10,6 +10,7 @@
 #is there a way to inline EOA()? (include/common/macro.h)
 #rewrite some old while loops as for (or do{}while() as while), e.g. "allocate*" functions
 #places, where you might use ternary instead? (search "OBJ_FLIP_X) &&")
+#inline in PS1_DisplayWorldMapBg2 and do_flocons?
 
 #renamed duplicate cd_cw, cd_read, memcpy, set_alarm in the beginning of the decomp
 

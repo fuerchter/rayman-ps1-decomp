@@ -7,10 +7,10 @@ u8 zoom_mode;
 #endif
 
 /* 22754 80146F54 -O2 -msoft-float */
-void set_proj_center(s16 param_1, s16 param_2)
+void set_proj_center(s16 x, s16 y)
 {
-    PROJ_CENTER_X = param_1;
-    PROJ_CENTER_Y = param_2;
+    PROJ_CENTER_X = x;
+    PROJ_CENTER_Y = y;
 }
 
 /* 2276C 80146F6C -O2 -msoft-float */

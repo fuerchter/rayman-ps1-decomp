@@ -1572,14 +1572,14 @@ INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_DisplayWorldMapBg2);
 /*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_DisplayWorldMapBg2);*/
 
 /* applying these would let us remove new_var_1, test_6? */
-extern inline s32 test_123(s32 param_1)
+extern inline s32 PS1_DisplayWorldMapBg2_1(s32 param_1)
 {
     return param_1 / 0x40;
 }
 
-extern inline s32 test_1234(s16 param_1)
+extern inline s32 PS1_DisplayWorldMapBg2_2(s16 param_1)
 {
-    return param_1 + test_123(param_1) * -0x40;
+    return param_1 - test_123(param_1) * 0x40;
 }
 
 void PS1_DisplayWorldMapBg2(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6)

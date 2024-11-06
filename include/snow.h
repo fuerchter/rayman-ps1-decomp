@@ -34,7 +34,7 @@ void add_one_floc(void);
 void add_256_flocs(void);
 void sub_one_floc(void);
 void init_flocons(void);
-void do_flocons(s16 param_1, s16 param_2, s16 param_3, s16 param_4);
+void do_flocons(s16 in_x_map, s16 in_y_map, s16 in_x_map_old, s16 in_y_map_old);
 void set_snow_sequence(u16 param_1, s16 param_2); /* param_1 likely s16, therefore SNSEQ_list also s16? */
 void set_SNSEQ_list(s16 param_1);
 void DO_SNOW_SEQUENCE(void);
