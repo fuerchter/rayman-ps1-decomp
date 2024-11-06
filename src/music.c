@@ -179,7 +179,7 @@ void FUN_8013045c(void)
     {
         D_801CEEA8 = false;
         PS1_Music_pcom = CdlSetloc;
-        CdControl(PS1_Music_pcom, (u_char *)&D_801F4E68, null);
+        CdControl(PS1_Music_pcom, (u8 *) &D_801F4E68, null);
     }
     if (PS1_Music_Fade != 0 && !D_801CEFD8)
         PS1_Music_Apply_Fade();
@@ -245,50 +245,50 @@ void FUN_8013066c(void)
 /* BE84 80130684 -O2 -msoft-float */
 void FUN_80130684(void)
 {
-  u8 *occupe_str;
-  u8 *anticip_str;
-  u8 *fadeout_str;
-  
-  FntPrint(s__CDPlayer_TEST_80125c28);
-  FntPrint(s_Fade02d_80125c40, PS1_Music_Fade);
-  FntPrint(s_ind_faded_80125c4c, PS1_Music_ind_fade);
-  FntPrint(s_stat_02x_trackd_80125c5c, btoi(PS1_Music_etat), PS1_Music_track);
-  
-  if (PS1_Music_occupe)
-    occupe_str = s_idle_801ceec4;
-  else
-    occupe_str = s_busy_801ceecc;
-  FntPrint(s_s_801ceec0, occupe_str);
-  FntPrint(s_Ready_data_d_Complete_d_80125c74, PS1_Music_Ready_data, PS1_Music_Complete_data);
-  FntPrint(s_occuped_etat_d_pcomd_80125c94, PS1_Music_occupe, PS1_Music_etat, PS1_Music_pcom);
-  FntPrint(s_intr_datar3d_intr_compl3d_80125cb4, PS1_Music_intr_datar, PS1_Music_intr_compl);
-  FntPrint(
-    s_Deb_2d2d2d_80125cd4,
-    btoi(D_801F41D0[PS1_CurTrack].minute), 
-    btoi(D_801F41D0[PS1_CurTrack].second),
-    btoi(D_801F41D0[PS1_CurTrack].sector)
-  );
-  FntPrint(
-    s_Pos_2d2d2d_08x_80125ce8,
-    btoi(PS1_Music_Amin), 
-    btoi(PS1_Music_Asec), 
-    btoi(PS1_Music_Aframe),
-    D_801F7CA8
-  );
-  FntPrint(s_Fin_08x_80125d04, PS1_Music_Fin[PS1_CurTrack]);
-  FntPrint(s_Num_seqddd_typd_80125d10, PS1_LevelMusic_World, PS1_LevelMusic_Level, PS1_LevelMusic_CmdInd, D_801F9940);
-  FntPrint(s_iseosd_80125d2c, SsIsEos(PS1_Music_access_num, 0));
-  
-  if (PS1_Music_will_anticip)
-    anticip_str = s_yes_801ceed4;
-  else
-    anticip_str = s_no_801ceed8;
-  
-  if (PS1_Music_fadeout)
-    fadeout_str = s_yes_801ceed4;
-  else
-    fadeout_str = s_no_801ceed8;
-  FntPrint(s_will_anticips_fadeouts_80125d38, anticip_str, fadeout_str);
+    u8 *occupe_str;
+    u8 *anticip_str;
+    u8 *fadeout_str;
+
+    FntPrint(s__CDPlayer_TEST_80125c28);
+    FntPrint(s_Fade02d_80125c40, PS1_Music_Fade);
+    FntPrint(s_ind_faded_80125c4c, PS1_Music_ind_fade);
+    FntPrint(s_stat_02x_trackd_80125c5c, btoi(PS1_Music_etat), PS1_Music_track);
+
+    if (PS1_Music_occupe)
+        occupe_str = s_idle_801ceec4;
+    else
+        occupe_str = s_busy_801ceecc;
+    FntPrint(s_s_801ceec0, occupe_str);
+    FntPrint(s_Ready_data_d_Complete_d_80125c74, PS1_Music_Ready_data, PS1_Music_Complete_data);
+    FntPrint(s_occuped_etat_d_pcomd_80125c94, PS1_Music_occupe, PS1_Music_etat, PS1_Music_pcom);
+    FntPrint(s_intr_datar3d_intr_compl3d_80125cb4, PS1_Music_intr_datar, PS1_Music_intr_compl);
+    FntPrint(
+        s_Deb_2d2d2d_80125cd4,
+        btoi(D_801F41D0[PS1_CurTrack].minute),
+        btoi(D_801F41D0[PS1_CurTrack].second),
+        btoi(D_801F41D0[PS1_CurTrack].sector)
+    );
+    FntPrint(
+        s_Pos_2d2d2d_08x_80125ce8,
+        btoi(PS1_Music_Amin),
+        btoi(PS1_Music_Asec),
+        btoi(PS1_Music_Aframe),
+        D_801F7CA8
+    );
+    FntPrint(s_Fin_08x_80125d04, PS1_Music_Fin[PS1_CurTrack]);
+    FntPrint(s_Num_seqddd_typd_80125d10, PS1_LevelMusic_World, PS1_LevelMusic_Level, PS1_LevelMusic_CmdInd, D_801F9940);
+    FntPrint(s_iseosd_80125d2c, SsIsEos(PS1_Music_access_num, 0));
+
+    if (PS1_Music_will_anticip)
+        anticip_str = s_yes_801ceed4;
+    else
+        anticip_str = s_no_801ceed8;
+
+    if (PS1_Music_fadeout)
+        fadeout_str = s_yes_801ceed4;
+    else
+        fadeout_str = s_no_801ceed8;
+    FntPrint(s_will_anticips_fadeouts_80125d38, anticip_str, fadeout_str);
 }
 
 void FUN_801309b0(void) {}
@@ -297,7 +297,7 @@ void FUN_801309b0(void) {}
 u8 FUN_801309b8(u8 param_1, u8 param_2, u8 *param_3, u8 param_4)
 {
     u8 unk_1 = btoi(param_1) + btoi(param_2) + btoi(*param_3);
-    
+
     if (unk_1 > param_4)
     {
         unk_1 -= 1;
@@ -339,8 +339,8 @@ s32 FUN_80130bc4(CdlLOC loc)
 s32 FUN_80130c58(s32 param_1)
 {
     return (param_1 % PS1_Sectors_p_Sec) +
-    (((param_1 / PS1_Sectors_p_Sec) % PS1_Sec_p_Min) << 8) +
-    ((param_1 / (PS1_Sectors_p_Sec * PS1_Sec_p_Min)) << 16); /* can't say i follow this */
+           (((param_1 / PS1_Sectors_p_Sec) % PS1_Sec_p_Min) << 8) +
+           ((param_1 / (PS1_Sectors_p_Sec * PS1_Sec_p_Min)) << 16); /* can't say i follow this */
 }
 
 /* C500 80130D00 -O2 -msoft-float */
@@ -353,8 +353,8 @@ s32 FUN_80130d00(s32 param_1, s32 param_2)
 
     /* then ??? */
     return ((unk_0 / PS1_Sectors_p_Sec) << 8) + (unk_0 % PS1_Sectors_p_Sec) +
-    ((unk_1 % PS1_Sec_p_Min) << 8) + ((unk_1 / PS1_Sec_p_Min) << 16) +
-    (unk_2 << 16);
+           ((unk_1 % PS1_Sec_p_Min) << 8) + ((unk_1 / PS1_Sec_p_Min) << 16) +
+           (unk_2 << 16);
 }
 
 #ifndef MATCHES_BUT
@@ -369,92 +369,91 @@ c89 3.6.6.4 The return statement: behavior is undefined
 
 u8 PS1_InitTracks(void)
 {
-  u32 size;
-  s32 unk_1;
-  CdlLOC unk_2;
-  s32 unk_3 [54];
-  s32 unk_4;
-  s32 unk_5;
-  CdlLOC *unk_6;
-  s32 unk_7;
-  s32 unk_8 = true;
-  s32 *track_sizes = PS1_TrackSizes;
-  s16 *tracks_exist = PS1_TracksExist;
-  s32 i = 0;
+    u32 size;
+    s32 unk_1;
+    CdlLOC unk_2;
+    s32 unk_3[54];
+    s32 unk_4;
+    s32 unk_5;
+    CdlLOC *unk_6;
+    s32 unk_7;
+    s32 unk_8 = true;
+    s32 *track_sizes = PS1_TrackSizes;
+    s16 *tracks_exist = PS1_TracksExist;
+    s32 i = 0;
 
-  while (i < (s16) LEN(PS1_TrkFiles))
-  {
-    size = PS1_TrkFiles[i].file.size;
-    if (size != 0)
+    while (i < (s16) LEN(PS1_TrkFiles))
     {
-      *track_sizes = (size >> 11) - 40;
-      *tracks_exist = unk_8;
+        size = PS1_TrkFiles[i].file.size;
+        if (size != 0)
+        {
+            *track_sizes = (size >> 11) - 40;
+            *tracks_exist = unk_8;
+        }
+        else
+        {
+            *tracks_exist = false;
+            *track_sizes = 0;
+        }
+        track_sizes++;
+        tracks_exist++;
+        i++;
     }
-    else
-    {
-      *tracks_exist = false;
-      *track_sizes = 0;
-    }
-    track_sizes++;
-    tracks_exist++;
-    i++;
-  }
 
-  for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
-  {
-    if (PS1_TracksExist[i] != 0)
+    for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
     {
-      D_801F41D0[i] = PS1_TrkFiles[i].file.pos;
-      unk_1 = (PS1_TrkFiles[i].file.size >> 11) - 40;
-      PS1_TrackSizes[i] = unk_1;
-      FUN_80130b18(unk_1, &unk_2);
-      unk_3[i] = FUN_80130bc4(unk_2);
+        if (PS1_TracksExist[i] != 0)
+        {
+            D_801F41D0[i] = PS1_TrkFiles[i].file.pos;
+            unk_1 = (PS1_TrkFiles[i].file.size >> 11) - 40;
+            PS1_TrackSizes[i] = unk_1;
+            FUN_80130b18(unk_1, &unk_2);
+            unk_3[i] = FUN_80130bc4(unk_2);
+        }
     }
-  }
-  
-  unk_4 = FUN_80130c58(1500);
-  for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
-  {
-    if (PS1_TracksExist[i] != 0)
-    {
-      PS1_Music_Fin[i] = FUN_80130d00(FUN_80130bc4(D_801F41D0[i]), unk_3[i]);
-      if (PS1_TrackSizes[i] < 1500)
-        D_801F7D88[i] = FUN_80130d00(FUN_80130bc4(D_801F41D0[i]), unk_3[i]);
-      else
-        D_801F7D88[i] = FUN_80130d00(FUN_80130bc4(D_801F41D0[i]), unk_4);
-    }
-  }
 
-  unk_5 = FUN_80130c58(1388);
-  for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
-  {
-    if (PS1_TracksExist[i] != 0)
+    unk_4 = FUN_80130c58(1500);
+    for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
     {
-      unk_3[i] = FUN_80130c58(PS1_TrackSizes[i] - 112);
-      unk_6 = &D_801F41D0[i];
-      D_801F42A8[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_3[i]);
-      if (PS1_TrackSizes[i] < 1500)
-        (&D_801F7AA8)[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_3[i]);
-      else
-        (&D_801F7AA8)[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_5);      
+        if (PS1_TracksExist[i] != 0)
+        {
+            PS1_Music_Fin[i] = FUN_80130d00(FUN_80130bc4(D_801F41D0[i]), unk_3[i]);
+            if (PS1_TrackSizes[i] < 1500)
+                D_801F7D88[i] = FUN_80130d00(FUN_80130bc4(D_801F41D0[i]), unk_3[i]);
+            else
+                D_801F7D88[i] = FUN_80130d00(FUN_80130bc4(D_801F41D0[i]), unk_4);
+        }
     }
-    
-  }
 
-  unk_7 = FUN_80130c58(1404);
-  for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
-  {
-    if (PS1_TracksExist[i] != 0)
+    unk_5 = FUN_80130c58(1388);
+    for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
     {
-      unk_3[i] = FUN_80130c58(PS1_TrackSizes[i] - 96);
-      unk_6 = &D_801F41D0[i];
-      D_801E57C0[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_3[i]);
-      if (PS1_TrackSizes[i] < 1500)
-        D_801F54B0[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_3[i]);
-      else
-        D_801F54B0[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_7);      
+        if (PS1_TracksExist[i] != 0)
+        {
+            unk_3[i] = FUN_80130c58(PS1_TrackSizes[i] - 112);
+            unk_6 = &D_801F41D0[i];
+            D_801F42A8[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_3[i]);
+            if (PS1_TrackSizes[i] < 1500)
+                (&D_801F7AA8)[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_3[i]);
+            else
+                (&D_801F7AA8)[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_5);
+        }
     }
-  }
+
+    unk_7 = FUN_80130c58(1404);
+    for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
+    {
+        if (PS1_TracksExist[i] != 0)
+        {
+            unk_3[i] = FUN_80130c58(PS1_TrackSizes[i] - 96);
+            unk_6 = &D_801F41D0[i];
+            D_801E57C0[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_3[i]);
+            if (PS1_TrackSizes[i] < 1500)
+                D_801F54B0[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_3[i]);
+            else
+                D_801F54B0[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_7);
+        }
+    }
 }
 #endif
 
@@ -521,7 +520,7 @@ void PS1_PlayMusic(void)
     done = false;
     if (++PS1_LevelMusic_CmdInd == 4) /* TODO: what should i take LEN() of? */
         PS1_LevelMusic_CmdInd = 0;
-    
+
     while (!done)
     {
         mode = &PS1_CdMode;
@@ -550,12 +549,12 @@ void PS1_PlayMusic(void)
                     FUN_80130a98(&D_801E4EF8, &unk_3, &unk_4);
                     D_801E5240 = FUN_80130bc4(unk_4);
                     PS1_Music_pcom = CdlSetloc;
-                    CdControl(PS1_Music_pcom, (u8 *)&D_801E4EF8, null);
+                    CdControl(PS1_Music_pcom, (u8 *) &D_801E4EF8, null);
                 }
                 else
                 {
                     PS1_Music_pcom = CdlSetloc;
-                    CdControl(PS1_Music_pcom, (u8 *)&D_801F41D0[PS1_CurTrack], null);
+                    CdControl(PS1_Music_pcom, (u8 *) &D_801F41D0[PS1_CurTrack], null);
                 }
 
                 done = true;

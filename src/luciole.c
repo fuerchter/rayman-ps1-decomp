@@ -40,7 +40,7 @@ void DO_LUCIOLE(void)
     Obj *poing_obj = &level.objects[poing_obj_id];
     s16 x_ray_prev = x_ray[n_ray];
     s16 y_ray_prev = y_ray[n_ray];
-    
+
     if (poing.is_active)
     {
         x_ray[n_ray] = poing_obj->x_pos + poing_obj->offset_bx;
@@ -56,7 +56,7 @@ void DO_LUCIOLE(void)
     }
     n_ray++;
     n_ray &= LEN(x_ray) - 1;
-    
+
     unk_x_1 = x_ray_prev - x_main_luc - vx_luc;
     if (unk_x_1 != 0)
         unk_x_1 = unk_x_1 > 0 ? 1 : -1;

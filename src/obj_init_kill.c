@@ -13,7 +13,7 @@ s32 Prio(Obj *obj)
 {
     s32 res;
 
-    switch(obj->type)
+    switch (obj->type)
     {
     case TYPE_EAU:
     case TYPE_MEDAILLON_TOON:
@@ -95,7 +95,7 @@ s32 Prio(Obj *obj)
         res = 3;
         break;
     case TYPE_PLANCHES:
-        
+
         if (bateau_obj_id != -1)
             res = 4;
         else
@@ -137,7 +137,7 @@ s32 Prio(Obj *obj)
 void first_obj_init(Obj *obj)
 {
     ObjType type = obj->type;
-    
+
     if (
         flags[type].flags0 & FLG(OBJ0_ALWAYS) ||
         (
@@ -174,7 +174,7 @@ void first_obj_init(Obj *obj)
         obj->field24_0x3e = 0;
         break;
     case TYPE_MOSKITO:
-    case TYPE_MOSKITO2:        
+    case TYPE_MOSKITO2:
     case TYPE_WIZARD1:
     case TYPE_SPIDER:
         obj->detect_zone = 60;
@@ -295,7 +295,7 @@ void obj_init(Obj *obj)
     obj->flags &= ~FLG(OBJ_FLAG_9);
     obj->flags &= ~FLG(OBJ_FLAG_A);
     obj->flags &= ~FLG(OBJ_FLAG_B);
-    
+
     switch (obj->type)
     {
     case TYPE_SAXO:
@@ -454,7 +454,7 @@ void obj_init(Obj *obj)
             obj->iframes_timer = 20;
         }
         obj->field24_0x3e = 20;
-        obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_FOLLOW_ENABLED);
+        obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_FOLLOW_ENABLED);
         break;
     case TYPE_INST_PLAT:
         obj->iframes_timer = obj->field20_0x36 = 15;
@@ -543,7 +543,7 @@ void INIT_OBJECTS(u8 new_lvl)
     Obj *pa_obj;
     Obj *eau_obj_1;
     Obj *eau_obj_2;
-    
+
     unk_1 = -1;
     unk_2 = -1;
     ray_on_poelle = false;
@@ -579,7 +579,7 @@ void INIT_OBJECTS(u8 new_lvl)
         cur_obj->id = cnt_1;
         if (new_lvl)
             first_obj_init(cur_obj);
-        
+
         cur_obj->active_timer = 0;
         if (cur_obj->type == TYPE_INDICATOR)
         {
@@ -596,7 +596,7 @@ void INIT_OBJECTS(u8 new_lvl)
         }
         else
             cur_obj->flags |= FLG(OBJ_ALIVE);
-        
+
         switch (cur_obj->type)
         {
         case TYPE_PLANCHES:
@@ -670,7 +670,7 @@ void INIT_OBJECTS(u8 new_lvl)
                     cur_obj->y_pos = pa_obj->y_pos + 112;
                 else
                     cur_obj->y_pos = pa_obj->y_pos + 120;
-                
+
                 cur_obj->y_pos = cur_obj->init_y_pos;
             }
             break;
@@ -724,7 +724,7 @@ void INIT_OBJECTS(u8 new_lvl)
                 }
                 eau_obj_id = cnt_1;
                 cur_obj->iframes_timer = 0;
-                cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                 calc_obj_pos(cur_obj);
             }
             else if (!(eau_obj_id == -1 || num_world == 1))
@@ -742,7 +742,7 @@ void INIT_OBJECTS(u8 new_lvl)
                     cur_obj->init_y_pos = ymapmax + 160;
                     if (num_world == 4)
                         cur_obj->init_y_pos = ymapmax + 170;
-                    
+
                     if (num_world == 5 && num_level == 8)
                     {
                         unk_9 = (level.objects[eau_obj_id].y_pos + eau_obj_id) - cur_obj->id;
@@ -756,7 +756,7 @@ void INIT_OBJECTS(u8 new_lvl)
                     cur_obj->field12_0x26 = 0;
                 }
                 calc_obj_pos(cur_obj);
-                cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                 eau_obj_2 = &level.objects[eau_obj_id];
                 cur_obj->sub_etat = ++eau_obj_2->hit_points;
                 if (cur_obj->sub_etat >= 4)
@@ -792,7 +792,7 @@ void INIT_OBJECTS(u8 new_lvl)
                 cur_obj->field24_0x3e = 0;
                 cur_obj->timer = 0;
                 mst_scroll_obj_id = cnt_1;
-                cur_obj->flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+                cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                 cur_obj->flags |= FLG(OBJ_FLIP_X);
             }
             else
@@ -1062,7 +1062,8 @@ void INIT_OBJECTS(u8 new_lvl)
                 !bonus_map &&
                 flags[cur_obj->type].flags1 >> OBJ1_BONUS & 1 &&
                 bonus_taken(cur_obj->id)
-            ) || (cur_obj->type == TYPE_PALETTE_SWAPPER))
+            ) || (cur_obj->type == TYPE_PALETTE_SWAPPER)
+        )
         {
             cur_obj->flags &= ~FLG(OBJ_ACTIVE);
             cur_obj->flags &= ~FLG(OBJ_ALIVE);
@@ -1070,7 +1071,7 @@ void INIT_OBJECTS(u8 new_lvl)
 
         if (bonus_map && cur_obj->type == TYPE_WIZ)
             nb_wiz++;
-        
+
         cnt_1++;
         cur_obj++;
     }
@@ -1096,7 +1097,7 @@ s32 instantSpeed(s16 spd_in)
     s32 to_add;
     s32 spd_shr = (s16) ashr16(spd_in, 4);
     s32 spd_abs_max = __builtin_abs(spd_in) & 15;
-    
+
     if (spd_abs_max != 0)
     {
         to_add =
@@ -1159,7 +1160,7 @@ void make_active(Obj *obj, u8 do_nova)
 {
     if (obj->flags & FLG(OBJ_ALIVE))
     {
-        obj->flags |= FLG(OBJ_ACTIVE)|FLG(OBJ_FLAG_5);
+        obj->flags |= FLG(OBJ_ACTIVE) | FLG(OBJ_FLAG_5);
         obj->active_flag = ACTIVE_ALIVE;
         if (do_nova)
             DO_NOVA(obj);
@@ -1177,7 +1178,7 @@ s16 in_action_zone(s32 in_x, s32 in_y, Obj *obj, u8 param_4)
     s32 unk_x = in_x;
     s32 unk_y = in_y;
     u8 unk_param_4 = param_4;
-    
+
     if (flags[ot].flags0 >> OBJ0_KEEP_ACTIVE & 1)
     {
         if (flags[ot].flags0 >> OBJ0_BOSS && IsBossThere)
@@ -1264,7 +1265,7 @@ s16 in_action_zone(s32 in_x, s32 in_y, Obj *obj, u8 param_4)
             unk_1 = 0;
         unk_3 = unk_1;
     }
-    
+
     if (unk_3 == 1)
     {
         if (flags[ot].flags0 >> OBJ0_BOSS & 1)
@@ -1395,7 +1396,7 @@ block_1:
                         {
                             while (true)
                             {
-                                
+
                                 temp_s0_2 = &level.objects[var_a0];
                                 if (temp_s0_2->active_flag == 4)
                                 {
@@ -1412,7 +1413,7 @@ block_1:
                                 }
                             }
                         }
-block_2:                        
+block_2:
                         if ((obj->y_pos + obj->offset_by) < -0x1E)
                         {
                             obj->flags &= ~0x800;

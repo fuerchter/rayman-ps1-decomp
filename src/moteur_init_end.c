@@ -23,7 +23,7 @@ void INIT_MOTEUR(u8 new_lvl)
     {
         pix_gerbe[i].is_active = false;
 
-        cur_data = (s16 *)&pix_gerbe[i].items[0];
+        cur_data = (s16 *) &pix_gerbe[i].items[0];
         for (j = 0; j < (s16) (sizeof(pix_gerbe[i].items) / sizeof(s16)); j++)
             *cur_data++ = 0;
     }
@@ -31,7 +31,7 @@ void INIT_MOTEUR(u8 new_lvl)
     init_flocons();
     if (num_world == 1 && num_level == 9)
         set_SNSEQ_list(11);
-    
+
     scrollLocked = false;
     Vignet_To_Display = 0;
     loop_time = 0;
@@ -79,7 +79,7 @@ void INIT_MOTEUR(u8 new_lvl)
     scroll_end_y = ymapmax;
     if (!fin_du_jeu)
         dead_time = 64;
-    
+
     INIT_RAY(new_lvl);
     if (!bonus_map && departlevel && save1.has_saved)
     {
@@ -90,7 +90,7 @@ void INIT_MOTEUR(u8 new_lvl)
 
     if (!departlevel)
     {
-        ray.flags |= FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE);
+        ray.flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
         ray.x_pos = ray_X_main_pos_init;
         ray.y_pos = ray_Y_main_pos_init;
         xmap = xmapsave;
@@ -98,14 +98,14 @@ void INIT_MOTEUR(u8 new_lvl)
     }
     else
         nb_wiz_collected = 0;
-    
+
     INIT_OBJECTS(new_lvl);
     correct_link();
     deactivate_ship_links();
     special_flags_init();
     if (RayEvts.luciole)
         INIT_LUCIOLE();
-    
+
     DO_OBJECTS();
     PS1_PhotographerCollision();
 }
@@ -174,7 +174,7 @@ void INIT_MOTEUR_LEVEL(s16 new_lvl)
         }
         else
             nb_wiz_collected = 0;
-        
+
         correct_gendoor_link();
         new_level = false;
         ray_mode = MODE_RAYMAN;
@@ -294,7 +294,7 @@ block_12:
                 level.objects[temp_a0_1].flags |= 0x1000;
                 goto block_12;
             }
-            
+
             temp_a1 = save1.link_init[var_a2->id];
             while (temp_a1 != var_a2->id)
             {
@@ -339,7 +339,7 @@ void DONE_MOTEUR_LEVEL(void)
 
     if (first_boss_meet)
         Change_Wait_Anim();
-    
+
     if (fee_obj_id != -1)
         record.is_playing = false;
 }

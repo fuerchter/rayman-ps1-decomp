@@ -9,7 +9,6 @@ u8 ray_in_fee_zone;
 #endif
 
 void DO_BALLE(Obj *obj);
-
 void DO_BAT_COMMAND(Obj *obj);
 void DO_BB1_PLAT_CMD(Obj *obj);
 void DO_BLKTOON_COMMAND(Obj *obj);
@@ -80,7 +79,7 @@ s32 DO_PESANTEUR(Obj *obj)
     s32 res = false;
     s16 y_accel = 0;
     u8 anim_speed_div = obj->eta[obj->main_etat][obj->sub_etat].anim_speed >> 4;
-    
+
     if (anim_speed_div != 0)
     {
         if (obj->type == TYPE_TAMBOUR1 || obj->type == TYPE_TAMBOUR2)
@@ -162,7 +161,7 @@ s32 DO_PESANTEUR(Obj *obj)
                 break;
             }
         }
-        
+
         if (flags[obj->type].flags1 >> OBJ1_USE_INSTANT_SPEED_Y & 1)
             y_accel = ashl16(y_accel, 4);
         obj->speed_y += y_accel;
@@ -202,7 +201,7 @@ void DO_ANIM(Obj *obj)
     Animation *old_anim = &obj->animations[old_ind];
     ObjState *eta = &obj->eta[obj->main_etat][obj->sub_etat];
     s32 anim_speed = eta->anim_speed & 0xF;
-    
+
     if (anim_speed != 0 && horloge[anim_speed] == 0)
     {
         if (!(eta->flags >> 4 & 1))
@@ -256,7 +255,7 @@ void DO_ANIM(Obj *obj)
             ) && ray.iframes_timer > 60
         )
             ray.iframes_timer = 60;
-        
+
         if (eta->flags & 0x10)
             new_frame = new_anim->frames_count - 1;
         else
@@ -264,7 +263,7 @@ void DO_ANIM(Obj *obj)
         obj->anim_frame = new_frame;
         PlaySnd(obj->eta[obj->main_etat][obj->sub_etat].sound, obj->id);
     }
-    
+
     obj->change_anim_mode = ANIMMODE_NONE;
     if (obj->flags & FLG(OBJ_FOLLOW_ENABLED))
         CALC_FOLLOW_SPRITE_SPEED(obj, new_anim, old_anim, old_frame);
@@ -283,59 +282,59 @@ s16 prof_in_bloc(Obj *obj)
 /* 2C8D0 801510D0 -O2 -msoft-float */
 void do_boing(Obj *obj, u8 main_etat, u8 sub_etat)
 {
-  if (obj->speed_y < 2)
-  {
-    obj->speed_y = 0;
-    set_main_and_sub_etat(obj, main_etat, sub_etat);
-    if (main_etat != 2)
-      recale_position(obj);
-  }
-  else
-  {
-    if (horloge[2] == 0)
+    if (obj->speed_y < 2)
     {
-        switch(obj->btypes[0])
-        {
-        case BTYP_NONE:
-            break;
-        case BTYP_SOLID_RIGHT_45:
-        case BTYP_SLIPPERY_RIGHT_45:
-            obj->speed_y = 1 - (obj->speed_y >> 1);
-            obj->speed_x -= 2;
-            break;
-        case BTYP_SOLID_LEFT_45:
-        case BTYP_SLIPPERY_LEFT_45:
-            obj->speed_y = 1 - (obj->speed_y >> 1);
-            obj->speed_x += 2;
-            break;
-        case BTYP_SOLID_RIGHT1_30:
-        case BTYP_SOLID_RIGHT2_30:
-        case BTYP_SLIPPERY_RIGHT1_30:
-        case BTYP_SLIPPERY_RIGHT2_30:
-            obj->speed_y = 1 - ((obj->speed_y + 1) >> 1);
-            obj->speed_x--;
-            break;
-        case BTYP_SOLID_LEFT1_30:
-        case BTYP_SOLID_LEFT2_30:
-        case BTYP_SLIPPERY_LEFT1_30:
-        case BTYP_SLIPPERY_LEFT2_30:
-            obj->speed_y = 1 - ((obj->speed_y + 1) >> 1);
-            obj->speed_x++;
-            break;
-        case BTYP_SOLID_PASSTHROUGH:
-        case BTYP_SOLID:
-        case BTYP_SLIPPERY:
-            obj->speed_y = -((obj->speed_y + 1) >> 1);
-            break;
-        case BTYP_RESSORT:
-            obj->speed_y = -((obj->speed_y + 3) >> 1);
-            break;
-        }
+        obj->speed_y = 0;
+        set_main_and_sub_etat(obj, main_etat, sub_etat);
+        if (main_etat != 2)
+            recale_position(obj);
     }
+    else
+    {
+        if (horloge[2] == 0)
+        {
+            switch (obj->btypes[0])
+            {
+            case BTYP_NONE:
+                break;
+            case BTYP_SOLID_RIGHT_45:
+            case BTYP_SLIPPERY_RIGHT_45:
+                obj->speed_y = 1 - (obj->speed_y >> 1);
+                obj->speed_x -= 2;
+                break;
+            case BTYP_SOLID_LEFT_45:
+            case BTYP_SLIPPERY_LEFT_45:
+                obj->speed_y = 1 - (obj->speed_y >> 1);
+                obj->speed_x += 2;
+                break;
+            case BTYP_SOLID_RIGHT1_30:
+            case BTYP_SOLID_RIGHT2_30:
+            case BTYP_SLIPPERY_RIGHT1_30:
+            case BTYP_SLIPPERY_RIGHT2_30:
+                obj->speed_y = 1 - ((obj->speed_y + 1) >> 1);
+                obj->speed_x--;
+                break;
+            case BTYP_SOLID_LEFT1_30:
+            case BTYP_SOLID_LEFT2_30:
+            case BTYP_SLIPPERY_LEFT1_30:
+            case BTYP_SLIPPERY_LEFT2_30:
+                obj->speed_y = 1 - ((obj->speed_y + 1) >> 1);
+                obj->speed_x++;
+                break;
+            case BTYP_SOLID_PASSTHROUGH:
+            case BTYP_SOLID:
+            case BTYP_SLIPPERY:
+                obj->speed_y = -((obj->speed_y + 1) >> 1);
+                break;
+            case BTYP_RESSORT:
+                obj->speed_y = -((obj->speed_y + 3) >> 1);
+                break;
+            }
+        }
 
-    if (obj->speed_y < 0)
-        set_sub_etat(obj, 0);
-  }
+        if (obj->speed_y < 0)
+            set_sub_etat(obj, 0);
+    }
 }
 
 /* 2CA58 80151258 -O2 -msoft-float */
@@ -353,7 +352,7 @@ void DO_STONEBOMB_REBOND(Obj *obj)
 {
     s16 new_spd_x; s16 new_spd_y;
     ObjType obj_type = obj->type;
-    
+
     if (obj_type == TYPE_STONEBOMB2)
     {
         new_spd_x = 32;
@@ -418,7 +417,7 @@ void DO_THROWN_BOMB_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
     s32 mul_30 = 3;
     u8 div_45 = 1;
     u8 div_30 = 1;
-    
+
     if (obj->main_etat == 2)
     {
         if (obj->sub_etat == 1)
@@ -443,7 +442,7 @@ void DO_THROWN_BOMB_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
             btyp = obj->btypes[3];
         else
             btyp = obj->btypes[0];
-        
+
         switch (btyp)
         {
         case BTYP_NONE:
@@ -495,7 +494,7 @@ void DO_THROWN_BOMB_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
         }
         else
             obj->speed_y = -3;
-        
+
         if (under)
         {
             while (
@@ -505,7 +504,7 @@ void DO_THROWN_BOMB_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
                 ) == obj->btypes[0]
             )
                 obj->y_pos--;
-            
+
             recale_position(obj);
             calc_btyp(obj);
         }
@@ -565,7 +564,7 @@ void DO_FRUIT_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
             obj->speed_x -= accel_x;
         else if (obj->speed_x < 0)
             obj->speed_x += accel_x;
-        
+
         if (obj->speed_x >= -speed_x_bnd && obj->speed_x <= speed_x_bnd)
             obj->speed_x = 0;
 
@@ -645,7 +644,7 @@ void DO_FRUIT_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
                 }
                 else
                     obj->speed_y = -5;
-                
+
                 if (obj->type == TYPE_FALLING_YING_OUYE)
                     obj->speed_y++;
             }
@@ -662,7 +661,7 @@ void DO_FRUIT_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
                 ) == obj->btypes[0]
             )
                 obj->y_pos--;
-            
+
             calc_btyp(obj);
             recale_position(obj);
         }
@@ -853,7 +852,7 @@ void OBJ_IN_THE_AIR(Obj *obj)
         obj->gravity_value_1++;
         if (obj->gravity_value_1 > 2)
             obj->gravity_value_1 = 0;
-        
+
         obj->gravity_value_2++;
         if (obj->gravity_value_2 > 3)
             obj->gravity_value_2 = 0;
@@ -864,7 +863,7 @@ void OBJ_IN_THE_AIR(Obj *obj)
     {
         if (obj->speed_y >= 0 && obj->sub_etat == 0)
             set_sub_etat(obj, 1);
-        
+
         if (!gerbe && obj->speed_y > 2 && obj->sub_etat == 1)
         {
             set_sub_etat(obj, 2);
@@ -953,7 +952,7 @@ void OBJ_IN_THE_AIR(Obj *obj)
                     skipToLabel(obj, 3, true);
                 else
                     skipToLabel(obj, 2, true);
-                
+
                 recale_position(obj);
                 obj->speed_y = 0;
                 break;
@@ -1224,7 +1223,7 @@ void MOVE_OBJECT(Obj *obj)
     s16 y_pos;
     u8 unk_1;
 
-    if (*(s32*)&obj->speed_x != 0)
+    if (*(s32 *) &obj->speed_x != 0)
     {
         speed_x_1 = obj->speed_x;
         speed_y_1 = obj->speed_y;
@@ -1253,19 +1252,18 @@ void MOVE_OBJECT(Obj *obj)
                 speed_y_2 = instantSpeed(obj->speed_y);
             else
                 speed_y_2 = speed_y_1;
-            
+
             if ((flags[obj->type].flags1 >> OBJ1_USE_INSTANT_SPEED_X) & 1)
                 speed_x_2 = instantSpeed(obj->speed_x);
             else
                 speed_x_2 = speed_x_1;
-            
+
             if (flags[obj->type].flags2 >> OBJ2_UTURN_ON_BLOCK & 1)
             {
                 x_pos_1 = obj->x_pos + obj->offset_bx;
                 x_pos_2 = x_pos_1 + speed_x_2;
                 y_pos = obj->y_pos + obj->offset_by - 8;
-                if
-                (
+                if (
                     (
                         !(block_flags[PS1_BTYPAbsPos(x_pos_1, y_pos)] >> BLOCK_FLAG_4 & 1) &&
                         block_flags[PS1_BTYPAbsPos(x_pos_2, y_pos)] >> BLOCK_FLAG_4 & 1
@@ -1498,14 +1496,14 @@ block_141:
                 /*goto block_57;*/
             }
 block_57:
-            if ((obj->main_etat != 0) || (obj->sub_etat != 0)) {
-                if (obj->main_etat != 1) {
-                    return;
-                }
-                if (obj->sub_etat != 0) {
-                    return;
-                }
-            }
+            if (
+                !(
+                    (obj->main_etat == 0 && obj->sub_etat == 0) ||
+                    (obj->main_etat == 1 && obj->sub_etat == 0)
+                )
+            )
+                return;
+
             set_main_and_sub_etat(obj, 1U, 0x0BU);
             temp_v0_4 = obj->flags;
             obj->flags = temp_v0_4 & 0xFFFF7FFF;
@@ -1531,7 +1529,7 @@ block_57:
                 {
                     skipToLabel(obj, 7, 1U);
                 }
-                
+
                 return;
             }
             break;
@@ -1545,14 +1543,14 @@ block_57:
             break;
         case 0x3C:
         case 0x3D:
-            if ((obj->main_etat != 0) || (obj->sub_etat != 0)) {
-                if (obj->main_etat != 1) {
-                    return;
-                }
-                if (obj->sub_etat != 0) {
-                    return;
-                }
-            }
+            if (
+                !(
+                    (obj->main_etat == 0 && obj->sub_etat == 0) ||
+                    (obj->main_etat == 1 && obj->sub_etat == 0)
+                )
+            )
+                return;
+
             skipToLabel(obj, 5, 1U);
             break;
         case 0x74:
@@ -1566,15 +1564,15 @@ block_57:
             }
             break;
         case 0x7A:
-            if ((obj->main_etat != 0) || (obj->sub_etat != 0)) {
-                if (obj->main_etat != 1) {
-                    return;
-                }
-                if (obj->sub_etat != 0) {
-                    return;
-                }
-            }
-            skipToLabel(obj,2,true);
+            if (
+                !(
+                    (obj->main_etat == 0 && obj->sub_etat == 0) ||
+                    (obj->main_etat == 1 && obj->sub_etat == 0)
+                )
+            )
+                return;
+
+            skipToLabel(obj, 2, true);
             obj->gravity_value_2 = 7;
             obj->gravity_value_1 = 0;
             return;
@@ -1588,15 +1586,19 @@ block_57:
             }
             break;
         case 0x84:
-            if (obj->main_etat == 2) {
+            if (obj->main_etat == 2)
+            {
                 temp_v1_11 = obj->sub_etat;
-                if (temp_v1_11 == 0x10) {
+                if (temp_v1_11 == 0x10)
+                {
                     return;
                 }
-                if (temp_v1_11 == 0x11) {
+                if (temp_v1_11 == 0x11)
+                {
                     return;
                 }
-                if (temp_v1_11 == 0x12) {
+                if (temp_v1_11 == 0x12)
+                {
                     return;
                 }
             }
@@ -1628,7 +1630,7 @@ block_57:
                     obj->flags = temp_v1_12 & ~0x4000;
                     skipToLabel(obj, 1, 1U);
                 }
-                
+
                 pushToLabel(obj, 5U, 1U);
                 return;
             }
@@ -1704,7 +1706,7 @@ block_57:
                 {
                     var_a1 = 4;
                     skipToLabel(obj, var_a1, 1U);
-                return;
+                    return;
                 }
             }
             break;
@@ -1734,7 +1736,7 @@ void DO_ONE_OBJECT(Obj *obj)
         GET_OBJ_CMD(obj);
     else
         obj->cmd = GO_NOP;
-    
+
     ObjectsFonctions[ot].do_obj(obj);
 
     if (obj->main_etat == 2)
@@ -1760,7 +1762,7 @@ void fptr_init(void)
     ObjType obj_type;
     ObjHandlers *obj_fonction;
     void (*sel_fonction)(Obj *);
-    
+
     for (obj_type = 0; obj_type < LEN(ObjectsFonctions) - 1; obj_type++)
     {
         switch (obj_type)
@@ -2306,7 +2308,7 @@ void fptr_init(void)
         case 0xF0:
         case 0xF3:
         case 0xF5:
-        case 0xF6:            
+        case 0xF6:
         default:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_ONE_CMD;
@@ -2376,7 +2378,7 @@ void Add_One_RAY_lives(void)
 {
     status_bar.num_lives++;
     MIN_2(status_bar.num_lives, 99);
-    
+
     if (status_bar.max_hp == 4)
         ray.hit_points = 4;
     else
@@ -2397,7 +2399,7 @@ void DO_CLING_ANIMS(void)
             obj->timer--;
         }
 
-        if(EOA(obj))
+        if (EOA(obj))
         {
             id_Cling_1up = -1;
             if (!(ray_mode == MODE_MORT_DE_RAYMAN || ray_mode == MODE_MORT_DE_RAYMAN_ON_MS))
@@ -2415,7 +2417,7 @@ void DO_CLING_ANIMS(void)
             obj->timer--;
         }
 
-        if(EOA(obj))
+        if (EOA(obj))
         {
             id_Cling_Pow = -1;
             if (!(ray_mode == MODE_MORT_DE_RAYMAN || ray_mode == MODE_MORT_DE_RAYMAN_ON_MS))
@@ -2450,7 +2452,7 @@ void DO_OBJECTS(void)
     Obj *cur_obj;
     u8 unk_1;
     s16 *cur_obj_id;
-    
+
     if (!(id_Cling_1up == -1 && id_Cling_Pow == -1))
         DO_CLING_ANIMS();
     if (lidol_to_allocate != 0)
@@ -2469,7 +2471,7 @@ void DO_OBJECTS(void)
         setvol(*cur_obj_id, unk_1);
         unk_1 = FUN_801473d4(cur_obj);
         setpan(*cur_obj_id, unk_1);
-        i++;            
+        i++;
         cur_obj = &level.objects[actobj.objects[i]];
     }
 
@@ -2505,7 +2507,7 @@ void MOVE_OBJECTS(void)
 {
     s16 i = 0;
     Obj *cur_obj = &level.objects[actobj.objects[i]];
-    
+
     while (i < actobj.num_active_objects)
     {
         MOVE_OBJECT(cur_obj);

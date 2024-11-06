@@ -7,7 +7,7 @@ Obj *allocateNOVA(void)
     s16 i = 0;
     Obj *cur_obj = &level.objects[i];
     s16 nb_objs = level.nb_objects;
-    
+
     while (i < nb_objs)
     {
         if (cur_obj->type == TYPE_NOVA2 && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
@@ -22,7 +22,7 @@ Obj *allocateNOVA(void)
         cur_obj++;
         i++;
     }
-    
+
     return res;
 }
 
@@ -88,7 +88,7 @@ void DO_NOVA2(Obj *in_obj)
     s16 nova_x; s16 nova_y; s16 nova_w; s16 nova_h;
     s16 in_x; s16 in_y; s16 in_w; s16 in_h;
     s16 new_x; s16 new_y;
-    
+
     for (i = 0; i < 5; i++)
     {
         nova_obj = allocateNOVA();

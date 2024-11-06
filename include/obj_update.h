@@ -13,7 +13,7 @@
 #include "collision/block_6E5E0.h" /* why do we need to include this? recale_position? */
 #include "obj_util.h"
 
-/* TODO: required? */
+/* TODO: required? also have function decls in .c ... */
 #include "obj/moskito.h"
 #include "obj/saxo.h"
 #include "obj/bb1.h"
