@@ -194,6 +194,7 @@ u8 PS1_TestCard(u8 par_chan)
     }
 }
 
+/* 45E34 8016A634 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/card", PS1_GetNbreFiles);
 #else
@@ -203,86 +204,77 @@ inline with 0x4b
 assigning char pointers to (s32 *)
 do{}while();
 */
-/*INCLUDE_ASM("asm/nonmatchings/card", PS1_GetNbreFiles);*/
 
 extern inline u8 test_lt()
 {
     return 0x4b;
 }
 
-s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
+s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *in_files)
 {
-    u8 sp10[128]; /* size correct? */
-    s32 temp_v1;
-    s32 var_a2_1;
-    s32 var_a2_2;
-    s32 var_a2_3;
-    s32 var_s1;
-    s32 var_v0;
-    struct DIRENTRY *var_a3_1;
-    struct DIRENTRY *var_a3_2;
-    struct DIRENTRY *var_s0;
-    u16 test_1;
-    s32 test_3;
-    s32 *test_4;
-    u32 test_5;
+    u8 filename[128]; /* size correct? */
+    s32 *cpy_src;
+    struct DIRENTRY *cur_file;
+    s32 unk_1;
+    s32 unk_2;
 
-    strcpy(sp10, name_start);
-    strcat(sp10, s__801cf02c);
+    strcpy(filename, name_start);
+    strcat(filename, s__801cf02c);
 
     switch (PS1_TestCard(0))
     {
     case 0:
-        test_4 = (s32 *) s_no_card_801cf030;
-        var_a3_1 = file;
-        var_a2_1 = 0;
+        cpy_src = (s32 *) s_no_card_801cf030;
+        cur_file = in_files;
+        unk_1 = 0;
         do
         {
-            __builtin_memcpy(var_a3_1->name, test_4, sizeof(s_no_card_801cf030));
-            var_a3_1 += 1;
-            var_a2_1 += 5;
-        } while (var_a2_1 < test_lt());
+            __builtin_memcpy(cur_file->name, cpy_src, sizeof(s_no_card_801cf030));
+            cur_file++;
+            unk_1 += 5;
+        } while (unk_1 < test_lt());
 
         return 0x0000000F;
     case 1:
-        test_4 = (s32 *) s_unformat_8012ac78;
-        var_a3_1 = file;
-        var_a2_1 = 0;
+        cpy_src = (s32 *) s_unformat_8012ac78;
+        cur_file = in_files;
+        unk_1 = 0;
         do
         {
-            __builtin_memcpy(var_a3_1->name, test_4, sizeof(s_unformat_8012ac78));
-            var_a3_1 += 1;
-            var_a2_1 += 5;
-        } while (var_a2_1 < test_lt());
+            __builtin_memcpy(cur_file->name, cpy_src, sizeof(s_unformat_8012ac78));
+            cur_file++;
+            unk_1 += 5;
+        } while (unk_1 < test_lt());
 
         return 0x0000000F;
     case -1:
-        var_a3_1 = file;
-        var_a2_1 = 0;
+        cur_file = in_files;
+        unk_1 = 0;
         do
         {
-            __builtin_memcpy(var_a3_1->name, s_error_801cf038, sizeof(s_error_801cf038));
-            var_a3_1 += 1;
-            var_a2_1 += 5;
-        } while (var_a2_1 < test_lt());
+            __builtin_memcpy(cur_file->name, s_error_801cf038, sizeof(s_error_801cf038));
+            cur_file++;
+            unk_1 += 5;
+        } while (unk_1 < test_lt());
 
         return 0x0000000F;
     default:
-        var_v0 = 0;
-        if (firstfile(sp10, file) == file)
+        unk_2 = 0;
+        if (firstfile(filename, in_files) == in_files)
         {
             do
             {
-                var_v0 += 1;
-                file += 1;
-            } while (nextfile(file) == file);
+                unk_2++;
+                in_files++;
+            } while (nextfile(in_files) == in_files);
         }
-        return var_v0;
+
+        return unk_2;
     }
 }
 
 #ifdef ALTERNATIVE
-s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
+s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *in_files)
 {
     u8 sp10[128]; /* size correct? */
     s32 temp_v1;
@@ -306,9 +298,10 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
         15 * 5
         tried rewriting as for()
         tried rewriting as var_a3_1 != &file[15]
+        var_a2_1 as struct size 5
         checked in debugger
         */
-        var_a3_1 = file;
+        var_a3_1 = in_files;
         var_a2_1 = 0;
         while (var_a2_1 < 0x4b)
         {
@@ -319,7 +312,7 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
 
         return 0x0000000F;
     case 1:
-        var_a3_1 = file;
+        var_a3_1 = in_files;
         var_a2_1 = 0;
         while (var_a2_1 < 0x4b)
         {
@@ -331,7 +324,7 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
         return 0x0000000F;
         break;
     case -1:
-        var_a3_1 = file;
+        var_a3_1 = in_files;
         var_a2_1 = 0;
         while (var_a2_1 < 0x4b)
         {
@@ -342,13 +335,13 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
         return 0x0000000F;
     default:
         var_v0 = 0;
-        if (firstfile(sp10, file) == file)
+        if (firstfile(sp10, in_files) == in_files)
         {
             do
             {
                 var_v0 += 1;
-                file += 1;
-            } while (nextfile(file) == file);
+                in_files += 1;
+            } while (nextfile(in_files) == in_files);
         }
         return var_v0;
     }
@@ -356,35 +349,24 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
 #endif
 #endif
 
-#ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/card", PS1_CardFilenameChecksum);
-#else
-/* matches, but doubled cnt1... */
-/*INCLUDE_ASM("asm/nonmatchings/card", PS1_CardFilenameChecksum);*/
-
+/* 45F90 8016A790 -O2 -msoft-float */
 s32 PS1_CardFilenameChecksum(u8 chan)
 {
     struct DIRENTRY files[15];
     u8 name_start[8];
     s32 nbre_files;
-    u8 cnt1_1; s32 cnt1_2;
-    u8 cnt2;
-    struct DIRENTRY *cur_file;
+    u8 cur_file; u8 cur_char;
     s32 sum = 0;
 
     sprintf(name_start, s_bu02x_801cf040, chan);
     nbre_files = PS1_GetNbreFiles(name_start, files);
-    for (cnt1_1 = 0; cnt1_1 < nbre_files; cnt1_1++)
-    {
-        cnt2 = 0;
-        cnt1_2 = cnt1_1;
-        cur_file = &files[cnt1_2];
-        for (; cnt2 < (u32) strlen(cur_file->name); cnt2++)
-            sum += (u8) cur_file->name[cnt2] << cnt1_2;
-    }
+
+    for (cur_file = 0; cur_file < nbre_files; cur_file++)
+        for (cur_char = 0; cur_char < (u32) strlen(files[cur_file].name); cur_char++)
+            sum += (u8) files[cur_file].name[cur_char] << cur_file;
+
     return sum;
 }
-#endif
 
 /* 4607C 8016A87C -O2 -msoft-float */
 void PS1_InitializeCard(u8 chan)
@@ -642,51 +624,53 @@ s32 SaveGameOnDisk(u8 slot)
 }
 
 /* 46CA0 8016B4A0 -O2 -msoft-float */
-s32 SaveFileRead(s32 fd, void *buf, s16 n)
+s32 SaveFileRead(s32 file_desc, void *buf, s16 n_bytes)
 {
-    s16 num_read;
+    s16 n_read;
     u8 i = 0;
 
     do
     {
-        num_read = read(fd, buf, n);
-    } while (num_read == -1 && i++ < 10);
-    return num_read;
+        n_read = read(file_desc, buf, n_bytes);
+    } while (n_read == -1 && i++ < 10);
+    return n_read;
 }
 
+/* 46D24 8016B524 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/card", PS1_LoadSave);
 #else
-/* matches, but options_jeu as memcpy somehow? */
-/*INCLUDE_ASM("asm/nonmatchings/card", PS1_LoadSave);*/
-
-void PS1_LoadSave(s32 param_1, u8 *param_2)
+/*
+matches, but options_jeu as memcpy somehow?
+SaveFileRead() macro _only_ for this function?
+*/
+void PS1_LoadSave(s32 param_1, u8 *filename)
 {
-    s32 file = open(param_2, 1);
+    s32 file_desc = open(filename, O_RDONLY);
     u16 file_buffer[64];
 
-    if (file != -1)
+    if (file_desc != -1)
     {
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(&nb_continue, file_buffer, sizeof(nb_continue));
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(&wi_save_zone, file_buffer, sizeof(wi_save_zone));
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(&RayEvts, file_buffer, sizeof(RayEvts));
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(&poing, file_buffer, sizeof(poing));
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(&status_bar, file_buffer, sizeof(status_bar));
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(&ray.hit_points, file_buffer, sizeof(ray.hit_points));
-        SaveFileRead(file, save_zone, sizeof(save_zone));
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, save_zone, sizeof(save_zone));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(bonus_perfect, file_buffer, sizeof(bonus_perfect));
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
         /*__builtin_memcpy(&options_jeu.Jump, &file_buffer[8], 22);*/
         /* also tried assigning to another local with OptionsJeu * or u16 * type beforehand */
         options_jeu.Jump = file_buffer[8];
@@ -700,17 +684,17 @@ void PS1_LoadSave(s32 param_1, u8 *param_2)
         options_jeu.field12_0x20 = file_buffer[16];
         options_jeu.field13_0x22 = file_buffer[17];
         options_jeu.field14_0x24 = file_buffer[18];
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(&world_index, file_buffer, sizeof(world_index));
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(&xwldmapsave, file_buffer, sizeof(xwldmapsave));
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(&ywldmapsave, file_buffer, sizeof(ywldmapsave));
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(&dir_on_wldmap, file_buffer, sizeof(dir_on_wldmap));
-        SaveFileRead(file, file_buffer, sizeof(file_buffer));
+        SaveFileRead(file_desc, file_buffer, sizeof(file_buffer));
         __builtin_memcpy(&finBosslevel, file_buffer, sizeof(finBosslevel));
-        close(file);
+        close(file_desc);
         PS1_LoadWiSaveZone();
         POINTEUR_BOUTONS_OPTIONS_BIS();
     }
