@@ -111,7 +111,7 @@ s32 hasGuetteurABomb(Obj *obj, s32 param_2)
     if (obj->eta[obj->main_etat][obj->sub_etat].flags & 4)
     {
         anim = &obj->animations[obj->anim_index];
-        unk_1 = obj->type != TYPE_PIRATE_GUETTEUR ? 5 : 0;
+        unk_1 = obj->type == TYPE_PIRATE_GUETTEUR ? 0 : 5;
         unk_2 = &anim->layers[(anim->layers_count & 0x3fff) * obj->anim_frame];
         if (unk_2[unk_1].sprite == 0)
             unk_1 = -1;
@@ -120,121 +120,95 @@ s32 hasGuetteurABomb(Obj *obj, s32 param_2)
     return unk_1;
 }
 
-#ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/obj/pirate_guetteur", allocatePirateGuetteurBomb);
-#else
-/* matches, but clean up */
-/*INCLUDE_ASM("asm/nonmatchings/obj/pirate_guetteur", allocatePirateGuetteurBomb);*/
-
 /* 5C8CC 801810CC -O2 -msoft-float */
-void allocatePirateGuetteurBomb(Obj *obj, s32 param_2, u8 param_3, u8 param_4)
+void allocatePirateGuetteurBomb(Obj *gue_obj, s32 param_2, u8 param_3, u8 param_4)
 {
-    s16 sp18;
-    s16 sp1A;
-    s16 sp1C;
-    s16 sp1E;
-    Obj *cur_obj;
-    s32 temp_v0;
-    s16 temp_v0_2;
-    s16 temp_v1_2;
-    s16 var_a0;
+    s32 unk_1;
     s16 i;
-    s16 var_s1;
-    s16 var_v0_2;
-    s32 var_s3;
-    s32 var_v0_1;
-    u16 temp_a1;
-    Obj *var_s0;
-    u32 temp_a0;
-    u8 temp_v1_1;
-    ObjState *temp_a0_2;
-    ObjState *temp_a0_3;
-    ObjState *temp_v1_3;
+    Obj *cur_obj;
     s16 nb_objs;
+    s16 gue_x; s16 gue_y; s16 gue_w; s16 gue_h;
+    s16 unk_x;
+    s16 new_spd_x;
+    u8 mul_x_pos;
+    ObjState *cur_eta_1; ObjState *cur_eta_2; ObjState *cur_eta_3;
 
     #ifdef NUGGET
     /* reg s3 set to 2 at 801424dc. but can have other values? */
-    var_s3 = 2;
+    mul_x_pos = 2;
     #endif
-    temp_v0 = hasGuetteurABomb(obj, param_2);
-    if (((s16) temp_v0 != -1))
+    unk_1 = hasGuetteurABomb(gue_obj, param_2);
+    if ((s16) unk_1 != -1)
     {
-
         i = 0;
         cur_obj = &level.objects[i];
         nb_objs = level.nb_objects;
         while (i < nb_objs)
         {
-            if (cur_obj->type == 0x4E)
+            if (cur_obj->type == TYPE_PIRATE_BOMB)
             {
-                temp_a0 = cur_obj->flags;
-                if (!(temp_a0 & 0x800))
+                if (!(cur_obj->flags & FLG(OBJ_ACTIVE)))
                 {
                     if (param_3)
-                    {
-                        cur_obj->flags = (temp_a0 & ~0x4000) | (obj->flags & 0x4000);
-                    }
+                        cur_obj->flags =
+                            cur_obj->flags & ~FLG(OBJ_FLIP_X) |
+                            gue_obj->flags & FLG(OBJ_FLIP_X);
                     else
-                    {
-                        cur_obj->flags = (temp_a0 & ~0x4000) | (((((u32) obj->flags >> 0xE) ^ 1) & 1) << 0xE);
-                    }
-                    cur_obj->speed_y = (s16) param_2;
-                    GET_SPRITE_POS(obj, (s16) temp_v0, &sp18, &sp1A, &sp1C, &sp1E);
-                    cur_obj->x_pos = (u16) (((u16) sp18 - cur_obj->offset_bx) + ((s32) ((u16) sp1C << 0x10) >> 0x11));
-                    temp_a1 = ((u16) sp1A + (u16) sp1E) - cur_obj->offset_by;
-                    cur_obj->y_pos = temp_a1;
-                    temp_v1_1 = obj->sub_etat;
-                    switch (temp_v1_1)
+                        cur_obj->flags =
+                            cur_obj->flags & ~FLG(OBJ_FLIP_X) |
+                            ((gue_obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X;
+
+                    cur_obj->speed_y = param_2;
+                    GET_SPRITE_POS(gue_obj, (s16) unk_1, &gue_x, &gue_y, &gue_w, &gue_h);
+                    cur_obj->x_pos = gue_x - cur_obj->offset_bx + (gue_w >> 1);
+                    cur_obj->y_pos = gue_y + gue_h - cur_obj->offset_by;
+                    switch (gue_obj->sub_etat)
                     {
                     case 2:
                     case 0x12:
-                        cur_obj->y_pos = (u16) (cur_obj->y_pos - 1);
-                        temp_a0_2 = &cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat];
-                        var_s1 = 0x0030;
-                        var_s3 = 3;
-                        temp_a0_2->anim_speed = (u8) ((temp_a0_2->anim_speed & 0xF) | 0xA0);
+                        new_spd_x = 48;
+                        mul_x_pos = 3;
+                        cur_obj->y_pos -= 1;
+                        cur_eta_1 = &cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat];
+                        cur_eta_1->anim_speed = (cur_eta_1->anim_speed & 0xF) | 0xA0;
                         cur_obj->gravity_value_1 = 0;
-                        cur_obj->gravity_value_2 = 0x0A;
+                        cur_obj->gravity_value_2 = 10;
                         break;
                     case 5:
-                        cur_obj->y_pos = (u16) (temp_a1 + 0x18);
-                        temp_a0_3 = &cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat];
-                        var_s1 = 0x0020;
-                        var_s3 = 3;
-                        temp_a0_3->anim_speed = (u8) ((temp_a0_3->anim_speed & 0xF) | 0x20);
+                        new_spd_x = 32;
+                        mul_x_pos = 3;
+                        cur_obj->y_pos += 24;
+                        cur_eta_2 = &cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat];
+                        cur_eta_2->anim_speed = (cur_eta_2->anim_speed & 0xF) | 0x20;
                         cur_obj->gravity_value_1 = 0;
                         cur_obj->gravity_value_2 = 0;
                         break;
                     case 0x0D:
-                        temp_v1_2 = 8 - myRand(0x0020);
-                        temp_v1_2 += 8 * SGN(temp_v1_2);
-                        temp_v1_3 = &cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat];
-                        temp_v1_3->anim_speed = (u8) ((temp_v1_3->anim_speed & 0xF) | 0x20);
-                        var_s1 = temp_v1_2;
-                        var_s3 = 0;
+                        unk_x = 8 - myRand(32);
+                        unk_x += 8 * SGN(unk_x);
+                        new_spd_x = unk_x;
+                        mul_x_pos = 0;
+                        cur_eta_3 = &cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat];
+                        cur_eta_3->anim_speed = (cur_eta_3->anim_speed & 0xF) | 0x20;
                         cur_obj->gravity_value_1 = 0;
                         cur_obj->gravity_value_2 = 0;
-                        cur_obj->y_pos = (u16) (cur_obj->y_pos - 0x14);
+                        cur_obj->y_pos -= 20;
                         break;
                     }
                     if (param_3 == 0)
-                    {
-                        var_s1 = 0x0010;
-                    }
-                    if (obj->flags & 0x4000)
-                    {
-                        cur_obj->speed_x = var_s1;
-                    }
+                        new_spd_x = 16;
+
+                    if (gue_obj->flags & FLG(OBJ_FLIP_X)) /* ternary-free zone */
+                        cur_obj->speed_x = new_spd_x;
                     else
-                    {
-                        cur_obj->speed_x = (s16) -var_s1;
-                    }
-                    cur_obj->x_pos = (u16) (cur_obj->x_pos + ((var_s3 & 0xFF) * ashr16(cur_obj->speed_x, 4U)));
-                    skipToLabel(cur_obj, ((u32) cur_obj->flags >> 0xE) & 1, 1U);
+                        cur_obj->speed_x = -new_spd_x;
+
+                    cur_obj->x_pos += mul_x_pos * ashr16(cur_obj->speed_x, 4);
+                    skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
                     calc_obj_pos(cur_obj);
-                    cur_obj->flags |= 0xC00;
+                    cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                     cur_obj->timer = param_4;
-                    cur_obj->flags &= 0xFFFDFFFF;
+                    cur_obj->flags &= ~FLG(OBJ_FLAG_9);
                     break;
                 }
             }
@@ -243,7 +217,6 @@ void allocatePirateGuetteurBomb(Obj *obj, s32 param_2, u8 param_3, u8 param_4)
         }
     }
 }
-#endif
 
 /* 5CC64 80181464 -O2 -msoft-float */
 void DO_PAR_TIR(Obj *obj)
