@@ -7,8 +7,6 @@ s32 TempsDemo;
 #endif
 
 /* 7F2BC 801A3ABC -O1, -O2 */
-/*? display_text(? *, ?, ?, ?, s32);*/
-
 void PS1_ShowDemoText(void)
 {
     display_text(s_start_801cf118, 160, 180, 1, 144);
@@ -16,13 +14,6 @@ void PS1_ShowDemoText(void)
 }
 
 /* 7F314 801A3B14 -O1 -O2 */
-/*? DISPLAY_FOND3();
-? DO_FADE();
-? InitDemoJeu();
-s32 StartButPressed();
-s32 ValidButPressed();
-? readinput();*/
-
 s16 PS1_DemoLoop(void)
 {
     u8 done;

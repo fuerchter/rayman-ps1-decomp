@@ -236,7 +236,7 @@ s32 FUN_80133b08(s32 param_1)
     if (PS1_DisableInputs)
         return false;
     else
-        return (s16) TOUCHE(INPUT_R1); 
+        return (s16) TOUCHE(INPUT_R1);
 }
 
 /* F344 80133B44 -O2 -msoft-float */
@@ -245,7 +245,7 @@ s32 FUN_80133b44(s32 param_1)
     if (PS1_DisableInputs)
         return false;
     else
-        return (s16) TOUCHE(INPUT_SELECT); 
+        return (s16) TOUCHE(INPUT_SELECT);
 }
 
 /* F380 80133B80 -O2 -msoft-float */
@@ -648,12 +648,12 @@ void FUN_80134610(u8 param_1)
         joy_rec_left = true;
     else
         joy_rec_left = false;
-    
+
     if (param_1 & FLG(5))
         joy_rec_right = true;
     else
         joy_rec_right = false;
-    
+
     if (param_1 & FLG(6))
         D_801E4C08 = true;
     else
@@ -670,7 +670,7 @@ u8 FUN_8013491c(void)
 {
     s32 unk_1 = 0;
     s32 res = unk_1;
-    
+
     if ((s16) but0pressed(0))
         res |= FLG(0);
     if ((s16) but1pressed(0))
@@ -696,7 +696,7 @@ void PS1_DoDemo(Record *record)
 {
     u8 unk_1;
     s32 cur_offs = record->current_offset;
-    
+
     if (record->is_recording)
     {
         unk_1 = FUN_8013491c();
@@ -775,9 +775,9 @@ void FUN_80134be0(void)
     vu8 unk_1;
     vu8 unk_2;
 
-    *(s32 *)&unk_1 = PS1_PadReceiveBuffer[3];
+    *(s32 *) &unk_1 = PS1_PadReceiveBuffer[3];
     unk_2 = PS1_PadReceiveBuffer[2];
-    *(s32 *)&unk_1 ^= 0xFFFF;
+    *(s32 *) &unk_1 ^= 0xFFFF;
 }
 
 #ifndef NONMATCHINGS
@@ -809,13 +809,13 @@ s32 TOUCHE(Input param_1)
     case 0xFF:
         PS1_ButtonStates[1] = *PS1_ButtonStates;
         *PS1_ButtonStates = 0;
-        
+
         *PS1_ButtonStates = PS1_PadReceiveBuffer[3] + (PS1_PadReceiveBuffer[2] << 8);
         if (*PS1_ButtonStates != 0)
         {
             *PS1_ButtonStates ^= 0xFFFF;
         }
-        
+
         if (++D_801E4DF8 >= 5)
         {
             D_801E4DF8 = 0;
@@ -944,10 +944,9 @@ s32 TOUCHE(Input param_1)
             return 0;
             /*__asm__("lui        $a0, %hi(D_801CEF0C)");
             __asm__("lw         $a0, %lo(D_801CEF0C)($a0)");*/
-            
         }
         return var_a2;
-    
+
     case 0x18:
         if (
             *PS1_ButtonStates != PS1_ButtonStates[1] &&
@@ -975,14 +974,14 @@ s32 TOUCHE(Input param_1)
             var_a1 = 0;
         return var_a1;
     case 0x11:
-        
+
         if (*PS1_ButtonStates != PS1_ButtonStates[1] && *PS1_ButtonStates == 0x0900)
         {
             var_v0 = 1;
         }
         else
             var_v0 = 0;
-        
+
         return var_v0;
     default:
         /* TODO: no explicit return? */

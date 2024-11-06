@@ -92,7 +92,7 @@ void FUN_8019fb84(void)
 
     unk_1 = D_801F4380;
     __builtin_memcpy(&fb_rect_1, &D_801CF0E8, sizeof(D_801CF0E8));
-    D_801F4380 = ((u8 *)D_801C438C[num_world - 1] + 0x45000);
+    D_801F4380 = ((u8 *) D_801C438C[num_world - 1] + 0x45000);
     FUN_8019df1c(num_world_choice);
     StoreImage(&fb_rect_1, D_801C438C[num_world - 1]);
     MoveImage(&PS1_CurrentDisplay->field0_0x0.disp, fb_rect_1.x, fb_rect_1.y);
@@ -104,7 +104,7 @@ void FUN_8019fb84(void)
     fb_rect_2.y = (SCREEN_HEIGHT - plan2_height) / 2;
     fb_rect_2.w = plan2_width;
     fb_rect_2.h = plan2_height;
-    LoadImage(&fb_rect_2, (u32 *)D_801F4380);
+    LoadImage(&fb_rect_2, (u32 *) D_801F4380);
     DrawSync(0);
     FUN_8012d2b0(100);
     SYNCHRO_LOOP(PS1_RollUpLToR);
@@ -146,7 +146,7 @@ void FUN_8019fdd0(void)
     __builtin_memcpy(&fb_rect, &D_801CF0E0, sizeof(D_801CF0E0));
     ClearImage(&fb_rect, 0, 0, 0);
     DISPLAY_FOND3();
-    
+
     new_disp = &PS1_Displays[0];
     if (PS1_CurrentDisplay == &PS1_Displays[0])
         new_disp = &PS1_Displays[1];
@@ -180,7 +180,7 @@ void PS1_SetLevelto_4_1(void)
 void FIRST_INIT(void)
 {
     FUN_8019fd40();
-    D_801F4380 = (void *)0x8005866C;
+    D_801F4380 = (void *) 0x8005866C;
     PS1_Init_ImgLdrVdoTrk_Files();
     FUN_8019fe8c();
     FUN_8019f8d0();

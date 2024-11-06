@@ -15,7 +15,7 @@ s16 continue_fonction(void)
     DISPLAY_CONTINUE_SPR();
     MAIN_CONTINUE_PRG();
     readinput();
-    
+
     if (loop_timing == -1 || fin_continue)
         done = true;
     return done;

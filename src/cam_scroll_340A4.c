@@ -16,7 +16,7 @@ void DO_AUTO_SCROLL(void)
     s16 scr_x;
     s16 ray_x = ray.x_pos;
     s16 ray_y = ray.y_pos;
-    
+
     scroll_x = 0;
     scroll_y = -1;
     for (i = 0; i < NumScrollObj; i++)
@@ -26,7 +26,7 @@ void DO_AUTO_SCROLL(void)
         if (scr_obj->type != TYPE_SCROLL)
             break;
 
-        switch(scr_obj->hit_points)
+        switch (scr_obj->hit_points)
         {
         case 0:
             if (scr_obj->x_pos <= ray_x)
@@ -63,7 +63,7 @@ void DO_AUTO_SCROLL(void)
                 }
                 else
                     scr_obj->y_pos = 10000;
-                
+
                 if (eau_id != -1 && scroll_y != 2)
                     level.objects[eau_id].iframes_timer = 2;
             }
@@ -73,7 +73,7 @@ void DO_AUTO_SCROLL(void)
 
     if (scroll_x <= 0)
         scroll_x--;
-    
+
     scr_x = scroll_x;
     if (scr_x > 0)
         h_scroll_speed = scr_x;

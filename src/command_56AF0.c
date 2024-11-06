@@ -5,7 +5,7 @@ void popCmdContext(Obj *obj)
 {
     u8 *cci;
     s16 to_sub;
-    
+
     cci = &obj->cmd_context_index;
     obj->cmd_offset = obj->cmd_contexts[*cci].cmd_offset;
     to_sub = 1;
@@ -21,7 +21,7 @@ s16 char2short(u8 in_char)
         out_short = in_char | 0xFF00;
     else
         out_short = in_char;
-    
+
     return out_short;
 }
 
@@ -63,7 +63,7 @@ u8 readTestArgs(Obj *obj)
 
 /* 56BE4 8017B3E4 -O2 */
 u8 readGoXYArgs(Obj *obj)
-{   
+{
     obj->cmd_offset++;
     obj->nb_cmd = char2short(obj->cmds[obj->cmd_offset]);
 
@@ -125,7 +125,7 @@ u8 skipTestArgs(Obj *obj)
     case 72:
         break;
     }
-    
+
     return false;
 }
 
@@ -183,7 +183,6 @@ u8 handle_RESERVED_GO_BRANCHTRUE(Obj *obj)
     return true;
 }
 
-
 /* 56EC8 8017B6C8 -O1, -O2 */
 u8 handle_RESERVED_GO_BRANCHFALSE(Obj *obj)
 {
@@ -238,19 +237,19 @@ u8 handle_GO_GOTO(Obj *obj)
 /* 56FF4 8017B7F4 -O2 */
 u8 handle_GO_STATE(Obj *obj)
 {
-  set_main_etat(obj, obj->nb_cmd);
-  obj->speed_x = 0;
-  obj->speed_y = 0;
-  return true;
+    set_main_etat(obj, obj->nb_cmd);
+    obj->speed_x = 0;
+    obj->speed_y = 0;
+    return true;
 }
 
 /* 5702C 8017B82C -O2 */
 u8 handle_GO_SUBSTATE(Obj *obj)
 {
-  set_sub_etat(obj, obj->nb_cmd);
-  obj->speed_x = 0;
-  obj->speed_y = 0;
-  return true;
+    set_sub_etat(obj, obj->nb_cmd);
+    obj->speed_x = 0;
+    obj->speed_y = 0;
+    return true;
 }
 
 /* 57064 8017B864 -O2 */
@@ -314,8 +313,8 @@ u8 handle_GO_DOLOOP(Obj *obj)
 /* 571B8 8017B9B8 -O2 */
 u8 handle_INVALID_CMD(Obj *obj)
 {
-  obj->cmd_offset = -1;
-  return true;
+    obj->cmd_offset = -1;
+    return true;
 }
 
 /* 571C8 8017B9C8 -O2 */
@@ -343,38 +342,38 @@ u8 handle_GO_BRANCHFALSE(Obj *obj)
 /* 57240 8017BA40 -O2 */
 u8 handle_GO_SKIPTRUE(Obj *obj)
 {
-  s16 length;
-  s16 i;
-  
-  if (obj->flags & FLG(OBJ_CMD_TEST))
-  {
-    length = obj->nb_cmd;
-    for (i = 0; i < length; i++)
-        skipOneCommand(obj);
-  }
-  return true;
+    s16 length;
+    s16 i;
+
+    if (obj->flags & FLG(OBJ_CMD_TEST))
+    {
+        length = obj->nb_cmd;
+        for (i = 0; i < length; i++)
+            skipOneCommand(obj);
+    }
+    return true;
 }
 
 /* 572C0 8017BAC0 -O2 */
 u8 handle_GO_SKIPFALSE(Obj *obj)
 {
-  s16 length;
-  s16 i;
-  
-  if (!(obj->flags & FLG(OBJ_CMD_TEST)))
-  {
-    length = obj->nb_cmd;
-    for (i = 0; i < length; i++)
-        skipOneCommand(obj);
-  }
-  return true;
+    s16 length;
+    s16 i;
+
+    if (!(obj->flags & FLG(OBJ_CMD_TEST)))
+    {
+        length = obj->nb_cmd;
+        for (i = 0; i < length; i++)
+            skipOneCommand(obj);
+    }
+    return true;
 }
 
 /* 57344 8017BB44 -O2 */
 u8 handle_GO_SETTEST(Obj *obj)
 {
     u8 to_and;
-    
+
     to_and = 1;
     obj->flags = obj->flags & ~FLG(OBJ_CMD_TEST) | (obj->nb_cmd & to_and) << OBJ_CMD_TEST;
     return true;
@@ -388,7 +387,7 @@ u8 handle_GO_TEST(Obj *obj)
     switch (obj->nb_cmd)
     {
     case 70:
-        if ((s16)OBJ_IN_ZONE(obj))
+        if ((s16) OBJ_IN_ZONE(obj))
             obj->flags |= FLG(OBJ_CMD_TEST);
         else
             obj->flags &= ~FLG(OBJ_CMD_TEST);

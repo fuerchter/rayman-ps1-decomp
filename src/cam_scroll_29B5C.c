@@ -41,7 +41,7 @@ void DO_SCREEN_TREMBLE(void)
 void DO_SCREEN_TREMBLE3(void)
 {
     s16 unk_1 = expsin2[screen_trembling3];
-    
+
     if (unk_1 != 0xFF)
     {
         screen_trembling3++;
@@ -55,7 +55,7 @@ void DO_SCREEN_TREMBLE3(void)
 void DO_SCREEN_TREMBLE2(void)
 {
     s16 unk_1 = expsin2[screen_trembling2];
-    
+
     if (unk_1 != 0xFF)
     {
         screen_trembling2++;
@@ -70,7 +70,7 @@ void DO_SCROLL(s16 *h_speed, s16 *v_speed)
 {
     if (*v_speed == 0xFF)
         *v_speed = 0;
-    
+
     if (num_world == 6 && num_level == 4)
         *h_speed = 0;
     if (num_world == 5 && num_level == 11)
@@ -86,7 +86,7 @@ void DO_SCROLL(s16 *h_speed, s16 *v_speed)
         DO_SCREEN_TREMBLE2();
     if (screen_trembling3 > 0)
         DO_SCREEN_TREMBLE3();
-    
+
     ymap += *v_speed;
     xmap += *h_speed;
     if (xmap < scroll_start_x)

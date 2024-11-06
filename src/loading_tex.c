@@ -34,12 +34,12 @@ void FUN_801392d8(s32 param_1, s16 *param_2, s16 *param_3)
     unk_1 = param_1 >> 7;
     if (param_1 > 0x8DFFF)
         unk_1 += 0x40;
-    
+
     if (unk_1 < 0x100)
         *param_2 = 0;
     else
         *param_2 = (unk_1 >> 9) + 1;
-    
+
     if (*param_2 < 2)
         *param_3 = unk_1 & 0xFF;
     else
@@ -70,7 +70,7 @@ void FUN_80139330(u32 param_1, s16 *param_2, s16 *param_3)
         *param_2 = param_1 >> 15;
     else
         *param_2 = (temp_v1_1 >> 16) + 2;
-    
+
     if (temp_v1_1 < 0)
         *param_3 = (param_1 & 0x7FFF) >> 7;
     else
@@ -85,12 +85,12 @@ void FUN_80139330(u32 param_1, s16 *param_2, s16 *param_3)
     {
         temp_a0 = temp_v1_1 + 0xFFFA0000;
         temp_v1_2 = temp_a0 - (test_1 << 8);
-        
+
         if (temp_v1_2 < 0)
             *param_2 = 8;
         else
             *param_2 = 9;
-            
+
         if (temp_v1_2 < 0)
             *param_3 = (u32) temp_a0 >> 8;
         else
@@ -147,7 +147,7 @@ void FUN_80139624(s32 param_1)
 {
     s16 start_pos = 7;
     s16 end_pos = 80;
-    
+
     FUN_801392d8(param_1 + 0x65000, &start_pos, &end_pos);
     PS1_LoadVRAMBlock(7, start_pos, 80, end_pos, 0, D_801F4380);
 }
@@ -156,7 +156,7 @@ void FUN_80139624(s32 param_1)
 void FUN_80139688(s32 tile_set_size)
 {
     s32 unk_1 = 15;
-    
+
     FUN_801392d8(0xAC000 - tile_set_size, &D_801F5440, &D_801F55D8);
     if (D_801F5440 < 8)
     {

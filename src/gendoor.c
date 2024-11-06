@@ -82,7 +82,7 @@ s16 FUN_80156710(Obj *obj)
         type == TYPE_BOUEE_JOE
     )
         return true;
-    
+
     return false;
 }
 
@@ -113,7 +113,7 @@ void correct_gendoor_link(void)
         if (cur_obj->type == 0xA4)
         {
             new_var = cnt_1;
-            
+
             var_a2 = link_init[cnt_1];
             {
                 while ((var_a2 != new_var) && var_a2 != cnt_1)
@@ -124,10 +124,9 @@ void correct_gendoor_link(void)
                     }
                     new_var = var_a2;
                     var_a2 = link_init[new_var];
-
                 }
             }
-            
+
             var_a1 = var_a2 == cnt_1;
             if (var_a1)
             {
@@ -139,7 +138,7 @@ void correct_gendoor_link(void)
                 }
 
                 cur_obj->field24_0x3e = link_init[var_a2];
-                
+
                 link_init[var_a2] = cnt_1;
                 cur_obj->flags &= ~0x1000;
             }
@@ -158,7 +157,7 @@ void suppressFromLinkList(Obj *obj)
     s16 unk_3;
 
     unk_2 = obj->id;
-    
+
     unk_1 = unk_2;
     unk_2 = link_init[unk_1];
     while (unk_2 != obj->id)
@@ -166,7 +165,7 @@ void suppressFromLinkList(Obj *obj)
         unk_1 = unk_2;
         unk_2 = link_init[unk_1];
     }
-    
+
     link_init[unk_1] = link_init[obj->id];
     unk_3 = link_init[unk_1];
     if (unk_3 == unk_1)

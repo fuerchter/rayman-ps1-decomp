@@ -95,51 +95,51 @@ s32 PS1_InitPAD(void)
 /* 45B04 8016A304 -O2 -msoft-float */
 s32 PS1_TestSwCARD(void)
 {
-  while (true)
-  {
-    if (TestEvent(PS1_SwCARD_EvSpIOE) == 1)
-      return 0;
-    if (TestEvent(PS1_SwCARD_EvSpERROR) == 1)
-      return 1;
-    if (TestEvent(PS1_SwCARD_EvSpTIMOUT) == 1)
-      return 2;
-    if (TestEvent(PS1_SwCARD_EvSpNEW) == 1)
-      return 3;
-  }
+    while (true)
+    {
+        if (TestEvent(PS1_SwCARD_EvSpIOE) == 1)
+            return 0;
+        if (TestEvent(PS1_SwCARD_EvSpERROR) == 1)
+            return 1;
+        if (TestEvent(PS1_SwCARD_EvSpTIMOUT) == 1)
+            return 2;
+        if (TestEvent(PS1_SwCARD_EvSpNEW) == 1)
+            return 3;
+    }
 }
 
 /* 45B84 8016A384 -O2 -msoft-float */
 void PS1_TestSwCARDOnce(void)
 {
-  TestEvent(PS1_SwCARD_EvSpIOE);
-  TestEvent(PS1_SwCARD_EvSpERROR);
-  TestEvent(PS1_SwCARD_EvSpTIMOUT);
-  TestEvent(PS1_SwCARD_EvSpNEW);
+    TestEvent(PS1_SwCARD_EvSpIOE);
+    TestEvent(PS1_SwCARD_EvSpERROR);
+    TestEvent(PS1_SwCARD_EvSpTIMOUT);
+    TestEvent(PS1_SwCARD_EvSpNEW);
 }
 
 /* 45BDC 8016A3DC -O2 -msoft-float */
 s32 PS1_TestHwCARD(void)
 {
-  while (true)
-  {
-    if (TestEvent(PS1_HwCARD_EvSpIOE) == 1)
-      return 0;
-    if (TestEvent(PS1_HwCARD_EvSpERROR) == 1)
-      return 1;
-    if (TestEvent(PS1_HwCARD_EvSpTIMOUT) == 1)
-      return 2;
-    if (TestEvent(PS1_HwCARD_EvSpNEW) == 1)
-      return 3;
-  }
+    while (true)
+    {
+        if (TestEvent(PS1_HwCARD_EvSpIOE) == 1)
+            return 0;
+        if (TestEvent(PS1_HwCARD_EvSpERROR) == 1)
+            return 1;
+        if (TestEvent(PS1_HwCARD_EvSpTIMOUT) == 1)
+            return 2;
+        if (TestEvent(PS1_HwCARD_EvSpNEW) == 1)
+            return 3;
+    }
 }
 
 /* 45C5C 8016A45C -O2 -msoft-float */
 void PS1_TestHwCARDOnce(void)
 {
-  TestEvent(PS1_HwCARD_EvSpIOE);
-  TestEvent(PS1_HwCARD_EvSpERROR);
-  TestEvent(PS1_HwCARD_EvSpTIMOUT);
-  TestEvent(PS1_HwCARD_EvSpNEW);
+    TestEvent(PS1_HwCARD_EvSpIOE);
+    TestEvent(PS1_HwCARD_EvSpERROR);
+    TestEvent(PS1_HwCARD_EvSpTIMOUT);
+    TestEvent(PS1_HwCARD_EvSpNEW);
 }
 
 /* 45CB4 8016A4B4 -O2 -msoft-float */
@@ -229,11 +229,11 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
 
     strcpy(sp10, name_start);
     strcat(sp10, s__801cf02c);
-    
+
     switch (PS1_TestCard(0))
     {
     case 0:
-        test_4 = (s32 *)s_no_card_801cf030;
+        test_4 = (s32 *) s_no_card_801cf030;
         var_a3_1 = file;
         var_a2_1 = 0;
         do
@@ -242,10 +242,10 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
             var_a3_1 += 1;
             var_a2_1 += 5;
         } while (var_a2_1 < test_lt());
-      
+
         return 0x0000000F;
     case 1:
-        test_4 = (s32 *)s_unformat_8012ac78;
+        test_4 = (s32 *) s_unformat_8012ac78;
         var_a3_1 = file;
         var_a2_1 = 0;
         do
@@ -254,7 +254,7 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
             var_a3_1 += 1;
             var_a2_1 += 5;
         } while (var_a2_1 < test_lt());
-        
+
         return 0x0000000F;
     case -1:
         var_a3_1 = file;
@@ -298,7 +298,7 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
 
     strcpy(sp10, name_start);
     strcat(sp10, s__801cf02c);
-    
+
     switch (PS1_TestCard(0))
     {
     case 0:
@@ -316,7 +316,7 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
             var_a3_1 += 1;
             var_a2_1 += 5;
         }
-      
+
         return 0x0000000F;
     case 1:
         var_a3_1 = file;
@@ -327,7 +327,7 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *file)
             var_a3_1 += 1;
             var_a2_1 += 5;
         }
-        
+
         return 0x0000000F;
         break;
     case -1:
@@ -418,20 +418,20 @@ void PS1_InitializeCard(u8 chan)
 /* 46270 8016AA70 -O2 -msoft-float */
 u8 PS1_FormatFs(u8 param_1)
 {
-  u8 fs[8];
-  
-  FntPrint(s__FORMATING_8012ac84);
-  sprintf(fs, s_bu02x_801cf040, param_1);
-  if (format(fs) == 1)
-  {
-    FntPrint(s__Done_801cf048);
-    return 0;
-  }
-  else
-  {
-    FntPrint(s__Error_in_formatting_8012ac90);
-    return 0xFF;
-  }
+    u8 fs[8];
+
+    FntPrint(s__FORMATING_8012ac84);
+    sprintf(fs, s_bu02x_801cf040, param_1);
+    if (format(fs) == 1)
+    {
+        FntPrint(s__Done_801cf048);
+        return 0;
+    }
+    else
+    {
+        FntPrint(s__Error_in_formatting_8012ac90);
+        return 0xFF;
+    }
 }
 
 /* 462F4 8016AAF4 -O2 -msoft-float */
@@ -443,7 +443,7 @@ void PS1_InitSaveRayAndFilenames(u8 param_1)
     s32 nbre_files;
     u8 cnt1;
     u8 cnt2 = 0;
-    
+
     sprintf(name_start, s_bu02x_801cf040, param_1);
     nbre_files = PS1_GetNbreFiles(name_start, files);
     for (cnt1 = 0; cnt1 < nbre_files; cnt1++)
@@ -472,6 +472,7 @@ returns u8 instead? see SaveGameOnDisk and betw1 var
 */
 /*INCLUDE_ASM("asm/nonmatchings/card", PS1_WriteSave);*/
 
+/* TODO: macro for 0x80 size? also in PS1_LoadSave */
 s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
 {
     u8 *pbVar1;
@@ -487,8 +488,8 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
     s32 chan_local;
     s32 slot_local;
     u8 test_4[32];
-    u8 saveicon1 [128];
-    u8 saveicon2and3 [128];
+    u8 saveicon1[128];
+    u8 saveicon2and3[128];
     u8 saveiconpalette[32];
     s32 local_c0;
     s32 local_bc;
@@ -509,8 +510,10 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
     __builtin_memcpy(saveiconpalette, PS1_SaveIconPalette, sizeof(PS1_SaveIconPalette));
     _card_info(chan_par);
     event_res = PS1_TestSwCARD();
-    if (event_res - 1U >= 2) {
-        if (event_res == 3) {
+    if (event_res - 1U >= 2)
+    {
+        if (event_res == 3)
+        {
             PS1_TestHwCARDOnce();
             _card_clear(chan_par);
             PS1_TestHwCARD();
@@ -520,16 +523,18 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
         PS1_TestSwCARD();
         FntPrint(s__Saving_file_8012add8);
         devname = &PS1_SaveFilenames[slot_par - 1][0];
-        if (devname[0] == 0) {
-            sprintf(devname,s_bu02xss4u_8012ade8,chan_par,s_BISLUS00005_8012aca8,save_ray[slot_par],
-                    (ushort)PS1_GlobalTimer);
+        if (devname[0] == 0)
+        {
+            sprintf(devname, s_bu02xss4u_8012ade8, chan_par, s_BISLUS00005_8012aca8, save_ray[slot_par], (ushort) PS1_GlobalTimer);
         }
-        fd = open(devname,0x10200);
-        if (fd != -1) {
+        fd = open(devname, 0x10200);
+        if (fd != -1)
+        {
             PS1_WriteWiSaveZone();
             loadInfoRay[slot_par - 1].num_cages = 0;
             cnt = 0;
-            do {
+            do
+            {
                 loadInfoRay[slot_par - 1].num_cages = loadInfoRay[slot_par - 1].num_cages + (wi_save_zone[cnt].nb_cages);
                 cnt = cnt + 1;
             } while (cnt < 24);
@@ -538,48 +543,51 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
             card_frame0.sc_magic[1] = 'C';
             card_frame0.icon_display_flag = 0x13;
             card_frame0.block_num = 1;
-            sprintf(card_frame0.Rayman_save_ray_pct,s_Rayman_s_03d_8012adf8,save_ray[slot_par],
-                    (short)(chan_local / 102));
-            strncpy(card_frame0.Maga,s_Maga_801cf050,0x1c);
+            sprintf(card_frame0.Rayman_save_ray_pct, s_Rayman_s_03d_8012adf8, save_ray[slot_par], (short) (chan_local / 102));
+            strncpy(card_frame0.Maga, s_Maga_801cf050, 0x1c);
             __builtin_memcpy(card_frame0.icon_palette, saveiconpalette, sizeof(saveiconpalette));
-            write(fd,&card_frame0,0x80);
-            write(fd,saveicon1,0x80);
-            write(fd,saveicon2and3,0x80);
-            write(fd,saveicon2and3,0x80);
-            write(fd,&nb_continue,0x80);
-            write(fd,wi_save_zone,0x80);
-            write(fd,&RayEvts,0x80);
-            write(fd,&poing,0x80);
-            write(fd,&status_bar,0x80);
-            write(fd,&ray.hit_points,0x80);
-            write(fd,save_zone,0xa80);
-            write(fd,bonus_perfect,0x80);
-            write(fd,&options_jeu,0x80);
-            if (dans_la_map_monde) {
-                write(fd,&num_world_choice,0x80);
-                write(fd,&xmap,0x80);
-                write(fd,&ymap,0x80);
-                local_20 = (u8)(ray.flags >> 0xe) & 1;
-                write(fd,&local_20,0x80);
+            write(fd, &card_frame0, 0x80);
+            write(fd, saveicon1, 0x80);
+            write(fd, saveicon2and3, 0x80);
+            write(fd, saveicon2and3, 0x80);
+            write(fd, &nb_continue, 0x80);
+            write(fd, wi_save_zone, 0x80);
+            write(fd, &RayEvts, 0x80);
+            write(fd, &poing, 0x80);
+            write(fd, &status_bar, 0x80);
+            write(fd, &ray.hit_points, 0x80);
+            write(fd, save_zone, 0xa80);
+            write(fd, bonus_perfect, 0x80);
+            write(fd, &options_jeu, 0x80);
+            if (dans_la_map_monde)
+            {
+                write(fd, &num_world_choice, 0x80);
+                write(fd, &xmap, 0x80);
+                write(fd, &ymap, 0x80);
+                local_20 = (u8) (ray.flags >> 0xe) & 1;
+                write(fd, &local_20, 0x80);
             }
-            else {
-                write(fd,&world_index,0x80);
-                write(fd,&xwldmapsave,0x80);
-                write(fd,&ywldmapsave,0x80);
-                write(fd,&dir_on_wldmap,0x80);
+            else
+            {
+                write(fd, &world_index, 0x80);
+                write(fd, &xwldmapsave, 0x80);
+                write(fd, &ywldmapsave, 0x80);
+                write(fd, &dir_on_wldmap, 0x80);
             }
-            write(fd,&finBosslevel,0x80);
+            write(fd, &finBosslevel, 0x80);
             close(fd);
             CHANGE_STAGE_NAMES();
             PS1_Checksum = PS1_CardFilenameChecksum(chan_par);
             betw1 = 1;
         }
-        else {
+        else
+        {
             FntPrint(s__Cant_open_file_8012ae0c);
             betw1 = 0xfd;
         }
     }
-    else {
+    else
+    {
         FntPrint(s__Cannot_create_file_8012ae20);
         betw1 = 0xfc;
     }
@@ -590,29 +598,29 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
 /* 46AE8 8016B2E8 -O2 -msoft-float */
 u8 *FUN_8016b2e8(u8 param_1, u8 param_2, u8 *param_3)
 {
-  struct DIRENTRY files[15];
-  struct DIRENTRY *cur_file;
-  u8 name_start[8];
-  s32 nbre_files;
-  u8 cnt1;
-  u8 cnt2 = 0;
+    struct DIRENTRY files[15];
+    struct DIRENTRY *cur_file;
+    u8 name_start[8];
+    s32 nbre_files;
+    u8 cnt1;
+    u8 cnt2 = 0;
 
-  sprintf(name_start, s_bu02x_801cf040, param_1);
-  nbre_files = PS1_GetNbreFiles(name_start, files);
-  for (cnt1 = 0; cnt1 < nbre_files; cnt1++)
-  {
-    cur_file = &files[cnt1];
-    if (strncmp(cur_file->name, s_BISLUS00005_8012aca8, 12) == 0)
+    sprintf(name_start, s_bu02x_801cf040, param_1);
+    nbre_files = PS1_GetNbreFiles(name_start, files);
+    for (cnt1 = 0; cnt1 < nbre_files; cnt1++)
     {
-      cnt2++;
-      if (cnt2 == param_2)
-      {
-        sprintf(param_3, s_bu02xss_8012ae38, param_1, s_BISLUS00005_8012aca8, &cur_file->name[12]);
-        return param_3;
-      }
+        cur_file = &files[cnt1];
+        if (strncmp(cur_file->name, s_BISLUS00005_8012aca8, 12) == 0)
+        {
+            cnt2++;
+            if (cnt2 == param_2)
+            {
+                sprintf(param_3, s_bu02xss_8012ae38, param_1, s_BISLUS00005_8012aca8, &cur_file->name[12]);
+                return param_3;
+            }
+        }
     }
-  }
-  return null;
+    return null;
 }
 
 /* 46BFC 8016B3FC -O2 -msoft-float */
@@ -626,7 +634,7 @@ s32 SaveGameOnDisk(u8 slot)
         PS1_CheckCardChanged();
         strcpy(filename, PS1_SaveFilenames[slot - 1]);
         if (filename[0] != '\0')
-            delete(filename);
+            delete (filename);
         strncpy(&PS1_SaveFilenames[slot - 1][17], save_ray[slot], 3);
         res = (u8) PS1_WriteSave(0, slot);
     }
@@ -656,7 +664,7 @@ void PS1_LoadSave(s32 param_1, u8 *param_2)
 {
     s32 file = open(param_2, 1);
     u16 file_buffer[64];
-    
+
     if (file != -1)
     {
         SaveFileRead(file, file_buffer, sizeof(file_buffer));
@@ -714,11 +722,11 @@ void PS1_LoadSave(s32 param_1, u8 *param_2)
 /* 470E4 8016B8E4 -O2 -msoft-float */
 void LoadGameOnDisk(u8 slot)
 {
-  if (NBRE_SAVE != 0)
-  {
-    PS1_CheckCardChanged();
-    PS1_LoadSave(0, PS1_SaveFilenames[slot - 1]);
-  }
+    if (NBRE_SAVE != 0)
+    {
+        PS1_CheckCardChanged();
+        PS1_LoadSave(0, PS1_SaveFilenames[slot - 1]);
+    }
 }
 
 /* 47134 8016B934 -O2 -msoft-float */
@@ -769,7 +777,7 @@ void FUN_8016bbe4(void)
         PS1_CheckCardChanged();
         filename = PS1_SaveFilenames[fichier_selectionne - 1];
         if (filename[0] != '\0')
-            delete(filename);
+            delete (filename);
         PS1_Checksum = PS1_CardFilenameChecksum(0);
         *save_ray[fichier_selectionne] = '\0';
         *PS1_SaveFilenames[fichier_selectionne - 1] = '\0';
@@ -779,76 +787,76 @@ void FUN_8016bbe4(void)
 /* 47488 8016BC88 -O2 -msoft-float */
 u8 PS1_GetNbreSave3(u8 param_1)
 {
-  u8 saves_found = 0;
-  u8 blocks_used = 0;
-  s32 nbre_files;
-  struct DIRENTRY files[15];
-  u8 name_start[8];
-  u8 i;
-  u8 buf[128];
-  u8 dev_name[32];
-  s32 fd;
-  u8 res;
+    u8 saves_found = 0;
+    u8 blocks_used = 0;
+    s32 nbre_files;
+    struct DIRENTRY files[15];
+    u8 name_start[8];
+    u8 i;
+    u8 buf[128];
+    u8 dev_name[32];
+    s32 fd;
+    u8 res;
 
-  sprintf(name_start, s_bu02x_801cf040, param_1);
-  nbre_files = PS1_GetNbreFiles(name_start, files);
-  for (i = 0; i < nbre_files; i++)
-  {
-    sprintf(dev_name, s_ss_801cf058, name_start, files[i].name);
-    fd = open(dev_name, O_RDONLY);
-    SaveFileRead(fd, buf, sizeof(buf));
-    blocks_used += buf[3];
-    close(fd);
-    if (strncmp(files[i].name, s_BISLUS00005_8012aca8, 12) == 0)
-      saves_found++;
-  }
-  res = saves_found - (u8) (blocks_used - 15); /* underflow? couldn't retype */
-  MIN_2(res, 3);
-  return res;
+    sprintf(name_start, s_bu02x_801cf040, param_1);
+    nbre_files = PS1_GetNbreFiles(name_start, files);
+    for (i = 0; i < nbre_files; i++)
+    {
+        sprintf(dev_name, s_ss_801cf058, name_start, files[i].name);
+        fd = open(dev_name, O_RDONLY);
+        SaveFileRead(fd, buf, sizeof(buf));
+        blocks_used += buf[3];
+        close(fd);
+        if (strncmp(files[i].name, s_BISLUS00005_8012aca8, 12) == 0)
+            saves_found++;
+    }
+    res = saves_found - (u8) (blocks_used - 15); /* underflow? couldn't retype */
+    MIN_2(res, 3);
+    return res;
 }
 
 /* 475C4 8016BDC4 -O2 -msoft-float */
 s32 PS1_CardFilenameChecksumChanged(void)
 {
-  return PS1_Checksum != PS1_CardFilenameChecksum(0);
+    return PS1_Checksum != PS1_CardFilenameChecksum(0);
 }
 
 /* 475F4 8016BDF4 -O2 -msoft-float */
 s32 PS1_TestCardZero(void)
 {
-  return PS1_TestCard(0) == 0;
+    return PS1_TestCard(0) == 0;
 }
 
 /* 47618 8016BE18 -O2 -msoft-float */
 s16 PS1_CardUnformatted(void)
 {
-  s32 unk_1 = true; /* least ugly permuter suggestion imo */
-  if (unk_1 && PS1_TestCard(0) != 2)
-  {
-    VSync(0);
-    VSync(0);
-    VSync(0);
-    return PS1_TestCard(0) != 2;
-  }
-  else
-    return false;
+    s32 unk_1 = true; /* least ugly permuter suggestion imo */
+    if (unk_1 && PS1_TestCard(0) != 2)
+    {
+        VSync(0);
+        VSync(0);
+        VSync(0);
+        return PS1_TestCard(0) != 2;
+    }
+    else
+        return false;
 }
 
 /* 4767C 8016BE7C -O2 -msoft-float */
 u8 PS1_GetNbreSave2(void)
 {
-  return PS1_GetNbreSave3(0);
+    return PS1_GetNbreSave3(0);
 }
 
 /* 4769C 8016BE9C -O2 -msoft-float */
 s32 FUN_8016be9c(void)
 {
-  return (s16) PS1_CardFilenameChecksumChanged();
+    return (s16) PS1_CardFilenameChecksumChanged();
 }
 
 /* 476C0 8016BEC0 -O2 -msoft-float */
 void FUN_8016bec0(void)
 {
-  PS1_FormatFs(0);
-  PS1_Checksum = PS1_CardFilenameChecksum(0);
+    PS1_FormatFs(0);
+    PS1_Checksum = PS1_CardFilenameChecksum(0);
 }

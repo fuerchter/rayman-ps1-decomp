@@ -7,16 +7,12 @@ s32 nb_wiz_save;
 #endif
 
 /* 35FB4 8015A7B4 -O2 */
-/*s32 getbit(? *, s16);*/
-
 u8 get_bonus_map_complete(s16 world, s16 lvl)
 {
     return getbit(bonus_perfect, (s16) (lvl - 1 + ((world - 1) << 5)));
 }
 
 /* 35FEC 8015A7EC -O2 */
-/*? setbit(u8 *, s16);*/
-
 void set_bonus_map_complete(s16 world, s16 lvl)
 {
     setbit(bonus_perfect, (s16) (lvl - 1 + ((world - 1) << 5)));
@@ -41,9 +37,6 @@ void DO_PERFECT_BONUS_MAP(void)
 }
 
 /* 360C8 8015A8C8 -O2 */
-/*? Add_One_RAY_lives();
-s16 NOVA_STATUS_BAR(u8 *, u8);*/
-
 void DO_WIZ_AFTER_BONUS_MAP(void)
 {
     if (!bonus_map && nb_wiz_collected != 0 && horloge[4] == 0)

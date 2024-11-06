@@ -3,8 +3,8 @@
 /* 372E0 8015BAE0 -O2 */
 void DO_WIZARD(Obj *obj)
 {
-  switch (obj->sub_etat)
-  {
+    switch (obj->sub_etat)
+    {
     case 1:
         if (status_bar.num_wiz >= 10)
         {
@@ -37,7 +37,7 @@ void DO_WIZARD(Obj *obj)
             set_main_and_sub_etat((&ray), 0, 0);
         }
         break;
-  }
+    }
 }
 
 /* TODO: inserting nop caused reg swap */
@@ -119,7 +119,7 @@ void TEST_WIZARD(Obj *obj)
         )
     )
         obj->detect_zone_flag = 0;
-    
+
     obj_sub_etat = obj->sub_etat;
     if (obj_sub_etat == 0)
     {
@@ -161,7 +161,7 @@ void TEST_WIZARD(Obj *obj)
     }
     else if (!(obj_sub_etat == 0 || obj->detect_zone_flag == 0))
     {
-        if(ray.flags & FLG(OBJ_FLAG_0) && obj_sub_etat == 11)
+        if (ray.flags & FLG(OBJ_FLAG_0) && obj_sub_etat == 11)
         {
             obj->timer--;
             if (obj->timer == 0)

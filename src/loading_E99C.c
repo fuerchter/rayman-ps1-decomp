@@ -6,9 +6,9 @@ const u8 s__s_void0x08x_void0x_801272c0[] = "\t{\"%s\", (void*)0x%08x, (void*)0x
 /* E818 80133018 -O2 -msoft-float */
 void PS1_Disable_all_Callbacks(void)
 {
-  ResetCallback();
-  CdSyncCallback(null);
-  CdReadyCallback(null);
+    ResetCallback();
+    CdSyncCallback(null);
+    CdReadyCallback(null);
 }
 
 /* E848 80133048 -O2 -msoft-float */
@@ -37,7 +37,7 @@ void FUN_80133048(s32 param_1, FileInfo *files, u8 count)
 }
 
 /* E99C 8013319C -O2 -msoft-float */
-s32 PS1_InitFiles(FileInfo *files, s32 count, u8 *name){ return 0; }
+s32 PS1_InitFiles(FileInfo *files, s32 count, u8 *name) { return 0; }
 
 /* E9A4 801331A4 -O2 -msoft-float */
 s32 FUN_801331a4(FileInfo *files, s32 count, s32 param_3)
@@ -54,7 +54,7 @@ s32 FUN_801331a4(FileInfo *files, s32 count, s32 param_3)
             for (j = 0; j < 100; j++)
             {
                 CdSync(0, null);
-                if(CdSearchFile(&files[i].file, files[i].path))
+                if (CdSearchFile(&files[i].file, files[i].path))
                     break;
             }
         }
@@ -117,15 +117,15 @@ s32 PS1_LoadFiles(FileInfo *files, s32 file_index, s32 count, s16 param_4)
 /* EC98 80133498 -O2 -msoft-float */
 s32 PS1_LoadVabBody(FileInfo file, s16 in_vabid, s16 param_3)
 {
-  s32 out_vabid;
-  s16 completed;
-  
-  PS1_LoadFiles(&file, 0, 1, param_3);
-  SsUtReverbOff();
-  out_vabid = SsVabTransBody(file.dest, in_vabid);
-  SsUtReverbOn();
-  completed = SsVabTransCompleted(SS_WAIT_COMPLETED);
-  if (completed != true) /* ??? */
-    out_vabid += completed * 0x100;
-  return out_vabid;
+    s32 out_vabid;
+    s16 completed;
+
+    PS1_LoadFiles(&file, 0, 1, param_3);
+    SsUtReverbOff();
+    out_vabid = SsVabTransBody(file.dest, in_vabid);
+    SsUtReverbOn();
+    completed = SsVabTransCompleted(SS_WAIT_COMPLETED);
+    if (completed != true) /* ??? */
+        out_vabid += completed * 0x100;
+    return out_vabid;
 }

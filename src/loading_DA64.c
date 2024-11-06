@@ -14,30 +14,30 @@ s32 D_801D7868[2];
 /* DA64 80132264 -O2 -msoft-float */
 void PS1_LoadLevelMapBlock(MapData *data)
 {
-  u8 unk_1 = *((u8 *)PS1_LevelMapBlock + 1);
+    u8 unk_1 = *((u8 *) PS1_LevelMapBlock + 1);
 
-  if ((*(u8 *)PS1_LevelMapBlock == 0x4D) && unk_1 == 0x4D)
+    if ((*(u8 *) PS1_LevelMapBlock == 0x4D) && unk_1 == 0x4D)
+        PS1_LevelMapBlock++;
+    D_801F84A8 = *PS1_LevelMapBlock;
     PS1_LevelMapBlock++;
-  D_801F84A8 = *PS1_LevelMapBlock;
-  PS1_LevelMapBlock++;
-  D_801F8188 = *PS1_LevelMapBlock;
-  D_801D7A60 = D_801F84A8 * D_801F8188;
-  PS1_LevelMapBlock++;
+    D_801F8188 = *PS1_LevelMapBlock;
+    D_801D7A60 = D_801F84A8 * D_801F8188;
+    PS1_LevelMapBlock++;
 
-  data->width = D_801F84A8;
-  data->height = D_801F8188;
-  data->length = D_801D7A60;
-  data->map = PS1_LevelMapBlock;
+    data->width = D_801F84A8;
+    data->height = D_801F8188;
+    data->length = D_801D7A60;
+    data->map = PS1_LevelMapBlock;
 }
 
 /* DB04 80132304 -O2 -msoft-float */
 void FUN_80132304(u32 *data, u8 height)
 {
-  RECT rect;
+    RECT rect;
 
-  rect.x = 768; rect.y = 504;
-  rect.w = 256; rect.h = height;
-  LoadImage(&rect, data);
+    rect.x = 768; rect.y = 504;
+    rect.w = 256; rect.h = height;
+    LoadImage(&rect, data);
 }
 
 /* DB4C 8013234C -O2 -msoft-float */
@@ -63,7 +63,7 @@ void FUN_80132424(void)
 void PS1_LoadAllFixData(void)
 {
     u8 *cur = (u8 *) PS1_AllFixData;
-    
+
     __builtin_memcpy(&alpha, cur, sizeof(Font));
     cur += sizeof(Font);
     __builtin_memcpy(&alpha2, cur, sizeof(Font));
@@ -82,14 +82,14 @@ void PS1_LoadAllFixData(void)
 /* DFEC 801327EC -O2 -msoft-float */
 void PS1_LoadLevelObjBlock(void)
 {
-  __builtin_memcpy(&level, &PS1_LevelObjBlock[0], 8);
-  __builtin_memcpy(D_801D7868, &PS1_LevelObjBlock[8], 8);
-  link_init = D_801D7868[0];
+    __builtin_memcpy(&level, &PS1_LevelObjBlock[0], 8);
+    __builtin_memcpy(D_801D7868, &PS1_LevelObjBlock[8], 8);
+    link_init = D_801D7868[0];
 }
 
 /* E064 80132864 -O2 -msoft-float */
 void FUN_80132864(s16 param_1)
 {
-  PS1_LevelMapBlock = (s16 *)0x80780000;
-  D_801F59E0 = D_801C4374[param_1 - 1];
+    PS1_LevelMapBlock = (s16 *) 0x80780000;
+    D_801F59E0 = D_801C4374[param_1 - 1];
 }

@@ -49,7 +49,7 @@ void PS1_CheckPauseAndCheatInputs(void)
     }
     if (PS1_TOUCHE_0xF(0))
         PS1_DebugMode = true;
-    
+
     if (in_pause)
     {
         if (PS1_TOUCHE_0x12(0))
