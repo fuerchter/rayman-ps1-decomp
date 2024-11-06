@@ -458,7 +458,7 @@ typedef struct Obj
     s16 scale;
     u16 zdc;
     s16 active_timer;
-    BlockType btypes[5];
+    BlockType btypes[5]; /* TODO: enum for its indexing? */
     u8 field32_0x51;
     u8 offset_bx;
     u8 offset_by;

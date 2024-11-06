@@ -16,6 +16,8 @@
 )
 
 /*
+more generalized version? lance_couteau_lineaire case 0
+
 issues applying in: DO_POING, alter_fist_speed
 TODO: apply
 */

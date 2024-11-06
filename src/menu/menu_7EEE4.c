@@ -9,12 +9,10 @@ u8 D_801E5920;
 u8 PS1_CardShouldCheckFirstBoot;
 #endif
 
+/* 7EEE4 801A36E4 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7EEE4", DO_MENU);
 #else
-/* matches, but ... */
-/*INCLUDE_ASM("asm/nonmatchings/menu/menu_7EEE4", DO_MENU);*/
-
 void DO_MENU(void)
 {
     s16 done;
@@ -39,16 +37,14 @@ do /* TODO: ??? */
         case 0:
             PS1_PlayDemo();
             if (PS1_VideoPlayState != VIDEOST_NOT_PLAYING)
-            {
                 PS1_VideoPlayState = VIDEOST_NOT_PLAYING;
-            }
+
             else if (ModeDemo == 0)
             {
                 RunTimeDemo = 1800;
                 if (PS1_ShouldClearPassword == 2)
-                {
                     PS1_ShouldClearPassword = 0;
-                }
+
         case 6: /* TODO: ??? */
                 if (PS1_CardShouldCheckFirstBoot == true)
                 {

@@ -52,32 +52,29 @@ void PS1_LightningLoop(u32 param_1, s16 param_2)
     }
 }
 
+/* 44DEC 801695EC -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/draw/fade", PS1_LightningDraw);
 #else
-/* matches, but cleanup and label stuff */
-/*INCLUDE_ASM("asm/nonmatchings/draw/fade", PS1_LightningDraw);*/
-
+/* clean up and label stuff */
 void PS1_LightningDraw(s16 param_1)
 {
-    RGBAArray **temp_v0_1;
-    s16 temp_v0_3;
+    s32 unk_1; /* s16? */
+    RGBAArray **unk_2; /* not sure why this needs to be ** */
     s16 i;
-    s32 temp_v1;
-    s32 var_a1;
-    s32 var_s0;
-    s32 var_t0;
-    u8 *temp_a0;
-    u8 temp_v0_2;
-    RGBAArray *new_var;
+    s32 unk_3;
+    u8 unk_4;
+    s16 unk_5;
+    s32 unk_6;
 
-    var_s0 = 0;
+    /* either D_801CEFF6 or D_801CF014 something like "PS1_LightningState" */
+    unk_1 = 0;
     if (D_801CEFF6 == 1)
     {
-        temp_v0_1 = &D_801C7D78[D_801CEFF4];
-        D_801CF008.data[0] = (*temp_v0_1)->data[0];
-        D_801CF008.data[1] = (*temp_v0_1)->data[1];
-        D_801CF008.data[2] = (*temp_v0_1)->data[2];
+        unk_2 = &D_801C7D78[D_801CEFF4];
+        D_801CF008.data[0] = (*unk_2)->data[0];
+        D_801CF008.data[1] = (*unk_2)->data[1];
+        D_801CF008.data[2] = (*unk_2)->data[2];
         D_801CF410 = param_1;
         D_801CEFF6 = 2;
     }
@@ -87,16 +84,13 @@ void PS1_LightningDraw(s16 param_1)
     case 0:
         for (i = 0; i < (s16) LEN(D_801CF008.data) - 1; i++)
         {
-            temp_v1 = D_801CF008.data[i] - D_801CF00E;
-            temp_v0_2 = -((s16) temp_v1 > 0) & temp_v1;
-            D_801CF008.data[i] = temp_v0_2;
-            var_a1 = false;
-            if (temp_v0_2 || (s16) var_s0)
-                var_a1 = true;
-            var_s0 = var_a1;
+            unk_3 = D_801CF008.data[i] - D_801CF00E;
+            unk_4 = -((s16) unk_3 > 0) & unk_3;
+            D_801CF008.data[i] = unk_4;
+            unk_1 = unk_4 || (s16) unk_1;
         }
 
-        if ((s16) var_s0 && D_801CEFF4 != 0)
+        if ((s16) unk_1 && D_801CEFF4 != 0)
             (D_801C7D68[D_801CEFF4 - 1])(&D_801CF008, D_801CF410);
         else
             D_801CF014 = 1;
@@ -111,6 +105,10 @@ void PS1_LightningDraw(s16 param_1)
         if (D_801CF010 == 0)
             D_801CF014 = 2;
 
+        /* tried:
+        replacing there with pointer to PS1_CurrentDisplay->field_0x60bc_0x660b[5]
+        creating var that holds 5
+        */
         PS1_CurrentDisplay->field_0x60bc_0x660b[5].tile.r0 = D_801CF010;
         PS1_CurrentDisplay->field_0x60bc_0x660b[5].tile.g0 = D_801CF010;
         PS1_CurrentDisplay->field_0x60bc_0x660b[5].tile.b0 = D_801CF010;
@@ -148,21 +146,19 @@ void PS1_LightningDraw(s16 param_1)
     case 3:
         for (i = 0; i < (s16) LEN(D_801CF008.data) - 1; i++)
         {
-            temp_v0_3 = D_801CF008.data[i] + D_801CF00E;
-            new_var = D_801C7D78[D_801CEFF4];
-            temp_a0 = &new_var->data[i];
-            var_t0 = false;
-            MIN_2(temp_v0_3, *temp_a0);
-            D_801CF008.data[i] = temp_v0_3;
-            if (((u8) temp_v0_3 != D_801C7D78[D_801CEFF4]->data[i]) || (s16) var_s0)
-                var_t0 = true;
-            var_s0 = var_t0;
+            unk_6 = false;
+            unk_5 = D_801CF008.data[i] + D_801CF00E;
+            MIN_2(unk_5, D_801C7D78[D_801CEFF4]->data[i]);
+            D_801CF008.data[i] = unk_5;
+            if (((u8) unk_5 != D_801C7D78[D_801CEFF4]->data[i]) || (s16) unk_1)
+                unk_6 = true;
+            unk_1 = unk_6;
         }
 
         if (D_801CEFF4 != 0)
             (D_801C7D68[D_801CEFF4 - 1])(&D_801CF008, D_801CF410);
 
-        if (!((s16) var_s0))
+        if (!((s16) unk_1))
         {
             D_801CF012 = 0;
             D_801CF014 = 0;
