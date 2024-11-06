@@ -30,11 +30,6 @@ s16 D_801F5588;
 u8 gerbe;
 #endif
 
-s32 calc_typ_trav(Obj *obj,u8 param_2);
-void ChangeLevel(void);
-s32 TEST_IS_ON_RESSORT_BLOC(Obj *obj);
-void recale_position(Obj *param_1);
-
 /* 5D190 80181990 -O2 -msoft-float */
 void allocateRayLandingSmoke(void)
 {
@@ -79,26 +74,26 @@ void recale_ray_on_liane(void)
 /* 5D2C0 80181AC0 -O2 -msoft-float */
 void calc_bhand_typ(Obj *obj)
 {
-  s16 x;
-  u8 unk_1;
-  s16 y;
+    s16 x;
+    u8 unk_1;
+    s16 y;
 
-  x = obj->offset_bx + obj->x_pos;
-  unk_1 = obj->speed_y + 22 + obj->offset_hy;
-  if (RayEvts.demi)
-    unk_1 = 80 - ((80 - unk_1) >> 1);
-  y = unk_1 + obj->y_pos;
-  hand_btyp = PS1_BTYPAbsPos(x, y);
-  if (hand_btyp != BTYP_LIANE)
-  {
-    hand_btypg = PS1_BTYPAbsPos(x - 8, y);
-    hand_btypd = PS1_BTYPAbsPos(x + 8, y);
-  }
-  else
-  {
-    hand_btypd = BTYP_SOLID;
-    hand_btypg = BTYP_SOLID;
-  }
+    x = obj->offset_bx + obj->x_pos;
+    unk_1 = obj->speed_y + 22 + obj->offset_hy;
+    if (RayEvts.demi)
+        unk_1 = 80 - ((80 - unk_1) >> 1);
+    y = unk_1 + obj->y_pos;
+    hand_btyp = PS1_BTYPAbsPos(x, y);
+    if (hand_btyp != BTYP_LIANE)
+    {
+        hand_btypg = PS1_BTYPAbsPos(x - 8, y);
+        hand_btypd = PS1_BTYPAbsPos(x + 8, y);
+    }
+    else
+    {
+        hand_btypd = BTYP_SOLID;
+        hand_btypg = BTYP_SOLID;
+    }
 }
 
 /* 5D3AC 80181BAC -O2 -msoft-float */
@@ -114,7 +109,7 @@ void IS_RAY_ON_LIANE(void)
             ray.speed_y = 0;
             calc_bhand_typ(&ray);
             ray.speed_y = speed_y;
-            if(
+            if (
                 (hand_btyp == BTYP_LIANE || hand_btypg == BTYP_LIANE || hand_btypd == BTYP_LIANE) &&
                 RayEvts.force_run == 0
             )
@@ -178,7 +173,6 @@ void rayMayLandOnAnObject(u8 *param_1, s16 param_2)
     RaymanEvents *test_1;
     s32 test_2;
 
-    
     if ((RayEvts.demi))
     {
         var_s2 = 8;
@@ -188,7 +182,7 @@ void rayMayLandOnAnObject(u8 *param_1, s16 param_2)
 
     ray.field20_0x36 = -1;
     var_s0_1 = 0;
-    
+
     var_s1 = &level.objects[actobj.objects[0]];
     while (var_s0_1 < actobj.num_active_objects)
     {
@@ -202,7 +196,7 @@ void rayMayLandOnAnObject(u8 *param_1, s16 param_2)
             {
                 var_a0 = var_s1->speed_y;
             }
-            var_v0 = __builtin_abs((s16)(var_a0 + (var_s1->follow_y - ray.speed_y)));
+            var_v0 = __builtin_abs((s16) (var_a0 + (var_s1->follow_y - ray.speed_y)));
             temp_v0 = var_v0 + 2;
             var_a0_2 = temp_v0;
             if (temp_v0 < var_s2)
@@ -234,7 +228,7 @@ void rayMayLandOnAnObject(u8 *param_1, s16 param_2)
                         PlaySnd(0x006E, var_s1->id);
                         break;
                     case 1:
-                    block_52:
+block_52:
                         if (num_world == 1)
                         {
                             var_a0_3 = 0x0013;
@@ -252,7 +246,7 @@ void rayMayLandOnAnObject(u8 *param_1, s16 param_2)
                         break;
                     case 0x10:
                     case 0x11:
-                    block_55:
+block_55:
                         var_a0_3 = 0x0013;
                         if (num_world == 4 || num_world == 5)
                         {
@@ -267,7 +261,7 @@ void rayMayLandOnAnObject(u8 *param_1, s16 param_2)
                     case 0x1b:
                     case 0x1c:
                     case 0x3f:
-                    block_57:
+block_57:
                         var_a0_3 = 0x00F2;
                         if (num_world == 4)
                         {
@@ -333,7 +327,7 @@ block_62:
                     if (var_s1->sub_etat == 4)
                     {
                         /* alternative to do{}while(0); */
-                        if (/*var_a1_1 = */var_s1->hit_points == 0)
+                        if (/*var_a1_1 = */ var_s1->hit_points == 0)
                         {
                             set_sub_etat(var_s1, 5);
                         }
@@ -461,7 +455,7 @@ block_62:
                         RayEvts.handstand = false;
                         RayEvts.grain = false;
                         RayEvts.grap = false;
-                        
+
                         RayEvts.run = false;
                         RayEvts.demi = false;
                         RayEvts.luciole = false;
@@ -543,7 +537,7 @@ void set_air_speed(u8 main_etat, u8 sub_etat, s16 param_3, u8 param_4)
     ObjState *eta;
     s8 unk_1;
     s8 unk_2;
-    
+
     eta = &ray.eta[main_etat][sub_etat];
     unk_1 = __builtin_abs(param_3) >> 4;
     unk_1 = MIN_1(unk_1, 112);
@@ -608,7 +602,7 @@ void determineRayAirInertia(void)
         ray.nb_cmd = 0;
         return;
     }
-    switch(ray_last_ground_btyp)
+    switch (ray_last_ground_btyp)
     {
     case false:
         if (__builtin_abs(decalage_en_cours) <= 256)
@@ -693,7 +687,7 @@ void ray_jump(void)
             unk_2 = 256;
         else
             unk_2 = 512;
-        
+
         if (ray_on_poelle)
         {
             Reset_air_speed(false);
@@ -797,7 +791,6 @@ void ray_inertia_speed(u8 param_1, s16 param_2, s16 prev_speed_x, s16 param_4)
                 temp_v0 = var_s0 + temp_s1;
             var_a1 = temp_v0;
             MAX_3(var_a1, decalage_en_cours);
-
         }
         else if (temp_s3_2 < 0)
         {
@@ -849,7 +842,7 @@ void ray_inertia_speed(u8 param_1, s16 param_2, s16 prev_speed_x, s16 param_4)
 
     if ((ray.main_etat == 0 || ray.main_etat == 1 || ray.main_etat == 3) && ray.field20_0x36 == -1)
         CALC_MOV_ON_BLOC(&ray);
-    
+
     if (ray.main_etat == 2 && ray.sub_etat == 15)
         var_s2 += 2;
     if (decalage_en_cours >= var_s2)
@@ -914,7 +907,7 @@ void RAY_SWIP(void)
                     ray.field20_0x36 = -1;
                     temp_s1_2 = ray.main_etat;
                     set_main_etat(&ray, 2);
-                    
+
                     if (ray_on_poelle != 0)
                     {
                         if ((temp_s1_2 == 0) && (ray.sub_etat == 0x28))
@@ -965,7 +958,7 @@ block_27:
     }
     if ((ray.main_etat == 1) && ((ray.sub_etat == 9) || (ray.sub_etat == 0x30) || (ray.sub_etat == 0x0B)))
     {
-        ray.speed_x = (u16) -(s32) ray.speed_x;
+        ray.speed_x = (u16) - (s32) ray.speed_x;
     }
     temp_v0 = ashl16((s16) ray.speed_x, 4);
     temp_a2 = temp_v0;
@@ -986,7 +979,7 @@ block_27:
         var_a1 = 0;
     }
     /* could try gotos-only for this entire section... */
-    if(ray.main_etat == 2)
+    if (ray.main_etat == 2)
     {
         if ((ray.sub_etat == 0x0F) || (ray.nb_cmd != 0))
         {
@@ -1013,11 +1006,11 @@ block_27:
         }
         var_s2 = 0;
     /*default:
-block_57:
-        var_s2 = 0;
-        break;*/
+    block_57:
+            var_s2 = 0;
+            break;*/
     }
-    else if(ray.main_etat == 0 || ray.main_etat == 1 || ray.main_etat == 3)
+    else if (ray.main_etat == 0 || ray.main_etat == 1 || ray.main_etat == 3)
     {
         if (ray.field20_0x36 != -1)
         {
@@ -1062,7 +1055,7 @@ block_1:
                 }
                 break;
             case 15:
-                
+
                 switch (ray.btypes[3])
                 {
                 case 20:
@@ -1464,40 +1457,40 @@ block_77:
 /* 5EF40 80183740 -O2 -msoft-float */
 void RAY_STOP(void)
 {
-  u8 main_etat = ray.main_etat;
+    u8 main_etat = ray.main_etat;
 
-  if (main_etat == 1 || ray.field20_0x36 != -1)
-  {
-    switch(main_etat * 0x100 + ray.sub_etat)
+    if (main_etat == 1 || ray.field20_0x36 != -1)
     {
-    case 0x108:
-    case 0x10a:
-      set_main_and_sub_etat(&ray, 0, 47);
-      break;
-    case 0x109:
-    case 0x10b:
-      set_main_and_sub_etat(&ray, 0, 48);
-      break;
-    case 0x100:
-    case 0x103:
-    case 0x104:
-    case 0x105:
-    case 0x107:
-      set_main_and_sub_etat(&ray, 0, 0);
-      break;
-    }
+        switch (main_etat * 0x100 + ray.sub_etat)
+        {
+        case 0x108:
+        case 0x10a:
+            set_main_and_sub_etat(&ray, 0, 47);
+            break;
+        case 0x109:
+        case 0x10b:
+            set_main_and_sub_etat(&ray, 0, 48);
+            break;
+        case 0x100:
+        case 0x103:
+        case 0x104:
+        case 0x105:
+        case 0x107:
+            set_main_and_sub_etat(&ray, 0, 0);
+            break;
+        }
 
-    if (decalage_en_cours == 0)
-    {
-      ray.speed_y = 0;
-      ray.speed_x = 0;
+        if (decalage_en_cours == 0)
+        {
+            ray.speed_y = 0;
+            ray.speed_x = 0;
+        }
     }
-  }
-  else if (main_etat == 4)
-  {
-    ray.speed_y = 0;
-    set_sub_etat(&ray, 0);
-  }
+    else if (main_etat == 4)
+    {
+        ray.speed_y = 0;
+        set_sub_etat(&ray, 0);
+    }
 }
 
 /* 5F054 80183854 -O2 -msoft-float */
@@ -1577,13 +1570,13 @@ void RAY_HELICO(void)
                 {
                     if (ray_between_clic >= 0)
                     {
-                        if(!(ray.flags & FLG(OBJ_FLIP_X)) && ray.speed_x < -1 && leftjoy(0))
+                        if (!(ray.flags & FLG(OBJ_FLIP_X)) && ray.speed_x < -1 && leftjoy(0))
                             ray.speed_x = -48;
-                        else if(ray.flags & FLG(OBJ_FLIP_X) && ray.speed_x > 1 && rightjoy(0))
+                        else if (ray.flags & FLG(OBJ_FLIP_X) && ray.speed_x > 1 && rightjoy(0))
                             ray.speed_x = 48;
                         else if (ray.speed_x == 0)
                             ray.speed_y = -2;
-                        
+
                         helico_time = 70;
                         ray_clic = 0;
                         ray_inertia_speed(0xFF, 0, ashl16(ray.speed_x, 4), ray_wind_force);
@@ -1620,7 +1613,7 @@ void Make_Ray_Hang(s16 param_1, s16 param_2)
         ray.iframes_timer = 90;
     set_main_and_sub_etat(&ray, 5, 0);
     unk_1 = get_proj_dist2(ray.scale, 32);
-    
+
     if (RayEvts.demi)
         unk_2 = 3;
     else
@@ -1630,7 +1623,7 @@ void Make_Ray_Hang(s16 param_1, s16 param_2)
         unk_3 = 16 - unk_2;
     else
         unk_3 = unk_2;
-    
+
     if (ray.scale != 0)
         unk_1 += 37;
     ray.y_pos = (param_2 >> 4 << 4) - unk_1;
@@ -1649,13 +1642,13 @@ void Make_Ray_Hang(s16 param_1, s16 param_2)
 /* 5F680 80183E80 -O2 -msoft-float */
 s16 AIR(s32 param_1)
 {
-  return (u16) (block_flags[mp.map[param_1] >> 10] >> BLOCK_SOLID & 1 ^ 1);
+    return (u16) (block_flags[mp.map[param_1] >> 10] >> BLOCK_SOLID & 1 ^ 1);
 }
 
 /* 5F6C0 80183EC0 -O2 -msoft-float */
 s16 MUR(s32 param_1)
 {
-  return block_flags[mp.map[param_1] >> 10] >> BLOCK_SOLID & 1;
+    return block_flags[mp.map[param_1] >> 10] >> BLOCK_SOLID & 1;
 }
 
 /* 5F6FC 80183EFC -O2 -msoft-float */
@@ -1684,7 +1677,7 @@ void CAN_RAY_HANG_BLOC(void)
                 set_proj_center(ray_x_1, ray.y_pos + ray.offset_by);
                 ray_y_1 = get_proj_y(ray.scale, ray_y_1);
             }
-            
+
             if (ray.flags & FLG(OBJ_FLIP_X))
                 dir_x = 1;
             else
@@ -1702,7 +1695,7 @@ void CAN_RAY_HANG_BLOC(void)
                 unk_8 = unk_3 + dir_x;
                 if (ray.scale != 0)
                     unk_5 = unk_4;
-                
+
                 if (
                     (MUR(unk_6) || MUR(unk_8) || MUR(unk_7)) &&
                     ray.main_etat == 2 && jump_time > 8
@@ -1737,35 +1730,35 @@ void CAN_RAY_HANG_BLOC(void)
 /* 5FAB8 801842B8 -O2 -msoft-float */
 void RAY_TOMBE(void)
 {
-  if (ray_on_poelle)
-  {
-    if (ray.main_etat == 0 && ray.sub_etat == 40)
-      set_main_and_sub_etat(&ray, 2, 26);
-    else
-      set_main_and_sub_etat(&ray, 2, 28);
-  }
-  else
-  {
-    if (ray.main_etat == 1 && ray.sub_etat == 11)
-      ray.flags = ray.flags & ~FLG(OBJ_FLIP_X) | ((ray.flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X;
-    if (ray.main_etat == 5)
-      set_main_and_sub_etat(&ray, 2, 1);
+    if (ray_on_poelle)
+    {
+        if (ray.main_etat == 0 && ray.sub_etat == 40)
+            set_main_and_sub_etat(&ray, 2, 26);
+        else
+            set_main_and_sub_etat(&ray, 2, 28);
+    }
     else
     {
-      if (__builtin_abs(ray.speed_x) < 3)
-        set_main_and_sub_etat(&ray, 2, 24);
-      else
-        set_main_and_sub_etat(&ray, 2, 32);
+        if (ray.main_etat == 1 && ray.sub_etat == 11)
+            ray.flags = ray.flags & ~FLG(OBJ_FLIP_X) | ((ray.flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X;
+        if (ray.main_etat == 5)
+            set_main_and_sub_etat(&ray, 2, 1);
+        else
+        {
+            if (__builtin_abs(ray.speed_x) < 3)
+                set_main_and_sub_etat(&ray, 2, 24);
+            else
+                set_main_and_sub_etat(&ray, 2, 32);
+        }
     }
-  }
-  jump_time = 0;
-  helico_time = -1;
-  ray.gravity_value_1 = 0;
-  ray.gravity_value_2 = 0;
-  ray.field20_0x36 = -1;
-  button_released = 0;
-  poing.is_charging = false;
-  determineRayAirInertia();
+    jump_time = 0;
+    helico_time = -1;
+    ray.gravity_value_1 = 0;
+    ray.gravity_value_2 = 0;
+    ray.field20_0x36 = -1;
+    button_released = 0;
+    poing.is_charging = false;
+    determineRayAirInertia();
 }
 
 /* 5FC44 80184444 -O2 -msoft-float */
@@ -1804,7 +1797,7 @@ void RAY_RESPOND_TO_DOWN(void)
             set_main_and_sub_etat(&ray, 3, 6);
         else if (ray.sub_etat == 20)
         {
-            if(EOA(&ray))
+            if (EOA(&ray))
             {
                 sel_eta_1 = &ray.eta[ray.main_etat][ray.sub_etat];
                 if (horloge[sel_eta_1->anim_speed & 0xF] == 0)
@@ -1985,7 +1978,7 @@ void RAY_RESPOND_TO_DIR(s16 flip_x)
         if ((ray.sub_etat == 2 && upjoy(0)) || (ray.sub_etat == 3 && downjoy(0)))
         {
             calc_bhand_typ(&ray);
-            if(hand_btyp == BTYP_NONE)
+            if (hand_btyp == BTYP_NONE)
             {
                 if (ray.sub_etat == 2)
                 {
@@ -1996,12 +1989,12 @@ void RAY_RESPOND_TO_DIR(s16 flip_x)
                 else
                     RAY_TOMBE();
             }
-            else if(hand_btyp != BTYP_LIANE)
+            else if (hand_btyp != BTYP_LIANE)
                 RAY_STOP();
         }
         else if (ray.sub_etat == 2 || ray.sub_etat == 3)
             RAY_STOP();
-        
+
         if (
             options_jeu.Fire1ButtonFunc(options_jeu.field11_0x1e) &&
             (button_released & 1) == (unk_1 = 1) &&
@@ -2051,7 +2044,8 @@ void RAY_RESPOND_TO_NOTHING(void)
     case 1:
         if (
             !(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40 && (FUN_80133984(0) || FUN_801339f4(0))) &&
-            !(ray.sub_etat == 4 || ray.sub_etat == 5) && RayEvts.force_run == 0)
+            !(ray.sub_etat == 4 || ray.sub_etat == 5) && RayEvts.force_run == 0
+        )
         {
             set_main_etat(&ray, 0);
             if (ray.sub_etat == 8 || ray.sub_etat == 10)
@@ -2090,7 +2084,7 @@ void RAY_RESPOND_TO_NOTHING(void)
         }
         else
         {
-            if(ray.sub_etat == 37 && __builtin_abs(decalage_en_cours) <= 128)
+            if (ray.sub_etat == 37 && __builtin_abs(decalage_en_cours) <= 128)
                 set_sub_etat(&ray, 38);
             else if (ray.sub_etat == 20 && EOA(&ray))
             {
@@ -2102,12 +2096,12 @@ void RAY_RESPOND_TO_NOTHING(void)
                     FUN_80150c5c(&ray, 1);
                     sel_eta_2 = &ray.eta[ray.main_etat][ray.sub_etat];
                     unk_1 = ((sel_eta_2->flags >> 4 ^ 1) & 1) * 0x10;
-                    sel_eta_2->flags = sel_eta_2->flags & 0xEF | unk_1;    
+                    sel_eta_2->flags = sel_eta_2->flags & 0xEF | unk_1;
                 }
             }
             else if (ray.sub_etat == 59 || ray.sub_etat == 62 || ray.sub_etat == 63)
             {
-                if(EOA(&ray))
+                if (EOA(&ray))
                 {
                     compteur_attente = 0;
                     set_sub_etat(&ray, 0);
@@ -2161,87 +2155,87 @@ void RAY_RESPOND_TO_NOTHING(void)
 /* 61254 80185A54 -O2 -msoft-float */
 void PS1_RespondShoulderR(void)
 {
-  switch(ray.main_etat)
-  {
-  case 0:
-    if (ray.sub_etat == 15 || ray.sub_etat == 47)
+    switch (ray.main_etat)
     {
-      if (ray.flags & FLG(OBJ_FLIP_X))
-        set_main_and_sub_etat(&ray,1,8);
-      else
-      {
-        ray.flags = (ray.flags & ~FLG(OBJ_FLIP_X)) | (((1 - (ray.flags >> OBJ_FLIP_X & 1)) & 1) << OBJ_FLIP_X);
-        set_main_and_sub_etat(&ray, 0, 50);
-      }
-    }
-    else if (ray.sub_etat != 50)
-    {
-        if (!poing.is_active)
+    case 0:
+        if (ray.sub_etat == 15 || ray.sub_etat == 47)
         {
-            poing.is_charging = false;
-            poing.charge = 0;
+            if (ray.flags & FLG(OBJ_FLIP_X))
+                set_main_and_sub_etat(&ray, 1, 8);
+            else
+            {
+                ray.flags = (ray.flags & ~FLG(OBJ_FLIP_X)) | (((1 - (ray.flags >> OBJ_FLIP_X & 1)) & 1) << OBJ_FLIP_X);
+                set_main_and_sub_etat(&ray, 0, 50);
+            }
         }
-        set_main_and_sub_etat(&ray,3,6);
+        else if (ray.sub_etat != 50)
+        {
+            if (!poing.is_active)
+            {
+                poing.is_charging = false;
+                poing.charge = 0;
+            }
+            set_main_and_sub_etat(&ray, 3, 6);
+        }
+        RAY_SWIP();
+        break;
+    case 1:
+        if (ray.sub_etat == 8 || ray.sub_etat == 10)
+        {
+            if (!(ray.flags & FLG(OBJ_FLIP_X)))
+            {
+                ray.flags |= FLG(OBJ_FLIP_X);
+                set_main_and_sub_etat(&ray, 0, 50);
+            }
+        }
+        else if (!(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40))
+            set_main_and_sub_etat(&ray, 3, 6);
+        RAY_SWIP();
+        break;
     }
-    RAY_SWIP();
-    break;
-  case 1:
-    if (ray.sub_etat == 8 || ray.sub_etat == 10)
-    {
-      if (!(ray.flags & FLG(OBJ_FLIP_X)))
-      {
-        ray.flags |= FLG(OBJ_FLIP_X);
-        set_main_and_sub_etat(&ray, 0, 50);
-      }
-    }
-    else if (!(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40))
-        set_main_and_sub_etat(&ray,3,6);
-    RAY_SWIP();
-    break;
-  }
 }
 
 /* 613D8 80185BD8 -O2 -msoft-float */
 void PS1_RespondShoulderL(void)
 {
-  switch(ray.main_etat)
-  {
-  case 0:
-    if (ray.sub_etat == 15 || ray.sub_etat == 47)
+    switch (ray.main_etat)
     {
-      if (!(ray.flags & FLG(OBJ_FLIP_X)))
-        set_main_and_sub_etat(&ray,1,8);
-      else
-      {
-        ray.flags = (ray.flags & ~FLG(OBJ_FLIP_X)) | (((1 - (ray.flags >> OBJ_FLIP_X & 1)) & 1) << OBJ_FLIP_X);
-        set_main_and_sub_etat(&ray, 0, 50);
-      }
-    }
-    else if (ray.sub_etat != 50)
-    {
-        if (!poing.is_active)
+    case 0:
+        if (ray.sub_etat == 15 || ray.sub_etat == 47)
         {
-            poing.is_charging = false;
-            poing.charge = 0;
+            if (!(ray.flags & FLG(OBJ_FLIP_X)))
+                set_main_and_sub_etat(&ray, 1, 8);
+            else
+            {
+                ray.flags = (ray.flags & ~FLG(OBJ_FLIP_X)) | (((1 - (ray.flags >> OBJ_FLIP_X & 1)) & 1) << OBJ_FLIP_X);
+                set_main_and_sub_etat(&ray, 0, 50);
+            }
         }
-        set_main_and_sub_etat(&ray,3,6);
+        else if (ray.sub_etat != 50)
+        {
+            if (!poing.is_active)
+            {
+                poing.is_charging = false;
+                poing.charge = 0;
+            }
+            set_main_and_sub_etat(&ray, 3, 6);
+        }
+        RAY_SWIP();
+        break;
+    case 1:
+        if (ray.sub_etat == 8 || ray.sub_etat == 10)
+        {
+            if (ray.flags & FLG(OBJ_FLIP_X))
+            {
+                ray.flags &= ~FLG(OBJ_FLIP_X);
+                set_main_and_sub_etat(&ray, 0, 50);
+            }
+        }
+        else if (!(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40))
+            set_main_and_sub_etat(&ray, 3, 6);
+        RAY_SWIP();
+        break;
     }
-    RAY_SWIP();
-    break;
-  case 1:
-    if (ray.sub_etat == 8 || ray.sub_etat == 10)
-    {
-      if (ray.flags & FLG(OBJ_FLIP_X))
-      {
-        ray.flags &= ~FLG(OBJ_FLIP_X);
-        set_main_and_sub_etat(&ray, 0, 50);
-      }
-    }
-    else if (!(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40))
-        set_main_and_sub_etat(&ray,3,6);
-    RAY_SWIP();
-    break;
-  }
 }
 
 void RAY_RESPOND_TO_BUTTON4(void) {}
@@ -2291,12 +2285,8 @@ void RAY_RESPOND_TO_BUTTON3(void)
 /* 61704 80185F04 -O2 -msoft-float */
 void RAY_RESPOND_TO_FIRE0(void)
 {
-  if (
-    !poing.is_active &&
-    RayEvts.poing &&
-    RayEvts.force_run == 0
-  )
-    RAY_PREPARE_FIST();
+    if (!poing.is_active && RayEvts.poing && !RayEvts.force_run)
+        RAY_PREPARE_FIST();
 }
 
 /* 61760 80185F60 -O2 -msoft-float */
@@ -2373,17 +2363,18 @@ void abs_sinus_cosinus(s16 tab_index, s16 *param_2, s16 *param_3)
 /* 6191C 8018611C -O2 -msoft-float */
 void SET_RAY_BALANCE(void)
 {
-  if (ray.main_etat == 2 && ray.sub_etat == 8)
-    ray.iframes_timer = 90;
-  set_main_and_sub_etat(&ray, 7, 0);
-  PlaySnd(0, -1);
-  ray.field24_0x3e = 0;
-  ray.gravity_value_1 = 0;
-  ray.gravity_value_2 = 0;
-  ray.field20_0x36 = -1;
-  decalage_en_cours = 0;
-  button_released = 1;
-  ray.speed_y = 0;
+    if (ray.main_etat == 2 && ray.sub_etat == 8)
+        ray.iframes_timer = 90;
+
+    set_main_and_sub_etat(&ray, 7, 0);
+    PlaySnd(0, -1);
+    ray.field24_0x3e = 0;
+    ray.gravity_value_1 = 0;
+    ray.gravity_value_2 = 0;
+    ray.field20_0x36 = -1;
+    decalage_en_cours = 0;
+    button_released = 1;
+    ray.speed_y = 0;
 }
 
 /* 619C0 801861C0 -O2 -msoft-float */
@@ -2414,7 +2405,7 @@ void RAY_GOING_BALANCE(Obj *obj)
                 obj->field24_0x3e = -1;
             else
                 obj->field24_0x3e = 1;
-            
+
             abs_sinus_cosinus(follow_x, &unk_1, &unk_2);
             if (__builtin_abs(unk_2) > 2)
             {
@@ -2464,7 +2455,7 @@ void RAY_BALANCE(void)
     ObjState **ray_eta = ray.eta;
     Obj *obj_grp = &level.objects[id_obj_grapped];
     s16 grp_angle = obj_grp->follow_x;
-    
+
     if (ray.sub_etat == 0)
         RAY_GOING_BALANCE(obj_grp);
     else if (ray.sub_etat == 1)
@@ -2477,7 +2468,7 @@ void RAY_BALANCE(void)
                 obj_grp->follow_y += 1;
 
             abs_sinus_cosinus(grp_angle, &unk_math_1, &unk_math_2);
-            
+
             /* not in bottom half of circle? */
             unk_1 = 128;
             unk_2 = 384;
@@ -2554,16 +2545,16 @@ void RAY_BALANCE(void)
 /* 62144 80186944 -O2 -msoft-float */
 void RAY_FIN_BALANCE(void)
 {
-  s16 should_flip = level.objects[id_obj_grapped].follow_x < 256;
-  
-  ray.flags = ray.flags & ~FLG(OBJ_FLIP_X) | (should_flip << OBJ_FLIP_X);
-  set_main_and_sub_etat(&ray, 2, 2);
-  ray.speed_y = 0;
-  ray.gravity_value_1 = 0;
-  ray.gravity_value_2 = 0;
-  helico_time = -1;
-  ray.field24_0x3e = -1;
-  ray.x_pos -= ray.speed_x;
+    s16 should_flip = level.objects[id_obj_grapped].follow_x < 256;
+
+    ray.flags = ray.flags & ~FLG(OBJ_FLIP_X) | (should_flip << OBJ_FLIP_X);
+    set_main_and_sub_etat(&ray, 2, 2);
+    ray.speed_y = 0;
+    ray.gravity_value_1 = 0;
+    ray.gravity_value_2 = 0;
+    helico_time = -1;
+    ray.field24_0x3e = -1;
+    ray.x_pos -= ray.speed_x;
 }
 
 /* TODO: unknown locals... */
@@ -2604,15 +2595,15 @@ void RayTestBlocSH(void)
     temp_v1_2 = var_a1 + var_a0;
     if (
         decalage_en_cours != 0 &&
-        ((s16) MURDUR(temp_v1_2, y_1 + 16) ||
-        (s16) MURDUR(temp_v1_2, y_1 + 32) ||
-        (s16) MURDUR(temp_v1_2, y_1 + 48))
+        (MURDUR(temp_v1_2, y_1 + 16) ||
+        MURDUR(temp_v1_2, y_1 + 32) ||
+        MURDUR(temp_v1_2, y_1 + 48))
     )
     {
         ray.speed_x = 0;
         decalage_en_cours = 0;
     }
-    if (ray.speed_y < 0 && (s16) MURDUR(x_1, y_1 + 16))
+    if (ray.speed_y < 0 && MURDUR(x_1, y_1 + 16))
         ray.speed_y = 0;
 }
 
@@ -2642,19 +2633,19 @@ void remoteControlRay(void)
 /* 62440 80186C40 -O2 -msoft-float */
 void STOPPE_RAY_CONTRE_PAROIS(u8 block)
 {
-  if (
-    ray_mode != MODE_MORT_DE_RAYMAN && (block_flags[block] >> BLOCK_FLAG_4 & 1) &&
-    ray.sub_etat != 7 && ray.sub_etat != 9 && ray.speed_y < 1
-  )
-  {
-    if (ray.sub_etat != 8)
+    if (
+        ray_mode != MODE_MORT_DE_RAYMAN && (block_flags[block] >> BLOCK_FLAG_4 & 1) &&
+        ray.sub_etat != 7 && ray.sub_etat != 9 && ray.speed_y < 1
+    )
     {
-      set_sub_etat(&ray, 1);
-      button_released = 0;
+        if (ray.sub_etat != 8)
+        {
+            set_sub_etat(&ray, 1);
+            button_released = 0;
+        }
+        ray.field24_0x3e = 0;
+        ray.speed_y = 0;
     }
-    ray.field24_0x3e = 0;
-    ray.speed_y = 0;
-  }
 }
 
 /* 624EC 80186CEC -O2 -msoft-float */
@@ -2740,10 +2731,10 @@ void RAY_IN_THE_AIR(void)
             ray.field24_0x3e = 0;
         }
     }
-    
+
     if (
         (ray.sub_etat != 17 && ray.sub_etat != 0 && ray.sub_etat != 9 && ray.sub_etat != 31) &&
-        (ray.sub_etat != 13 || ray.speed_y > -1) && jump_time > 2 
+        (ray.sub_etat != 13 || ray.speed_y > -1) && jump_time > 2
     )
     {
         if (ray_mode != MODE_MORT_DE_RAYMAN)
@@ -2755,10 +2746,10 @@ void RAY_IN_THE_AIR(void)
                 ray.speed_y = 0;
                 ray.timer = 0;
                 in_air_because_hit = 0;
-                
+
                 if (!((u8) TEST_IS_ON_RESSORT_BLOC(&ray)))
                 {
-                    
+
                     if (num_world == 6 && num_level == 1)
                         snd = 242;
                     else
@@ -2769,7 +2760,8 @@ void RAY_IN_THE_AIR(void)
                 if (ray.nb_cmd == 0)
                 {
                     for (i = 1; i < 10; i++)
-                        if (pos_stack[i - 1] != pos_stack[i]) break;
+                        if (pos_stack[i - 1] != pos_stack[i])
+                            break;
                     if (i != 10)
                     {
                         if (pos_stack[i - 1] < pos_stack[i])
@@ -2788,7 +2780,6 @@ void RAY_IN_THE_AIR(void)
                     }
                     else
                         decalage_en_cours = 0;
-
                 }
                 helico_time = -1;
                 if (ray.sub_etat == 3)
@@ -2864,14 +2855,14 @@ void RAY_IN_THE_AIR(void)
 /* 62E90 80187690 -O2 -msoft-float */
 void terminateFistWhenRayDies(void)
 {
-  Obj *obj;
-  
-  if (poing.is_active)
-  {
-    obj = &level.objects[poing_obj_id];
-    DO_NOVA(obj);
-    switch_off_fist(obj);
-  }
+    Obj *obj;
+
+    if (poing.is_active)
+    {
+        obj = &level.objects[poing_obj_id];
+        DO_NOVA(obj);
+        switch_off_fist(obj);
+    }
 }
 
 /* 62EE8 801876E8 -O2 -msoft-float */
@@ -2896,19 +2887,19 @@ void snifRayIsDead(Obj *ray_obj)
 /* 62FA4 801877A4 -O2 -msoft-float */
 void rayfallsinwater(void)
 {
-  set_main_and_sub_etat(&ray, 3, 22);
-  ray.anim_frame = 0;
-  ray.speed_y = 0;
-  ray.speed_x = 0;
-  decalage_en_cours = 0;
-  if (ray_on_poelle)
-    ray.x_pos -= h_scroll_speed;
-  h_scroll_speed = 0;
-  dead_time = 1;
-  ray.iframes_timer = 120;
-  ray_se_noie = true;
-  allocate_splash(&ray);
-  terminateFistWhenRayDies();
+    set_main_and_sub_etat(&ray, 3, 22);
+    ray.anim_frame = 0;
+    ray.speed_y = 0;
+    ray.speed_x = 0;
+    decalage_en_cours = 0;
+    if (ray_on_poelle)
+        ray.x_pos -= h_scroll_speed;
+    h_scroll_speed = 0;
+    dead_time = 1;
+    ray.iframes_timer = 120;
+    ray_se_noie = true;
+    allocate_splash(&ray);
+    terminateFistWhenRayDies();
 }
 
 /* 6305C 8018785C -O2 -msoft-float */
@@ -2980,7 +2971,7 @@ u8 RAY_DEAD(void)
         }
     }
     unk_1 = false;
-    if ((ray.flags & (FLG(OBJ_ACTIVE)|FLG(OBJ_ALIVE))) == (FLG(OBJ_ACTIVE)|FLG(OBJ_ALIVE)))
+    if ((ray.flags & (FLG(OBJ_ACTIVE) | FLG(OBJ_ALIVE))) == (FLG(OBJ_ACTIVE) | FLG(OBJ_ALIVE)))
         unk_1 = !(ray_mode == MODE_MORT_DE_RAYMAN || ray_mode == MODE_MORT_DE_RAYMAN_ON_MS);
 
     return unk_1;
@@ -2989,32 +2980,32 @@ u8 RAY_DEAD(void)
 /* 6346C 80187C6C -O2 -msoft-float */
 void RAY_HURT(void)
 {
-  u8 flag_set;
-  s16 new_iframes;
+    u8 flag_set;
+    s16 new_iframes;
 
-  test_fin_cling();
-  ray.hit_points--;
-  if (ray.iframes_timer == -1)
-  {
-    flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40;
-    if (
-        (flag_set && !(block_flags[(u8) calc_typ_trav(&ray, 2)] >> BLOCK_FLAG_4 & 1)) ||
-        !flag_set
-    )
-      new_iframes = 120;
-    else
-      new_iframes = 60;
-    ray.iframes_timer = new_iframes;
-  }
+    test_fin_cling();
+    ray.hit_points--;
+    if (ray.iframes_timer == -1)
+    {
+        flag_set = ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40;
+        if (
+            (flag_set && !(block_flags[(u8) calc_typ_trav(&ray, 2)] >> BLOCK_FLAG_4 & 1)) ||
+            !flag_set
+        )
+            new_iframes = 120;
+        else
+            new_iframes = 60;
+        ray.iframes_timer = new_iframes;
+    }
 
-  if (ray.hit_points == 0xFF)
-  {
-    if (ray_mode == MODE_RAY_ON_MS)
-      ray_mode = MODE_MORT_DE_RAYMAN_ON_MS;
-    else
-      ray_mode = MODE_MORT_DE_RAYMAN;
-    jump_time = 0;
-  }
+    if (ray.hit_points == 0xFF)
+    {
+        if (ray_mode == MODE_RAY_ON_MS)
+            ray_mode = MODE_MORT_DE_RAYMAN_ON_MS;
+        else
+            ray_mode = MODE_MORT_DE_RAYMAN;
+        jump_time = 0;
+    }
 }
 
 /* 6356C 80187D6C -O2 -msoft-float */
@@ -3066,7 +3057,7 @@ s32 RayEstIlBloque(void)
     s16 ani_yh;
     s16 unk_y;
     u8 res = false;
-    
+
     if (ray.speed_x != 0)
     {
         unk_x_1 = ray_zdc_x;
@@ -3094,7 +3085,7 @@ s32 RayEstIlBloque(void)
                 else
                     ani_y = cur_obj->y_pos + cur_obj->offset_hy;
                 ani_h = cur_obj->y_pos + cur_obj->offset_by - ani_y;
-                
+
                 if (flags[cur_obj->type].flags3 >> OBJ3_FLAG4 & 1)
                 {
                     ani_x += 6;
@@ -3223,7 +3214,7 @@ void DO_SURF_CHANGE_HAIRS(void)
             flip_x = 1;
         else
             flip_x = -1;
-        
+
         if (flip_x == SGN(ray.speed_x))
             ray.anim_index = 79;
         else
@@ -3259,7 +3250,7 @@ void DO_MORT_DE_RAY(void)
         RAY_TO_THE_LEFT();
     else if (ray.speed_x > 0)
         RAY_TO_THE_RIGHT();
-    
+
     fin_poing_follow(&level.objects[poing_obj_id], 0);
     if (ray_on_poelle == true)
     {

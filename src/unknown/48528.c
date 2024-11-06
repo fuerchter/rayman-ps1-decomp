@@ -19,10 +19,10 @@ void PS1_DisplayVRAM(void)
             PS1_VRAMDisplayYPos -= 32;
         if (FUN_801337b4(0))
             PS1_VRAMDisplayYPos += 32;
-        
+
         if (FUN_80134080(0))
             l1_pressed = 0xFF;
-        
+
         if (PS1_VRAMDisplayYPos > 304)
             PS1_VRAMDisplayYPos = 280;
         if (PS1_VRAMDisplayYPos < 0)
@@ -31,7 +31,7 @@ void PS1_DisplayVRAM(void)
             PS1_VRAMDisplayXPos = 712;
         if (PS1_VRAMDisplayXPos < 0)
             PS1_VRAMDisplayXPos = 0;
-        
+
         SetDefDispEnv(
             &PS1_Displays[0].field0_0x0,
             PS1_VRAMDisplayXPos, PS1_VRAMDisplayYPos,
@@ -56,7 +56,7 @@ s16 test_allowed(Obj *obj, s16 unk_x, s16 unk_y)
         ((unk_x + obj->x_pos) >> 4) +
         ((unk_y + obj->y_pos) >> 4) * mp.width;
     u8 res = false;
-    
+
     if (map_index != obj->test_block_index)
     {
         obj->test_block_index = map_index;
@@ -72,7 +72,7 @@ void obj_jump(Obj *obj)
     u8 unk_1 = 0;
     s16 spd_x = obj->speed_x;
     u8 label = 0xFF;
-    
+
     switch (obj->type)
     {
     case TYPE_STONEWOMAN:
@@ -111,7 +111,7 @@ void DO_ONE_PINK_CMD(Obj *obj)
 {
     if (obj->iframes_timer != 0)
         obj->iframes_timer--;
-    
+
     if (
         (gerbe && (obj->eta[obj->main_etat][obj->sub_etat].flags & 2)) ||
         (obj->main_etat == 2 && obj->sub_etat == 1 && obj->speed_y > 2)
@@ -125,7 +125,7 @@ void DO_ONE_PINK_CMD(Obj *obj)
     switch (obj->main_etat * 0x100 + obj->sub_etat)
     {
     case 0x2:
-        if(EOA(obj))
+        if (EOA(obj))
             obj->flags =
                 obj->flags & ~FLG(OBJ_FLIP_X) |
                 ((obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X;
@@ -187,13 +187,13 @@ void FUN_8016d418(Obj *obj)
             break;
         case TYPE_POI2:
             set_main_and_sub_etat(obj, 0, 1);
-            break; 
+            break;
         case TYPE_POI3:
             set_main_and_sub_etat(obj, 0, 4);
             break;
         }
         obj->speed_x = 0;
-        obj->flags = 
+        obj->flags =
             obj->flags & ~FLG(OBJ_FLIP_X) |
             (1 - (obj->flags >> OBJ_FLIP_X & 1) & 1) << OBJ_FLIP_X; /* TODO: ??? */
     }

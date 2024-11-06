@@ -7,7 +7,7 @@ u8 FUN_801707cc(Obj *obj, s16 param_2)
     s16 unk_y;
     s16 i;
     u8 res = false;
-    
+
     switch (param_2)
     {
     case 2:

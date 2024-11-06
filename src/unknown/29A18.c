@@ -8,7 +8,7 @@ void fades(void)
 
     if (dead_time == 32)
         INIT_FADE_OUT();
-    
+
     if (fade != 0)
         DO_FADE();
 }
@@ -27,7 +27,7 @@ void FUN_8014e27c(void)
 
     if (ray_old_main_etat != 2 && ray.main_etat == 2)
         ray.field24_0x3e = 0;
-    
+
     temp_v0_1 = D_801F7C90 - ray.x_pos;
     if (temp_v0_1 < 0)
         temp_v0_1 = ray.x_pos - D_801F7C90;

@@ -10,10 +10,10 @@ s16 loader_anim_prg(void)
     readinput();
     if (joy_done == 1 && fade == 0)
         joy_done = 0;
-    
+
     if ((ValidButPressed() || StartButPressed()) && joy_done == 0)
         PROC_EXIT = true;
-    
+
     horloges();
     DO_FADE();
     CLRSCR();
@@ -79,7 +79,7 @@ s32 FUN_8012eda4(s16 param_1, s16 param_2)
     {
         var_v1 = 0;
     }
-    
+
     return var_v1 + ((param_1 >> 0x1) ? test_1 << 9 : test_1 << 8);
 }
 #endif

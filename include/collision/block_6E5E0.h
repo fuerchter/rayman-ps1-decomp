@@ -11,7 +11,7 @@
 #include "command_56AF0.h"
 #include "obj/rayon.h"
 
-s32 MURDUR(s16 x, s16 y); /* s16 or RayTestBlocSH needs casts */
+s16 MURDUR(s16 x, s16 y); /* s16 or RayTestBlocSH needs casts */
 s16 dist_to_bloc_floor(s16 btyp, s16 x, s16 y);
 s16 bloc_floor(s16 btyp, s16 x, s16 y);
 s32 calc_typ_trav(Obj *obj, u8 param_2); /* TODO: return? u8? */

@@ -11,12 +11,12 @@ void Deter_Option_Caract(u8 *str, s16 param_2, u32 param_3)
 {
     u8 i;
     s16 unk_1 = param_3;
-    
+
     if (unk_1 == 0xff)
         for (i = 0; str[i] != '\0'; i++)
             if (str[i] == '$')
                 unk_1 = i;
-                
+
     switch (param_2) /* see also menu_AA8AC.c */
     {
     case 0:
@@ -124,7 +124,6 @@ void Bresenham(void (*param_1)(s32, s32), s16 param_2, s16 param_3, s16 param_4,
             var_s4 = -var_s4;
         }
 
-        
         if (var_s4 <= 0)
         {
             var_s7_1 = var_s4 >> 0x1F;
@@ -141,7 +140,7 @@ void Bresenham(void (*param_1)(s32, s32), s16 param_2, s16 param_3, s16 param_4,
             temp_s6_1 = var_s0_2 + ((sp10 - var_s0_2) * (s16) temp_s6_1 / 100);
             var_s0_2++;
             var_s1_1 = sp16;
-            
+
             var_s7_1 = -var_s7_1;
             while (var_s0_2 >= temp_s6_1)
             {
@@ -155,7 +154,7 @@ void Bresenham(void (*param_1)(s32, s32), s16 param_2, s16 param_3, s16 param_4,
                 {
                     var_s2_1 += (s16) (var_s4 * 2);
                 }
-                
+
                 if (sp20 < var_s3)
                 {
                     param_1(var_s0_2, var_s1_1);
@@ -170,7 +169,7 @@ void Bresenham(void (*param_1)(s32, s32), s16 param_2, s16 param_3, s16 param_4,
             temp_s6_1 = var_s0_2 + ((sp12 - var_s0_2) * (s16) temp_s6_1 / 100);
             var_s0_2 = var_s0_2 + 1;
             var_s1_1 = sp14;
-            
+
             while (var_s0_2 <= temp_s6_1)
             {
                 var_s3 += 1;
@@ -208,7 +207,7 @@ void Bresenham(void (*param_1)(s32, s32), s16 param_2, s16 param_3, s16 param_4,
             SwapAB(&sp10, &sp12);
             var_s5 = -var_s5;
         }
-        
+
         if (var_s5 <= 0)
         {
             var_s7_1 = var_s5 >> 0x1F;
@@ -337,7 +336,7 @@ void PS1_SetSauveRayEvts(void)
     SauveRayEvts.handstand = RayEvts.handstand;
     SauveRayEvts.grain = RayEvts.grain;
     SauveRayEvts.grap = RayEvts.grap;
-    
+
     SauveRayEvts.run = RayEvts.run;
     SauveRayEvts.demi = RayEvts.demi;
     SauveRayEvts.luciole = RayEvts.luciole;
@@ -357,7 +356,7 @@ void PS1_RestoreSauveRayEvts(void)
     RayEvts.handstand = SauveRayEvts.handstand;
     RayEvts.grain = SauveRayEvts.grain;
     RayEvts.grap = SauveRayEvts.grap;
-    
+
     RayEvts.run = SauveRayEvts.run;
     RayEvts.demi = SauveRayEvts.demi;
     RayEvts.luciole = SauveRayEvts.luciole;

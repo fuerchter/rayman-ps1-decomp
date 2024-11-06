@@ -16,7 +16,7 @@ void PouvoirsParMap(void)
     RaymanEvents sp18 = D_801CEE90;
     RaymanEvents sp20 = D_801CEE94;
     RaymanEvents sp28 = PS1_DefaultRayEvts;
-    
+
     switch (num_world)
     {
     case 1:

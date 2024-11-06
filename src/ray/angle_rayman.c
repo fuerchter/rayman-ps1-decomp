@@ -18,7 +18,7 @@ s16 ANGLE_RAYMAN(Obj *obj)
         x = -x;
     if (!y_gt_0)
         y = -y;
-    
+
     if (x > 200)
     {
         x = x >> 1;
@@ -52,7 +52,6 @@ s16 ANGLE_RAYMAN(Obj *obj)
             else
                 res = 128 - tab_val;
         }
-
     }
     return res;
 }

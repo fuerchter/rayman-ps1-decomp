@@ -1,7 +1,7 @@
 #include "collision/block_6E5E0.h"
 
 /* 6E5E0 80192DE0 -O2 -msoft-float */
-s32 MURDUR(s16 x, s16 y)
+s16 MURDUR(s16 x, s16 y)
 {
     return PS1_BTYPAbsPos(x, y) == BTYP_SOLID;
 }
@@ -262,7 +262,7 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
     while (var_s3_1 >= var_s0_2)
     {
 
-        if (((s16) MURDUR(temp_v1_0, (temp_v0_0 - temp_s0) - ((var_s3_1 - var_s0_2) * 0x10))) != 0)
+        if ((MURDUR(temp_v1_0, (temp_v0_0 - temp_s0) - ((var_s3_1 - var_s0_2) * 0x10))) != 0)
         {
             var_s2 += 1;
         }

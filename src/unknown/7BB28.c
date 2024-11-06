@@ -24,7 +24,7 @@ void PS1_StopLevelMusic(void)
 void PS1_InitDisplay(Display *display)
 {
     s32 i;
-    
+
     for (i = 0; i < (s16) LEN(display->tiles); i++)
     {
         SetSprt16(&display->tiles[i]);

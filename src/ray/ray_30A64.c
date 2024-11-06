@@ -17,13 +17,13 @@ s16 RayCoince(s16 dir)
     s32 pos_to_check;
     s32 map_ind;
     u8 res = false;
-    
+
     if (ray.flags & FLG(OBJ_FLIP_X))
         x_pos = ray.x_pos + 70;
     else
         x_pos = ray.x_pos + 58;
     y_pos = ray.y_pos + 32;
-    
+
     switch (dir)
     {
     case 2:
@@ -96,12 +96,12 @@ void move_up_ray(void)
 
     if (ray_mode == MODE_RAY_ON_MS && RayCoince(2))
         ray.speed_y = 0;
-    
+
     if (!(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40) && ray.scale == 0)
         unk_y_1 = 25;
     else
         unk_y_1 = 40;
-    
+
     ray.y_pos += ray.speed_y;
     unk_y_2 = 20;
     if (ray.y_pos < scroll_start_y - (unk_y_1 + unk_y_2))
@@ -121,7 +121,7 @@ void move_down_ray(void)
 {
     if (ray_mode == MODE_RAY_ON_MS && RayCoince(3))
         ray.speed_y = 0;
-    
+
     ray.y_pos += ray.speed_y;
     calc_obj_pos(&ray);
     if (ray.main_etat == 2)
@@ -271,7 +271,7 @@ void RecaleRayPosInJumelle(void)
             )
                 h_scroll_speed += ray.speed_x;
         }
-        
+
         if (scroll_y == -1 && ray.field20_0x36 != -1)
         {
             other_obj = &level.objects[ray.field20_0x36];
@@ -375,7 +375,7 @@ void TEST_FIN_FOLLOW(void)
     }
     else
         btyp = (u8) calc_typ_trav(&ray, unk_1);
-    
+
     if (block_flags[btyp] >> BLOCK_SOLID & 1)
     {
         ray.y_pos -= ray.speed_y;
@@ -386,7 +386,7 @@ void TEST_FIN_FOLLOW(void)
         }
         else
             recale_position(&ray);
-        
+
         ray.speed_x = 0;
         ray.field20_0x36 = -1;
     }
@@ -398,7 +398,7 @@ void RAY_FOLLOW(void)
     s16 other_spd_x;
     s16 other_spd_y;
     Obj *other_obj = &level.objects[ray.field20_0x36];
-    
+
     if (flags[other_obj->type].flags1 >> OBJ1_USE_INSTANT_SPEED_X & 1)
         other_spd_x = instantSpeed(other_obj->speed_x);
     else
@@ -408,7 +408,7 @@ void RAY_FOLLOW(void)
         other_spd_y = instantSpeed(other_obj->speed_y);
     else
         other_spd_y = (u16) other_obj->speed_y;
-    
+
     ray.speed_x = other_spd_x + ray.speed_x;
     ray.speed_x += other_obj->follow_x; /* a little strange */
     ray.speed_y = other_spd_y + (ray.speed_y + other_obj->follow_y);
@@ -439,8 +439,7 @@ void DO_FIXE(void)
 
     status_bar.lives_digits[1] = status_bar.num_lives % 10;
     status_bar.lives_digits[0] = status_bar.num_lives / 10;
-    status_bar.num_wiz = status_bar.num_wiz;
-    MIN_2(status_bar.num_wiz, 99);
+    status_bar.num_wiz = MIN_1(status_bar.num_wiz, 99);
     status_bar.wiz_digits[0] = (status_bar.num_wiz / 10);
     status_bar.wiz_digits[1] = (status_bar.num_wiz % 10U);
 }

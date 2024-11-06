@@ -16,7 +16,7 @@ s16 GetY(s16 x)
 
     if (eau_obj_id == -1)
         return 0;
-    
+
     unk_1 = (x + 50) / 101;
     unk_2 = unk_1 * 101;
     obj_id = eau_obj_id + unk_1 % 5;
