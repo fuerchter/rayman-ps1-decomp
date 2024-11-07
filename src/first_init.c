@@ -50,9 +50,11 @@ void FUN_8019f8d0(void)
     LOAD_SCREEN();
     playLevelMusic(0, 7);
     SetDispMask(1);
+    #ifndef QUICK_START
     SYNCHRO_LOOP(FUN_8019f848);
     while (FUN_80131db8() == false) {};
     DO_FADE_OUT();
+    #endif
 }
 #endif
 
@@ -200,7 +202,9 @@ void FIRST_INIT(void)
     PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
     PS1_ClearScreen();
     SetDispMask(true);
+    #ifndef QUICK_START
     PS1_PlayVideo(VIDEO_PRES);
+    #endif
     FUN_8019fdd0();
     FUN_8019dd74();
     PS1_LoadPts();
@@ -208,5 +212,7 @@ void FIRST_INIT(void)
     PS1_SetLevelto_4_1();
     PS1_LoadAllFixData();
     no_fnd = -1;
+    #ifndef QUICK_START
     FUN_8019fa94(true);
+    #endif
 }

@@ -26,13 +26,17 @@ void DEPART_WORLD(void)
         {
             D_801CEDFC = 1;
             PS1_PlaySnd(PS1_NewWorldMusic[num_world_choice], 1);
+            #ifndef QUICK_START
             FUN_8019fb84();
+            #endif
             load_world(num_world_choice);
             INIT_MOTEUR_WORLD();
             PS1_ShouldFadeOutWorldIntro = true;
         }
+        #ifndef QUICK_START
         else
             FUN_8019fa94(1);
+        #endif
     }
 }
 

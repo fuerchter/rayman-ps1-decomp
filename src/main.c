@@ -24,6 +24,20 @@ void main(void)
     StartPAD();
     ChangeClearPAD(0);
     D_801F4380 = (u8 *) 0x8005866C;
+
+    #ifdef QUICK_START
+    FUN_801a6a04(false);
+    for (u8 i = 1; i < (s16) LEN(t_world_info); i++)
+        t_world_info[i].is_unlocked = true;
+    ((u8*)&RayEvts)[0] = 0x87;
+    ((u8*)&RayEvts)[1] = 0x05;
+    fin_du_jeu = false;
+    new_world = true;
+    num_world_choice = 6;
+    num_level_choice = 1;
+    /* more setup required, like world_index? */
+    goto lbl_1;
+    #endif
     while (true)
     {
         if (menuEtape != 4)
@@ -41,6 +55,7 @@ void main(void)
                 SPECIAL_INIT();
                 PS1_LoadFont();
                 DO_WORLD_MAP();
+lbl_1:
                 DEPART_WORLD();
                 while (!fin_du_jeu && !new_world && new_level)
                 {

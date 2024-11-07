@@ -6,6 +6,7 @@
 
 /*#define NUGGET*/
 #define MATCHES_BUT
+/*#define QUICK_START*/
 
 #ifdef NUGGET
 #define BSS_DEFS

@@ -348,8 +348,10 @@ void InitSnd(void)
     PS1_SetStereoEnabled(options_jeu.StereoEnabled);
     SsUtSetReverbType(SS_REV_TYPE_STUDIO_A);
     SsUtReverbOn();
+    #ifndef QUICK_START
     for (i = 0; i < 200; i++)
         VSync(0);
+    #endif
     SsUtSetReverbDepth(20, 20);
 }
 
