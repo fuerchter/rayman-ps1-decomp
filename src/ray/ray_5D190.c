@@ -1,6 +1,10 @@
 #include "ray/ray_5D190.h"
 
-/* TODO: flip the "_etat !=" in this file */
+/*
+TODO:
+flip the "_etat !=" in this file
+macro for block_flags[ray.btypes[x]] ?
+*/
 
 #ifdef BSS_DEFS
 RaymanEvents RayEvts;
@@ -581,117 +585,90 @@ void ray_jump(void)
     }
 }
 
+/* 5E4BC 80182CBC -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", ray_inertia_speed);
 #else
-/* matches, but too many unknown locals */
-/*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", ray_inertia_speed);*/
-
-/*s16 ashr16(s16 param_1, u32 param_2);
-s32 ashl16(s16 param_1, u32 param_2);*/
-
 void ray_inertia_speed(u8 param_1, s16 param_2, s16 prev_speed_x, s16 param_4)
 {
-
-    s16 temp_s3_2;
-    s16 temp_v1;
-    s16 var_a1;
-    s32 var_s0;
-    s16 var_s2;
-    s16 var_s6;
-    s16 var_v1;
-    s16 temp_s0_2;
-    s32 temp_s1;
-    s32 temp_s1_2;
-    s16 temp_s3_1;
-    s32 temp_v0;
-    s32 new_var2;
+    s16 unk_1;
+    s16 unk_2;
+    s16 unk_3;
+    s16 unk_4;
+    s16 unk_5;
+    s16 unk_6;
 
     if (param_1 == 0)
     {
         decalage_en_cours = prev_speed_x;
-        var_s2 = 0;
+        unk_1 = 0;
     }
     else
     {
-        new_var2 = 6;
-        temp_s3_1 = ashr32(prev_speed_x * param_1, 8);
-        var_s2 = ashr16(param_1, 3);
-        var_v1 = var_s2;
-        if (var_v1 == 0)
-            var_v1 = 1;
-        var_s2 = var_v1;
-        temp_s0_2 = ashl16(param_2, 2);
-        temp_s3_2 = ashl16(param_4, 3) + (temp_s3_1 + temp_s0_2);
-        temp_v1 = num_world - 1;
-        switch (temp_v1)
+        unk_2 = ashr32(prev_speed_x * param_1, 8);
+        unk_1 = ashr16(param_1, 3);
+        unk_1 = unk_1 != 0 ? unk_1 : 1;
+        unk_3 = ashl16(param_2, 2);
+        unk_4 = ashl16(param_4, 3) + (unk_2 + unk_3);
+
+        switch ((s16) (num_world - 1))
         {
         case 0:
         case 1:
         case 3:
         case 5:
-            var_s6 = new_var2;
+            unk_5 = 6;
             break;
         case 2:
-            var_s6 = 3;
+            unk_5 = 3;
             break;
         }
-        if (temp_s3_2 > 0)
+
+        /* ??? duplication ??? */
+        if (unk_4 > 0)
         {
-            if (temp_s3_1 > 0)
-                var_s0 = prev_speed_x;
-            else
-                var_s0 = 0;
-            temp_s1 = ashl16(param_4, 8);
-            if (temp_s0_2 > 0)
-            {
-                temp_v0 = ashl16(param_2 + var_s6, 8);
-                temp_v0 = var_s0 + temp_v0 / var_s2 + temp_s1;
-            }
-            else
-                temp_v0 = var_s0 + temp_s1;
-            var_a1 = temp_v0;
-            MAX_3(var_a1, decalage_en_cours);
+            unk_6 =
+                (unk_2 > 0 ? prev_speed_x : 0) +
+                (unk_3 > 0 ? (ashl16(param_2 + unk_5, 8) / unk_1) : 0) +
+                ashl16(param_4, 8);
+
+            MAX_3(unk_6, decalage_en_cours);
         }
-        else if (temp_s3_2 < 0)
+        else if (unk_4 < 0)
         {
-            if (temp_s3_1 < 0)
-                var_s0 = prev_speed_x;
-            else
-                var_s0 = 0;
-            temp_s1_2 = ashl16(param_4, 8);
-            if (temp_s0_2 < 0)
-            {
-                temp_v0 = ashl16(param_2 - var_s6, 8);
-                temp_v0 = var_s0 + temp_v0 / var_s2 + temp_s1_2;
-            }
-            else
-                temp_v0 = var_s0 + temp_s1_2;
-            var_a1 = temp_v0;
-            MIN_3(var_a1, decalage_en_cours);
+            unk_6 =
+                (unk_2 < 0 ? prev_speed_x : 0) +
+                (unk_3 < 0 ? (ashl16(param_2 - unk_5, 8)) / unk_1 : 0) +
+                ashl16(param_4, 8);
+
+            MIN_3(unk_6, decalage_en_cours);
         }
         else
-            var_a1 = decalage_en_cours;
-        if (temp_s3_2 != 0)
+            unk_6 = decalage_en_cours;
+
+        if (unk_4 != 0)
         {
-            if (var_a1 > 0)
+            if (unk_6 > 0)
             {
-                if (decalage_en_cours < var_a1)
-                    decalage_en_cours += temp_s3_2;
-                MIN_3(decalage_en_cours, var_a1);
+                if (decalage_en_cours < unk_6)
+                    decalage_en_cours += unk_4;
+                if (decalage_en_cours > unk_6)
+                    decalage_en_cours = unk_6;
             }
             else
             {
-                if (var_a1 < decalage_en_cours)
-                    decalage_en_cours += temp_s3_2;
-                MAX_3(decalage_en_cours, var_a1);
+                if (decalage_en_cours > unk_6)
+                    decalage_en_cours += unk_4;
+                if (decalage_en_cours < unk_6)
+                    decalage_en_cours = unk_6;
             }
         }
     }
+
     if (decalage_en_cours != 0)
     {
         ray.speed_x = instantSpeed(ashr16(decalage_en_cours, 4));
-        if (block_flags[(u8) calc_typ_travd(&ray, 0)] >> BLOCK_FLAG_4 & 1 && ray.main_etat != 2)
+        if (block_flags[calc_typ_travd(&ray, false)] >> BLOCK_FLAG_4 & 1 && ray.main_etat != 2)
         {
             ray.speed_x = 0;
             decalage_en_cours = 0;
@@ -705,11 +682,12 @@ void ray_inertia_speed(u8 param_1, s16 param_2, s16 prev_speed_x, s16 param_4)
         CALC_MOV_ON_BLOC(&ray);
 
     if (ray.main_etat == 2 && ray.sub_etat == 15)
-        var_s2 += 2;
-    if (decalage_en_cours >= var_s2)
-        decalage_en_cours -= var_s2;
-    else if (decalage_en_cours <= -var_s2)
-        decalage_en_cours += var_s2;
+        unk_1 += 2;
+
+    if (decalage_en_cours >= unk_1)
+        decalage_en_cours -= unk_1;
+    else if (decalage_en_cours <= -unk_1)
+        decalage_en_cours += unk_1;
     else
         decalage_en_cours = 0;
 }
@@ -2297,11 +2275,22 @@ void RAY_GOING_BALANCE(Obj *obj)
     }
 }
 
+/* 61C48 80186448 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE);
 #else
-/* matches, but cleanup*/
-/*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE);*/
+/* clean up */
+
+/* didn't get these to work... */
+extern inline s16 pos_x(Obj *obj_1, s16 middle, Obj *obj_2)
+{
+    return obj_1->x_pos + obj_1->offset_bx + middle - obj_2->offset_bx - obj_2->x_pos;
+}
+
+extern inline s16 pos_y(Obj *obj_1, s16 middle, Obj *obj_2)
+{
+    return obj_1->y_pos + obj_1->offset_by + middle - obj_2->offset_by - obj_2->y_pos;
+}
 
 void RAY_BALANCE(void)
 {
@@ -2346,22 +2335,23 @@ void RAY_BALANCE(void)
                 obj_grp->field24_0x3e = 1;
             }
 
-            /*test_3 = 256;*/ /* TODO: ???*/
+            /* clean up? */
             if (grp_angle <= 256)
                 unk_grp_ang_1 = -((256 - grp_angle) << 7) / (256 - unk_1) + 256;
             else
-                unk_grp_ang_1 = ((grp_angle - 256) << 7) / (256 - unk_2) + 256;
+                unk_grp_ang_1 = (-(256 - grp_angle) << 7) / (256 - unk_2) + 256;
 
             unk_grp_ang_2 = (__builtin_abs(costab[256 - unk_grp_ang_1]) >> 7) + 1;
             if (obj_grp->field24_0x3e < 0)
                 unk_grp_ang_2 = -unk_grp_ang_2;
+
             obj_grp->follow_x += unk_grp_ang_2;
 
-            /* TODO: unk_spd_*??? */
+            /* unk_spd_*??? */
             unk_3 = obj_grp->follow_y;
             unk_4 = ray.x_pos;
-            unk_spd_x = obj_grp->offset_bx + obj_grp->x_pos + ((unk_3 * unk_math_1) >> 9) - ray.offset_bx - unk_4;
-            unk_spd_y = obj_grp->offset_by + obj_grp->y_pos - ((unk_3 * unk_math_2) >> 9) - ray.offset_by - ray.y_pos;
+            unk_spd_x = obj_grp->x_pos + obj_grp->offset_bx + ((unk_3 * unk_math_1) >> 9) - ray.offset_bx - unk_4;
+            unk_spd_y = obj_grp->y_pos + obj_grp->offset_by - ((unk_3 * unk_math_2) >> 9) - ray.offset_by - ray.y_pos;
             ray.speed_x = unk_spd_x;
             ray.speed_y = unk_spd_y;
         }
@@ -2904,11 +2894,9 @@ void RepousseRay(void)
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RayEstIlBloque);
 #else
 /* matches, but cleanup last section with goto */
-
 s32 RayEstIlBloque(void)
 {
-    s32 unk_x_1;
-    s16 unk_x_2;
+    s16 unk_x;
     s16 unk_h;
     Obj *cur_obj;
     s16 i;
@@ -2921,16 +2909,13 @@ s32 RayEstIlBloque(void)
 
     if (ray.speed_x != 0)
     {
-        unk_x_1 = ray_zdc_x;
-        if (ray.speed_x > 0)
-        {
-            unk_x_1 += ray_zdc_w;
-        }
-        unk_x_2 = unk_x_1;
+        unk_x =
+            ray_zdc_x +
+            (ray.speed_x > 0 ? ray_zdc_w : 0);
         unk_h = ray_zdc_h >> 2;
-
-        cur_obj = &level.objects[actobj.objects[0]];
+        
         i = 0;
+        cur_obj = &level.objects[actobj.objects[i]];
         while (i < actobj.num_active_objects)
         {
             if (flags[cur_obj->type].flags2 >> OBJ2_BLOCKS_RAY & 1)
@@ -2945,6 +2930,7 @@ s32 RayEstIlBloque(void)
                 }
                 else
                     ani_y = cur_obj->y_pos + cur_obj->offset_hy;
+
                 ani_h = cur_obj->y_pos + cur_obj->offset_by - ani_y;
 
                 if (flags[cur_obj->type].flags3 >> OBJ3_FLAG4 & 1)
@@ -2961,35 +2947,22 @@ s32 RayEstIlBloque(void)
 
                 ani_xw = ani_x + ani_w;
                 if (
-                    (ray.speed_x <= 0 || unk_x_2 < ani_x - ray.speed_x || unk_x_2 > ani_x) &&
-                    (unk_x_2 < ani_xw + ray.speed_x || unk_x_2 > ani_xw)
+                    (ray.speed_x <= 0 || unk_x < ani_x - ray.speed_x || unk_x > ani_x) &&
+                    (unk_x < ani_xw + ray.speed_x || unk_x > ani_xw)
                 )
-                {
                     goto block_30;
-                }
 
                 ani_yh = ani_y + ani_h;
                 unk_y = ray_zdc_y;
-                if (unk_y < ani_y || unk_y > ani_yh)
-                {
-                    unk_y += unk_h;
-                    if (unk_y < ani_y || unk_y > ani_yh)
-                    {
-                        unk_y += unk_h;
-                        if (unk_y < ani_y || unk_y > ani_yh)
-                        {
-                            unk_y += unk_h;
-                            if (unk_y < ani_y || unk_y > ani_yh)
-                            {
-                                unk_y += unk_h;
-                                if (unk_y < ani_y || unk_y > ani_yh)
-                                {
-                                    goto block_30;
-                                }
-                            }
-                        }
-                    }
-                }
+                if (
+                    (unk_y < ani_y || unk_y > ani_yh) &&
+                    (unk_y += unk_h, (unk_y < ani_y || unk_y > ani_yh)) &&
+                    (unk_y += unk_h, (unk_y < ani_y || unk_y > ani_yh)) &&
+                    (unk_y += unk_h, (unk_y < ani_y || unk_y > ani_yh)) &&
+                    (unk_y += unk_h, (unk_y < ani_y || unk_y > ani_yh))
+                )
+                    goto block_30;
+
                 res = true;
                 break;
             }
@@ -2998,6 +2971,7 @@ block_30:
             cur_obj = &level.objects[actobj.objects[i]];
         }
     }
+
     return res;
 }
 #endif

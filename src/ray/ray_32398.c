@@ -28,9 +28,6 @@ void INIT_RAY_BEGIN(void)
 }
 
 /* 3240C 80156C0C -O2 -msoft-float */
-/*void RAY_REVERSE_COMMANDS(void);
-u32 calc_btyp(Obj *obj);*/
-
 void INIT_RAY(u8 new_lvl)
 {
     s16 j;

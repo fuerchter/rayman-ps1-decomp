@@ -155,7 +155,7 @@ extern inline s32 do_flocons_1(s16 param_1)
 
 extern inline s32 do_flocons_2(s16 param_1)
 {
-    return param_1 - do_flocons_test_1(param_1) * 4;
+    return param_1 - do_flocons_1(param_1) * 4;
 }
 
 void do_flocons(s16 in_x_map, s16 in_y_map, s16 in_x_map_old, s16 in_y_map_old)
