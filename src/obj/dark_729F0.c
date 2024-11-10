@@ -451,119 +451,78 @@ void DO_DARK_REACT(Obj *obj)
     }
 }
 
-#ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DO_DARK_SORT_COMMAND);
-#else
-/* matches, but cleanup */
-/*INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DO_DARK_SORT_COMMAND);*/
-
-void DO_DARK_SORT_COMMAND(Obj *param_1)
+/* 73D44 80198544 -O2 -msoft-float */
+void DO_DARK_SORT_COMMAND(Obj *ds_obj)
 {
-    Obj *temp_s0;
-    s16 temp_v0;
-    s16 var_a1;
-    s16 var_a1_2;
-    s16 var_v0_4;
-    s16 var_v1_2;
-    s32 temp_a0;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 temp_v0_4;
-    s32 temp_v0_5;
-    s16 var_s3;
-    s32 var_v0_1;
-    s32 var_v0_2;
-    s32 var_v0_3;
-    u8 temp_v1;
-    u8 var_v1_1;
+    Obj *br_obj;
+    s16 diff_x; s16 diff_y;
+    s16 dist;
 
-    /*var_s3 = saved_reg_s3;
-    var_a1 = param_2;*/
-    if (param_1->hit_points != 0)
+    if (ds_obj->hit_points != 0)
     {
-        temp_v1 = param_1->sub_etat;
-        if (temp_v1 == 5)
+        if (ds_obj->sub_etat == 5)
         {
-            if (fin_boss == 1)
-            {
-                param_1->hit_points = 0;
-            }
+            if (fin_boss == true)
+                ds_obj->hit_points = 0;
         }
-        else if (temp_v1 == 4)
+        else if (ds_obj->sub_etat == 4)
         {
-            temp_s0 = &level.objects[black_ray_obj_id];
-            if (param_1->iframes_timer == 1)
+            br_obj = &level.objects[black_ray_obj_id];
+            if (ds_obj->iframes_timer == 1)
             {
-                param_1->iframes_timer = 0;
-                temp_s0->hit_points = 0xFE;
-                temp_s0->flags &= ~0x4000;
-                set_main_and_sub_etat(temp_s0, 0U, 0U);
-                temp_s0->x_pos = 0;
-                temp_s0->y_pos = 0;
-                temp_s0->init_x_pos = (s16) ray.x_pos;
-                temp_s0->init_y_pos = (s16) ray.y_pos;
-                temp_s0->display_prio = 0;
-                ray_stack_is_full = 0;
+                ds_obj->iframes_timer = 0;
+                br_obj->hit_points = 0xFE;
+                br_obj->flags &= ~FLG(OBJ_FLIP_X);
+                set_main_and_sub_etat(br_obj, 0, 0);
+                br_obj->x_pos = 0;
+                br_obj->y_pos = 0;
+                br_obj->init_x_pos = ray.x_pos;
+                br_obj->init_y_pos = ray.y_pos;
+                br_obj->display_prio = 0;
+                ray_stack_is_full = false;
                 ray_pos_in_stack = 0;
                 black_pos_in_stack = 0;
-                temp_s0->flags |= 0xC00;
+                br_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             }
-            var_s3 = (temp_s0->offset_bx + (u16) temp_s0->init_x_pos) - (param_1->offset_bx + (u16) param_1->x_pos);
-            var_a1 = (temp_s0->offset_by + (u16) temp_s0->init_y_pos) - (param_1->offset_by + (u16) param_1->y_pos);
-            if (ray_stack_is_full == 1)
-            {
-                if (black_pos_in_stack == 0x19)
-                {
-                    param_1->hit_points = 0;
-                }
-            }
+
+            diff_x = (br_obj->init_x_pos + br_obj->offset_bx) - (ds_obj->x_pos + ds_obj->offset_bx);
+            diff_y = (br_obj->init_y_pos + br_obj->offset_by) - (ds_obj->y_pos + ds_obj->offset_by);
+            if (ray_stack_is_full == true && black_pos_in_stack == 25)
+                ds_obj->hit_points = 0;
         }
         else
         {
-            param_1->iframes_timer = 0;
-            var_s3 = (ray.offset_bx + ray.x_pos) - (param_1->offset_bx + (u16) param_1->x_pos);
+            ds_obj->iframes_timer = 0;
+            diff_x = (ray.x_pos + ray.offset_bx) - (ds_obj->x_pos + ds_obj->offset_bx);
             if (ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40)
-            {
-                var_a1 = (ray.offset_by + ray.y_pos) - (param_1->offset_by + (u16) param_1->y_pos);
-            }
+                diff_y = (ray.y_pos + ray.offset_by) - (ds_obj->y_pos + ds_obj->offset_by);
             else
-            {
-                var_a1 = (ray.offset_hy + ray.y_pos + ((s32) (ray.offset_by - ray.offset_hy) >> 1)) - (param_1->offset_by + (u16) param_1->y_pos);
-            }
+                diff_y =
+                    (ray.y_pos + ray.offset_hy + ((ray.offset_by - ray.offset_hy) >> 1)) -
+                    (ds_obj->y_pos + ds_obj->offset_by);
         }
-        temp_v0 = __builtin_abs(var_s3) + __builtin_abs(var_a1);
-        if (temp_v0 > 0)
+
+        dist = __builtin_abs(diff_x) + __builtin_abs(diff_y);
+        if (dist > 0)
         {
-            var_s3 = ashl16(var_s3, 4U) / temp_v0;
-            var_a1 = ashl16(var_a1, 4U) / temp_v0;
+            diff_x = ashl16(diff_x, 4) / dist;
+            diff_y = ashl16(diff_y, 4) / dist;
         }
+
         if (horloge[2] == 0)
         {
-            temp_v0_4 = var_s3 - dark_rayon_dx;
-            if (temp_v0_4 >= 0)
-            {
-                dark_rayon_dx = dark_rayon_dx + (temp_v0_4 > 0);
-            }
-            else
-            {
-                dark_rayon_dx = dark_rayon_dx - (var_v0_4 = 1);
-            }
-            temp_v0_5 = var_a1 - dark_rayon_dy;
-            if (temp_v0_5 >= 0)
-            {
-                var_a1_2 = dark_rayon_dy + (temp_v0_5 > 0);
-            }
-            else
-            {
-                var_a1_2 = dark_rayon_dy - (var_v0_4 = 1);
-            }
-            dark_rayon_dy = var_a1_2;
-            allocate_DARK_SORT(param_1->x_pos + dark_rayon_dx, param_1->y_pos + dark_rayon_dy, param_1->sub_etat, param_1->iframes_timer);
-            param_1->hit_points = 0;
+            dark_rayon_dx += SGN(diff_x - dark_rayon_dx);
+            dark_rayon_dy += SGN(diff_y - dark_rayon_dy);
+            allocate_DARK_SORT(
+                ds_obj->x_pos + dark_rayon_dx,
+                ds_obj->y_pos + dark_rayon_dy,
+                ds_obj->sub_etat,
+                ds_obj->iframes_timer
+            );
+            ds_obj->hit_points = 0;
         }
     }
 }
-#endif
 
 /* 740D4 801988D4 -O2 -msoft-float */
 void DO_DARK_SORT_COLLISION(Obj *obj)

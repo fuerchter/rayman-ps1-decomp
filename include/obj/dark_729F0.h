@@ -55,7 +55,7 @@ void DARK_phase3(Obj *mr_drk_obj);
 void DO_DARK_COMMAND(Obj *mr_drk_obj);
 void DO_DARK_POING_COLLISION(Obj *obj);
 void DO_DARK_REACT(Obj *obj);
-void DO_DARK_SORT_COMMAND(Obj *param_1);
+void DO_DARK_SORT_COMMAND(Obj *ds_obj);
 void DO_DARK_SORT_COLLISION(Obj *obj);
 void allocate_DARK_SORT(s16 x, s16 y, s16 sub_etat, s16 iframes);
 void corde_en_bas(void);
