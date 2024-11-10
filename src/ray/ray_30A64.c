@@ -83,12 +83,11 @@ s16 RayCoince(s16 dir)
     return res;
 }
 
+/* 30E34 80155634 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", move_up_ray);
 #else
-/* matches, but unk_y_2 */
-/*INCLUDE_ASM("asm/nonmatchings/ray/ray_30A64", move_up_ray);*/
-
+/* unk_y_2? */
 void move_up_ray(void)
 {
     s16 unk_y_1;

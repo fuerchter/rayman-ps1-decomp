@@ -5,6 +5,6 @@
 #include "common/obj.h"
 #include "collision/block_22C84.h"
 
-void DO_SPECIAL_PLATFORM(Obj *obj);
+void DO_SPECIAL_PLATFORM(Obj *plat_obj);
 
 #endif
