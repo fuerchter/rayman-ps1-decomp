@@ -18,7 +18,7 @@ void DO_TRP_COMMAND(Obj *obj)
             break;
         case GO_LEFT:
         case GO_RIGHT:
-            if (obj->cmd == 0)
+            if (obj->cmd == GO_LEFT)
                 obj->flags &= ~FLG(OBJ_FLIP_X);
             else
                 obj->flags |= FLG(OBJ_FLIP_X);

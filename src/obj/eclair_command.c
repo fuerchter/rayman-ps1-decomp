@@ -1,85 +1,63 @@
 #include "obj/eclair_command.h"
 
-#ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/obj/eclair_command", DO_ECLAIR_COMMAND);
-#else
-/* matches, but ... that */
-/*INCLUDE_ASM("asm/nonmatchings/obj/eclair_command", DO_ECLAIR_COMMAND);*/
-
-void DO_ECLAIR_COMMAND(Obj *obj)
+/* 4C978 80171178 -O2 -msoft-float */
+void DO_ECLAIR_COMMAND(Obj *ecl_obj)
 {
-    Obj *var_s0;
-    s16 temp_v0;
-    s16 var_a1;
-    Obj *var_a0;
-    u32 temp_v1_2;
-    u8 temp_v1;
+    s16 i;
+    Obj *cur_obj;
     s16 nb_objs;
 
-    temp_v1 = obj->cmd;
-    switch (temp_v1)
+    switch (ecl_obj->cmd)
     {
-    default:
-        goto block_1;
-block_2:
-        var_s0->flags = temp_v1_2 & ~0x4000;
-        var_s0->speed_y = 0;
-        var_s0->speed_x = 0;
-        var_s0->x_pos = (u16) obj->x_pos - 0x20;
-        var_s0->y_pos = (u16) obj->y_pos - 0x30;
-        var_s0->init_x_pos = (s16) (u16) var_s0->x_pos;
-        var_s0->init_y_pos = (s16) (u16) var_s0->y_pos;
-        calc_obj_pos(var_s0);
-        var_s0->iframes_timer = 0x00FF;
-        var_s0->field23_0x3c = 0x001E;
-        var_s0->field24_0x3e = 0x001E;
-        var_s0->main_etat = 0;
-        var_s0->sub_etat = 4;
-        var_s0->anim_frame = 0;
-        var_s0->cmd_offset = -1;
-        var_s0->nb_cmd = 0;
-        var_s0->flags |= 0xC00;
-        goto block_3;
-block_1:
-        break;
-    case 0:
-        obj->flags &= ~0x4000;
+    case GO_LEFT:
+        ecl_obj->flags &= ~FLG(OBJ_FLIP_X);
+    case GO_RIGHT:
+        if (ecl_obj->cmd == GO_RIGHT)
+            ecl_obj->flags |= FLG(OBJ_FLIP_X);
 
-    case 1:
-        if (obj->cmd == 1)
-        {
-            obj->flags |= 0x4000;
-        }
-        SET_X_SPEED(obj);
-        obj->speed_y = 0;
+        SET_X_SPEED(ecl_obj);
+        ecl_obj->speed_y = 0;
         if (
             block_flags[
                 mp.map[
-                    (s16) (((obj->x_pos + obj->offset_bx) >> 4) + mp.width * ((obj->y_pos + obj->offset_by) >> 4))
+                    (s16) (((ecl_obj->x_pos + ecl_obj->offset_bx) >> 4) +
+                    mp.width * ((ecl_obj->y_pos + ecl_obj->offset_by) >> 4))
                 ] >> 10
             ] >> BLOCK_CH_DIR & 1
         )
         {
-            var_s0 = level.objects;
-            var_a1 = 0;
+            i = 0;
+            cur_obj = &level.objects[i];
             nb_objs = level.nb_objects;
-            while (var_a1 < nb_objs)
+            while (i < nb_objs)
             {
-                if ((var_s0->type != 0x73) || (temp_v1_2 = var_s0->flags, ((temp_v1_2 & 0x800) != 0)))
+                if (cur_obj->type == TYPE_BB1_PLAT && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
                 {
-                    var_s0 += 1;
-                    var_a1 = var_a1 + 1;
+                    cur_obj->flags &= ~FLG(OBJ_FLIP_X);
+                    cur_obj->speed_y = 0;
+                    cur_obj->speed_x = 0;
+                    cur_obj->x_pos = ecl_obj->x_pos - 32;
+                    cur_obj->y_pos = ecl_obj->y_pos - 48;
+                    cur_obj->init_x_pos = cur_obj->x_pos;
+                    cur_obj->init_y_pos = cur_obj->y_pos;
+                    calc_obj_pos(cur_obj);
+                    cur_obj->iframes_timer = 0x00FF;
+                    cur_obj->field23_0x3c = 0x001E;
+                    cur_obj->field24_0x3e = 0x001E;
+                    cur_obj->main_etat = 0;
+                    cur_obj->sub_etat = 4;
+                    cur_obj->anim_frame = 0;
+                    cur_obj->cmd_offset = -1;
+                    cur_obj->nb_cmd = 0;
+                    cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
+                    break;
                 }
-                else
-                {
-                    goto block_2;
-                }
+                cur_obj++;
+                i++;
             }
-block_3:
-            obj->flags &= ~0x800;
-            obj->flags &= ~0x400;
+
+            ecl_obj->flags &= ~FLG(OBJ_ACTIVE);
+            ecl_obj->flags &= ~FLG(OBJ_ALIVE);
         }
-        return;
     }
 }
-#endif
