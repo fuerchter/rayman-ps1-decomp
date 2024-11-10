@@ -86,7 +86,7 @@ void rayfallsinwater(void);
 u8 RAY_DEAD(void);
 void RAY_HURT(void);
 void RepousseRay(void);
-s32 RayEstIlBloque(void);
+s16 RayEstIlBloque(void);
 void stackRay(void);
 void RAY_SURF(void);
 void DO_SURF_CHANGE_HAIRS(void);

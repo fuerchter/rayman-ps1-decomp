@@ -38,8 +38,8 @@ void InitDemoJeu(void)
     RayEvts.run = true;
     RayEvts.demi = false;
     RayEvts.luciole = false;
-    RayEvts.force_run = false;
-    RayEvts.reverse = false;
+    RayEvts.force_run = 0;
+    RayEvts.reverse = 0;
 
     __builtin_memcpy(&options_jeu_save, &options_jeu, sizeof(OptionsJeu));
     options_jeu.Jump = 1;

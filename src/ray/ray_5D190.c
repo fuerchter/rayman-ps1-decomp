@@ -341,8 +341,8 @@ void rayMayLandOnAnObject(u8 *param_1, s16 param_2)
                         RayEvts.run = false;
                         RayEvts.demi = false;
                         RayEvts.luciole = false;
-                        RayEvts.force_run = false;
-                        RayEvts.reverse = false;
+                        RayEvts.force_run = 0;
+                        RayEvts.reverse = 0;
                         RayEvts.unused_death = false;
                     }
                     break;
@@ -2124,7 +2124,7 @@ void RAY_RESPOND_TO_BUTTON3(void)
 /* 61704 80185F04 -O2 -msoft-float */
 void RAY_RESPOND_TO_FIRE0(void)
 {
-    if (!poing.is_active && RayEvts.poing && !RayEvts.force_run)
+    if (!poing.is_active && RayEvts.poing && RayEvts.force_run == 0)
         RAY_PREPARE_FIST();
 }
 
@@ -2753,11 +2753,10 @@ void rayfallsinwater(void)
     terminateFistWhenRayDies();
 }
 
+ /* true if he is alive? */
 /* 6305C 8018785C -O2 -msoft-float */
 u8 RAY_DEAD(void)
 {
-    u8 unk_1; /* true if he is alive? */
-
     if (
         ray.x_pos < xmap - ray.offset_bx + 10 ||
         ((ray.screen_y_pos + ray.offset_by < -20) && scroll_y == -1) ||
@@ -2821,11 +2820,9 @@ u8 RAY_DEAD(void)
                 ray.field20_0x36 = -1;
         }
     }
-    unk_1 = false;
-    if ((ray.flags & (FLG(OBJ_ACTIVE) | FLG(OBJ_ALIVE))) == (FLG(OBJ_ACTIVE) | FLG(OBJ_ALIVE)))
-        unk_1 = !(ray_mode == MODE_MORT_DE_RAYMAN || ray_mode == MODE_MORT_DE_RAYMAN_ON_MS);
 
-    return unk_1;
+    return ((ray.flags & (FLG(OBJ_ACTIVE) | FLG(OBJ_ALIVE))) == (FLG(OBJ_ACTIVE) | FLG(OBJ_ALIVE))) &&
+           !(ray_mode == MODE_MORT_DE_RAYMAN || ray_mode == MODE_MORT_DE_RAYMAN_ON_MS);
 }
 
 /* 6346C 80187C6C -O2 -msoft-float */
@@ -2894,7 +2891,7 @@ void RepousseRay(void)
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RayEstIlBloque);
 #else
 /* matches, but cleanup last section with goto */
-s32 RayEstIlBloque(void)
+s16 RayEstIlBloque(void)
 {
     s16 unk_x;
     s16 unk_h;

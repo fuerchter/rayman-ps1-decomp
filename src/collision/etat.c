@@ -28,13 +28,13 @@ void GET_ANIM_POS(Obj *obj, s16 *x, s16 *y, s16 *w, s16 *h)
 }
 
 /* 22BD4 801473D4 -O2 -msoft-float */
-s32 FUN_801473d4(Obj *obj)
+u8 FUN_801473d4(Obj *obj)
 {
     return 0;
 }
 
 /* 22BDC 801473DC -O2 -msoft-float */
-s32 FUN_801473dc(Obj *obj)
+u8 FUN_801473dc(Obj *obj)
 {
     return 0;
 }

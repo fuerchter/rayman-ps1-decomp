@@ -2450,8 +2450,6 @@ void DO_OBJECTS(void)
 {
     s16 i;
     Obj *cur_obj;
-    u8 unk_1;
-    s16 *cur_obj_id;
 
     if (!(id_Cling_1up == -1 && id_Cling_Pow == -1))
         DO_CLING_ANIMS();
@@ -2466,11 +2464,8 @@ void DO_OBJECTS(void)
     while (i < actobj.num_active_objects)
     {
         ot = cur_obj->type;
-        unk_1 = FUN_801473dc(cur_obj);
-        cur_obj_id = &actobj.objects[i];
-        setvol(*cur_obj_id, unk_1);
-        unk_1 = FUN_801473d4(cur_obj);
-        setpan(*cur_obj_id, unk_1);
+        setvol(actobj.objects[i], FUN_801473dc(cur_obj));
+        setpan(actobj.objects[i], FUN_801473d4(cur_obj));
         i++;
         cur_obj = &level.objects[actobj.objects[i]];
     }
