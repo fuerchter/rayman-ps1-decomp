@@ -63,212 +63,128 @@ void init_vitraux(void)
     }
 }
 
-#ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", poing_face_obj);
-#else
-/* matches, but cursed */
-/*INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", poing_face_obj);*/
-
+/* 72B9C 8019739C -O2 -msoft-float */
 s32 poing_face_obj(Obj *obj)
 {
-    Obj *temp_v0;
-    s32 temp_a2;
-    s32 var_a3;
+    Obj *poing_obj = &level.objects[poing_obj_id];
+    s32 diff_x = (obj->x_pos + obj->offset_bx) - (poing_obj->x_pos + poing_obj->offset_bx);
+    s32 flip_x = poing_obj->flags >> OBJ_FLIP_X;
 
-    temp_v0 = &level.objects[poing_obj_id];
-    var_a3 = 0;
-    temp_a2 = temp_v0->flags >> 0xE;
-    temp_a2 &= 1;
-    if (((obj->x_pos + obj->offset_bx) - (temp_v0->x_pos + temp_v0->offset_bx)) > 0)
-    {
-        if (temp_a2 == 1)
-        {
-            goto block_4;
-        }
-    }
-    else if (temp_a2 == 0)
-    {
-block_4:
-        var_a3 = 1;
-    }
-    return var_a3;
+    flip_x &= 1;
+    return (diff_x > 0 && flip_x == true) ||
+           (diff_x <= 0 && flip_x == false);
 }
-#endif
 
+/* 72C14 80197414 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DARK_phase1);
 #else
-/* matches, but cleanup */
-/*INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", DARK_phase1);*/
-
+/* still a bunch of duplication? */
 void DARK_phase1(Obj *mr_drk_obj)
 {
-    Obj *temp_s1;
-    Obj *var_s2;
-    s16 temp_a0;
-    s16 temp_v0_2;
-    s16 temp_v0_3;
-    s16 temp_v0_4;
-    s16 temp_v1_2;
-    s16 temp_v1_3;
-    s16 var_a1;
-    s32 var_v0;
-    s16 var_v1;
-    s32 temp_a1_1;
-    s32 var_a2;
-    u32 temp_a1_2;
-    u8 temp_v0;
-    u8 temp_v1;
-    u8 flag_set;
+    Obj *crd_drk_obj;
+    Obj *poing_obj;
+    s16 diff_x; s16 diff_y;
+    u32 dist;
+    u8 unk_1;
+    
 
-    /*var_s2 = saved_reg_s2;*/
-    if ((corde_dark_obj_id != -1) && (mr_drk_obj->main_etat == 0))
+    if (corde_dark_obj_id != -1 && mr_drk_obj->main_etat == 0)
     {
-        temp_s1 = &level.objects[corde_dark_obj_id];
+        crd_drk_obj = &level.objects[corde_dark_obj_id];
         if (poing_obj_id != -1)
         {
-            var_s2 = &level.objects[poing_obj_id];
-            set_main_and_sub_etat(var_s2, 5U, 0x40U);
-            var_s2->x_pos = (temp_s1->offset_bx + (u16) temp_s1->x_pos) - var_s2->offset_bx;
-            var_s2->y_pos = ((temp_s1->offset_by + (u16) temp_s1->y_pos) - var_s2->offset_by) - 5;
-            var_s2->flags |= 0xC00;
+            poing_obj = &level.objects[poing_obj_id];
+            set_main_and_sub_etat(poing_obj, 5, 64);
+            poing_obj->x_pos = crd_drk_obj->x_pos + crd_drk_obj->offset_bx - poing_obj->offset_bx;
+            poing_obj->y_pos = crd_drk_obj->y_pos + crd_drk_obj->offset_by - poing_obj->offset_by - 5;
+            poing_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
         }
-        temp_v0 = mr_drk_obj->sub_etat;
-        switch (temp_v0)
+
+        switch (mr_drk_obj->sub_etat)
         {
         case 40:
-            flag_set = mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].flags & 0x10;
-            if (
-                ((flag_set && mr_drk_obj->anim_frame == 0) ||
-                (!flag_set && mr_drk_obj->anim_frame == mr_drk_obj->animations[mr_drk_obj->anim_index].frames_count - 1)) &&
-                horloge[mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].anim_speed & 0xf] == 0
-            )
-            {
+            if (EOA(mr_drk_obj))
                 goto_phase2(mr_drk_obj);
-                return;
-            }
             break;
         case 27:
-            temp_s1->y_pos = temp_s1->y_pos - 8;
-            if (temp_s1->y_pos < corde_y_haut)
-            {
-                temp_s1->y_pos = corde_y_haut;
-            }
+            crd_drk_obj->y_pos -= 8;
+            MAX_2(crd_drk_obj->y_pos, corde_y_haut);
+
             if (poing_obj_id != -1)
-            {
-                var_s2->y_pos = ((temp_s1->offset_by + (u16) temp_s1->y_pos) - var_s2->offset_by) - 5;
-            }
+                poing_obj->y_pos = crd_drk_obj->y_pos + crd_drk_obj->offset_by - poing_obj->offset_by - 5;
 
-            flag_set = mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].flags & 0x10;
-            if (
-                ((flag_set && mr_drk_obj->anim_frame == 0) ||
-                 (!flag_set && mr_drk_obj->anim_frame == mr_drk_obj->animations[mr_drk_obj->anim_index].frames_count - 1)) &&
-                horloge[mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].anim_speed & 0xf] == 0
-            )
+            if (EOA(mr_drk_obj))
             {
-
-                temp_s1->field23_0x3c--;
-                if ((temp_s1->field23_0x3c) == 0)
+                if (--crd_drk_obj->field23_0x3c == 0)
+                    set_main_and_sub_etat(mr_drk_obj, 0, 40);
+                else
                 {
-                    set_main_and_sub_etat(mr_drk_obj, 0U, 0x28U);
-                    return;
+                    crd_drk_obj->iframes_timer = 0;
+                    set_main_and_sub_etat(mr_drk_obj, 0, 28);
                 }
-                temp_s1->iframes_timer = 0;
-                set_main_and_sub_etat(mr_drk_obj, 0U, 0x1CU);
-                return;
             }
             break;
         case 29:
-            temp_s1->y_pos = temp_s1->y_pos + 6;
-            if (temp_s1->y_pos > corde_y_bas)
-            {
-                temp_s1->y_pos = corde_y_bas;
-            }
+            crd_drk_obj->y_pos += 6;
+            MIN_2(crd_drk_obj->y_pos, corde_y_bas);
+
             if (poing_obj_id != -1)
-            {
-                var_s2->y_pos = ((temp_s1->offset_by + (u16) temp_s1->y_pos) - var_s2->offset_by) - 5;
-            }
+                poing_obj->y_pos = crd_drk_obj->y_pos + crd_drk_obj->offset_by - poing_obj->offset_by - 5;
 
-            flag_set = mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].flags & 0x10;
-            if (
-                ((flag_set && mr_drk_obj->anim_frame == 0) ||
-                (!flag_set && mr_drk_obj->anim_frame == mr_drk_obj->animations[mr_drk_obj->anim_index].frames_count - 1)) &&
-                horloge[mr_drk_obj->eta[mr_drk_obj->main_etat][mr_drk_obj->sub_etat].anim_speed & 0xf] == 0
-            )
+            if (EOA(mr_drk_obj))
             {
-                temp_s1->iframes_timer = 0;
-                set_main_and_sub_etat(mr_drk_obj, 0U, 0x1AU);
-                return;
+                crd_drk_obj->iframes_timer = 0;
+                set_main_and_sub_etat(mr_drk_obj, 0, 26);
             }
-
-            if (ray.main_etat == 2)
-            {
-block_53:
-                set_main_and_sub_etat(mr_drk_obj, 0U, 0x1BU);
-                return;
-            }
+            else if (ray.main_etat == 2)
+                set_main_and_sub_etat(mr_drk_obj, 0, 27);
             break;
         case 26:
         case 28:
-            var_v1 = (ray.offset_bx + ray.x_pos) - (temp_s1->offset_bx + (u16) corde_x);
-            temp_a0 = (ray.offset_by + ray.y_pos) - (temp_s1->offset_by + (u16) corde_y_bas);
-            temp_a1_1 = var_v1 * var_v1;
+            diff_x = (ray.x_pos + ray.offset_bx) - (corde_x + crd_drk_obj->offset_bx);
+            diff_y = (ray.y_pos + ray.offset_by) - (corde_y_bas + crd_drk_obj->offset_by);
 
-            var_a2 = 0;
-            temp_a1_2 = temp_a1_1 + (temp_a0 * temp_a0);
-            if ((__builtin_abs(var_v1) < 0x28) || (temp_a1_2 < 0xBB8U))
-            {
-                var_a2 = 1;
-            }
-            temp_v1 = mr_drk_obj->sub_etat;
-            switch (temp_v1)
+            dist = diff_x * diff_x + diff_y * diff_y;
+            unk_1 = __builtin_abs(diff_x) < 40 || dist < 3000;
+            switch (mr_drk_obj->sub_etat)
             {
             case 26:
-                if (!(!(var_a2 & 0xFF) && ((ray.main_etat != 2) || (ray.sub_etat != 0))))
-                {
-                    set_main_and_sub_etat(mr_drk_obj, 0U, 0x1BU);
-                    return;
-                }
+                if (unk_1 || (ray.main_etat == 2 && ray.sub_etat == 0))
+                    set_main_and_sub_etat(mr_drk_obj, 0, 27);
                 else
                 {
-                    if (ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40)
+                    if (
+                        ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40 &&
+                        __builtin_abs(diff_y) < 30 && dist < 3000
+                    )
+                        set_main_and_sub_etat(mr_drk_obj, 0, 27);
+                    else
                     {
-                        if ((__builtin_abs(temp_a0) < 0x1E) && (temp_a1_2 < 0xBB8U))
+                        if (crd_drk_obj->iframes_timer < 30 - 1)
                         {
-                            set_main_and_sub_etat(mr_drk_obj, 0U, 0x1BU);
-                            return;
+                            crd_drk_obj->y_pos = corde_y_bas - oscille[crd_drk_obj->iframes_timer];
+                            if (poing_obj_id != -1)
+                                poing_obj->y_pos = crd_drk_obj->y_pos + crd_drk_obj->offset_by - poing_obj->offset_by - 5;
+
+                            crd_drk_obj->iframes_timer++;
                         }
-                        goto block_54;
-                    }
-block_54:
-                    if (temp_s1->iframes_timer < 0x1D)
-                    {
-                        var_a1 = (u16) corde_y_bas - (u16) oscille[temp_s1->iframes_timer];
-                        temp_s1->y_pos = var_a1;
-                        if (poing_obj_id != -1)
-                        {
-                            var_s2->y_pos = ((temp_s1->offset_by + var_a1) - var_s2->offset_by) - 5;
-                        }
-                        temp_s1->iframes_timer = (u16) temp_s1->iframes_timer + 1;
                     }
                 }
                 break;
             case 28:
-                if (!(var_a2 & 0xFF) && (ray.main_etat != 2))
+                if (!(unk_1 || ray.main_etat == 2))
+                    set_main_and_sub_etat(mr_drk_obj, 0, 29);
+                else
                 {
-                    set_main_and_sub_etat(mr_drk_obj, 0U, 0x1DU);
-                    return;
-                }
-                temp_v1_3 = temp_s1->iframes_timer;
-                if (temp_v1_3 < 0x1D)
-                {
-                    var_a1 = (u16) corde_y_haut + (u16) oscille[temp_v1_3];
-                    temp_s1->y_pos = var_a1;
-                    if (poing_obj_id != -1)
+                    if (crd_drk_obj->iframes_timer < 30 - 1)
                     {
-                        var_s2->y_pos = ((temp_s1->offset_by + var_a1) - var_s2->offset_by) - 5;
+                        crd_drk_obj->y_pos = corde_y_haut + oscille[crd_drk_obj->iframes_timer];
+                        if (poing_obj_id != -1)
+                            poing_obj->y_pos = crd_drk_obj->y_pos + crd_drk_obj->offset_by - poing_obj->offset_by - 5;
+
+                        crd_drk_obj->iframes_timer++;
                     }
-                    temp_s1->iframes_timer = (u16) temp_s1->iframes_timer + 1;
                 }
                 break;
             }
