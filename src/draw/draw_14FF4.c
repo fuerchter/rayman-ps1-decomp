@@ -567,12 +567,14 @@ void DISPLAY_CLING(void)
     }
 }
 
+/* 16080 8013A880 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", display_bar_boss);
 #else
-/* matches, but gross */
-/*INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", display_bar_boss);*/
-
+/*
+gross
+tried going back to a goto version (set display_sprite param_2 in each case then goto actual call), didn't work
+*/
 void display_bar_boss(Obj *boss_obj)
 {
     u8 hp;

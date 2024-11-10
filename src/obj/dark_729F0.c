@@ -33,54 +33,35 @@ void dark_attaque_suivante(void)
         type_dark_attaque = 3;
 }
 
-#ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", init_vitraux);
-#else
-/* matches, but cursed */
-/*INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", init_vitraux);*/
-
+/* 72A88 80197288 -O2 -msoft-float */
 void init_vitraux(void)
 {
-    u8 bVar1;
-    s16 sVar2;
-    s32 boss_index_2;
-    Obj *cur_obj;
-    u8 boss_index_1;
-    u8 i;
-    s16 nb_objs;
-
-    cur_obj = &level.objects[0];
-    nb_objs = level.nb_objects;
-
-    boss_index_1 = 0;
-    i = 0;
+    u8 unk_1 = 0;
+    u8 i = 0;
+    Obj *cur_obj = &level.objects[i];
+    s16 nb_objs = level.nb_objects;
 
     while (i < nb_objs)
     {
-        boss_index_2 = boss_index_1;
-        if (boss_index_1 > 4)
+        if (unk_1 > 4)
             return;
 
         if (cur_obj->type == TYPE_VITRAIL)
         {
-            VitrauxInfos[boss_index_2].obj_id = i;
-            VitrauxInfos[boss_index_2].x_pos = cur_obj->offset_bx + cur_obj->x_pos;
-            bVar1 = cur_obj->offset_by;
-            sVar2 = cur_obj->y_pos;
-            VitrauxInfos[boss_index_2].index = boss_index_1;
-            VitrauxInfos[boss_index_2].y_pos = bVar1;
-            VitrauxInfos[boss_index_2].y_pos += sVar2;
-            VitrauxInfos[boss_index_1].field4_0x6 = 0;
-            VitrauxInfos[boss_index_1].mode = 0;
-            VitrauxInfos[boss_index_1].value = 0;
-            cur_obj->field23_0x3c = boss_index_1;
-            boss_index_1++;
+            VitrauxInfos[unk_1].obj_id = i;
+            VitrauxInfos[unk_1].x_pos = cur_obj->x_pos + cur_obj->offset_bx;
+            VitrauxInfos[unk_1].y_pos = cur_obj->y_pos + cur_obj->offset_by;
+            VitrauxInfos[unk_1].index = unk_1;
+            VitrauxInfos[unk_1].field4_0x6 = 0;
+            VitrauxInfos[unk_1].mode = 0;
+            VitrauxInfos[unk_1].value = 0;
+            cur_obj->field23_0x3c = unk_1;
+            unk_1++;
         }
         i++;
         cur_obj++;
     }
 }
-#endif
 
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/dark_729F0", poing_face_obj);

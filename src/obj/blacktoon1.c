@@ -114,103 +114,73 @@ void DO_BLK_LR_COMMAND(Obj *obj)
     }
 }
 
-#ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/obj/blacktoon1", DO_BLK_NOP_COMMAND);
-#else
-/* matches, but clean up */
-/*INCLUDE_ASM("asm/nonmatchings/obj/blacktoon1", DO_BLK_NOP_COMMAND);*/
-
+/* 6753C 8018BD3C -O2 -msoft-float */
 void DO_BLK_NOP_COMMAND(Obj *obj)
 {
-    s16 temp_a0_2;
-    s16 temp_a0_4;
-    s16 temp_a1;
-    s16 temp_v1_2;
-    s16 temp_v1_3;
-    u8 temp_a0;
-    u8 temp_a0_3;
-    u8 temp_v1_1;
-    u8 var_a1;
-    u8 var_a1_2;
-    u8 var_v0;
-
     if (
-        (obj->field56_0x69 & 0x10) &&
+        obj->field56_0x69 & 0x10 &&
         (
-            ((temp_a0 = obj->main_etat, (temp_a0 == 0)) && (obj->sub_etat == 2)) ||
-            ((temp_a0 == 2) && (obj->sub_etat == 3))
+            (obj->main_etat == 0 && obj->sub_etat == 2) ||
+            (obj->main_etat == 2 && obj->sub_etat == 3)
         )
     )
     {
-        temp_v1_1 = obj->timer;
-        if (temp_v1_1 == 0xFF)
+        if (obj->timer == 0xFF)
         {
-            temp_a0_2 = obj->y_pos;
-            temp_a1 = obj->speed_y;
-            temp_v1_2 = obj->field23_0x3c;
-            if ((temp_v1_2 < (temp_a0_2 + temp_a1)) || (((temp_a0_2 < temp_v1_2) != 0)))
-            {
-                if (temp_a1 == 0)
-                {
-                    obj->timer = 0x3C;
-                }
-            }
-            else
-            {
-                obj->timer = 0x3C;
-            }
+            if (
+                ((obj->y_pos + obj->speed_y <= obj->field23_0x3c) && obj->y_pos >= obj->field23_0x3c) ||
+                obj->speed_y == 0
+            )
+                obj->timer = 60;
         }
-        else if (temp_v1_1 == 0)
+        else if (obj->timer == 0)
         {
-            set_main_and_sub_etat(obj, 2U, 0U);
-            if (obj->flags & 0x4000)
-            {
-                skipToLabel(obj, 3, 1U);
-            }
+            set_main_and_sub_etat(obj, 2, 0);
+            if (obj->flags & FLG(OBJ_FLIP_X))
+                skipToLabel(obj, 3, true);
             else
-            {
-                skipToLabel(obj, 2, 1U);
-            }
+                skipToLabel(obj, 2, true);
 
             obj->speed_y = 0;
         }
         else
         {
             obj->speed_y = 0;
-            var_v0 = obj->timer - 1;
-            obj->timer = var_v0;
+            obj->timer--;
         }
     }
-    if ((obj->follow_sprite == 4) && (((temp_a0_3 = obj->main_etat, (temp_a0_3 == 0)) && (obj->sub_etat == 2)) || ((temp_a0_3 == 2) && (obj->sub_etat == 3))))
+
+    if (
+        (obj->follow_sprite == 4) &&
+        (
+            (obj->main_etat == 0 && obj->sub_etat == 2) ||
+            (obj->main_etat == 2 && obj->sub_etat == 3)
+        )
+    )
     {
         if (obj->detect_zone_flag != 0)
         {
-            temp_a0_4 = obj->y_pos;
-            temp_v1_3 = obj->field23_0x3c;
-            if ((temp_v1_3 >= (temp_a0_4 + obj->speed_y)) && (temp_a0_4 >= temp_v1_3))
+            if ((obj->y_pos + obj->speed_y <= obj->field23_0x3c) && obj->y_pos >= obj->field23_0x3c)
             {
-                set_main_and_sub_etat(obj, 0U, 3U);
+                set_main_and_sub_etat(obj, 0, 3);
                 obj->speed_y = 0;
             }
         }
         else
-        {
-            set_main_and_sub_etat(obj, 2U, 1U);
-        }
+            set_main_and_sub_etat(obj, 2, 1);
     }
-    if ((obj->field56_0x69 & 2) && (obj->speed_x != 0) && (block_flags[calc_typ_travd(obj, 0U) & 0xFF] & 1))
+
+    if (
+        obj->field56_0x69 & 2 && obj->speed_x != 0 &&
+        block_flags[calc_typ_travd(obj, false)] >> BLOCK_FULLY_SOLID & 1
+    )
     {
-        if (obj->cmd == 0)
-        {
-            skipToLabel(obj, 3, 1U);
-        }
+        if (obj->cmd == GO_LEFT)
+            skipToLabel(obj, 3, true);
         else
-        {
-            skipToLabel(obj, 2, 1U);
-        }
+            skipToLabel(obj, 2, true);
     }
 }
-#endif
 
 /* 71A0 8012B9A0 -O2 -msoft-float */
 void DO_BLKTOON_COMMAND(Obj *obj)
