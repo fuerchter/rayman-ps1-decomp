@@ -66,6 +66,8 @@ PTR_s_no_save_available_801c3544 = 0x801c3544;
 PS1_Disp_Cur_Tile1 = 0x801FA690;
 PS1_CardStrings = 0x801c3548;
 PS1_CardShouldCheckFirstBoot = 0x801d7850;
+PS1_StartMoteurRayX = 0x801f7c90;
+PS1_StartMoteurRayY = 0x801f7ca0;
 //PS1_VideoTables = 0x800a0000;
 //D_8005866C = 0x8005866C;
 

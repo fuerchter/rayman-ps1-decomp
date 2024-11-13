@@ -139,8 +139,7 @@ void DO_CYMBAL_COMMAND(Obj *obj)
                 if (__builtin_abs(diff_x) < 100)
                 {
                     diff_y = ray.y_pos + ray.offset_by - spr_y - obj->offset_hy;
-                    #define ABS_LT(x, y) (x >= 0 ? x < y : -(x) < y)
-                    if (ABS_LT(diff_y - 28, 20))
+                    if (ABS(diff_y - 28) < 20)
                     {
                         if (diff_x < 0)
                             ray.flags |= FLG(OBJ_FLIP_X);

@@ -21,6 +21,7 @@
 #define MIN_1(x, y) ((x) < (y) ? (x) : (y))
 #define MIN_2(x, y) if (x > y) x = y;
 #define MIN_3(x, y) if (y < x) x = y;
+#define ABS(x) (x >= 0 ? (x) : -(x))
 #define SGN(x) (x >= 0 ? (x > 0 ? 1 : 0) : -1)
 
 #define true 1

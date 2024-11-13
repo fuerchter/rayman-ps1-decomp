@@ -18,8 +18,8 @@ extern Obj *star_ray_der;
 extern Obj *star_ray_dev;
 extern s16 ray_wind_force;
 extern s16 weather_wind;
-extern s16 D_801F7C90; /* related with ray position but didn't look into yet */
-extern s16 D_801F7CA0;
+extern s16 PS1_StartMoteurRayX;
+extern s16 PS1_StartMoteurRayY;
 extern u8 PS1_MoteurTime;
 extern u8 oldPrio;
 extern s16 ray_old_main_etat;
