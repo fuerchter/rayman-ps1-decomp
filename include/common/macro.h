@@ -16,11 +16,39 @@
 )
 
 /*
-more generalized version? lance_couteau_lineaire case 0
-
-issues applying in: DO_POING, alter_fist_speed
-TODO: apply
+does not work in:
+DO_POING
+alter_fist_speed
+allocateDard
 */
 #define FLIP_X_SGN(obj) ((obj)->flags & FLG(OBJ_FLIP_X) ? 1 : -1)
+#define BOOL_SGN(x) ((x) ? 1 : -1) /* more generalized version? lance_couteau_lineaire case 0*/
+
+/*
+does not work in:
+DO_DARK2_TOONS_COMMAND
+calc_btyp_square
+*/
+extern inline s32 test_x_pos_1(Obj *obj)
+{
+    return (s16) (obj->offset_bx + obj->x_pos);
+}
+
+/*
+does not work in:
+DO_DARK2_TOONS_COMMAND
+calc_btyp_square (x_pos and offset_bx order is flipped)
+*/
+extern inline s32 test_x_pos_2(Obj *obj)
+{
+    return (obj->x_pos + obj->offset_bx);
+}
+
+/*
+works in:
+DO_DARK2_TOONS_COMMAND (explicitly without parens!)
+calc_btyp_square
+*/
+#define test_x_pos_3(obj) (obj)->x_pos + (obj)->offset_bx
 
 #endif

@@ -67,12 +67,11 @@ void AllocateToons(void)
     }
 }
 
+/* 78170 8019C970 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/dark2_pink_fly", DO_DARK2_TOONS_COMMAND);
 #else
-/* matches, but more to clean up */
-/*INCLUDE_ASM("asm/nonmatchings/obj/dark2_pink_fly", DO_DARK2_TOONS_COMMAND);*/
-
+/* more to clean up */
 void DO_DARK2_TOONS_COMMAND(Obj *d2fly_obj)
 {
     Obj *poing_obj_1;
@@ -108,8 +107,16 @@ void DO_DARK2_TOONS_COMMAND(Obj *d2fly_obj)
         {
             if (level.objects[d2fly_obj->field24_0x3e].flags & FLG(OBJ_ACTIVE))
             {
-                poing_obj_1->x_pos = ((d2fly_obj->x_pos + d2fly_obj->offset_bx + level.objects[d2fly_obj->field24_0x3e].x_pos + level.objects[d2fly_obj->field24_0x3e].offset_bx) >> 1) - poing_obj_1->offset_bx;
-                poing_obj_1->y_pos = ((d2fly_obj->y_pos + d2fly_obj->offset_by + level.objects[d2fly_obj->field24_0x3e].y_pos + level.objects[d2fly_obj->field24_0x3e].offset_by) >> 1) - poing_obj_1->offset_by;
+                poing_obj_1->x_pos = 
+                    ((
+                        d2fly_obj->x_pos + d2fly_obj->offset_bx +
+                        level.objects[d2fly_obj->field24_0x3e].x_pos + level.objects[d2fly_obj->field24_0x3e].offset_bx
+                    ) >> 1) - poing_obj_1->offset_bx;
+                poing_obj_1->y_pos =
+                    ((
+                        d2fly_obj->y_pos + d2fly_obj->offset_by +
+                        level.objects[d2fly_obj->field24_0x3e].y_pos + level.objects[d2fly_obj->field24_0x3e].offset_by
+                    ) >> 1) - poing_obj_1->offset_by;
             }
             else
             {
@@ -138,7 +145,7 @@ void DO_DARK2_TOONS_COMMAND(Obj *d2fly_obj)
     }
     else
     {
-        if (!(RayEvts.poing))
+        if (!RayEvts.poing)
         {
             poing_obj_2 = &level.objects[poing_obj_id];
             PosArXToon1 = poing_obj_2->x_pos + 64;

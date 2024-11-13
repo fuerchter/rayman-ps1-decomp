@@ -611,18 +611,6 @@ remove x_2???
 attempts: 2?
 not sure there is a good solution
 */
-
-/* ??? */
-extern inline s32 test_x_pos(Obj *obj)
-{
-    return (s16) (obj->offset_bx + obj->x_pos);
-}
-
-extern inline s32 test_y_pos(Obj *obj)
-{
-    return (s16) (obj->offset_by + obj->y_pos);
-}
-
 void calc_btyp_square(Obj *obj)
 {
     u8 x_offs;
