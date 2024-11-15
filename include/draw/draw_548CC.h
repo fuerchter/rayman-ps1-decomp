@@ -57,6 +57,6 @@ void FUN_801790cc(Display *display);
 void Display_and_free_luciole(void);
 void PS1_PerfectBonusDrawBg(void);
 void DISPLAY_FOND_MENU(void);
-void FUN_8017b260(u16 param_1);
+void FUN_8017b260(u16 param_1); /* TODO: all callers cast param_1 to s16??? */
 
 #endif

@@ -78,7 +78,7 @@ void calc_num_let_spr(u8 param_1, u8 *param_2)
 }
 
 /* 24FDC 801497DC -O2 -msoft-float */
-s32 calc_largmax_text(u8 *param_1, s32 param_2, s16 space_width, s16 param_4, u8 param_5)
+s16 calc_largmax_text(u8 *param_1, s32 param_2, s16 space_width, s16 param_4, u8 param_5)
 {
     s16 i;
     u8 cur_char;
@@ -100,6 +100,7 @@ s32 calc_largmax_text(u8 *param_1, s32 param_2, s16 space_width, s16 param_4, u8
                 res += calc_let_Width(param_5, num_let) - param_4;
         }
     }
+
     return res;
 }
 

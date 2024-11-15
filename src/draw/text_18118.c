@@ -120,20 +120,15 @@ void PS1_DisplayMenuTexts(u8 index, MenuText *in_menus)
     }
 }
 
+/* 1845C 8013CC5C -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/draw/text_18118", DrawFondBoxNormal);
 #else
-/* matches, but cleanup */
-/*INCLUDE_ASM("asm/nonmatchings/draw/text_18118", DrawFondBoxNormal);*/
-
+/* clean up */
 void DrawFondBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness)
 {
-    s16 temp_t3;
-    s16 temp_t4;
-    s32 temp_s0;
-    u8 var_s2;
-    TILE *test_1;
-    u16 test_2 = 0xFFFD;
+    u8 i;
+    u16 test_2 = 0xFFFD; /* not signed? */
 
     PS1_CurrentDisplay->fond_box_tiles[0].x0 = x + test_2;
     PS1_CurrentDisplay->fond_box_tiles[0].y0 = y + test_2;
@@ -141,67 +136,83 @@ void DrawFondBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness)
     PS1_CurrentDisplay->fond_box_tiles[0].h = 3;
     PS1_CurrentDisplay->fond_box_tiles[0].r0 = 0;
     PS1_CurrentDisplay->fond_box_tiles[0].g0 = 0;
-    PS1_CurrentDisplay->fond_box_tiles[0].b0 = 0xFF;
+    PS1_CurrentDisplay->fond_box_tiles[0].b0 = 255;
     PS1_CurrentDisplay->fond_box_tiles[1].x0 = x + w;
     PS1_CurrentDisplay->fond_box_tiles[1].y0 = y;
     PS1_CurrentDisplay->fond_box_tiles[1].w = 3;
     PS1_CurrentDisplay->fond_box_tiles[1].h = h;
     PS1_CurrentDisplay->fond_box_tiles[1].r0 = 0;
     PS1_CurrentDisplay->fond_box_tiles[1].g0 = 0;
-    PS1_CurrentDisplay->fond_box_tiles[1].b0 = 0xFF;
+    PS1_CurrentDisplay->fond_box_tiles[1].b0 = 255;
     PS1_CurrentDisplay->fond_box_tiles[2].x0 = x + test_2;
     PS1_CurrentDisplay->fond_box_tiles[2].y0 = y + h;
     PS1_CurrentDisplay->fond_box_tiles[2].w = w + 6;
     PS1_CurrentDisplay->fond_box_tiles[2].h = 3;
     PS1_CurrentDisplay->fond_box_tiles[2].r0 = 0;
     PS1_CurrentDisplay->fond_box_tiles[2].g0 = 0;
-    PS1_CurrentDisplay->fond_box_tiles[2].b0 = 0xFF;
+    PS1_CurrentDisplay->fond_box_tiles[2].b0 = 255;
     PS1_CurrentDisplay->fond_box_tiles[3].x0 = x + test_2;
     PS1_CurrentDisplay->fond_box_tiles[3].y0 = y;
     PS1_CurrentDisplay->fond_box_tiles[3].w = 3;
     PS1_CurrentDisplay->fond_box_tiles[3].h = h;
     PS1_CurrentDisplay->fond_box_tiles[3].r0 = 0;
     PS1_CurrentDisplay->fond_box_tiles[3].g0 = 0;
-    PS1_CurrentDisplay->fond_box_tiles[3].b0 = 0xFF;
-    var_s2 = 0;
-    while ((var_s2) < LEN(PS1_CurrentDisplay->fond_box_tiles))
+    PS1_CurrentDisplay->fond_box_tiles[3].b0 = 255;
+
+    for (i = 0; i < LEN(PS1_CurrentDisplay->fond_box_tiles); i++)
     {
-        SetTile(&PS1_CurrentDisplay->fond_box_tiles[var_s2]);
-        SetSemiTrans(&PS1_CurrentDisplay->fond_box_tiles[var_s2], 0);
-        SetShadeTex(&PS1_Displays[0].fond_box_tiles[var_s2], 1);
-        AddPrim(&PS1_CurrentDisplay->ordering_table[9], &PS1_CurrentDisplay->fond_box_tiles[var_s2]);
-        var_s2 += 1;
+        SetTile(&PS1_CurrentDisplay->fond_box_tiles[i]);
+        SetSemiTrans(&PS1_CurrentDisplay->fond_box_tiles[i], false);
+        SetShadeTex(&PS1_Displays[0].fond_box_tiles[i], true); /* why PS1_Displays[0]? */
+        AddPrim(&PS1_CurrentDisplay->ordering_table[9], &PS1_CurrentDisplay->fond_box_tiles[i]);
     }
+
     SetTile(&PS1_CurrentDisplay->fond_box_tile);
-    SetShadeTex(&PS1_CurrentDisplay->fond_box_tile, 1);
+    SetShadeTex(&PS1_CurrentDisplay->fond_box_tile, true);
     PS1_CurrentDisplay->fond_box_tile.x0 = x;
     PS1_CurrentDisplay->fond_box_tile.y0 = y;
     PS1_CurrentDisplay->fond_box_tile.w = w;
     PS1_CurrentDisplay->fond_box_tile.h = h;
-    if ((brightness & 0xFF) == 0xFF)
+    if (brightness == 255)
     {
-        SetSemiTrans(&PS1_CurrentDisplay->fond_box_tile, 0);
+        SetSemiTrans(&PS1_CurrentDisplay->fond_box_tile, false);
         PS1_CurrentDisplay->fond_box_tile.r0 = 0;
         PS1_CurrentDisplay->fond_box_tile.g0 = 0;
         PS1_CurrentDisplay->fond_box_tile.b0 = 0;
         AddPrim(&PS1_CurrentDisplay->ordering_table[9], &PS1_CurrentDisplay->fond_box_tile);
-        return;
     }
-    PS1_CurrentDisplay->fond_box_tile.r0 = brightness;
-    PS1_CurrentDisplay->fond_box_tile.g0 = brightness;
-    PS1_CurrentDisplay->fond_box_tile.b0 = brightness;
-    AddPrim(&PS1_CurrentDisplay->ordering_table[9], &PS1_CurrentDisplay->fond_box_tile);
-    PS1_CurrentDisplay->drawing_environment.tpage = GetTPage(1, 2, 0, 0x00000100);
-    SetDrawEnv(&PS1_CurrentDisplay->unk_dr_env, &PS1_CurrentDisplay->drawing_environment);
-    AddPrim(&PS1_CurrentDisplay->ordering_table[9], &PS1_CurrentDisplay->unk_dr_env);
+    else
+    {
+        PS1_CurrentDisplay->fond_box_tile.r0 = brightness;
+        PS1_CurrentDisplay->fond_box_tile.g0 = brightness;
+        PS1_CurrentDisplay->fond_box_tile.b0 = brightness;
+        AddPrim(&PS1_CurrentDisplay->ordering_table[9], &PS1_CurrentDisplay->fond_box_tile);
+        PS1_CurrentDisplay->drawing_environment.tpage = GetTPage(1, 2, 0, 256);
+        SetDrawEnv(&PS1_CurrentDisplay->unk_dr_env, &PS1_CurrentDisplay->drawing_environment);
+        AddPrim(&PS1_CurrentDisplay->ordering_table[9], &PS1_CurrentDisplay->unk_dr_env);
+    }
 }
 #endif
 
+/* 1875C 8013CF5C -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/draw/text_18118", DrawBlackBoxNormal);
 #else
-/* matches, but some way to reduce duplication? */
-/*INCLUDE_ASM("asm/nonmatchings/draw/text_18118", DrawBlackBoxNormal);*/
+/* some way to reduce duplication? */
+extern inline DRENVAndTile *DrawBlackBoxNormal_1()
+{
+    return &PS1_CurrentDisplay->field_0x60bc_0x660b[D_801F81B0 + 7];
+}
+
+extern inline TILE *DrawBlackBoxNormal_2()
+{
+    return &PS1_CurrentDisplay->field_0x60bc_0x660b[D_801F81B0 + 7].tile;
+}
+
+#define DrawBlackBoxNormal_3 (PS1_CurrentDisplay->field_0x60bc_0x660b + D_801F81B0 + 7)
+/* these two would still be matching? but can't be what they did, surely? */
+#define DrawBlackBoxNormal_4 (PS1_CurrentDisplay->field_0x60bc_0x660b + D_801F81B0 + 7)->tile
+#define DrawBlackBoxNormal_5 PS1_CurrentDisplay->field_0x60bc_0x660b[D_801F81B0 + 7].drawing_environment
 
 void DrawBlackBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness)
 {
@@ -255,11 +266,16 @@ void DISPLAY_BLACKBOX(u16 x, u16 y, u16 w, u16 h, u8 param_5, u8 is_fond)
         DrawBlackBoxNormal(x, y, w, h, 255 - param_5);
 }
 
+/* 18A88 8013D288 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/draw/text_18118", display_text_sin);
 #else
-/* matches, but PS1_CurrentDisplay accesses, duplication */
-/*INCLUDE_ASM("asm/nonmatchings/draw/text_18118", display_text_sin);*/
+/*
+PS1_CurrentDisplay accesses, duplication
+no idea how to macro/inline the y calculation/ashr16 thing
+*/
+/* this would match, unsurprisingly */
+#define display_text_sin_1 (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)
 
 void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font_size, u8 clut_x)
 {
@@ -297,15 +313,15 @@ void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font_size, u8 
 
     unk_x = in_x;
     unk_y_2 = in_y;
-    if (text[0] != 0) /* couldn't make this a while loop */
+    if (text[0] != 0) /* ??? */
     {
         i = 0;
-        do
+        while (text[i] != 0)
         {
             let = text[i];
             if (let == '/')
             {
-                unk_x = in_x - ((s16) calc_largmax_text(text, i, space_width, unk_1, font_size) >> 1);
+                unk_x = in_x - (calc_largmax_text(text, i, space_width, unk_1, font_size) >> 1);
                 if (i > 1)
                     unk_y_2 += unk_y_1;
                 sprite_ind = 0;
@@ -322,6 +338,12 @@ void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font_size, u8 
             {
                 let_width = calc_let_Width(font_size, sprite_ind);
                 calc_num_let_spr(font_size, &sprite_ind);
+                /*
+                tried to reduce duplication:
+                using goto
+                using fall-through with if (font_size == 2)
+                using nested switch
+                */
                 switch (font_size)
                 {
                 case 0:
@@ -351,7 +373,7 @@ void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font_size, u8 
                     (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->b0 = 20;
 
                     PS1_CurrentDisplay->polygons[PS1_PolygonsCount].clut = sprite->clut;
-                    FUN_8017b260(*(s16 *) &sprite->tpage); /* TODO: sprite tpage s16 maybe? */
+                    FUN_8017b260((s16) sprite->tpage); /* TODO: sprite tpage s16 maybe? */
                     PS1_CurrentDisplay->polygons[PS1_PolygonsCount].tpage = GetTPage(0, 0, PS1_TPage_x, PS1_TPage_y);
 
                     (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->u0 = sprite->page_x;
@@ -390,7 +412,7 @@ void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font_size, u8 
                 unk_x += let_width - unk_1;
             }
             i++;
-        } while (text[i] != 0);
+        }
     }
 }
 #endif
@@ -495,7 +517,7 @@ void display_text(u8 *text, s16 in_x, s16 in_y, u8 font_size, u8 param_5)
             let = text[(s16) sp48];
             if (let == '/')
             {
-                unk_x = in_x - ((s32) (calc_largmax_text(text, (s16) sp48, space_width, unk_1, font_size) << 0x10) >> 0x11);
+                unk_x = in_x - (calc_largmax_text(text, (s16) sp48, space_width, unk_1, font_size) >> 1);
                 if ((s16) sp48 >= 2)
                 {
                     unk_y_2 += unk_y_1;
@@ -552,7 +574,7 @@ void display_text(u8 *text, s16 in_x, s16 in_y, u8 font_size, u8 param_5)
                     (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->b0 = 0x14;
 
                     PS1_CurrentDisplay->polygons[PS1_PolygonsCount].clut = sprite->clut;
-                    FUN_8017b260(*(s16 *) &sprite->tpage); /* TODO: sprite tpage s16 maybe? */
+                    FUN_8017b260((s16) sprite->tpage); /* TODO: sprite tpage s16 maybe? */
                     PS1_CurrentDisplay->polygons[PS1_PolygonsCount].tpage = GetTPage(0, 0, PS1_TPage_x, PS1_TPage_y);
 
                     (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->u0 = sprite->page_x;
