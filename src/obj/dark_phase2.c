@@ -342,15 +342,14 @@ void DO_DARK_PHASE2_COMMAND(Obj *dp2_obj)
     }
 }
 
+/* 77778 8019BF78 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/dark_phase2", DO_DARK2_SORT_COMMAND);
 #else
 /*
 attempts: 2
-matches, but goto, sgn-like (not on android) garbage
+goto, sgn-like (not on android) garbage
 */
-/*INCLUDE_ASM("asm/nonmatchings/obj/dark_phase2", DO_DARK2_SORT_COMMAND);*/
-
 void DO_DARK2_SORT_COMMAND(Obj *ds2_obj)
 {
     s16 unk_1;

@@ -83,12 +83,6 @@ void manage_snd_event(Obj *obj)
     }
 }
 
-#ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadAllFixSound);
-#else
-/* matches, but clean up/figure out unknowns */
-/*INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadAllFixSound);*/
-
 /* 41224 80165A24 -O2 -msoft-float */
 void PS1_LoadAllFixSound(void)
 {
@@ -104,16 +98,24 @@ void PS1_LoadAllFixSound(void)
         if (file_info->field0_0x0 == 3)
         {
             PS1_AllFix_Ray_VabId = 0;
-            PS1_AllFix_Ray_VabId = SsVabOpenHead(((u8 *) file_info) + file_info->ray_vh_offs, 0);
+            PS1_AllFix_Ray_VabId = SsVabOpenHead(
+                &((u8 *) file_info)[file_info->ray_vh_offs],
+                PS1_AllFix_Ray_VabId
+            );
             if (PS1_AllFix_Ray_VabId != -1)
                 PS1_FileTemp = PS1_LoadVabBody(PS1_VabFiles[0], PS1_AllFix_Ray_VabId, 0);
+
             PS1_AllFix_Sep_VabId = 2;
-            PS1_AllFix_Sep_VabId = SsVabOpenHead(((u8 *) file_info) + file_info->sep_vh_offs, 2);
+            PS1_AllFix_Sep_VabId = SsVabOpenHead(
+                &((u8 *) file_info)[file_info->sep_vh_offs],
+                PS1_AllFix_Sep_VabId
+            );
             if (PS1_AllFix_Sep_VabId != -1)
                 PS1_FileTemp = PS1_LoadVabBody(PS1_Vab4sepFiles[0], PS1_AllFix_Sep_VabId, 0);
+
             PS1_AllFix_SepAcc = 0;
             if (PS1_AllFix_Sep_VabId != -1)
-                PS1_AllFix_SepAcc = SsSepOpen(((u8 *) file_info) + file_info->seq_offs, PS1_AllFix_Sep_VabId, D_801C7C78[0]);
+                PS1_AllFix_SepAcc = SsSepOpen(&((u8 *) file_info)[file_info->seq_offs], PS1_AllFix_Sep_VabId, D_801C7C78[0]);
         }
         SsUtReverbOn();
         LOAD_CONFIG();
@@ -123,48 +125,41 @@ void PS1_LoadAllFixSound(void)
         D_801CEFDC = 1;
     }
 }
-#endif
-
-#ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadWorldSound);
-#else
-/* matches, but clean up/figure out unknowns */
-/*INCLUDE_ASM("asm/nonmatchings/sound", PS1_LoadWorldSound);*/
 
 /* 4145C 80165C5C -O2 -msoft-float */
-/*s32 PS1_LoadVabBody(FileInfo param_1, s16 param_2, u8 *param_3);*/
-
 void PS1_LoadWorldSound(s16 param_1)
 {
-    SndFileInfo *piVar1;
-    s32 new_var;
+    SndFileInfo *unk_1;
 
     stop_all_snd();
     PS1_SetStereoEnabled(options_jeu.StereoEnabled);
     SetVolumeSound(options_jeu.Soundfx * 127 / 20);
-    piVar1 = D_801D7840; /* .XXX loaded in load_world */
-    if (piVar1->field0_0x0 != 0)
+    unk_1 = D_801D7840; /* .XXX loaded in load_world */
+    if (unk_1->field0_0x0 != 0)
     {
         PS1_World_Ray_VabId = 1;
         SsVabClose(PS1_World_Ray_VabId);
+
         PS1_World_Sep_VabId = 3;
         SsVabClose(PS1_World_Sep_VabId);
-        PS1_World_Ray_VabId = SsVabOpenHead(((u8 *) piVar1) + piVar1->ray_vh_offs, PS1_World_Ray_VabId);
+
+        PS1_World_Ray_VabId = SsVabOpenHead(&((u8 *) unk_1)[unk_1->ray_vh_offs], PS1_World_Ray_VabId);
         if (PS1_World_Ray_VabId != -1)
             PS1_FileTemp = PS1_LoadVabBody(PS1_VabFiles[param_1], PS1_World_Ray_VabId, 0);
-        PS1_World_Sep_VabId = SsVabOpenHead(((u8 *) piVar1) + piVar1->sep_vh_offs, PS1_World_Sep_VabId);
+
+        PS1_World_Sep_VabId = SsVabOpenHead(&((u8 *) unk_1)[unk_1->sep_vh_offs], PS1_World_Sep_VabId);
         if (PS1_World_Sep_VabId != -1)
             PS1_FileTemp = PS1_LoadVabBody(PS1_Vab4sepFiles[param_1], PS1_World_Sep_VabId, 0);
+
         PS1_World_SepAcc = 1;
         SsSepClose(PS1_World_SepAcc);
         PS1_World_SepAcc = SsSepOpen(
-            ((u8 *) piVar1) + piVar1->seq_offs,
+            &((u8 *) unk_1)[unk_1->seq_offs],
             PS1_World_Sep_VabId,
             D_801C7C78[param_1]
         );
     }
 }
-#endif
 
 /* 416B4 80165EB4 -O2 -msoft-float */
 void PS1_PlaySnd(s16 sep_ind, s16 l_count)
@@ -429,13 +424,10 @@ s16 FUN_80166724(s16 id)
     return i;
 }
 
+/* 41F90 80166790 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166790);
 #else
-/* matches, but... */
-/*INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166790);*/
-
-/* 41F90 80166790 -O2 -msoft-float */
 s32 FUN_80166790(s16 id)
 {
     s16 i = 0;
@@ -452,16 +444,11 @@ s32 FUN_80166790(s16 id)
 }
 #endif
 
+/* 41FFC 801667FC -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/sound", get_voice_obj_snd);
 #else
-/*
-matches, but...
-became s16 in the meantime (PlaySnd)
-*/
-/*INCLUDE_ASM("asm/nonmatchings/sound", get_voice_obj_snd);*/
-
-/* 41FFC 801667FC -O2 -msoft-float */
+/* became s16 in the meantime (PlaySnd) */
 s16 get_voice_obj_snd(s16 id, s16 param_2)
 {
     s16 *psVar1 = &voice_table[0].field3_0x6;
@@ -558,13 +545,11 @@ void FUN_80166d20(s16 id)
         cur->id = -2;
 }
 
+/* 42588 80166D88 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166d88);
 #else
-/* matches, but same issues as FUN_80166790, get_voice_obj_snd */
-/*INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166d88);*/
-
-/* 42588 80166D88 -O2 -msoft-float */
+/* same issues as FUN_80166790, get_voice_obj_snd */
 s16 FUN_80166d88(s16 index)
 {
     s16 i;

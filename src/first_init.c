@@ -18,18 +18,15 @@ s16 FUN_8019f88c(void)
     return (D_801CF440 <= 60) ^ 1;
 }
 
+/* 7B0D0 8019F8D0 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/first_init", FUN_8019f8d0);
 #else
-/* matches, but */
-/*INCLUDE_ASM("asm/nonmatchings/first_init", FUN_8019f8d0);*/
-
 void FUN_8019f8d0(void)
 {
-    RECT fb_rect;
     s32 unk_1; /* TODO: remove */
-
-    __builtin_memcpy(&fb_rect, &D_801CF0E0, sizeof(D_801CF0E0)); /* TODO: memcpy even required? */
+    RECT fb_rect = D_801CF0E0;
+    
     ResetGraph(0);
     SetGraphDebug(0);
     SetDispMask(0);
@@ -41,10 +38,10 @@ void FUN_8019f8d0(void)
     unk_1 = 1;
     PS1_Displays[unk_1].field0_0x0.pad0 = 0;
     PS1_Displays[0].field0_0x0.pad0 = 0;
-    PS1_Displays[unk_1].field0_0x0.isinter = true;
+    PS1_Displays[1].field0_0x0.isinter = true;
     PS1_Displays[0].field0_0x0.isinter = true;
     PS1_InitDisplay(&PS1_Displays[0]);
-    PS1_InitDisplay(&PS1_Displays[unk_1]);
+    PS1_InitDisplay(&PS1_Displays[1]);
     ClearImage(&fb_rect, 0, 0, 0);
     PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
     LOAD_SCREEN();
