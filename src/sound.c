@@ -1146,16 +1146,18 @@ void FUN_80168f38(s16 param_1) {}
 
 void FUN_80168f40(void) {}
 
+/* 44748 80168F48 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/sound", FUN_80168f48);
 #else
 /*
-matches, but ... yeah ... slightly more believable version below?
+slightly more believable version below?
 attempts: 3
 tried gotos-only also
 */
-/*INCLUDE_ASM("asm/nonmatchings/sound", FUN_80168f48);*/
 
+/*#define BELIEVABLE*/
+#ifndef BELIEVABLE
 void FUN_80168f48(void)
 {
     s16 *var_s1;
@@ -1217,56 +1219,68 @@ void FUN_80168f48(void)
         }
     }
 }
-
-/*void FUN_80168f48(void)
+#else
+void FUN_80168f48(void)
 {
-  short sVar1;
-  short sVar2;
-  int iVar3;
-  short *psVar4;
-  VoiceTableEntry *pVVar5;
-  s16 iVar6;
-  s16 new_var;
-  s16 test_1;
-  s32 test_2;
-  s16 *cur_stk_obj;
-  s16 test_3;
+    short sVar1;
+    short var_a0;
+    int iVar3;
+    short *psVar4;
+    VoiceTableEntry *pVVar5;
+    s16 var_s3;
+    s16 new_var;
+    s16 test_1;
+    s32 test_2;
+    s16 *cur_stk_obj;
+    s16 test_3;
 
-  if (D_801CEFCC && !((level.objects[D_801CEFCE].flags & FLG(OBJ_ACTIVE)))) {
-    PS1_StopPlayingSnd(0x16);
-  }
+    if (D_801CEFCC && !((level.objects[D_801CEFCE].flags & FLG(OBJ_ACTIVE))))
+    {
+        PS1_StopPlayingSnd(0x16);
+    }
 
-  for (
-    pVVar5 = &voice_table[0], iVar6 = 0;
-    iVar6 <= 0x18;
-    iVar6 = iVar6 + 1, pVVar5 = pVVar5 + 1
-  )
-  {
-    iVar3 = pVVar5->id;
-    if (
-      (
-        (-1 < iVar3 && !(level.objects[iVar3].flags & FLG(OBJ_ACTIVE))) ||
-        (iVar3 == -2 && pVVar5->field3_0x6 != -1)
-      ) &&
-      ((hard_sound_table[voice_table[iVar6].field3_0x6].flags >> 4 & 1) != 0)
+    for (
+        pVVar5 = &voice_table[0], var_s3 = 0;
+        var_s3 <= 0x18;
+        var_s3 = var_s3 + 1, pVVar5 = pVVar5 + 1
     )
     {
-      test_3 = pVVar5->field3_0x6;
-      SsUtKeyOff(iVar6,bank_to_use[test_3],hard_sound_table[test_3].prog,hard_sound_table[test_3].tone,
-                 hard_sound_table[test_3].note);
-      voice_is_working[iVar6] = false;
-      sVar2 = 0;
-      while (sVar2 != 0x14 && stk_obj[sVar2] != pVVar5->id) {
-        sVar2++;
-      }
-      if (sVar2 < 0x14) {
-        stk_snd[sVar2] = -1;
-      }
-      pVVar5->id = -2;
-      do{ pVVar5->field3_0x6 = -1; } while (0);
+        iVar3 = pVVar5->id;
+        if (
+            (
+                (iVar3 > -1 && !(level.objects[iVar3].flags & FLG(OBJ_ACTIVE))) ||
+                (iVar3 == -2 && pVVar5->field3_0x6 != -1)
+            ) &&
+            ((hard_sound_table[voice_table[var_s3].field3_0x6].flags >> 4 & 1) != 0)
+        )
+        {
+            test_3 = pVVar5->field3_0x6;
+            SsUtKeyOff(
+                var_s3,
+                bank_to_use[test_3],
+                hard_sound_table[test_3].prog,
+                hard_sound_table[test_3].tone,
+                hard_sound_table[test_3].note
+            );
+            voice_is_working[var_s3] = false;
+            var_a0 = 0;
+            while (var_a0 != 0x14 && stk_obj[var_a0] != pVVar5->id)
+            {
+                var_a0++;
+            }
+            if (var_a0 < 0x14)
+            {
+                stk_snd[var_a0] = -1;
+            }
+            pVVar5->id = -2;
+            do
+            {
+                pVVar5->field3_0x6 = -1;
+            } while (0);
+        }
     }
-  }
-}*/
+}
+#endif
 #endif
 
 /* 44994 80169194 -O2 -msoft-float */
