@@ -49,7 +49,7 @@ void PS1_StopPlayingAllSnd(void)
     PS1_StopPlayingSnd(21);
     PS1_StopPlayingSnd(12);
     PS1_StopPlayingSnd(22);
-    D_801CEFCC = 0;
+    D_801CEFCC = false;
     PS1_StopPlayingSnd(6);
 }
 
@@ -58,7 +58,7 @@ void FUN_801658e0(void)
 {
     s16 acc_num; s16 seq_num;
 
-    D_801CEFCC = 0;
+    D_801CEFCC = false;
     for (acc_num = 0; acc_num < 2; acc_num++)
         for (seq_num = 0; seq_num < 10; seq_num++)
             if (SsIsEos(acc_num, seq_num))
@@ -642,7 +642,7 @@ void PlaySnd(short snd, short obj_id)
             SsUtKeyOff(iVar6, bank_to_use[sVar4], hard_sound_table[sVar4].prog, hard_sound_table[sVar4].tone, hard_sound_table[sVar4].note);
             voice_table[iVar6].id = -2;
             voice_table[iVar6].field3_0x6 = -1;
-            voice_is_working[iVar6] = 0;
+            voice_is_working[iVar6] = false;
         }
     }
     if (((dans_la_map_monde == false) && (snd != 0)) &&
@@ -747,7 +747,7 @@ void PlaySnd(short snd, short obj_id)
             if (SsIsEos(PS1_SepInfos[22].access_num, PS1_SepInfos[22].seq_num) == 0)
             {
                 PS1_PlaySnd(0x16, 0);
-                D_801CEFCC = 1;
+                D_801CEFCC = true;
                 D_801CEFCE = obj_id;
             }
             break;
@@ -794,7 +794,7 @@ void PlaySnd(short snd, short obj_id)
                     voice_table[test_2].field3_0x6 = snd;
                     if ((hard_sound_table[snd].flags >> 4 & 1) != 0)
                     {
-                        voice_is_working[test_2] = 1;
+                        voice_is_working[test_2] = true;
                     }
                 }
             }
@@ -902,10 +902,13 @@ void PlaySnd_old(s16 snd)
     else
     {
         voice_ind = SsUtKeyOn(
-            bank_to_use[snd], hard_sound_table[snd].prog,
-            hard_sound_table[snd].tone, hard_sound_table[snd].note,
+            bank_to_use[snd],
+            hard_sound_table[snd].prog,
+            hard_sound_table[snd].tone,
+            hard_sound_table[snd].note,
             0,
-            Volume_Snd * hard_sound_table[snd].volume >> 7, Volume_Snd * hard_sound_table[snd].volume >> 7
+            Volume_Snd * hard_sound_table[snd].volume >> 7,
+            Volume_Snd * hard_sound_table[snd].volume >> 7
         );
         vol_both = Volume_Snd * hard_sound_table[snd].volume >> 7;
         SsUtSetVVol(voice_ind, vol_both, vol_both);
@@ -920,224 +923,189 @@ void PlaySnd_old(s16 snd)
     }
 }
 
+/* 437B0 80167FB0 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/sound", setvol);
 #else
-/* matches, but cleanup */
-/*INCLUDE_ASM("asm/nonmatchings/sound", setvol);*/
+extern inline s32 setvol_1(u8 unk_vol, s16 unk_pile) /* works only in the block, where options_jeu.StereoEnabled... */
+{
+    return ((Volume_Snd * unk_vol * pile_snd[unk_pile].vol) >> 14);
+}
 
+/* ??? */
+#define setvol_2(unk_vol, unk_pile) ((Volume_Snd * unk_vol * pile_snd[unk_pile].vol) >> 14)
+#define setvol_3(unk_vol, voice_ind) ((Volume_Snd * unk_vol * hard_sound_table[voice_table[voice_ind].field3_0x6].volume) >> 14)
+
+/* still really stinky */
 void setvol(s16 param_1, u8 param_2)
 {
-    s32 temp_s0_1;
-    s32 temp_s0_3;
-    s32 temp_s0_4;
-    s32 temp_s0_8;
-    s16 temp_s3_1;
-    s16 temp_s3_2;
-    s16 temp_v0_3;
-    s16 temp_v0_4;
-    s16 temp_v0_7;
-    s16 temp_v0_9;
-    s16 var_a2;
-    s32 temp_a0_1;
-    s32 temp_a0_2;
-    s32 temp_a0_3;
-    s16 temp_a1;
-    s32 temp_a1_2;
-    s32 temp_a1_3;
-    s32 temp_a2;
-    s32 temp_lo;
-    s32 temp_s0_2;
-    s32 temp_s0_5;
-    s32 temp_s0_6;
-    s32 temp_s0_7;
-    s32 temp_s1_2;
-    s32 temp_s1_3;
-    s32 temp_s2_1;
-    s32 temp_s2_2;
-    s32 temp_s5;
-    s32 temp_s7;
-    s32 temp_v0_2;
-    s32 temp_v0_5;
-    s32 temp_v0_8;
-    s32 temp_v1_2;
-    s16 var_a0;
-    s32 var_v0_1;
-    s32 var_v0_2;
-    s32 var_v0_3;
-    s32 var_v0_4;
-    s32 var_v1;
-    s16 temp_s3_3;
-    s16 temp_v0_6;
-    u16 var_s5;
-    u32 temp_s1_1;
-    u8 temp_v0_1;
-    u8 temp_v1_1;
-    u8 var_s4_1;
-    u8 var_s4_2;
-    s16 test_1;
-    s16 *new_var;
-    s32 new_var2;
+    s16 unk_pan;
+    u8 unk_vol;
+    s16 unk_pile;
+    u8 unk_flags;
+    s32 unk_map_time;
+    s16 voice_ind;
+    s16 cur_pile; s32 next_pile;
+    s32 vol_both;
 
-    if ((D_801CEFCC != 0) && (param_1 == D_801CEFCE))
+    if (D_801CEFCC && param_1 == D_801CEFCE)
     {
-        temp_s3_1 = get_pan_snd(&level.objects[param_1]);
-        var_s4_1 = get_vol_snd(&level.objects[param_1]);
-        if (var_s4_1 >= 6U)
+        unk_pan = get_pan_snd(&level.objects[param_1]);
+        unk_vol = get_vol_snd(&level.objects[param_1]);
+        if (unk_vol > 5)
         {
             SsSepSetVol(
                 PS1_SepInfos[22].access_num,
                 PS1_SepInfos[22].seq_num,
-                vol_l(((Volume_Snd * var_s4_1) >> 7), temp_s3_1),
-                vol_r(((Volume_Snd * var_s4_1) >> 7), temp_s3_1)
+                vol_l((Volume_Snd * unk_vol) >> 7, unk_pan),
+                vol_r((Volume_Snd * unk_vol) >> 7, unk_pan)
             );
-            temp_v0_2 = pt_pile_snd;
-            pile_snd[temp_v0_2].field6_0xc = var_s4_1;
-            pile_snd[temp_v0_2].field7_0xe = temp_s3_1;
-            pile_snd[temp_v0_2].field8_0x10 = map_time + 0xA;
+            pile_snd[pt_pile_snd].field6_0xc = unk_vol;
+            pile_snd[pt_pile_snd].field7_0xe = unk_pan;
+            pile_snd[pt_pile_snd].field8_0x10 = map_time + 10;
         }
         else
         {
-            PS1_StopPlayingSnd(0x0016);
-            D_801CEFCC = 0;
+            PS1_StopPlayingSnd(22);
+            D_801CEFCC = false;
         }
     }
-    if ((ray.scale != 0) && (param_1 == reduced_rayman_id))
-    {
+
+    if (ray.scale != 0 && param_1 == reduced_rayman_id)
         param_1 = -1;
-    }
     if (param_1 == rayman_obj_id)
-    {
         param_1 = -1;
-    }
-    temp_v0_3 = get_pile_obj(param_1);
-    if (temp_v0_3 != -1)
+
+    unk_pile = get_pile_obj(param_1);
+    if (unk_pile != -1)
     {
         if (
-            (param_1 == -1) ||
-            (param_1 == rayman_obj_id) ||
-            (temp_v1_1 = hard_sound_table[pile_snd[temp_v0_3].index].flags,
-              !(temp_v1_1 >> 0 & 1) ||
-              !(temp_v1_1 >> 1 & 1)
+            param_1 == -1 || param_1 == rayman_obj_id ||
+            !(unk_flags = hard_sound_table[pile_snd[unk_pile].index].flags,
+                unk_flags >> 0 & 1 &&
+                unk_flags >> 1 & 1
             )
         )
-        {
-            var_s4_1 = 0x7F;
-        }
+            unk_vol = 127;
         else
+            unk_vol = get_vol_snd(&level.objects[param_1]);
+
+        unk_map_time = map_time;
+        pile_snd[unk_pile].field6_0xc = unk_vol;
+        if (pile_snd[unk_pile].field8_0x10 == unk_map_time)
         {
-            var_s4_1 = get_vol_snd(&level.objects[param_1]);
-        }
-        temp_s7 = map_time;
-        pile_snd[temp_v0_3].field6_0xc = var_s4_1;
-        if (pile_snd[temp_v0_3].field8_0x10 == temp_s7)
-        {
-            if (options_jeu.StereoEnabled != 0)
+            if (options_jeu.StereoEnabled)
             {
-                vol_l(((Volume_Snd * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE), pile_snd[temp_v0_3].field7_0xe);
-                vol_r(((Volume_Snd * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE), pile_snd[temp_v0_3].field7_0xe);
-                temp_s3_2 = SsUtKeyOn(
-                    bank_to_use[pile_snd[temp_v0_3].index],
-                    pile_snd[temp_v0_3].prog,
-                    pile_snd[temp_v0_3].tone,
-                    pile_snd[temp_v0_3].note,
-                    0x0040,
-                    vol_l(((Volume_Snd * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE), pile_snd[temp_v0_3].field7_0xe),
-                    vol_r(((Volume_Snd * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE), pile_snd[temp_v0_3].field7_0xe)
+                vol_l((Volume_Snd * unk_vol * pile_snd[unk_pile].vol) >> 14, pile_snd[unk_pile].field7_0xe);
+                vol_r((Volume_Snd * unk_vol * pile_snd[unk_pile].vol) >> 14, pile_snd[unk_pile].field7_0xe);
+                voice_ind = SsUtKeyOn(
+                    bank_to_use[pile_snd[unk_pile].index],
+                    pile_snd[unk_pile].prog,
+                    pile_snd[unk_pile].tone,
+                    pile_snd[unk_pile].note,
+                    (127 + 1) / 2,
+                    vol_l((Volume_Snd * unk_vol * pile_snd[unk_pile].vol) >> 14, pile_snd[unk_pile].field7_0xe),
+                    vol_r((Volume_Snd * unk_vol * pile_snd[unk_pile].vol) >> 14, pile_snd[unk_pile].field7_0xe)
                 );
                 SsUtSetVVol(
-                    temp_s3_2,
-                    vol_l(((Volume_Snd * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE), pile_snd[temp_v0_3].field7_0xe),
-                    vol_r(((Volume_Snd * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE), pile_snd[temp_v0_3].field7_0xe)
+                    voice_ind,
+                    vol_l(((Volume_Snd * unk_vol * pile_snd[unk_pile].vol) >> 14), pile_snd[unk_pile].field7_0xe),
+                    vol_r(((Volume_Snd * unk_vol * pile_snd[unk_pile].vol) >> 14), pile_snd[unk_pile].field7_0xe)
                 );
             }
             else
             {
-                temp_s3_2 = SsUtKeyOn(bank_to_use[pile_snd[temp_v0_3].index], pile_snd[temp_v0_3].prog, pile_snd[temp_v0_3].tone, pile_snd[temp_v0_3].note, 0x0040, ((Volume_Snd * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE), ((Volume_Snd * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE));
-                SsUtSetVVol(temp_s3_2, (Volume_Snd * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE, (Volume_Snd * var_s4_1 * pile_snd[temp_v0_3].vol) >> 0xE);
-            }
-            if (temp_s3_2 != -1)
-            {
-                FUN_80166d20(param_1);
-                voice_table[temp_s3_2].id = param_1;
-                voice_table[temp_s3_2].field1_0x2 = var_s4_1;
-                voice_table[temp_s3_2].field2_0x4 = pile_snd[temp_v0_3].field7_0xe;
-                voice_table[temp_s3_2].field3_0x6 = pile_snd[temp_v0_3].index;
-                if (((u8) hard_sound_table[pile_snd[temp_v0_3].index].flags >> 4) & 1)
-                {
-                    voice_is_working[temp_s3_2] = 1;
-                }
+                voice_ind = SsUtKeyOn(
+                    bank_to_use[pile_snd[unk_pile].index],
+                    pile_snd[unk_pile].prog,
+                    pile_snd[unk_pile].tone,
+                    pile_snd[unk_pile].note,
+                    (127 + 1) / 2,
+                    ((Volume_Snd * unk_vol * pile_snd[unk_pile].vol) >> 14),
+                    ((Volume_Snd * unk_vol * pile_snd[unk_pile].vol) >> 14)
+                );
+                SsUtSetVVol(
+                    voice_ind,
+                    (Volume_Snd * unk_vol * pile_snd[unk_pile].vol) >> 14,
+                    (Volume_Snd * unk_vol * pile_snd[unk_pile].vol) >> 14
+                );
             }
 
-            if (pile_snd[temp_v0_3].field9_0x14 != 0)
+            if (voice_ind != -1)
+            {
+                FUN_80166d20(param_1);
+                voice_table[voice_ind].id = param_1;
+                voice_table[voice_ind].field1_0x2 = unk_vol;
+                voice_table[voice_ind].field2_0x4 = pile_snd[unk_pile].field7_0xe;
+                voice_table[voice_ind].field3_0x6 = pile_snd[unk_pile].index;
+                if ((hard_sound_table[pile_snd[unk_pile].index].flags >> 4) & 1)
+                    voice_is_working[voice_ind] = true;
+            }
+
+            if (pile_snd[unk_pile].field9_0x14 != 0)
             {
                 /* TODO: still bad */
-                pile_snd[temp_v0_3].field8_0x10 = temp_s7 + frame_snd_bis[pile_snd[temp_v0_3].index];
-                temp_v0_6 = snd_bis[pile_snd[temp_v0_3].index];
-                pile_snd[temp_v0_3].index = temp_v0_6;
-                pile_snd[temp_v0_3].prog = hard_sound_table[pile_snd[temp_v0_3].index].prog;
-                pile_snd[pt_pile_snd].tone = hard_sound_table[pile_snd[temp_v0_3].index].tone;
-                pile_snd[pt_pile_snd].note = hard_sound_table[pile_snd[temp_v0_3].index].note;
-                pile_snd[pt_pile_snd].vol = hard_sound_table[pile_snd[temp_v0_3].index].volume;
-                pile_snd[temp_v0_3].field9_0x14 = 0; /* TODO: ??? */
+                pile_snd[unk_pile].field8_0x10 = unk_map_time + frame_snd_bis[pile_snd[unk_pile].index];
+                pile_snd[unk_pile].index = snd_bis[pile_snd[unk_pile].index];
+                pile_snd[unk_pile].prog = hard_sound_table[pile_snd[unk_pile].index].prog;
+                pile_snd[pt_pile_snd].tone = hard_sound_table[pile_snd[unk_pile].index].tone;
+                pile_snd[pt_pile_snd].note = hard_sound_table[pile_snd[unk_pile].index].note;
+                pile_snd[pt_pile_snd].vol = hard_sound_table[pile_snd[unk_pile].index].volume;
+                pile_snd[unk_pile].field9_0x14 = 0; /* TODO: ??? */
             }
             else
             {
-                var_a2 = temp_v0_3;
-                while (var_a2 < pt_pile_snd)
+                /* ??? */
+                for (cur_pile = unk_pile; cur_pile < pt_pile_snd; cur_pile++)
                 {
-                    new_var2 = var_a2;
-                    temp_v0_8 = new_var2 + 1;
-                    pile_snd[var_a2].id = pile_snd[temp_v0_8].id;
-                    pile_snd[var_a2].index = pile_snd[temp_v0_8].index;
-                    pile_snd[var_a2].prog = pile_snd[temp_v0_8].prog;
-                    pile_snd[var_a2].tone = pile_snd[temp_v0_8].tone;
-                    pile_snd[var_a2].note = pile_snd[temp_v0_8].note;
-                    pile_snd[var_a2].vol = pile_snd[temp_v0_8].vol;
-                    pile_snd[var_a2].field6_0xc = pile_snd[temp_v0_8].field6_0xc;
-                    pile_snd[var_a2].field7_0xe = pile_snd[temp_v0_8].field7_0xe;
-                    pile_snd[var_a2].field8_0x10 = pile_snd[temp_v0_8].field8_0x10;
+                    next_pile = cur_pile + 1;
+                    pile_snd[cur_pile].id = pile_snd[next_pile].id;
+                    pile_snd[cur_pile].index = pile_snd[next_pile].index;
+                    pile_snd[cur_pile].prog = pile_snd[next_pile].prog;
+                    pile_snd[cur_pile].tone = pile_snd[next_pile].tone;
+                    pile_snd[cur_pile].note = pile_snd[next_pile].note;
+                    pile_snd[cur_pile].vol = pile_snd[next_pile].vol;
+                    pile_snd[cur_pile].field6_0xc = pile_snd[next_pile].field6_0xc;
+                    pile_snd[cur_pile].field7_0xe = pile_snd[next_pile].field7_0xe;
+                    pile_snd[cur_pile].field8_0x10 = pile_snd[next_pile].field8_0x10;
+                    pile_snd[cur_pile].field9_0x14 = pile_snd[next_pile].field9_0x14;
+                }
 
-                    pile_snd[var_a2].field9_0x14 = pile_snd[temp_v0_8].field9_0x14;
-                    var_a2 = var_a2 + 1;
-                }
                 if (pt_pile_snd > 0)
-                {
-                    pt_pile_snd -= 1;
-                }
+                    pt_pile_snd--;
             }
         }
     }
-    temp_s3_2 = FUN_80166724(param_1);
-    if (temp_s3_2 != -1)
-    {
 
-        if (((param_1 == -1) || (param_1 == rayman_obj_id) || (voice_table[temp_s3_2].field3_0x6 == 0x00CC)))
-        {
-            var_s4_1 = 0x7F;
-        }
+    voice_ind = FUN_80166724(param_1);
+    if (voice_ind != -1)
+    {
+        if (
+            param_1 == -1 || param_1 == rayman_obj_id ||
+            voice_table[voice_ind].field3_0x6 == 0x00CC
+        )
+            unk_vol = 127;
         else
-        {
-            var_s4_1 = get_vol_snd(&level.objects[param_1]);
-        }
-        voice_table[temp_s3_2].field1_0x2 = var_s4_1;
-        temp_s3_1 = voice_table[temp_s3_2].field2_0x4;
-        if (voice_is_working[temp_s3_2] != 0)
+            unk_vol = get_vol_snd(&level.objects[param_1]);
+
+        voice_table[voice_ind].field1_0x2 = unk_vol;
+        unk_pan = voice_table[voice_ind].field2_0x4;
+        if (voice_is_working[voice_ind])
         {
             if (options_jeu.StereoEnabled != 0)
             {
-                vol_l(((Volume_Snd * var_s4_1 * hard_sound_table[voice_table[temp_s3_2].field3_0x6].volume) >> 0xE), temp_s3_1);
-                vol_r(((Volume_Snd * var_s4_1 * hard_sound_table[voice_table[temp_s3_2].field3_0x6].volume) >> 0xE), temp_s3_1);
+                vol_l(((Volume_Snd * unk_vol * hard_sound_table[voice_table[voice_ind].field3_0x6].volume) >> 14), unk_pan);
+                vol_r(((Volume_Snd * unk_vol * hard_sound_table[voice_table[voice_ind].field3_0x6].volume) >> 14), unk_pan);
                 SsUtSetVVol(
-                    temp_s3_2,
-                    vol_l(((Volume_Snd * var_s4_1 * hard_sound_table[voice_table[temp_s3_2].field3_0x6].volume) >> 0xE), temp_s3_1),
-                    vol_r(((Volume_Snd * var_s4_1 * hard_sound_table[voice_table[temp_s3_2].field3_0x6].volume) >> 0xE), temp_s3_1)
+                    voice_ind,
+                    vol_l(((Volume_Snd * unk_vol * hard_sound_table[voice_table[voice_ind].field3_0x6].volume) >> 14), unk_pan),
+                    vol_r(((Volume_Snd * unk_vol * hard_sound_table[voice_table[voice_ind].field3_0x6].volume) >> 14), unk_pan)
                 );
             }
             else
             {
-                temp_a1_3 = (Volume_Snd * var_s4_1 * hard_sound_table[voice_table[temp_s3_2].field3_0x6].volume) >> 0xE;
-                SsUtSetVVol(temp_s3_2, temp_a1_3, temp_a1_3);
+                vol_both = (Volume_Snd * unk_vol * hard_sound_table[voice_table[voice_ind].field3_0x6].volume) >> 14;
+                SsUtSetVVol(voice_ind, vol_both, vol_both);
             }
         }
     }
@@ -1203,7 +1171,7 @@ void FUN_80168f48(void)
     s32 temp_v1;
     s32 var_v0_2;
 
-    if ((D_801CEFCC != 0) && !(level.objects[D_801CEFCE].flags & 0x800))
+    if (D_801CEFCC && !(level.objects[D_801CEFCE].flags & 0x800))
     {
         PS1_StopPlayingSnd(0x0016);
     }
@@ -1233,7 +1201,7 @@ void FUN_80168f48(void)
                     hard_sound_table[*var_s1].tone,
                     hard_sound_table[*var_s1].note
                 );
-                voice_is_working[var_s3] = 0;
+                voice_is_working[var_s3] = false;
                 var_a0 = 0;
                 while (var_a0 != 0x0014 && stk_obj[var_a0] != *var_s2)
                 {
@@ -1264,7 +1232,7 @@ void FUN_80168f48(void)
   s16 *cur_stk_obj;
   s16 test_3;
 
-  if ((D_801CEFCC != 0) && !((level.objects[D_801CEFCE].flags & FLG(OBJ_ACTIVE)))) {
+  if (D_801CEFCC && !((level.objects[D_801CEFCE].flags & FLG(OBJ_ACTIVE)))) {
     PS1_StopPlayingSnd(0x16);
   }
 
@@ -1286,7 +1254,7 @@ void FUN_80168f48(void)
       test_3 = pVVar5->field3_0x6;
       SsUtKeyOff(iVar6,bank_to_use[test_3],hard_sound_table[test_3].prog,hard_sound_table[test_3].tone,
                  hard_sound_table[test_3].note);
-      voice_is_working[iVar6] = 0;
+      voice_is_working[iVar6] = false;
       sVar2 = 0;
       while (sVar2 != 0x14 && stk_obj[sVar2] != pVVar5->id) {
         sVar2++;
