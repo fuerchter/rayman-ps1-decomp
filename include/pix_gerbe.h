@@ -8,7 +8,7 @@ typedef struct PixGerbeItem
 {
     s16 x_pos;
     s16 y_pos;
-    u16 speed_x;
+    s16 speed_x;
     s16 speed_y;
     u8 y_accel;
     u8 unk_1;

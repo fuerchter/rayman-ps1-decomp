@@ -51,6 +51,7 @@ static inline s32 test_x_pos_2(Obj *obj)
 works in:
 DO_DARK2_TOONS_COMMAND (explicitly without parens!)
 calc_btyp_square
+DO_SPIDER_PLAFOND
 */
 #define test_x_pos_3(obj) (obj)->x_pos + (obj)->offset_bx
 
