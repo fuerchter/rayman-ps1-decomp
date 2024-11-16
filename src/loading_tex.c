@@ -18,15 +18,11 @@ u16 D_801F5440;
 u16 D_801F55D8;
 #endif
 
+/* 14AD8 801392D8 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/loading_tex", FUN_801392d8);
 #else
-/*
-matches, but...
-not sure how to interpret any of the constants/vars/types
-*/
-/*INCLUDE_ASM("asm/nonmatchings/loading_tex", FUN_801392d8);*/
-
+/* not sure how to interpret any of the constants/vars/types */
 void FUN_801392d8(s32 param_1, s16 *param_2, s16 *param_3)
 {
     s32 unk_1;
@@ -47,15 +43,11 @@ void FUN_801392d8(s32 param_1, s16 *param_2, s16 *param_3)
 }
 #endif
 
+/* 14B30 80139330 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/loading_tex", FUN_80139330);
 #else
-/*
-matches, but ...
-what is any of this?
-*/
-/*INCLUDE_ASM("asm/nonmatchings/loading_tex", FUN_80139330);*/
-
+/* what is any of this? */
 void FUN_80139330(u32 param_1, s16 *param_2, s16 *param_3)
 {
     s32 temp_v1_1;

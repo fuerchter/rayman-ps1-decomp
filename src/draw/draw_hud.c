@@ -154,13 +154,11 @@ void DISPLAY_TEXT_FEE(void)
     }
 }
 
+/* 1A04C 8013E84C -O2 */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/draw/draw_hud", DisplayJumellesNormal);
 #else
-/* matches, but do{}while(0); */
-/* 1A04C 8013E84C -O2 */
-/*INCLUDE_ASM("asm/nonmatchings/draw/draw_hud", DisplayJumellesNormal);*/
-
+/* do{}while(0); */
 void DisplayJumellesNormal(void)
 {
     s32 x_3;

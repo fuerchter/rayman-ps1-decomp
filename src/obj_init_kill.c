@@ -516,12 +516,11 @@ void obj_init(Obj *obj)
     }
 }
 
+/* 2A8F8 8014F0F8 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj_init_kill", INIT_OBJECTS);
 #else
-/* matches, but the ones that have "TODO:" are still rough */
-/*INCLUDE_ASM("asm/nonmatchings/obj_init_kill", INIT_OBJECTS);*/
-
+/* see "TODO:" */
 void INIT_OBJECTS(u8 new_lvl)
 {
     s16 unk_1;
@@ -1290,12 +1289,11 @@ void kill_obj(Obj *obj)
     obj->flags &= ~FLG(OBJ_ALIVE);
 }
 
+/* 2BE60 80150660 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj_init_kill", SET_ACTIVE_FLAG);
 #else
-/* matches, but gotos and other cleanup */
-/*INCLUDE_ASM("asm/nonmatchings/obj_init_kill", SET_ACTIVE_FLAG);*/
-
+/* gotos and other cleanup */
 void SET_ACTIVE_FLAG(s16 x, s16 y, Obj *obj)
 {
     Obj *temp_s0_2;

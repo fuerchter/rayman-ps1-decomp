@@ -7,12 +7,10 @@ u8 IS_STONEWOMAN_WAIT(Obj *obj)
            (obj->sub_etat == 0 || obj->sub_etat == 14 || obj->sub_etat == 8);
 }
 
+/* 4E820 80173020 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/stonewoman", DO_STONEWOMAN_COMMAND);
 #else
-/* matches, but */
-/*INCLUDE_ASM("asm/nonmatchings/obj/stonewoman", DO_STONEWOMAN_COMMAND);*/
-
 void DO_STONEWOMAN_COMMAND(Obj *obj)
 {
     s32 prev_flip_x;

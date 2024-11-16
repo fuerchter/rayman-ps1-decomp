@@ -231,12 +231,11 @@ void mereDenisExplodeBombs(void)
     }
 }
 
+/* 648B4 801890B4 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/space_mama", mereDenisDropBomb);
 #else
-/* matches, but __builtin_abs section */
-/*INCLUDE_ASM("asm/nonmatchings/obj/space_mama", mereDenisDropBomb);*/
-
+/* __builtin_abs section */
 void mereDenisDropBomb(Obj *smama_obj)
 {
     s16 ray_x;
@@ -422,15 +421,14 @@ void swapMereDenisCollZones(Obj *obj, u8 smama2)
     obj->zdc = type_zdc[obj->type];
 }
 
+/* 64DD8 801895D8 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/space_mama", prepareNewMereDenisAttack);
 #else
 /*
-matches, but gotos
+gotos
 might have actually written gotos like this?
 */
-/*INCLUDE_ASM("asm/nonmatchings/obj/space_mama", prepareNewMereDenisAttack);*/
-
 u8 prepareNewMereDenisAttack(Obj *smama_obj)
 {
     u8 cur_act = 0xFF;
@@ -1108,12 +1106,11 @@ void changeMereDenisPhase(void)
     }
 }
 
+/* 66790 8018AF90 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/space_mama", fitSaveCurrentAction);
 #else
-/* matches, but wtf even */
-/*INCLUDE_ASM("asm/nonmatchings/obj/space_mama", fitSaveCurrentAction);*/
-
+/* wtf even */
 void fitSaveCurrentAction(Obj *obj)
 {
     u8 unk_1;

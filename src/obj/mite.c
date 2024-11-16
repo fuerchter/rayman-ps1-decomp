@@ -428,12 +428,11 @@ u8 IS_MIT_PAF(Obj *obj)
     return res;
 }
 
+/* 4B3A0 8016FBA0 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MIT_COMMAND);
 #else
-/* matches, but new_var */
-/*INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MIT_COMMAND);*/
-
+/* new_var? */
 void DO_MIT_COMMAND(Obj *obj)
 {
     s16 diff_x_1;

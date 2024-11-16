@@ -228,13 +228,11 @@ void INIT_LEVEL_STAGE_NAME(void)
     text_to_display[0].color = t_world_info[num_world_choice].color;
 }
 
+/* 683FC 8018CBFC -O2 */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_STAGE_NAME);
 #else
-/* matches, but casts */
-/* 683FC 8018CBFC -O2 */
-/*INCLUDE_ASM("asm/nonmatchings/world_map_677C0", INIT_WORLD_STAGE_NAME);*/
-
+/* casts? */
 void INIT_WORLD_STAGE_NAME(void)
 {
     u8 new_color;

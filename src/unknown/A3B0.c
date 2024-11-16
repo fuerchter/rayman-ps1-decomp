@@ -58,12 +58,10 @@ void DO_AFFICHE_PAUSE(void)
     }
 }
 
+/* A5A4 8012EDA4 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/unknown/A3B0", FUN_8012eda4);
 #else
-/* matches, but */
-/*INCLUDE_ASM("asm/nonmatchings/unknown/A3B0", FUN_8012eda4);*/
-
 s32 FUN_8012eda4(s16 param_1, s16 param_2)
 {
     s32 temp_v0;

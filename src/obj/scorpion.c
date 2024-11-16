@@ -337,16 +337,14 @@ s32 sko_get_eject_sens(void)
     return -1;
 }
 
+/* 6D438 80191C38 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SOL_ENFONCE);
 #else
 /*
 attempts: 2
-matches, but goto (partially gotos-only)
+goto (partially gotos-only)
 */
-/*INCLUDE_ASM("asm/nonmatchings/obj/scorpion", DO_SOL_ENFONCE);*/
-
-/* 6D438 80191C38 -O2 -msoft-float */
 void DO_SOL_ENFONCE(void)
 {
     u8 bVar1;

@@ -106,11 +106,12 @@ void PS1_TextBoxCardOrPassword(void)
     PS1_MENU_RETURN2 = false;
 }
 
+/* 7F754 801A3F54 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_InputCardOrPassword);
 #else
 /*
-matches, but goto
+goto?
 
 !valid_pressed && !select_pressed
 PS1_MENU_RETURN2 == 0 ...
@@ -129,8 +130,6 @@ valid_pressed && select_pressed
 if (positiony == ...)
 if (select_pressed) yes
 */
-/*INCLUDE_ASM("asm/nonmatchings/menu/menu_7F4B4", PS1_InputCardOrPassword);*/
-
 void PS1_InputCardOrPassword(void)
 {
     s16 valid_pressed = ValidButPressed();

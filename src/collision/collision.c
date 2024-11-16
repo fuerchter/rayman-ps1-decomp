@@ -1215,12 +1215,11 @@ void DO_PNG_COLL_STONEWOMAN(Obj *obj)
     }
 }
 
+/* 1DBBC 801423BC -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_POING_COLLISION);
 #else
-/* matches, but cleanup */
-/*INCLUDE_ASM("asm/nonmatchings/collision/collision", DO_POING_COLLISION);*/
-
+/* clean up */
 void DO_POING_COLLISION(void)
 {
     s16 pspr_x; s16 pspr_y; s16 pspr_w; s16 pspr_h;
@@ -2179,12 +2178,11 @@ void standard_frontZone(Obj *obj, s16 *x, s16 *w)
     *w = obj->detect_zone + (*w >> 1);
 }
 
+/* 1FAB4 801442B4 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_DETECT_ZONE_FLAG);
 #else
-/* matches, but unk_1 */
-/*INCLUDE_ASM("asm/nonmatchings/collision/collision", SET_DETECT_ZONE_FLAG);*/
-
+/* unk_1? */
 void SET_DETECT_ZONE_FLAG(Obj *obj)
 {
     s16 obj_x; s16 obj_y; s16 obj_w; s16 obj_h;

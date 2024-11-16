@@ -1,11 +1,9 @@
 #include "obj/corde_command.h"
 
+/* 4FB58 80174358 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/corde_command", DO_CORDE_COMMAND);
 #else
-/* matches, but... */
-/*INCLUDE_ASM("asm/nonmatchings/obj/corde_command", DO_CORDE_COMMAND);*/
-
 void DO_CORDE_COMMAND(Obj *obj)
 {
     s32 pa_id;
@@ -96,8 +94,6 @@ const u8 rodata_DO_CORDE_COMMAND[4] = {};
 #endif
 
 /* 4FDF4 801745F4 -O2 -msoft-float */
-/*? set_main_and_sub_etat(Obj *, ?, ?);*/
-
 void DO_PAC_COMMAND(Obj *obj)
 {
     if (obj->hit_points == 0)

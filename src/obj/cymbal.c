@@ -5,13 +5,11 @@ s16 cymbal_obj_id[12];
 u8 nb_cymbal_in_map;
 #endif
 
+/* 49B74 8016E374 -O2 */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/cymbal", DO_CYMBAL_COMMAND);
 #else
-/* matches, but the "TODO:"" section */
-/* 49B74 8016E374 -O2 */
-/*INCLUDE_ASM("asm/nonmatchings/obj/cymbal", DO_CYMBAL_COMMAND);*/
-
+/* "TODO:" section */
 void DO_CYMBAL_COMMAND(Obj *obj)
 {
     s16 spr_x; s16 spr_y; s16 spr_w; s16 spr_h;

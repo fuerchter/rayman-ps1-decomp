@@ -11,15 +11,14 @@ s32 PS1_LoadToVRAM(s16 w, s16 h, s16 x, s16 y, u8 *data)
     return w * h * 2;
 }
 
+/* A664 8012EE64 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/vram", PS1_LoadVRAMBlock);
 #else
 /*
-matches, but clean up
+clean up
 try shifts vs mult (what did i mean by this???)
 */
-/*INCLUDE_ASM("asm/nonmatchings/vram", PS1_LoadVRAMBlock);*/
-
 void PS1_LoadVRAMBlock(s16 start_page, s16 start_pos, s16 end_page, s16 end_pos, s16 unused, u8 *data)
 {
     u8 *temp_s0_1;

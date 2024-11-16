@@ -556,20 +556,11 @@ void SetSaxoCollNoteBox(Obj *obj)
     Sax.note_box_coll_x = x2 + ((w2 - 20) >> 1);
 }
 
+/* 51E0C 8017660C -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO_COMMAND);
 #else
-/* matches, but gotos */
-/* 51E0C 8017660C -O2 -msoft-float */
-/*INCLUDE_ASM("asm/nonmatchings/obj/saxo", DO_SAXO_COMMAND);*/
-
-/*? GET_SPRITE_POS(?, u16 *, u16 *, u16 *, ? *);
-u8 PrepareAtak();
-? calc_obj_dir(Obj *);
-? set_main_and_sub_etat(Obj *, u8, u8, u32);
-? set_sub_etat(Obj *, ?);
-? skipToLabel(Obj *, ?, ?);*/
-
+/* gotos */
 void DO_SAXO_COMMAND(Obj *obj)
 {
     s16 sp18;

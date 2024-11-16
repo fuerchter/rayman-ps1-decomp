@@ -556,12 +556,11 @@ void PS1_PerfectBonusDrawBg(void)
     D_801CF086 = D_801CF088;
 }
 
+/* 5638C 8017AB8C -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/draw/draw_548CC", DISPLAY_FOND_MENU);
 #else
-/* matches, but cleanup */
-/*INCLUDE_ASM("asm/nonmatchings/draw/draw_548CC", DISPLAY_FOND_MENU);*/
-
+/* clean up */
 void DISPLAY_FOND_MENU(void)
 {
     s32 unk_2;

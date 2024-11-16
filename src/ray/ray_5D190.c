@@ -2887,10 +2887,11 @@ void RepousseRay(void)
     }
 }
 
+/* 636B4 80187EB4 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RayEstIlBloque);
 #else
-/* matches, but cleanup last section with goto */
+/* clean up last section with goto */
 s16 RayEstIlBloque(void)
 {
     s16 unk_x;

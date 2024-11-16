@@ -203,12 +203,11 @@ void load_world(s16 world)
     PS1_LoadWorldSound(world);
 }
 
+/* 79C78 8019E478 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/loading_794DC", load_level);
 #else
-/* matches, but s16 without return (see c89 3.6.6.4 The return statement) */
-/*INCLUDE_ASM("asm/nonmatchings/loading_794DC", load_level);*/
-
+/* s16 without return (see c89 3.6.6.4 The return statement) */
 s16 load_level(void)
 {
     PS1_Disable_all_Callbacks();
@@ -393,13 +392,11 @@ void FUN_8019eb30(void)
     }
 }
 
+/* 7A3C0 8019EBC0 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/loading_794DC", FUN_8019ebc0);
 #else
-/* matches, but s16 without return (see c89 3.6.6.4 The return statement) */
-/* 7A3C0 8019EBC0 -O2 -msoft-float */
-/*INCLUDE_ASM("asm/nonmatchings/loading_794DC", FUN_8019ebc0);*/
-
+/* s16 without return (see c89 3.6.6.4 The return statement) */
 s16 FUN_8019ebc0(void)
 {
     if (PS1_ShouldClearPassword)
@@ -425,35 +422,35 @@ s16 FUN_8019ebc0(void)
             D_801F4380 = (void *) 0x8005866C;
             plan2_width = 254;
             plan2_height = 180;
-            D_801E4B58 = 0;
+            D_801E4B58 = false;
             D_801CF0CA = 0;
             break;
         case 2:
             D_801F4380 += 0x19000;
             plan2_width = 208;
             plan2_height = 180;
-            D_801E4B58 = 0;
+            D_801E4B58 = false;
             D_801CF0CA = 0;
             break;
         case 3:
             D_801F4380 += 0x19000;
             plan2_width = 200;
             plan2_height = 200;
-            D_801E4B58 = 0;
+            D_801E4B58 = false;
             D_801CF0CA = 0;
             break;
         case 4:
             D_801F4380 += 0x19000;
             plan2_width = 200;
             plan2_height = 180;
-            D_801E4B58 = 0;
+            D_801E4B58 = false;
             D_801CF0CA = 0;
             break;
         case 5:
             D_801F4380 += 0x19000;
             plan2_width = 146;
             plan2_height = 150;
-            D_801E4B58 = 0;
+            D_801E4B58 = false;
             D_801CF0CA = 0;
             break;
         }
@@ -465,7 +462,7 @@ s16 FUN_8019ebc0(void)
         PS1_FileTemp = PS1_LoadFiles(PS1_PreFiles, 4, 1, 0);
         plan2_width = 146;
         plan2_height = 150;
-        D_801E4B58 = 0;
+        D_801E4B58 = false;
         D_801CF0CA = 0;
     }
 }
@@ -499,42 +496,42 @@ void LOAD_CREDITS_VIGNET(void)
         plan2_width = 206;
         plan2_height = 200;
         D_801E4B58 = false;
-        D_801CF0CA = 0xFF;
+        D_801CF0CA = 255;
         break;
     case 1:
         D_801F4380 += 0x15800;
         plan2_width = 199;
         plan2_height = 200;
         D_801E4B58 = false;
-        D_801CF0CA = 0xFF;
+        D_801CF0CA = 255;
         break;
     case 2:
         D_801F4380 += 0x15800;
         plan2_width = 182;
         plan2_height = 200;
         D_801E4B58 = false;
-        D_801CF0CA = 0xFF;
+        D_801CF0CA = 255;
         break;
     case 3:
         D_801F4380 += 0x15800;
         plan2_width = 195;
         plan2_height = 200;
         D_801E4B58 = false;
-        D_801CF0CA = 0xFF;
+        D_801CF0CA = 255;
         break;
     case 4:
         D_801F4380 += 0x15800;
         plan2_width = 214;
         plan2_height = 200;
         D_801E4B58 = false;
-        D_801CF0CA = 0xFF;
+        D_801CF0CA = 255;
         break;
     case 5:
         D_801F4380 += 0x15800;
         plan2_width = 187;
         plan2_height = 200;
         D_801E4B58 = false;
-        D_801CF0CA = 0xFF;
+        D_801CF0CA = 255;
         break;
     }
 }

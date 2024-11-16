@@ -44,12 +44,11 @@ void CALC_FIST_POS(void)
     obj->screen_x_pos = obj->x_pos - xmap;
 }
 
+/* 47828 8016C028 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/poing", RAY_THROW_FIST);
 #else
-/* matches, but the unk_1 thing? */
-/*INCLUDE_ASM("asm/nonmatchings/obj/poing", RAY_THROW_FIST);*/
-
+/* the unk_1 thing? */
 void RAY_THROW_FIST(void)
 {
     s32 unk_1;

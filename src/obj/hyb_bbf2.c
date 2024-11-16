@@ -10,16 +10,14 @@ Obj *TirBBF2D;
 Obj *TirBBF2G;
 #endif
 
+/* 75B14 8019A314 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/hyb_bbf2", doBBF2command);
 #else
 /*
-matches, but
 duplication?
 var_v1?
 */
-/*INCLUDE_ASM("asm/nonmatchings/obj/hyb_bbf2", doBBF2command);*/
-
 void doBBF2command(Obj *bbf2_obj)
 {
     s16 spr_x; s16 spr_y_1; s16 spr_w; s16 spr_h;
