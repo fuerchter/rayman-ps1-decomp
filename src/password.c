@@ -26,70 +26,56 @@ u8 D_801E57A8;
 u8 PS1_ValidPassword;
 #endif
 
+/* 7CCA0 801A14A0 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/password", PS1_EncryptPassword);
 #else
-/* matches, but casts, new_var */
-/*INCLUDE_ASM("asm/nonmatchings/password", PS1_EncryptPassword);*/
-
+/* casts, unk_1? */
 void PS1_EncryptPassword(void)
 {
-    uint uVar1;
-    u8 bVar3;
-    u16 uVar4;
-    uint uVar2;
-    s32 test_1;
-    short new_var;
-
-    uVar4 = 0;
-    bVar3 = 0;
-    while (bVar3 < 10)
+    u8 i;
+    s16 unk_1;
+    u16 sum = 0;
+    
+    for (i = 0; i < LEN(PS1_CurrentPassword); i++)
     {
-        *(u8 *) &PS1_CurrentPassword[bVar3] ^= PS1_PasswordTables.xor_table[bVar3];
-        uVar4 = uVar4 + ((*(u8 *) &PS1_CurrentPassword[bVar3] >> 1) * PS1_PasswordTables.verification_table[bVar3]);
-        bVar3 = bVar3 + 1;
+        *(u8 *) &PS1_CurrentPassword[i] ^= PS1_PasswordTables.xor_table[i];
+        sum += (*(u8 *) &PS1_CurrentPassword[i] >> 1) * PS1_PasswordTables.verification_table[i];
     }
 
-    new_var = uVar4 >> 0;
-    PS1_CurrentPassword[9].bit_0 = (new_var);
-    PS1_CurrentPassword[7].bit_0 = (uVar4 >> 1);
-    PS1_CurrentPassword[6].bit_0 = (uVar4 >> 2);
-    PS1_CurrentPassword[8].bit_0 = (uVar4 >> 3);
-    PS1_CurrentPassword[5].bit_0 = (uVar4 >> 4);
-    PS1_CurrentPassword[0].bit_0 = (uVar4 >> 5);
-    PS1_CurrentPassword[1].bit_0 = (uVar4 >> 6);
-    PS1_CurrentPassword[3].bit_0 = (uVar4 >> 7);
-    PS1_CurrentPassword[2].bit_0 = (uVar4 >> 8);
-    PS1_CurrentPassword[4].bit_0 = (uVar4 >> 9);
+    unk_1 = sum >> 0;
+    PS1_CurrentPassword[9].bit_0 = unk_1;
+    PS1_CurrentPassword[7].bit_0 = sum >> 1;
+    PS1_CurrentPassword[6].bit_0 = sum >> 2;
+    PS1_CurrentPassword[8].bit_0 = sum >> 3;
+    PS1_CurrentPassword[5].bit_0 = sum >> 4;
+    PS1_CurrentPassword[0].bit_0 = sum >> 5;
+    PS1_CurrentPassword[1].bit_0 = sum >> 6;
+    PS1_CurrentPassword[3].bit_0 = sum >> 7;
+    PS1_CurrentPassword[2].bit_0 = sum >> 8;
+    PS1_CurrentPassword[4].bit_0 = sum >> 9;
 }
 #endif
 
+/* 7CE74 801A1674 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/password", PS1_VerifyDecryptPassword);
 #else
-/* matches, but casts, new_var */
-/*INCLUDE_ASM("asm/nonmatchings/password", PS1_VerifyDecryptPassword);*/
-
+/* casts, having to add PS1_CurrentPassword[9] separately? */
 s32 PS1_VerifyDecryptPassword(void)
 {
-    u16 temp_lo;
-    u8 var_a2;
-    u16 var_t4;
-    u16 new_var;
-    s32 test_1;
-
-    var_t4 = 0;
-    var_a2 = 0;
-    do
+    u8 i;
+    u16 sum_2;
+    u16 sum_1 = 0;
+    
+    for (i = 0; i < LEN(PS1_CurrentPassword); i++)
     {
-        var_t4 += (*(u8 *) &PS1_CurrentPassword[var_a2] >> 1) * PS1_PasswordTables.verification_table[var_a2];
-        *(u8 *) &PS1_CurrentPassword[var_a2] ^= PS1_PasswordTables.xor_table[var_a2];
-        var_a2 += 1;
-    } while (var_a2 < 10);
+        sum_1 += (*(u8 *) &PS1_CurrentPassword[i] >> 1) * PS1_PasswordTables.verification_table[i];
+        *(u8 *) &PS1_CurrentPassword[i] ^= PS1_PasswordTables.xor_table[i];
+    }
 
-    new_var = (PS1_CurrentPassword[9].bit_0 << 0);
-    temp_lo =
-        new_var +
+    sum_2 = (PS1_CurrentPassword[9].bit_0 << 0);
+    sum_2 = sum_2 +
         (PS1_CurrentPassword[7].bit_0 << 1) +
         (PS1_CurrentPassword[6].bit_0 << 2) +
         (PS1_CurrentPassword[8].bit_0 << 3) +
@@ -100,7 +86,7 @@ s32 PS1_VerifyDecryptPassword(void)
         (PS1_CurrentPassword[2].bit_0 << 8) +
         (PS1_CurrentPassword[4].bit_0 << 9);
 
-    return var_t4 == temp_lo;
+    return sum_1 == sum_2;
 }
 #endif
 
@@ -167,12 +153,7 @@ u8 PS1_GetContinuesFromPassword(void)
            (PS1_CurrentPassword[9].bit_4 << 3);
 }
 
-#ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/password", PS1_ValidatePassword);
-#else
-/* matches, but is_valid as ternaries? */
-/*INCLUDE_ASM("asm/nonmatchings/password", PS1_ValidatePassword);*/
-
+/* 7D314 801A1B14 -O2 -msoft-float */
 u8 PS1_ValidatePassword(void)
 {
     u8 is_valid;
@@ -180,29 +161,28 @@ u8 PS1_ValidatePassword(void)
     u8 i;
     u8 lvl = PS1_GetLevelFromPassword();
 
-    PS1_PasswordTables.temp_cage_counts[0] = PS1_CurrentPassword[0].bit_1 & 1;
-    PS1_PasswordTables.temp_cage_counts[1] = PS1_CurrentPassword[2].bit_1 & 1;
-    PS1_PasswordTables.temp_cage_counts[2] = PS1_CurrentPassword[4].bit_1 & 1;
-    PS1_PasswordTables.temp_cage_counts[3] = PS1_CurrentPassword[1].bit_1 & 1;
-    PS1_PasswordTables.temp_cage_counts[4] = PS1_CurrentPassword[3].bit_1 & 1;
-    PS1_PasswordTables.temp_cage_counts[5] = PS1_CurrentPassword[5].bit_1 & 1;
-    PS1_PasswordTables.temp_cage_counts[6] = PS1_CurrentPassword[7].bit_1 & 1;
-    PS1_PasswordTables.temp_cage_counts[7] = PS1_CurrentPassword[6].bit_1 & 1;
-    PS1_PasswordTables.temp_cage_counts[8] = PS1_CurrentPassword[8].bit_1 & 1;
-    PS1_PasswordTables.temp_cage_counts[9] = PS1_CurrentPassword[9].bit_1 & 1;
-    PS1_PasswordTables.temp_cage_counts[10] = PS1_CurrentPassword[4].bit_4 & 1;
-    PS1_PasswordTables.temp_cage_counts[11] = PS1_CurrentPassword[0].bit_4 & 1;
-    PS1_PasswordTables.temp_cage_counts[12] = PS1_CurrentPassword[2].bit_4 & 1;
-    PS1_PasswordTables.temp_cage_counts[13] = PS1_CurrentPassword[1].bit_4 & 1;
-    PS1_PasswordTables.temp_cage_counts[14] = PS1_CurrentPassword[5].bit_4 & 1;
-    PS1_PasswordTables.temp_cage_counts[15] = PS1_CurrentPassword[3].bit_4 & 1;
-    PS1_PasswordTables.temp_cage_counts[16] = PS1_CurrentPassword[7].bit_4 & 1;
-    PS1_PasswordTables.temp_cage_counts[17] = PS1_CurrentPassword[6].bit_4 & 1;
+    PS1_PasswordTables.temp_cage_counts[0] = PS1_CurrentPassword[0].bit_1;
+    PS1_PasswordTables.temp_cage_counts[1] = PS1_CurrentPassword[2].bit_1;
+    PS1_PasswordTables.temp_cage_counts[2] = PS1_CurrentPassword[4].bit_1;
+    PS1_PasswordTables.temp_cage_counts[3] = PS1_CurrentPassword[1].bit_1;
+    PS1_PasswordTables.temp_cage_counts[4] = PS1_CurrentPassword[3].bit_1;
+    PS1_PasswordTables.temp_cage_counts[5] = PS1_CurrentPassword[5].bit_1;
+    PS1_PasswordTables.temp_cage_counts[6] = PS1_CurrentPassword[7].bit_1;
+    PS1_PasswordTables.temp_cage_counts[7] = PS1_CurrentPassword[6].bit_1;
+    PS1_PasswordTables.temp_cage_counts[8] = PS1_CurrentPassword[8].bit_1;
+    PS1_PasswordTables.temp_cage_counts[9] = PS1_CurrentPassword[9].bit_1;
+    PS1_PasswordTables.temp_cage_counts[10] = PS1_CurrentPassword[4].bit_4;
+    PS1_PasswordTables.temp_cage_counts[11] = PS1_CurrentPassword[0].bit_4;
+    PS1_PasswordTables.temp_cage_counts[12] = PS1_CurrentPassword[2].bit_4;
+    PS1_PasswordTables.temp_cage_counts[13] = PS1_CurrentPassword[1].bit_4;
+    PS1_PasswordTables.temp_cage_counts[14] = PS1_CurrentPassword[5].bit_4;
+    PS1_PasswordTables.temp_cage_counts[15] = PS1_CurrentPassword[3].bit_4;
+    PS1_PasswordTables.temp_cage_counts[16] = PS1_CurrentPassword[7].bit_4;
+    PS1_PasswordTables.temp_cage_counts[17] = PS1_CurrentPassword[6].bit_4;
 
     is_valid =
         lvl < LEN(PS1_PasswordTables.temp_cage_counts) &&
-        !(lvl == 2 || lvl == 3) &&
-        !(lvl == 6 || lvl == 7);
+        !(lvl == 2 || lvl == 3 || lvl == 6 || lvl == 7);
 
     if (!is_valid)
         return 2;
@@ -213,76 +193,65 @@ u8 PS1_ValidatePassword(void)
     if (PS1_GetContinuesFromPassword() >= 10)
         return 4;
 
-    if (PS1_CurrentPassword[9].bit_3)
-        is_valid =
-            PS1_CurrentPassword[8].bit_2 &&
-            lvl >= 4;
-    else
-        is_valid = lvl < 9;
+    is_valid =
+        PS1_CurrentPassword[9].bit_3
+        ? (PS1_CurrentPassword[8].bit_2 && lvl > 3)
+        : lvl < 9;
 
     if (!is_valid)
         return 5;
 
-    if (PS1_CurrentPassword[8].bit_3)
-        is_valid =
-            PS1_CurrentPassword[9].bit_2 &&
-            lvl >= 8;
+    is_valid =
+        PS1_CurrentPassword[8].bit_3
+        ? (PS1_CurrentPassword[9].bit_2 && lvl > 7)
+        : is_valid;
 
     if (!is_valid)
         return 6;
 
-    if (PS1_CurrentPassword[8].bit_4)
-        is_valid = lvl >= 10;
-    else
-        is_valid =
-            lvl < 11 &&
-            PS1_PasswordTables.temp_cage_counts[11] == 0;
+    is_valid =
+        PS1_CurrentPassword[8].bit_4
+        ? lvl > 9
+        : lvl < 11 && PS1_PasswordTables.temp_cage_counts[11] == 0;
 
     if (!is_valid)
         return 7;
 
-    if (PS1_CurrentPassword[6].bit_3)
-        is_valid =
-            lvl > 15 &&
-            PS1_CurrentPassword[8].bit_4 &&
-            PS1_CurrentPassword[9].bit_3;
-    else
-        is_valid =
-            lvl < 17 &&
-            PS1_PasswordTables.temp_cage_counts[17] == 0;
+    is_valid =
+        PS1_CurrentPassword[6].bit_3
+        ? (lvl > 15 && PS1_CurrentPassword[8].bit_4 && PS1_CurrentPassword[9].bit_3)
+        : (lvl < 17 && PS1_PasswordTables.temp_cage_counts[17] == 0);
 
     if (!is_valid)
         return 8;
 
-    if (PS1_CurrentPassword[8].bit_2)
-        is_valid = lvl >= 4;
-    else
-        is_valid =
-            PS1_PasswordTables.temp_cage_counts[3] == 0 &&
-            !PS1_CurrentPassword[9].bit_3;
+    is_valid =
+        PS1_CurrentPassword[8].bit_2
+        ? lvl > 3
+        : (PS1_PasswordTables.temp_cage_counts[3] == 0 && !PS1_CurrentPassword[9].bit_3);
 
     if (!is_valid)
         return 0x0F;
 
-    if (PS1_CurrentPassword[9].bit_2)
-        is_valid = lvl >= 8;
-    else
-        is_valid =
-            (PS1_PasswordTables.temp_cage_counts[7] == 0) &&
-            !PS1_CurrentPassword[8].bit_3;
+    is_valid =
+        PS1_CurrentPassword[9].bit_2
+        ? lvl > 7
+        : (PS1_PasswordTables.temp_cage_counts[7] == 0 && !PS1_CurrentPassword[8].bit_3);
 
     if (!is_valid)
         return 0x10;
 
-    if (PS1_PasswordTables.temp_cage_counts[3] != 0)
-        is_valid = PS1_CurrentPassword[8].bit_2;
+    is_valid =
+        PS1_PasswordTables.temp_cage_counts[3] != 0
+        ? PS1_CurrentPassword[8].bit_2
+        : is_valid;
 
     if (!is_valid)
         return 0x0C;
 
     if (PS1_PasswordTables.temp_cage_counts[7] != 0)
     {
-        is_valid = (PS1_CurrentPassword[9].bit_2);
+        is_valid = PS1_CurrentPassword[9].bit_2;
         if (!is_valid)
             return 0x0D;
     }
@@ -296,9 +265,7 @@ u8 PS1_ValidatePassword(void)
         return 0x0E;
 
     if (lvl > 8)
-        is_valid =
-            PS1_CurrentPassword[9].bit_3 &&
-            PS1_CurrentPassword[8].bit_2;
+        is_valid = PS1_CurrentPassword[9].bit_3 && PS1_CurrentPassword[8].bit_2;
 
     if (!is_valid)
         return 9;
@@ -313,7 +280,7 @@ u8 PS1_ValidatePassword(void)
     if (lvl == 17 || PS1_PasswordTables.temp_cage_counts[17] != 0)
     {
         cc_sum = 0;
-        for (i = 0; i < 17; i++)
+        for (i = 0; i < LEN(PS1_PasswordTables.temp_cage_counts) - 1; i++)
             cc_sum += PS1_PasswordTables.temp_cage_counts[i];
 
         is_valid =
@@ -328,7 +295,6 @@ u8 PS1_ValidatePassword(void)
     else
         return 0x0B;
 }
-#endif
 
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/password", PS1_GeneratePassword);
