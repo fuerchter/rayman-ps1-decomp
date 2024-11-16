@@ -5,6 +5,6 @@
 #include "collision/block_22C84.h"
 
 void allocateEclatPS(Obj *in_obj, s16 param_2);
-void DO_PI_EXPLOSION(Obj *obj);
+void DO_PI_EXPLOSION(Obj *pi_obj);
 
 #endif
