@@ -2,8 +2,10 @@
 
 /* TODO: PS1_TrkFiles and PS1_TracksExist are different size? correct? */
 
-#define PS1_Sectors_p_Sec 75
-#define PS1_Sec_p_Min 60
+#define PS1_SECTORS_P_SEC 75
+#define PS1_SEC_P_MIN 60
+#define PS1_LEVEL_MUSIC_IND(ind) PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][ind]
+#define PS1_LEVEL_MUSIC_CUR PS1_LEVEL_MUSIC_IND(PS1_LevelMusic_CmdInd)
 
 const u8 s__CDPlayer_TEST_80125c28[] = "\n\n\n\t\t CD-Player TEST\n";
 const u8 s_Fade02d_80125c40[] = "Fade:%02d ";
@@ -59,7 +61,7 @@ s16 PS1_Mark_data;
 CdlLOC D_801F4E68;
 u8 PS1_CdMode;
 s32 D_801F54B0[53];
-s32 D_801F7AA8;
+s32 D_801F7AA8[53];
 s32 D_801F7D88[53];
 u32 PS1_TrackSizes[53];
 s16 PS1_TracksExist[53];
@@ -316,17 +318,17 @@ u8 FUN_801309b8(u8 param_1, u8 param_2, u8 *param_3, u8 param_4)
 void FUN_80130a98(CdlLOC *param_1, CdlLOC *param_2, CdlLOC *param_3)
 {
     param_3->sector = 0;
-    param_3->second = FUN_801309b8(param_1->sector, param_2->sector, &param_3->sector, PS1_Sectors_p_Sec - 1);
-    param_3->minute = FUN_801309b8(param_1->second, param_2->second, &param_3->second, PS1_Sec_p_Min - 1);
-    FUN_801309b8(param_1->minute, param_2->minute, &param_3->minute, PS1_Sec_p_Min - 1); /* TODO: should this be min/hour instead? */
+    param_3->second = FUN_801309b8(param_1->sector, param_2->sector, &param_3->sector, PS1_SECTORS_P_SEC - 1);
+    param_3->minute = FUN_801309b8(param_1->second, param_2->second, &param_3->second, PS1_SEC_P_MIN - 1);
+    FUN_801309b8(param_1->minute, param_2->minute, &param_3->minute, PS1_SEC_P_MIN - 1); /* TODO: should this be min/hour instead? */
 }
 
 /* C318 80130B18 -O2 -msoft-float */
 void FUN_80130b18(u32 param_1, CdlLOC *param_2)
 {
-    param_2->sector = itob(param_1 % PS1_Sectors_p_Sec);
-    param_2->second = itob(param_1 / PS1_Sectors_p_Sec % PS1_Sec_p_Min);
-    param_2->minute = itob(param_1 / PS1_Sectors_p_Sec / PS1_Sec_p_Min);
+    param_2->sector = itob(param_1 % PS1_SECTORS_P_SEC);
+    param_2->second = itob(param_1 / PS1_SECTORS_P_SEC % PS1_SEC_P_MIN);
+    param_2->minute = itob(param_1 / PS1_SECTORS_P_SEC / PS1_SEC_P_MIN);
 }
 
 /* C3C4 80130BC4 -O2 -msoft-float */
@@ -338,9 +340,9 @@ s32 FUN_80130bc4(CdlLOC loc)
 /* C458 80130C58 -O2 -msoft-float */
 s32 FUN_80130c58(s32 param_1)
 {
-    return (param_1 % PS1_Sectors_p_Sec) +
-           (((param_1 / PS1_Sectors_p_Sec) % PS1_Sec_p_Min) << 8) +
-           ((param_1 / (PS1_Sectors_p_Sec * PS1_Sec_p_Min)) << 16); /* can't say i follow this */
+    return (param_1 % PS1_SECTORS_P_SEC) +
+           (((param_1 / PS1_SECTORS_P_SEC) % PS1_SEC_P_MIN) << 8) +
+           ((param_1 / (PS1_SECTORS_P_SEC * PS1_SEC_P_MIN)) << 16); /* can't say i follow this */
 }
 
 /* C500 80130D00 -O2 -msoft-float */
@@ -352,32 +354,40 @@ s32 FUN_80130d00(s32 param_1, s32 param_2)
     s32 unk_2 = (((param_1 >> 16) & 0xFF) + ((param_2 >> 16) & 0xFF));
 
     /* then ??? */
-    return ((unk_0 / PS1_Sectors_p_Sec) << 8) + (unk_0 % PS1_Sectors_p_Sec) +
-           ((unk_1 % PS1_Sec_p_Min) << 8) + ((unk_1 / PS1_Sec_p_Min) << 16) +
+    return ((unk_0 / PS1_SECTORS_P_SEC) << 8) + (unk_0 % PS1_SECTORS_P_SEC) +
+           ((unk_1 % PS1_SEC_P_MIN) << 8) + ((unk_1 / PS1_SEC_P_MIN) << 16) +
            (unk_2 << 16);
 }
 
+/* C5C0 80130DC0 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/music", PS1_InitTracks);
 #else
 /*
-matches, but ... unknowns?
+duplication?
 any common.h return type seems to work
 c89 3.6.6.4 The return statement: behavior is undefined
 */
-/*INCLUDE_ASM("asm/nonmatchings/music", PS1_InitTracks);*/
+
+/* nope */
+static inline s32 PS1_InitTracks_1(CdlLOC param_1, s32 param_2)
+{
+    return FUN_80130d00(FUN_80130bc4(param_1), param_2);
+}
+
+#define PS1_InitTracks_2(param_1, param_2) FUN_80130d00(FUN_80130bc4(param_1), param_2)
 
 u8 PS1_InitTracks(void)
 {
     u32 size;
-    s32 unk_1;
     CdlLOC unk_2;
-    s32 unk_3[54];
+    s32 unk_3[53];
     s32 unk_4;
-    s32 unk_5;
-    CdlLOC *unk_6;
-    s32 unk_7;
-    s32 unk_8 = true;
+    CdlLOC *unk_5;
+    s32 unk_6;
+    CdlLOC *unk_7;
+    s32 unk_8;
+    s32 unk_1 = true;
     s32 i = 0;
     s32 *track_sizes = &PS1_TrackSizes[i];
     s16 *tracks_exist = &PS1_TracksExist[i];
@@ -388,7 +398,7 @@ u8 PS1_InitTracks(void)
         if (size != 0)
         {
             *track_sizes = (size >> 11) - 40;
-            *tracks_exist = unk_8;
+            *tracks_exist = unk_1;
         }
         else
         {
@@ -402,7 +412,7 @@ u8 PS1_InitTracks(void)
 
     for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
     {
-        if (PS1_TracksExist[i] != 0)
+        if (PS1_TracksExist[i])
         {
             D_801F41D0[i] = PS1_TrkFiles[i].file.pos;
             PS1_TrackSizes[i] = (PS1_TrkFiles[i].file.size >> 11) - 40;
@@ -414,43 +424,44 @@ u8 PS1_InitTracks(void)
     unk_4 = FUN_80130c58(1500);
     for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
     {
-        if (PS1_TracksExist[i] != 0)
+        if (PS1_TracksExist[i])
         {
-            PS1_Music_Fin[i] = FUN_80130d00(FUN_80130bc4(D_801F41D0[i]), unk_3[i]);
+            unk_5 = &D_801F41D0[i];
+            PS1_Music_Fin[i] = FUN_80130d00(FUN_80130bc4(*unk_5), unk_3[i]);
             if (PS1_TrackSizes[i] < 1500)
-                D_801F7D88[i] = FUN_80130d00(FUN_80130bc4(D_801F41D0[i]), unk_3[i]);
+                D_801F7D88[i] = FUN_80130d00(FUN_80130bc4(*unk_5), unk_3[i]);
             else
-                D_801F7D88[i] = FUN_80130d00(FUN_80130bc4(D_801F41D0[i]), unk_4);
+                D_801F7D88[i] = FUN_80130d00(FUN_80130bc4(*unk_5), unk_4);
         }
     }
 
-    unk_5 = FUN_80130c58(1388);
+    unk_6 = FUN_80130c58(1388);
     for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
     {
-        if (PS1_TracksExist[i] != 0)
+        if (PS1_TracksExist[i])
         {
             unk_3[i] = FUN_80130c58(PS1_TrackSizes[i] - 112);
-            unk_6 = &D_801F41D0[i];
-            D_801F42A8[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_3[i]);
+            unk_7 = &D_801F41D0[i];
+            D_801F42A8[i] = FUN_80130d00(FUN_80130bc4(*unk_7), unk_3[i]);
             if (PS1_TrackSizes[i] < 1500)
-                (&D_801F7AA8)[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_3[i]);
+                D_801F7AA8[i] = FUN_80130d00(FUN_80130bc4(*unk_7), unk_3[i]);
             else
-                (&D_801F7AA8)[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_5);
+                D_801F7AA8[i] = FUN_80130d00(FUN_80130bc4(*unk_7), unk_6);
         }
     }
 
-    unk_7 = FUN_80130c58(1404);
+    unk_8 = FUN_80130c58(1404);
     for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
     {
-        if (PS1_TracksExist[i] != 0)
+        if (PS1_TracksExist[i])
         {
             unk_3[i] = FUN_80130c58(PS1_TrackSizes[i] - 96);
-            unk_6 = &D_801F41D0[i];
-            D_801E57C0[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_3[i]);
+            unk_7 = &D_801F41D0[i];
+            D_801E57C0[i] = FUN_80130d00(FUN_80130bc4(*unk_7), unk_3[i]);
             if (PS1_TrackSizes[i] < 1500)
-                D_801F54B0[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_3[i]);
+                D_801F54B0[i] = FUN_80130d00(FUN_80130bc4(*unk_7), unk_3[i]);
             else
-                D_801F54B0[i] = FUN_80130d00(FUN_80130bc4(*unk_6), unk_7);
+                D_801F54B0[i] = FUN_80130d00(FUN_80130bc4(*unk_7), unk_8);
         }
     }
 }
@@ -473,24 +484,21 @@ s16 FUN_80131474(s16 *param_1, s16 param_2, s16 param_3)
 /* CCC4 801314C4 -O2 -msoft-float */
 void FUN_801314c4(void)
 {
-    s16 unk_1;
-    s32 unk_2;
-
     D_801CEEA8 = false;
     D_801E4B78 = PS1_LevelMusic_CmdInd + 1;
     do
     {
-        unk_2 = D_801F7A90[D_801CEEB8++] = D_801E4B78;
-        D_801FAA50 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][unk_2].cmd_and_flags & 0xF;
+        D_801F7A90[D_801CEEB8++] = D_801E4B78;
+        D_801FAA50 = PS1_LEVEL_MUSIC_IND(D_801E4B78).cmd_and_flags & 0xF;
         switch (D_801FAA50)
         {
         case 1:
             D_801CEEBA = true;
-            D_801F4E68 = D_801F41D0[PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][unk_2].param];
+            D_801F4E68 = D_801F41D0[PS1_LEVEL_MUSIC_IND(D_801E4B78).param];
             D_801CEEA8 = true;
             break;
         case 3:
-            D_801E4B78 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][unk_2].param;
+            D_801E4B78 = PS1_LEVEL_MUSIC_IND(D_801E4B78).param;
             break;
         }
     } while (
@@ -500,12 +508,11 @@ void FUN_801314c4(void)
     );
 }
 
+/* CE78 80131678 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/music", PS1_PlayMusic);
 #else
-/* matches, but too many unknowns, hard to read, unsure about some labels */
-/*INCLUDE_ASM("asm/nonmatchings/music", PS1_PlayMusic);*/
-
+/* too many unknowns, hard to read, unsure about some labels */
 void PS1_PlayMusic(void)
 {
     s16 done;
@@ -523,16 +530,16 @@ void PS1_PlayMusic(void)
     while (!done)
     {
         mode = &PS1_CdMode;
-        D_801F9940 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].cmd_and_flags & 0xF;
-        PS1_Music_will_anticip = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].cmd_and_flags & 0x10;
-        PS1_Music_fadeout = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].cmd_and_flags & 0x80;
-        D_801F7ED0 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].cmd_and_flags & 0x20;
+        D_801F9940 = PS1_LEVEL_MUSIC_CUR.cmd_and_flags & 0xF;
+        PS1_Music_will_anticip = PS1_LEVEL_MUSIC_CUR.cmd_and_flags & 0x10;
+        PS1_Music_fadeout = PS1_LEVEL_MUSIC_CUR.cmd_and_flags & 0x80;
+        D_801F7ED0 = PS1_LEVEL_MUSIC_CUR.cmd_and_flags & 0x20;
         switch (D_801F9940)
         {
         case 1:
             D_801CEEBC = false;
             *mode = CdlModeRept | CdlModeAP | CdlModeDA;
-            PS1_CurTrack = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].param;
+            PS1_CurTrack = PS1_LEVEL_MUSIC_CUR.param;
             if (PS1_TracksExist[PS1_CurTrack])
             {
                 PS1_Music_pcom = CdlSetmode;
@@ -563,7 +570,7 @@ void PS1_PlayMusic(void)
                     CdControl(PS1_Music_pcom, null, null);
                 }
 
-                if (PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].cmd_and_flags & 0x40)
+                if (PS1_LEVEL_MUSIC_CUR.cmd_and_flags & 0x40)
                     FUN_80131e5c();
                 else
                 {
@@ -579,11 +586,11 @@ void PS1_PlayMusic(void)
             }
             break;
         case 2:
-            D_801F4FA0 = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].param;
+            D_801F4FA0 = PS1_LEVEL_MUSIC_CUR.param;
             D_801CEEA6 = true;
             SsSeqPlay(PS1_Music_access_num, SSPLAY_PLAY, 1);
             PS1_Mark_Callback_Enable();
-            if (PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].cmd_and_flags & 0x40)
+            if (PS1_LEVEL_MUSIC_CUR.cmd_and_flags & 0x40)
             {
                 SsSeqSetVol(PS1_Music_access_num, 0, 0);
                 SsSeqSetCrescendo(PS1_Music_access_num, 127, 240);
@@ -592,7 +599,7 @@ void PS1_PlayMusic(void)
             done = true;
             break;
         case 3:
-            PS1_LevelMusic_CmdInd = PS1_LevelMusicTable[PS1_LevelMusic_World][PS1_LevelMusic_Level][PS1_LevelMusic_CmdInd].param;
+            PS1_LevelMusic_CmdInd = PS1_LEVEL_MUSIC_CUR.param;
             break;
         case 0:
             done = true;

@@ -3,7 +3,10 @@
 
 #include "common/obj.h"
 
-/* game specific, general macros are in include/common.h */
+/*
+game specific, general macros are in include/common.h
+TODO: should these have PS1_ prefix? see music.c
+*/
 
 #define EOA(obj) \
 ( \

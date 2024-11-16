@@ -14,7 +14,7 @@
 
 typedef struct MusicCommand
 {
-    u8 cmd_and_flags;
+    u8 cmd_and_flags; /* TODO: label bits */
     u8 param;
 } MusicCommand;
 
@@ -80,7 +80,7 @@ extern s16 PS1_Mark_data;
 extern CdlLOC D_801F4E68; /* last time i checked held the data that was at 801f41dc? */
 extern u8 PS1_CdMode;
 extern s32 D_801F54B0[53];
-extern s32 D_801F7AA8; /* type? */
+extern s32 D_801F7AA8[53];
 extern s32 D_801F7D88[53];
 extern u32 PS1_TrackSizes[53];
 extern s16 PS1_TracksExist[53];
