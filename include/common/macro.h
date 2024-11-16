@@ -55,6 +55,7 @@ DO_SPIDER_PLAFOND
 
 does not work in:
 allocatePirateNgaweRing (cur_obj subtraction?)
+calc_esquive_poing (subtraction)
 */
 #define test_x_pos_3(obj) (obj)->x_pos + (obj)->offset_bx
 
