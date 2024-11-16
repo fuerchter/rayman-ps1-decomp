@@ -23,7 +23,7 @@ const u8 s_2d_markddd_80125d58[] = "%2d mark:%d-%d-%d\n";
 #ifdef BSS_DEFS
 s16 D_801E64B0;
 s16 PS1_ScrollLockedAudio;
-CdlLOC D_801F41D0[54];
+CdlLOC D_801F41D0[53];
 s32 D_801F7CA8;
 s16 PS1_LevelMusic_World;
 s16 PS1_LevelMusic_Level;
@@ -38,7 +38,7 @@ u8 PS1_Music_Aframe;
 u8 PS1_Music_LevelHL;
 s16 PS1_Music_Complete_data;
 s16 PS1_Music_Fade;
-s32 PS1_Music_Fin[54];
+s32 PS1_Music_Fin[53];
 s16 PS1_Music_Ready_data;
 s16 PS1_Music_fadeout;
 s16 PS1_Music_ind_fade;
@@ -49,8 +49,8 @@ s16 PS1_Music_will_anticip;
 s16 D_801F5798;
 s16 D_801E4D10;
 s32 D_801E5240;
-s32 D_801E57C0[54];
-s32 D_801F42A8[54];
+s32 D_801E57C0[53];
+s32 D_801F42A8[53];
 s16 D_801F5248;
 s16 D_801F7ED0;
 s16 PS1_Mark_access_num;
@@ -58,11 +58,11 @@ s16 PS1_Mark_seq_num;
 s16 PS1_Mark_data;
 CdlLOC D_801F4E68;
 u8 PS1_CdMode;
-s32 D_801F54B0[54];
+s32 D_801F54B0[53];
 s32 D_801F7AA8;
-s32 D_801F7D88[54];
-u32 PS1_TrackSizes[54];
-s16 PS1_TracksExist[54];
+s32 D_801F7D88[53];
+u32 PS1_TrackSizes[53];
+s16 PS1_TracksExist[53];
 s16 D_801E4B78;
 s16 D_801FAA50;
 s16 D_801F7A90[4];
@@ -378,9 +378,9 @@ u8 PS1_InitTracks(void)
     CdlLOC *unk_6;
     s32 unk_7;
     s32 unk_8 = true;
-    s32 *track_sizes = PS1_TrackSizes;
-    s16 *tracks_exist = PS1_TracksExist;
     s32 i = 0;
+    s32 *track_sizes = &PS1_TrackSizes[i];
+    s16 *tracks_exist = &PS1_TracksExist[i];
 
     while (i < (s16) LEN(PS1_TrkFiles))
     {
@@ -405,9 +405,8 @@ u8 PS1_InitTracks(void)
         if (PS1_TracksExist[i] != 0)
         {
             D_801F41D0[i] = PS1_TrkFiles[i].file.pos;
-            unk_1 = (PS1_TrkFiles[i].file.size >> 11) - 40;
-            PS1_TrackSizes[i] = unk_1;
-            FUN_80130b18(unk_1, &unk_2);
+            PS1_TrackSizes[i] = (PS1_TrkFiles[i].file.size >> 11) - 40;
+            FUN_80130b18(PS1_TrackSizes[i], &unk_2);
             unk_3[i] = FUN_80130bc4(unk_2);
         }
     }

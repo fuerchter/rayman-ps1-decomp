@@ -44,7 +44,7 @@ extern u8 s_no_801ceed8[3];
 /**/
 extern s16 D_801E64B0;
 extern s16 PS1_ScrollLockedAudio;
-extern CdlLOC D_801F41D0[54];
+extern CdlLOC D_801F41D0[53];
 extern s32 D_801F7CA8;
 extern s16 PS1_LevelMusic_World;
 extern s16 PS1_LevelMusic_Level;
@@ -59,7 +59,7 @@ extern u8 PS1_Music_Aframe;
 extern u8 PS1_Music_LevelHL;
 extern s16 PS1_Music_Complete_data;
 extern s16 PS1_Music_Fade;
-extern s32 PS1_Music_Fin[54];
+extern s32 PS1_Music_Fin[53];
 extern s16 PS1_Music_Ready_data;
 extern s16 PS1_Music_fadeout;
 extern s16 PS1_Music_ind_fade;
@@ -70,8 +70,8 @@ extern s16 PS1_Music_will_anticip;
 extern s16 D_801F5798;
 extern s16 D_801E4D10; /* never read */
 extern s32 D_801E5240;
-extern s32 D_801E57C0[54];
-extern s32 D_801F42A8[54];
+extern s32 D_801E57C0[53];
+extern s32 D_801F42A8[53];
 extern s16 D_801F5248;
 extern s16 D_801F7ED0;
 extern s16 PS1_Mark_access_num;
@@ -79,11 +79,11 @@ extern s16 PS1_Mark_seq_num;
 extern s16 PS1_Mark_data;
 extern CdlLOC D_801F4E68; /* last time i checked held the data that was at 801f41dc? */
 extern u8 PS1_CdMode;
-extern s32 D_801F54B0[54];
+extern s32 D_801F54B0[53];
 extern s32 D_801F7AA8; /* type? */
-extern s32 D_801F7D88[54];
-extern u32 PS1_TrackSizes[54];
-extern s16 PS1_TracksExist[54];
+extern s32 D_801F7D88[53];
+extern u32 PS1_TrackSizes[53];
+extern s16 PS1_TracksExist[53];
 extern s16 D_801E4B78;
 extern s16 D_801FAA50;
 extern s16 D_801F7A90[4];

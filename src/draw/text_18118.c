@@ -199,12 +199,12 @@ void DrawFondBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness)
 INCLUDE_ASM("asm/nonmatchings/draw/text_18118", DrawBlackBoxNormal);
 #else
 /* some way to reduce duplication? */
-extern inline DRENVAndTile *DrawBlackBoxNormal_1()
+static inline DRENVAndTile *DrawBlackBoxNormal_1()
 {
     return &PS1_CurrentDisplay->field_0x60bc_0x660b[D_801F81B0 + 7];
 }
 
-extern inline TILE *DrawBlackBoxNormal_2()
+static inline TILE *DrawBlackBoxNormal_2()
 {
     return &PS1_CurrentDisplay->field_0x60bc_0x660b[D_801F81B0 + 7].tile;
 }

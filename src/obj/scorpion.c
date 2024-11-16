@@ -651,7 +651,7 @@ void DO_SCORPION_COLLISION(Obj *obj)
     if (!(obj->main_etat == 0 && (obj->sub_etat == unk_1 || obj->sub_etat == 12)))
     {
         iVar1 = BOX_IN_COLL_ZONES(
-            150,
+            TYPE_SCORPION,
             rayon_x, rayon_y,
             16, 16,
             obj

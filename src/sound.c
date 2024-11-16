@@ -927,7 +927,7 @@ void PlaySnd_old(s16 snd)
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/sound", setvol);
 #else
-extern inline s32 setvol_1(u8 unk_vol, s16 unk_pile) /* works only in the block, where options_jeu.StereoEnabled... */
+static inline s32 setvol_1(u8 unk_vol, s16 unk_pile) /* works only in the block, where options_jeu.StereoEnabled... */
 {
     return ((Volume_Snd * unk_vol * pile_snd[unk_pile].vol) >> 14);
 }

@@ -148,12 +148,12 @@ void init_flocons(void)
 INCLUDE_ASM("asm/nonmatchings/snow", do_flocons);
 #else
 /* more cleanup left? */
-extern inline s32 do_flocons_1(s16 param_1)
+static inline s32 do_flocons_1(s16 param_1)
 {
     return param_1 / 4;
 }
 
-extern inline s32 do_flocons_2(s16 param_1)
+static inline s32 do_flocons_2(s16 param_1)
 {
     return param_1 - do_flocons_1(param_1) * 4;
 }

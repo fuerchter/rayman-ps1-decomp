@@ -243,7 +243,7 @@ void PS1_DisplayWorldMapBg1(s16 x1, s16 y1, s16 x2, s16 y2)
 }
 
 /* 1A388 8013EB88 -O2 -msoft-float */
-extern inline s32 calc_y(s16 y)
+static inline s32 calc_y(s16 y)
 {
     return (debut_options + y * (ecarty + 23) - 23);
 }

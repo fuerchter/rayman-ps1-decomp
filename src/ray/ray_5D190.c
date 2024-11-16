@@ -2152,7 +2152,7 @@ void RAY_RESPOND_TO_FIRE1(void)
 
 /* 617C0 80185FC0 -O2 -msoft-float */
 /* thanks :) https://decomp.me/scratch/IFC9r */
-extern inline s16 inline_RAY_BALANCE_ANIM(s16 angle)
+static inline s16 inline_RAY_BALANCE_ANIM(s16 angle)
 {
     if (angle < 32)
     {
@@ -2282,12 +2282,12 @@ INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_BALANCE);
 /* clean up */
 
 /* didn't get these to work... */
-extern inline s16 pos_x(Obj *obj_1, s16 middle, Obj *obj_2)
+static inline s16 pos_x(Obj *obj_1, s16 middle, Obj *obj_2)
 {
     return obj_1->x_pos + obj_1->offset_bx + middle - obj_2->offset_bx - obj_2->x_pos;
 }
 
-extern inline s16 pos_y(Obj *obj_1, s16 middle, Obj *obj_2)
+static inline s16 pos_y(Obj *obj_1, s16 middle, Obj *obj_2)
 {
     return obj_1->y_pos + obj_1->offset_by + middle - obj_2->offset_by - obj_2->y_pos;
 }

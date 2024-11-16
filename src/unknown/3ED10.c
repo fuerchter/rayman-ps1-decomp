@@ -15,7 +15,6 @@ s16 GetY(s16 x)
     unk_1 = (x + 50) / 101;
     unk_2 = unk_1 * 101;
     unk_obj_id = eau_obj_id + unk_1 % 5;
-    #define ABS(x) (x >= 0 ? x : -(x)) /* TODO: doesn't use __builtin_abs? */
     unk_3 = 51 - ABS(x - unk_2);
     unk_obj = &level.objects[unk_obj_id];
 

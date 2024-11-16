@@ -29,7 +29,7 @@ does not work in:
 DO_DARK2_TOONS_COMMAND
 calc_btyp_square
 */
-extern inline s32 test_x_pos_1(Obj *obj)
+static inline s32 test_x_pos_1(Obj *obj)
 {
     return (s16) (obj->offset_bx + obj->x_pos);
 }
@@ -39,7 +39,7 @@ does not work in:
 DO_DARK2_TOONS_COMMAND
 calc_btyp_square (x_pos and offset_bx order is flipped)
 */
-extern inline s32 test_x_pos_2(Obj *obj)
+static inline s32 test_x_pos_2(Obj *obj)
 {
     return (obj->x_pos + obj->offset_bx);
 }

@@ -1269,7 +1269,7 @@ extern ? D_801F4EE2;
 extern s16 bb1.sprite6_y;
 extern s16 ray.speed_x;*/
 
-extern inline void test_123098(Obj *obj)
+static inline void test_123098(Obj *obj)
 {
     switch (bb1.speed_x)
     {

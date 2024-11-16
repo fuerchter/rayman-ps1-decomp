@@ -205,7 +205,7 @@ assigning char pointers to (s32 *)
 do{}while();
 */
 
-extern inline u8 test_lt()
+static inline u8 test_lt()
 {
     return 0x4b;
 }

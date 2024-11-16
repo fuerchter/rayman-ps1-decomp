@@ -11,7 +11,7 @@ also, how does
 if (diff_y == 0)
 block connect with else???
 */
-extern inline s16 test_123456789(s16 test_1, s32 add)
+static inline s16 test_123456789(s16 test_1, s32 add)
 {
     /*return ((test_1 < (s16) LEN(N_anim)) * N_anim[test_1]) + add;*/
     if (test_1 >= (s16) LEN(N_anim))
