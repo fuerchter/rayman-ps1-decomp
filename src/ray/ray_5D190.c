@@ -3056,7 +3056,7 @@ void DO_SURF_CHANGE_HAIRS(void)
 
 void RAY_PREPARE_PIEDS(void) {}
 
-void DO_PIEDS_RAYMAN(void) {}
+void DO_PIEDS_RAYMAN(Obj *obj) {}
 
 void DO_PIEDS_COLLISION(void) {}
 

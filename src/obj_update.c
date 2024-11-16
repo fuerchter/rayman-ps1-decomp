@@ -1670,12 +1670,7 @@ void DO_ONE_OBJECT(Obj *obj)
         DO_RAY_IN_ZONE(obj);
 }
 
-#ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/obj_update", fptr_init);
-#else
-/* matches, but insert types */
-/*INCLUDE_ASM("asm/nonmatchings/obj_update", fptr_init);*/
-
+/* 2F5A4 80153DA4 -O2 -msoft-float */
 void fptr_init(void)
 {
     ObjType obj_type;
@@ -1686,548 +1681,438 @@ void fptr_init(void)
     {
         switch (obj_type)
         {
-        case 0x5E:
-            obj_fonction = &ObjectsFonctions[obj_type];
+        case TYPE_POING:
+            obj_fonction = &ObjectsFonctions[obj_type]; /* why does this need to happen every case??? */
             sel_fonction = DO_POING;
             break;
-        case 0x82:
+        case TYPE_BLACKTOON_EYES:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_BLKTOON_EYES_CMD;
             break;
-        case 0x81:
+        case TYPE_PETIT_COUTEAU:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_PETIT_COUTEAU_COMMAND;
             break;
-        case 0x80:
+        case TYPE_TIRE_BOUCHON:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_TIRE_BOUCHON_COMMAND;
             break;
-        case 0x37:
+        case TYPE_MUS_WAIT:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_MUSICIEN;
             break;
-        case 0x8:
-        case 0x86:
-        case 0xA7:
+        case TYPE_FALLING_OBJ:
+        case TYPE_FALLING_OBJ2:
+        case TYPE_FALLING_OBJ3:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_FALLING_OBJ_CMD;
             break;
-        case 0x3E:
+        case TYPE_DROP:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_DROP_COMMAND;
             break;
-        case 0xC1:
+        case TYPE_SMA_BOMB:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = mereDenisBombCommand;
             break;
-        case 0xC0:
-        case 0xF4:
+        case TYPE_SMA_GRAND_LASER:
+        case TYPE_SMA_PETIT_LASER:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = mereDenisBigLaserCommand;
             break;
-        case 0x59:
+        case TYPE_JOE:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_JOE_COMMAND;
             break;
-        case 0xD6:
+        case TYPE_BOUEE_JOE:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_BOUEE_JOE_COMMAND;
             break;
-        case 0xAD:
+        case TYPE_BATEAU:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = doShipCommand;
             break;
-        case 0xE7:
-        case 0xE8:
+        case TYPE_HYB_BBF2_D:
+        case TYPE_HYB_BBF2_G:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = doBBF2command;
             break;
-        case 0xE9:
+        case TYPE_HYB_BBF2_LAS:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_HYB_BBF2_LAS;
             break;
-        case 0xDB:
+        case TYPE_CORDE:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_CORDE_COMMAND;
             break;
-        case 0xDD:
+        case TYPE_CFUMEE:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_CFUMEE_COMMAND;
             break;
-        case 0xDC:
+        case TYPE_PIERREACORDE:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_PAC_COMMAND;
             break;
-        case 0xDF:
+        case TYPE_HYBRIDE_STOSKO:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = doSTOSKOcommand;
             break;
-        case 0xDA:
+        case TYPE_HYBRIDE_MOSAMS:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = doMOSAMScommand;
             break;
-        case 0xCC:
+        case TYPE_BLACK_RAY:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = doBlackRaymanCommand;
             break;
-        case 0xB2:
-        case 0xB3:
-        case 0xF1:
-        case 0xF2:
+        case TYPE_HERSE_BAS:
+        case TYPE_HERSE_BAS_NEXT:
+        case TYPE_HERSE_HAUT:
+        case TYPE_HERSE_HAUT_NEXT:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = doHerseCommand;
             break;
-        case 0xAC:
+        case TYPE_STONEWOMAN:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_STONEWOMAN_COMMAND;
             break;
-        case 0x38:
+        case TYPE_STONEWOMAN2:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_NOMOVE_STONEWOMAN_COMMAND;
             break;
-        case 0x32:
-        case 0xE3:
+        case TYPE_MOSKITO:
+        case TYPE_MOSKITO2:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = doMoskitoCommand;
             break;
-        case 0x7B:
+        case TYPE_BLACKTOON1:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_BLKTOON_COMMAND;
             break;
-        case 0x16:
-        case 0x22:
-        case 0x2D:
-        case 0x31:
-        case 0x3F:
-        case 0x4B:
-        case 0x4C:
-        case 0x6A:
-        case 0x8A:
-        case 0x8C:
-        case 0x9A:
-        case 0x9B:
-        case 0xBD:
+        case TYPE_MOVE_PLAT:
+        case TYPE_MOVE_AUTOJUMP_PLAT:
+        case TYPE_MOVE_OUYE:
+        case TYPE_MOVE_START_PLAT:
+        case TYPE_MOVE_START_NUA:
+        case TYPE_MOVE_MARTEAU:
+        case TYPE_MOVE_RUBIS:
+        case TYPE_PAILLETTE:
+        case TYPE_DESTROYING_DOOR:
+        case TYPE_PT_GRAPPIN:
+        case TYPE_ROULETTE:
+        case TYPE_ROULETTE2:
+        case TYPE_ROULETTE3:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_MOVING_PLATFORM_COMMAND;
             break;
-        case 0xA2:
+        case TYPE_UFO_IDC:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_MOVING_WITH_INDICATOR_COMMAND;
             break;
-        case 0x56:
+        case TYPE_MARACAS:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_MOVE_MARACAS_COMMAND;
             break;
-        case 0x3:
-        case 0x90:
+        case TYPE_LIDOLPINK:
+        case TYPE_LIDOLPINK2:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_ONE_PINK_CMD;
             break;
-        case 0x5:
+        case TYPE_WIZARD1:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = TEST_WIZARD;
             break;
-        case 0x62:
-        case 0xD5:
+        case TYPE_SPACE_MAMA:
+        case TYPE_SPACE_MAMA2:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = doMereDenisCommand;
             break;
-        case 0x23:
+        case TYPE_STONEMAN1:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_STONEMAN1_TIR;
             break;
-        case 0x2B:
+        case TYPE_STONEMAN2:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_STONEMAN2_TIR;
             break;
-        case 0x28:
-        case 0x7A:
+        case TYPE_STONEDOG:
+        case TYPE_STONEDOG2:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_STONEDOG_COMMAND;
             break;
-        case 0x24:
-        case 0x2F:
-        case 0x45:
+        case TYPE_STONEBOMB:
+        case TYPE_STONEBOMB2:
+        case TYPE_STONEBOMB3:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_STONEBOMB_COMMAND;
             break;
-        case 0x89:
+        case TYPE_REDUCTEUR:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_REDUCTEUR;
             break;
-        case 0x9D:
+        case TYPE_EAU:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_EAU_QUI_MONTE;
             break;
-        case 0x41:
+        case TYPE_SPIDER:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_SPIDER_TIR;
             break;
-        case 0x92:
+        case TYPE_FLASH:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_FLASH_COMMAND;
             break;
-        case 0x60:
+        case TYPE_TOTEM:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_TOTEM_COMMAND;
             break;
-        case 0x2E:
+        case TYPE_BB1:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_BBMONT_COMMAND;
             break;
-        case 0xC6:
+        case TYPE_BB12:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_BBMONT2_COMMAND;
             break;
-        case 0xC8:
+        case TYPE_BB13:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_BBMONT3_COMMAND;
             break;
-        case 0xC9:
+        case TYPE_BB14:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_BBMONT4_COMMAND;
             break;
-        case 0x4A:
+        case TYPE_SAXO:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_SAXO_COMMAND;
             break;
-        case 0xB4:
+        case TYPE_SAXO2:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_SAXO2_COMMAND;
             break;
-        case 0xB7:
+        case TYPE_SAXO3:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_SAXO3_COMMAND;
             break;
-        case 0x61:
+        case TYPE_BBL:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_BBL_COMMAND;
             break;
-        case 0x71:
+        case TYPE_BAG1:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_BAG1_COMMAND;
             break;
-        case 0x3B:
+        case TYPE_CAGE2:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_CAGE2;
             break;
-        case 0x79:
+        case TYPE_ECLAIR:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_ECLAIR_COMMAND;
             break;
-        case 0x73:
+        case TYPE_BB1_PLAT:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_BB1_PLAT_CMD;
             break;
-        case 0x3A:
+        case TYPE_CAGE:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_CAGE;
             break;
-        case 0x48:
+        case TYPE_PIRATE_NGAWE:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_ONE_NGW_COMMAND;
             break;
-        case 0x4D:
-        case 0xEF:
+        case TYPE_PIRATE_GUETTEUR:
+        case TYPE_PIRATE_GUETTEUR2:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_ONE_PAR_COMMAND;
             break;
-        case 0x49:
+        case TYPE_RING:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_ONE_NGW_RING_COMMAND;
             break;
-        case 0x4F:
+        case TYPE_STONECHIP:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_ONE_STONECHIP_COMMAND;
             break;
-        case 0x46:
+        case TYPE_TROMPETTE:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_TRP_COMMAND;
             break;
-        case 0x51:
+        case TYPE_CYMBALE:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_CYMBAL_COMMAND;
             break;
-        case 0x14:
+        case TYPE_GENEBADGUY:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_TEN_COMMAND;
             break;
-        case 0x64:
+        case TYPE_MITE:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_MIT_COMMAND;
             break;
-        case 0xD9:
+        case TYPE_MITE2:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_MITE2_COMMAND;
             break;
-        case 0x47:
-        case 0x5C:
-        case 0x5D:
-        case 0xB6:
+        case TYPE_NOTE:
+        case TYPE_NOTE2:
+        case TYPE_BONNE_NOTE:
+        case TYPE_NOTE3:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_NOTE_CMD;
             break;
-        case 0x68:
+        case TYPE_POI2:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_POISSON_VERT_CMD;
             break;
-        case 0x84:
+        case TYPE_POI3:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_POISSON_BLEU_CMD;
             break;
-        case 0x55:
-        case 0x91:
+        case TYPE_ROLLING_EYES:
+        case TYPE_KILLING_EYES:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_ROLL_EYES;
             break;
-        case 0x74:
+        case TYPE_CLOWN_TNT:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_CLOWN_TNT_COMMAND;
             break;
-        case 0x75:
+        case TYPE_CLOWN_TNT2:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_CLOWN_TNT2_COMMAND;
             break;
-        case 0x76:
+        case TYPE_CLOWN_TNT3:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_CLOWN_TNT3_COMMAND;
             break;
-        case 0x4E:
+        case TYPE_PIRATE_BOMB:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_PAR_BOMB_COMMAND;
             break;
-        case 0x93:
+        case TYPE_MST_SCROLL:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_MST_SCROLL_COMMAND;
             break;
-        case 0x98:
+        case TYPE_CAISSE_CLAIRE:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_CCL_COMMAND;
             break;
-        case 0x9C:
-        case 0xB9:
+        case TYPE_WALK_NOTE_1:
+        case TYPE_WALK_NOTE_2:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_WLKNOT_COMMAND;
             break;
-        case 0x99:
+        case TYPE_FEE:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_FEE;
             break;
-        case 0x96:
+        case TYPE_SCORPION:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_SKO;
             break;
-        case 0xA8:
-        case 0xA9:
+        case TYPE_CYMBAL1:
+        case TYPE_CYMBAL2:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_2_PARTS_CYMBAL;
             break;
-        case 0xA5:
+        case TYPE_BADGUY3:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_PTI_ESQUIVE;
             break;
-        case 0xA:
+        case TYPE_FISH:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_PYRANHA;
             break;
-        case 0x25:
+        case TYPE_TARZAN:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_TARZAN;
             break;
-        case 0x15:
+        case TYPE_PHOTOGRAPHE:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_PHOTOGRAPHE_CMD;
             break;
-        case 0x78:
+        case TYPE_BATTEUR_FOU:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_BAT_COMMAND;
             break;
-        case 0xAE:
-        case 0xB8:
-        case 0xE1:
-        case 0xE2:
+        case TYPE_PIRATE_POELLE:
+        case TYPE_PIRATE_POELLE_D:
+        case TYPE_PIRATE_P_45:
+        case TYPE_PIRATE_P_D_45:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_PIRATE_POELLE;
             break;
-        case 0xBB:
+        case TYPE_MAMA_PIRATE:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_PMA_COMMAND;
             break;
-        case 0xBE:
+        case TYPE_COUTEAU:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_COU_COMMAND;
             break;
-        case 0xC5:
+        case TYPE_MEDAILLON_TOON:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_MEDAILLON_TOON;
             break;
-        case 0xC3:
+        case TYPE_SPIDER_PLAFOND:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_SPIDER_PLAFOND;
             break;
-        case 0xC4:
+        case TYPE_DARD_PLAFOND:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_DARD_PLAFOND_ALWAYS;
             break;
-        case 0xA3:
+        case TYPE_INDICATOR:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_IDC_COMMAND;
             break;
-        case 0xCE:
+        case TYPE_PIEDS_RAYMAN:
             obj_fonction = &ObjectsFonctions[obj_type];
-            sel_fonction = (void (*)(Obj *)) DO_PIEDS_RAYMAN;
+            sel_fonction = DO_PIEDS_RAYMAN;
             break;
-        case 0xCF:
+        case TYPE_POELLE:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_POELLE_COMMAND;
             break;
-        case 0xD4:
+        case TYPE_DARK:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_DARK_COMMAND;
             break;
-        case 0xD7:
+        case TYPE_DARK_SORT:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_DARK_SORT_COMMAND;
             break;
-        case 0x8F:
+        case TYPE_NOVA2:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_NOVA2_COMMAND;
             break;
-        case 0xD8:
+        case TYPE_ENS:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_ENSEIGNE_COMMAND;
             break;
-        case 0xF7:
+        case TYPE_VITRAIL:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_VITRAIL_COMMAND;
             break;
-        case 0x20:
+        case TYPE_DARK_PHASE2:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_DARK_PHASE2_COMMAND;
             break;
-        case 0x21:
+        case TYPE_DARK2_SORT:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_DARK2_SORT_COMMAND;
             break;
-        case 0x6C:
+        case TYPE_DARK2_PINK_FLY:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_DARK2_TOONS_COMMAND;
             break;
-        case 0xD1:
-        case 0xD2:
+        case TYPE_FIRE_LEFT:
+        case TYPE_FIRE_RIGHT:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DoFlammeCommand;
             break;
-        case 0x4:
-        case 0x6:
-        case 0x7:
-        case 0x9:
-        case 0xB:
-        case 0xC:
-        case 0xD:
-        case 0xE:
-        case 0xF:
-        case 0x10:
-        case 0x11:
-        case 0x12:
-        case 0x13:
-        case 0x17:
-        case 0x18:
-        case 0x19:
-        case 0x1A:
-        case 0x1B:
-        case 0x1C:
-        case 0x1D:
-        case 0x1E:
-        case 0x1F:
-        case 0x26:
-        case 0x27:
-        case 0x29:
-        case 0x2A:
-        case 0x2C:
-        case 0x30:
-        case 0x33:
-        case 0x34:
-        case 0x35:
-        case 0x36:
-        case 0x39:
-        case 0x3C:
-        case 0x3D:
-        case 0x40:
-        case 0x42:
-        case 0x43:
-        case 0x44:
-        case 0x50:
-        case 0x52:
-        case 0x53:
-        case 0x54:
-        case 0x57:
-        case 0x58:
-        case 0x5A:
-        case 0x5B:
-        case 0x5F:
-        case 0x63:
-        case 0x65:
-        case 0x66:
-        case 0x67:
-        case 0x69:
-        case 0x6B:
-        case 0x6D:
-        case 0x6E:
-        case 0x6F:
-        case 0x70:
-        case 0x72:
-        case 0x77:
-        case 0x7C:
-        case 0x7D:
-        case 0x7E:
-        case 0x7F:
-        case 0x83:
-        case 0x85:
-        case 0x87:
-        case 0x88:
-        case 0x8B:
-        case 0x8D:
-        case 0x8E:
-        case 0x94:
-        case 0x95:
-        case 0x97:
-        case 0x9E:
-        case 0x9F:
-        case 0xA0:
-        case 0xA1:
-        case 0xA4:
-        case 0xA6:
-        case 0xAA:
-        case 0xAB:
-        case 0xAF:
-        case 0xB0:
-        case 0xB1:
-        case 0xB5:
-        case 0xBA:
-        case 0xBC:
-        case 0xBF:
-        case 0xC2:
-        case 0xC7:
-        case 0xCA:
-        case 0xCB:
-        case 0xCD:
-        case 0xD0:
-        case 0xD3:
-        case 0xDE:
-        case 0xE0:
-        case 0xE4:
-        case 0xE5:
-        case 0xE6:
-        case 0xEA:
-        case 0xEB:
-        case 0xEC:
-        case 0xED:
-        case 0xEE:
-        case 0xF0:
-        case 0xF3:
-        case 0xF5:
-        case 0xF6:
         default:
             obj_fonction = &ObjectsFonctions[obj_type];
             sel_fonction = DO_ONE_CMD;
@@ -2236,7 +2121,6 @@ void fptr_init(void)
         obj_fonction->do_obj = sel_fonction;
     }
 }
-#endif
 
 /* 2FF64 80154764 -O2 -msoft-float */
 void build_active_table(void)

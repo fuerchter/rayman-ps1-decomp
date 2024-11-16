@@ -91,7 +91,7 @@ void stackRay(void);
 void RAY_SURF(void);
 void DO_SURF_CHANGE_HAIRS(void);
 void RAY_PREPARE_PIEDS(void);
-void DO_PIEDS_RAYMAN(void);
+void DO_PIEDS_RAYMAN(Obj *obj);
 void DO_PIEDS_COLLISION(void);
 void allocatePiedBoum(void);
 void DO_MORT_DE_RAY(void);
