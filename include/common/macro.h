@@ -52,6 +52,9 @@ works in:
 DO_DARK2_TOONS_COMMAND (explicitly without parens!)
 calc_btyp_square
 DO_SPIDER_PLAFOND
+
+does not work in:
+allocatePirateNgaweRing (cur_obj subtraction?)
 */
 #define test_x_pos_3(obj) (obj)->x_pos + (obj)->offset_bx
 

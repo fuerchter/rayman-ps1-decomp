@@ -2,12 +2,7 @@
 
 void FUN_8012f2cc(void) {}
 
-#ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/unknown/AACC", PouvoirsParMap);
-#else
-/* matches, but more cleanup/labelling */
-/*INCLUDE_ASM("asm/nonmatchings/unknown/AACC", PouvoirsParMap);*/
-
+/* AAD4 8012F2D4 -O2 -msoft-float */
 void PouvoirsParMap(void)
 {
     RaymanEvents sp0 = D_801CEE84;
@@ -20,40 +15,32 @@ void PouvoirsParMap(void)
     switch (num_world)
     {
     case 1:
-        if (num_level < 4)
-        {
+        if (num_level <= 3)
             RayEvts = sp0;
-        }
-        if ((u16) num_level - 4 < 5U)
-        {
+        if (num_level >= 4 && num_level <= 8)
             RayEvts = sp8;
-        }
-        if ((u16) num_level - 9 < 7U)
-        {
+        if (num_level >= 9 && num_level <= 15)
             RayEvts = sp10;
-        }
         if (num_level >= 16)
-        {
             RayEvts = sp18;
-        }
         break;
     case 2:
-        if ((num_level >= 0xC) || (RayEvts = sp18, ((num_level >= 0xC))))
-        {
+        if (num_level <= 11)
+            RayEvts = sp18;
+        if (num_level >= 12)
             RayEvts = sp20;
-        }
         break;
     case 3:
-        if ((num_level >= 0xC) || (RayEvts = sp20, ((num_level >= 0xC))))
-        {
+        if (num_level <= 11)
+            RayEvts = sp20;
+        if (num_level >= 12)
             RayEvts = sp28;
-        }
         break;
     default:
         RayEvts = sp28;
+        break;
     }
 }
-#endif
 
 /* AD40 8012F540 -O2 -msoft-float */
 void PS1_ResetSaveZone(void)

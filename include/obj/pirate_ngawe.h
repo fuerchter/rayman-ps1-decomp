@@ -6,7 +6,7 @@
 
 void ngaweFollowsShip(Obj *obj);
 void ngaweTriesToGrabShip(Obj *obj);
-void allocatePirateNgaweRing(Obj *param_1, s16 param_2, u8 param_3);
+void allocatePirateNgaweRing(Obj *ngw_obj, s16 spd_y, u8 param_3);
 void DO_NGW_TIR(Obj *obj);
 void NGW_REACT_TO_RAY_IN_ZONE(Obj *obj);
 void DO_ONE_NGW_COMMAND(Obj *obj);

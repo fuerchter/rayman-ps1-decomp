@@ -22,83 +22,59 @@ void ngaweTriesToGrabShip(Obj *obj)
     }
 }
 
-#ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/obj/pirate_ngawe", allocatePirateNgaweRing);
-#else
-/* matches, but clean up */
-/*INCLUDE_ASM("asm/nonmatchings/obj/pirate_ngawe", allocatePirateNgaweRing);*/
-
-void allocatePirateNgaweRing(Obj *param_1, s16 param_2, u8 param_3)
+/* 78A94 8019D294 -O2 -msoft-float */
+void allocatePirateNgaweRing(Obj *ngw_obj, s16 spd_y, u8 param_3)
 {
-    s16 sp18;
-    s16 sp1A;
-    s16 sp1C;
-    s16 sp1E;
-    Obj *cur_obj;
-    Obj *var_s0;
-    s16 temp_v0;
-    s16 i;
-    s32 var_v0;
-    s32 var_v0_2;
-    s32 temp_a2;
-    u16 temp_v1;
-    u32 temp_a0;
-    s16 nb_objs;
+    s16 ngw_x; s16 ngw_y; s16 ngw_w; s16 ngw_h;    
+    s16 unk_1;
+    s16 i = 0;
+    Obj *cur_obj = &level.objects[i];
+    s16 nb_objs = level.nb_objects;
 
-    i = 0;
-    cur_obj = &level.objects[i];
-    nb_objs = level.nb_objects;
     while (i < nb_objs)
     {
-        if (cur_obj->type == 0x49)
+        if (cur_obj->type == TYPE_RING && !(cur_obj->flags & FLG(OBJ_ACTIVE)))
         {
-            temp_a0 = cur_obj->flags;
-            if (!(temp_a0 & 0x800))
-            {
-                if (param_3 & 0xFF)
-                {
-                    cur_obj->flags = ((temp_a0 & ~0x4000) | (param_1->flags & 0x4000));
-                }
-                else
-                {
-                    cur_obj->flags = ((temp_a0 & ~0x4000) | ((((param_1->flags >> 0xE) ^ 1) & 1) << 0xE));
-                }
-                cur_obj->speed_y = param_2;
-                GET_SPRITE_POS(param_1, 6, &sp18, &sp1A, &sp1C, &sp1E);
-                temp_v1 = sp18 - cur_obj->offset_bx;
-                cur_obj->x_pos = temp_v1;
-                if (param_1->flags & 0x4000)
-                {
-                    cur_obj->x_pos = (temp_v1 + sp1C);
-                }
-                cur_obj->y_pos = (sp1A - ((cur_obj->offset_hy + cur_obj->offset_by) >> 1));
-                skipToLabel(cur_obj, (cur_obj->flags >> 0xE) & 1, 1U);
-                calc_obj_pos(cur_obj);
-                cur_obj->flags |= 0xC00;
-                cur_obj->flags = (cur_obj->flags & ~FLG(OBJ_FLAG_9));
-                var_v0 = (s16) (((ray.offset_bx + ray.x_pos) - cur_obj->x_pos) - cur_obj->offset_bx);
-                if (!(cur_obj->flags & 0x4000))
-                {
-                    var_v0 = -var_v0;
-                }
-                var_v0 = (s16) var_v0; /* ??? */
-                if (var_v0 < 0)
-                {
-                    var_v0 = 0;
-                }
-                cur_obj->field24_0x3e = (var_v0 + 0xF);
-                cur_obj->flags &= ~0x100;
-                cur_obj->flags &= ~0x200;
-                cur_obj->field23_0x3c = param_1->id;
-                param_1->field56_0x69--;
-                break;
-            }
+            if (param_3)
+                cur_obj->flags =
+                    cur_obj->flags & ~FLG(OBJ_FLIP_X) |
+                    ngw_obj->flags & FLG(OBJ_FLIP_X);
+            else
+                cur_obj->flags =
+                    cur_obj->flags & ~FLG(OBJ_FLIP_X) |
+                    ((ngw_obj->flags >> OBJ_FLIP_X ^ 1) & 1) << OBJ_FLIP_X;
+
+            cur_obj->speed_y = spd_y;
+
+            GET_SPRITE_POS(ngw_obj, 6, &ngw_x, &ngw_y, &ngw_w, &ngw_h);
+            cur_obj->x_pos = ngw_x - cur_obj->offset_bx;
+            if (ngw_obj->flags & FLG(OBJ_FLIP_X))
+                cur_obj->x_pos += ngw_w;
+
+            cur_obj->y_pos = ngw_y - ((cur_obj->offset_hy + cur_obj->offset_by) >> 1);
+
+            skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
+            calc_obj_pos(cur_obj);
+            cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
+            cur_obj->flags &= ~FLG(OBJ_FLAG_9);
+
+            /* see FLIP_X_SGN macro? */
+            unk_1 =
+                (cur_obj->flags & FLG(OBJ_FLIP_X) ? 1 : -1) *
+                (s16) (ray.x_pos + ray.offset_bx - cur_obj->x_pos - cur_obj->offset_bx);
+            unk_1 = MAX_1(unk_1, 0) + 15;
+            cur_obj->field24_0x3e = unk_1;
+
+            cur_obj->flags &= ~FLG(OBJ_FLAG_0);
+            cur_obj->flags &= ~FLG(OBJ_CMD_TEST);
+            cur_obj->field23_0x3c = ngw_obj->id;
+            ngw_obj->field56_0x69--;
+            break;
         }
-        cur_obj += 1;
-        i = i + 1;
+        cur_obj++;
+        i++;
     }
 }
-#endif
 
 /* 78CA4 8019D4A4 -O2 -msoft-float */
 void DO_NGW_TIR(Obj *obj)
@@ -111,7 +87,7 @@ void DO_NGW_TIR(Obj *obj)
         horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
     )
     {
-        allocatePirateNgaweRing(obj, 0, 1);
+        allocatePirateNgaweRing(obj, 0, true);
         obj->field24_0x3e = 1;
     }
 }
@@ -230,12 +206,11 @@ void DO_ONE_NGW_COMMAND(Obj *obj)
         obj->timer--;
 }
 
+/* 79150 8019D950 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/pirate_ngawe", DO_NGW_POING_COLLISION);
 #else
-/* matches, but merge the two ~0x4000s somehow? */
-/*INCLUDE_ASM("asm/nonmatchings/obj/pirate_ngawe", DO_NGW_POING_COLLISION);*/
-
+/* merge the two ~0x4000s somehow? */
 void DO_NGW_POING_COLLISION(Obj *ngw_obj)
 {
     Obj *poing_obj = &level.objects[poing_obj_id];
