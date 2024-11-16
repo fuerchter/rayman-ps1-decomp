@@ -141,475 +141,379 @@ s16 setMoskitoAtScrollBorder(Obj *obj, u8 param_2)
     return res;
 }
 
+/* 6FDC8 801945C8 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/obj/moskito", prepareNewMoskitoAttack);
 #else
-/* matches, but block_52 */
-/* 6FDC8 801945C8 -O2 -msoft-float */
-/*INCLUDE_ASM("asm/nonmatchings/obj/moskito", prepareNewMoskitoAttack);*/
-
-/*? ChangeLevel(s32);
-? calc_obj_dir(Obj *);
-? setBossReachingSpeeds(Obj *, ?, ?, ?);
-? set_main_and_sub_etat(Obj *, ?, ?, u16);
-? skipToLabel(Obj *, ?, ?);
-s32 vblToEOA(Obj *, ?);*/
-
-void prepareNewMoskitoAttack(Obj *arg0)
+/* many heads were scratched that day */
+void prepareNewMoskitoAttack(Obj *mst_obj)
 {
     Obj *cur_obj;
-    s16 floor_1;
-    s16 floor_2;
-    s32 new_x;
-    s32 new_y;
-    s16 temp_v0_7;
     s16 i;
-    s16 var_v0;
-    s16 new_x_2;
-    s16 flag_before;
+    s16 prev_flip_x;
     s32 temp_s0_2;
-    u16 x_pos;
-    u32 temp_s7;
-    u32 temp_v0;
-    u32 flag_after;
-    u8 **seq_2;
-    u8 *seq_1;
+    s16 unk_2;
+    u32 unk_1;
     u8 curAct_tmp_1;
-    u8 curAct_tmp_2;
-    u8 temp_v0_5;
-    u8 temp_v1;
-    u8 act_ind_1;
-    u8 act_0x1A;
-    u8 act_ind_2;
-    u8 curAct_tmp_3;
-    u8 curAct_tmp_4;
-    u8 curAct_tmp_5;
-    s32 act_0x0E;
     u8 nb_obj;
     s32 half_wid;
-    u8 *seq_2_tmp_2;
-    u8 *seq_2_tmp_3;
-    u8 **seq_2_tmp_1;
 
-    temp_v0 = scroll_start_x + scroll_end_x + 0x140;
-    temp_s7 = (temp_v0 + (temp_v0 >> 0x1F)) >> 1;
-    if (currentBossActionIsOver != 0)
+    unk_1 = scroll_start_x + scroll_end_x + SCREEN_WIDTH;
+    unk_2 = (unk_1 + (unk_1 >> 31)) >> 1;
+    while (currentBossActionIsOver)
     {
-        do
+        curAct = moskitoActionSequences[bossEncounter][currentBossAction++];
+        alternateBossSpeedFactor = 0;
+        switch (curAct)
         {
-            temp_v1 = currentBossAction;
-            seq_1 = moskitoActionSequences[bossEncounter];
-            currentBossAction = temp_v1 + 1;
-            curAct = seq_1[temp_v1];
-            alternateBossSpeedFactor = 0;
-            switch (curAct)
+        case 3:
+            bossEncounter++;
+        case 2:
+            currentBossAction = 0;
+            currentBossActionIsOver = true;
+            break;
+        case 5:
+            bossEncounter = saveBossEncounter;
+            currentBossAction = saveCurrentBossAction;
+            curAct = moskitoActionSequences[bossEncounter][currentBossAction];
+            if (curAct == 26 || curAct == 14)
             {
-            case 3:
-                bossEncounter += 1;
-            case 2:
-                currentBossAction = 0;
-                currentBossActionIsOver = 1;
-                break;
-            case 5:
-                bossEncounter = saveBossEncounter;
-                currentBossAction = saveCurrentBossAction;
-                seq_2 = &moskitoActionSequences[bossEncounter];
-                curAct_tmp_1 = (*seq_2)[currentBossAction];
-                curAct = curAct_tmp_1;
-                if (curAct == 0x1A || curAct == 0x0E)
-                {
-                    while (curAct == 0x1A || curAct == 0x0E)
-                    {
-                        curAct = moskitoActionSequences[bossEncounter][++currentBossAction];
-                    }
-                }
-                else if ((curAct_tmp_1 - 0x12) < 2U || (curAct == 0x15))
-                {
-                    if (curAct == 0x15)
-                    {
-                        currentBossAction = saveCurrentBossAction + 1;
-                    }
-                    seq_2_tmp_3 = *seq_2;
-
-                    currentBossAction = currentBossAction + 1;
-                    temp_v0_5 = currentBossAction & 0xFF;
-                    curAct_tmp_2 = seq_2_tmp_3[temp_v0_5];
-                    curAct = curAct_tmp_2;
-                    if ((u8) (curAct_tmp_2 - 0x14) < 2)
-                    {
-                        seq_2_tmp_1 = seq_2;
-                        do
-                        {
-                            if (curAct == 0x15)
-                            {
-                                currentBossAction += 1;
-                            }
-                            temp_v0_5 = currentBossAction + 1;
-                            seq_2_tmp_2 = *seq_2_tmp_1;
-                            currentBossAction = temp_v0_5;
-                            curAct_tmp_2 = seq_2_tmp_2[temp_v0_5 & 0xFF];
-                            curAct = curAct_tmp_2;
-                        } while ((u32) (curAct_tmp_2 - 0x14) < 2U);
-                    }
-                }
-block_19:
-                saveBossEncounter = 0xFF;
-                currentBossActionIsOver = 1;
-                mstMustLeaveScreenToProceed = 0;
-                break;
-            case 12:
-                act_ind_2 = currentBossAction;
-                currentBossAction = act_ind_2 + 1;
-                curAct_tmp_3 = moskitoActionSequences[bossEncounter][act_ind_2];
-                currentBossAction = 0;
-                if (curAct_tmp_3 == bossEncounter)
-                {
-                    bossEncounter += 1;
-                }
-                else
-                {
-                    bossEncounter = curAct_tmp_3;
-                }
-                currentBossActionIsOver = 0;
-                break;
-            case 25:
-                if (arg0->init_hit_points == 5)
-                {
-                    ChangeLevel();
-                    finBosslevel.bzzit = true;
-                }
-                else
-                {
-                    remoteRayXToReach = -0x7D00;
-                    finBosslevel.moskito = true;
-                    set_main_and_sub_etat(&ray, 3, 0x34);
-                    arg0->nb_cmd = vblToEOA(&ray, 1) + 1;
-                    fin_boss = 1;
-                }
-                currentBossActionIsOver = 0;
-                break;
-            case 22:
-                if (arg0->init_hit_points == 0x0C)
-                {
-                    set_main_and_sub_etat(arg0, 0, 0x13);
-                }
-                else
-                {
-                    cur_obj = level.objects;
-                    i = 0;
-                    nb_obj = level.nb_objects;
-                    if (nb_obj != 0)
-                    {
-                        do
-                        {
-                            if (cur_obj->type == 0xAB)
-                            {
-                                arg0->sprites = cur_obj->sprites;
-                                arg0->animations = cur_obj->animations;
-                                arg0->img_buffer = cur_obj->img_buffer;
-                                arg0->eta = cur_obj->eta;
-                                arg0->main_etat = cur_obj->main_etat;
-                                arg0->sub_etat = cur_obj->sub_etat;
-                                arg0->anim_index = cur_obj->anim_index;
-                                arg0->anim_frame = 0;
-                                arg0->offset_by += 4;
-                                arg0->flags &= ~0x4000;
-
-                                ray.flags &= ~0x800;
-                                break;
-                            }
-                            i = i + 1;
-                            cur_obj += 1;
-                        } while (i < nb_obj);
-                    }
-                }
-                skipToLabel(arg0, 1, 1);
-                currentBossActionIsOver = 0;
-                arg0->nb_cmd = arg0->nb_cmd + 0x80;
-                break;
-            case 24:
-                if (arg0->init_hit_points == 0x0C)
-                {
-                    arg0->offset_by += 0xF0;
-                }
-                half_wid = 160;
-                new_x = (u16) scroll_start_x - (arg0->offset_bx - half_wid);
-                bossXToReach = new_x;
-                arg0->x_pos = new_x;
-                arg0->flags &= ~0x4000;
-                bossYToReach = floorLine - arg0->offset_by;
-                set_main_and_sub_etat(arg0, 2, 1);
-                skipToLabel(arg0, 2, 1);
-                bossReachingAccuracyX = 0xFF;
-                bossReachingAccuracyY = 0;
-                bossReachingTimer = 1;
-                currentBossActionIsOver = 0;
-                break;
-            case 17:
-                half_wid = 160;
-                bossXToReach = scroll_start_x - (arg0->offset_bx - half_wid);
-                new_y = (u16) floorLine - 0xE6;
-                bossYToReach = new_y;
-                set_main_and_sub_etat(arg0, 0, 6);
-block_88:
-                skipToLabel(arg0, 2, 1);
-                bossReachingAccuracyX = 0xFF;
-                bossReachingAccuracyY = 0xFF;
-                bossReachingTimer = 1;
-                setBossReachingSpeeds(arg0, 1, 0xFF, 0xFF);
-                currentBossActionIsOver = 0;
-                break;
-            case 16:
-                set_main_and_sub_etat(arg0, 0, 5);
-                skipToLabel(arg0, 1, 1);
-                currentBossActionIsOver = 0;
-                break;
-            case 6:
-                set_main_and_sub_etat(arg0, 0, 0xD);
-                skipToLabel(arg0, 1, 1);
-                currentBossActionIsOver = 0;
-                break;
-            case 26:
-                temp_s0_2 = arg0->main_etat == 0;
-                if (temp_s0_2 && (arg0->sub_etat == 0x14))
-                {
-                    calc_obj_dir(arg0);
-                    set_main_and_sub_etat(arg0, 0, 0x15);
-                    skipToLabel(arg0, 1, 1);
-                    currentBossActionIsOver = 0;
-                    break;
-                }
-                flag_before = (arg0->flags >> 0xE) & 1;
-                calc_obj_dir(arg0);
-                flag_after = arg0->flags;
-                if (((flag_after >> 0xE) & 1) != flag_before)
-                {
-                    arg0->flags = (flag_after & ~0x4000) | (flag_before << 0xE);
-                    set_main_and_sub_etat(arg0, 0, 0x15);
-                    temp_s0_2 = vblToEOA(arg0, 1);
-                    set_main_and_sub_etat(arg0, 0, 0x16);
-                    skipToLabel(arg0, 1, 1);
-                    currentBossActionIsOver = 0;
-                    arg0->nb_cmd = temp_s0_2 + arg0->nb_cmd;
-                }
-                break;
-            case 23:
-                /* nop here somewhere */
-                temp_v0_7 = scroll_start_x - arg0->offset_bx + 0x70;
-                remoteRayXToReach = temp_v0_7;
-                if (ray.x_pos & 1)
-                {
-                    remoteRayXToReach = temp_v0_7 | 1;
-                }
-                else
-                {
-                    remoteRayXToReach = temp_v0_7 & 0xFFFE;
-                }
-                goto block_52;
-            case 11:
-                bossSafeTimer = 0;
-                arg0->display_prio = 3;
-                if (mstMustLeaveScreenToProceed == 0)
-                {
-                    currentBossActionIsOver = 1;
-                }
-                else
-                {
-                    mstMustLeaveScreenToProceed = 0;
-                    curAct = 4;
-                    goto block_52;
-                }
-                break;
-            case 4:
-block_52:
-                bossXToReach = arg0->x_pos;
-                bossYToReach = scroll_start_y - 0x80;
-                if (curAct == 4)
-                {
-                    set_main_and_sub_etat(arg0, 0, 8);
-                }
-                else
-                {
-                    set_main_and_sub_etat(arg0, 0, 6);
-                }
-                bossReachingAccuracyX = 0xFF;
-                bossReachingAccuracyY = 0xFF;
-                bossReachingTimer = 1;
-                setBossReachingSpeeds(arg0, 1, 0xFF, 0xFF);
-                skipToLabel(arg0, 2, 1);
-                currentBossActionIsOver = 0;
-                break;
-            case 15:
-                set_main_and_sub_etat(arg0, 0, 0x14);
-                skipToLabel(arg0, 1, 1);
-                currentBossActionIsOver = 0;
-                break;
-            case 14:
-                set_main_and_sub_etat(arg0, 0, 0xF);
-                skipToLabel(arg0, 1, 1);
-                currentBossActionIsOver = 0;
-                break;
-            case 10:
-                calc_obj_dir(arg0);
-                setMoskitoAtScrollBorder(arg0, ((arg0->flags >> 0xE) ^ 1) & 1);
-                arg0->y_pos = scroll_start_y - 0x80;
-                if (arg0->flags & 0x4000)
-                {
-                    arg0->x_pos = arg0->x_pos - 0x30;
-                    flag_after = arg0->flags & ~0x4000;
-                }
-                else
-                {
-                    arg0->x_pos = arg0->x_pos + 0x30;
-                    flag_after = arg0->flags | 0x4000;
-                }
-                arg0->flags = flag_after;
-
-            case 13:
-                fistAvoided = 0;
-                flag_before = (arg0->flags >> 0xE) & 1;
-                calc_obj_dir(arg0);
-                getIdealStingCoords(arg0, &bossXToReach, &bossYToReach);
-                set_main_and_sub_etat(arg0, 0, 8);
-                bossReachingAccuracyX = 0x10;
-                bossReachingAccuracyY = 0x10;
-                bossReachingTimer = 2;
-                setBossReachingSpeeds(arg0, 1, 0xFF, 0xFF);
-                if (curAct == 0x0D)
-                {
-                    arg0->speed_y = -0x0040;
-                }
-                else
-                {
-                    arg0->speed_x = 0;
-                }
-                arg0->flags = (arg0->flags & ~0x4000) | (flag_before << 0xE);
-                skipToLabel(arg0, 2, 1);
-                currentBossActionIsOver = 0;
-                break;
-            case 7:
-                set_main_and_sub_etat(arg0, 0, 0xC);
-
-            case 8:
-                if (curAct == 8)
-                {
-                    set_main_and_sub_etat(arg0, 0, 0xB);
-                }
-                if ((setMoskitoAtScrollBorder(arg0, 2U) << 0x10) > 0)
-                {
-                    arg0->flags &= ~0x4000;
-                    arg0->x_pos = (temp_v0_7 = arg0->x_pos + 0x30); /* gross, undo? */
-                    bossXToReach = (scroll_start_x - arg0->offset_bx) - 0x30;
-                }
-                else
-                {
-                    arg0->flags |= 0x4000;
-                    arg0->x_pos = arg0->x_pos - 0x30;
-                    bossXToReach = (scroll_end_x - arg0->offset_bx) + 0x170;
-                }
-                curAct_tmp_4 = currentBossAction;
-                floor_1 = floorLine - 0xE6;
-                arg0->y_pos = floor_1;
-                bossYToReach = floor_1;
-                currentBossAction = curAct_tmp_4 + 1;
-                alternateBossSpeedFactor = moskitoActionSequences[bossEncounter][curAct_tmp_4] << 0xA;
-                bossReachingAccuracyX = 0xFF;
-                bossReachingAccuracyY = 0xFF;
-                bossReachingTimer = 1;
-                setBossReachingSpeeds(arg0, 1, 0xFF, 0xFF);
-                skipToLabel(arg0, 2, 1);
-                currentBossActionIsOver = 0;
-                break;
-            case 9:
-                set_main_and_sub_etat(arg0, 0, 9);
-                if ((setMoskitoAtScrollBorder(arg0, 2U) << 0x10) > 0)
-                {
-                    arg0->flags &= ~0x4000;
-                    arg0->x_pos = (temp_v0_7 = arg0->x_pos + 0x50); /* gross, undo? */
-                    bossXToReach = (scroll_start_x - arg0->offset_bx) - 0x50;
-                }
-                else
-                {
-                    arg0->flags |= 0x4000;
-                    arg0->x_pos = arg0->x_pos - 0x60;
-                    bossXToReach = (scroll_end_x - arg0->offset_bx) + 0x180;
-                }
-                curAct_tmp_5 = currentBossAction;
-                floor_2 = floorLine - 0xB4;
-                arg0->y_pos = floor_2;
-                bossYToReach = floor_2;
-                currentBossAction = curAct_tmp_5 + 1;
-                alternateBossSpeedFactor = moskitoActionSequences[bossEncounter][curAct_tmp_5] << 0xA;
-                bossReachingAccuracyX = 0xFF;
-                bossReachingAccuracyY = 0xFF;
-                bossReachingTimer = 1;
-                setBossReachingSpeeds(arg0, 1, 0xFF, 0xFF);
-                skipToLabel(arg0, 2, 1);
-                currentBossActionIsOver = 0;
-                break;
-            case 18:
-            case 19:
-                arg0->y_pos = floorLine - 0x48;
-                if (curAct == 0x13)
-                {
-                    arg0->y_pos = floorLine - 0x78;
-                }
-                if ((setMoskitoAtScrollBorder(arg0, 2U) << 0x10) > 0)
-                {
-                    x_pos = arg0->x_pos;
-                    arg0->flags &= ~0x4000;
-                    arg0->x_pos = x_pos + 0x44;
-                    new_x_2 = x_pos + 0x2C;
-                }
-                else
-                {
-                    x_pos = arg0->x_pos;
-                    arg0->flags |= 0x4000;
-                    arg0->x_pos = x_pos - 0x4C;
-                    new_x_2 = x_pos - 0x3C;
-                }
-                bossXToReach = new_x_2;
-                set_main_and_sub_etat(arg0, 0, 0xE);
-                bossReachingAccuracyX = 0xFF;
-                bossReachingAccuracyY = 0xFF;
-                bossReachingTimer = 1;
-                bossYToReach = arg0->y_pos;
-                setBossReachingSpeeds(arg0, 1, 0xFF, 0xFF);
-                skipToLabel(arg0, 2, 1);
-                currentBossActionIsOver = 0;
-                break;
-            case 21:
-                set_main_and_sub_etat(arg0, 0, 0xE);
-                skipToLabel(arg0, 1, 1);
-                act_ind_1 = currentBossAction;
-                currentBossAction = act_ind_1 + 1;
-                arg0->nb_cmd *= moskitoActionSequences[bossEncounter][act_ind_1];
-                currentBossActionIsOver = 0;
-                break;
-            case 20:
-                if ((arg0->x_pos + arg0->offset_bx) > (s16) temp_s7)
-                {
-                    arg0->flags &= ~0x4000;
-                    new_x_2 = (scroll_start_x - arg0->offset_bx) - 0x38;
-                }
-                else
-                {
-                    arg0->flags |= 0x4000;
-                    new_x_2 = (scroll_end_x - arg0->offset_bx) + 0x170;
-                }
-                bossXToReach = new_x_2;
-                bossYToReach = arg0->y_pos;
-                set_main_and_sub_etat(arg0, 0, 4);
-                /* goto block_88; */
-                skipToLabel(arg0, 2, 1);
-                bossReachingAccuracyX = 0xFF;
-                bossReachingAccuracyY = 0xFF;
-                bossReachingTimer = 1;
-                setBossReachingSpeeds(arg0, 1, 0xFF, 0xFF);
-                currentBossActionIsOver = 0;
-                break;
+                while (curAct == 26 || curAct == 14)
+                    curAct = moskitoActionSequences[bossEncounter][++currentBossAction];
             }
-        } while (currentBossActionIsOver != 0);
+            else if (curAct == 18 || curAct == 19 || (curAct == 21))
+            {
+                if (curAct == 21)
+                    currentBossAction++;
+
+                curAct = moskitoActionSequences[bossEncounter][++currentBossAction];
+                while (curAct == 20 || curAct == 21)
+                {
+                    if (curAct == 21)
+                        currentBossAction++;
+
+                    curAct = moskitoActionSequences[bossEncounter][++currentBossAction];
+                }
+            }
+            saveBossEncounter = 0xFF;
+            currentBossActionIsOver = true;
+            mstMustLeaveScreenToProceed = false;
+            break;
+        case 12:
+            curAct_tmp_1 = moskitoActionSequences[bossEncounter][currentBossAction++];
+            currentBossAction = 0;
+            if (curAct_tmp_1 == bossEncounter)
+                bossEncounter++;
+            else
+                bossEncounter = curAct_tmp_1;
+
+            currentBossActionIsOver = false;
+            break;
+        case 25:
+            if (mst_obj->init_hit_points == 5)
+            {
+                ChangeLevel();
+                finBosslevel.bzzit = true;
+            }
+            else
+            {
+                remoteRayXToReach = -32000;
+                finBosslevel.moskito = true;
+                set_main_and_sub_etat(&ray, 3, 52);
+                mst_obj->nb_cmd = vblToEOA(&ray, 1) + 1;
+                fin_boss = true;
+            }
+            currentBossActionIsOver = false;
+            break;
+        case 22:
+            if (mst_obj->init_hit_points == 12)
+                set_main_and_sub_etat(mst_obj, 0, 19);
+            else
+            {
+                i = 0;
+                cur_obj = &level.objects[i];
+                nb_obj = level.nb_objects;
+                while (i < nb_obj)
+                {
+                    if (cur_obj->type == TYPE_MST_COPAIN)
+                    {
+                        mst_obj->sprites = cur_obj->sprites;
+                        mst_obj->animations = cur_obj->animations;
+                        mst_obj->img_buffer = cur_obj->img_buffer;
+                        mst_obj->eta = cur_obj->eta;
+                        mst_obj->main_etat = cur_obj->main_etat;
+                        mst_obj->sub_etat = cur_obj->sub_etat;
+                        mst_obj->anim_index = cur_obj->anim_index;
+                        mst_obj->anim_frame = 0;
+                        mst_obj->offset_by += 4;
+                        mst_obj->flags &= ~FLG(OBJ_FLIP_X);
+
+                        ray.flags &= ~FLG(OBJ_ACTIVE);
+                        break;
+                    }
+                    i++;
+                    cur_obj++;
+                }
+            }
+            skipToLabel(mst_obj, 1, true);
+            currentBossActionIsOver = false;
+            mst_obj->nb_cmd += 128;
+            break;
+        case 24:
+            if (mst_obj->init_hit_points == 12)
+                mst_obj->offset_by += SCREEN_HEIGHT;
+
+            mst_obj->flags &= ~FLG(OBJ_FLIP_X);
+            bossXToReach =
+            mst_obj->x_pos =
+                scroll_start_x - (mst_obj->offset_bx - SCREEN_WIDTH / 2);
+            bossYToReach = floorLine - mst_obj->offset_by;
+            set_main_and_sub_etat(mst_obj, 2, 1);
+            skipToLabel(mst_obj, 2, true);
+            bossReachingAccuracyX = 0xFF;
+            bossReachingAccuracyY = 0;
+            bossReachingTimer = 1;
+            currentBossActionIsOver = false;
+            break;
+        case 17:
+            half_wid = SCREEN_WIDTH / 2; /* TODO: ??? */
+            bossXToReach = scroll_start_x - (mst_obj->offset_bx - half_wid);
+            bossYToReach = floorLine - 230;
+            set_main_and_sub_etat(mst_obj, 0, 6);
+            skipToLabel(mst_obj, 2, true);
+            bossReachingAccuracyX = 0xFF;
+            bossReachingAccuracyY = 0xFF;
+            bossReachingTimer = 1;
+            setBossReachingSpeeds(mst_obj, 1, 0xFF, 0xFF);
+            currentBossActionIsOver = false;
+            break;
+        case 16:
+            set_main_and_sub_etat(mst_obj, 0, 5);
+            skipToLabel(mst_obj, 1, true);
+            currentBossActionIsOver = false;
+            break;
+        case 6:
+            set_main_and_sub_etat(mst_obj, 0, 13);
+            skipToLabel(mst_obj, 1, true);
+            currentBossActionIsOver = false;
+            break;
+        case 26:
+            /* TODO: temp_s0_2? */
+            temp_s0_2 = mst_obj->main_etat == 0;
+            if (temp_s0_2 && mst_obj->sub_etat == 0x14)
+            {
+                calc_obj_dir(mst_obj);
+                set_main_and_sub_etat(mst_obj, 0, 0x15);
+                skipToLabel(mst_obj, 1, true);
+                currentBossActionIsOver = false;
+            }
+            else
+            {
+                prev_flip_x = mst_obj->flags >> OBJ_FLIP_X & 1;
+                calc_obj_dir(mst_obj);
+                if ((mst_obj->flags >> OBJ_FLIP_X & 1) != prev_flip_x)
+                {
+                    mst_obj->flags = mst_obj->flags & ~FLG(OBJ_FLIP_X) | prev_flip_x << OBJ_FLIP_X;
+                    set_main_and_sub_etat(mst_obj, 0, 0x15);
+                    temp_s0_2 = vblToEOA(mst_obj, 1);
+                    set_main_and_sub_etat(mst_obj, 0, 0x16);
+                    skipToLabel(mst_obj, 1, true);
+                    currentBossActionIsOver = false;
+                    mst_obj->nb_cmd = temp_s0_2 + mst_obj->nb_cmd;
+                }
+            }
+            break;
+        case 23:
+            remoteRayXToReach = scroll_start_x - mst_obj->offset_bx + 112;
+            if (ray.x_pos & 1) /* ??? */
+                remoteRayXToReach |= 1;
+            else
+                remoteRayXToReach &= ~1;
+            goto block_52;
+        case 11:
+            bossSafeTimer = 0;
+            mst_obj->display_prio = 3;
+            if (mstMustLeaveScreenToProceed == 0)
+            {
+                /* TODO: this control flow is extra weird? */
+                currentBossActionIsOver = true;
+            }
+            else
+            {
+                mstMustLeaveScreenToProceed = 0;
+                curAct = 4;
+                goto block_52;
+            }
+            break;
+        case 4:
+block_52:
+            bossXToReach = mst_obj->x_pos;
+            bossYToReach = scroll_start_y - 128;
+            if (curAct == 4)
+                set_main_and_sub_etat(mst_obj, 0, 8);
+            else
+                set_main_and_sub_etat(mst_obj, 0, 6);
+
+            bossReachingAccuracyX = 0xFF;
+            bossReachingAccuracyY = 0xFF;
+            bossReachingTimer = 1;
+            setBossReachingSpeeds(mst_obj, 1, 0xFF, 0xFF);
+            skipToLabel(mst_obj, 2, true);
+            currentBossActionIsOver = false;
+            break;
+        case 15:
+            set_main_and_sub_etat(mst_obj, 0, 20);
+            skipToLabel(mst_obj, 1, true);
+            currentBossActionIsOver = false;
+            break;
+        case 14:
+            set_main_and_sub_etat(mst_obj, 0, 15);
+            skipToLabel(mst_obj, 1, true);
+            currentBossActionIsOver = false;
+            break;
+        case 10:
+            calc_obj_dir(mst_obj);
+            setMoskitoAtScrollBorder(mst_obj, (mst_obj->flags >> OBJ_FLIP_X ^ 1) & 1);
+            mst_obj->y_pos = scroll_start_y - 128;
+            if (mst_obj->flags & FLG(OBJ_FLIP_X))
+            {
+                mst_obj->x_pos -= 48;
+                mst_obj->flags &= ~FLG(OBJ_FLIP_X);
+            }
+            else
+            {
+                mst_obj->x_pos += 48;
+                mst_obj->flags |= FLG(OBJ_FLIP_X);
+            }
+        case 13:
+            fistAvoided = false;
+            prev_flip_x = mst_obj->flags >> OBJ_FLIP_X & 1;
+            calc_obj_dir(mst_obj);
+            getIdealStingCoords(mst_obj, &bossXToReach, &bossYToReach);
+            set_main_and_sub_etat(mst_obj, 0, 8);
+            bossReachingAccuracyX = 16;
+            bossReachingAccuracyY = 16;
+            bossReachingTimer = 2;
+            setBossReachingSpeeds(mst_obj, 1, 0xFF, 0xFF);
+            if (curAct == 13)
+                mst_obj->speed_y = -64;
+            else
+                mst_obj->speed_x = 0;
+
+            mst_obj->flags = mst_obj->flags & ~FLG(OBJ_FLIP_X) | prev_flip_x << OBJ_FLIP_X;
+            skipToLabel(mst_obj, 2, true);
+            currentBossActionIsOver = false;
+            break;
+        case 7:
+            set_main_and_sub_etat(mst_obj, 0, 12);
+        case 8:
+            if (curAct == 8)
+                set_main_and_sub_etat(mst_obj, 0, 11);
+
+            if (setMoskitoAtScrollBorder(mst_obj, 2) > 0)
+            {
+                mst_obj->flags &= ~FLG(OBJ_FLIP_X);
+                mst_obj->x_pos += 48;
+                bossXToReach = scroll_start_x - mst_obj->offset_bx - 48;
+            }
+            else
+            {
+                mst_obj->flags |= FLG(OBJ_FLIP_X);
+                mst_obj->x_pos -= 48;
+                bossXToReach = scroll_end_x - mst_obj->offset_bx + 368;
+            }
+            bossYToReach =
+            mst_obj->y_pos =
+                floorLine - 230;
+            alternateBossSpeedFactor = moskitoActionSequences[bossEncounter][currentBossAction++] << 10;
+            bossReachingAccuracyX = 0xFF;
+            bossReachingAccuracyY = 0xFF;
+            bossReachingTimer = 1;
+            setBossReachingSpeeds(mst_obj, 1, 0xFF, 0xFF);
+            skipToLabel(mst_obj, 2, true);
+            currentBossActionIsOver = false;
+            break;
+        case 9:
+            set_main_and_sub_etat(mst_obj, 0, 9);
+            if (setMoskitoAtScrollBorder(mst_obj, 2) > 0)
+            {
+                mst_obj->flags &= ~FLG(OBJ_FLIP_X);
+                mst_obj->x_pos += 80;
+                bossXToReach = scroll_start_x - mst_obj->offset_bx - 80;
+            }
+            else
+            {
+                mst_obj->flags |= FLG(OBJ_FLIP_X);
+                mst_obj->x_pos -= 96;
+                bossXToReach = scroll_end_x - mst_obj->offset_bx + 384;
+            }
+            bossYToReach =
+            mst_obj->y_pos =
+                floorLine - 180;
+            alternateBossSpeedFactor = moskitoActionSequences[bossEncounter][currentBossAction++] << 10;
+            bossReachingAccuracyX = 0xFF;
+            bossReachingAccuracyY = 0xFF;
+            bossReachingTimer = 1;
+            setBossReachingSpeeds(mst_obj, 1, 0xFF, 0xFF);
+            skipToLabel(mst_obj, 2, true);
+            currentBossActionIsOver = false;
+            break;
+        case 18:
+        case 19:
+            mst_obj->y_pos = floorLine - 72;
+            if (curAct == 19)
+                mst_obj->y_pos = floorLine - 120;
+
+            if (setMoskitoAtScrollBorder(mst_obj, 2) > 0)
+            {
+                mst_obj->flags &= ~FLG(OBJ_FLIP_X);
+                mst_obj->x_pos += 68;
+                bossXToReach = mst_obj->x_pos - 24;
+            }
+            else
+            {
+                mst_obj->flags |= FLG(OBJ_FLIP_X);
+                mst_obj->x_pos -= 76;
+                bossXToReach = mst_obj->x_pos + 16;
+            }
+
+            set_main_and_sub_etat(mst_obj, 0, 14);
+            bossReachingAccuracyX = 0xFF;
+            bossReachingAccuracyY = 0xFF;
+            bossReachingTimer = 1;
+            bossYToReach = mst_obj->y_pos;
+            setBossReachingSpeeds(mst_obj, 1, 0xFF, 0xFF);
+            skipToLabel(mst_obj, 2, true);
+            currentBossActionIsOver = false;
+            break;
+        case 21:
+            set_main_and_sub_etat(mst_obj, 0, 14);
+            skipToLabel(mst_obj, 1, true);
+            mst_obj->nb_cmd *= moskitoActionSequences[bossEncounter][currentBossAction++];
+            currentBossActionIsOver = false;
+            break;
+        case 20:
+            if (mst_obj->x_pos + mst_obj->offset_bx > unk_2)
+            {
+                mst_obj->flags &= ~FLG(OBJ_FLIP_X);
+                bossXToReach = scroll_start_x - mst_obj->offset_bx - 56;
+            }
+            else
+            {
+                mst_obj->flags |= FLG(OBJ_FLIP_X);
+                bossXToReach = scroll_end_x - mst_obj->offset_bx + 368;
+            }
+
+            bossYToReach = mst_obj->y_pos;
+            set_main_and_sub_etat(mst_obj, 0, 4);
+            skipToLabel(mst_obj, 2, true);
+            bossReachingAccuracyX = 0xFF;
+            bossReachingAccuracyY = 0xFF;
+            bossReachingTimer = 1;
+            setBossReachingSpeeds(mst_obj, 1, 0xFF, 0xFF);
+            currentBossActionIsOver = false;
+            break;
+        }
     }
 }
 #endif
