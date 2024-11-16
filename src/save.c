@@ -287,7 +287,7 @@ void PS1_PhotographerCollision(void)
                 else
                 {
                     if (
-                        !RayEvts.demi && !(cur_obj->flags & FLG(OBJ_FLAG_0)) && (s16) OBJ_IN_ZONE(cur_obj) &&
+                        !RayEvts.demi && !(cur_obj->flags & FLG(OBJ_FLAG_0)) && OBJ_IN_ZONE(cur_obj) &&
                         ray.field20_0x36 == -1 && decalage_en_cours == 0 &&
                         ray.main_etat == 0 && ray.sub_etat == 0 &&
                         inter_box(

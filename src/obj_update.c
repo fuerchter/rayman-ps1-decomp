@@ -1289,439 +1289,358 @@ void MOVE_OBJECT(Obj *obj)
         obj->flags &= ~FLG(OBJ_FLAG_B);
 }
 
-#ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/obj_update", DO_RAY_IN_ZONE);
-#else
-/* matches, but clean up */
-/*INCLUDE_ASM("asm/nonmatchings/obj_update", DO_RAY_IN_ZONE);*/
-
+/* 2E860 80153060 -O2 -msoft-float */
 void DO_RAY_IN_ZONE(Obj *obj)
 {
-    s16 sp20;
-    s16 sp22;
-    s16 sp24;
-    s16 sp26;
-    s16 temp_v0;
-    s16 temp_v0_3;
-    s16 temp_v1_4;
-    s16 var_v0;
-    s16 var_v0_2;
-    s32 temp_v0_2;
-    s16 temp_a0;
-    s16 temp_a2;
-    s16 temp_a3;
-    s16 temp_t0;
-    u32 temp_v0_4;
-    u32 temp_v1_12;
-    u8 temp_v1;
-    u8 temp_v1_10;
-    u8 temp_v1_11;
-    u8 temp_v1_13;
-    u8 temp_v1_14;
-    u8 temp_v1_2;
-    u8 temp_v1_3;
-    u8 temp_v1_5;
-    u8 temp_v1_6;
-    u8 temp_v1_7;
-    u8 temp_v1_8;
-    u8 temp_v1_9;
-    u8 var_a1;
-    u8 var_a1_2;
+    s16 blkt_x; s16 blkt_y; s16 blkt_w; s16 blkt_h;
+    u8 lbl;
+    u8 sub_etat; /* ??? */
 
-    if ((OBJ_IN_ZONE(obj) << 0x10) != 0)
+    if (OBJ_IN_ZONE(obj))
     {
-        temp_v1 = obj->type;
-        switch (temp_v1)
+        switch (obj->type)
         {
-        case 0x37:
+        case TYPE_MUS_WAIT:
             if (obj->sub_etat == 1)
-            {
-                set_sub_etat(obj, 5U);
-                return;
-            }
+                set_sub_etat(obj, 5);
             break;
-        case 0x35:
-            if ((obj->main_etat != 2) && (obj->sub_etat != 1))
+        case TYPE_MST_SHAKY_FRUIT:
+            if (!(obj->main_etat == 2 || obj->sub_etat == 1))
             {
                 obj->field23_0x3c = 1;
-                skipToLabel(obj, 0U, 1U);
+                skipToLabel(obj, 0, true);
                 obj->gravity_value_2 = 4;
-                return;
             }
             break;
-        case 0x99:
+        case TYPE_FEE:
             if (obj->sub_etat == 0)
             {
                 if (ray.main_etat == 2)
                 {
                     ray.speed_x = 0;
                     ray.field24_0x3e = 0;
-                    ray_in_fee_zone = 1;
+                    ray_in_fee_zone = true;
                     decalage_en_cours = 0;
-                    return;
                 }
-                else if (ray.main_etat == 0 || ray.main_etat == 1 || (ray.main_etat == 3 && ray.sub_etat == 0x14))
+                else if (
+                    ray.main_etat == 0 || ray.main_etat == 1 ||
+                    (ray.main_etat == 3 && ray.sub_etat == 20)
+                )
                 {
-                    temp_v0 = (u16) obj->x_pos - (ray.offset_bx + 2);
-                    remoteRayXToReach = temp_v0;
-                    if (ray.x_pos & 1)
-                    {
-                        remoteRayXToReach = temp_v0 | 1;
-                    }
+                    remoteRayXToReach = obj->x_pos - (ray.offset_bx + 2);
+                    if (ray.x_pos & 1) /* ??? */
+                        remoteRayXToReach |= 1;
                     else
-                    {
-                        remoteRayXToReach = temp_v0 & 0xFFFE;
-                    }
-                    ray_in_fee_zone = 0;
-                    return;
+                        remoteRayXToReach &= ~1;
+
+                    ray_in_fee_zone = false;
                 }
             }
             else
-            {
-                ray_in_fee_zone = 0;
-                return;
-            }
+                ray_in_fee_zone = false;
             break;
-        case 0xB7:
+        case TYPE_SAXO3:
             DO_SAXO3_DEBUT(obj);
-            return;
-        case 0xB5:
-            DO_SAXO_MARCHE((s16) obj->hit_points);
-            return;
-        case 0xC7:
-            DO_BBMONT2_MARCHE((s16) obj->hit_points);
-            return;
-        case 0x93:
+            break;
+        case TYPE_SCROLL_SAX:
+            DO_SAXO_MARCHE(obj->hit_points);
+            break;
+        case TYPE_BB1_VIT:
+            DO_BBMONT2_MARCHE(obj->hit_points);
+            break;
+        case TYPE_MST_SCROLL:
             DO_MST_CHANGE_COMMAND(obj->hit_points);
-            return;
-        case 0x7B:
-            temp_v1_2 = obj->follow_sprite;
-            switch (temp_v1_2)
+            break;
+        case TYPE_BLACKTOON1:
+            switch (obj->follow_sprite)
             {
             case 7:
-                temp_v1_3 = obj->main_etat;
-                if ((temp_v1_3 == 1) && (obj->sub_etat == temp_v1_3) && (ray.main_etat != 2))
-                {
-                    var_a1 = 5;
-block_141:
-                    skipToLabel(obj, var_a1, 1U);
-                    return;
-                }
+                if (
+                    obj->main_etat == 1 && obj->sub_etat == 1 &&
+                    ray.main_etat != 2
+                )
+                    skipToLabel(obj, 5, true);
                 break;
             case 4:
                 if (ray.main_etat != 2)
                 {
-                    GET_ANIM_POS(obj, &sp20, &sp22, &sp24, &sp26);
-                    sp22 -= (obj->detect_zone + sp26);
-                    sp20 -= (sp24 >> 1);
-                    sp24 += sp24;
-                    sp26 += obj->detect_zone;
+                    GET_ANIM_POS(obj, &blkt_x, &blkt_y, &blkt_w, &blkt_h);
+                    blkt_y -= obj->detect_zone + blkt_h;
+                    blkt_x -= blkt_w >> 1;
+                    blkt_w += blkt_w;
+                    blkt_h += obj->detect_zone;
                     if (
-                        (obj->main_etat == 1) && (obj->sub_etat == 0) &&
-                        (s16) inter_box(
-                            sp20, sp22, sp24, sp26,
+                        obj->main_etat == 1 && obj->sub_etat == 0 &&
+                        inter_box(
+                            blkt_x, blkt_y, blkt_w, blkt_h,
                             ray_zdc_x, ray_zdc_y, ray_zdc_w, ray_zdc_h
                         )
                     )
                     {
                         calc_obj_dir(obj);
-                        temp_v1_4 = (u16) ray_zdc_y - obj->offset_hy;
-                        obj->field23_0x3c = temp_v1_4;
-                        if (temp_v1_4 < (obj->y_pos - 0x10))
+                        obj->field23_0x3c = ray_zdc_y - obj->offset_hy;
+                        if (obj->field23_0x3c < obj->y_pos - 16)
                         {
-                            skipToLabel(obj, 4U, 1U);
+                            skipToLabel(obj, 4, true);
                             obj->gravity_value_1 = 0;
                             obj->gravity_value_2 = 6;
-                            obj->y_pos = (u16) obj->y_pos - 1;
-                            return;
+                            obj->y_pos--;
                         }
                     }
                 }
                 break;
             case 3:
-                if ((obj->main_etat == 0) && (obj->sub_etat == 0) && (ray.main_etat != 2))
+                if (
+                    obj->main_etat == 0 && obj->sub_etat == 0 &&
+                    ray.main_etat != 2
+                )
                 {
                     calc_obj_dir(obj);
-                    temp_v0_3 = (ray.offset_hy + ray.y_pos) - obj->offset_hy;
-                    obj->field23_0x3c = temp_v0_3;
-                    if (temp_v0_3 < (obj->y_pos - 0x10))
+                    obj->field23_0x3c = ray.y_pos + ray.offset_hy - obj->offset_hy;
+                    if (obj->field23_0x3c < obj->y_pos - 16)
                     {
-                        skipToLabel(obj, 4U, 1U);
+                        skipToLabel(obj, 4, true);
                         obj->gravity_value_2 = 6;
                         obj->gravity_value_1 = 0;
                         obj->timer = 0xFF;
-                        obj->y_pos = (u16) obj->y_pos - 1;
-                        return;
+                        obj->y_pos--;
                     }
                 }
                 break;
             case 2:
-                if ((obj->main_etat == 0) && (obj->sub_etat == 0) && (ray.main_etat != temp_v1_2))
+                if (
+                    obj->main_etat == 0 && obj->sub_etat == 0 &&
+                    ray.main_etat != 2
+                )
                 {
                     calc_obj_dir(obj);
-                    skipToLabel(obj, 4U, 1U);
+                    skipToLabel(obj, 4, true);
                     obj->gravity_value_1 = 0;
                     obj->gravity_value_2 = 6;
-                    obj->y_pos = (u16) obj->y_pos - 1;
-                    return;
+                    obj->y_pos--;
                 }
                 break;
             }
             break;
-        case 0x39:
+        case TYPE_STALAG:
             if (obj->sub_etat == 4)
-            {
-                var_a1 = 0x63;
-                skipToLabel(obj, var_a1, 1U);
-                return;
-            }
+                skipToLabel(obj, 99, true);
             break;
-        case 0x3:
+        case TYPE_LIDOLPINK:
             if (obj->eta[obj->main_etat][obj->sub_etat].flags & 1)
+                skipToLabel(obj, 0, true);
+            break;
+        case TYPE_BADGUY2:
+        case TYPE_BADGUY3:
+            if (obj->main_etat == 1 && obj->sub_etat == 11)
+                set_sub_etat(obj, 14);
+            else if (
+                (obj->main_etat == 0 && obj->sub_etat == 0) ||
+                (obj->main_etat == 1 && obj->sub_etat == 0)
+            )
             {
-                var_a1 = 0;
-                skipToLabel(obj, var_a1, 1U);
-                return;
+                set_main_and_sub_etat(obj, 1, 11);
+                obj->flags &= ~FLG(OBJ_READ_CMDS);
+                if (obj->flags & FLG(OBJ_FLIP_X))
+                    lbl = 3;
+                else
+                    lbl = 2;
+                skipToLabel(obj, lbl, true);
             }
             break;
-        case 0x9:
-        case 0xA5:
-            if (obj->main_etat == 1)
-            {
-                if (obj->sub_etat == 0x0B)
-                {
-                    set_sub_etat(obj, 0x0EU);
-                    return;
-                }
-                /*goto block_57;*/
-            }
-block_57:
+        case TYPE_BADGUY1:
             if (
-                !(
-                    (obj->main_etat == 0 && obj->sub_etat == 0) ||
-                    (obj->main_etat == 1 && obj->sub_etat == 0)
-                )
+                (ray.flags & FLG(OBJ_FLIP_X)) != (obj->flags & FLG(OBJ_FLIP_X)) &&
+                (
+                    (obj->main_etat == 1 && obj->sub_etat == 0) ||
+                    (obj->main_etat == 0 && obj->sub_etat == 0)
+                ) && ray.main_etat == 0 && ray.sub_etat == 18
             )
-                return;
-
-            set_main_and_sub_etat(obj, 1U, 0x0BU);
-            temp_v0_4 = obj->flags;
-            obj->flags = temp_v0_4 & 0xFFFF7FFF;
-            if (temp_v0_4 & 0x4000)
-            {
-                var_a1 = 3;
-            }
-            else
-                var_a1 = 2;
-            skipToLabel(obj, var_a1, 1U);
-            return;
-        case 0x0:
-            if (((ray.flags & 0x4000) != (obj->flags & 0x4000)) && (((temp_v1_5 = obj->main_etat, (temp_v1_5 == 1)) && (obj->sub_etat == 0)) || ((temp_v1_5 == 0) && (obj->sub_etat == 0))) && (ray.main_etat == 0) && (ray.sub_etat == 0x12))
             {
                 obj->speed_x = 0;
                 obj->speed_y = 0;
-                set_main_and_sub_etat(obj, 0U, 2U);
-                if (obj->flags & 0x4000)
-                {
-                    skipToLabel(obj, 8, 1U);
-                }
+                set_main_and_sub_etat(obj, 0, 2);
+                if (obj->flags & FLG(OBJ_FLIP_X))
+                    skipToLabel(obj, 8, true);
                 else
-                {
-                    skipToLabel(obj, 7, 1U);
-                }
-
-                return;
+                    skipToLabel(obj, 7, true);
             }
             break;
-        case 0x46:
-            if ((obj->timer == 0) && (((temp_v1_6 = obj->main_etat, (temp_v1_6 == 0)) && (obj->sub_etat == 0)) || ((temp_v1_6 == 1) && (obj->sub_etat == 0))))
-            {
-                var_a1 = 5;
-                skipToLabel(obj, var_a1, 1U);
-                return;
-            }
-            break;
-        case 0x3C:
-        case 0x3D:
+        case TYPE_TROMPETTE:
             if (
-                !(
+                obj->timer == 0 &&
+                (
                     (obj->main_etat == 0 && obj->sub_etat == 0) ||
                     (obj->main_etat == 1 && obj->sub_etat == 0)
                 )
             )
-                return;
-
-            skipToLabel(obj, 5, 1U);
+                skipToLabel(obj, 5, true);
             break;
-        case 0x74:
+        case TYPE_BIG_CLOWN:
+        case TYPE_WAT_CLOWN:
+            if (
+                (obj->main_etat == 0 && obj->sub_etat == 0) ||
+                (obj->main_etat == 1 && obj->sub_etat == 0)
+            )
+                skipToLabel(obj, 5, true);
+            break;
+        case TYPE_CLOWN_TNT:
             if (obj->field24_0x3e == 0)
             {
-                skipToLabel(obj, 7U, 1U);
+                skipToLabel(obj, 7, true);
                 obj->timer = 0;
-            case 0x14:
                 obj->field24_0x3e = 1;
-                return;
             }
             break;
-        case 0x7A:
+        case TYPE_GENEBADGUY:
+            obj->field24_0x3e = 1;
+            break;
+        case TYPE_STONEDOG2:
+            if (
+                (obj->main_etat == 0 && obj->sub_etat == 0) ||
+                (obj->main_etat == 1 && obj->sub_etat == 0)
+            )
+            {
+                skipToLabel(obj, 2, true);
+                obj->gravity_value_2 = 7;
+                obj->gravity_value_1 = 0;
+            }
+            break;
+        case TYPE_STONEMAN1:
+        case TYPE_STONEMAN2:
             if (
                 !(
-                    (obj->main_etat == 0 && obj->sub_etat == 0) ||
-                    (obj->main_etat == 1 && obj->sub_etat == 0)
+                    obj->main_etat == 0 &&
+                    (
+                        obj->sub_etat == 1 || obj->sub_etat == 2 ||
+                        obj->sub_etat == 5 || obj->sub_etat == 6 ||
+                        obj->sub_etat == 3 || obj->sub_etat == 7 ||
+                        obj->sub_etat == 4
+                    )
                 )
             )
-                return;
-
-            skipToLabel(obj, 2, true);
-            obj->gravity_value_2 = 7;
-            obj->gravity_value_1 = 0;
-            return;
-        case 0x23:
-        case 0x2B:
-            if ((obj->main_etat != 0) || ((!(obj->sub_etat == 1 || obj->sub_etat == 2)) && !(obj->sub_etat == 5 || obj->sub_etat == 6) && ((obj->sub_etat != 3)) && (obj->sub_etat != 7) && (obj->sub_etat != 4)))
-            {
-                var_a1 = 7;
-                skipToLabel(obj, var_a1, 1U);
-                return;
-            }
+                skipToLabel(obj, 7, true);
             break;
-        case 0x84:
-            if (obj->main_etat == 2)
+        case TYPE_POI3:
+            if (
+                !(
+                    obj->main_etat == 2 &&
+                    (obj->sub_etat == 16 || (sub_etat = obj->sub_etat, sub_etat == 17) || sub_etat == 18)
+                ) &&
+                (
+                    ray.x_pos + ray.offset_bx - obj->x_pos - obj->offset_bx >= 0
+                    ? obj->flags & FLG(OBJ_FLIP_X)
+                    : !(obj->flags & FLG(OBJ_FLIP_X))
+                )
+            )
             {
-                temp_v1_11 = obj->sub_etat;
-                if (temp_v1_11 == 0x10)
-                {
-                    return;
-                }
-                if (temp_v1_11 == 0x11)
-                {
-                    return;
-                }
-                if (temp_v1_11 == 0x12)
-                {
-                    return;
-                }
-            }
-            if ((((((ray.x_pos + ray.offset_bx) - obj->x_pos) - obj->offset_bx) >= 0 && (obj->flags & 0x4000)) || ((((ray.x_pos + ray.offset_bx) - obj->x_pos) - obj->offset_bx) < 0 && !(obj->flags & 0x4000))))
-            {
-                if (obj->flags & 0x4000)
+                if (obj->flags & FLG(OBJ_FLIP_X))
                     obj->speed_x = 3;
                 else
                     obj->speed_x = -3;
+
                 obj->speed_y = -5;
-                set_main_etat(obj, 2U);
-                set_sub_etat(obj, 0x10U);
-                skipToLabel(obj, 0x0B, 1U);
-                return;
+                set_main_etat(obj, 2);
+                set_sub_etat(obj, 16);
+                skipToLabel(obj, 11, true);
             }
-            return;
-        case 0x41:
-            if ((obj->main_etat == 1) && (obj->sub_etat == 0) && (obj->field24_0x3e == 0))
+            break;
+        case TYPE_SPIDER:
+            if (
+                obj->main_etat == 1 && obj->sub_etat == 0 &&
+                obj->field24_0x3e == 0
+            )
             {
-                temp_v1_12 = obj->flags;
                 obj->anim_frame = 0;
-                if (!(temp_v1_12 & 0x4000))
+                if (!(obj->flags & FLG(OBJ_FLIP_X)))
                 {
-                    obj->flags = temp_v1_12 | 0x4000;
-                    skipToLabel(obj, 3, 1U);
+                    obj->flags |= FLG(OBJ_FLIP_X);
+                    skipToLabel(obj, 3, true);
                 }
                 else
                 {
-                    obj->flags = temp_v1_12 & ~0x4000;
-                    skipToLabel(obj, 1, 1U);
+                    obj->flags &= ~FLG(OBJ_FLIP_X);
+                    skipToLabel(obj, 1, true);
                 }
-
-                pushToLabel(obj, 5U, 1U);
-                return;
+                pushToLabel(obj, 5, true);
             }
             break;
-        case 0xC:
-        case 0xE:
-            if ((obj->main_etat == 0) && ((temp_v1_13 = obj->sub_etat, (temp_v1_13 == 0)) || (temp_v1_13 == 2)))
+        case TYPE_CHASSEUR1:
+        case TYPE_CHASSEUR2:
+            if (obj->main_etat == 0 && (obj->sub_etat == 0 || obj->sub_etat == 2))
             {
                 obj->speed_x = 0;
                 obj->speed_y = 0;
-                set_main_and_sub_etat(obj, 0U, 2U);
-                obj->flags &= 0xFFFF7FFF;
+                set_main_and_sub_etat(obj, 0, 2);
+                obj->flags &= ~FLG(OBJ_READ_CMDS);
                 calc_obj_dir(obj);
-                if (obj->flags & 0x4000)
-                {
-                    obj->cmd = 1;
-                    return;
-                }
-                obj->cmd = 0;
-                return;
-            }
-            break;
-        case 0x48:
-            NGW_REACT_TO_RAY_IN_ZONE(obj);
-            return;
-        case 0x4D:
-        case 0xEF:
-            PAR_REACT_TO_RAY_IN_ZONE(obj);
-            return;
-        case 0x98:
-            if ((obj->main_etat == 0) && (obj->sub_etat == 0))
-            {
-                set_main_and_sub_etat(obj, 1U, 0U);
-                if (obj->flags & 0x4000)
-                {
-                    skipToLabel(obj, 3, 1U);
-                }
+                if (obj->flags & FLG(OBJ_FLIP_X))
+                    obj->cmd = GO_RIGHT;
                 else
-                {
-                    skipToLabel(obj, 2, 1U);
-                }
-                return;
+                    obj->cmd = GO_LEFT;
             }
             break;
-        case 0x96:
-            SKO_ray_in_zone(obj);
-            return;
-        case 0x78:
-            BAT_ray_in_zone(obj);
-            return;
-        case 0xAE:
-        case 0xB8:
-        case 0xE1:
-        case 0xE2:
-            PIRATE_POELLE_REACT(obj);
-            return;
-        case 0xC3:
-            SPIDER_PLAFOND_REACT(obj);
-            return;
-        case 0xD4:
-            DO_DARK_REACT(obj);
-            return;
-        case 0x59:
-            if (obj->main_etat == 0)
+        case TYPE_PIRATE_NGAWE:
+            NGW_REACT_TO_RAY_IN_ZONE(obj);
+            break;
+        case TYPE_PIRATE_GUETTEUR:
+        case TYPE_PIRATE_GUETTEUR2:
+            PAR_REACT_TO_RAY_IN_ZONE(obj);
+            break;
+        case TYPE_CAISSE_CLAIRE:
+            if (obj->main_etat == 0 && obj->sub_etat == 0)
             {
-                if ((obj->sub_etat == 1) && (joe_exp_probleme == 0))
-                {
-                    vignet_joe_affichee = 0;
-                    skipToLabel(obj, 2U, 1U);
-                    joe_exp_probleme = 1;
-                }
-                if ((obj->main_etat == 0) && (obj->sub_etat == 2))
-                {
-                    var_a1 = 4;
-                    skipToLabel(obj, var_a1, 1U);
-                    return;
-                }
+                set_main_and_sub_etat(obj, 1, 0);
+                if (obj->flags & FLG(OBJ_FLIP_X))
+                    skipToLabel(obj, 3, true);
+                else
+                    skipToLabel(obj, 2, true);
             }
+            break;
+        case TYPE_SCORPION:
+            SKO_ray_in_zone(obj);
+            break;
+        case TYPE_BATTEUR_FOU:
+            BAT_ray_in_zone(obj);
+            break;
+        case TYPE_PIRATE_POELLE:
+        case TYPE_PIRATE_POELLE_D:
+        case TYPE_PIRATE_P_45:
+        case TYPE_PIRATE_P_D_45:
+            PIRATE_POELLE_REACT(obj);
+            break;
+        case TYPE_SPIDER_PLAFOND:
+            SPIDER_PLAFOND_REACT(obj);
+            break;
+        case TYPE_DARK:
+            DO_DARK_REACT(obj);
+            break;
+        case TYPE_JOE:
+            if (
+                obj->main_etat == 0 && obj->sub_etat == 1 &&
+                !joe_exp_probleme
+            )
+            {
+                vignet_joe_affichee = false;
+                skipToLabel(obj, 2, true);
+                joe_exp_probleme = true;
+            }
+            if (obj->main_etat == 0 && obj->sub_etat == 2)
+                skipToLabel(obj, 4, true);
             break;
         }
     }
     else
     {
-        if ((obj->detect_zone_flag == 0) && ((temp_v1_14 = obj->type, (temp_v1_14 == 0x0C)) || (temp_v1_14 == 0x0E)) && (obj->main_etat == 0) && (obj->sub_etat == 0x15) && (obj->anim_frame >= (obj->animations[obj->anim_index].frames_count - 1)))
-        {
-            set_main_and_sub_etat(obj, 0U, 0U);
-        }
-    /*default:*/
+        if (
+            obj->detect_zone_flag == 0 &&
+            (obj->type == TYPE_CHASSEUR1 || obj->type == TYPE_CHASSEUR2) &&
+            obj->main_etat == 0 && obj->sub_etat == 21 &&
+            obj->anim_frame >= obj->animations[obj->anim_index].frames_count - 1
+        )
+            set_main_and_sub_etat(obj, 0, 0);
     }
 }
-#endif
 
 /* 2F3B4 80153BB4 -O2 -msoft-float */
 void DO_ONE_OBJECT(Obj *obj)

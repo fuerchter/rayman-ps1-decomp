@@ -67,7 +67,7 @@ void DO_CORDE_COMMAND(Obj *obj)
             }
             if (
                 bVar2 << 0x10 && /* TODO: type? */
-                (s16) inter_box(
+                inter_box(
                     ray_x_pos + 57, ray_y_pos + 26, 46, 4,
                     obj_x_pos + 126, obj_y_pos + obj_y_offs, 4, obj_h
                 )

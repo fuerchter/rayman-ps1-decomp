@@ -791,7 +791,7 @@ block_27:
             }
         }
     }
-    if (ray_in_fee_zone == 0)
+    if (!ray_in_fee_zone)
     {
         SET_X_SPEED(&ray);
     }
@@ -1078,7 +1078,7 @@ block_28:
     ray.field24_0x3e = 0;
     jump_time = 0;
 block_29:
-    if (ray_in_fee_zone != 0)
+    if (ray_in_fee_zone)
     {
         goto block_31;
     }

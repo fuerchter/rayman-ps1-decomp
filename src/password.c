@@ -296,14 +296,12 @@ u8 PS1_ValidatePassword(void)
         return 0x0B;
 }
 
+/* 7D948 801A2148 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/password", PS1_GeneratePassword);
 #else
-/* matches, but check the do{}while? */
-/*INCLUDE_ASM("asm/nonmatchings/password", PS1_GeneratePassword);*/
-
+/* duplication? */
 /* thanks! https://decomp.me/scratch/6aOG2 */
-/* 7D948 801A2148 -O2 -msoft-float */
 u8 PS1_GeneratePassword(void)
 {
     u8 i;
@@ -431,13 +429,11 @@ u8 PS1_AttemptLoadSaveFromPassword(void)
     return PS1_IsPasswordValid;
 }
 
+/* 7E35C 801A2B5C -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/password", PS1_UnusedGenerateAndPrintPassword);
 #else
-/* matches, but casts */
-/*INCLUDE_ASM("asm/nonmatchings/password", PS1_UnusedGenerateAndPrintPassword);*/
-
-/* 7E35C 801A2B5C -O2 -msoft-float */
+/* casts? */
 void PS1_UnusedGenerateAndPrintPassword(s16 param_1, s16 param_2, u8 param_3, u8 param_4)
 {
     u8 i;
@@ -557,13 +553,11 @@ void FUN_801a2d40(void)
         display_text(s_wrong_password_8012c410, 160, D_801E4E40, 1, 1);
 }
 
+/* 7E864 801A3064 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/password", FUN_801a3064);
 #else
-/* matches, but casts*/
-/*INCLUDE_ASM("asm/nonmatchings/password", FUN_801a3064);*/
-
-/* 7E864 801A3064 -O2 -msoft-float */
+/* casts */
 void FUN_801a3064(void)
 {
     s32 char_ind;
@@ -587,7 +581,7 @@ void FUN_801a3064(void)
                 PS1_ValidPassword = true;
         }
 
-        if (!upjoy(0) && !downjoy(0))
+        if (!(upjoy(0) || downjoy(0)))
         {
             if (leftjoy(0))
             {
@@ -605,7 +599,7 @@ void FUN_801a3064(void)
                 else
                 {
                     positiony = 0;
-                    positionx = ((s16) LEN(PS1_CurrentTypingPassword) - 1);
+                    positionx = (s16) LEN(PS1_CurrentTypingPassword) - 1;
                 }
                 PlaySnd_old(68);
             }
@@ -614,9 +608,9 @@ void FUN_801a3064(void)
                 compteur = 0;
                 if (positiony == 0)
                 {
-                    if (positionx >= ((s16) LEN(PS1_CurrentTypingPassword) - 1))
+                    if (positionx >= (s16) LEN(PS1_CurrentTypingPassword) - 1)
                     {
-                        positionx = ((s16) LEN(PS1_CurrentTypingPassword) - 1);
+                        positionx = (s16) LEN(PS1_CurrentTypingPassword) - 1;
                         positiony = 1;
                     }
                     else
@@ -635,7 +629,8 @@ void FUN_801a3064(void)
             }
             D_801E57A8 = PS1_CurrentTypingPassword[positionx];
         }
-        if (!rightjoy(0) && !leftjoy(0) && positiony == 0)
+
+        if (!(rightjoy(0) || leftjoy(0)) && positiony == 0)
         {
             if (upjoy(0))
             {
@@ -655,9 +650,11 @@ void FUN_801a3064(void)
         }
     }
     if (
-        !upjoy(0) && !downjoy(0) &&
-        !rightjoy(0) && !leftjoy(0) &&
-        !valid_prs && !PS1_ValidPassword
+        !(
+            upjoy(0) || downjoy(0) ||
+            rightjoy(0) || leftjoy(0) ||
+            valid_prs || PS1_ValidPassword
+        )
     )
     {
         button_released = 1;
@@ -721,13 +718,11 @@ void FUN_801a3550(void)
     }
 }
 
+/* 7EDF8 801A35F8 -O2 -msoft-float */
 #ifndef MATCHES_BUT
 INCLUDE_ASM("asm/nonmatchings/password", PS1_GenerateAndDisplayPassword);
 #else
-/* matches, but casts */
-/*INCLUDE_ASM("asm/nonmatchings/password", PS1_GenerateAndDisplayPassword);*/
-
-/* 7EDF8 801A35F8 -O2 -msoft-float */
+/* casts */
 void PS1_GenerateAndDisplayPassword(void)
 {
     /* TODO: correct sizes? */

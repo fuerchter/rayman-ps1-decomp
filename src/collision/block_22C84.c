@@ -355,7 +355,7 @@ void calc_obj_dir(Obj *obj)
 }
 
 /* 236C4 80147EC4 -O2 -msoft-float */
-s32 OBJ_IN_ZONE(Obj *obj)
+s16 OBJ_IN_ZONE(Obj *obj)
 {
     switch (obj->type)
     {

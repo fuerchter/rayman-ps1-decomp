@@ -387,7 +387,7 @@ u8 handle_GO_TEST(Obj *obj)
     switch (obj->nb_cmd)
     {
     case 70:
-        if ((s16) OBJ_IN_ZONE(obj))
+        if (OBJ_IN_ZONE(obj))
             obj->flags |= FLG(OBJ_CMD_TEST);
         else
             obj->flags &= ~FLG(OBJ_CMD_TEST);
