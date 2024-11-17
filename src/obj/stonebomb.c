@@ -123,12 +123,11 @@ void DO_STONE_EXPLOSION(Obj *obj)
     }
 }
 
+/* 38608 8015CE08 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", DO_TIR);
 #else
 /* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", DO_TIR);*/
-
 void DO_TIR(Obj *param_1)
 {
     Obj *var_s2;

@@ -88,12 +88,11 @@ void saveGameState(Obj *obj, SaveState *state)
     state->has_saved = true;
 }
 
+/* 3F484 80163C84 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/save", restoreGameState);
 #else
 /* score of 385 */
-/*INCLUDE_ASM("asm/nonmatchings/save", restoreGameState);*/
-
 void restoreGameState(SaveState *save_param)
 {
     Obj *temp_a2;

@@ -417,6 +417,7 @@ void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font_size, u8 
 }
 #endif
 
+/* 1925C 8013DA5C -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/draw/text_18118", display_text);
 #else
@@ -424,8 +425,6 @@ INCLUDE_ASM("asm/nonmatchings/draw/text_18118", display_text);
 score of 346
 stack size?
 */
-/*INCLUDE_ASM("asm/nonmatchings/draw/text_18118", display_text);*/
-
 void display_text(u8 *text, s16 in_x, s16 in_y, u8 font_size, u8 param_5)
 {
     u8 sprite_ind;

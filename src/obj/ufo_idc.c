@@ -20,12 +20,11 @@ s16 test_block_chdir(Obj *obj, s16 *out_unk, s16 off_x, s16 off_y)
     return res;
 }
 
+/* 74A30 80199230 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/obj/ufo_idc", DO_MOVING_WITH_INDICATOR_COMMAND);
 #else
 /* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/obj/ufo_idc", DO_MOVING_WITH_INDICATOR_COMMAND);*/
-
 void DO_MOVING_WITH_INDICATOR_COMMAND(Obj *ufo_idc_obj)
 {
     s16 sp10;

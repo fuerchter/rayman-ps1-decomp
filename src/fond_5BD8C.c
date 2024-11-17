@@ -1,5 +1,6 @@
 #include "fond_5BD8C.h"
 
+/* 5BD8C 8018058C -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/fond_5BD8C", FUN_8018058c);
 #else
@@ -7,8 +8,6 @@ INCLUDE_ASM("asm/nonmatchings/fond_5BD8C", FUN_8018058c);
 score of ???
 strange diff to target. functionally the same though
 */
-/*INCLUDE_ASM("asm/nonmatchings/fond_5BD8C", FUN_8018058c);*/
-
 void FUN_8018058c(u32 *param_1, s32 param_2, s32 param_3, s16 x, s16 y, s16 h, s16 w)
 {
     RECT sp10;
@@ -80,12 +79,11 @@ void DISPLAY_FOND3(void)
     FUN_8018058c((u32 *) D_801F4380, 0, 0, x, y, plan2_height, plan2_width);
 }
 
+/* 5C004 80180804 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/fond_5BD8C", FUN_80180804);
 #else
 /* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/fond_5BD8C", FUN_80180804);*/
-
 void FUN_80180804(u32 *param_1, s32 param_2, s32 param_3, s16 x, s16 y, s16 h, s16 w)
 {
     RECT sp10;

@@ -4,12 +4,11 @@
 s16 bateau_obj_id;
 #endif
 
+/* 501FC 801749FC -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/obj/bateau_command", doShipCommand);
 #else
 /* score of 20 */
-/*INCLUDE_ASM("asm/nonmatchings/obj/bateau_command", doShipCommand);*/
-
 void doShipCommand(Obj *obj)
 {
     Obj *temp_s0_2;

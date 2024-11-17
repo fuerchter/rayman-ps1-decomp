@@ -44,12 +44,11 @@ void SwapAB(s16 *param_1, s16 *param_2)
     *param_1 = prev_2;
 }
 
+/* 254AC 80149CAC -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/unknown/2539C", Bresenham);
 #else
 /* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/unknown/2539C", Bresenham);*/
-
 void Bresenham(void (*param_1)(s32, s32), s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6, s16 param_7)
 {
     s16 sp10;

@@ -445,6 +445,7 @@ void PS1_InitSaveRayAndFilenames(u8 param_1)
         *PS1_SaveFilenames[cnt2] = *save_ray[cnt2 + 1] = 0;
 }
 
+/* 46464 8016AC64 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/card", PS1_WriteSave);
 #else
@@ -452,8 +453,6 @@ INCLUDE_ASM("asm/nonmatchings/card", PS1_WriteSave);
 score of 295
 returns u8 instead? see SaveGameOnDisk and betw1 var
 */
-/*INCLUDE_ASM("asm/nonmatchings/card", PS1_WriteSave);*/
-
 /* TODO: macro for 0x80 size? also in PS1_LoadSave */
 s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
 {

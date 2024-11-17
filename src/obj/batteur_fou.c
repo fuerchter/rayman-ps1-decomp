@@ -132,6 +132,7 @@ s16 bat_dir(Obj *obj)
     return (ray.x_pos + ray.offset_bx - obj->x_pos - obj->offset_bx) > 0;
 }
 
+/* 71A88 80196288 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/obj/batteur_fou", bat_init_scroll);
 #else
@@ -139,8 +140,6 @@ INCLUDE_ASM("asm/nonmatchings/obj/batteur_fou", bat_init_scroll);
 score of ???
 similar with OBJ_ACTIVE loop in DO_PI_EXPLOSION?
 */
-/*INCLUDE_ASM("asm/nonmatchings/obj/batteur_fou", bat_init_scroll);*/
-
 void bat_init_scroll(Obj *obj)
 {
     s16 temp_s2;

@@ -1197,12 +1197,11 @@ void DISPLAY_CYMBALE(Obj *obj, u8 param_2)
     }
 }
 
+/* 17ABC 8013C2BC -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", DISPLAY_ALL_OBJECTS);
 #else
 /* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", DISPLAY_ALL_OBJECTS);*/
-
 void DISPLAY_ALL_OBJECTS(void)
 {
     short sVar1;

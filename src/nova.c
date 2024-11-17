@@ -26,6 +26,7 @@ Obj *allocateNOVA(void)
     return res;
 }
 
+/* 3AF28 8015F728 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/nova", DO_NOVA);
 #else
@@ -33,8 +34,6 @@ INCLUDE_ASM("asm/nonmatchings/nova", DO_NOVA);
 score of ???
 tried modelling after DO_NOVA2...
 */
-/*INCLUDE_ASM("asm/nonmatchings/nova", DO_NOVA);*/
-
 void DO_NOVA(Obj *in_obj)
 {
     s16 sp18;

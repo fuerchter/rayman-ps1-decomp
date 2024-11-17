@@ -287,6 +287,7 @@ void SPIDER_PLAFOND_REACT(Obj *obj)
 }
 #endif
 
+/* 54138 80178938 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/obj/spider_plafond", DO_DARD_PLAFOND_ALWAYS);
 #else
@@ -294,8 +295,6 @@ INCLUDE_ASM("asm/nonmatchings/obj/spider_plafond", DO_DARD_PLAFOND_ALWAYS);
 score of 3650
 look at DO_DARK2_TOONS_COMMAND
 */
-/*INCLUDE_ASM("asm/nonmatchings/obj/spider_plafond", DO_DARD_PLAFOND_ALWAYS);*/
-
 void DO_DARD_PLAFOND_ALWAYS(Obj *obj)
 {
     s16 temp_a1_3;

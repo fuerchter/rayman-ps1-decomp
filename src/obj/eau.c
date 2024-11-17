@@ -58,12 +58,11 @@ void ACTIVE_L_EAU(Obj *eau_obj)
     cur_obj->sub_etat = 3;
 }
 
+/* 4DACC 801722CC -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/obj/eau", DO_EAU_QUI_MONTE);
 #else
 /* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/obj/eau", DO_EAU_QUI_MONTE);*/
-
 void DO_EAU_QUI_MONTE(Obj *obj)
 {
     s16 temp_v0_2;

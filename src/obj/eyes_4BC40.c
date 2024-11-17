@@ -1,5 +1,6 @@
 #include "obj/eyes_4BC40.h"
 
+/* 4BC40 80170440 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/obj/eyes_4BC40", DO_ROLL_EYES);
 #else
@@ -7,8 +8,6 @@ INCLUDE_ASM("asm/nonmatchings/obj/eyes_4BC40", DO_ROLL_EYES);
 score of ???
 dunno... see DO_BAT_FLASH
 */
-/*INCLUDE_ASM("asm/nonmatchings/obj/eyes_4BC40", DO_ROLL_EYES);*/
-
 void DO_ROLL_EYES(Obj *obj)
 {
     s32 temp_a0_3;

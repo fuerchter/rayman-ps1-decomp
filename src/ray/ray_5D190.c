@@ -693,6 +693,7 @@ void ray_inertia_speed(u8 param_1, s16 param_2, s16 prev_speed_x, s16 param_4)
 }
 #endif
 
+/* 5E9AC 801831AC -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_SWIP);
 #else
@@ -700,8 +701,6 @@ INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_SWIP);
 score of (m2c: 435, m2c gotos: 1350)
 attempts: 4
 */
-/*INCLUDE_ASM("asm/nonmatchings/ray/ray_5D190", RAY_SWIP);*/
-
 void RAY_SWIP(void)
 {
     u8 sp10;

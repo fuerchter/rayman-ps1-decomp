@@ -39,6 +39,7 @@ void FUN_801790cc(Display *display)
     }
 }
 
+/* 54A18 80179218 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/draw/draw_548CC", Display_and_free_luciole);
 #else
@@ -59,9 +60,6 @@ every save to stack is sh instr.
 801792ac sp30 = var_a0;
 801792b8 sp40 = sp38;
 */
-
-/*INCLUDE_ASM("asm/nonmatchings/draw/draw_548CC", Display_and_free_luciole);*/
-
 void Display_and_free_luciole(void)
 {
     s16 unk_1;

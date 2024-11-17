@@ -1251,24 +1251,11 @@ void DO_BBMONT_TOUCHE(Obj *obj)
     WaitForFinAtan = 2;
 }
 
+/* 5A2A4 8017EAA4 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT2_COMMAND);
 #else
 /* score of ??? */
-/* 5A2A4 8017EAA4 -O2 -msoft-float */
-/*INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT2_COMMAND);*/
-
-/*? CALC_MOV_ON_BLOC(Obj *);
-? SET_X_SPEED(Obj *);*/
-void set_main_and_sub_etat(Obj *, u8, u8);
-/*extern s32 D_801F4438;
-extern u8 D_801F4EBD;
-extern ? D_801F4EDA;
-extern s16 bb1.saved_cmd;
-extern ? D_801F4EE2;
-extern s16 bb1.sprite6_y;
-extern s16 ray.speed_x;*/
-
 static inline void test_123098(Obj *obj)
 {
     switch (bb1.speed_x)

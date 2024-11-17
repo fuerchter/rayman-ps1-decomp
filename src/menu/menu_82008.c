@@ -9,10 +9,10 @@ s16 delai_barre;
 s16 delai_stereo;
 #endif
 
+/* 82008 801A6808 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/menu/menu_82008", FUN_801a6808);
 #else
-/*INCLUDE_ASM("asm/nonmatchings/menu/menu_82008", FUN_801a6808);*/
 /*
 score of ???
 INIT_OPTIONS_CHOICE on android?
@@ -26,7 +26,6 @@ still to see more
 
 PS1_display_y2 is vert spacing on options screen
 */
-
 void FUN_801a6808(void)
 {
     s32 test_1;

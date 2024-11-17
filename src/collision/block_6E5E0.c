@@ -56,12 +56,11 @@ s16 bloc_floor(s16 btyp, s16 x, s16 y)
     return btyp & ltez;
 }
 
+/* 6E710 80192F10 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", calc_typ_trav);
 #else
 /* score of 440 */
-/*INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", calc_typ_trav);*/
-
 s32 calc_typ_trav(Obj *obj, u8 param_2)
 {
     s16 temp_v0_0;
@@ -487,12 +486,11 @@ s32 IS_ON_RESSORT_BLOC(Obj *obj)
     return res;
 }
 
+/* 6F23C 80193A3C -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", CALC_MOV_ON_BLOC);
 #else
 /* score of 2125 */
-/*INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", CALC_MOV_ON_BLOC);*/
-
 void CALC_MOV_ON_BLOC(Obj *obj)
 {
     s16 temp_s0_1;

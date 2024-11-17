@@ -479,6 +479,7 @@ block_1:
 }
 #endif
 
+/* 77C64 8019C464 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/obj/dark_phase2", allocate_DARK2_SORT);
 #else
@@ -488,8 +489,6 @@ attempts: 3
 looked at android
 looked at allocate_DARK_SORT
 */
-/*INCLUDE_ASM("asm/nonmatchings/obj/dark_phase2", allocate_DARK2_SORT);*/
-
 void allocate_DARK2_SORT(s32 param_1, s16 param_2, s16 param_3, s16 param_4)
 {
     Obj *temp_t6;

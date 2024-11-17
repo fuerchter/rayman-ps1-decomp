@@ -97,6 +97,7 @@ void PS1_LoadFondSprites(void)
     }
 }
 
+/* 10EE0 801356E0 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFondDataAndPalettes);
 #else
@@ -104,8 +105,6 @@ INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFondDataAndPalettes);
 score of 215
 https://github.com/BinarySerializer/BinarySerializer.Ray1/blob/7da0e97301dd6502d027ff3c92ec2b5a00ef6e6e/src/BinarySerializer.Ray1/DataTypes/PS1/Vignette/FondSpriteData.cs
 */
-/*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFondDataAndPalettes);*/
-
 void PS1_LoadFondDataAndPalettes(void)
 {
     s32 temp_a0;
@@ -179,12 +178,11 @@ void PS1_LoadFondDataAndPalettes(void)
 }
 #endif
 
+/* 11130 80135930 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFond);
 #else
 /* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFond);*/
-
 typedef struct Fond
 {
     u8 unk_0;
@@ -319,12 +317,11 @@ void FUN_80135ab0(s16 param_1, s16 *param_2)
     }
 }
 
+/* 1155C 80135D5C -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80135d5c);
 #else
 /* score of 2810 */
-/*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80135d5c);*/
-
 void FUN_80135d5c(s32 param_1, u16 *param_2, s32 param_3, s16 param_4)
 {
     s16 sVar1_1;
@@ -517,6 +514,7 @@ void FUN_8013613c(u8 param_1, u32 param_2, u8 param_3, u32 param_4)
 }
 #endif
 
+/* 11B40 80136340 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80136340);
 #else
@@ -625,12 +623,11 @@ void FUN_80136340(u16 *param_1, u32 param_2)
 }
 #endif
 
+/* 11EAC 801366AC -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_801366ac);
 #else
 /* score of 1905 */
-/*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_801366ac);*/
-
 void FUN_801366ac(void)
 {
     RECT local_88;
@@ -925,6 +922,7 @@ void FUN_801366ac(void)
 }
 #endif
 
+/* 12B3C 8013733C -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_DisplayFondSprites);
 #else
@@ -932,8 +930,6 @@ INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_DisplayFondSprites);
 score of 405
 FUN_8013613c param_4???
 */
-/*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_DisplayFondSprites);*/
-
 void PS1_DisplayFondSprites(void)
 {
     s16 sp10[12];
@@ -1096,12 +1092,11 @@ u8 PS1_GetTileU(s32 param_1)
     return (param_1 & 0xF) * 16;
 }
 
+/* 13258 80137A58 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DRAW_MAP);
 #else
 /* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DRAW_MAP);*/
-
 void DRAW_MAP(void)
 {
     u32 uVar1;
@@ -1359,12 +1354,11 @@ void FUN_80138360(u8 *vit_clig)
     }
 }
 
+/* 13F18 80138718 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80138718);
 #else
 /* score of 425 */
-/*INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80138718);*/
-
 void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
 {
     DVECTOR *temp_s1;

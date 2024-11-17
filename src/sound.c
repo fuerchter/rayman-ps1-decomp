@@ -582,6 +582,7 @@ s16 vol_l(s16 param_1, s16 param_2)
     return param_1 * (u32) snd_sqrt_table[127 - param_2] / 256;
 }
 
+/* 42694 80166E94 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/sound", PlaySnd);
 #else
@@ -590,9 +591,6 @@ score of ???
 attempts: 3
 had m2c gotos-only in nonmatchings_ours in git history
 */
-/*INCLUDE_ASM("asm/nonmatchings/sound", PlaySnd);*/
-
-/* 42694 80166E94 -O2 -msoft-float */
 void PlaySnd(short snd, short obj_id)
 {
     u8 bVar1;

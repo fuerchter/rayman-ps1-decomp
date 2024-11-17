@@ -182,6 +182,7 @@ void INIT_MOTEUR_LEVEL(s16 new_lvl)
     }
 }
 
+/* 34E30 80159630 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/moteur_init_end", restore_gendoor_link);
 #else
@@ -191,8 +192,6 @@ idk what it wants from me in the save1.link_init loop
 
 version with lower score below. crashes on ppw1 photographer though
 */
-/*INCLUDE_ASM("asm/nonmatchings/moteur_init_end", restore_gendoor_link);*/
-
 void restore_gendoor_link(void)
 {
     Obj *temp_v1;

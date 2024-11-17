@@ -150,12 +150,11 @@ void fix_mit_Xspeed(Obj *obj, s16 param_2)
         SET_X_SPEED(obj);
 }
 
+/* 4ACFC 8016F4FC -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MIT_ATTAK);
 #else
 /* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MIT_ATTAK);*/
-
 void DO_MIT_ATTAK(Obj *obj)
 {
     s16 temp_a0_1;

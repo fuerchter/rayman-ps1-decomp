@@ -780,12 +780,11 @@ void FUN_80134be0(void)
     *(s32 *) &unk_1 ^= 0xFFFF;
 }
 
+/* 10414 80134C14 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/input_ED20", TOUCHE);
 #else
 /* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/input_ED20", TOUCHE);*/
-
 s32 TOUCHE(Input param_1)
 {
     s16 temp_v0_3;

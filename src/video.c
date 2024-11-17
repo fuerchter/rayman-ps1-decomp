@@ -66,12 +66,11 @@ void FUN_80132980(void)
     }
 }
 
+/* E244 80132A44 -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/video", PS1_PlayVideoFile);
 #else
 /* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/video", PS1_PlayVideoFile);*/
-
 void PS1_PlayVideoFile(s16 video)
 {
     short sVar1;
@@ -209,12 +208,11 @@ void PS1_ReadVideoFile(u32 *param_1, Video video)
     StFreeRing(user_data);
 }
 
+/* E78C 80132F8C -O2 -msoft-float */
 #ifndef NONMATCHINGS
 INCLUDE_ASM("asm/nonmatchings/video", FUN_80132f8c);
 #else
 /* score of ??? */
-/*INCLUDE_ASM("asm/nonmatchings/video", FUN_80132f8c);*/
-
 void FUN_80132f8c(void)
 {
     PS1_CurrentVideoState.vsync_counter = PS1_CurrentVideoState.vsync_counter + 1;
