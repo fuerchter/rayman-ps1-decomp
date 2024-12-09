@@ -16,7 +16,7 @@ jobs:
     - name: Cache pip dependencies
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.13'
         cache: 'pip'
     - run: pip install -r requirements.txt
     - name: Cache other dependencies
@@ -39,7 +39,7 @@ jobs:
     - if: steps.other-cache.outputs.cache-hit != 'true'
       name: Get gcc
       run:
-        wget https://github.com/decompals/old-gcc/releases/download/0.12/gcc-2.5.7.tar.gz &&
+        wget https://github.com/decompals/old-gcc/releases/download/0.13/gcc-2.5.7.tar.gz &&
         mkdir tools/gcc-2.5.7 &&
         tar -xzvf gcc-2.5.7.tar.gz -C tools/gcc-2.5.7
     - name: Extract
