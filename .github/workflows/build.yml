@@ -31,7 +31,7 @@ jobs:
       name: Get exe
       uses: actions/checkout@v4
       with:
-        repository: fuerchter/rayman-ps1-exe
+        repository: fuerchter/rayman-ps1-decomp
         token: ${{ secrets.EXE_PAT }}
         path: 'exe'
     - if: steps.other-cache.outputs.cache-hit != 'true'
