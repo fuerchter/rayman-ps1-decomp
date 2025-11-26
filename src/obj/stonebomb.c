@@ -1,8 +1,8 @@
 #include "obj/stonebomb.h"
 
 #ifdef BSS_DEFS
-s16 D_801E51E8;
-s16 D_801E51F8;
+s16 saveRMjumpX;
+s16 saveRMjumpY;
 #endif
 
 /* 38118 8015C918 -O2 -msoft-float */
@@ -469,8 +469,8 @@ void allocateStonewomanStone(Obj *stwmn_obj, s16 param_2)
                 case 2:
                     if (ray.main_etat == 2)
                     {
-                        cur_obj->follow_x = D_801E51E8;
-                        cur_obj->follow_y = D_801E51F8;
+                        cur_obj->follow_x = saveRMjumpX;
+                        cur_obj->follow_y = saveRMjumpY;
                     }
                     else
                     {

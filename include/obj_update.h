@@ -48,7 +48,7 @@ extern s16 id_Cling_Pow;
 extern u8 ray_in_fee_zone;
 
 s32 DO_PESANTEUR(Obj *obj);
-void FUN_80150c5c(Obj *obj, u8 param_2); /* obj is always ray, param_2 is always 1 */
+void freezeAnim(Obj *obj, u8 param_2); /* obj is always ray, param_2 is always 1 */
 void DO_ANIM(Obj *obj);
 s16 prof_in_bloc(Obj *obj);
 void do_boing(Obj *obj, u8 main_etat, u8 sub_etat);

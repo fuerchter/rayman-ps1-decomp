@@ -170,7 +170,7 @@ s32 DO_PESANTEUR(Obj *obj)
 }
 
 /* 2C45C 80150C5C -O2 -msoft-float */
-void FUN_80150c5c(Obj *obj, u8 param_2)
+void freezeAnim(Obj *obj, u8 param_2)
 {
     s16 count = obj->animations[obj->anim_index].frames_count - 1;
     s32 count_capped;

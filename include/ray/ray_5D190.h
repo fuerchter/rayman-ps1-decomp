@@ -37,7 +37,7 @@ extern s16 jump_time;
 extern s16 helico_time;
 extern u8 ray_Suphelico_bis;
 extern u8 ray_clic;
-extern s16 D_801E62F0;
+extern s16 ray_inertie;
 extern s16 ray_between_clic;
 extern s16 D_801F5588;
 extern u8 gerbe; /* bool? electoons on death */

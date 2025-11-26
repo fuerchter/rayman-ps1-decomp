@@ -28,7 +28,7 @@ s16 jump_time;
 s16 helico_time;
 u8 ray_Suphelico_bis;
 u8 ray_clic;
-s16 D_801E62F0;
+s16 ray_inertie;
 s16 ray_between_clic;
 s16 D_801F5588;
 u8 gerbe;
@@ -578,8 +578,8 @@ void ray_jump(void)
         ray.field20_0x36 = -1;
         button_released = 0;
         poing.is_charging = false;
-        D_801E51E8 = ray.x_pos;
-        D_801E51F8 = ray.y_pos;
+        saveRMjumpX = ray.x_pos;
+        saveRMjumpY = ray.y_pos;
         if (RayEvts.demi)
             ray.speed_y = ashr16(ray.speed_y, 1) - 1;
     }
@@ -1359,7 +1359,7 @@ void RAY_HELICO(void)
             ray.field24_0x3e = -1;
             ray.timer = 0;
             ray_clic = 0;
-            D_801E62F0 = 0;
+            ray_inertie = 0;
         }
         else if (
             RayEvts.helico &&
@@ -1643,7 +1643,7 @@ void RAY_RESPOND_TO_DOWN(void)
                     /* ??? */
                     unk_1 = ((sel_eta_1->flags >> 4 ^ 1) & 1) * 0x10;
                     sel_eta_1->flags = (sel_eta_1->flags & 0xEF) | unk_1;
-                    FUN_80150c5c(&ray, 1);
+                    freezeAnim(&ray, 1);
                     sel_eta_2 = &ray.eta[ray.main_etat][ray.sub_etat];
                     unk_1 = ((sel_eta_2->flags >> 4 ^ 1) & 1) * 0x10;
                     sel_eta_2->flags = (sel_eta_2->flags & 0xEF) | unk_1;
@@ -1931,7 +1931,7 @@ void RAY_RESPOND_TO_NOTHING(void)
                     sel_eta_1 = &ray.eta[ray.main_etat][ray.sub_etat];
                     unk_1 = ((sel_eta_1->flags >> 4 ^ 1) & 1) * 0x10;
                     sel_eta_1->flags = sel_eta_1->flags & 0xEF | unk_1;
-                    FUN_80150c5c(&ray, 1);
+                    freezeAnim(&ray, 1);
                     sel_eta_2 = &ray.eta[ray.main_etat][ray.sub_etat];
                     unk_1 = ((sel_eta_2->flags >> 4 ^ 1) & 1) * 0x10;
                     sel_eta_2->flags = sel_eta_2->flags & 0xEF | unk_1;

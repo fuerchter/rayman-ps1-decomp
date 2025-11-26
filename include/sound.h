@@ -147,7 +147,7 @@ s32 FUN_80166790(s16 id);
 s16 get_voice_obj_snd(s16 id, s16 param_2);
 void erase_pile_snd(s16 id);
 void nettoie_pile_snd(void);
-void FUN_80166d20(s16 id);
+void erase_voice_table(s16 id);
 s16 FUN_80166d88(s16 index);
 s16 vol_r(s16 param_1, s16 param_2); /* param_1 is vol? param_2 is pan? see get_pan_snd */
 s16 vol_l(s16 param_1, s16 param_2);
@@ -158,7 +158,7 @@ void setpan(s16 obj_id, u8 param_2);
 void FUN_80168f38(s16 param_1);
 void FUN_80168f40(void);
 void FUN_80168f48(void); /* this looks closest to manage_snd on android? */
-void FUN_80169194(void);
+void mute_snd_bouclant(void);
 void FUN_8016924c(void);
 void PS1_OnPauseOn(void);
 void PS1_OnPauseOff(void);

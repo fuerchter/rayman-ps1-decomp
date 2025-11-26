@@ -531,7 +531,7 @@ void nettoie_pile_snd(void)
 }
 
 /* 42520 80166D20 -O2 -msoft-float */
-void FUN_80166d20(s16 id)
+void erase_voice_table(s16 id)
 {
     s16 i = 0;
     VoiceTableEntry *cur = &voice_table[i];
@@ -785,7 +785,7 @@ void PlaySnd(short snd, short obj_id)
                 }
                 if (test_2 != -1)
                 {
-                    FUN_80166d20(obj_id);
+                    erase_voice_table(obj_id);
                     voice_table[test_2].id = obj_id;
                     voice_table[test_2].field1_0x2 = local_48;
                     voice_table[test_2].field2_0x4 = local_40;
@@ -1031,7 +1031,7 @@ void setvol(s16 param_1, u8 param_2)
 
             if (voice_ind != -1)
             {
-                FUN_80166d20(param_1);
+                erase_voice_table(param_1);
                 voice_table[voice_ind].id = param_1;
                 voice_table[voice_ind].field1_0x2 = unk_vol;
                 voice_table[voice_ind].field2_0x4 = pile_snd[unk_pile].field7_0xe;
@@ -1282,7 +1282,7 @@ void FUN_80168f48(void)
 #endif
 
 /* 44994 80169194 -O2 -msoft-float */
-void FUN_80169194(void)
+void mute_snd_bouclant(void)
 {
     s16 i;
     s16 sound_ind;

@@ -32,7 +32,7 @@ void DO_MEDAILLON_TOON_GELE(void)
         {
             if (!snd_flag_medaillon)
             {
-                FUN_80169194();
+                mute_snd_bouclant();
                 snd_flag_medaillon = true;
             }
             DO_ANIM(obj);

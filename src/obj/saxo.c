@@ -3,7 +3,7 @@
 #ifdef BSS_DEFS
 SaxData Sax;
 s16 IndexSerie;
-s16 D_801F7FA0;
+s16 SaxMarche;
 u8 NextNote;
 s16 IndexAtak;
 SaxAttackEntry attaque;
@@ -24,7 +24,7 @@ void INIT_SAXO(Obj *sax_obj)
     if (sax_obj->type == TYPE_SAXO)
         sax_obj->hit_points = Sax.saved_hp;
     Sax.coup = 0;
-    D_801F7FA0 = 0;
+    SaxMarche = 0;
     Sax.field10_0x10 = 0;
 }
 

@@ -433,7 +433,7 @@ void obj_init(Obj *obj)
         break;
     case TYPE_PIRATE_GUETTEUR:
     case TYPE_PIRATE_GUETTEUR2:
-        FUN_80180b04(obj, obj->init_sub_etat == 14);
+        swapGuetteurCollZones(obj, obj->init_sub_etat == 14);
         obj->iframes_timer = 0;
         obj->detect_zone = 80;
         break;

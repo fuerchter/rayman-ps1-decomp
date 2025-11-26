@@ -6,8 +6,8 @@
 #include "obj/stoneman_command.h"
 
 /**/
-extern s16 D_801E51E8;
-extern s16 D_801E51F8;
+extern s16 saveRMjumpX;
+extern s16 saveRMjumpY;
 
 void setStoneChipPos(Obj *param_1, Obj *param_2, u8 *param_3);
 void allocateStoneChips(Obj *in_obj); /* type? */

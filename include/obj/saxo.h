@@ -46,7 +46,7 @@ extern SaxAttackEntry SerieDatak[4][11];
 /**/
 extern SaxData Sax;
 extern s16 IndexSerie;
-extern s16 D_801F7FA0;
+extern s16 SaxMarche;
 extern u8 NextNote;
 extern s16 IndexAtak;
 extern SaxAttackEntry attaque;

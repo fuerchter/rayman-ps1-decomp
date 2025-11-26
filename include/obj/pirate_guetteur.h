@@ -5,7 +5,7 @@
 #include "collision/collision.h"
 #include "obj/explosion.h"
 
-void FUN_80180b04(Obj *obj, u8 param_2);
+void swapGuetteurCollZones(Obj *obj, u8 param_2);
 void guetteurFollowsShip(Obj *obj);
 void DO_ONE_PAR_COMMAND(Obj *obj);
 s32 hasGuetteurABomb(Obj *obj, s32 param_2);

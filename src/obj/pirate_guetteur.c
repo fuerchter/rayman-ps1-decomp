@@ -1,7 +1,7 @@
 #include "obj/pirate_guetteur.h"
 
 /* 5C304 80180B04 -O2 -msoft-float */
-void FUN_80180b04(Obj *obj, u8 param_2)
+void swapGuetteurCollZones(Obj *obj, u8 param_2)
 {
     if (param_2)
         obj->type = TYPE_PIRATE_GUETTEUR;
@@ -73,7 +73,7 @@ void DO_ONE_PAR_COMMAND(Obj *obj)
         obj->flags = (obj->flags & ~FLG(OBJ_FLIP_X)) | (flip_x << OBJ_FLIP_X);
         if (EOA(obj))
         {
-            FUN_80180b04(obj, 0);
+            swapGuetteurCollZones(obj, 0);
             obj->speed_x = 0;
         }
         break;
