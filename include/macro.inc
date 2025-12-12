@@ -1,4 +1,10 @@
-# Assembly Macros
+# This file is used by modern gas.
+# Defines the expected assembly macros
+
+# Evaluate this file only once in case it's included more than once
+.ifndef _MACRO_INC_GUARD
+.internal _MACRO_INC_GUARD
+.set _MACRO_INC_GUARD, 1
 
 .macro glabel label
     .global \label
@@ -15,31 +21,18 @@
     \label:
 .endm
 
-/* https://github.com/Xeeynamo/sotn-decomp/blob/e1391f8858c52b344534a047383127c1c5c17410/include/macro.inc#L13 */
-.macro li reg, num
-.if \num < 0x8000 && \num > 0
-  ori \reg, $0, \num & 0xFFFF
-.elseif \num > 0xFFFF
-  lui \reg, %hi(\num)
-  .if \num & 0xFFFF
-    ori \reg, \reg, \num & 0xFFFF
-  .endif
-.elseif \num > 0
-  ori \reg, $0, \num & 0xFFFF
-.elseif \num == -0x8000
-  addiu \reg, $0, \num & 0xFFFF
-.elseif \num > -0x8000
-  addiu \reg, $0, \num
-.else
-  lui \reg, (\num>>16) & 0xFFFF
-  .if \num & 0xFFFF
-    ori \reg, \reg, \num & 0xFFFF
-  .endif
-.endif
+.macro nonmatching label, size=1
+        .global \label\().NON_MATCHING
+        .type \label\().NON_MATCHING, @object
+        .size \label\().NON_MATCHING, \size
+        \label\().NON_MATCHING:
 .endm
 
-.macro move a, b
-    addu \a, \b, $zero
+# End of a data symbol.
+.macro enddlabel label
+    .size \label, . - \label
 .endm
 
 .include "gte.inc"
+
+.endif
