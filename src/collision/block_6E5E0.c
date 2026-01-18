@@ -83,12 +83,15 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
     var_s0_1 = 0;
     if ((obj->type == 0x17))
     {
-        if (obj->scale != 0){
-        var_s3_1 = ashr16(var_s3_1 & 0xFF, 1U);
-        if ((ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40) == 0)
+        if (obj->scale != 0)
         {
+            var_s3_1 = ashr16(var_s3_1 & 0xFF, 1U);
+            if ((ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40) == 0)
+            {
                 var_s3_1 = (var_s3_1 & 0xFF) ? var_s3_1 : 1;
-    }}}
+            }
+        }   
+    }
     temp_v1_0 = obj->offset_bx + (u16) obj->x_pos;
     temp_v0_0 = obj->offset_by + (u16) obj->y_pos;
     var_v0_2 = 0 << 0x10;
