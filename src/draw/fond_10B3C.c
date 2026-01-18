@@ -1348,10 +1348,6 @@ void FUN_80138360(u8 *vit_clig)
 }
 
 /* 13F18 80138718 -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80138718);
-#else
-/* score of 425 */
 void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
 {
     DVECTOR *temp_s1;
@@ -1395,16 +1391,16 @@ void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
             temp_s1_2 = temp_s1->vx - temp_hi;
             temp_s6 = temp_hi;
             SetSemiTrans(&PS1_CurrentDisplay->sprites[D_801E4BC8], 1);
-
+            
             if (var_s3 != 3)
             {
-
+                
                 var_a0 = D_801E4BC8;
                 var_a1 = 0;
             }
             else
             {
-
+                
                 var_a0 = D_801E4BC8;
                 var_a1 = 1;
             }
@@ -1419,20 +1415,12 @@ void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
             (PS1_CurrentDisplay->sprites + D_801E4BC8)->clut = temp_s2->clut;
             (PS1_CurrentDisplay->sprites + D_801E4BC8)->x0 = temp_s1_2;
             (PS1_CurrentDisplay->sprites + D_801E4BC8)->y0 = temp_s5;
-
+            
             AddPrim(PS1_CurrentDisplay->ordering_table, &PS1_CurrentDisplay->sprites[D_801E4BC8]);
             D_801E4BC8 += 1;
             if (PS1_FondWidth < ((s16) temp_s6 + 0x140))
             {
-                /*test_1 = &PS1_CurrentDisplay->sprites[D_801E4BC8];*/
-                /*test_1 = &PS1_CurrentDisplay->sprites[0];*/
-                __builtin_memcpy(&PS1_CurrentDisplay->sprites[D_801E4BC8], &PS1_CurrentDisplay->sprites[D_801E4BC8 - 1], sizeof(SPRT));
-                /*temp_v0_3 = (D_801E4BC8 * 0x14) + PS1_CurrentDisplay;
-                PS1_CurrentDisplay->sprites[D_801E4BC8].tag = PS1_CurrentDisplay->sprites[D_801E4BC8 - 1].tag;
-                PS1_CurrentDisplay->sprites[D_801E4BC8].r0 = PS1_CurrentDisplay->sprites[D_801E4BC8 - 1].r0;
-                PS1_CurrentDisplay->sprites[D_801E4BC8].x0 = PS1_CurrentDisplay->sprites[D_801E4BC8 - 1].x0;
-                PS1_CurrentDisplay->sprites[D_801E4BC8].u0 = PS1_CurrentDisplay->sprites[D_801E4BC8 - 1].u0;
-                PS1_CurrentDisplay->sprites[D_801E4BC8].w = PS1_CurrentDisplay->sprites[D_801E4BC8 - 1].w;*/
+                PS1_CurrentDisplay->sprites[D_801E4BC8] = PS1_CurrentDisplay->sprites[D_801E4BC8 - 1];
                 PS1_CurrentDisplay->sprites[D_801E4BC8].x0 = PS1_CurrentDisplay->sprites[D_801E4BC8].x0 + PS1_FondWidth;
                 AddPrim(PS1_CurrentDisplay->ordering_table, &PS1_CurrentDisplay->sprites[D_801E4BC8]);
                 D_801E4BC8 += 1;
@@ -1446,7 +1434,6 @@ void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
         } while (var_s3 < NbSprite);
     }
 }
-#endif
 
 /* 14384 80138B84 -O2 -msoft-float */
 void FUN_80138b84(s16 in_h_1, s16 *param_2, s16 in_h_2, s16 in_w_1)
