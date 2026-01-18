@@ -57,10 +57,6 @@ s16 bloc_floor(s16 btyp, s16 x, s16 y)
 }
 
 /* 6E710 80192F10 -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", calc_typ_trav);
-#else
-/* score of 440 */
 s32 calc_typ_trav(Obj *obj, u8 param_2)
 {
     s16 temp_v0_0;
@@ -85,16 +81,14 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
     var_s3_1 = param_2;
     var_v0_1 = 0;
     var_s0_1 = 0;
-    if ((obj->type == 0x17) && (obj->scale != 0))
+    if ((obj->type == 0x17))
     {
+        if (obj->scale != 0){
         var_s3_1 = ashr16(var_s3_1 & 0xFF, 1U);
-        if (
-            !(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40) && !(test_3 & 0xFF)
-        )
+        if ((ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40) == 0)
         {
-            var_s3_1 = 1;
-        }
-    }
+                var_s3_1 = (var_s3_1 & 0xFF) ? var_s3_1 : 1;
+    }}}
     temp_v1_0 = obj->offset_bx + (u16) obj->x_pos;
     temp_v0_0 = obj->offset_by + (u16) obj->y_pos;
     var_v0_2 = 0 << 0x10;
@@ -129,6 +123,7 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
         if (obj->speed_x >= 0)
         {
             var_s0_1 += 0x11;
+            
         }
         else
         {
@@ -142,6 +137,7 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
         if (obj->speed_x <= 0)
         {
             var_s0_1 += 0x11;
+            
         }
         else
         {
@@ -201,6 +197,7 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
             if (obj->speed_x >= 0)
             {
                 var_s0_1 += 0x11;
+                
             }
             else
             {
@@ -214,6 +211,7 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
             if (obj->speed_x <= 0)
             {
                 var_s0_1 += 0x11;
+                
             }
             else
             {
@@ -260,21 +258,20 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
     var_s2 = 0;
     while (var_s3_1 >= var_s0_2)
     {
-
-        if ((MURDUR(temp_v1_0, (temp_v0_0 - temp_s0) - ((var_s3_1 - var_s0_2) * 0x10))) != 0)
+        
+        if (((s16) MURDUR(temp_v1_0, (temp_v0_0 - temp_s0) - ((var_s3_1 - var_s0_2) * 0x10))) != 0)
         {
             var_s2 += 1;
         }
         var_s0_2 += 1;
     }
-
+    
     if (var_s2 & 0xFF)
     {
         var_v0_1 = 0x0000000F;
     }
     return var_v0_1;
 }
-#endif
 
 /* still pretty unreadable... */
 /* 6EA38 80193238 -O2 -msoft-float */
