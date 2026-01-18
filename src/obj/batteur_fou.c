@@ -133,42 +133,21 @@ s16 bat_dir(Obj *obj)
 }
 
 /* 71A88 80196288 -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/obj/batteur_fou", bat_init_scroll);
-#else
-/*
-score of ???
-similar with OBJ_ACTIVE loop in DO_PI_EXPLOSION?
-*/
 void bat_init_scroll(Obj *obj)
 {
-    s16 temp_s2;
-    s16 temp_v0_1;
-    s16 temp_v0_2;
-    s16 temp_v1_1;
-    s16 temp_v1_2;
-    s16 var_s2;
-    s16 var_v0_1;
-    s16 var_v0_2;
-    s16 var_v0_3;
-    s16 var_v0_4;
+    s16 x;
+    s16 y;
 
-    temp_v0_1 = obj->offset_bx + obj->x_pos;
-    temp_v1_1 = obj->offset_by + obj->y_pos + 0x18;
-    if (((u8) block_flags[PS1_BTYPAbsPos(temp_v0_1, temp_v1_1) & 0xFF] >> 1) & 1)
+    x = obj->offset_bx + obj->x_pos;
+    y = obj->offset_by + obj->y_pos + 24;
+    if (((block_flags[(u8)PS1_BTYPAbsPos(x, y)] >> 1) & 1) && x >= 0)
     {
-        if (temp_v0_1 >= 0)
+        do
         {
-            do
-            {
-                temp_v0_1 = temp_v0_1 - 0x10;
-            } while (
-                ((u8) block_flags[PS1_BTYPAbsPos(temp_v0_1, temp_v1_1) & 0xFF] >> 1) & 1 &&
-                temp_v0_1 >= 0
-            );
-        }
+            x -= 16;
+        } while ((block_flags[(u8)PS1_BTYPAbsPos(x, y)] >> 1) & 1 && x >= 0);
     }
-    bossScrollStartX = temp_v0_1 - 0x40;
+    bossScrollStartX = x - 64;
     if (bossScrollStartX < 0)
     {
         bossScrollStartX = 0;
@@ -177,37 +156,29 @@ void bat_init_scroll(Obj *obj)
     {
         bossScrollStartX = xmapmax;
     }
-    temp_v0_1 = obj->offset_bx + obj->x_pos;
-    temp_v1_1 = obj->offset_by + obj->y_pos + 0x18;
-    if (((u8) block_flags[PS1_BTYPAbsPos(temp_v0_1, temp_v1_1) & 0xFF] >> 1) & 1)
+    x = obj->offset_bx + obj->x_pos;
+    y = obj->offset_by + obj->y_pos + 24;
+    if (((block_flags[(u8)PS1_BTYPAbsPos(x, y)] >> 1) & 1) && x <= xmapmax)
     {
-        if (xmapmax >= temp_v0_1)
+        do
         {
-            temp_v0_1 = temp_v0_1 + 0x10;
-            while (
-                ((u8) block_flags[PS1_BTYPAbsPos(temp_v0_1, temp_v1_1) & 0xFF] >> 1) & 1 &&
-                temp_v0_1 <= xmapmax
-            )
-            {
-                temp_v0_1 = temp_v0_1 + 0x10;
-            }
-        }
+            x += 16;
+        } while ((block_flags[(u8)PS1_BTYPAbsPos(x, y)] >> 1) & 1 && x <= xmapmax);
     }
-    bossScrollEndX = temp_v0_1 + 0x20;
+    bossScrollEndX = x + 32;
     if (bossScrollEndX < 0)
     {
         bossScrollEndX = 0;
     }
-    if (bossScrollEndX > xmapmax)
+    if (xmapmax < bossScrollEndX)
     {
         bossScrollEndX = xmapmax;
     }
-    special_ray_mov_win_x_left = 0x0040;
-    special_ray_mov_win_x_right = -0x0060;
+    special_ray_mov_win_x_left = 64;
+    special_ray_mov_win_x_right = -96;
     scroll_start_x = bossScrollStartX;
     scroll_end_x = bossScrollEndX;
 }
-#endif
 
 /* 71D18 80196518 -O2 -msoft-float */
 void bat_done_scroll(void)
