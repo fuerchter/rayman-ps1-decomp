@@ -124,10 +124,6 @@ void DO_STONE_EXPLOSION(Obj *obj)
 }
 
 /* 38608 8015CE08 -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/obj/stonebomb", DO_TIR);
-#else
-/* score of ??? */
 void DO_TIR(Obj *param_1)
 {
     Obj *var_s2;
@@ -168,8 +164,10 @@ void DO_TIR(Obj *param_1)
                     temp_v1_2 = var_s2->type;
                     if (((temp_v1_2 == 0x0D) || (temp_v1_2 == 0x0F)) && (((var_s2->flags & 0x800) == 0)))
                     {
-                        var_s2->flags = ((var_s2->flags & ~0x4000) | (param_1->flags & 0x4000) | 0xC00);
-                        set_main_and_sub_etat(var_s2, 2U, 2U);
+                        test_4 = ~0x4000;
+                        var_s2->flags = (((test_4 = var_s2->flags & -0x4001) | (param_1->flags & 0x4000) ) | 0xc00);
+                        
+                        set_main_and_sub_etat(var_s2, 2, 2);
                         var_s2->anim_frame = 0;
                         var_s2->anim_index = (u8) var_s2->eta[2][2].anim_index;
                         temp_v1_4 = (param_1->x_pos + param_1->offset_bx) - var_s2->offset_bx;
@@ -198,7 +196,7 @@ void DO_TIR(Obj *param_1)
 
                         if (param_1->type == 0x0E)
                         {
-
+                            
                             if (param_1->x_pos - ray.x_pos < 0)
                             {
                                 var_a2 = (ray.x_pos - param_1->x_pos) >> 5;
@@ -209,7 +207,7 @@ void DO_TIR(Obj *param_1)
                             temp_v1_6 = (ray.y_pos - param_1->y_pos) * 2;
                             test_3 = (s16) var_a2;
                             temp_v0_2 = param_1->x_pos - ray.x_pos;
-
+                            
                             if (temp_v0_2 >= 0)
                             {
                                 var_v0 = (temp_v1_6 / temp_v0_2) - test_3;
@@ -243,7 +241,6 @@ void DO_TIR(Obj *param_1)
         }
     }
 }
-#endif
 
 /* 388C4 8015D0C4 -O2 -msoft-float */
 void allocateStonemanStone(Obj *stmn_obj, s16 param_2, u8 param_3)
