@@ -5,10 +5,6 @@ s16 bateau_obj_id;
 #endif
 
 /* 501FC 801749FC -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/obj/bateau_command", doShipCommand);
-#else
-/* score of 20 */
 void doShipCommand(Obj *obj)
 {
     Obj *temp_s0_2;
@@ -28,6 +24,7 @@ void doShipCommand(Obj *obj)
     LevelData *test_2;
     u8 test_3;
     u32 test_4;
+    Obj *test_5;
 
     /*var_s3 = saved_reg_s3;*/
     temp_v1 = obj->cmd;
@@ -48,7 +45,8 @@ void doShipCommand(Obj *obj)
             var_v1 = 1;
             if (temp_a0_1 != -1)
             {
-                test_4 = level.objects[temp_a0_1].flags & 0x800;
+                test_5 = &level.objects[temp_a0_1];
+                test_4 = test_5->flags & 0x800;
                 var_v1 = !test_4;
             }
             if ((var_v1) && (obj->timer != 0) && (horloge[2] != 0))
@@ -93,34 +91,35 @@ void doShipCommand(Obj *obj)
                         do
                         {
                             test_3 = link_init[test_3];
-                            temp_s0_2 = &level.objects[test_3];
-                            temp_v1_3 = temp_s0_2->type;
+                            test_5 = &level.objects[test_3];
+                            temp_v1_3 = test_5->type;
                             if (temp_v1_3 == var_s3)
                             {
                                 break;
                             }
                         } while (temp_v1_3 != obj->type);
+                        
 
                         if (temp_v1_3 != obj->type)
                         {
                             switch (temp_v1_3)
                             {
                             case 0x4D:
-                                guetteurFollowsShip(temp_s0_2);
+                                guetteurFollowsShip(test_5);
                                 break;
                             case 0x48:
-                                ngaweTriesToGrabShip(temp_s0_2);
+                                ngaweTriesToGrabShip(test_5);
                                 break;
                             case 0xBB:
-                                pmamaFollowsShip(temp_s0_2);
-                                PMA_SORT_DU_CANON(temp_s0_2);
+                                pmamaFollowsShip(test_5);
+                                PMA_SORT_DU_CANON(test_5);
                                 break;
                             }
-                            suppressFromLinkList(temp_s0_2);
-                            MOVE_OBJECT(temp_s0_2);
-                            calc_obj_pos(temp_s0_2);
-                            temp_s0_2->flags |= 0x400;
-                            obj->field23_0x3c = temp_s0_2->id;
+                            suppressFromLinkList(test_5);
+                            MOVE_OBJECT(test_5);
+                            calc_obj_pos(test_5);
+                            test_5->flags |= 0x400;
+                            obj->field23_0x3c = test_5->id;
                         }
                     }
                 }
@@ -129,4 +128,3 @@ void doShipCommand(Obj *obj)
         return;
     }
 }
-#endif

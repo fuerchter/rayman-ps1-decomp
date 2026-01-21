@@ -27,13 +27,6 @@ Obj *allocateNOVA(void)
 }
 
 /* 3AF28 8015F728 -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/nova", DO_NOVA);
-#else
-/*
-score of ???
-tried modelling after DO_NOVA2...
-*/
 void DO_NOVA(Obj *in_obj)
 {
     s16 sp18;
@@ -61,6 +54,7 @@ void DO_NOVA(Obj *in_obj)
         temp_v0->y_pos = in_obj->y_pos;
         GET_ANIM_POS(temp_v0, &sp18, &sp1A, &sp1C, &sp1E);
         GET_ANIM_POS(in_obj, &sp20, &sp22, &sp24, &sp26);
+        temp_v0->flags |= 0x800;
         test_1 = sp24;
         test_2 = sp20;
         test_3 = sp1C;
@@ -71,13 +65,11 @@ void DO_NOVA(Obj *in_obj)
         test_8 = sp1A;
         temp_v0->display_prio = 1;
         temp_v0->field23_0x3c = 0;
-        temp_v0->flags |= 0x800;
         temp_v0->x_pos += ((test_2 + (test_1 >> 0x1)) - (test_4 + (test_3 >> 0x1)));
         temp_v0->y_pos += ((test_6 + (test_5 >> 0x1)) - (test_8 + (test_7 >> 0x1)));
         calc_obj_pos(temp_v0);
     }
 }
-#endif
 
 /* 3B034 8015F834 -O2 -msoft-float */
 void DO_NOVA2(Obj *in_obj)

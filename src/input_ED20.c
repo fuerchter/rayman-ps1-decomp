@@ -781,10 +781,7 @@ void FUN_80134be0(void)
 }
 
 /* 10414 80134C14 -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/input_ED20", TOUCHE);
-#else
-/* score of ??? */
+
 s32 TOUCHE(Input param_1)
 {
     s16 temp_v0_3;
@@ -808,13 +805,13 @@ s32 TOUCHE(Input param_1)
     case 0xFF:
         PS1_ButtonStates[1] = *PS1_ButtonStates;
         *PS1_ButtonStates = 0;
-
+        
         *PS1_ButtonStates = PS1_PadReceiveBuffer[3] + (PS1_PadReceiveBuffer[2] << 8);
         if (*PS1_ButtonStates != 0)
         {
             *PS1_ButtonStates ^= 0xFFFF;
         }
-
+        
         if (++D_801E4DF8 >= 5)
         {
             D_801E4DF8 = 0;
@@ -935,17 +932,19 @@ s32 TOUCHE(Input param_1)
             *PS1_ButtonStates != PS1_ButtonStates[1] &&
             *PS1_ButtonStates == 0x8003 &&
             PS1_ButtonStates[2] == 3 &&
-            PS1_ButtonStates[2] == 3 && /* ??? */
             PS1_ButtonStates[3] == 0x4003 &&
-            PS1_ButtonStates[4] == 0 /* this with return 0; seems like most sensible way to include, if it were to stay nonmatching*/
+            PS1_ButtonStates[4] == PS1_ButtonStates[2] &&
+            PS1_ButtonStates[3] != 3 &&
+            PS1_ButtonStates[5] == 0x8002 &&
+            PS1_ButtonStates[6] == PS1_ButtonStates[4] &&
+            PS1_ButtonStates[7] == 0x8002 &&
+            PS1_ButtonStates[8] == PS1_ButtonStates[5]
         )
         {
-            return 0;
-            /*__asm__("lui        $a0, %hi(D_801CEF0C)");
-            __asm__("lw         $a0, %lo(D_801CEF0C)($a0)");*/
+            
         }
         return var_a2;
-
+    
     case 0x18:
         if (
             *PS1_ButtonStates != PS1_ButtonStates[1] &&
@@ -973,21 +972,20 @@ s32 TOUCHE(Input param_1)
             var_a1 = 0;
         return var_a1;
     case 0x11:
-
+        
         if (*PS1_ButtonStates != PS1_ButtonStates[1] && *PS1_ButtonStates == 0x0900)
         {
             var_v0 = 1;
         }
         else
             var_v0 = 0;
-
+        
         return var_v0;
     default:
         /* TODO: no explicit return? */
         break;
     }
 }
-#endif
 
 /* 10B00 80135300 -O2 -msoft-float */
 s32 PS1_SingleTOUCHE(Input param_1)

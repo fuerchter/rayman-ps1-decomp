@@ -209,21 +209,16 @@ void PS1_ReadVideoFile(u32 *param_1, Video video)
 }
 
 /* E78C 80132F8C -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/video", FUN_80132f8c);
-#else
-/* score of ??? */
 void FUN_80132f8c(void)
 {
     PS1_CurrentVideoState.vsync_counter = PS1_CurrentVideoState.vsync_counter + 1;
     /*__asm__("lbu     $v0,0($v1)\nnop");*/
-    if ((PS1_CurrentVideoState.vsync_counter > 3) && (PS1_CurrentVideoState.has_swapped_display != 0))
-    {
+    PS1_CurrentVideoState.vsync_counter;
+    if ((PS1_CurrentVideoState.vsync_counter > 3) && (PS1_CurrentVideoState.has_swapped_display != 0)) {
         PS1_CurrentVideoState.vsync_counter = 0;
         PutDrawEnv(&PS1_CurrentDisplay->drawing_environment);
         PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
     }
 }
-#endif
 
 void FUN_80133010(void) {}

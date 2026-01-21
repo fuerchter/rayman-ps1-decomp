@@ -59,29 +59,16 @@ void ACTIVE_L_EAU(Obj *eau_obj)
 }
 
 /* 4DACC 801722CC -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/obj/eau", DO_EAU_QUI_MONTE);
-#else
-/* score of ??? */
 void DO_EAU_QUI_MONTE(Obj *obj)
 {
-    s16 temp_v0_2;
-    s16 temp_v0_3;
-    s16 temp_v0_4;
-    s16 temp_v0_5;
-    s16 temp_v1_1;
-    s16 temp_v1_2;
-    s16 temp_v1_4;
-    s16 var_v0;
-    s16 var_v0_2;
-    u16 temp_a0;
-    u16 temp_v1_3;
-    u8 temp_v0_1;
-    u8 temp_v0_6;
-    u8 temp_v0_7;
-    s16 other_1;
+    extern u32 ray_obj_flags;
+    extern u8 ray_obj_main_etat;
+    extern u8 ray_obj_sub_etat;
+    extern u8 ray_obj_offset_by;
+    extern u16 ray_obj_y_pos;
+    extern u8 D_801F4EBA;
 
-    if ((ray.flags & 0x400) && ((ray.main_etat != 3) || (ray.sub_etat != 0x17)))
+    if ((ray_obj_flags & 0x400) && ((ray_obj_main_etat != 3) || (ray_obj_sub_etat != 23)))
     {
         switch (num_world)
         {
@@ -92,15 +79,12 @@ void DO_EAU_QUI_MONTE(Obj *obj)
                 {
                     obj->hit_points--;
                     ACTIVE_L_EAU(obj);
-                }
-                else
-                {
-                    goto block_1; /* TODO: ??? */
+                    break;
                 }
             }
-            else if ((obj->field23_0x3c >= 0x29) || (level.objects[eau_obj_id].iframes_timer == 1))
+            else if ((obj->field23_0x3c > 40) || (level.objects[eau_obj_id].iframes_timer == 1))
             {
-                if ((horloge[2] != 0) && (obj->y_pos >= 0xA1))
+                if ((D_801F4EBA != 0) && (obj->y_pos > 160))
                 {
                     obj->speed_y = -1;
                 }
@@ -108,18 +92,20 @@ void DO_EAU_QUI_MONTE(Obj *obj)
                 {
                     obj->speed_y = 0;
                 }
-                temp_v0_2 = obj->field23_0x3c;
-                if (temp_v0_2 > 0)
+
+                if (obj->field23_0x3c > 0)
                 {
-                    obj->field23_0x3c = temp_v0_2 - 1;
+                    obj->field23_0x3c--;
                 }
+
+                break;
             }
             else
             {
                 obj->speed_y = 0;
+                break;
             }
-            break;
-block_1:
+
             obj->hit_points--;
             break;
         case 3:
@@ -127,26 +113,24 @@ block_1:
             {
                 if (scroll_y != pierreAcorde_obj_id)
                 {
-                    obj->init_y_pos = ymap + 0xA0;
-                    if ((obj->y_pos - 0x64) > obj->init_y_pos)
+                    obj->init_y_pos = ymap + 160;
+                    if ((obj->y_pos - 100) > obj->init_y_pos)
                     {
-                        obj->y_pos = obj->y_pos - 3;
+                        obj->y_pos -= 3;
                     }
-                    obj->y_pos = obj->y_pos - 1;
-                    if (obj->y_pos > obj->init_y_pos)
+
+                    if (--obj->y_pos > obj->init_y_pos && D_801F4EBA != 0)
                     {
-                        if (horloge[2] != 0)
-                        {
-                            obj->y_pos = obj->y_pos - 2;
-                        }
+                        obj->y_pos--;
                     }
+
                     obj->iframes_timer = 1;
                 }
                 else
                 {
                     if (obj->iframes_timer == 1)
                     {
-                        obj->init_y_pos = (ray.offset_by + ray.y_pos) - 0x1E;
+                        obj->init_y_pos = ray_obj_offset_by + ray_obj_y_pos - 30;
                         obj->iframes_timer = 0;
                     }
                     if (obj->init_y_pos < obj->y_pos)
@@ -155,48 +139,47 @@ block_1:
                     }
                 }
             }
-            else if ((level.objects[pierreAcorde_obj_id].hit_points != 0) && (obj->y_pos < (ymapmax + 0xA0)))
+            else if ((level.objects[pierreAcorde_obj_id].hit_points != 0) && (obj->y_pos < (ymapmax + 160)))
             {
-                temp_v1_3 = (u16) obj->field12_0x26;
-                temp_v0_5 = temp_v1_3 + 0xE;
-                obj->field12_0x26 = temp_v0_5;
-                if (temp_v0_5 >= 0x11)
+                obj->field12_0x26 += 14;
+                if (obj->field12_0x26 > 16)
                 {
-                    obj->field12_0x26 = temp_v1_3 - 2;
-                    var_v0 = (u16) obj->y_pos + 1;
-                    obj->y_pos = var_v0;
+                    obj->field12_0x26 -= 16;
+                    obj->y_pos++;
                 }
             }
-            scroll_end_y = (u16) obj->y_pos - 0xA0;
+            scroll_end_y = obj->y_pos - 160;
         case 4:
         case 5:
-            temp_v1_4 = obj->screen_x_pos;
-            if (temp_v1_4 < -166)
+            if (obj->screen_x_pos < -166)
             {
                 obj->x_pos += 505;
                 if (++obj->sub_etat >= 4)
                     obj->sub_etat = 0;
                 if (num_level == 8 && num_world == 5)
-                {
-                    var_v0_2 = obj->init_y_pos - 5;
-                    goto block_53;
+                {                  
+                    obj->init_y_pos -= 5;
+                    obj->y_pos = obj->init_y_pos;
+
+                    if (obj->y_pos < (ymapmax + 160))
+                    {
+                        obj->y_pos = ymapmax + 160;
+                    }
                 }
             }
-            else if (temp_v1_4 > 366)
+            else if (obj->screen_x_pos > 366)
             {
                 obj->x_pos -= 505;
                 if (--obj->sub_etat >= 4)
                     obj->sub_etat = 3;
                 if (num_level == 8 && num_world == 5)
                 {
-                    var_v0_2 = obj->init_y_pos + 5;
-block_53:
-                    obj->y_pos =
-                    obj->init_y_pos =
-                        var_v0_2;
-                    if (obj->y_pos < (ymapmax + 0xA0))
+                    obj->init_y_pos += 5;
+                    obj->y_pos = obj->init_y_pos;
+
+                    if (obj->y_pos < (ymapmax + 160))
                     {
-                        obj->y_pos = ymapmax + 0xA0;
+                        obj->y_pos = ymapmax + 160;
                     }
                 }
             }
@@ -208,9 +191,9 @@ block_53:
         obj->speed_y = 0;
         obj->speed_x = 0;
     }
-    if (obj->y_pos < (ymap + 0xA0))
+
+    if (obj->y_pos < (ymap + 160))
     {
-        obj->y_pos = ymap + 0xA0;
+        obj->y_pos = ymap + 160;
     }
 }
-#endif
